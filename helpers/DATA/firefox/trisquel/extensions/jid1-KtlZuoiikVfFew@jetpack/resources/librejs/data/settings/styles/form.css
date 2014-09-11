@@ -1,0 +1,8 @@
+tr.ui-sortable-helper > td {
+  background: #229ac1 !important;
+}
+
+#whitelist td {
+    max-width:350px;
+    word-wrap: break-word;
+}

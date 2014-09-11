@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+	  <meta charset="utf-8" />
+	  <title>LibreJS | Whitelist </title>
+
+	  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	  
+	  
+	  <!-- Your styles -->
+	  <link rel="stylesheet" href="styles/styles.css" type="text/css" media="screen" />
+    <script type="text/javascript"> 
+      /**
+      *
+      *    @licstart  The following is the entire license notice for the 
+      *    JavaScript code in this page.
+      * 
+      * 
+      *       Copyright (C) 2011, 2014 Loic J. Duros
+      * 
+      *   The JavaScript code in this page is free software: you can
+      *   redistribute it and/or modify it under the terms of the GNU
+      *   General Public License (GNU GPL) as published by the Free Software
+      *   Foundation, either version 3 of the License, or (at your option)
+      *   any later version.  The code is distributed WITHOUT ANY WARRANTY;
+      *   without even the implied warranty of MERCHANTABILITY or FITNESS
+      *   FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+      * 
+      *   As additional permission under GNU GPL version 3 section 7, you
+      *   may distribute non-source (e.g., minimized or compacted) forms of
+      *   that code without the copy of the GNU GPL normally required by
+      *   section 4, provided you include this license notice and a URL
+      *   through which recipients can access the Corresponding Source.
+      * 
+      * 
+      * 
+      *   @licend  The above is the entire license notice
+      *   for the JavaScript code in this page.
+      *
+      *
+      *
+      */
+    </script>      
+    <!-- Bootstrap CSS (APL 2.0)-->
+    <link href="third-party/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="third-party/jquery-ui/css/ui-lightness/jquery-ui.theme.min.css" rel="stylesheet" media="screen">
+
+    <link media="screen" rel="stylesheet" href="styles/form.css">
+    <script src="third-party/jquery/jquery.min.js"></script>
+    <script src="third-party/jquery-ui/js/jquery-ui.min.js"></script>
+    <script src="third-party/bootstrap/js/bootstrap.min.js"></script>
+
+    <link href="third-party/editable/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
+    <script src="third-party/editable/bootstrap-editable/js/bootstrap-editable-inline.min.js"></script>
+    <script src="third-party/block-ui/jquery.blockUI.js"></script>
+    <!--<script src="js/form-types.js"></script>-->
+    <script src="js/form-row.js"></script>
+    <style>
+      #rules button {
+      margin-top:0 !important;
+      }
+      .drag-handle {
+      cursor:pointer;
+      }
+      #loadingBox {
+      display:none;
+      }
+    </style>
+	  
+  </head>
+
+  <body>
+    <header id="site-header">
+      <div class="container">
+        <hgroup class="row">
+          <h1><a id="logo" target="_blank" href="http://www.gnu.org/s/librejs/" title="LibreJS -- Free JavaScript in your browser">LibreJS -- Free JavaScript in your browser</a></h1>
+        </hgroup>
+      </div>
+    </header>
+
+    <div  id="main">
+      <div id="promotional">
+        <div class="container">
+
+          <div class="row">
+            
+            <div class="span12">
+              <div class="page-header">
+                <h1>LibreJS | Whitelist</h1>
+              </div>
+              <div>
+                <button class="deleteall btn">reset whitelist to default.</button>
+                <table style="max-width:800px" id="whitelist" class="table table-bordered table-striped">
+                  <thead>
+                    <tr>
+                      <th class="rule-type">JavaScript contents hash-code</th>
+                      <th class="url">Found at URL</th>
+                      <th class="reason">Reason</th>
+                      <th class="delete-rule">Delete script from whitelist</th>
+                    </tr>
+                  </thead>
+                  <tbody> 
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div id="loadingBox"><img src="images/ajax-loader.gif"/></div>
+
+      </div>
+      <div id="banners" class="row">
+        <div class="twelvecol">
+          <a href="http://www.gnu.org/philosophy/free-sw.html"><img src="images/libre.png"></a>
+
+        </div>
+      </div>
+
+    </div>
+    <footer>	
+	    <p class="copyrights">
+	      Copyright (C) 2011, 2012, 2013, 2014 Loic J. Duros<br/>
+	    </p>
+    </footer>
+
+  </body>
+
+</html>

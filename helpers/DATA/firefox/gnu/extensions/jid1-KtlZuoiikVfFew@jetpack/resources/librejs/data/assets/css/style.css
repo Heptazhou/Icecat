@@ -1,0 +1,150 @@
+/*
+
+ * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
+ * *
+ * Copyright (C) 2011, 2012 Loic J. Duros
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see  <http://www.gnu.org/licenses/>.
+ *
+
+
+
+*/
+/* quick reset for box and children */
+#librejs-complaint-box, #librejs-complaint-box *, #librejs-complaint-box a:hover, #librejs-complaint-box a:active, #librejs-complaint-box a:visited, #librejs-time-mention, #librejs-time-mention:hover {
+    margin:0;
+    padding:0;
+    line-height:1;
+    list-style:square;
+    color:#000;
+    text-align:left;
+    border:0;
+    content: '';
+    font-style:normal;
+    font-weight:normal;
+    font-size:12px;
+    text-decoration:none;
+    font-variant:normal;
+    font-family:sans-serif !important;
+    text-shadow:none !important;
+    text-transform:none !important;
+    background-image:none;
+    background-color:transparent;
+}
+
+#librejs-time-mention, #librejs-time-mention:hover {
+    font-size:14px;
+    font-weight:bold;
+    text-align:center;
+}
+
+#librejs-complaint-box, #librejs-complaint-box * {
+    width:auto;
+}
+
+div {
+    width:auto;
+}
+
+#librejs-tab-button, #librejs-tab-button:hover, #librejs-tab-button:visited, #librejs-tab-button:active {
+    display: block;
+    width: 18px;
+    height: 70px;
+    color: rgb(255, 255, 255);
+    padding: 30px !important;
+    background-color:#e3dedb !important;
+    background-image:url("../images/torchy.png"), url("../images/separator.png") !important;
+    background-position: 19px 23px, 55px 16px !important;
+    background-repeat: no-repeat !important;
+    border:solid #454545 3px !important;
+    border-right:none !important;
+    overflow: hidden;
+    text-indent: -1000em;
+    border-top-left-radius:20px !important;
+    border-bottom-left-radius:20px !important;
+    float:left;
+    z-index:50;
+    position:relative;
+}
+
+#librejs-complaint-box {
+    position: fixed;   
+    top: 15%;
+    z-index: 2147483647 !important; /* fix for tech crunch big number */
+    right:-530px;
+    display:none;
+}
+
+#librejs-complaint-info {
+    border:solid #454545 3px;
+    background-color:#e3dedb !important;
+    width:460px !important;
+    margin-left:78px !important;
+    border-bottom-left-radius:30px;
+    z-index:0;
+    padding:0 20px 50px;
+    text-align:center;
+    position:relative;
+}
+
+#librejs-complaint-info:hover {
+   background-color:#e3dedb !important;
+}
+
+#librejs-complaint-info-text {
+    overflow:auto !important;
+    height:auto;
+    padding:0 30px;
+}
+
+#librejs-complaint-info h1 {
+    z-index:1;
+    font:"Century Schoolbook";
+    font-size:25px;
+    text-align:center;
+    background:url('../images/info-title.png') no-repeat 50% 30px !important;
+    overflow:hidden;
+    text-indent:-3000em;
+    height:100px;
+    padding:30px;
+    margin:0 !important;
+    line-height:0 !important;
+    display:block !important;
+    clear:none !important;
+    width:auto !important;
+}
+
+#librejs-complaint-info h1 span.huge {
+    display:block;
+    font-size:35px;
+    font-weight:bold;
+}
+
+#librejs-complaint-info h2 {
+    font-weight:bold !important;
+    font-size:14px !important;
+    margin:20px 0 10px !important;
+    display:none;
+    border-top:1px solid #CCC;
+    padding:10px 0 10px;
+    text-shadow: 0 1px 0 #FFF  !important;
+}
+
+#librejs-complaint-info ul {
+    margin-left:15px;
+}
+
+#librejs-complaint-info ul li a {
+    font-size:14px !important;
+}

@@ -1,0 +1,89 @@
+This is the README file for the GNU IceCat distribution.
+
+Copyright (C) 2014 Ruben Rodriguez <ruben@gnu.org>
+Copyright (C) 2006, 2007, 2008, 2010, 2011, 2012, 2014 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+The goal of the IceCat project is to provide a completely free version
+of the popular mozilla source code.  It is part of Gnuzilla, the
+umbrella project analogous to Mozilla.  The base Mozilla code is free
+but it supports and suggests using non-free plugins and other modules.
+GNU IceCat is completely free, and suggests only free plugins to
+users. If you aren't aware of the rationale and goals of the Free
+Software Movement, please take a look at this page:
+http://www.gnu.org/philosophy/
+
+To report problems, request changes, or other discussion, please use the
+public mailing list bug-gnuzilla@gnu.org.  This is an open list, feel
+free to subscribe or view the archives at
+http://lists.gnu.org/mailman/listinfo/bug-gnuzilla.
+
+The Gnuzilla and IceCat home page:  http://www.gnu.org/software/gnuzilla
+The sources are hosted on Savannah: http://savannah.gnu.org/projects/gnuzilla
+
+
+BUILD FROM TARBALL
+==================
+From the released IceCat source tarball, you can build in the
+standard way:
+./configure && make
+
+Be sure you have installed the needed libraries.  If you want to tune
+the configuration process you can change the default setup using the
+file .mozconfig.
+
+The default configuration of IceCat uses the following libraries:
+libpango libpangoxft libpangoft2 libfreetype libxft libgtk2 libx11
+
+Refer to your distro help as needed if the configure script fails to
+find them.
+
+INSTALL
+=======
+When you have it built you can install it with:
+make install
+
+If you want to install in a staging directory, you can do this:
+make install DESTDIR=/foo/bar
+
+LICENSING
+=========
+Because we hope and want our privacy enhancements to be picked up by
+Mozilla itself, we are keeping the same tri-licensing scheme for
+Gnuzilla/IceCat as Mozilla uses: MPL/GPL/LGPL.
+
+EXTENSIONS INCLUDED IN ICECAT 31.0
+==================================
+
+* LibreJS
+  GNU LibreJS aims to address the JavaScript problem described in Richard
+  Stallman's article The JavaScript Trap.
+  http://www.gnu.org/philosophy/javascript-trap.html
+
+* Https-Everywhere
+  Extension that encrypts your communications with many major websites,
+  making your browsing more secure.
+
+* Adblockplus
+  Blocks privacy trackers while in normal browsing mode, and all third party
+  requests when in private browsing mode.
+
+* YouTube ALL HTML5
+  Allows to play videos at youtube.com without a flash player.
+
+* AboutIceCat
+  Adds a custom "about:icecat" homepage with links to information about the
+  free software and privacy features in IceCat, and checkboxes to enable
+  and disable the ones more prone to break websites.
+
+All the extensions are released under the GNU Public License.
+
+CONTRIBUTORS AND HELP
+=====================
+The maintainer of GNU IceCat is Ruben Rodriguez <ruben@gnu.org>.
+We thank the Hitflip team (http://www.hitflip.de/special/gnu) for the logos.
+
+Additional contributors are most welcome.

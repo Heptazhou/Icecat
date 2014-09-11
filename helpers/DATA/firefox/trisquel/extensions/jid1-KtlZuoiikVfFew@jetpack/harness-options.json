@@ -1,0 +1,737 @@
+{
+ "abort_on_missing": false, 
+ "check_memory": false, 
+ "enable_e10s": false, 
+ "is-sdk-bundled": false, 
+ "jetpackID": "jid1-KtlZuoiikVfFew@jetpack", 
+ "loader": "addon-sdk/lib/sdk/loader/cuddlefish.js", 
+ "main": "lib/main", 
+ "mainPath": "librejs/main", 
+ "manifest": {
+  "addon-tab/addon-tab": {
+   "docsSHA256": null, 
+   "jsSHA256": "8b277dc27d85a72bfba1becfe6f57dceb5c9c717e5bc52a3bea936ec957a6893", 
+   "moduleName": "addon-tab", 
+   "packageName": "addon-tab", 
+   "requirements": {
+    "sdk/core/namespace": "sdk/core/namespace", 
+    "sdk/deprecated/window-utils": "sdk/deprecated/window-utils", 
+    "sdk/lang/functional": "sdk/lang/functional", 
+    "sdk/self": "sdk/self", 
+    "sdk/tabs": "sdk/tabs", 
+    "sdk/tabs/utils": "sdk/tabs/utils", 
+    "sdk/util/array": "sdk/util/array", 
+    "sdk/window/utils": "sdk/window/utils"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/addon_management/install_uninstall": {
+   "docsSHA256": null, 
+   "jsSHA256": "6a16abeaed2a4983ce58d1895166abf3d93726cd6ca9e1506bfc6910c9840414", 
+   "moduleName": "addon_management/install_uninstall", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "http_observer/caching": "librejs/http_observer/caching", 
+    "http_observer/http_request_observer": "librejs/http_observer/http_request_observer", 
+    "narcissus_parser/narcissus_worker": "librejs/narcissus_parser/narcissus_worker", 
+    "sdk/tabs": "sdk/tabs", 
+    "settings/storage": "librejs/settings/storage"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/addon_management/prefchange": {
+   "docsSHA256": null, 
+   "jsSHA256": "692562f0c44ad53551cbf60d7c7f6ff066455c114f174d1ce875e287d5c1b1d0", 
+   "moduleName": "addon_management/prefchange", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/simple-prefs": "sdk/simple-prefs"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/bug_fix": {
+   "docsSHA256": null, 
+   "jsSHA256": "0a5bf0ff6dcb522bd39dcc60d37d0b0eb3b897487ff41656521c7594d0b6a018", 
+   "moduleName": "html_script_finder/bug_fix", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/dom_handler": {
+   "docsSHA256": null, 
+   "jsSHA256": "556cd3e5df38a622958fa4b7710f59f2edc896407e0e3d2b21b36bfa71d869f4", 
+   "moduleName": "html_script_finder/dom_handler", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon_management/prefchange": "librejs/addon_management/prefchange", 
+    "chrome": "chrome", 
+    "html_script_finder/dom_handler/attributes": "librejs/html_script_finder/dom_handler/attributes", 
+    "html_script_finder/dom_handler/dom_checker": "librejs/html_script_finder/dom_handler/dom_checker", 
+    "html_script_finder/dom_handler/dom_gatherer": "librejs/html_script_finder/dom_handler/dom_gatherer", 
+    "html_script_finder/dom_handler/script_object": "librejs/html_script_finder/dom_handler/script_object", 
+    "html_script_finder/dom_handler/script_properties": "librejs/html_script_finder/dom_handler/script_properties", 
+    "html_script_finder/web_labels/js_web_labels": "librejs/html_script_finder/web_labels/js_web_labels", 
+    "http_observer/allowed_referrers": "librejs/http_observer/allowed_referrers", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/js_checker": "librejs/js_checker/js_checker", 
+    "js_checker/privacy_checker": "librejs/js_checker/privacy_checker", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/dom_handler/attributes": {
+   "docsSHA256": null, 
+   "jsSHA256": "6a7af82d8e90742721060a9eba70f49562d099570b5e7ea6cc4f4d0634a0a78a", 
+   "moduleName": "html_script_finder/dom_handler/attributes", 
+   "packageName": "librejs", 
+   "requirements": {
+    "html_script_finder/dom_handler/script_object": "librejs/html_script_finder/dom_handler/script_object", 
+    "html_script_finder/dom_handler/script_properties": "librejs/html_script_finder/dom_handler/script_properties"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/dom_handler/dom_checker": {
+   "docsSHA256": null, 
+   "jsSHA256": "efecce628d06b18b820da370bf5e9408b9d9e33ab6cc4b82c8f2063e95701489", 
+   "moduleName": "html_script_finder/dom_handler/dom_checker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "html_script_finder/dom_handler/request": "librejs/html_script_finder/dom_handler/request", 
+    "html_script_finder/dom_handler/script_properties": "librejs/html_script_finder/dom_handler/script_properties", 
+    "html_script_finder/url_seen_tester": "librejs/html_script_finder/url_seen_tester", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/js_checker": "librejs/js_checker/js_checker", 
+    "js_checker/privacy_checker": "librejs/js_checker/privacy_checker", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/timers": "sdk/timers", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/dom_handler/dom_gatherer": {
+   "docsSHA256": null, 
+   "jsSHA256": "d90a852c6abfd418085b243e18795471c695590cad7829490d0e079a2f550b6d", 
+   "moduleName": "html_script_finder/dom_handler/dom_gatherer", 
+   "packageName": "librejs", 
+   "requirements": {
+    "html_script_finder/bug_fix": "librejs/html_script_finder/bug_fix", 
+    "html_script_finder/dom_handler/attributes": "librejs/html_script_finder/dom_handler/attributes", 
+    "html_script_finder/dom_handler/script_object": "librejs/html_script_finder/dom_handler/script_object", 
+    "html_script_finder/dom_handler/script_properties": "librejs/html_script_finder/dom_handler/script_properties", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/privacy_checker": "librejs/js_checker/privacy_checker", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/dom_handler/request": {
+   "docsSHA256": null, 
+   "jsSHA256": "af49bc14e9ee3d561a698a4dc149e6436368caba47504620ece88e9b43446d78", 
+   "moduleName": "html_script_finder/dom_handler/request", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "html_script_finder/url_seen_tester": "librejs/html_script_finder/url_seen_tester", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/timers": "sdk/timers", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/dom_handler/script_object": {
+   "docsSHA256": null, 
+   "jsSHA256": "947f425475661a1f7572bb58a49763dfb6bb628e2dfaa34aad626a63ebe04c08", 
+   "moduleName": "html_script_finder/dom_handler/script_object", 
+   "packageName": "librejs", 
+   "requirements": {
+    "script_entries/accepted_scripts": "librejs/script_entries/accepted_scripts", 
+    "script_entries/dryrun_scripts": "librejs/script_entries/dryrun_scripts", 
+    "script_entries/removed_scripts": "librejs/script_entries/removed_scripts"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/dom_handler/script_properties": {
+   "docsSHA256": null, 
+   "jsSHA256": "2faf007239a9f519ce4d563e462a3940cb5176ddcc3c0baf9ab13130d6050b37", 
+   "moduleName": "html_script_finder/dom_handler/script_properties", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/html_parser": {
+   "docsSHA256": null, 
+   "jsSHA256": "00b174d23d15dd7d7833f35fe9c1bd56a1142f3b6066f8160123be2fc707adf5", 
+   "moduleName": "html_script_finder/html_parser", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "html_script_finder/dom_handler": "librejs/html_script_finder/dom_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/url_seen_tester": {
+   "docsSHA256": null, 
+   "jsSHA256": "80b2a59407826b389b6eaa15409ecdd6ebe6039de0a19933858f0a73f3de6286", 
+   "moduleName": "html_script_finder/url_seen_tester", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/web_labels/find_js_labels": {
+   "docsSHA256": null, 
+   "jsSHA256": "503889ed95b612c82413ebd1ac690ee9a8621b60f5125a0419f10c68d0a92027", 
+   "moduleName": "html_script_finder/web_labels/find_js_labels", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/web_labels/js_web_labels": {
+   "docsSHA256": null, 
+   "jsSHA256": "3440132dcaecc725d0ab81691c7830decb8408a56a6d525b9ab13cb413359eec", 
+   "moduleName": "html_script_finder/web_labels/js_web_labels", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "html_script_finder/web_labels/find_js_labels": "librejs/html_script_finder/web_labels/find_js_labels", 
+    "html_script_finder/web_labels/script_hash_worker": "librejs/html_script_finder/web_labels/script_hash_worker", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/license_definitions": "librejs/js_checker/license_definitions", 
+    "sdk/self": "sdk/self", 
+    "sdk/timers": "sdk/timers", 
+    "sdk/url": "sdk/url", 
+    "ui/notification": "librejs/ui/notification", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/html_script_finder/web_labels/script_hash_worker": {
+   "docsSHA256": null, 
+   "jsSHA256": "396431bed43197096e21a086b65e39edaa05c4c07d29ae9533ef95654a4f9add", 
+   "moduleName": "html_script_finder/web_labels/script_hash_worker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "html_script_finder/dom_handler/dom_checker": "librejs/html_script_finder/dom_handler/dom_checker", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/timers": "sdk/timers"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/http_observer/allowed_referrers": {
+   "docsSHA256": null, 
+   "jsSHA256": "6792a243c6413f20b719a5526eac3be4b75d48888922d978b0d2dfa0b0449ea3", 
+   "moduleName": "http_observer/allowed_referrers", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon_management/prefchange": "librejs/addon_management/prefchange"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/http_observer/caching": {
+   "docsSHA256": null, 
+   "jsSHA256": "2e1d459f007aaa88133d97af8d994c23030d4b5057450772cb482dea49c38c6e", 
+   "moduleName": "http_observer/caching", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/http_observer/http_request_observer": {
+   "docsSHA256": null, 
+   "jsSHA256": "d7dcb48aa57f7970401a8a5385130eb74fb71d981eb44b3387ef5decd84a9fe2", 
+   "moduleName": "http_observer/http_request_observer", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "html_script_finder/url_seen_tester": "librejs/html_script_finder/url_seen_tester", 
+    "http_observer/stream_loader": "librejs/http_observer/stream_loader"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/http_observer/process_response": {
+   "docsSHA256": null, 
+   "jsSHA256": "2e8a93d70ba811a090bc2876f958818d87c0b79ac00d3122acfe36717d933209", 
+   "moduleName": "http_observer/process_response", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon_management/prefchange": "librejs/addon_management/prefchange", 
+    "chrome": "chrome", 
+    "html_script_finder/html_parser": "librejs/html_script_finder/html_parser", 
+    "html_script_finder/web_labels/js_web_labels": "librejs/html_script_finder/web_labels/js_web_labels", 
+    "http_observer/allowed_referrers": "librejs/http_observer/allowed_referrers", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/js_checker": "librejs/js_checker/js_checker", 
+    "script_entries/accepted_scripts": "librejs/script_entries/accepted_scripts", 
+    "script_entries/dryrun_scripts": "librejs/script_entries/dryrun_scripts", 
+    "script_entries/removed_scripts": "librejs/script_entries/removed_scripts", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/http_observer/stream_loader": {
+   "docsSHA256": null, 
+   "jsSHA256": "4f3eb2c9cf163cd95932b74b1df6f765121a8d014f42db238d03c83e0f5fced4", 
+   "moduleName": "http_observer/stream_loader", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "http_observer/process_response": "librejs/http_observer/process_response"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/constant_types": {
+   "docsSHA256": null, 
+   "jsSHA256": "96273f784e92749ffa833ae2993987fbab7be40d7293dd01d990def147bc29a5", 
+   "moduleName": "js_checker/constant_types", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/free_checker": {
+   "docsSHA256": null, 
+   "jsSHA256": "22433f7aeb3f6c41c8c36b083501ad9805b21e703074602b8d50d194467ffb6a", 
+   "moduleName": "js_checker/free_checker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "html_script_finder/bug_fix": "librejs/html_script_finder/bug_fix", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/license_definitions": "librejs/js_checker/license_definitions", 
+    "js_checker/pattern_utils": "librejs/js_checker/pattern_utils", 
+    "sdk/simple-storage": "sdk/simple-storage"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/js_checker": {
+   "docsSHA256": null, 
+   "jsSHA256": "e40794e96193a92eab003a9b028c52319e6c6c033eceb41e25893708292f519d", 
+   "moduleName": "js_checker/js_checker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon_management/prefchange": "librejs/addon_management/prefchange", 
+    "chrome": "chrome", 
+    "html_script_finder/bug_fix": "librejs/html_script_finder/bug_fix", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/free_checker": "librejs/js_checker/free_checker", 
+    "js_checker/nontrivial_checker": "librejs/js_checker/nontrivial_checker", 
+    "js_checker/relation_checker": "librejs/js_checker/relation_checker", 
+    "narcissus_parser/narcissus_worker": "librejs/narcissus_parser/narcissus_worker", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/timers": "sdk/timers", 
+    "ui/notification": "librejs/ui/notification"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/license_definitions": {
+   "docsSHA256": null, 
+   "jsSHA256": "26c979a2ec71a6134e4564f2f00d7c27ad878716948a31491189d8c7e4c0041b", 
+   "moduleName": "js_checker/license_definitions", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/nontrivial_checker": {
+   "docsSHA256": null, 
+   "jsSHA256": "a14b688c0d54918ea0c1649e8f44e7d627706278c9732c9f14b5887a6cf69ce5", 
+   "moduleName": "js_checker/nontrivial_checker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "js_checker/constant_types": "librejs/js_checker/constant_types"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/pattern_utils": {
+   "docsSHA256": null, 
+   "jsSHA256": "6680b0a5f803eb1f0e40119f87c4149ed3a29011e74215322be2f8e4a9b47c66", 
+   "moduleName": "js_checker/pattern_utils", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/privacy_checker": {
+   "docsSHA256": null, 
+   "jsSHA256": "aa7e796cd77ed096a9a47a9cca55b85f8359f670aed7391bc5225d348b5e3848", 
+   "moduleName": "js_checker/privacy_checker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "js_checker/pattern_utils": "librejs/js_checker/pattern_utils", 
+    "js_checker/privacy_threat_definitions.js": "librejs/js_checker/privacy_threat_definitions"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/privacy_threat_definitions": {
+   "docsSHA256": null, 
+   "jsSHA256": "08c681d4827f52bd8cdfc939224577a22194ee32337b9334a4f8b423f17f8ade", 
+   "moduleName": "js_checker/privacy_threat_definitions.js", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/js_checker/relation_checker": {
+   "docsSHA256": null, 
+   "jsSHA256": "b81106d3a439da67f6a87c6dd76ff9a6759febc6b77305040718eccf4a4dfb41", 
+   "moduleName": "js_checker/relation_checker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "js_checker/constant_types": "librejs/js_checker/constant_types"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/main": {
+   "docsSHA256": null, 
+   "jsSHA256": "b60c8856a74381b7c06fef7e0573778492746f3b6984644965bb5bb909ab3d11", 
+   "moduleName": "main", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon_management/install_uninstall": "librejs/addon_management/install_uninstall", 
+    "addon_management/prefchange": "librejs/addon_management/prefchange", 
+    "chrome": "chrome", 
+    "http_observer/allowed_referrers": "librejs/http_observer/allowed_referrers", 
+    "http_observer/http_request_observer": "librejs/http_observer/http_request_observer", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/js_checker": "librejs/js_checker/js_checker", 
+    "menuitems": "menuitems/menuitems", 
+    "script_entries/accepted_scripts": "librejs/script_entries/accepted_scripts", 
+    "script_entries/dryrun_scripts": "librejs/script_entries/dryrun_scripts", 
+    "script_entries/removed_scripts": "librejs/script_entries/removed_scripts", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/page-worker": "sdk/page-worker", 
+    "sdk/panel": "sdk/panel", 
+    "sdk/self": "sdk/self", 
+    "sdk/simple-storage": "sdk/simple-storage", 
+    "sdk/tabs": "sdk/tabs", 
+    "sdk/ui/button/toggle": "sdk/ui/button/toggle", 
+    "sdk/window/utils": "sdk/window/utils", 
+    "settings/settings_tab": "librejs/settings/settings_tab", 
+    "settings/storage": "librejs/settings/storage", 
+    "ui/script_panel.js": "librejs/ui/script_panel", 
+    "ui/ui_info": "librejs/ui/ui_info", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/narcissus_parser/narcissus_worker": {
+   "docsSHA256": null, 
+   "jsSHA256": "bcd4350373fe0b4364a7bcdc6013feea837720e9a8792e84f905cc86dd346ce0", 
+   "moduleName": "narcissus_parser/narcissus_worker", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "js_checker/js_checker": "librejs/js_checker/js_checker", 
+    "sdk/self": "sdk/self"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/script_entries/accepted_scripts": {
+   "docsSHA256": null, 
+   "jsSHA256": "ee96b355fb087aadca3c51a77cc9f14321aad96c834dda5a0812724fa26a7a7e", 
+   "moduleName": "script_entries/accepted_scripts", 
+   "packageName": "librejs", 
+   "requirements": {
+    "script_entries/all_scripts": "librejs/script_entries/all_scripts"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/script_entries/all_scripts": {
+   "docsSHA256": null, 
+   "jsSHA256": "6530feda85a57e12f47b4ab6c07d403e4b0fdb4d7b6e433ad1eeb60af90756aa", 
+   "moduleName": "script_entries/all_scripts", 
+   "packageName": "librejs", 
+   "requirements": {
+    "script_entries/crypto": "librejs/script_entries/crypto"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/script_entries/crypto": {
+   "docsSHA256": null, 
+   "jsSHA256": "c77e0067499b2f99fb6a3c0302e156ef89a4d3834f1fdac4f323a9d2ad966679", 
+   "moduleName": "script_entries/crypto", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/script_entries/dryrun_scripts": {
+   "docsSHA256": null, 
+   "jsSHA256": "808d0fa10cf794277f4bf26edf43b916695b32466edb2a2a5ebdb71a761f0773", 
+   "moduleName": "script_entries/dryrun_scripts", 
+   "packageName": "librejs", 
+   "requirements": {
+    "script_entries/all_scripts": "librejs/script_entries/all_scripts", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/script_entries/free_libraries": {
+   "docsSHA256": null, 
+   "jsSHA256": "a716922a4a427d0ae177e92cf7b94710573f162bd17302dc24871bd876f4b60f", 
+   "moduleName": "script_entries/free_libraries", 
+   "packageName": "librejs", 
+   "requirements": {
+    "./scripts_cache": "librejs/script_entries/scripts_cache", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/relation_checker": "librejs/js_checker/relation_checker", 
+    "sdk/self": "sdk/self"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/script_entries/removed_scripts": {
+   "docsSHA256": null, 
+   "jsSHA256": "529ad3d10162a836e3d481592e078bf913b762848c0673686ef0317d7a28f212", 
+   "moduleName": "script_entries/removed_scripts", 
+   "packageName": "librejs", 
+   "requirements": {
+    "script_entries/all_scripts": "librejs/script_entries/all_scripts", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/script_entries/scripts_cache": {
+   "docsSHA256": null, 
+   "jsSHA256": "2a6c61f5422a4285aeadb2d3108f4b7cc710d20701062e30f42d0dbf5f162cc9", 
+   "moduleName": "script_entries/scripts_cache", 
+   "packageName": "librejs", 
+   "requirements": {
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/relation_checker": "librejs/js_checker/relation_checker", 
+    "script_entries/crypto": "librejs/script_entries/crypto", 
+    "ui/notification": "librejs/ui/notification"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/settings/settings_tab": {
+   "docsSHA256": null, 
+   "jsSHA256": "fe6fa07ad3ca1b9e1ce4219af1f046ba7a21e0757e9cffc772b80b094bd56af0", 
+   "moduleName": "settings/settings_tab", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon-tab": "addon-tab/addon-tab", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/self": "sdk/self", 
+    "settings/storage": "librejs/settings/storage"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/settings/storage": {
+   "docsSHA256": null, 
+   "jsSHA256": "25e0a3d6f9551f736b60375eeefde289ecd9b216995eb824d99559eef040f244", 
+   "moduleName": "settings/storage", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "js_checker/relation_checker": "librejs/js_checker/relation_checker", 
+    "script_entries/free_libraries": "librejs/script_entries/free_libraries", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/ui/notification": {
+   "docsSHA256": null, 
+   "jsSHA256": "4cef86f9d21cbda8633ea595968c9a6ba189d30923cf895c1f5453a362ab028b", 
+   "moduleName": "ui/notification", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon_management/prefchange": "librejs/addon_management/prefchange", 
+    "notification-box": "notification-box/notification-box", 
+    "sdk/self": "sdk/self", 
+    "sdk/timers": "sdk/timers"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/ui/script_panel": {
+   "docsSHA256": null, 
+   "jsSHA256": "9bd52a58004737dd85ca814dfbdd23cc87541dcfe661124db4cbdd068c2a84fe", 
+   "moduleName": "ui/script_panel.js", 
+   "packageName": "librejs", 
+   "requirements": {
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/ui/ui_info": {
+   "docsSHA256": null, 
+   "jsSHA256": "6ee2f0d991aa0535487c3c431f3bd8990636c6739405f3a89485bbb414fd317f", 
+   "moduleName": "ui/ui_info", 
+   "packageName": "librejs", 
+   "requirements": {
+    "addon_management/prefchange": "librejs/addon_management/prefchange", 
+    "sdk/page-mod": "sdk/page-mod", 
+    "sdk/page-worker": "sdk/page-worker", 
+    "sdk/self": "sdk/self", 
+    "sdk/tabs": "sdk/tabs", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/url_handler/node_punycode": {
+   "docsSHA256": null, 
+   "jsSHA256": "8f604c209e3f9913fbcda68b2cfe203335e0117e145031e4a5c826d6b021c3f2", 
+   "moduleName": "url_handler/node_punycode", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/url_handler/node_querystring": {
+   "docsSHA256": null, 
+   "jsSHA256": "e25cebb6984e5c84b1b6a4d100e87a66a9763a2573cf093a2923160fa704b083", 
+   "moduleName": "url_handler/node_querystring", 
+   "packageName": "librejs", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "librejs/url_handler/node_url": {
+   "docsSHA256": null, 
+   "jsSHA256": "a73dd5be86af3e6a2fff3c250fb9a860d14aa4688babc87efd69eba4d9315a2a", 
+   "moduleName": "url_handler/node_url", 
+   "packageName": "librejs", 
+   "requirements": {
+    "url_handler/node_punycode": "librejs/url_handler/node_punycode", 
+    "url_handler/node_querystring": "librejs/url_handler/node_querystring"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "librejs/url_handler/url_handler": {
+   "docsSHA256": null, 
+   "jsSHA256": "dd5c54c8e8220e7334c50d11f841a988ae0fb29c259cd91cb012f16ca93b76df", 
+   "moduleName": "url_handler/url_handler", 
+   "packageName": "librejs", 
+   "requirements": {
+    "url_handler/node_url": "librejs/url_handler/node_url"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "menuitems/menuitems": {
+   "docsSHA256": "58ad1ff182b33d89a46eb8e0b4847ff84f5403840ddbd03b017a4a855d2008fc", 
+   "jsSHA256": "30d5fc7421841e6ac4ec3756515ac8f2dc3850bed7334f3ff038528d18262524", 
+   "moduleName": "menuitems", 
+   "packageName": "menuitems", 
+   "requirements": {
+    "sdk/core/heritage": "sdk/core/heritage", 
+    "sdk/core/namespace": "sdk/core/namespace", 
+    "sdk/deprecated/api-utils": "sdk/deprecated/api-utils", 
+    "sdk/deprecated/window-utils": "sdk/deprecated/window-utils", 
+    "sdk/event/core": "sdk/event/core", 
+    "sdk/event/target": "sdk/event/target", 
+    "sdk/window/utils": "sdk/window/utils", 
+    "unload+": "vold-utils/unload+"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "notification-box/notification-box": {
+   "docsSHA256": null, 
+   "jsSHA256": "d7e5a8b906ff408b90622769e175d02e243b1e9b238d7a54ad4be213e03c8454", 
+   "moduleName": "notification-box", 
+   "packageName": "notification-box", 
+   "requirements": {
+    "chrome": "chrome", 
+    "sdk/window/utils": "sdk/window/utils"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "vold-utils/unload+": {
+   "docsSHA256": "465618992a8bbf3da6425fd79aaec54b92db0353d9670d8dcc1373d14c25b69b", 
+   "jsSHA256": "fbbdfe29fd5cd3ed3593d5720278df4091bd208fc14478fcbff6776fad6c4dd1", 
+   "moduleName": "unload+", 
+   "packageName": "vold-utils", 
+   "requirements": {
+    "sdk/core/heritage": "sdk/core/heritage", 
+    "sdk/core/namespace": "sdk/core/namespace", 
+    "sdk/system/unload": "sdk/system/unload"
+   }, 
+   "sectionName": "lib"
+  }
+ }, 
+ "metadata": {
+  "addon-sdk": {
+   "description": "Add-on development made easy.", 
+   "keywords": [
+    "javascript", 
+    "engine", 
+    "addon", 
+    "extension", 
+    "xulrunner", 
+    "firefox", 
+    "browser"
+   ], 
+   "license": "MPL 2.0", 
+   "name": "addon-sdk"
+  }, 
+  "addon-tab": {
+   "author": "Loic J. Duros", 
+   "description": "Opens a tab with a local page, hiding the location/search bars, and allows to set styles directly on the tab element (see example). This is ideal if your addon has a complex UI requiring a complex html page (and using such frameworks as jQuery UI, Bootstrap, etc, ...)", 
+   "license": "MPL 2.0", 
+   "main": "main", 
+   "name": "addon-tab", 
+   "version": "0.1"
+  }, 
+  "librejs": {
+   "author": "Loic J. Duros", 
+   "description": "GNU LibreJS is an add-on for Mozilla-based browsers (IceCat, Firefox, Abrowser, Iceweasel)\n that prevents the execution of nonfree nontrivial JavaScript as described in \"The Javascript Trap\": http://www.gnu.org/philosophy/javascript-trap.html", 
+   "license": "GPL v3.0 and later", 
+   "main": "lib/main", 
+   "name": "librejs", 
+   "permissions": {
+    "unsafe-content-script": true
+   }, 
+   "version": "6.0.1"
+  }, 
+  "menuitems": {
+   "author": "Erik Vold (http://erikvold.com/) <erikvvold@gmail.com>", 
+   "description": "Menuitems for Jetpacks", 
+   "keywords": [
+    "menu", 
+    "menuitems", 
+    "button", 
+    "ui"
+   ], 
+   "license": "MPL 2.0", 
+   "name": "menuitems", 
+   "version": "1.1.1"
+  }, 
+  "notification-box": {
+   "description": "a basic add-on", 
+   "license": "MPL 2.0", 
+   "main": "main", 
+   "name": "notification-box", 
+   "version": "0.1"
+  }, 
+  "vold-utils": {
+   "author": "Erik Vold (http://erikvold.com/) <erikvvold@gmail.com>", 
+   "description": "Utilitys for Jetpacks", 
+   "name": "vold-utils", 
+   "version": "1.1"
+  }
+ }, 
+ "name": "librejs", 
+ "parseable": false, 
+ "preferences": [
+  {
+   "name": "whitelist", 
+   "title": "Whitelist domain, separated by comma, omit protocol, e.g.: gnu.org, wildcard is *", 
+   "type": "string", 
+   "value": ""
+  }, 
+  {
+   "name": "complaint_tab", 
+   "title": "Display complaint tab on sites where nonfree nontrivial JavaScript is detected", 
+   "type": "bool", 
+   "value": true
+  }, 
+  {
+   "name": "display_notifications", 
+   "title": "Display notifications of the JavaScript code being analyzed by LibreJS.", 
+   "type": "bool", 
+   "value": false
+  }
+ ], 
+ "preferencesBranch": "jid1-KtlZuoiikVfFew@jetpack", 
+ "sdkVersion": "1.17", 
+ "staticArgs": {}, 
+ "verbose": false
+}

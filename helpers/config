@@ -1,0 +1,210 @@
+#!/bin/bash
+#
+#    Copyright (C) 2008-2014  Ruben Rodriguez <ruben@gnu.org>
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation; either version 2 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program; if not, write to the Free Software
+#    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
+#
+
+set -e
+
+PACKAGE=$(echo $0 |/bin/sed s/make-//g)
+export DATA=$PWD/DATA/$PACKAGE
+if ! [ 1$COMPONENT = "1main" ]
+then
+    COMPONENT=${COMPONENT:-universe}
+    /bin/sed 's/^enable.*/enable: false/g' -i /etc/pkgbinarymangler/*.conf
+fi
+
+if [ -f /CurrentlyBuilding ]
+then
+    echo "Already running $(cat /CurrentlyBuilding)"
+    echo "If $(cat /CurrentlyBuilding) broke and nothing is actually running"
+    echo "remove /CurrentlyBuilding and run this script again"
+    exit 1
+else
+    echo "Package: $PACKAGE
+Component: $COMPONENT" > /CurrentlyBuilding
+fi
+
+[ -d PACKAGES ] || mkdir PACKAGES
+[ -d /proc/sys ] || mount proc /proc -t proc
+hostname devel.trisquel.info
+
+export DEBIAN_FRONTEND=noninteractive
+export DEBEMAIL=ruben@gnu.org
+export DEBFULLNAME="Ruben Rodriguez"
+export RELEASE=trisquel
+export DOMAIN=trisquel.info
+MIRROR=http://archive.trisquel.info/trisquel
+UPMIRROR=http://archive.ubuntu.com/ubuntu
+#DEVELMIRROR=http://devel.trisquel.info/trisquel/$CODENAME
+#LOCALMIRROR=http://archive.trisquel.info/trisquel
+
+
+if [ $CODENAME = toutatis ]; then
+export REVISION=6.0.1
+export UPSTREAM=precise
+export UPSTREAMRELEASE=12.04
+fi
+
+if [ $CODENAME = belenos ]; then
+export REVISION=7.0
+export UPSTREAM=trusty
+export UPSTREAMRELEASE=14.04
+fi
+
+cat << EOF > /etc/lsb-release 
+DISTRIB_ID=Trisquel
+DISTRIB_RELEASE=$REVISION
+DISTRIB_CODENAME=$CODENAME
+DISTRIB_DESCRIPTION="Trisquel $REVISION"
+EOF
+
+replace(){
+find $3 -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i s^"$1"^"$2"^g {} \;
+}
+changelog(){
+echo | dch -D $CODENAME -v $(/bin/sed -n '1s/^.*(\(.*\)).*/\1'+${REVISION}trisquel${VERSION}'/p' debian/changelog)  "$1"
+
+# Make sure the changelog file is identical between archs
+/bin/sed "/-- Trisquel/s/.*/ -- $DEBFULLNAME <$DEBEMAIL>  $DATE/" -i debian/changelog
+}
+
+rm -rf PACKAGES/$PACKAGE
+mkdir PACKAGES/$PACKAGE
+cd PACKAGES/$PACKAGE
+
+cat << EOF > /etc/apt/sources.list
+deb $MIRROR $CODENAME main
+deb $MIRROR $CODENAME-updates main
+deb $MIRROR $CODENAME-security main
+deb-src $UPMIRROR $UPSTREAM main
+deb-src $UPMIRROR $UPSTREAM-updates main
+deb-src $UPMIRROR $UPSTREAM-security main
+EOF
+
+[ "1$EXTERNAL" != "1" ] && eval echo "$EXTERNAL" >> /etc/apt/sources.list
+
+apt-get update
+apt-get install --force-yes -y devscripts
+
+if [ $PACKAGE = linux ]
+then
+    apt-get --force-yes -y build-dep linux-libc-dev
+    apt-get source linux-libc-dev --download-only
+    dpkg-source -x --skip-patches *.dsc source
+else
+    [ 1$LOCALDEPENDS = 1true ] || apt-get --force-yes -y build-dep $PACKAGE
+    apt-get source $PACKAGE --download-only
+    dpkg-source -x --skip-patches *.dsc source
+fi
+
+find -maxdepth 1 -type f | xargs rm
+cd source
+
+#disable 3.0 deb source format
+[ -f debian/source/format ] && rm debian/source/format
+[ -f debian/source/options ] && rm debian/source/options
+
+for i in debian.master/control.stub.in debian.master/control.stub debian.master/control debian/control.stub.in debian/control.stub debian/control
+do
+    [ -f $i ] && /bin/sed "s_^Maintainer.*_Maintainer: $DEBFULLNAME <$DEBEMAIL>_g" -i $i
+done
+
+compile(){
+if [ 1$LOCALDEPENDS = 1true ]
+then
+    DEPENDS=$(/bin/sed -n '/Build-Dep/,/^[a-zA-W0-9]/ p' debian/control | head -n -1 | /bin/sed 's/.*://; s/(.*)//; s/,//g' |xargs echo -n)
+    echo Installing Build-Depends: $DEPENDS
+    apt-get --force-yes -y install $DEPENDS
+fi
+
+PROCESSORS=1
+if [ 1$PARALLEL != "1false" ]
+then
+    PROCESSORS=$(grep processor /proc/cpuinfo | wc -l)
+fi
+
+if [ 1$QUILT != 1skip ]; then
+export QUILT_PATCHES=debian/patches
+[ -s debian/patches/series ] && quilt push -a
+fi
+
+if [ $FAKEROOT ]
+then
+chown nobody ../ -R
+su nobody -c 'dpkg-buildpackage -us -uc -j$PROCESSORS -rfakeroot'
+else
+dpkg-buildpackage -us -uc -j$PROCESSORS
+fi
+
+rm /CurrentlyBuilding
+umount /proc
+}
+
+sedhelper2(){
+  FILE="$1"
+  EXPR="$2"";"
+
+  while [ 1"$EXPR" != 1 ];do
+    SUBEXPR=$(cut -d\; -f 1 <<< "$EXPR")
+    MD5=$(md5sum "$FILE")
+    echo Running modification-aware sed: sed "$SUBEXPR" -i "$FILE"
+    /bin/sed "$SUBEXPR" -i "$FILE"
+    if [ "$MD5" = "$(md5sum "$FILE")" ]; then
+      echo File "$FILE" was not modified, stopping.
+      exit 1
+    fi
+    EXPR=$(cut -d\; -f 2- <<< "$EXPR" )
+    echo $EXPR | egrep ';' -q || break
+  done
+}
+
+sedhelper(){
+  FILE="$1"
+  EXPR="$2"
+
+  MD5=$(md5sum "$FILE")
+  echo Running modification-aware sed: sed "$EXPR" -i "$FILE"
+  /bin/sed "$EXPR" -i "$FILE"
+  if [ "$MD5" = "$(md5sum "$FILE")" ]; then
+    echo File "$FILE" was not modified, stopping.
+    exit 1
+  fi
+}
+
+sed (){
+if ! echo $@ | grep -qw '\-i'; then
+  echo Running fallback sed: /bin/sed "$@"
+  /bin/sed "$@"
+else
+
+[ 1"$1" = "1-i" ] && shift
+
+  SEDEXPR="$1"
+  shift
+  for FILE in "$@"; do
+  [ 1"$FILE" = "1-i" ] && continue
+  if [ -f "$FILE" ]; then
+    sedhelper "$FILE" "$SEDEXPR"
+  else
+    echo File "$FILE" does not exist, stopping.
+    exit 1
+  fi
+  done
+fi
+}
+
+
