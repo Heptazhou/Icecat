@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#    Copyright (C) 2011-2014  Ruben Rodriguez <ruben@gnu.org>
+#    Copyright (C) 2008-2014  Ruben Rodriguez <ruben@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -17,258 +17,519 @@
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 #
 
+VERSION=1
+
 set -e
 
-export DEBIAN_FRONTEND=noninteractive
-MEM=$(cat /proc/meminfo |grep MemTotal| awk '{print $2}')
-GPGKEY=8D8AEBF1
+FFMAJOR=31
+FFMINOR=1
+FFSUB=1
+FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
+SOURCEDIR=icecat-$FFVERSION
 
-for VAR in LANG LANGUAGE LC_ALL LC_TIME LC_MONETARY LC_ADDRESS LC_TELEPHONE LC_MESSAGES LC_NAME LC_MEASUREMENT LC_IDENTIFICATION LC_IDENTIFICATION LC_NUMERIC LC_PAPER LANG
+CODENAME=trusty
+REVISION=1065
+#CODENAME=precise
+#REVISION=993
+
+export DEBEMAIL=ruben@gnu.org
+export DEBFULLNAME="Ruben Rodriguez"
+
+DATA=/home/systems/gnuzilla/helpers/DATA/firefox
+ICECATBRAND=gnu
+[ 1$1 = 1trisquel ] && ICECATBRAND=trisquel
+
+###############################################################################
+# Retrieve FF source code
+###############################################################################
+
+rm mozilla-esr${FFMAJOR} $SOURCEDIR -rf
+
+wget -N ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2
+wget -N ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2.asc
+gpg --recv-keys --keyserver keyserver.ubuntu.com 15A0A4BC
+gpg --verify firefox-${FFVERSION}esr.source.tar.bz2.asc
+
+echo Extracting Firefox tarball
+tar -jxf firefox-${FFVERSION}esr.source.tar.bz2
+
+mv mozilla-esr${FFMAJOR} $SOURCEDIR
+
+###############################################################################
+# Retrieve /debian from Ubuntu
+###############################################################################
+
+rm -rf firefox.$CODENAME
+bzr branch https://code.launchpad.net/~mozillateam/firefox/firefox.$CODENAME
+cd firefox.$CODENAME
+bzr revert -r$REVISION
+echo '3.0 (native)' > debian/source/format
+
+for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch fix-broken-langpack-install-manifests.patch
 do
-    unset $VAR
+  rm debian/patches/$PATCH
+  sed "/$PATCH/d" -i debian/patches/series
 done
-export LANG=C
-export HOME=/root
-export DATE=$(date +'%a, %d %b %Y %T %z')
+cd ..
 
-cd $(dirname $0)
+mv firefox.$CODENAME/debian $SOURCEDIR
+rm -rf firefox.$CODENAME
 
-if [ $# -lt 2 ]
-then
-    echo "Usage: $0 trisquel_version_codename (toutatis|belenos) branding (trisquel|gnu)"
-    echo example: $0 belenos gnu
+###############################################################################
+# Retrieve l10n
+###############################################################################
+
+hg clone http://hg.mozilla.org/build/compare-locales/
+cd compare-locales/
+hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE
+cd ..
+rm compare-locales/.hg* compare-locales/.git* -rf
+mv compare-locales $SOURCEDIR/python/
+
+mkdir l10n
+cd l10n
+while read line;do
+    line=$(echo $line |cut -d' ' -f1)
+    #[ $line = "es-ES" ] || continue
+    [ $line = "en-US" ] && continue
+    hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
+    cd $line
+    hg checkout FIREFOX_31_0esr_RELEASE || true
+    hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
+    mkdir -p $line/browser/chrome/browser/preferences
+    touch $line/browser/chrome/browser/preferences/advanced-scripts.dtd
+    rm -rf .hg*
+    cd ..
+done < ../$SOURCEDIR/browser/locales/shipped-locales
+cd ..
+
+mv l10n $SOURCEDIR
+
+#######################################################
+
+cd $SOURCEDIR
+
+for patch in $DATA/patches/*; do
+    patch -p1 < $patch
+done
+
+cp $DATA/Changelog.IceCat $DATA/README.IceCat .
+cp $DATA/Changelog.IceCat $DATA/README.IceCat debian
+echo 'debian/README.IceCat
+debian/Changelog.IceCat' >>  debian/docs
+
+###############################################################################
+# Functions
+###############################################################################
+
+sedhelper2(){
+  FILE="$1"
+  EXPR="$2"";"
+
+  while [ 1"$EXPR" != 1 ];do
+    SUBEXPR=$(cut -d\; -f 1 <<< "$EXPR")
+    MD5=$(md5sum "$FILE")
+    echo Running modification-aware sed: sed "$SUBEXPR" -i "$FILE"
+    /bin/sed "$SUBEXPR" -i "$FILE"
+    if [ "$MD5" = "$(md5sum "$FILE")" ]; then
+      echo File "$FILE" was not modified, stopping.
+      exit 1
+    fi
+    EXPR=$(cut -d\; -f 2- <<< "$EXPR" )
+    echo $EXPR | egrep ';' -q || break
+  done
+}
+
+sedhelper(){
+  FILE="$1"
+  EXPR="$2"
+
+  MD5=$(md5sum "$FILE")
+  echo Running modification-aware sed: sed "$EXPR" -i "$FILE"
+  /bin/sed "$EXPR" -i "$FILE"
+  if [ "$MD5" = "$(md5sum "$FILE")" ]; then
+    echo File "$FILE" was not modified, stopping.
     exit 1
-fi
-
-PACKAGE=firefox
-export CODENAME=$1
-export BRAND=$2
-WORKDIR=tmp/makepackage
-REPOSITORY=$PWD/repos/$CODENAME
-HELPERS=$PWD/helpers
-for REPO in toutatis belenos
-do
-[ -d $REPOSITORY ] && continue
-mkdir -p repos/$REPO/conf repos/$REPO/incoming
-cat << EOF > repos/$REPO/conf/distributions
-Origin: Trisquel
-Label: Trisquel
-Suite: $REPO
-Version: 42
-Codename: $REPO
-Architectures: i386 amd64 source
-Components: main
-UDebComponents: main
-DebIndices: Packages Release . .gz .bz2
-UDebIndices: Packages . .gz .bz2
-DscIndices: Sources Release .gz .bz2
-Log: $REPO.log
-Description: Trisquel GNU/Linux packages
-EOF
-
-if gpg -K | grep -q $GPGKEY
-then
-    echo "SignWith: $GPGKEY" >> repos/$REPO/conf/distributions
-fi
-
-cd repos/$REPO
-reprepro -v export
-cd ../..
-done
-
-disablescripts(){
-    # Disable service starter scripts
-    for i in /usr/sbin/invoke-rc.d /sbin/start /sbin/start-stop-daemon /usr/sbin/service
-    do
-        mv $CHROOT/$i $CHROOT/$i.real
-        cp $CHROOT/bin/true $CHROOT/$i
-    done
+  fi
 }
 
-createjail () {
-    [ -d jails ] || mkdir jails
-    CHROOT=jails/$CODENAME-$ARCH
-    C="chroot $CHROOT"
-    MIRROR=http://archive.trisquel.info/trisquel
+sed (){
+if ! echo $@ | grep -qw '\-i'; then
+  echo Running fallback sed: /bin/sed "$@"
+  /bin/sed "$@"
+else
 
-    mkdir $CHROOT-tmp
-    mount -t tmpfs -o size=500M none $CHROOT-tmp
-    debootstrap --arch=$ARCH $CODENAME $CHROOT-tmp $MIRROR
-    fuser -k $CHROOT-tmp || true
-    cp -a $CHROOT-tmp $CHROOT
-    umount $CHROOT-tmp
-    rm $CHROOT-tmp -rf
-    echo "127.0.0.1 localhost" > $CHROOT/etc/hosts
-    mount none $CHROOT/proc -t proc
-    mount none $CHROOT/dev/pts -t devpts
+[ 1"$1" = "1-i" ] && shift
 
-    disablescripts
-
-    if gpg -K | grep $GPGKEY -q
-    then
-        cp /root/.gnupg $CHROOT/root -a
-    else
-        echo GPG private key for $GPGKEY not found, the packages and repositories will not be signed.
-    fi
-
-    echo $CODENAME-$ARCH  > $CHROOT/etc/debian_chroot
-cat << EOF > $CHROOT/etc/apt/sources.list
-deb $MIRROR $CODENAME main 
-deb $MIRROR $CODENAME-updates main
-deb $MIRROR $CODENAME-security main
-deb $MIRROR $CODENAME-backports main
-EOF
-
-cat << EOF > $CHROOT/etc/apt/apt.conf.d/90recommends
-APT::Install-Recommends "0";
-APT::Install-Suggests "0";
-EOF
-
-    export DEBIAN_FRONTEND=noninteractive
-
-    echo  "force-unsafe-io" > $CHROOT/etc/dpkg/dpkg.cfg.d/02apt-speedup
-    $C apt-get update
-    $C apt-get --force-yes -y install eatmydata sysv-rc dpkg sysvinit-utils upstart
-    disablescripts
-    $C apt-get --force-yes -y dist-upgrade
-    $C apt-get --force-yes -y install devscripts build-essential liburi-perl python-setuptools pkgbinarymangler wget rpl aptitude quilt fakeroot ccache ubuntu-keyring
-    $C apt-key add /usr/share/keyrings/ubuntu-archive-keyring.gpg
-    $C apt-get clean
-
-    wget -o /dev/null -O $CHROOT/tmp/key.gpg http://archive.trisquel.info/trisquel/trisquel-archive-signkey.gpg 
-    $C apt-key add /tmp/key.gpg
-
-    # Hack for i386
-    if [ $ARCH = "i386" ]
-    then
-        for BIN in /bin/uname /usr/bin/arch
-        do
-        [ -f $CHROOT/$BIN ] || continue
-        mv $CHROOT/$BIN $CHROOT/$BIN.orig
-cat << EOF > $CHROOT/$BIN
-#!/bin/bash
-
-if [ \$# -eq 0 ]
-then   
-        $BIN.orig | sed s/x86_64/i686/g
-else   
-        $BIN.orig "\$*" | sed s/x86_64/i686/g
-fi
-EOF
-        chmod 755 $CHROOT/$BIN
-done
-    fi
-umount $CHROOT/proc $CHROOT/dev/pts
-}
-
-prepare(){
-[ -d jails/$CODENAME-$ARCH ] || createjail
-cat << EOF > jails/$CODENAME-$ARCH/tmp/update
-mount -t proc none /proc
-export DEBIAN_FRONTEND=noninteractive
-export LANG=C
-apt-get update
-apt-get --force-yes -y install sysv-rc dpkg sysvinit-utils upstart
-for i in /usr/sbin/invoke-rc.d /sbin/start /sbin/start-stop-daemon /usr/sbin/service /sbin/initctl
-do
-    mv \$i \$i.real
-    cp /bin/true \$i
-done
-export DEBIAN_FRONTEND=noninteractive
-apt-get -q --force-yes -y dist-upgrade
-umount /proc
-EOF
-chroot jails/$CODENAME-$ARCH bash /tmp/update
-if [ -f jails/$CODENAME-$ARCH/CurrentlyBuilding ]
-then
-    echo The $CODENAME-$ARCH jail appears to be running $(cat jails/$CODENAME-$ARCH/CurrentlyBuilding |grep Package: |sed 's/Package:\ //'), aborting.
+  SEDEXPR="$1"
+  shift
+  for FILE in "$@"; do
+  [ 1"$FILE" = "1-i" ] && continue
+  if [ -f "$FILE" ]; then
+    sedhelper "$FILE" "$SEDEXPR"
+  else
+    echo File "$FILE" does not exist, stopping.
     exit 1
+  fi
+  done
 fi
-    CHROOT=jails/$CODENAME-$ARCH disablescripts
 }
 
-tmpumount(){
-  grep jails/$CODENAME-$ARCH/tmp /proc/mounts -q || return 0
-  umount jails/$CODENAME-$ARCH/tmp && return
-  echo ERROR: could not umount tmpfs at jails/$CODENAME-$ARCH/tmp
-  exit 1
-}
-tmpmount(){
-  [ $MEM -lt 16000000 ] && return
-  grep jails/$CODENAME-$ARCH/tmp /proc/mounts -q && tmpumount
-  mount -t tmpfs -o size=20G none jails/$CODENAME-$ARCH/tmp
-}
+###############################################################################
+# Set variables and build config files
+###############################################################################
 
-compile(){
-    [ -d jails/$CODENAME-$ARCH/$WORKDIR ] && rm -rf jails/$CODENAME-$ARCH/$WORKDIR/
-tmpmount
-    cp -a helpers/ jails/$CODENAME-$ARCH/$WORKDIR/
+DATA=$DATA/$ICECATBRAND
 
-cat << EOF > jails/$CODENAME-$ARCH/usr/local/sbin/makepackage-handler
-#!/bin/bash
-WORKDIR=$WORKDIR
-PACKAGE=$PACKAGE
-cd $WORKDIR
-[ -d LOGS ] || mkdir LOGS
-[ -d PACKAGES ] || mkdir PACKAGES
-export LD_PRELOAD="${LD_PRELOAD:+$LD_PRELOAD:}/usr/lib/libeatmydata/libeatmydata.so"
-export PATH="/usr/lib/ccache:${PATH}"
-bash -e make-$PACKAGE 2>&1 || exit 1
+if [ $ICECATBRAND = trisquel ]; then
+
+INFOURL="www.gnu.org/software/gnuzilla/"
+LEGALINFOURL="www.gnu.org/software/gnuzilla/"
+ADDONSURL="trisquel.info/browser-plain"
+LISTURL="lists.gnu.org/mailman/listinfo/bug-gnuzilla"
+
+cat << EOF > debian/distribution.ini
+[Global]
+id=trisquel
+version=$ICEATVERSION
+about=IceCat for Trisquel GNU/Linux
+
+[Preferences]
+app.distributor = "trisquel"
+app.distributor.channel = "trisquel"
+app.partner.ubuntu = "trisquel"
 EOF
 
-cat << EOF > jails/$CODENAME-$ARCH/etc/pkgbinarymangler/striptranslations.conf
-enable: true
-components: main
-invalid_currentlybuilding: ignore
-posuffix: translations
-oem_blacklist: partner
+else
+
+INFOURL="www.gnu.org/software/gnuzilla/"
+LEGALINFOURL="www.gnu.org/software/gnuzilla/"
+ADDONSURL="www.gnu.org/software/gnuzilla/addons.html"
+LISTURL="lists.gnu.org/mailman/listinfo/bug-gnuzilla"
+
+cat << EOF > debian/distribution.ini
+[Global]
+id=gnu
+version=$ICEATVERSION
+about=GNU IceCat
+
+[Preferences]
+app.distributor = "GNU"
+app.distributor.channel = "GNU"
+app.partner.ubuntu = "GNU"
+EOF
+fi
+
+###############################################################################
+# Custom settings and features
+###############################################################################
+
+# Disable healthreport
+sed '/mozilla.org\/legal/d' -i services/healthreport/healthreport-prefs.js
+cat << EOF >>services/healthreport/healthreport-prefs.js
+pref("datareporting.healthreport.infoURL", "https://$INFOURL");
 EOF
 
-cat << EOF > jails/$CODENAME-$ARCH/etc/pkgbinarymangler/sanitychecks.conf
-enable: true
+# Custom privacy statement link
+sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./modules/libpref/src/init/all.js ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
+
+# Replace versions for building on Trisquel
+sed 's/1310/70/g; s/1204/60/g; s/1210/65/g; s/1404/70/g' -i debian/config/mozconfig.in debian/firefox-dev.install.in debian/firefox-dev.links.in
+
+# Enable gst support
+apt-get install -y --force-yes libgstreamermm-0.10-dev
+apt-get install -y --force-yes libgstreamermm-1.0-dev || true
+cat << EOF >> debian/config/mozconfig.in
+%%if DISTRIB_VERSION < 70
+ac_add_options --enable-gstreamer=0.10
+%%endif
 EOF
 
-cat << EOF > jails/$CODENAME-$ARCH/etc/pkgbinarymangler/maintainermangler.conf
-enable: true
-invalid_currentlybuilding: ignore
-EOF
+# Set vendor string
+sed 's/com.ubuntu/org.gnu/' -i debian/config/mozconfig.in
 
-cat << EOF > jails/$CODENAME-$ARCH/etc/pkgbinarymangler/maintainermangler.overrides
-default: Trisquel GNU/Linux developers <trisquel-devel@listas.trisquel.info>
-ignore_domains: trisquel.info sognus.com listas.trisquel.info gnu.org fsf.org
-ignore_emails: ruben@trisquel.info
-EOF
+# Unbrand url codes for google and amazon
+find debian/searchplugins |grep google| xargs -i /bin/sed '/ubuntu/d; /channel/d' -i {}
+find debian/searchplugins |grep duck| xargs -i /bin/sed "s/canonical/$ICECATBRAND/" -i {}
+find debian/searchplugins |grep amazon| xargs -i /bin/sed '/canoniccom/d;' -i {}
+sed 's%duckduckgo.com/%duckduckgo.com/html%' -i debian/searchplugins/en-US/duckduckgo.xml
 
-    chmod 755 jails/$CODENAME-$ARCH/usr/local/sbin/makepackage-handler
-
-    if ! chroot jails/$CODENAME-$ARCH makepackage-handler /$WORKDIR/make-$PACKAGE
-    then
-        rm jails/$CODENAME-$ARCH/CurrentlyBuilding
-        exit 1
-    fi
-    find jails/$CODENAME-$ARCH/$WORKDIR/PACKAGES/$PACKAGE/ -maxdepth 1 -type f -exec cp {} $REPOSITORY/incoming/ \;
-tmpumount
-}
-
- ARCH=i386 prepare
- ARCH=amd64 prepare
- ARCH=i386 compile
- ARCH=amd64 compile
-
-cd $REPOSITORY
-
-for dsc in incoming/*.dsc
-do
-    if gpg -K | grep $GPGKEY -q
-    then
-        debsign -k$GPGKEY $dsc
-    else
-        echo GPG private key for $GPGKEY not found, the packages and repositories will not be signed.
-    fi
-    reprepro -v -C main includedsc $CODENAME $dsc || reprepro -S admin -P optional -v -b . -C main includedsc $CODENAME $dsc
+cp debian/searchplugins/en-US/duckduckgo.xml browser/locales/en-US/searchplugins
+echo -e '\nduckduckgo' >> browser/locales/en-US/searchplugins/list.txt
+for DIR in $(ls l10n -1); do
+  mkdir -p l10n/$DIR/browser/searchplugins/ || true
+  cp debian/searchplugins/en-US/duckduckgo.xml l10n/$DIR/browser/searchplugins/
+  grep duckduckgo l10n/$DIR/browser/searchplugins/list.txt || echo -e '\nduckduckgo' >> l10n/$DIR/browser/searchplugins/list.txt
 done
 
-find incoming -name *.deb -exec reprepro -v -C main includedeb $CODENAME {} \;
-find incoming -name *.udeb -exec reprepro -v -C main includeudeb $CODENAME {} \;
+LINE=$(grep "error Plugin" debian/build/rules.mk -n | /bin/sed s/:.*//)
+LINE=$(expr $LINE - 1)
+sed "$LINE,+1 d" debian/build/rules.mk -i
 
-rm incoming/*
+# contact link
+#sed "s_https://input.mozilla.org/feedback_https://${LISTURL}_" -i browser/base/content/utilityOverlay.js
+sed  "s/^MOZ_APP_NAME\t.*/MOZ_APP_NAME\t\t:= icecat/;" debian/build/config.mk -i
+sed  "s/^MOZ_PKG_NAME\t.*/MOZ_PKG_NAME\t\t:= icecat/;" debian/build/config.mk -i
+
+###############################################################################
+# Branding
+###############################################################################
+
+# Branding files
+rm browser/branding/* -rf
+cp -a $DATA/branding/ browser/branding/official
+cp -a $DATA/branding/ browser/branding/nightly
+cat << EOF > debian/config/branch.mk
+CHANNEL                 = release
+MOZ_WANT_UNIT_TESTS     = 0
+# MOZ_BUILD_OFFICIAL    = 1
+MOZ_ENABLE_BREAKPAD     = 0
+
+MOZILLA_REPO = http://hg.mozilla.org/releases/mozilla-release
+L10N_REPO = http://hg.mozilla.org/releases/l10n/mozilla-release
+EOF
+
+# Replace about:home
+rm browser/base/content/abouthome -rf
+cp $DATA/abouthome -a browser/base/content
+sed '/mozilla.*png/d' -i ./browser/base/jar.mn
+
+# Delete stuff we don't use and that may contain trademaked logos
+rm -rf ./browser/metro ./mobile ./addon-sdk/source/doc/static-files/media ./browser/themes/windows ./browser/themes/osx ./b2b
+
+# Custom bookmarks
+cp $DATA/bookmarks.html.in browser/locales/generic/profile/bookmarks.html.in
+
+[ -d $DATA/searchplugins ] && cp $DATA/searchplugins debian/search -a
+[ -d $DATA/searchplugins ] && echo "debian/search/* /usr/lib/icecat-addons/searchplugins" >> debian/firefox.install.in
+
+# Custom legal about pages
+
+find -wholename '*/brand.dtd' |xargs /bin/sed 's/trademarkInfo.part1.*/trademarkInfo.part1 "">/' -i
+
+for STRING in community.end3 community.exp.end community.start2 community.mozillaLink community.middle2 community.creditsLink community.end2 contribute.start contribute.getInvolvedLink contribute.end channel.description.start channel.description.end
+do
+ find -name aboutDialog.dtd | xargs sed -i "s/ENTITY $STRING.*/ENTITY $STRING \"\">/"
+done
+
+for STRING in rights.intro-point3-unbranded rights.intro-point4a-unbranded rights.intro-point4b-unbranded rights.intro-point4c-unbranded
+do
+ find -name aboutRights.dtd | xargs sed -i "s/ENTITY $STRING.*/ENTITY $STRING \"\">/"
+done
+
+sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ href\=\"http\:\/\/www.gnu.org\/\"\>GNU\ Project<\/a>/g' browser/base/content/overrides/app-license.html
+
+###############################################################################
+# Batch rebranding
+###############################################################################
+
+# Replace Firefox branding
+find -type d | grep firefox | xargs rename s/firefox/icecat/
+find -type f | grep firefox | xargs rename s/firefox/icecat/
+find -type f | grep Firefox | xargs rename s/Firefox/IceCat/
+
+SEDSCRIPT="
+s/Mozilla Firefox/GNU IceCat/g;
+s/firefox/icecat/g;
+s/Firefox/IceCat/g;
+s/FIREFOX/ICECAT/g;
+s/ Mozilla / GNU /g;
+s_PACKAGES/icecat_PACKAGES/firefox_g;
+s/Adobe Flash/Flash/g;
+s/run-mozilla.sh/run-icecat.sh/g;
+
+s^mozilla.com/plugincheck^$ADDONSURL^g;
+s^www.mozilla.com/icecat/central^$INFOURL^g;
+s^www.mozilla.com/legal/privacy^$LEGALINFOURL^g;
+
+s/GNU Public/Mozilla Public/g;
+s/GNU Foundation/Mozilla Foundation/g;
+s/GNU Corporation/Mozilla Corporation/g;
+s/icecat.com/firefox.com/g;
+s/IceCat-Spdy/Firefox-Spdy/g;
+"
+echo "Running batch rebranding"
+find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+
+sed s/GNU/Mozilla/ python/compare-locales/scripts/compare-locales -i
+sed s/GNU/Mozilla/ python/compare-locales/setup.py -i
+sed 's/mozilla-bin/icecat-bin/' -i build/unix/run-mozilla.sh
+
+find -type f | grep run-mozilla | xargs rename s/mozilla/icecat/
+
+sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
+
+# Set migrator scripts
+sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/src/IceCatProfileMigrator.js
+
+# Copy js settings
+#cat $DATA/settings.js >> debian/vendor-icecat.js
+cat $DATA/settings.js >> browser/app/profile/icecat.js
+
+if [ $ICECATBRAND = trisquel ]; then
+cat << EOF >> browser/app/profile/icecat.js
+// Preferences for the Get Add-ons panel
+pref ("extensions.webservice.discoverURL", "https://trisquel.info/browser-plain");
+pref ("extensions.getAddons.search.url", "http://trisquel.info");
+
+// PFS url
+pref("pfs.datasource.url", "http://trisquel.info/sites/pfs.php?mime=%PLUGIN_MIMETYPE%");
+pref("pfs.filehint.url", "http://trisquel.info/sites/pfs.php?mime=%PLUGIN_MIMETYPE%");
+
+// I'm feeling Ducky.
+pref("keyword.URL", "https://duckduckgo.com/html?t=trisquel&q=!+");
+pref("browser.search.defaultenginename", "DuckDuckGo");
+pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
+EOF
+
+else
+
+cat << EOF >> browser/app/profile/icecat.js
+// Preferences for the Get Add-ons panel
+pref ("extensions.webservice.discoverURL", "https://directory.fsf.org/wiki/GNU_IceCat");
+pref ("extensions.getAddons.search.url", "https://directory.fsf.org/wiki/GNU_IceCat");
+
+// PFS url
+pref("pfs.datasource.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
+pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
+
+// I'm feeling Ducky.
+pref("keyword.URL", "https://duckduckgo.com/html?q=!+");
+pref("browser.search.defaultenginename", "DuckDuckGo");
+pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
+EOF
+fi
+
+###############################################################################
+# Extensions
+###############################################################################
+
+# Disable search field at extensions panel
+#sed  '/header-search/d; /search.placeholder/d' -i toolkit/mozapps/extensions/content/extensions.xul
+cat << EOF >> toolkit/mozapps/extensions/content/extensions.css
+#header-search {
+  display:none;
+}
+EOF
+
+# Add extensions to manifest
+for EXTENSION in $(ls $DATA/extensions/); do
+sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in
+#echo "DIRS += ['$EXTENSION']" >> browser/app/profile/extensions/moz.build
+#touch browser/app/profile/extensions/$EXTENSION/moz.build
+done
+
+cp $DATA/extensions/ extensions/gnu -a
+
+cat << EOF >> browser/app/Makefile.in
+libs::
+	cp -a \$(topsrcdir)/extensions/gnu/* \$(FINAL_TARGET)/extensions/
+	mkdir -p \$(DIST)/icecat/browser/extensions/ 
+	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/icecat/browser/extensions/
+EOF
+
+#sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk
+#sed '/972ce4c6/  s%$%\n/extensions.gnu/* @MOZ_ADDONDIR@/extensions%' -i debian/icecat.install.in
+
+ABPDIR="extensions/gnu/spyblock@gnu.org"
+ABPBRAND="SpyBlock"
+SEDSCRIPT="
+s/ABP/$ABPBRAND/g;
+s/Adblock Plus/$ABPBRAND/g;
+s/AdblockPlus/$ABPBRAND/g;
+s/Adblock/$ABPBRAND/g;
+s/Adblok/$ABPBRAND/g;
+/This file is part of/ s_adblockplus.org_www.gnu.org/software/gnuzilla_;
+/Copyright.*Eyeo GmbH/ s/\$/ (Adblock Plus) \\n * Copyright (C) $(date +%Y) $DEBFULLNAME <$DEBEMAIL>/;
+"
+find $ABPDIR  -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+sed '/\[Spy/s/SpyBlock/Adblock/g' -i $ABPDIR/lib/synchronizer.js
+
+cp $DATA/adblock_artwork/48.png $ABPDIR/icon.png
+cp $DATA/adblock_artwork/24.png $ABPDIR/chrome/skin/abp-status.png
+cp $DATA/adblock_artwork/16.png $ABPDIR/chrome/skin/abp-status-16.png
+cp $DATA/adblock_artwork/100.png $ABPDIR/chrome/skin/abp-icon-big.png
+cp $DATA/adblock_artwork/32.png $ABPDIR/chrome/skin/abp-status-32.png
+cp $DATA/adblock_artwork/64.png $ABPDIR/icon64.png
+
+sed '/972ce4c6/d;' -i debian/icecat.install.in
+echo "@MOZ_LIBDIR@/browser/extensions @MOZ_ADDONDIR@" >> debian/icecat.install.in
+
+###############################################################################
+# Deb generation specifics
+###############################################################################
+cat << EOF >> debian/abrowser.postinst.in
+
+if [ "\$1" = "configure" ] || [ "\$1" = "abort-upgrade" ] ; then
+
+[ -f /usr/bin/mozilla ] || ln -s /usr/bin/icecat /usr/bin/mozilla && true
+
+for USER in \$(grep -v /bin/false /etc/passwd|grep :/home|cut -d: -f1)
+do
+    [ -d /home/\$USER/.mozilla/ ] || continue
+    [ -d /home/\$USER/.mozilla/icecat ] && continue
+    [ -d /home/\$USER/.mozilla/firefox ] && DIR=/home/\$USER/.mozilla/firefox
+    [ -d /home/\$USER/.mozilla/abrowser ] && DIR=/home/\$USER/.mozilla/abrowser
+    [ \$DIR ] || continue
+    echo Copying \$DIR into /home/\$USER/.mozilla/icecat
+    cp -a \$DIR /home/\$USER/.mozilla/icecat
+done
+fi
+EOF
+
+cat << EOF >> debian/icecat.preinst.in
+
+EOF
+
+cat << EOF >> debian/icecat.postrm.in
+
+[ -L /usr/bin/mozilla ] && rm /usr/bin/mozilla -f || true
+EOF
+
+echo "This package generated from Mozilla Firefox by $DEBFULLNAME <$DEBEMAIL> on
+$(date)
+More info at http://www.gnu.org/software/gnuzilla/
+
+===
+
+$(cat debian/copyright)" > debian/copyright
+
+# Remove icecat-globalmenu package
+sed '/Package:.*globalmenu/,/^$/d' -i debian/control.in
+
+# Don't recommend ubufox, Recommend torproxy
+sed 's/xul-ext-ubufox/xul-ext-torproxy/' -i debian/control.in
+
+# Provide iceweasel, firefox
+sed 's/iceweasel,/iceweasel, firefox,/' -i debian/control.in
+
+# Locale packages should provide firefox-locale-$LANG
+sed "s/Provides.*/Provides: firefox-locale-@LANGCODE@, abrowser-locale-@LANGCODE@/" -i debian/control.langpacks
+
+# icecat-dev should provide firefox-dev
+sed '/Package: @MOZ_PKG_NAME@-dev/,/Description:/ s/Provides:/Provides:firefox-dev, /' debian/control.in -i
+
+# icacat should provide and replace abrowser and firefox
+sed '/Package: @MOZ_PKG_NAME@$/,/Description:/ s/Provides:/Provides:firefox, abrowser, /' debian/control.in -i
+sed '/Package: @MOZ_PKG_NAME@$/,/Description:/ s/Replaces:/Replaces:firefox, abrowser, /' debian/control.in -i
+
+sed '/Vcs-Bzr/d; s/from Mozilla/from GNU/' debian/control.in -i
+
+sed "s_^Maintainer.*_Maintainer: $DEBFULLNAME <$DEBEMAIL>_g" -i debian/control.in
+rm debian/control
+debian/rules debian/control
+touch -d "yesterday" debian/control
+debian/rules debian/control
+
+echo | dch -D stable -v "$FFVERSION-$VERSION"  "Converted into IceCat (http://www.gnu.org/software/gnuzilla/)"
+sed "1s/firefox/icecat/" -i debian/changelog
+
+touch configure js/src/configure
+
+if [ $ICECATBRAND = gnu ]; then
+  cd ..
+  echo Packaging tarball
+  tar cfJ icecat-$FFVERSION.tar.xz icecat-$FFVERSION
+else
+  dpkg-buildpackage -S -d -Zxz -us -uc
+fi

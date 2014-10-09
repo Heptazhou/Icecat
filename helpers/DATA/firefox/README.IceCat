@@ -27,9 +27,14 @@ The sources are hosted on Savannah: http://savannah.gnu.org/projects/gnuzilla
 
 BUILD FROM TARBALL
 ==================
-From the released IceCat source tarball, you can build in the
-standard way:
-./configure && make
+From the released IceCat source tarball, you can build it by running:
+
+# replace objdir with whatever path you want
+ mkdir objdir
+ cd objdir
+# replace srcdir with the path where you unpacked the source tarball
+ srcdir/configure --with-l10n-base=srcdir/l10n
+ make
 
 Be sure you have installed the needed libraries.  If you want to tune
 the configuration process you can change the default setup using the
@@ -41,13 +46,29 @@ libpango libpangoxft libpangoft2 libfreetype libxft libgtk2 libx11
 Refer to your distro help as needed if the configure script fails to
 find them.
 
+To build a langpack:
+
+ cd objdir/browser/locales
+ make langpack-$LANG LOCALE_MERGEDIR=.
+
+The xpi file is created at tempBuildDir/dist/linux-x86_64/xpi
+
 INSTALL
 =======
 When you have it built you can install it with:
-make install
+
+ make install
 
 If you want to install in a staging directory, you can do this:
-make install DESTDIR=/foo/bar
+
+ make install DESTDIR=/foo/bar
+
+Or if you want to package the results, you can run
+
+ cd objdir/browser/installer
+ make
+
+This generates a binary tarball at objdir/dist
 
 LICENSING
 =========
@@ -55,7 +76,7 @@ Because we hope and want our privacy enhancements to be picked up by
 Mozilla itself, we are keeping the same tri-licensing scheme for
 Gnuzilla/IceCat as Mozilla uses: MPL/GPL/LGPL.
 
-EXTENSIONS INCLUDED IN ICECAT 31.0
+EXTENSIONS INCLUDED IN ICECAT 31.x
 ==================================
 
 * LibreJS
@@ -67,12 +88,9 @@ EXTENSIONS INCLUDED IN ICECAT 31.0
   Extension that encrypts your communications with many major websites,
   making your browsing more secure.
 
-* Adblockplus
+* SpyBlock
   Blocks privacy trackers while in normal browsing mode, and all third party
-  requests when in private browsing mode.
-
-* YouTube ALL HTML5
-  Allows to play videos at youtube.com without a flash player.
+  requests when in private browsing mode. Based on Adblock Plus.
 
 * AboutIceCat
   Adds a custom "about:icecat" homepage with links to information about the
