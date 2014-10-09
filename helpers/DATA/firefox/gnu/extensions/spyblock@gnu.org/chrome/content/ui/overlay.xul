@@ -47,7 +47,7 @@
 
   <!-- Icon's context menu -->
   <menupopup id="abp-status-popup" context="">
-    <menuitem id="abp-status-sendReport" label="&sendReport.label;…" key="abp-key-sendReport" command="abp-command-sendReport"/>
+    <!--menuitem id="abp-status-sendReport" label="&sendReport.label;…" key="abp-key-sendReport" command="abp-command-sendReport"/-->
     <menuitem id="abp-status-openbottombar" label="&opensidebar.label;" key="abp-key-sidebar" command="abp-command-sidebar"/>
     <menuitem id="abp-status-closebottombar" label="&closesidebar.label;" key="abp-key-sidebar" command="abp-command-sidebar"/>
     <menuitem id="abp-status-filters" label="&filters.label;…" key="abp-key-filters" command="abp-command-filters"/>

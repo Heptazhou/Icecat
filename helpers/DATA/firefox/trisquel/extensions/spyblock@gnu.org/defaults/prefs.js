@@ -30,7 +30,7 @@ pref("extensions.adblockplus.composer_default", 2);
 pref("extensions.adblockplus.clearStatsOnHistoryPurge", true);
 pref("extensions.adblockplus.report_submiturl", "https://reports.adblockplus.org/submitReport?version=1&guid=%GUID%&lang=%LANG%");
 pref("extensions.adblockplus.recentReports", []);
-pref("extensions.adblockplus.hideContributeButton", false);
+pref("extensions.adblockplus.hideContributeButton", true);
 pref("extensions.adblockplus.blockableItemsSize", {width: 200, height: 200});
 pref("extensions.adblockplus.notificationurl", "https://notification.adblockplus.org/notification.json");
 pref("extensions.adblockplus.notificationdata", {});

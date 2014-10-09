@@ -81,6 +81,12 @@ color:#666;
 text-shadow:0px 1px 0px #fff;
 }
 
+#trisquel a {
+font-weight:bold;
+color:#56728C;
+text-shadow:0px 1px 0px #fff;
+}
+
 #footer{
 min-height:100px;
 }
@@ -121,6 +127,12 @@ function fontsettings(sel){
     Services.prefs.clearUserPref(sel.id);
 }
 
+function jssettings(sel){
+  if (sel.checked){
+    Services.prefs.setBoolPref(sel.id, !sel.checked);}
+  else
+    Services.prefs.clearUserPref(sel.id);
+}
 
 function prepare(){
 
@@ -142,7 +154,7 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
 
   var extensions=[
 ["jid1-KtlZuoiikVfFew@jetpack","Block execution of non-free <a target=\"_blank\" href=\"http://www.gnu.org/software/librejs/\">JavaScript</a> <em>(experimental)</em>"],
-["{d10d0bf8-f5b5-c8b4-a8b2-2b9879e08c5d}","Block privacy <a target=\"_blank\" href=\"https://easylist.adblockplus.org\">trackers</a>"],
+["spyblock@gnu.org","Block privacy <a target=\"_blank\" href=\"https://easylist.adblockplus.org\">trackers</a>"],
 ["torproxy@trisquel","Use <a target=\"_blank\" href=\"https://www.torproject.org/\">Tor</a> when in Private Mode"],
 ["https-everywhere@eff.org","Get redirected to <a target=\"_blank\" href=\"https://www.eff.org/https-everywhere/faq\">HTTPS</a> when possible"],
 ]
@@ -162,7 +174,6 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
 
     f.appendChild(tmp);
     f.appendChild(label);
-    f.appendChild(document.createElement("br"));
 
     document.getElementById("addonsform").appendChild(f);
   }
@@ -199,6 +210,21 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
   f.appendChild(document.createElement("br"));
   document.getElementById("addonsform").appendChild(f);
 
+  var tmp = document.createElement("input");
+  tmp.setAttribute('type',"checkbox");
+  tmp.setAttribute('id', "javascript.enabled");
+  tmp.setAttribute('value', 0);
+  tmp.setAttribute('onclick','jssettings(this);');
+  value=Services.prefs.getBoolPref("javascript.enabled");
+  tmp.checked=(value==0);
+  var label = document.createElement("label");
+  label.htmlFor =  "javascript.enabled" ;
+  label.id = "javascript.enabledlabel";
+  label.appendChild(document.createTextNode("Disable JavaScript"));
+  f.appendChild(tmp);
+  f.appendChild(label);
+  f.appendChild(document.createElement("br"));
+  document.getElementById("addonsform").appendChild(f);
 
   for (var i=0; i<extensions.length; ++i) {
     var ex=extensions[i][0];
@@ -214,7 +240,7 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
     if ( addonObj != null){
       document.getElementById(ex).checked = addonObj.isActive;
       //document.getElementById(ex+'label').innerHTML = addonObj.name;
-      document.getElementById(ex+'label').innerHTML = extensions[i][1];
+      document.getElementById(ex+'label').innerHTML = extensions[i][1]+"<br/>";
     }else{
       document.getElementById(ex).style.display='none';
       document.getElementById(ex+'label').style.display='none';
@@ -236,6 +262,7 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
 
       <div id="searchContainer">
         <form name="searchForm" id="searchForm" action="https://duckduckgo.com/html/">
+          <input type="hidden" name="t" value="gnu"/>
           <input type="text" name="q" value="" id="searchText" maxlength="256"
                  autofocus="autofocus"/>
           <input id="searchSubmit" type="submit" value="&abouthome.searchEngineButton.label;"/>

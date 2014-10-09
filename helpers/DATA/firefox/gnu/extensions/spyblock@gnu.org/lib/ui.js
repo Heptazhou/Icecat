@@ -836,7 +836,7 @@ let UI = exports.UI =
     Synchronizer.execute(subscription);
 
     let subscription = Subscription.fromURL("http://gnuzilla.gnu.org/filters/javascript.txt");
-    subscription.disabled = false;
+    subscription.disabled = true;
     FilterStorage.addSubscription(subscription);
     Synchronizer.execute(subscription);
 
