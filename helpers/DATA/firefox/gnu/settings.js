@@ -1,3 +1,17 @@
+// Disable default browser checking.
+pref("browser.shell.checkDefaultBrowser", false);
+
+// Don't disable extensions dropped in to a system
+// location, or those owned by the application
+pref("extensions.autoDisableScopes", 3);
+//pref("extensions.enabledScopes", 15);
+
+// Don't display the one-off addon selection dialog when
+// upgrading from a version of Firefox older than 8.0
+pref("extensions.shownSelectionUI", true);
+
+// Don't call home for blacklisting
+pref("extensions.blocklist.enabled", false);
 
 // Release notes and vendor URLs
 pref("app.releaseNotesURL", "https://www.gnu.org/software/gnuzilla/");
@@ -109,6 +123,11 @@ pref("toolkit.telemetry.enabled", false);
 // Do not tell what plugins do we have enabled: https://mail.mozilla.org/pipermail/firefox-dev/2013-November/001186.html
 pref("plugins.enumerable_names", "");
 pref("plugin.state.flash", 1);
+// Do not autoupdate search engines
+pref("browser.search.update", false);
+// Warn when the page tries to redirect or refresh
+pref("accessibility.blockautorefresh", true);
+
 
 
 // Services
