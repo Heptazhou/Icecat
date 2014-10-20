@@ -22,8 +22,8 @@ VERSION=1
 set -e
 
 FFMAJOR=31
-FFMINOR=1
-FFSUB=1
+FFMINOR=2
+FFSUB=0
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 SOURCEDIR=icecat-$FFVERSION
 
@@ -35,9 +35,10 @@ REVISION=1065
 export DEBEMAIL=ruben@gnu.org
 export DEBFULLNAME="Ruben Rodriguez"
 
-DATA=/home/systems/gnuzilla/helpers/DATA/firefox
-ICECATBRAND=gnu
-[ 1$1 = 1trisquel ] && ICECATBRAND=trisquel
+DATA="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/data
+
+mkdir output
+cd output
 
 ###############################################################################
 # Retrieve FF source code
@@ -179,29 +180,6 @@ fi
 # Set variables and build config files
 ###############################################################################
 
-DATA=$DATA/$ICECATBRAND
-
-if [ $ICECATBRAND = trisquel ]; then
-
-INFOURL="www.gnu.org/software/gnuzilla/"
-LEGALINFOURL="www.gnu.org/software/gnuzilla/"
-ADDONSURL="trisquel.info/browser-plain"
-LISTURL="lists.gnu.org/mailman/listinfo/bug-gnuzilla"
-
-cat << EOF > debian/distribution.ini
-[Global]
-id=trisquel
-version=$ICEATVERSION
-about=IceCat for Trisquel GNU/Linux
-
-[Preferences]
-app.distributor = "trisquel"
-app.distributor.channel = "trisquel"
-app.partner.ubuntu = "trisquel"
-EOF
-
-else
-
 INFOURL="www.gnu.org/software/gnuzilla/"
 LEGALINFOURL="www.gnu.org/software/gnuzilla/"
 ADDONSURL="www.gnu.org/software/gnuzilla/addons.html"
@@ -218,7 +196,6 @@ app.distributor = "GNU"
 app.distributor.channel = "GNU"
 app.partner.ubuntu = "GNU"
 EOF
-fi
 
 ###############################################################################
 # Custom settings and features
@@ -237,8 +214,6 @@ sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./modul
 sed 's/1310/70/g; s/1204/60/g; s/1210/65/g; s/1404/70/g' -i debian/config/mozconfig.in debian/firefox-dev.install.in debian/firefox-dev.links.in
 
 # Enable gst support
-apt-get install -y --force-yes libgstreamermm-0.10-dev
-apt-get install -y --force-yes libgstreamermm-1.0-dev || true
 cat << EOF >> debian/config/mozconfig.in
 %%if DISTRIB_VERSION < 70
 ac_add_options --enable-gstreamer=0.10
@@ -250,7 +225,7 @@ sed 's/com.ubuntu/org.gnu/' -i debian/config/mozconfig.in
 
 # Unbrand url codes for google and amazon
 find debian/searchplugins |grep google| xargs -i /bin/sed '/ubuntu/d; /channel/d' -i {}
-find debian/searchplugins |grep duck| xargs -i /bin/sed "s/canonical/$ICECATBRAND/" -i {}
+find debian/searchplugins |grep duck| xargs -i /bin/sed "s/canonical/gnu/" -i {}
 find debian/searchplugins |grep amazon| xargs -i /bin/sed '/canoniccom/d;' -i {}
 sed 's%duckduckgo.com/%duckduckgo.com/html%' -i debian/searchplugins/en-US/duckduckgo.xml
 
@@ -347,6 +322,8 @@ s/GNU Foundation/Mozilla Foundation/g;
 s/GNU Corporation/Mozilla Corporation/g;
 s/icecat.com/firefox.com/g;
 s/IceCat-Spdy/Firefox-Spdy/g;
+
+s_www.gnu.org/software/gnuzilla/icecat-help_libreplanet.org/wiki/Group:IceCat/Help_g;
 "
 echo "Running batch rebranding"
 find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
@@ -363,42 +340,7 @@ sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHan
 sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/src/IceCatProfileMigrator.js
 
 # Copy js settings
-#cat $DATA/settings.js >> debian/vendor-icecat.js
 cat $DATA/settings.js >> browser/app/profile/icecat.js
-
-if [ $ICECATBRAND = trisquel ]; then
-cat << EOF >> browser/app/profile/icecat.js
-// Preferences for the Get Add-ons panel
-pref ("extensions.webservice.discoverURL", "https://trisquel.info/browser-plain");
-pref ("extensions.getAddons.search.url", "http://trisquel.info");
-
-// PFS url
-pref("pfs.datasource.url", "http://trisquel.info/sites/pfs.php?mime=%PLUGIN_MIMETYPE%");
-pref("pfs.filehint.url", "http://trisquel.info/sites/pfs.php?mime=%PLUGIN_MIMETYPE%");
-
-// I'm feeling Ducky.
-pref("keyword.URL", "https://duckduckgo.com/html?t=trisquel&q=!+");
-pref("browser.search.defaultenginename", "DuckDuckGo");
-pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
-EOF
-
-else
-
-cat << EOF >> browser/app/profile/icecat.js
-// Preferences for the Get Add-ons panel
-pref ("extensions.webservice.discoverURL", "https://directory.fsf.org/wiki/GNU_IceCat");
-pref ("extensions.getAddons.search.url", "https://directory.fsf.org/wiki/GNU_IceCat");
-
-// PFS url
-pref("pfs.datasource.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
-pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
-
-// I'm feeling Ducky.
-pref("keyword.URL", "https://duckduckgo.com/html?q=!+");
-pref("browser.search.defaultenginename", "DuckDuckGo");
-pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
-EOF
-fi
 
 ###############################################################################
 # Extensions
@@ -526,10 +468,14 @@ sed "1s/firefox/icecat/" -i debian/changelog
 
 touch configure js/src/configure
 
-if [ $ICECATBRAND = gnu ]; then
-  cd ..
-  echo Packaging tarball
-  tar cfJ icecat-$FFVERSION.tar.xz icecat-$FFVERSION
-else
-  dpkg-buildpackage -S -d -Zxz -us -uc
-fi
+# Fix CVE-2009-4029
+sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
+#(cd toolkit/crashreporter/google-breakpad; aclocal)
+#(cd toolkit/crashreporter/google-breakpad; automake)
+
+# Fix CVE-2012-3386
+sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/crashreporter/google-breakpad/Makefile.in ./toolkit/crashreporter/google-breakpad/src/third_party/glog/Makefile.in
+
+cd ..
+echo Packaging tarball
+tar cfJ icecat-$FFVERSION.tar.xz icecat-$FFVERSION
