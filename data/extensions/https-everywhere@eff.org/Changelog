@@ -1,3 +1,93 @@
+4.0.2		  (2014-10-15)
+  * Disable SSL 3 to Prevent POODLE attack:
+    https://github.com/EFForg/https-everywhere/pull/674
+  * NEW: HTTP Nowhere mode. Block all plaintext http
+  * Updates to Yahoo APIs, Fastly, VMWare, Netflix, Maashable, LinkedIn ,
+  Gitorious, Mozilla, msecnd, Hotmail, Live, Eniro, Steam, Phoronix,
+  net-security.org, Flickr, Craigslist, Apache.org, Joomla.org, Samsung,
+  Google IMages, Expedia, Akamai, Trip Advisor, Ikea, CEll, Leo.org, Facebook,
+  F-Secure, Dropbox, Courage Campaign, Box, Atlassian, Internet Archvie,
+  localbitcoins.com, SOny, SciVerse, Web.com, Urgan Dictionary, Pornhub,
+  Fool.com, ClickBank, MGID, Which?, Microsoft, Barnes and Noble, Royal
+  Institute of GB, Wall Street Journal
+    
+    
+4.0.1										(2014-09-11)
+
+  * Significant new coverage: Reddit, Quora
+  * Fixes include:
+    Frontier Networks, Hotmail / Live, Microsoft, Mozilla, Ohio State, Rackspace, SJ.se, Timbo.se
+    https://github.com/EFForg/https-everywhere/issues/310
+    https://github.com/EFForg/https-everywhere/issues/500
+    https://trac.torproject.org/projects/tor/ticket/11402
+    https://trac.torproject.org/projects/tor/ticket/11418
+    https://trac.torproject.org/projects/tor/ticket/12583
+    https://trac.torproject.org/projects/tor/ticket/12104
+    https://trac.torproject.org/projects/tor/ticket/9466
+    https://github.com/EFForg/https-everywhere/issues/144
+  * Enhancements to MCB detection and subsequent ruleset fixes
+    https://github.com/EFForg/https-everywhere/issues/529
+
+chrome-2014.8.22							(2014-08-22)
+  * Rulesets from 4.0.0
+  * German translation
+
+4.0.0										(2014-08-04)
+  * Ruleset fixes to wikimedia, stanford-university, joyent, and gaytorrents.
+  * Merge Android Firefox branch, so Android now has the same release cycle
+  as the stable HTTPS Everywhere branch for Firefox.
+  * Remove old unused ContentPolicy code.
+
+5.0development.0                            (2014-07-28)
+  * Various rules for new gaming sites:
+  https://github.com/EFForg/https-everywhere/pull/387
+  * Add exception for flashproxy:
+  https://github.com/EFForg/https-everywhere/issues/357
+  * Updates to joyent, moevideo, FreeDesktop, Gfycat, Bytemark, tchibo,
+  Kantonalbank rules, godaddy, Bing, Pcwelt.de, Gamestar.de, o2-online,
+  heise.de, mozdev.org, Wikimedia, Spotify, Stanford-University, various Swiss
+  websites, SourceForge, utwente.nl, teamfortress.com, Fastly, mozilla.org,
+  AmazonAws, Technology Review, jitsi, googlecode.com, CDT, and other rules.
+  * Add Denh.am, justeatuk, owncloud, seanmckaybeck.com, strimoid.pl,
+  elkosmasgr, mantisbt, IAPC, ReadTheDocs, tox.im, and other rules.
+  * Initialize Convergence's NSS.js with nss library path:
+  https://github.com/EFForg/https-everywhere/pull/315
+  * Add filter for OCSP and other requests that should be unrewritten:
+  https://github.com/EFForg/https-everywhere/pull/332
+  * Add testing framework and a few basic extension tests:
+  https://github.com/EFForg/https-everywhere/pull/338
+  * Fix Chrome redirect loop detection:
+  https://github.com/EFForg/https-everywhere/issues/289
+  * Fix loading of user rules:
+  https://github.com/EFForg/https-everywhere/pull/293
+  * Fix SSL Obs. preferences XML parsing bug.
+  * Add experimental "HTTP Nowhere" mode (blocks all HTTP requests):
+  https://github.com/EFForg/https-everywhere/pull/379
+
+chrome-2014.6.26							(2014-06-25)
+  * Ruleset fixes (same as 3.5.3)
+  * Fix redirect loop detection for HTTPS to HTTPS redirects (Github #289)
+  * Remove item from rule cache when it is disabled by the user
+
+3.5.3										(2014-06-25)
+  * Ruleset fixes to Mozilla, PCWorld, MacWorld, Google Books, 4chan blog,
+  BuzzFeed, BBC, googlecode, TechDirt, Wikia, Technology Review, Google
+  Translate, CDT, Science Direct, Sourceforge
+  * Fix rulesets.sqlite path, allowing global installation (Github #255)
+  * Revert components/ssl-observatory.js to 3.4.5, possibly fixing crash bug
+  (Github #262)
+  * Update observatory whitelist
+
+4.0development.17                           (2014-05-23)
+  * Re-enable ability to see all rulesets in enable/disable dialog.
+  * Fix allowing global installation:
+  https://github.com/EFForg/https-everywhere/pull/255
+  * Better observatory whitelisting:
+  https://github.com/EFForg/https-everywhere/pull/276
+  * Add option for SSL obs. revoked cert warnings:
+  https://github.com/EFForg/https-everywhere/pull/278
+  * Numerous ruleset updates
+
 3.5.1                                       (2014-04-25)
   * Revert https://github.com/EFForg/https-everywhere/pull/134 due to YouTube
   breakage.

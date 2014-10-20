@@ -15,6 +15,10 @@ pref("extensions.https_everywhere.performance_tests", false);
 // enable rulesets that trigger mixed content blocking
 pref("extensions.https_everywhere.enable_mixed_rulesets", false);
 
+// HTTP Nowhere preferences
+pref("extensions.https_everywhere.http_nowhere.enabled", false);
+pref("extensions.https_everywhere.http_nowhere.orig.ocsp.required", false);
+
 
 // SSl Observatory preferences
 pref("extensions.https_everywhere._observatory.enabled",false);
@@ -31,8 +35,7 @@ pref("extensions.https_everywhere._observatory.submit_during_nontor",true);
 pref("extensions.https_everywhere._observatory.cache_submitted",true);
 
 pref("extensions.https_everywhere._observatory.use_custom_proxy",false);
-pref("extensions.https_everywhere._observatory.popup_shown",true);
-pref("extensions.https_everywhere.toolbar_hint_shown",true);
+pref("extensions.https_everywhere._observatory.popup_shown",false);
 pref("extensions.https_everywhere._observatory.proxy_host","");
 pref("extensions.https_everywhere._observatory.proxy_port",0);
 pref("extensions.https_everywhere._observatory.proxy_type","direct");
@@ -43,3 +46,7 @@ pref("extensions.https_everywhere._observatory.priv_dns",false);
 pref("extensions.https_everywhere._observatory.send_asn",true);
 pref("extensions.https_everywhere._observatory.use_whitelist",true);
 pref("extensions.https_everywhere._observatory.clean_config",false);
+
+// Icecat integration
+pref("extensions.https_everywhere._observatory.popup_shown",true);
+pref("extensions.https_everywhere.toolbar_hint_shown",true);

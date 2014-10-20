@@ -7,8 +7,9 @@ NOTE=4;
 WARN=5;
 
 // PREFERENCE BRANCHES
-PREFBRANCH_ROOT=0;
-PREFBRANCH_RULE_TOGGLE=1;
+let PREFBRANCH_ROOT=0;
+let PREFBRANCH_RULE_TOGGLE=1;
+let PREFBRANCH_NONE=2;
 
 //---------------
 
@@ -165,7 +166,7 @@ function StorageController(command) {
   this.command = command;
   this.data = {};
   this.wrappedJSObject = this;
-}
+};
 
 /*var Controller = Class("Controller", XPCOM(CI.nsIController), {
   init: function (command, data) {
@@ -186,9 +187,18 @@ function HTTPSEverywhere() {
   this.INCLUDE=INCLUDE;
   this.ApplicableList = ApplicableList;
   this.browser_initialised = false; // the browser is completely loaded
-  
+
+
   this.prefs = this.get_prefs();
   this.rule_toggle_prefs = this.get_prefs(PREFBRANCH_RULE_TOGGLE);
+
+  this.httpNowhereEnabled = this.prefs.getBoolPref("http_nowhere.enabled");
+  this.isMobile = this.doMobileCheck();
+
+  // Disable SSLv3 to prevent POODLE attack.
+  // https://www.imperialviolet.org/2014/10/14/poodle.html
+  var root_prefs = this.get_prefs(PREFBRANCH_NONE);
+  root_prefs.setIntPref("security.tls.version.min", 1);
   
   // We need to use observers instead of categories for FF3.0 for these:
   // https://developer.mozilla.org/en/Observer_Notifications
@@ -199,11 +209,16 @@ function HTTPSEverywhere() {
   this.obsService = CC["@mozilla.org/observer-service;1"]
                     .getService(Components.interfaces.nsIObserverService);
                     
-  if(this.prefs.getBoolPref("globalEnabled")){
+  if (this.prefs.getBoolPref("globalEnabled")) {
     this.obsService.addObserver(this, "profile-before-change", false);
     this.obsService.addObserver(this, "profile-after-change", false);
     this.obsService.addObserver(this, "sessionstore-windows-restored", false);
     this.obsService.addObserver(this, "browser:purge-session-history", false);
+  } else {
+    // Need this to initialize FF for Android UI even when HTTPS-E is off
+    if (this.isMobile) {
+      this.obsService.addObserver(this, "sessionstore-windows-restored", false);
+    }
   }
 
   var pref_service = Components.classes["@mozilla.org/preferences-service;1"]
@@ -217,43 +232,6 @@ function HTTPSEverywhere() {
 
   return;
 }
-
-
-// nsIContentPolicy interface
-// we use numeric constants for performance sake: 
-const TYPE_OTHER = 1;
-const TYPE_SCRIPT = 2;
-const TYPE_IMAGE = 3;
-const TYPE_STYLESHEET = 4;
-const TYPE_OBJECT = 5;
-const TYPE_DOCUMENT = 6;
-const TYPE_SUBDOCUMENT = 7;
-const TYPE_REFRESH = 8;
-const TYPE_XBL = 9;
-const TYPE_PING = 10;
-const TYPE_XMLHTTPREQUEST = 11;
-const TYPE_OBJECT_SUBREQUEST = 12;
-const TYPE_DTD  = 13;
-const TYPE_FONT = 14;
-const TYPE_MEDIA = 15;  
-// --------------
-// REJECT_SERVER = -3
-// ACCEPT = 1
-
-
-// Some of these types are known by arbitrary assertion at
-// https://bugzilla.mozilla.org/show_bug.cgi?id=677643#c47
-// TYPE_FONT was required to fix https://trac.torproject.org/projects/tor/ticket/4194
-// TYPE_SUBDOCUMENT was required to fix https://trac.torproject.org/projects/tor/ticket/4149
-// I have NO IDEA why JS won't let me use the constants above in defining this
-const shouldLoadTargets = {
-  1 : true,
-  3 : true,
-  5 : true,
-  12 : true,
-  14 : true,
-  7 : true
-};
 
 
 
@@ -322,7 +300,7 @@ HTTPSEverywhere.prototype = {
   _xpcom_categories: [
     {
       category: "app-startup",
-    },
+    }
   ],
 
   // QueryInterface implementation, e.g. using the generateQI helper
@@ -421,6 +399,8 @@ HTTPSEverywhere.prototype = {
       }
     }
 
+    if (!loadContext) { return null; }
+
     let domWin = loadContext.associatedWindow;
     if (!domWin) {
       this.log(NOTE, "failed to get DOMWin for " + channel.URI.spec);
@@ -455,7 +435,7 @@ HTTPSEverywhere.prototype = {
       return null;
     }
     var dw = domWin.top;
-    var alist= this.getExpando(dw,"applicable_rules",null);
+    var alist= this.getExpando(dw,"applicable_rules");
     if (alist) {
       //this.log(DBUG,"get AL success in " + where);
       return alist;
@@ -483,7 +463,7 @@ HTTPSEverywhere.prototype = {
         else        this.log(NOTE,"Failed to indicate breakage in content menu");
         return;
       }
-      HTTPS.replaceChannel(lst, channel);
+      HTTPS.replaceChannel(lst, channel, this.httpNowhereEnabled);
     } else if (topic == "http-on-examine-response") {
          this.log(DBUG, "Got http-on-examine-response @ "+ (channel.URI ? channel.URI.spec : '') );
          HTTPS.handleSecureCookies(channel);
@@ -542,7 +522,13 @@ HTTPSEverywhere.prototype = {
       }
     } else if (topic == "sessionstore-windows-restored") {
       this.log(DBUG,"Got sessionstore-windows-restored");
-      this.maybeShowObservatoryPopup();
+      if (!this.isMobile) {
+        this.maybeShowObservatoryPopup();
+      } else {
+        this.log(WARN, "Initializing Firefox for Android UI");
+        Cu.import("chrome://https-everywhere/content/code/AndroidUI.jsm");
+        AndroidUI.init();
+      }
       this.browser_initialised = true;
     } else if (topic == "nsPref:changed") {
         // If the user toggles the Mixed Content Blocker settings, reload the rulesets
@@ -645,7 +631,7 @@ HTTPSEverywhere.prototype = {
       return;
     }
     var alist = this.juggleApplicableListsDuringRedirection(oldChannel, newChannel);
-    HTTPS.replaceChannel(alist,newChannel);
+    HTTPS.replaceChannel(alist,newChannel, this.httpNowhereEnabled);
   },
 
   juggleApplicableListsDuringRedirection: function(oldChannel, newChannel) {
@@ -655,10 +641,10 @@ HTTPSEverywhere.prototype = {
     var domWin = this.getWindowForChannel(oldChannel);
     var old_alist = null;
     if (domWin) 
-      old_alist = this.getExpando(domWin,"applicable_rules", null);
+      old_alist = this.getExpando(domWin,"applicable_rules");
     domWin = this.getWindowForChannel(newChannel);
     if (!domWin) return null;
-    var new_alist = this.getExpando(domWin,"applicable_rules", null);
+    var new_alist = this.getExpando(domWin,"applicable_rules");
     if (old_alist && !new_alist) {
       new_alist = old_alist;
       this.setExpando(domWin,"applicable_rules",new_alist);
@@ -680,8 +666,10 @@ HTTPSEverywhere.prototype = {
     // get our preferences branch object
     // FIXME: Ugly hack stolen from https
     var branch_name;
-    if(prefBranch == PREFBRANCH_RULE_TOGGLE)
+    if(prefBranch === PREFBRANCH_RULE_TOGGLE)
       branch_name = "extensions.https_everywhere.rule_toggle.";
+    else if (prefBranch === PREFBRANCH_NONE)
+      branch_name = "";
     else
       branch_name = "extensions.https_everywhere.";
     var o_prefs = false;
@@ -720,6 +708,13 @@ HTTPSEverywhere.prototype = {
     return o_branch;
   },
 
+  // Are we on Firefox for Android?
+  doMobileCheck: function() {
+    let appInfo = CC["@mozilla.org/xre/app-info;1"].getService(CI.nsIXULAppInfo);
+    let ANDROID_ID = "{aa3c5121-dab2-40e2-81ca-7ea25febc110}";
+    return (appInfo.ID === ANDROID_ID);
+  },
+
   chrome_opener: function(uri, args) {
     // we don't use window.open, because we need to work around TorButton's 
     // state control
@@ -743,9 +738,10 @@ HTTPSEverywhere.prototype = {
   toggleEnabledState: function() {
     if(this.prefs.getBoolPref("globalEnabled")){    
         try{    
+            // toggling some of these after startup may be inconsequential...
+            // this.obsService.removeObserver(this, "sessionstore-windows-restored");
             this.obsService.removeObserver(this, "profile-before-change");
             this.obsService.removeObserver(this, "profile-after-change");
-            this.obsService.removeObserver(this, "sessionstore-windows-restored");      
             OS.removeObserver(this, "cookie-changed");
             OS.removeObserver(this, "http-on-modify-request");
             OS.removeObserver(this, "http-on-examine-merged-response");
@@ -769,7 +765,7 @@ HTTPSEverywhere.prototype = {
         try{      
             this.obsService.addObserver(this, "profile-before-change", false);
             this.obsService.addObserver(this, "profile-after-change", false);
-            this.obsService.addObserver(this, "sessionstore-windows-restored", false);      
+            // this.obsService.addObserver(this, "sessionstore-windows-restored", false);
             OS.addObserver(this, "cookie-changed", false);
             OS.addObserver(this, "http-on-modify-request", false);
             OS.addObserver(this, "http-on-examine-merged-response", false);
@@ -796,6 +792,40 @@ HTTPSEverywhere.prototype = {
         catch(e){
             this.log(WARN, "Couldn't add observers: " + e);         
         }
+    }
+  },
+
+  toggleHttpNowhere: function() {
+    let prefService = Services.prefs;
+    let thisBranch =
+      prefService.getBranch("extensions.https_everywhere.http_nowhere.");
+    let securityBranch = prefService.getBranch("security.");
+
+    // Whether cert is treated as invalid when OCSP connection fails
+    let OCSP_REQUIRED = "OCSP.require";
+
+    // Branch to save original settings
+    let ORIG_OCSP_REQUIRED = "orig.ocsp.required";
+
+
+    if (thisBranch.getBoolPref("enabled")) {
+      // Restore original OCSP settings. TODO: What if user manually edits
+      // these while HTTP Nowhere is enabled?
+      let origOcspRequired = thisBranch.getBoolPref(ORIG_OCSP_REQUIRED);
+      securityBranch.setBoolPref(OCSP_REQUIRED, origOcspRequired);
+
+      thisBranch.setBoolPref("enabled", false);
+      this.httpNowhereEnabled = false;
+    } else {
+      // Save original OCSP settings in HTTP Nowhere preferences branch.
+      let origOcspRequired = securityBranch.getBoolPref(OCSP_REQUIRED);
+      thisBranch.setBoolPref(ORIG_OCSP_REQUIRED, origOcspRequired);
+
+      // Disable OCSP enforcement
+      securityBranch.setBoolPref(OCSP_REQUIRED, false);
+
+      thisBranch.setBoolPref("enabled", true);
+      this.httpNowhereEnabled = true;
     }
   }
 };
