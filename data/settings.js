@@ -1,3 +1,6 @@
+// Poodle attack
+pref("security.tls.version.min", 1);
+
 // Disable default browser checking.
 pref("browser.shell.checkDefaultBrowser", false);
 
@@ -14,7 +17,7 @@ pref("extensions.shownSelectionUI", true);
 pref("extensions.blocklist.enabled", false);
 
 // Release notes and vendor URLs
-pref("app.releaseNotesURL", "https://www.gnu.org/software/gnuzilla/");
+pref("app.releaseNotesURL", "http://libreplanet.org/wiki/Group:IceCat/ReleaseNotes");
 pref("app.vendorURL", "https://www.gnu.org/software/gnuzilla/");
 
 // Disable plugin installer
@@ -53,27 +56,28 @@ pref ("distribution.version", "1.0");
 // Spoof the useragent to a generic one
 pref("general.useragent.compatMode.firefox",true);
 // Spoof the useragent to a generic one
-pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:31.0) Gecko/20100101 Firefox/31.0");
+pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
 pref("general.appname.override", "Netscape");
 pref("general.appversion.override", "31.0");
 pref("general.buildID.override", "Gecko/20100101");
-pref("general.oscpu.override", "Windows NT 6.1; WOW64");
+pref("general.oscpu.override", "Windows NT 6.1");
 pref("general.platform.override", "Win32");
 
 // Startup page
 //pref ("browser.startup.page" , 3);
 //pref ("browser.startup.homepage" , "https://www.gnu.org/software/gnuzilla/");
 //pref ("startup.homepage_welcome_url", "https://www.gnu.org/software/gnuzilla/");
-pref ("startup.homepage_welcome_url", "");
+pref("startup.homepage_welcome_url", "");
 //pref ("startup.homepage_override_url" , "https://www.gnu.org/software/gnuzilla/");
+pref("browser.startup.homepage_override.mstone", "ignore");
 
 // Help URL
-pref ("app.support.baseURL", "https://www.gnu.org/software/gnuzilla/");
+pref ("app.support.baseURL", "http://libreplanet.org/wiki/Group:IceCat/");
 pref ("app.support.inputURL", "https://lists.gnu.org/mailman/listinfo/bug-gnuzilla");
 pref ("app.feedback.baseURL", "https://lists.gnu.org/mailman/listinfo/bug-gnuzilla");
-pref ("browser.uitour.url", "https://www.gnu.org/software/gnuzilla/");
+pref ("browser.uitour.url", "http://libreplanet.org/wiki/Group:IceCat/Tour");
 pref ("plugins.update.url", "https://www.gnu.org/software/gnuzilla/");
-pref ("browser.customizemode.tip0.learnMoreUrl", "https://www.gnu.org/software/gnuzilla/");
+pref ("browser.customizemode.tip0.learnMoreUrl", "http://libreplanet.org/wiki/Group:IceCat/Tour");
 
 // Dictionary download preference
 pref("browser.dictionaries.download.url", "http://dictionaries.mozdev.org/");
@@ -102,7 +106,7 @@ pref("privacy.donottrackheader.value", 1);
 pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 pref("browser.safebrowsing.enabled", false);
 pref("browser.safebrowsing.malware.enabled", false);
-pref("services.sync.privacyURL", "https://www.gnu.org/software/gnuzilla/");
+//pref("services.sync.privacyURL", "https://www.gnu.org/software/gnuzilla/");
 pref("social.enabled", false);
 pref("social.remote-install.enabled", false);
 pref("datareporting.healthreport.uploadEnabled", false);
@@ -128,7 +132,9 @@ pref("browser.search.update", false);
 // Warn when the page tries to redirect or refresh
 pref("accessibility.blockautorefresh", true);
 
-
+// Disable channel updates
+pref("app.update.enabled", false);
+pref("app.update.auto", false);
 
 // Services
 pref("gecko.handlerService.schemes.mailto.0.name", "");
@@ -146,3 +152,16 @@ pref("gecko.handlerService.schemes.irc.0.uriTemplate", "");
 // https://kiwiirc.com/client/irc.247cdn.net/?nick=Your%20Nickname#underwater-hockey
 
 pref("font.default.x-western", "sans-serif");
+
+// Preferences for the Get Add-ons panel
+pref ("extensions.webservice.discoverURL", "https://directory.fsf.org/wiki/GNU_IceCat");
+pref ("extensions.getAddons.search.url", "https://directory.fsf.org/wiki/GNU_IceCat");
+
+// PFS url
+pref("pfs.datasource.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
+pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
+
+// I'm feeling Ducky.
+pref("keyword.URL", "https://duckduckgo.com/html?t=gnu&q=!+");
+pref("browser.search.defaultenginename", "DuckDuckGo");
+pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
