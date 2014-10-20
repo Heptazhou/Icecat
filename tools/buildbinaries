@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+VERSION=31.2.0
+JAILDIR="/home/systems/gnuzilla/jails/toutatis"
+ARCHS="i386 amd64"
+
+rm binaries -rf
+mkdir binaries
+
+for ARCH in $ARCHS; do
+  [ -f $JAILDIR-$ARCH/proc/cpuinfo ] || mount -t proc none $JAILDIR-$ARCH/proc
+  mount -t tmpfs -o size=20G none $JAILDIR-$ARCH/root/
+  cp icecat-$VERSION -a $JAILDIR-$ARCH/root/
+
+  cat << EOF > $JAILDIR-$ARCH/root/buildscript
+set -e
+set -x
+
+export LANG=C
+cd /root/icecat-$VERSION
+mkdir temp
+cd temp
+
+../configure --with-l10n-base=\$PWD/../l10n --enable-official-branding --disable-crashreporter --disable-gnomevfs --enable-gio --disable-debug --enable-gstreamer=0.10 --with-distribution-id=org.gnu --disable-updater
+make -j8
+
+cd browser/installer
+make
+
+cd ../locales
+for locale in \$(ls ../../../l10n/ -1); do
+make langpack-\$locale LOCALE_MERGEDIR=.
+done
+EOF
+
+  chroot $JAILDIR-$ARCH /bin/bash /root/buildscript
+  cp $JAILDIR-$ARCH/root/icecat-$VERSION/temp/dist/icecat*.tar.bz2 binaries
+  [ $ARCH = i386 ] && cp $JAILDIR-$ARCH/root/icecat-$VERSION/temp/dist/linux-*/xpi/ -a binaries/langpacks
+
+  umount $JAILDIR-$ARCH/root/ || true
+  umount $JAILDIR-$ARCH/proc || true
+
+done
+
