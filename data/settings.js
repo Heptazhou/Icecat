@@ -41,8 +41,6 @@ pref("network.cookie.cookieBehavior", 1);
 pref("extensions.update.enabled", true);
 // Use LANG environment variable to choose locale
 pref("intl.locale.matchOS", true);
-// ...but preset it to english anyway
-pref("intl.accept_languages", "en-US, en");
 // Disable default browser checking.
 pref("browser.shell.checkDefaultBrowser", false);
 // Prevent EULA dialog to popup on first run

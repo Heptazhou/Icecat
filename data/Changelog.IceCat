@@ -1,4 +1,4 @@
-2014-10-11 Ruben Rodriguez <ruben@gnu.org>
+2014-10-21 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.2.0ESR
 	* Generation script is now fully distro independent
 	* Updated https-everywhere to 4.0.2
@@ -8,6 +8,7 @@
 	* Changed useragent to match Torbrowser 4
 	* Disabled welcome url
 	* Disabled channel updates
+	* Request pages in english by default
 
 2014-09-11 Ruben Rodriguez <ruben@gnu.org>
 	* Moved to generation script based on Trisquel package helpers (http://trisquel.info/en/wiki/package-helpers)
