@@ -47,7 +47,7 @@ done
 ftp -v -p -n -i  << EOF | tee log
 open ftp-upload.gnu.org
 user anonymous anonymous
-cd /incoming/alpha
+cd /incoming/ftp
 $mputs
 quit
 EOF
