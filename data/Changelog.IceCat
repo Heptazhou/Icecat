@@ -1,3 +1,12 @@
+2015-01-27 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v31.4.0ESR
+	* Search form in about:icecat now searches in default search engine
+	* Disabled accessibility.blockautorefresh
+	* Replaced references to Open Source with Free Software where applicable
+	* Added html5-video-everywhere v0.1.1 extension: https://github.com/lejenome/html5-video-everywhere
+	* Updated LibreJS to 6.0.8
+	* Updated https-everywhere to 4.0.3
+
 2014-10-21 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.2.0ESR
 	* Generation script is now fully distro independent

@@ -2,32 +2,42 @@
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
  * Copyright (C) 2011, 2012, 2013, 2014 Loic J. Duros
+ * Copyright (C) 2014, 2015 Nik Nyby
  *
- * This program is free software: you can redistribute it and/or modify
+ * This file is part of GNU LibreJS.
+ *
+ * GNU LibreJS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * GNU LibreJS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see  <http://www.gnu.org/licenses/>.
- *
+ * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
  */
-var relationCheckerObj = require("js_checker/relation_checker").relationChecker;
+var relationCheckerObj = require("js_checker/relation_checker")
+    .relationChecker;
+
+// import free_libraries to populate the cache hash map.
+var free_libraries = require("script_entries/free_libraries");
 
 var crypto = require('script_entries/crypto');
-//const librejsStorage = require("settings/storage").librejsStorage;
 const checkTypes = require("js_checker/constant_types").checkTypes;
 
 // cachedResults contains objects with result/relationChecker for
 // scripts entries indexed by SHA1sum
 var cachedResults = {};
 
-var ScriptsCached = function() {};
+/**
+ * ScriptsCached keeps a cache of whitelisted scripts in the browser
+ * session.
+ */
+var ScriptsCached = function() {
+};
 
 ScriptsCached.prototype.getHash = function(scriptText) {
     require('ui/notification').createNotification(scriptText.substring(0,100));
@@ -160,9 +170,10 @@ ScriptsCached.prototype.getCacheForWriting = function() {
     for (let item in cachedResults) {
         let type = cachedResults[item].result.type;
         if (type != checkTypes.NONTRIVIAL &&
-                type != checkTypes.TRIVIAL_DEFINES_FUNCTION) {
-                    formattedResults[item] = cachedResults[item];
-                }
+            type != checkTypes.TRIVIAL_DEFINES_FUNCTION
+           ) {
+            formattedResults[item] = cachedResults[item];
+        }
     }
     return formattedResults;
 };
@@ -173,10 +184,9 @@ ScriptsCached.prototype.getCacheForWriting = function() {
  */
 ScriptsCached.prototype.bulkImportCache = function(data) {
     cachedResults = data;
-    console.debug("Imported data. Number of keys ISSS ", Object.keys(cachedResults).length);
+    console.debug("Imported data. Number of keys ISSS ",
+                  Object.keys(cachedResults).length);
     console.debug("It looks like ", JSON.stringify(cachedResults));
 };
 
-// import free_libraries to populate the cache hash map.
-//var free_libraries = require("script_entries/free_libraries");
 exports.scriptsCached = new ScriptsCached();

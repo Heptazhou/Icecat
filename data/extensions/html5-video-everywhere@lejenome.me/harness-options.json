@@ -1,0 +1,222 @@
+{
+ "abort_on_missing": false, 
+ "check_memory": false, 
+ "enable_e10s": false, 
+ "is-sdk-bundled": false, 
+ "jetpackID": "html5-video-everywhere@lejenome.me", 
+ "loader": "addon-sdk/lib/sdk/loader/cuddlefish.js", 
+ "main": "main", 
+ "mainPath": "html5-video-everywhere/main", 
+ "manifest": {
+  "html5-video-everywhere/break": {
+   "docsSHA256": null, 
+   "jsSHA256": "44287333a482842991e2acfd6d4446f1f31c8759349eca1ca94d5a21a570f2e1", 
+   "moduleName": "break.js", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "html5-video-everywhere/dailymotion": {
+   "docsSHA256": null, 
+   "jsSHA256": "e4107011ad40fcd3741b7d4bf3216aa80126490889ca70264eb7a8a93405e72b", 
+   "moduleName": "dailymotion.js", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "html5-video-everywhere/facebook": {
+   "docsSHA256": null, 
+   "jsSHA256": "ed4075b7c113a2c869cc7aff028973a4e8f3779361d2d1b3a8468d4ec1cdd6f1", 
+   "moduleName": "facebook.js", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "html5-video-everywhere/main": {
+   "docsSHA256": "2600330609036287c5d48070ba591543183b0f1619d06d2c61f016088f81d2ec", 
+   "jsSHA256": "9b53c709d2869db49baadc00c3a5cb6bef31ccccd9595be4e851a513b5de34e7", 
+   "moduleName": "main", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {
+    "./break.js": "html5-video-everywhere/break", 
+    "./dailymotion.js": "html5-video-everywhere/dailymotion", 
+    "./facebook.js": "html5-video-everywhere/facebook", 
+    "./metacafe.js": "html5-video-everywhere/metacafe", 
+    "./vimeo.js": "html5-video-everywhere/vimeo", 
+    "./youtube.js": "html5-video-everywhere/youtube", 
+    "chrome": "chrome", 
+    "sdk/page-mod": "sdk/page-mod", 
+    "sdk/self": "sdk/self", 
+    "sdk/simple-prefs": "sdk/simple-prefs", 
+    "sdk/system/events": "sdk/system/events", 
+    "sdk/util/array": "sdk/util/array", 
+    "sdk/window/utils": "sdk/window/utils"
+   }, 
+   "sectionName": "lib"
+  }, 
+  "html5-video-everywhere/metacafe": {
+   "docsSHA256": null, 
+   "jsSHA256": "3c14cc0f0915d2f5966f6592c7ece0afc1229f783b8ae78a14acf2ea8408fcb8", 
+   "moduleName": "metacafe.js", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "html5-video-everywhere/vimeo": {
+   "docsSHA256": null, 
+   "jsSHA256": "f44444a72857e73b2b1cad2526aad121e5b96da6f6e201760e6cb6f7d19efa59", 
+   "moduleName": "vimeo.js", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }, 
+  "html5-video-everywhere/youtube": {
+   "docsSHA256": null, 
+   "jsSHA256": "e0446c651e43306ffe9872354463bcbc0380f050088c1ba19ea85bfbb36ba625", 
+   "moduleName": "youtube.js", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {}, 
+   "sectionName": "lib"
+  }
+ }, 
+ "metadata": {
+  "addon-sdk": {
+   "description": "Add-on development made easy.", 
+   "keywords": [
+    "javascript", 
+    "engine", 
+    "addon", 
+    "extension", 
+    "xulrunner", 
+    "firefox", 
+    "browser"
+   ], 
+   "license": "MPL 2.0", 
+   "name": "addon-sdk"
+  }, 
+  "html5-video-everywhere": {
+   "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/", 
+   "description": "Replace video player with Firefox native video player", 
+   "homepage": "https://github.com/lejenome/html5-video-everywhere", 
+   "license": "MPL 2.0", 
+   "main": "main", 
+   "name": "html5-video-everywhere", 
+   "permissions": {
+    "private-browsing": true
+   }, 
+   "version": "0.1.1"
+  }
+ }, 
+ "name": "html5-video-everywhere", 
+ "parseable": false, 
+ "preferences": [
+  {
+   "name": "prefCdc", 
+   "options": [
+    {
+     "label": "WebM", 
+     "value": "0"
+    }, 
+    {
+     "label": "Mp4", 
+     "value": "1"
+    }
+   ], 
+   "title": "Preferred Codec", 
+   "type": "menulist", 
+   "value": 0
+  }, 
+  {
+   "name": "prefQlt", 
+   "options": [
+    {
+     "label": "Higher", 
+     "value": "0"
+    }, 
+    {
+     "label": "High", 
+     "value": "1"
+    }, 
+    {
+     "label": "Medium", 
+     "value": "2"
+    }, 
+    {
+     "label": "Low", 
+     "value": "3"
+    }
+   ], 
+   "title": "Preferred Quality", 
+   "type": "menulist", 
+   "value": 2
+  }, 
+  {
+   "description": "Change default behaviour of the video player of the website", 
+   "name": "autoplay", 
+   "options": [
+    {
+     "label": "Default", 
+     "value": "2"
+    }, 
+    {
+     "label": "Enabled", 
+     "value": "1"
+    }, 
+    {
+     "label": "Disabled", 
+     "value": "0"
+    }
+   ], 
+   "title": "Auto Play Video", 
+   "type": "menulist", 
+   "value": 2
+  }, 
+  {
+   "description": "Change default behaviour of the video player of the website in case it does not auto play the video", 
+   "name": "preload", 
+   "options": [
+    {
+     "label": "Default", 
+     "value": "2"
+    }, 
+    {
+     "label": "Enabled", 
+     "value": "1"
+    }, 
+    {
+     "label": "Disabled", 
+     "value": "0"
+    }
+   ], 
+   "title": "Preload Video", 
+   "type": "menulist", 
+   "value": 2
+  }, 
+  {
+   "name": "volume", 
+   "title": "Volume", 
+   "type": "integer", 
+   "value": 100
+  }, 
+  {
+   "description": "Use default youtube video player for embed videos", 
+   "hidden": true, 
+   "name": "disableEmbed", 
+   "title": "Disable for Embed Youtube", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "description": "Do not tell youtube that video reached the end, so it will no play the next Video on playlist mode", 
+   "hidden": true, 
+   "name": "dontPlayNext", 
+   "title": "Do not play next Item", 
+   "type": "bool", 
+   "value": false
+  }
+ ], 
+ "preferencesBranch": "html5-video-everywhere@lejenome.me", 
+ "sdkVersion": "1.17", 
+ "staticArgs": {}, 
+ "verbose": false
+}

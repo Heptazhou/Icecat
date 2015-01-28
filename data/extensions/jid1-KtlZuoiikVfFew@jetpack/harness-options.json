@@ -8,33 +8,16 @@
  "main": "lib/main", 
  "mainPath": "librejs/main", 
  "manifest": {
-  "addon-tab/addon-tab": {
-   "docsSHA256": null, 
-   "jsSHA256": "8b277dc27d85a72bfba1becfe6f57dceb5c9c717e5bc52a3bea936ec957a6893", 
-   "moduleName": "addon-tab", 
-   "packageName": "addon-tab", 
-   "requirements": {
-    "sdk/core/namespace": "sdk/core/namespace", 
-    "sdk/deprecated/window-utils": "sdk/deprecated/window-utils", 
-    "sdk/lang/functional": "sdk/lang/functional", 
-    "sdk/self": "sdk/self", 
-    "sdk/tabs": "sdk/tabs", 
-    "sdk/tabs/utils": "sdk/tabs/utils", 
-    "sdk/util/array": "sdk/util/array", 
-    "sdk/window/utils": "sdk/window/utils"
-   }, 
-   "sectionName": "lib"
-  }, 
   "librejs/addon_management/install_uninstall": {
    "docsSHA256": null, 
-   "jsSHA256": "6a16abeaed2a4983ce58d1895166abf3d93726cd6ca9e1506bfc6910c9840414", 
+   "jsSHA256": "b78ebeb97a54faec0bb84b6e1bab5196ebc3b743fffc48ac61c74d2ea4455779", 
    "moduleName": "addon_management/install_uninstall", 
    "packageName": "librejs", 
    "requirements": {
     "chrome": "chrome", 
     "http_observer/caching": "librejs/http_observer/caching", 
     "http_observer/http_request_observer": "librejs/http_observer/http_request_observer", 
-    "narcissus_parser/narcissus_worker": "librejs/narcissus_parser/narcissus_worker", 
+    "parser/narcissus_worker": "librejs/parser/narcissus_worker", 
     "sdk/tabs": "sdk/tabs", 
     "settings/storage": "librejs/settings/storage"
    }, 
@@ -42,7 +25,7 @@
   }, 
   "librejs/addon_management/prefchange": {
    "docsSHA256": null, 
-   "jsSHA256": "692562f0c44ad53551cbf60d7c7f6ff066455c114f174d1ce875e287d5c1b1d0", 
+   "jsSHA256": "af09f0cd11d98c63cb7bc31ea0a2012ae5749417838fb6c6d755d54f984bb66f", 
    "moduleName": "addon_management/prefchange", 
    "packageName": "librejs", 
    "requirements": {
@@ -54,7 +37,7 @@
   }, 
   "librejs/html_script_finder/bug_fix": {
    "docsSHA256": null, 
-   "jsSHA256": "0a5bf0ff6dcb522bd39dcc60d37d0b0eb3b897487ff41656521c7594d0b6a018", 
+   "jsSHA256": "00774ce848cbb8e4411e2f34beb3d5f7873d16a8da2075d910332a74aabd987a", 
    "moduleName": "html_script_finder/bug_fix", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -62,7 +45,7 @@
   }, 
   "librejs/html_script_finder/dom_handler": {
    "docsSHA256": null, 
-   "jsSHA256": "556cd3e5df38a622958fa4b7710f59f2edc896407e0e3d2b21b36bfa71d869f4", 
+   "jsSHA256": "c28997dfa6916ae696e9153bdf25af139c4e7ecc5ebc9d0deb0f0c444dbc4d32", 
    "moduleName": "html_script_finder/dom_handler", 
    "packageName": "librejs", 
    "requirements": {
@@ -84,7 +67,7 @@
   }, 
   "librejs/html_script_finder/dom_handler/attributes": {
    "docsSHA256": null, 
-   "jsSHA256": "6a7af82d8e90742721060a9eba70f49562d099570b5e7ea6cc4f4d0634a0a78a", 
+   "jsSHA256": "86c5b89ce30dcb634e1d5352d38c4c2141faee08a511bceed3a4c53f429472e0", 
    "moduleName": "html_script_finder/dom_handler/attributes", 
    "packageName": "librejs", 
    "requirements": {
@@ -95,7 +78,7 @@
   }, 
   "librejs/html_script_finder/dom_handler/dom_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "efecce628d06b18b820da370bf5e9408b9d9e33ab6cc4b82c8f2063e95701489", 
+   "jsSHA256": "0c3fb8f55d636d6cd165b67e85a053132530d564409be98910182bb04ec83da5", 
    "moduleName": "html_script_finder/dom_handler/dom_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -114,7 +97,7 @@
   }, 
   "librejs/html_script_finder/dom_handler/dom_gatherer": {
    "docsSHA256": null, 
-   "jsSHA256": "d90a852c6abfd418085b243e18795471c695590cad7829490d0e079a2f550b6d", 
+   "jsSHA256": "5c3c6fe8b44d506dc5d042c3255d35e1ccae60fc414b35bd05faecfd600f4d3a", 
    "moduleName": "html_script_finder/dom_handler/dom_gatherer", 
    "packageName": "librejs", 
    "requirements": {
@@ -131,7 +114,7 @@
   }, 
   "librejs/html_script_finder/dom_handler/request": {
    "docsSHA256": null, 
-   "jsSHA256": "af49bc14e9ee3d561a698a4dc149e6436368caba47504620ece88e9b43446d78", 
+   "jsSHA256": "1918e579fe8bbd4b4bc9563671187cfc267212806efc4c4b1096918388cedfd7", 
    "moduleName": "html_script_finder/dom_handler/request", 
    "packageName": "librejs", 
    "requirements": {
@@ -145,7 +128,7 @@
   }, 
   "librejs/html_script_finder/dom_handler/script_object": {
    "docsSHA256": null, 
-   "jsSHA256": "947f425475661a1f7572bb58a49763dfb6bb628e2dfaa34aad626a63ebe04c08", 
+   "jsSHA256": "db9933f854feb1f6887e643ef110b8c7ec69bd48ae73e4b3364eaf90328b4ab2", 
    "moduleName": "html_script_finder/dom_handler/script_object", 
    "packageName": "librejs", 
    "requirements": {
@@ -157,7 +140,7 @@
   }, 
   "librejs/html_script_finder/dom_handler/script_properties": {
    "docsSHA256": null, 
-   "jsSHA256": "2faf007239a9f519ce4d563e462a3940cb5176ddcc3c0baf9ab13130d6050b37", 
+   "jsSHA256": "13442bf443dde1cdcab84a86c0562df7a0d9a8aef6a130cc688f7e669a5d6e70", 
    "moduleName": "html_script_finder/dom_handler/script_properties", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -165,7 +148,7 @@
   }, 
   "librejs/html_script_finder/html_parser": {
    "docsSHA256": null, 
-   "jsSHA256": "00b174d23d15dd7d7833f35fe9c1bd56a1142f3b6066f8160123be2fc707adf5", 
+   "jsSHA256": "2fc55cf1e90ade703e65f5aaed4ac350b82abe4b418a648f025cdc648964f447", 
    "moduleName": "html_script_finder/html_parser", 
    "packageName": "librejs", 
    "requirements": {
@@ -176,7 +159,7 @@
   }, 
   "librejs/html_script_finder/url_seen_tester": {
    "docsSHA256": null, 
-   "jsSHA256": "80b2a59407826b389b6eaa15409ecdd6ebe6039de0a19933858f0a73f3de6286", 
+   "jsSHA256": "f0d64fd7ebe2bcff3312a3439e9e54cf570bb6b3697a34b63cdf1847182f668e", 
    "moduleName": "html_script_finder/url_seen_tester", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -184,7 +167,7 @@
   }, 
   "librejs/html_script_finder/web_labels/find_js_labels": {
    "docsSHA256": null, 
-   "jsSHA256": "503889ed95b612c82413ebd1ac690ee9a8621b60f5125a0419f10c68d0a92027", 
+   "jsSHA256": "5638228ac2995090744e23f96f5536d5d2545fb83a82277e4796d765408d8b17", 
    "moduleName": "html_script_finder/web_labels/find_js_labels", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -192,7 +175,7 @@
   }, 
   "librejs/html_script_finder/web_labels/js_web_labels": {
    "docsSHA256": null, 
-   "jsSHA256": "3440132dcaecc725d0ab81691c7830decb8408a56a6d525b9ab13cb413359eec", 
+   "jsSHA256": "b9d202e43ee6e0882f19a14e6a21ab4e816769b553f079540cde4c9204670228", 
    "moduleName": "html_script_finder/web_labels/js_web_labels", 
    "packageName": "librejs", 
    "requirements": {
@@ -204,14 +187,13 @@
     "sdk/self": "sdk/self", 
     "sdk/timers": "sdk/timers", 
     "sdk/url": "sdk/url", 
-    "ui/notification": "librejs/ui/notification", 
     "url_handler/url_handler": "librejs/url_handler/url_handler"
    }, 
    "sectionName": "lib"
   }, 
   "librejs/html_script_finder/web_labels/script_hash_worker": {
    "docsSHA256": null, 
-   "jsSHA256": "396431bed43197096e21a086b65e39edaa05c4c07d29ae9533ef95654a4f9add", 
+   "jsSHA256": "f61a609b6a32a5b142294e1455aaa9183afa96eb2be1f05b76cbbdebb3ff454a", 
    "moduleName": "html_script_finder/web_labels/script_hash_worker", 
    "packageName": "librejs", 
    "requirements": {
@@ -224,7 +206,7 @@
   }, 
   "librejs/http_observer/allowed_referrers": {
    "docsSHA256": null, 
-   "jsSHA256": "6792a243c6413f20b719a5526eac3be4b75d48888922d978b0d2dfa0b0449ea3", 
+   "jsSHA256": "bd6f1b505826869176a90eee89ba53dfef4824a5cedfdeb9b4c3c4cb96bd8906", 
    "moduleName": "http_observer/allowed_referrers", 
    "packageName": "librejs", 
    "requirements": {
@@ -234,7 +216,7 @@
   }, 
   "librejs/http_observer/caching": {
    "docsSHA256": null, 
-   "jsSHA256": "2e1d459f007aaa88133d97af8d994c23030d4b5057450772cb482dea49c38c6e", 
+   "jsSHA256": "82fb91a8e048e79fdf347a870b09941277fca9e2350b824f11ed7cfd53923173", 
    "moduleName": "http_observer/caching", 
    "packageName": "librejs", 
    "requirements": {
@@ -244,7 +226,7 @@
   }, 
   "librejs/http_observer/http_request_observer": {
    "docsSHA256": null, 
-   "jsSHA256": "d7dcb48aa57f7970401a8a5385130eb74fb71d981eb44b3387ef5decd84a9fe2", 
+   "jsSHA256": "478999611e52df1458bc861c658bdcb179782cf83c2e3f00d95fbe640470c9f4", 
    "moduleName": "http_observer/http_request_observer", 
    "packageName": "librejs", 
    "requirements": {
@@ -256,7 +238,7 @@
   }, 
   "librejs/http_observer/process_response": {
    "docsSHA256": null, 
-   "jsSHA256": "2e8a93d70ba811a090bc2876f958818d87c0b79ac00d3122acfe36717d933209", 
+   "jsSHA256": "f063959462e1744381d0f17b5daff6ff0bba8f91e44c0eb33f6d6b4c45c2f995", 
    "moduleName": "http_observer/process_response", 
    "packageName": "librejs", 
    "requirements": {
@@ -276,7 +258,7 @@
   }, 
   "librejs/http_observer/stream_loader": {
    "docsSHA256": null, 
-   "jsSHA256": "4f3eb2c9cf163cd95932b74b1df6f765121a8d014f42db238d03c83e0f5fced4", 
+   "jsSHA256": "75c3d9f7e8396e1b261757c1cf65b72de1cb1a402be40632faa79c6810d6cee7", 
    "moduleName": "http_observer/stream_loader", 
    "packageName": "librejs", 
    "requirements": {
@@ -287,7 +269,7 @@
   }, 
   "librejs/js_checker/constant_types": {
    "docsSHA256": null, 
-   "jsSHA256": "96273f784e92749ffa833ae2993987fbab7be40d7293dd01d990def147bc29a5", 
+   "jsSHA256": "9327eb745318a8c4aa668bf8ad147ee15b541914dc4d408cc4a7752c5fe70a3f", 
    "moduleName": "js_checker/constant_types", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -295,7 +277,7 @@
   }, 
   "librejs/js_checker/free_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "22433f7aeb3f6c41c8c36b083501ad9805b21e703074602b8d50d194467ffb6a", 
+   "jsSHA256": "445c610c4035848553e1a05d132b24f8aed5eaee088fc0022f74734b189afe6f", 
    "moduleName": "js_checker/free_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -309,7 +291,7 @@
   }, 
   "librejs/js_checker/js_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "e40794e96193a92eab003a9b028c52319e6c6c033eceb41e25893708292f519d", 
+   "jsSHA256": "4d591ef0b1fcfb3f15f77428529412a7c9e23c2f9312d3aece81b912404e2b0c", 
    "moduleName": "js_checker/js_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -320,7 +302,7 @@
     "js_checker/free_checker": "librejs/js_checker/free_checker", 
     "js_checker/nontrivial_checker": "librejs/js_checker/nontrivial_checker", 
     "js_checker/relation_checker": "librejs/js_checker/relation_checker", 
-    "narcissus_parser/narcissus_worker": "librejs/narcissus_parser/narcissus_worker", 
+    "parser/narcissus_worker": "librejs/parser/narcissus_worker", 
     "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
     "sdk/timers": "sdk/timers", 
     "ui/notification": "librejs/ui/notification"
@@ -329,7 +311,7 @@
   }, 
   "librejs/js_checker/license_definitions": {
    "docsSHA256": null, 
-   "jsSHA256": "26c979a2ec71a6134e4564f2f00d7c27ad878716948a31491189d8c7e4c0041b", 
+   "jsSHA256": "f7b9ea8e7544ea46767ac116de5b7493dd45d55341bc277e35beba1a6886a2b1", 
    "moduleName": "js_checker/license_definitions", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -337,7 +319,7 @@
   }, 
   "librejs/js_checker/nontrivial_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "a14b688c0d54918ea0c1649e8f44e7d627706278c9732c9f14b5887a6cf69ce5", 
+   "jsSHA256": "7df338528a6ec20b2f41f48976d37c26d439a44d43ac991bfb4263d05cc13c7f", 
    "moduleName": "js_checker/nontrivial_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -347,7 +329,7 @@
   }, 
   "librejs/js_checker/pattern_utils": {
    "docsSHA256": null, 
-   "jsSHA256": "6680b0a5f803eb1f0e40119f87c4149ed3a29011e74215322be2f8e4a9b47c66", 
+   "jsSHA256": "8713284af95d802646022691d72b3b853d6c750eaf37135296662e4eac9c2914", 
    "moduleName": "js_checker/pattern_utils", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -355,7 +337,7 @@
   }, 
   "librejs/js_checker/privacy_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "aa7e796cd77ed096a9a47a9cca55b85f8359f670aed7391bc5225d348b5e3848", 
+   "jsSHA256": "8a068ce2daeaffe2b4a76d714ec9a3763ee9f978c57e56f9757cefbc5c648fab", 
    "moduleName": "js_checker/privacy_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -366,7 +348,7 @@
   }, 
   "librejs/js_checker/privacy_threat_definitions": {
    "docsSHA256": null, 
-   "jsSHA256": "08c681d4827f52bd8cdfc939224577a22194ee32337b9334a4f8b423f17f8ade", 
+   "jsSHA256": "94e6f14ab0212d278f825ddc1f7b828fa2dd0637ec384a255ac84d91370cf482", 
    "moduleName": "js_checker/privacy_threat_definitions.js", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -374,7 +356,7 @@
   }, 
   "librejs/js_checker/relation_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "b81106d3a439da67f6a87c6dd76ff9a6759febc6b77305040718eccf4a4dfb41", 
+   "jsSHA256": "54ca8c75c75c62dce31465d8d71581d92d87d45a67efc9ac2d5af2771fe1abdf", 
    "moduleName": "js_checker/relation_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -384,41 +366,27 @@
   }, 
   "librejs/main": {
    "docsSHA256": null, 
-   "jsSHA256": "b60c8856a74381b7c06fef7e0573778492746f3b6984644965bb5bb909ab3d11", 
+   "jsSHA256": "7729ed1dc55313d601fde31e512bcf8ef840aef5efdceaa001f498db21adba7c", 
    "moduleName": "main", 
    "packageName": "librejs", 
    "requirements": {
     "addon_management/install_uninstall": "librejs/addon_management/install_uninstall", 
     "addon_management/prefchange": "librejs/addon_management/prefchange", 
     "chrome": "chrome", 
-    "http_observer/allowed_referrers": "librejs/http_observer/allowed_referrers", 
     "http_observer/http_request_observer": "librejs/http_observer/http_request_observer", 
-    "js_checker/constant_types": "librejs/js_checker/constant_types", 
-    "js_checker/js_checker": "librejs/js_checker/js_checker", 
-    "menuitems": "menuitems/menuitems", 
-    "script_entries/accepted_scripts": "librejs/script_entries/accepted_scripts", 
-    "script_entries/dryrun_scripts": "librejs/script_entries/dryrun_scripts", 
-    "script_entries/removed_scripts": "librejs/script_entries/removed_scripts", 
-    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
-    "sdk/page-worker": "sdk/page-worker", 
-    "sdk/panel": "sdk/panel", 
-    "sdk/self": "sdk/self", 
-    "sdk/simple-storage": "sdk/simple-storage", 
-    "sdk/tabs": "sdk/tabs", 
-    "sdk/ui/button/toggle": "sdk/ui/button/toggle", 
-    "sdk/window/utils": "sdk/window/utils", 
-    "settings/settings_tab": "librejs/settings/settings_tab", 
+    "pref_observer/pref_observer": "librejs/pref_observer/pref_observer", 
+    "sdk/preferences/service": "sdk/preferences/service", 
     "settings/storage": "librejs/settings/storage", 
+    "ui": "librejs/ui", 
     "ui/script_panel.js": "librejs/ui/script_panel", 
-    "ui/ui_info": "librejs/ui/ui_info", 
-    "url_handler/url_handler": "librejs/url_handler/url_handler"
+    "ui/ui_info": "librejs/ui/ui_info"
    }, 
    "sectionName": "lib"
   }, 
-  "librejs/narcissus_parser/narcissus_worker": {
+  "librejs/parser/narcissus_worker": {
    "docsSHA256": null, 
-   "jsSHA256": "bcd4350373fe0b4364a7bcdc6013feea837720e9a8792e84f905cc86dd346ce0", 
-   "moduleName": "narcissus_parser/narcissus_worker", 
+   "jsSHA256": "57ae8c03ad08c7242c43e1a6a4143f31eb176be9687e07f16d8137209d3f83ff", 
+   "moduleName": "parser/narcissus_worker", 
    "packageName": "librejs", 
    "requirements": {
     "chrome": "chrome", 
@@ -427,9 +395,21 @@
    }, 
    "sectionName": "lib"
   }, 
+  "librejs/pref_observer/pref_observer": {
+   "docsSHA256": null, 
+   "jsSHA256": "985652fb6b93b60a46dbe376cc45cff9aba48767da4d3be1f74fc39f22fb450a", 
+   "moduleName": "pref_observer/pref_observer", 
+   "packageName": "librejs", 
+   "requirements": {
+    "chrome": "chrome", 
+    "http_observer/http_request_observer": "librejs/http_observer/http_request_observer", 
+    "sdk/preferences/service": "sdk/preferences/service"
+   }, 
+   "sectionName": "lib"
+  }, 
   "librejs/script_entries/accepted_scripts": {
    "docsSHA256": null, 
-   "jsSHA256": "ee96b355fb087aadca3c51a77cc9f14321aad96c834dda5a0812724fa26a7a7e", 
+   "jsSHA256": "aa9e23e7f54bcb935f62d8ad0c8f5bfd3032d32433771154932e355e04852263", 
    "moduleName": "script_entries/accepted_scripts", 
    "packageName": "librejs", 
    "requirements": {
@@ -439,7 +419,7 @@
   }, 
   "librejs/script_entries/all_scripts": {
    "docsSHA256": null, 
-   "jsSHA256": "6530feda85a57e12f47b4ab6c07d403e4b0fdb4d7b6e433ad1eeb60af90756aa", 
+   "jsSHA256": "a219023367c56f9698c39731c3a554bb81def6a23f645625adb27bf4804a529c", 
    "moduleName": "script_entries/all_scripts", 
    "packageName": "librejs", 
    "requirements": {
@@ -449,7 +429,7 @@
   }, 
   "librejs/script_entries/crypto": {
    "docsSHA256": null, 
-   "jsSHA256": "c77e0067499b2f99fb6a3c0302e156ef89a4d3834f1fdac4f323a9d2ad966679", 
+   "jsSHA256": "f8ba64a0941891c900d9d862876c6a41cae3154dbdf96b3516fd6639209f4350", 
    "moduleName": "script_entries/crypto", 
    "packageName": "librejs", 
    "requirements": {
@@ -459,7 +439,7 @@
   }, 
   "librejs/script_entries/dryrun_scripts": {
    "docsSHA256": null, 
-   "jsSHA256": "808d0fa10cf794277f4bf26edf43b916695b32466edb2a2a5ebdb71a761f0773", 
+   "jsSHA256": "1109c4841a8924f96ab2f27dd64fbecf243a4c00b00a06b7ae8efab51a022e8c", 
    "moduleName": "script_entries/dryrun_scripts", 
    "packageName": "librejs", 
    "requirements": {
@@ -470,7 +450,7 @@
   }, 
   "librejs/script_entries/free_libraries": {
    "docsSHA256": null, 
-   "jsSHA256": "a716922a4a427d0ae177e92cf7b94710573f162bd17302dc24871bd876f4b60f", 
+   "jsSHA256": "b57ae64f260b2ae671337e2923e15369981da926ffbaca4f160e84b46b1ec8e9", 
    "moduleName": "script_entries/free_libraries", 
    "packageName": "librejs", 
    "requirements": {
@@ -483,7 +463,7 @@
   }, 
   "librejs/script_entries/removed_scripts": {
    "docsSHA256": null, 
-   "jsSHA256": "529ad3d10162a836e3d481592e078bf913b762848c0673686ef0317d7a28f212", 
+   "jsSHA256": "8ddc24050cbea9f12b31b616bf61b528c1241fff27d14ef0ff3a2fbae531e349", 
    "moduleName": "script_entries/removed_scripts", 
    "packageName": "librejs", 
    "requirements": {
@@ -494,33 +474,34 @@
   }, 
   "librejs/script_entries/scripts_cache": {
    "docsSHA256": null, 
-   "jsSHA256": "2a6c61f5422a4285aeadb2d3108f4b7cc710d20701062e30f42d0dbf5f162cc9", 
+   "jsSHA256": "030b71b0336647a67fe07ddc185a38f240e5d017e1d5f3e16b3bfd19f3ef6e3a", 
    "moduleName": "script_entries/scripts_cache", 
    "packageName": "librejs", 
    "requirements": {
     "js_checker/constant_types": "librejs/js_checker/constant_types", 
     "js_checker/relation_checker": "librejs/js_checker/relation_checker", 
     "script_entries/crypto": "librejs/script_entries/crypto", 
+    "script_entries/free_libraries": "librejs/script_entries/free_libraries", 
     "ui/notification": "librejs/ui/notification"
    }, 
    "sectionName": "lib"
   }, 
   "librejs/settings/settings_tab": {
    "docsSHA256": null, 
-   "jsSHA256": "fe6fa07ad3ca1b9e1ce4219af1f046ba7a21e0757e9cffc772b80b094bd56af0", 
+   "jsSHA256": "2b2ea2b657e51109c6caeb4464f75ede476b9fb672a8e550de56cfff33811fa7", 
    "moduleName": "settings/settings_tab", 
    "packageName": "librejs", 
    "requirements": {
-    "addon-tab": "addon-tab/addon-tab", 
     "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
     "sdk/self": "sdk/self", 
+    "sdk/tabs": "sdk/tabs", 
     "settings/storage": "librejs/settings/storage"
    }, 
    "sectionName": "lib"
   }, 
   "librejs/settings/storage": {
    "docsSHA256": null, 
-   "jsSHA256": "25e0a3d6f9551f736b60375eeefde289ecd9b216995eb824d99559eef040f244", 
+   "jsSHA256": "0b1274e63ed9e9cab2bead56dad469a709460a2443eb6aa2bbdb1e5cac4f5306", 
    "moduleName": "settings/storage", 
    "packageName": "librejs", 
    "requirements": {
@@ -531,9 +512,34 @@
    }, 
    "sectionName": "lib"
   }, 
+  "librejs/ui": {
+   "docsSHA256": null, 
+   "jsSHA256": "d540923f2af5519a22217c15fb4ee0c32b2f226ac4dbf4343180877a89a6e4bf", 
+   "moduleName": "ui", 
+   "packageName": "librejs", 
+   "requirements": {
+    "html_script_finder/web_labels/js_web_labels": "librejs/html_script_finder/web_labels/js_web_labels", 
+    "http_observer/allowed_referrers": "librejs/http_observer/allowed_referrers", 
+    "js_checker/constant_types": "librejs/js_checker/constant_types", 
+    "js_checker/js_checker": "librejs/js_checker/js_checker", 
+    "menuitems": "menuitems/menuitems", 
+    "script_entries/accepted_scripts": "librejs/script_entries/accepted_scripts", 
+    "script_entries/dryrun_scripts": "librejs/script_entries/dryrun_scripts", 
+    "script_entries/removed_scripts": "librejs/script_entries/removed_scripts", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
+    "sdk/panel": "sdk/panel", 
+    "sdk/self": "sdk/self", 
+    "sdk/tabs": "sdk/tabs", 
+    "sdk/ui/button/toggle": "sdk/ui/button/toggle", 
+    "sdk/window/utils": "sdk/window/utils", 
+    "settings/settings_tab": "librejs/settings/settings_tab", 
+    "url_handler/url_handler": "librejs/url_handler/url_handler"
+   }, 
+   "sectionName": "lib"
+  }, 
   "librejs/ui/notification": {
    "docsSHA256": null, 
-   "jsSHA256": "4cef86f9d21cbda8633ea595968c9a6ba189d30923cf895c1f5453a362ab028b", 
+   "jsSHA256": "43b48acdce02c58b525040972dfc28fbed32fffe1b2eaf0351c198ccedaa9751", 
    "moduleName": "ui/notification", 
    "packageName": "librejs", 
    "requirements": {
@@ -546,7 +552,7 @@
   }, 
   "librejs/ui/script_panel": {
    "docsSHA256": null, 
-   "jsSHA256": "9bd52a58004737dd85ca814dfbdd23cc87541dcfe661124db4cbdd068c2a84fe", 
+   "jsSHA256": "98bf80f5942a0a2839b4d2bfa8bd94f8886215f43e80c1fa6d466d6aaa0817fa", 
    "moduleName": "ui/script_panel.js", 
    "packageName": "librejs", 
    "requirements": {
@@ -556,7 +562,7 @@
   }, 
   "librejs/ui/ui_info": {
    "docsSHA256": null, 
-   "jsSHA256": "6ee2f0d991aa0535487c3c431f3bd8990636c6739405f3a89485bbb414fd317f", 
+   "jsSHA256": "44adfa30ccdfa4b671f71c563fa0ea7d0d818f1a7046123c22fd4bec5430e735", 
    "moduleName": "ui/ui_info", 
    "packageName": "librejs", 
    "requirements": {
@@ -571,7 +577,7 @@
   }, 
   "librejs/url_handler/node_punycode": {
    "docsSHA256": null, 
-   "jsSHA256": "8f604c209e3f9913fbcda68b2cfe203335e0117e145031e4a5c826d6b021c3f2", 
+   "jsSHA256": "65292808e3b26536463db39fe2d20905969a31112326e5cca7dc31a7117c7287", 
    "moduleName": "url_handler/node_punycode", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -579,7 +585,7 @@
   }, 
   "librejs/url_handler/node_querystring": {
    "docsSHA256": null, 
-   "jsSHA256": "e25cebb6984e5c84b1b6a4d100e87a66a9763a2573cf093a2923160fa704b083", 
+   "jsSHA256": "46e9f5b1f7e935b6ec9e0d3907895b88c21060c687a08661102bcf40af0fdbc4", 
    "moduleName": "url_handler/node_querystring", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -587,7 +593,7 @@
   }, 
   "librejs/url_handler/node_url": {
    "docsSHA256": null, 
-   "jsSHA256": "a73dd5be86af3e6a2fff3c250fb9a860d14aa4688babc87efd69eba4d9315a2a", 
+   "jsSHA256": "72082ac4797e25f9051bce5c187ad70a6bb410b76ceb3adf329362eab899a2aa", 
    "moduleName": "url_handler/node_url", 
    "packageName": "librejs", 
    "requirements": {
@@ -598,7 +604,7 @@
   }, 
   "librejs/url_handler/url_handler": {
    "docsSHA256": null, 
-   "jsSHA256": "dd5c54c8e8220e7334c50d11f841a988ae0fb29c259cd91cb012f16ca93b76df", 
+   "jsSHA256": "19d55c02dea5897a184c4bdf69967f0fbe22f259df4c49ac07ba91fa0efd8674", 
    "moduleName": "url_handler/url_handler", 
    "packageName": "librejs", 
    "requirements": {
@@ -662,24 +668,18 @@
    "license": "MPL 2.0", 
    "name": "addon-sdk"
   }, 
-  "addon-tab": {
-   "author": "Loic J. Duros", 
-   "description": "Opens a tab with a local page, hiding the location/search bars, and allows to set styles directly on the tab element (see example). This is ideal if your addon has a complex UI requiring a complex html page (and using such frameworks as jQuery UI, Bootstrap, etc, ...)", 
-   "license": "MPL 2.0", 
-   "main": "main", 
-   "name": "addon-tab", 
-   "version": "0.1"
-  }, 
   "librejs": {
    "author": "Loic J. Duros", 
    "description": "GNU LibreJS is an add-on for Mozilla-based browsers (IceCat, Firefox, Abrowser, Iceweasel)\n that prevents the execution of nonfree nontrivial JavaScript as described in \"The Javascript Trap\": http://www.gnu.org/philosophy/javascript-trap.html", 
-   "license": "GPL v3.0 and later", 
+   "homepage": "gnu.org/software/librejs/", 
+   "license": "GPL-3.0+", 
    "main": "lib/main", 
    "name": "librejs", 
    "permissions": {
+    "private-browsing": true, 
     "unsafe-content-script": true
    }, 
-   "version": "6.0.1"
+   "version": "6.0.8"
   }, 
   "menuitems": {
    "author": "Erik Vold (http://erikvold.com/) <erikvvold@gmail.com>", 
@@ -728,6 +728,20 @@
    "title": "Display notifications of the JavaScript code being analyzed by LibreJS.", 
    "type": "bool", 
    "value": false
+  }, 
+  {
+   "description": "Initial subject line used in complaint emails", 
+   "name": "complaint_email_subject", 
+   "title": "Complaint email subject", 
+   "type": "string", 
+   "value": "Please make your JavaScript free"
+  }, 
+  {
+   "description": "Initial body text used in complaint emails", 
+   "name": "complaint_email_body", 
+   "title": "Complaint email body", 
+   "type": "string", 
+   "value": "I could not use your site because it requires running JavaScript code which is not free software.  Since a nonfree program disrespects the user's freedom, I decided not to run it. \\n\\nSee http://gnu.org/philosophy/javascript-trap.html for more information, and please make your JavaScript code free."
   }
  ], 
  "preferencesBranch": "jid1-KtlZuoiikVfFew@jetpack", 

@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#    Copyright (C) 2008-2014  Ruben Rodriguez <ruben@gnu.org>
+#    Copyright (C) 2014,2015  Ruben Rodriguez <ruben@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ VERSION=1
 set -e
 
 FFMAJOR=31
-FFMINOR=2
+FFMINOR=4
 FFSUB=0
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 SOURCEDIR=icecat-$FFVERSION
@@ -303,6 +303,7 @@ find -type d | grep firefox | xargs rename s/firefox/icecat/
 find -type f | grep firefox | xargs rename s/firefox/icecat/
 find -type f | grep Firefox | xargs rename s/Firefox/IceCat/
 
+echo "Running batch rebranding"
 SEDSCRIPT="
 s/Mozilla Firefox/GNU IceCat/g;
 s/firefox/icecat/g;
@@ -325,8 +326,23 @@ s/IceCat-Spdy/Firefox-Spdy/g;
 
 s_www.gnu.org/software/gnuzilla/icecat-help_libreplanet.org/wiki/Group:IceCat/Help_g;
 "
-echo "Running batch rebranding"
 find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+
+SEDSCRIPT="
+s/free and open source software/Free Software/g;
+s/free and open source/Free Software/g;
+s/Open Source/Free Software/g;
+s/open source/Free Software/g;
+s/opensourcesoftware/Free Software/g;
+s/opensource/Free Software/g;
+s/OpenSource/Free Software/g;
+"
+
+for extension in dtd inc properties; do
+    find . -type f -name "*$extension" -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+done
+
+sed 's/which are both/which are/; s/free<\/a> and/Free Software<\/a>./; />open source</d; s/free and open source licenses/Free Software licenses/ ' -i toolkit/content/license.html
 
 sed s/GNU/Mozilla/ python/compare-locales/scripts/compare-locales -i
 sed s/GNU/Mozilla/ python/compare-locales/setup.py -i
@@ -335,6 +351,8 @@ sed 's/mozilla-bin/icecat-bin/' -i build/unix/run-mozilla.sh
 find -type f | grep run-mozilla | xargs rename s/mozilla/icecat/
 
 sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
+
+find . -name region.properties |xargs -i /bin/sed 's_https://www.mibbit.*__' -i {}
 
 # Set migrator scripts
 sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/src/IceCatProfileMigrator.js
@@ -478,4 +496,4 @@ sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/cra
 
 cd ..
 echo Packaging tarball
-tar cfJ icecat-$FFVERSION.tar.xz icecat-$FFVERSION
+tar cfj icecat-$FFVERSION.tar.bz2 icecat-$FFVERSION

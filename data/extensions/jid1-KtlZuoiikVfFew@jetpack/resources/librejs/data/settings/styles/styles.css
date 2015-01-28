@@ -2,11 +2,10 @@ body {
     font-size:67.5%;
     background:#CCC;
 }
+
 #site-header {
-    background:#898168;
     min-height:130px;
     position:relative;
-    border-bottom:#916f6f solid 10px;
     overflow:hidden;
 }
 
@@ -57,8 +56,8 @@ header nav ul li a:visited {
 }
 
 #main {
-    background:#CCC;
-    padding:1em 0;
+    padding-bottom: 1em;
+    background-color: #ccc;
 }
 div.screenshot img {
     float:right;
@@ -75,10 +74,6 @@ article p, article ul {
 }
 article li {
     padding-top:0.7em;
-}
-#promotional {
-    padding-top:30px;
-
 }
 
 a.download {

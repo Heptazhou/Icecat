@@ -2,20 +2,22 @@
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
  * Copyright (C) 2011, 2012, 2013, 2014 Loic J. Duros
+ * Copyright (C) 2014, 2015 Nik Nyby
  *
- * This program is free software: you can redistribute it and/or modify
+ * This file is part of GNU LibreJS.
+ *
+ * GNU LibreJS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * GNU LibreJS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see  <http://www.gnu.org/licenses/>.
- *
+ * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 // object model for script entries.
@@ -30,7 +32,7 @@ const statusTypes = scriptProperties.statusTypes;
 var jsInAttrRe = /javascript:/ig;
 
 // the list of all available event attributes
-var intrinsecEvents = [
+var intrinsicEvents = [
   "onload",
   "onunload",
   "onclick",
@@ -51,7 +53,7 @@ var intrinsecEvents = [
   "onchange"]; 
 
 exports.jsInAttrRe = jsInAttrRe;
-exports.intrinsecEvents = intrinsecEvents;
+exports.intrinsicEvents = intrinsicEvents;
 
 
 /**
@@ -102,18 +104,18 @@ exports.findJSinAttribute = function (elem, callback) {
  */
 exports.findOnJSAttribute = function (elem, callback) {
 
-  var i = 0, eventsLen = intrinsecEvents.length;
+  var i = 0, eventsLen = intrinsicEvents.length;
 
   var attribPairs = [];
 
   for (; i < eventsLen; i++) {
 
 	  // looping through all on* attributes
-	  if (elem.hasAttribute(intrinsecEvents[i])) {
+	  if (elem.hasAttribute(intrinsicEvents[i])) {
 
 	    attribPairs.push({
-            attribute: intrinsecEvents[i],
-            value: elem.getAttribute(intrinsecEvents[i])
+            attribute: intrinsicEvents[i],
+            value: elem.getAttribute(intrinsicEvents[i])
         });
 
 	  }

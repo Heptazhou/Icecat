@@ -1,6 +1,6 @@
 This is the README file for the GNU IceCat distribution.
 
-Copyright (C) 2014 Ruben Rodriguez <ruben@gnu.org>
+Copyright (C) 2014, 2015 Ruben Rodriguez <ruben@gnu.org>
 Copyright (C) 2006, 2007, 2008, 2010, 2011, 2012, 2014 Free Software Foundation, Inc.
 
 Copying and distribution of this file, with or without modification,
@@ -96,6 +96,10 @@ EXTENSIONS INCLUDED IN ICECAT 31.x
   Adds a custom "about:icecat" homepage with links to information about the
   free software and privacy features in IceCat, and checkboxes to enable
   and disable the ones more prone to break websites.
+
+* html5-video-everywhere
+  Uses the native video player to play embedded videos from different sources
+  https://github.com/lejenome/html5-video-everywhere
 
 All the extensions are released under the GNU Public License.
 

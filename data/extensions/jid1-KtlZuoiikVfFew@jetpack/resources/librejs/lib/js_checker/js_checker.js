@@ -2,25 +2,28 @@
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
  * Copyright (C) 2011, 2012, 2013, 2014 Loic J. Duros
+ * Copyright (C) 2014, 2015 Nik Nyby
  *
- * This program is free software: you can redistribute it and/or modify
+ * This file is part of GNU LibreJS.
+ *
+ * GNU LibreJS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * GNU LibreJS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see  <http://www.gnu.org/licenses/>.
- *
+ * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 var {Cc, Ci, Cu, Cm, Cr} = require("chrome");
 
-const narcissusWorker = require("narcissus_parser/narcissus_worker");
+var narcissusWorker = require("parser/narcissus_worker")
+    .narcissusWorker;
 
 const nonTrivialModule = require("js_checker/nontrivial_checker");
 const freeChecker = require("js_checker/free_checker");
@@ -40,33 +43,25 @@ const timer = require("sdk/timers");
 var callbackMap = {};
 
 /**
- *  This module needs to be updated so that it is asynchronous
- *  and to reduce CPU usage --
- * 
- *  Partly already done in:
- *  https://gitorious.org/librejs/librejs/blobs/async/lib/js_checker/js_checker.js
- *  data/complain/contact_finder.js on how to proceed.
- * 
- */
-/**
  * 
  * Pairs a hash with a given callback 
  * method from an object.
  * 
  */
 var setHashCallback = function(hash, callback, notification) {
-    console.debug("hash is now ", hash);
+    console.debug('setHashCallback', hash);
     if (hash in callbackMap && isDryRun()) {
-        // work around for issue with dryrun after
-        // checking box.
+        // workaround for issue with dryrun after checking box.
         // do nothing.
         callbackMap[hash] = callback;    
-    }
-    else if (hash in callbackMap) {
-        // console.debug("callback", callbackMap[hash]);
-        notification.close();
+    } else if (hash in callbackMap) {
+        console.debug("callback", callbackMap[hash]);
+        if (notification && typeof notification.close === 'function') {
+            notification.close();
+        }
         throw Error("already being checked.");	
     } else {
+        console.debug('setting callbackMap for', hash, 'to', callback);
         callbackMap[hash] = callback;
     }
     console.debug("callback is type: ", callback.constructor);
@@ -84,19 +79,22 @@ var removeHashCallback = function(hash) {
  * 
  */
 exports.callbackHashResult = function(hash, result) {
+    console.debug('typeof callbackMap function:', typeof callbackMap[hash]);
+    console.debug('for hash', hash);
     try {
         callbackMap[hash](result, hash);
     } catch (x) {
         console.debug('error in jsChecker', x, 'hash:', hash);
         // return tree as false.
         console.debug("Error with", x);
-        if (typeof callbackMap[hash] == 'function') {
+        if (typeof callbackMap[hash] === 'function') {
             callbackMap[hash](false, hash);
         } else {
             console.debug('callbackHashResult Error', x);
         }
     }
     // remove callback after it's been called.
+    console.debug('JsChecker.callbackHashResult: calling removeHashCallback');
     removeHashCallback(hash);
 };
 
@@ -127,6 +125,7 @@ var JsChecker = function() {
 JsChecker.prototype.searchJs = function(jsCode, resultReady, url) {
     var that = this;
     var bugfix = require('html_script_finder/bug_fix').narcissusBugFixLibreJS;
+    console.debug('JsChecker.searchJs for script url:', url);
     this.url = url;
     this.resultReady = resultReady;
     this.jsCode = jsCode;
@@ -141,7 +140,8 @@ JsChecker.prototype.searchJs = function(jsCode, resultReady, url) {
         console.debug("We have it cached indeed!");
         // there is an existing entry for this exact copy
         // of script text.
-        console.debug('this script result is cached', this.hash, isCached.result.type);
+        console.debug('this script result is cached', this.hash,
+                      isCached.result.type);
         console.debug("Return right away");
         // we are not generating a parse tree.
         this.parseTree = {};
@@ -155,21 +155,27 @@ JsChecker.prototype.searchJs = function(jsCode, resultReady, url) {
         return;
     }
 
+    console.debug('url is not cached:', url);
+
     try {
         // no cache, continue.
         this.relationChecker = relationChecker.relationChecker();
         this.freeToken = types.emptyTypeObj();
         this.nontrivialness = types.emptyTypeObj();
 
-        // use this.hash to keep track of comments made by the nontrivial checker code
-        // about why/how the code is found to be nontrivial.
-        this.nonTrivialChecker = nonTrivialModule.nonTrivialChecker(this.hash);
+        // use this.hash to keep track of comments made by the nontrivial
+        // checker code about why/how the code is found to be nontrivial.
+        this.nonTrivialChecker =
+            nonTrivialModule.nonTrivialChecker(this.hash);
 
         // register callback and hash. So that result
         // can be passed.
-        setHashCallback(this.hash, this.handleTree.bind(this), this.notification);
+        setHashCallback(
+            this.hash, this.handleTree.bind(this), this.notification);
 
         // parse using ChromeWorker.
+        console.debug(
+            'JsChecker.searchJs(): starting narcissusWorker.parse()');
         narcissusWorker.parse(this.jsCode, this.hash);
     } catch (x) {
         console.debug('error', x);
@@ -185,7 +191,7 @@ JsChecker.prototype.handleTree = function(tree, errorMessage) {
         // error parsing tree. Just return nonfree nontrivial.
         this.parseTree = {};
         this.parseTree.freeTrivialCheck = types.nontrivialWithComment(
-                'error parsing: ' + errorMessage);
+            'error parsing: ' + errorMessage);
 
         // cache result with hash of script for future checks.
         scriptsCached.addEntry(this.jsCode, this.parseTree.freeTrivialCheck,
@@ -195,7 +201,7 @@ JsChecker.prototype.handleTree = function(tree, errorMessage) {
         try {
             // no need to keep parseTree in property
             this.parseTree = {}; //tree;
-            console.debug(tree);
+            //console.debug(tree);
             this.walkTree(tree);
         } catch (x) {
             console.debug(x, x.lineNumber, x.fileName);
@@ -304,20 +310,21 @@ JsChecker.prototype.walkTree = function(node) {
                 len = n.children.length;
                 for (i = 0; i < len; i++) {
                     if (n.children[i] != undefined && 
-                            n.children[i].visited == undefined) {
-                                // figure out siblings.
-                                if (i > 0) {
-                                    n.children[i].previous = n.children[i-1];
-                                }
+                        n.children[i].visited == undefined
+                       ) {
+                        // figure out siblings.
+                        if (i > 0) {
+                            n.children[i].previous = n.children[i-1];
+                        }
 
-                                if (i < len) {
-                                    n.children[i].next = n.children[i+1];
-                                }
-                                // set parent property.
-                                n.children[i].parent = n;
-                                n.children[i].visited = true;
-                                queue.push(n.children[i]);
-                            }
+                        if (i < len) {
+                            n.children[i].next = n.children[i+1];
+                        }
+                        // set parent property.
+                        n.children[i].parent = n;
+                        n.children[i].visited = true;
+                        queue.push(n.children[i]);
+                    }
                 }
             }
 
@@ -330,24 +337,25 @@ JsChecker.prototype.walkTree = function(node) {
                             n[item] != null && 
                             typeof n[item] === 'object' && 
                             n[item].type != undefined &&
-                            n[item].visited == undefined) {
-                                n[item].visited = true;
-                                // set parent property
-                                n[item].parent = n;
-                                queue.push(n[item]);
-                            }
+                            n[item].visited == undefined
+                       ) {
+                        n[item].visited = true;
+                        // set parent property
+                        n[item].parent = n;
+                        queue.push(n[item]);
+                    }
                 }
             }
 
             that.checkNode(n);
 
             if (that.freeToken.type === checkTypes.FREE ||
-                    that.freeToken.type === checkTypes.FREE_SINGLE_ITEM) {
-                        // nothing more to look for. We are done.
-                        that.walkTreeComplete(that.freeToken);
-                        return;
-                    } 
-            else if (that.nontrivialness.type === checkTypes.NONTRIVIAL) {
+                that.freeToken.type === checkTypes.FREE_SINGLE_ITEM
+               ) {
+                // nothing more to look for. We are done.
+                that.walkTreeComplete(that.freeToken);
+                return;
+            } else if (that.nontrivialness.type === checkTypes.NONTRIVIAL) {
                 // nontrivial
                 // we are done.
                 that.walkTreeComplete(that.nontrivialness);
@@ -473,8 +481,7 @@ JsChecker.prototype.checkNode = function(n) {
                 "Script appears to be free under the following license: " +
                 fc.licenseName);
         return;
-    }
-    else if (fc && fc.type == checkTypes.FREE_SINGLE_ITEM) {
+    } else if (fc && fc.type == checkTypes.FREE_SINGLE_ITEM) {
         console.debug("free single item");
         this.freeToken = types.singleFreeWithComment(
                 "Script appears to be free under the following license: " +
@@ -487,9 +494,7 @@ JsChecker.prototype.checkNode = function(n) {
             // nontrivial_global is deprecated
             this.nontrivialness = tc;
             return;
-        }
-
-        else if (tc.type === checkTypes.TRIVIAL_DEFINES_FUNCTION) {
+        } else if (tc.type === checkTypes.TRIVIAL_DEFINES_FUNCTION) {
             this.nontrivialness = tc;
             return;
         }
@@ -497,15 +502,17 @@ JsChecker.prototype.checkNode = function(n) {
 };
 
 JsChecker.prototype.removeNotification = function() {
-    if (this.notification && this.notification.close) {
-        console.debug("removing", this.shortText);
+    console.debug('JsChecker.removeNotification()');
+    if (this.notification &&
+        typeof this.notification.close === 'function'
+       ) {
+        console.debug('removing', this.shortText);
         // remove notification early on.
         this.notification.close();
         this.notification = null;
     }
 };
 
-// create an instance of JsChecker
 exports.jsChecker = function() {
     return new JsChecker();
 };

@@ -67,18 +67,25 @@ box-shadow: 0px 0px 5px #888888;
 
 ul li {
 list-style:none;
-background:#ddd;
-border-radius:3px;
-padding:3px 5px 3px 5px;
-margin:5px;
-box-shadow: 0px 2px 0 #ccc ;
 float:left;
 }
 
 ul li a{
 font-weight:bold;
-color:#666;
 text-shadow:0px 1px 0px #fff;
+padding:5px 10px 5px 10px;
+border-radius:3px;
+margin:5px;
+color:#888;
+background:#dcdcdc;
+box-shadow: 0px 2px 0 #ccc ;
+}
+
+ul li a:hover{
+color:#666;
+background:#ccc;
+box-shadow: 0px 2px 0 #aaa;
+
 }
 
 #footer{
@@ -136,6 +143,10 @@ Services.prefs.getCharPref("extensions.icecathome.intl.accept_languages");
 Services.prefs.setCharPref("intl.accept_languages","en-US, en");
 Services.prefs.setCharPref("extensions.icecathome.intl.accept_languages","en-US, en");
 }
+
+srchsvc = Components.classes["@mozilla.org/browser/search-service;1"].getService(Components.interfaces.nsIBrowserSearchService);
+currentEngine = srchsvc.defaultEngine.name;
+document.getElementById("searchLogoContainer").innerHTML=currentEngine+":"; 
 
 /*try {
 Services.prefs.getIntPref("extensions.icecathome.browser.display.use_document_fonts");
@@ -242,6 +253,15 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
   }
 }
 
+function onSearchSubmit(){
+
+  srchsvc = Components.classes["@mozilla.org/browser/search-service;1"].getService(Components.interfaces.nsIBrowserSearchService);
+  currentEngine = srchsvc.defaultEngine;
+  var selectedText=document.getElementById("searchText").value;
+  submission = currentEngine.getSubmission(selectedText,null);
+  window.location = submission.uri.spec;
+
+}
 
 ]]>
 </script>
@@ -255,11 +275,11 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
       <img src="chrome://branding/content/about-logo.png"/>
 
       <div id="searchContainer">
-        <form name="searchForm" id="searchForm" action="https://duckduckgo.com/html/">
-          <input type="hidden" name="t" value="gnu"/>
+        <form name="searchForm" id="searchForm" onsubmit="onSearchSubmit(); return false">
+          <div id="searchLogoContainer"></div>
           <input type="text" name="q" value="" id="searchText" maxlength="256"
-                 autofocus="autofocus"/>
-          <input id="searchSubmit" type="submit" value="&abouthome.searchEngineButton.label; DuckDuckGO"/>
+                 autofocus="autofocus" dir="auto"/>
+          <input id="searchSubmit" type="submit" value="&abouthome.searchEngineButton.label;"/>
         </form>
       </div>
 

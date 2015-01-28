@@ -1,54 +1,56 @@
 /**
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
- * Copyright (C) 2011, 2012 Loic J. Duros
+ * Copyright (C) 2011, 2012, 2014 Loic J. Duros
+ * Copyright (C) 2014, 2015 Nik Nyby
  *
- * This program is free software: you can redistribute it and/or modify
+ * This file is part of GNU LibreJS.
+ *
+ * GNU LibreJS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * GNU LibreJS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see  <http://www.gnu.org/licenses/>.
- *
+ * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// array reflects valid types as listed in 
+// array reflects valid types as listed in
 // http://mxr.mozilla.org/mozilla-central/source/content/base/src/nsScriptLoader.cpp#437
 // anything appended to end of strings is considered valid:
 var jsValidTypes = [
-	  /^text\/javascript/i,
-	  /^text\/ecmascript/i,
-	  /^application\/javascript/i,
-	  /^application\/ecmascript/i,
-	  /^application\/x-javascript/i
+        /^text\/javascript/i,
+        /^text\/ecmascript/i,
+        /^application\/javascript/i,
+        /^application\/ecmascript/i,
+        /^application\/x-javascript/i
 ];
 
 // the list of all available event attributes
-var intrinsecEvents = [
-  "onload",
-  "onunload",
-  "onclick",
-  "ondblclick",
-  "onmousedown",
-  "onmouseup",
-  "onmouseover",
-  "onmousemove",
-  "onmouseout",
-  "onfocus",
-  "onblur",
-  "onkeypress",
-  "onkeydown",
-  "onkeyup",
-  "onsubmit",
-  "onreset",
-  "onselect",
-  "onchange"]; 
+var intrinsicEvents = [
+    "onload",
+    "onunload",
+    "onclick",
+    "ondblclick",
+    "onmousedown",
+    "onmouseup",
+    "onmouseover",
+    "onmousemove",
+    "onmouseout",
+    "onfocus",
+    "onblur",
+    "onkeypress",
+    "onkeydown",
+    "onkeyup",
+    "onsubmit",
+    "onreset",
+    "onselect",
+    "onchange"];
 
 
 /**
@@ -58,7 +60,7 @@ var intrinsecEvents = [
  * Normally any script that has a type attribute other than the
  * few allowed ones is not interpreted. But by security, we only
  * discard a few of them.
- * 
+ *
  * @param script obj The script element.
  * @return returns true if it matches a template type.
  *
@@ -84,7 +86,7 @@ var scriptHasInvalidType = function (type) {
         }
     }
 
-    // type is invalid and 
+    // type is invalid and
     // hence cannot be executed.
     return true;
 
@@ -120,7 +122,6 @@ var scriptDetector = {
         this.fetchAllNonScriptTags();
 
         if (this.blockedScripts.length) {
-
             // display noscript tags if applicable.
             this.displayNoScriptTags();
             try {
@@ -157,7 +158,7 @@ var scriptDetector = {
      */
     fetchBlockedScripts: function () {
         var that = this,
-        singleton = '', reason;
+            singleton = '', reason;
 
         this.blockedScripts.each(function() {
             singleton = '';
@@ -165,7 +166,7 @@ var scriptDetector = {
 
 
             if ($(this).data('librejs-reason') && $(this).data('librejs-reason').length > 9) {
-                reason = $(this).data('librejs-reason') + ': ';		
+                reason = $(this).data('librejs-reason') + ': ';
             }
 
             if ($(this).text()) {
@@ -175,7 +176,7 @@ var scriptDetector = {
                 }
 
                 that.blockedCode.push({'contents': singleton + reason + that.truncateText($(this).text()),
-                    'inline': true});
+                                       'inline': true});
             }
 
             if ($(this).data('librejs-blocked-src')) {
@@ -203,19 +204,19 @@ var scriptDetector = {
                 reason = $(this).data('librejs-reason') + ':';
             }
 
-            if ($(this).attr('type') && 
+            if ($(this).attr('type') &&
                 scriptHasInvalidType($(this).attr('type'))) {
-                    typeMessage = 'script type is not valid (js is not executed): '+ $(this).attr('type') + ' ';
-                }
+                typeMessage = 'script type is not valid (js is not executed): '+ $(this).attr('type') + ' ';
+            }
 
             if ($(this).text()) {
-                that.acceptedCode.push({'contents': reason + typeMessage + that.truncateText($(this).text()), 
-                    'inline': true});
+                that.acceptedCode.push({'contents': reason + typeMessage + that.truncateText($(this).text()),
+                                        'inline': true});
             }
 
             if ($(this).attr('src')) {
                 that.acceptedCode.push({'url': $(this).attr('src'), 'contents': reason + typeMessage,
-                    'inline': false});
+                                        'inline': false});
             }
 
         });
@@ -229,29 +230,26 @@ var scriptDetector = {
      *
      */
     fetchDryRunScripts: function () {
-
         var that = this, typeMessage = '', reason = "";
-
         this.dryRunScripts.each(function() {
             reason = "";
-
             if ($(this).data('librejs-reason') && $(this).data('librejs-reason').length > 9) {
                 reason = $(this).data('librejs-reason') + ':';
             }
 
-            if ($(this).attr('type') && 
+            if ($(this).attr('type') &&
                 scriptHasInvalidType($(this).attr('type'))) {
-                    typeMessage = 'script type is not valid (js is not executed): '+ $(this).attr('type') + ' ';
-                }
+                typeMessage = 'script type is not valid (js is not executed): '+ $(this).attr('type') + ' ';
+            }
 
             if ($(this).text()) {
-                that.dryRunCode.push({'contents': reason + typeMessage + that.truncateText($(this).text()), 
-                    'inline': true});
+                that.dryRunCode.push({'contents': reason + typeMessage + that.truncateText($(this).text()),
+                                      'inline': true});
             }
 
             if ($(this).attr('src')) {
                 that.dryRunCode.push({'url': $(this).attr('src'), 'contents': reason + typeMessage,
-                    'inline': false});
+                                      'inline': false});
             }
 
         });
@@ -272,15 +270,15 @@ var scriptDetector = {
 
                 content = $(this).attr('href');
 
-            } 
+            }
 
             else {
                 content = that.findOnAttributeContent($(this));
             }
 
-        that.acceptedCode.push(
-            {contents: 'in attribute: ' + content,
-                inline: true}
+            that.acceptedCode.push(
+                {contents: 'in attribute: ' + content,
+                 inline: true}
             );
 
         });
@@ -301,21 +299,21 @@ var scriptDetector = {
 
             that.blockedCode.push(
                 {contents: 'in attribute: ' + content,
-                    inline: true}
-                );
+                 inline: true}
+            );
         });
     },
 
     findOnAttributeContent: function (elem) {
-        var i = 0, 
-        le = intrinsecEvents.length,
-        content = "";
+        var i = 0,
+            le = intrinsicEvents.length,
+            content = "";
 
         for (; i < le; i++) {
 
-            if (elem.attr(intrinsecEvents[i])) {
+            if (elem.attr(intrinsicEvents[i])) {
 
-                content += elem.attr(intrinsecEvents[i]) + " -- ";
+                content += elem.attr(intrinsicEvents[i]) + " -- ";
 
             }
 
@@ -331,7 +329,7 @@ var scriptDetector = {
     displayNoScriptTags: function () {
 
         var noscripts = $('body noscript'),
-        div, content;
+            div, content;
 
         noscripts.each(function (index) {
             div = $('<div/>');
@@ -344,7 +342,7 @@ var scriptDetector = {
             div.children('style, script, meta').remove();
 
 
-            // insert noscript content right after the 
+            // insert noscript content right after the
             // original noscript tag.
             div.insertAfter($(this));
         });
@@ -353,7 +351,7 @@ var scriptDetector = {
     truncateText: function (str) {
 
         if (str.length > 1000) {
-            str = str.slice(0, 1000) + '…';	    
+            str = str.slice(0, 1000) + '…';
         }
         return str;
     }

@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.prefCdc" pref-name="prefCdc" title="Preferred Codec" type="menulist">
+    <menulist>
+      <menupopup>
+        <menuitem label="WebM" value="0"/>
+        <menuitem label="Mp4" value="1"/>
+      </menupopup>
+    </menulist>
+  </setting>
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.prefQlt" pref-name="prefQlt" title="Preferred Quality" type="menulist">
+    <menulist>
+      <menupopup>
+        <menuitem label="Higher" value="0"/>
+        <menuitem label="High" value="1"/>
+        <menuitem label="Medium" value="2"/>
+        <menuitem label="Low" value="3"/>
+      </menupopup>
+    </menulist>
+  </setting>
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.autoplay" pref-name="autoplay" title="Auto Play Video" type="menulist">
+    Change default behaviour of the video player of the website
+    <menulist>
+      <menupopup>
+        <menuitem label="Default" value="2"/>
+        <menuitem label="Enabled" value="1"/>
+        <menuitem label="Disabled" value="0"/>
+      </menupopup>
+    </menulist>
+  </setting>
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.preload" pref-name="preload" title="Preload Video" type="menulist">
+    Change default behaviour of the video player of the website in case it does not auto play the video
+    <menulist>
+      <menupopup>
+        <menuitem label="Default" value="2"/>
+        <menuitem label="Enabled" value="1"/>
+        <menuitem label="Disabled" value="0"/>
+      </menupopup>
+    </menulist>
+  </setting>
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.volume" pref-name="volume" title="Volume" type="integer"/>
+</vbox>

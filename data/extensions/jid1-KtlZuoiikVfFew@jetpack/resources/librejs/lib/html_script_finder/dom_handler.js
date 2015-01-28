@@ -2,20 +2,22 @@
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
  * Copyright (C) 2011, 2012, 2013, 2014 Loic J. Duros
+ * Copyright (C) 2014, 2015 Nik Nyby
  *
- * This program is free software: you can redistribute it and/or modify
+ * This file is part of GNU LibreJS.
+ *
+ * GNU LibreJS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * GNU LibreJS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see  <http://www.gnu.org/licenses/>.
- *
+ * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -30,24 +32,23 @@
 
 var {Cc, Ci, Cu, Cm, Cr} = require("chrome");
 
-var scriptProperties = require("html_script_finder/dom_handler/script_properties");
+var scriptProperties =
+    require("html_script_finder/dom_handler/script_properties");
 
 const scriptTypes = scriptProperties.scriptTypes;
-
 const statusTypes = scriptProperties.statusTypes;
-
 const reasons = scriptProperties.reasons;
 
 var urlHandler = require("url_handler/url_handler");
 
-var WebLabelFinder = require("html_script_finder/web_labels/js_web_labels").WebLabelFinder;
+var WebLabelFinder =
+    require("html_script_finder/web_labels/js_web_labels").WebLabelFinder;
 
 // object model for script entries.
 var scriptObject = require("html_script_finder/dom_handler/script_object");
 
 var privacyChecker = require("js_checker/privacy_checker").privacyCheck;
 var jsChecker = require("js_checker/js_checker");
-
 const types = require("js_checker/constant_types");
 
 var checkTypes = types.checkTypes;
@@ -57,18 +58,18 @@ var stripCDATAClose = /]]>/g;
 
 var isDryRun = require("addon_management/prefchange").isDryRun;
 var allowedRef = require('http_observer/allowed_referrers').allowedReferrers;
-
 var attributeHelpers = require("html_script_finder/dom_handler/attributes");
 
 // javascript:*
 var jsInAttrRe = attributeHelpers.jsInAttrRe;
 
 // the list of all available event attributes
-var intrinsecEvents = attributeHelpers.intrinsecEvents;
+var intrinsicEvents = attributeHelpers.intrinsicEvents;
 
-var domGatherer = require("html_script_finder/dom_handler/dom_gatherer").domGatherer;
-
-var domChecker  = require("html_script_finder/dom_handler/dom_checker").domChecker;
+var domGatherer =
+    require("html_script_finder/dom_handler/dom_gatherer").domGatherer;
+var domChecker  =
+    require("html_script_finder/dom_handler/dom_checker").domChecker;
 
 /**
  * The DomHandler object takes a whole document,
@@ -77,81 +78,81 @@ var domChecker  = require("html_script_finder/dom_handler/dom_checker").domCheck
  * DOM depending on the result.
  */
 var DomHandler = function() {
-  // external object with methods used
-  // in DomHandler
-  this.domGatherer = null;
+    // external object with methods used
+    // in DomHandler
+    this.domGatherer = null;
 
-  // external object with methods used
-  // in DomHandler
-  this.domChecker = null;
+    // external object with methods used
+    // in DomHandler
+    this.domChecker = null;
 
-  this.dom = null;
-  this.pageURL = null;
+    this.dom = null;
+    this.pageURL = null;
 
-  // fragment found in url.
-  this.fragment = null;
+    // fragment found in url.
+    this.fragment = null;
 
-  // array containing all scripts on a page.
-  this.domScripts = null;
+    // array containing all scripts on a page.
+    this.domScripts = [];
 
-  // array containing all scripts on a page,
-  // data related to them, such as parse tree, ...
-  this.inlineScripts = null;
+    // array containing all scripts on a page,
+    // data related to them, such as parse tree, ...
+    this.inlineScripts = [];
 
-  this.externalScripts = null;
+    this.externalScripts = [];
 
-  // all scripts.
-  this.scripts = null;
-  
-  // keeps track of the number of scripts.
-  this.numScripts = 0;
-  
-  // store the reference to the callback method
-  // presumably from htmlParser.
-  this.callback = null;
+    // all scripts.
+    this.scripts = [];
 
-  // boolean set to true if external scripts are loaded
-  // from the html page.
-  this.loadsHtmlExternalScripts = false;
+    // keeps track of the number of scripts.
+    this.numScripts = 0;
 
-  this.jsCheckString = null;
+    // store the reference to the callback method
+    // presumably from htmlParser.
+    this.callback = function() {};
 
-  /* object containing boolean property set to false if trivialness
-   is not allowed anymore (if another script defines ajax requests,
-   ...)  */
-  this.allowTrivial = null;
+    // boolean set to true if external scripts are loaded
+    // from the html page.
+    this.loadsHtmlExternalScripts = false;
 
-  // boolean set to true if inline JavaScript
-  // is found to be free.
-  this.inlineJsFree = null;
+    this.jsCheckString = null;
 
-  // boolean set to true when at least one script
-  // has been removed.
-  this.hasRemovedScripts = null;
+    /* object containing boolean property set to false if trivialness
+       is not allowed anymore (if another script defines ajax requests,
+       ...)  */
+    this.allowTrivial = null;
 
-  // boolean to check if scripts were removed
-  // prevents removeAllJs from running multiple times.
-  this.removedAllScripts = null;
-  
-  // will eventually contain an array of data
-  // for the js web labels licenses.
-  this.licenseList = null;
+    // boolean set to true if inline JavaScript
+    // is found to be free.
+    this.inlineJsFree = null;
 
-  // the response status for the page (200, 404, ...)
-  this.responseStatus = null;
+    // boolean set to true when at least one script
+    // has been removed.
+    this.hasRemovedScripts = null;
 
-  // count the number of scripts fully tested.
-  this.scriptsTested = null;
-  
-  // number of external scripts to be tested.
-  this.numExternalScripts = null;
+    // boolean to check if scripts were removed
+    // prevents removeAllJs from running multiple times.
+    this.removedAllScripts = null;
 
-  // number of inline/inattribute scripts
-  this.numInlineScripts = null;
+    // will eventually contain an array of data
+    // for the js web labels licenses.
+    this.licenseList = [];
+
+    // the response status for the page (200, 404, ...)
+    this.responseStatus = null;
+
+    // number of scripts fully tested.
+    this.scriptsTested = 0;
+
+    // number of external scripts to be tested.
+    this.numExternalScripts = null;
+
+    // number of inline/inattribute scripts
+    this.numInlineScripts = null;
 };
 
 /**
- * Initialize properties of the object 
+ * Initialize properties of the object
  *
  * @param {domObject} obj A reference of the DOM object being
  * analyzed.
@@ -165,7 +166,8 @@ var DomHandler = function() {
  *
  */
 DomHandler.prototype.init = function(
-        domObject, pageURL, fragment, responseStatus, callback) {
+    domObject, pageURL, fragment, responseStatus, callback
+) {
     // initialize object properties.
 
     console.debug('init', pageURL);
@@ -183,10 +185,10 @@ DomHandler.prototype.init = function(
 
     // make callback function available
     // for the entire object.
-    this.callback = function (dom) { 
+    this.callback = function (dom) {
         callback(dom);
         that.destroy();
-    }; 
+    };
 };
 
 DomHandler.prototype.reset = function () {
@@ -223,8 +225,10 @@ DomHandler.prototype.destroy = function () {
     //this.reset();
 };
 
-DomHandler.prototype.scriptHasBeenTested = function () {
+DomHandler.prototype.scriptHasBeenTested = function() {
     this.scriptsTested++;
+    console.debug('incremented DomHandler.scriptsTested to',
+                  this.scriptsTested);
 };
 
 /**
@@ -235,22 +239,24 @@ DomHandler.prototype.scriptHasBeenTested = function () {
  * for more information.
  *
  */
-DomHandler.prototype.scriptHasJsWebLabel = function (script) {
+DomHandler.prototype.scriptHasJsWebLabel = function(script) {
     if (this.licenseList) {
 
         var url = urlHandler.resolve(this.pageURL, script.src),
-        i = 0, 
-        len = this.licenseList.length;
+            i = 0,
+            len = this.licenseList.length;
 
         console.debug('looking for web label');
 
         for (; i < len; i++) {
             if (this.licenseList[i].fileUrl === url &&
-                    this.licenseList[i].free === true) {
-                        console.debug('found something true');
-                        console.debug(this.licenseList[i].fileUrl, ' is found');
-                        return true;
-                    }
+                this.licenseList[i].free === true
+               ) {
+                console.debug('found something true');
+                console.debug(
+                    this.licenseList[i].fileUrl, ' is found');
+                return true;
+            }
         }
     }
     return false;
@@ -265,9 +271,9 @@ DomHandler.prototype.scriptHasJsWebLabel = function (script) {
 DomHandler.prototype.processScripts = function () {
     var that = this;
 
-    // check for the existence of the 
+    // check for the existence of the
     // js web labels first.
-    this.lookForJsWebLabels(function () { 
+    this.lookForJsWebLabels(function () {
 
         // gather and check all script elements on
         // page.
@@ -284,21 +290,21 @@ DomHandler.prototype.processScripts = function () {
  */
 DomHandler.prototype.checkAllScripts = function () {
     try {
-        console.debug('found in', this.pageURL, JSON.stringify(this.licenseList));
+        console.debug(
+            'found in', this.pageURL, JSON.stringify(this.licenseList));
         console.debug('checkAllScripts triggered async');
 
         // use domGatherer to gather scripts.
         this.domGatherer.findScripts();
         this.domGatherer.gatherScriptsContent();
-        this.domGatherer.gatherIntrinsecEvents();
+        this.domGatherer.gatherIntrinsicEvents();
 
         console.debug('fragment is', this.fragment);
 
         if (
-            (this.fragment === undefined ||
-             this.fragment === null ||
-             this.fragment.indexOf('librejs=true') < 0) &&
-            this.responseStatus != 404
+            this.fragment === undefined ||
+                this.fragment === null ||
+                this.fragment.indexOf('librejs=true') < 0
         ) {
             try {
 
@@ -310,8 +316,8 @@ DomHandler.prototype.checkAllScripts = function () {
                 this.removeAllJs();
             }
         } else {
-            console.debug('404 or pageworker, removing all js');
-            // this is the page Worker to find contact link
+            console.debug('This is a pageworker, removing all js');
+            // this is the Page Worker to find contact link
             // just remove all the JS since we don't need it.
             console.debug('fragment found, remove js');
             this.removeAllJs();
@@ -323,7 +329,7 @@ DomHandler.prototype.checkAllScripts = function () {
 
 /**
  * lookForJsWebLabels
- * 
+ *
  * Checks if a link to a js web label table exists.
  * If it does, return an array of objects with the data
  * gathered (script name, path, license name, url, ...)
@@ -332,11 +338,11 @@ DomHandler.prototype.checkAllScripts = function () {
 DomHandler.prototype.lookForJsWebLabels = function (completed) {
     var that = this;
     console.debug("calling lookForJsWebLabels");
-    if (this.fragment != '#librejs=true') {
+    if (this.fragment !== '#librejs=true') {
         var webLabelFinder = new WebLabelFinder();
         webLabelFinder.init(
             this.dom,
-            this.pageURL, 
+            this.pageURL,
             function (licenseList) {
                 // assign array returned to property.
                 that.licenseList = licenseList;
@@ -348,23 +354,22 @@ DomHandler.prototype.lookForJsWebLabels = function (completed) {
     }
 };
 
-DomHandler.prototype.checkScriptForJsWebLabels = function (script) {
+DomHandler.prototype.checkScriptForJsWebLabels = function(script) {
     var scriptEntry;
 
     if (this.hasSrc(script) && this.scriptHasJsWebLabel(script)) {
-
-        // in the list of allowed scripts (through web labels)
-        scriptEntry = scriptObject.Script({'type': scriptTypes.EXTERNAL,
+        // This script is in the list of allowed scripts (through web labels)
+        scriptEntry = scriptObject.Script({
+            'type': scriptTypes.EXTERNAL,
             'status': statusTypes.ACCEPTED,
-                    'element':script, 
-                    'url': urlHandler.resolve(this.pageURL, script.src)});
+            'element': script,
+            'url': urlHandler.resolve(this.pageURL, script.src)
+        });
 
         scriptEntry.tagAsAccepted(this.pageURL, reasons.FREE);
-
         return true;
     }
 };
-
 
 /**
  * hasSrc
@@ -386,7 +391,6 @@ DomHandler.prototype.hasSrc = function(script) {
  *
  */
 DomHandler.prototype.removeScriptIfDependent = function (script) {
-
     var nonWindowProps = script.tree.relationChecker.nonWindowProperties;
 
     for (var entry in nonWindowProps) {
@@ -396,11 +400,10 @@ DomHandler.prototype.removeScriptIfDependent = function (script) {
             return true;
         }
     }
-
 };
 
 /**
- * removeGivenJs 
+ * removeGivenJs
  * Remove a single script from the DOM.
  * @param script Obj The script element to be removed from the
  * DOM.
@@ -412,12 +415,12 @@ DomHandler.prototype.removeGivenJs = function (script, reason, singleton, hash) 
     console.debug("removing given js hash", hash);
 
     if (script.status != statusTypes.REJECTED &&
-            script.status != statusTypes.JSWEBLABEL
-    ) {
+        script.status != statusTypes.JSWEBLABEL
+       ) {
         console.debug('removing a', script.type);
         if (script.type === scriptTypes.ATTRIBUTE &&
-                !isAllowed
-        ) {
+            !isAllowed
+           ) {
             this.removeGivenAttribute(script, reason);
             return;
         }
@@ -428,7 +431,8 @@ DomHandler.prototype.removeGivenJs = function (script, reason, singleton, hash) 
             console.debug('removeGivenJs hash is', hash);
             script.tagAsRemoved(this.pageURL, reason, hash);
         } else {
-            script.element.setAttribute('data-librejs-dryrun', 'librejs/blocked');
+            script.element.setAttribute(
+                'data-librejs-dryrun', 'librejs/blocked');
             script.tagAsDryRun(this.pageURL, reason, hash);
         }
 
@@ -439,10 +443,13 @@ DomHandler.prototype.removeGivenJs = function (script, reason, singleton, hash) 
 
         // remove src if dry run off.
         if (script.element.getAttribute('src') !== undefined) {
-            script.element.setAttribute('data-librejs-blocked-src', script.element.getAttribute('src'));
+            script.element.setAttribute(
+                'data-librejs-blocked-src',
+                script.element.getAttribute('src')
+            );
             if (!isAllowed) {
                 script.element.removeAttribute('src');
-            } 
+            }
         }
         if (isAllowed) {
             comment_str = 'LibreJS: Script should be blocked, but page is whitelisted.';
@@ -462,11 +469,11 @@ DomHandler.prototype.removeGivenJs = function (script, reason, singleton, hash) 
 
 DomHandler.prototype.removeGivenAttribute = function (script, reason) {
     var i = 0,
-    le = script.jsAttributes.length;
+        le = script.jsAttributes.length;
 
     console.debug('removing given attribute', script, reason);
-    script.element.setAttribute('data-librejs-blocked-event', 
-            JSON.stringify(script.jsAttributes));
+    script.element.setAttribute('data-librejs-blocked-event',
+                                JSON.stringify(script.jsAttributes));
 
     script.tagAsRemoved(this.pageURL, reason, script.hash || script.tree.hash);
 
@@ -477,7 +484,7 @@ DomHandler.prototype.removeGivenAttribute = function (script, reason) {
         // only run if not in dry run mode.
         for (; i < le; i++) {
             console.debug('removing attribute', JSON.stringify(script.jsAttributes));
-            script.element.removeAttribute(script.jsAttributes[i].attribute);	      
+            script.element.removeAttribute(script.jsAttributes[i].attribute);
         }
     } else {
 
@@ -502,9 +509,14 @@ DomHandler.prototype.removeAllJs = function (reason) {
 
     try {
         this.removeAllArray(this.scripts, reason);
-        this.callback(this.dom);	    
+        this.callback(this.dom);
     } catch (x) {
-        console.debug('in removeAllJs method: ', x, 'number of scripts is', this.numScripts);
+        console.debug(
+            'in removeAllJs method: ',
+            x,
+            'number of scripts is',
+            this.numScripts
+        );
         this.callback(this.dom);
     }
 
@@ -520,9 +532,10 @@ DomHandler.prototype.removeAllArray = function(scriptArray, reason) {
         for (; i < le; i++) {
             script = scriptArray[i];
             if (script.type === scriptTypes.INLINE ||
-                    script.type === scriptTypes.EXTERNAL) {
-                        this.removeGivenJs(script, reason);
-                    } 
+                script.type === scriptTypes.EXTERNAL
+               ) {
+                this.removeGivenJs(script, reason);
+            }
             else if (script.type === scriptTypes.ATTRIBUTE) {
                 this.removeGivenAttribute(script, reason);
             }
@@ -543,7 +556,7 @@ exports.DomHandler = DomHandler;
  * @param callback function callback when all the work has been performed.
  */
 exports.domHandler = function(
-        dom, pageURL, fragment, responseStatus, callback) {
+    dom, pageURL, fragment, responseStatus, callback) {
     console.debug("Creating domHandler");
     var domHandler = new DomHandler();
     domHandler.init(dom, pageURL, fragment, responseStatus, callback);

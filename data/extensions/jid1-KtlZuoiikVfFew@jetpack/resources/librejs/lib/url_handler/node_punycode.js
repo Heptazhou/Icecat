@@ -1,219 +1,510 @@
-// Copyright (C) 2011 by Ben Noordhuis <info@bnoordhuis.nl>
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in
-// all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-// THE SOFTWARE.
+/*! http://mths.be/punycode v1.2.0 by @mathias */
+;(function(root) {
 
-exports.encode = encode;
-exports.decode = decode;
+	/**
+	 * The `punycode` object.
+	 * @name punycode
+	 * @type Object
+	 */
+	var punycode,
 
-var TMIN = 1;
-var TMAX = 26;
-var BASE = 36;
-var SKEW = 38;
-var DAMP = 700; // initial bias scaler
-var INITIAL_N = 128;
-var INITIAL_BIAS = 72;
-var MAX_INTEGER = Math.pow(2, 53);
+	/** Detect free variables `define`, `exports`, `module` and `require` */
+	freeDefine = typeof define == 'function' && typeof define.amd == 'object' &&
+		define.amd && define,
+	freeExports = typeof exports == 'object' && exports,
+	freeModule = typeof module == 'object' && module,
+	freeRequire = typeof require == 'function' && require,
 
-function adapt_bias(delta, n_points, is_first) {
-  // scale back, then increase delta
-  delta /= is_first ? DAMP : 2;
-  delta += ~~(delta / n_points);
+	/** Highest positive signed 32-bit float value */
+	maxInt = 2147483647, // aka. 0x7FFFFFFF or 2^31-1
 
-  var s = (BASE - TMIN);
-  var t = ~~((s * TMAX) / 2); // threshold=455
+	/** Bootstring parameters */
+	base = 36,
+	tMin = 1,
+	tMax = 26,
+	skew = 38,
+	damp = 700,
+	initialBias = 72,
+	initialN = 128, // 0x80
+	delimiter = '-', // '\x2D'
 
-  for (var k = 0; delta > t; k += BASE) {
-    delta = ~~(delta / s);
-  }
+	/** Regular expressions */
+	regexPunycode = /^xn--/,
+	regexNonASCII = /[^ -~]/, // unprintable ASCII chars + non-ASCII chars
+	regexSeparators = /\x2E|\u3002|\uFF0E|\uFF61/g, // RFC 3490 separators
 
-  var a = (BASE - TMIN + 1) * delta;
-  var b = (delta + SKEW);
+	/** Error messages */
+	errors = {
+		'overflow': 'Overflow: input needs wider integers to process',
+		'not-basic': 'Illegal input >= 0x80 (not a basic code point)',
+		'invalid-input': 'Invalid input'
+	},
 
-  return k + ~~(a / b);
-}
+	/** Convenience shortcuts */
+	baseMinusTMin = base - tMin,
+	floor = Math.floor,
+	stringFromCharCode = String.fromCharCode,
 
-function next_smallest_codepoint(codepoints, n) {
-  var m = 0x110000; // unicode upper bound + 1
+	/** Temporary variable */
+	key;
 
-  for (var i = 0, len = codepoints.length; i < len; ++i) {
-    var c = codepoints[i];
-    if (c >= n && c < m) {
-      m = c;
-    }
-  }
+	/*--------------------------------------------------------------------------*/
 
-  // sanity check - should not happen
-  if (m >= 0x110000) {
-    throw new Error('Next smallest code point not found.');
-  }
+	/**
+	 * A generic error utility function.
+	 * @private
+	 * @param {String} type The error type.
+	 * @returns {Error} Throws a `RangeError` with the applicable error message.
+	 */
+	function error(type) {
+		throw RangeError(errors[type]);
+	}
 
-  return m;
-}
+	/**
+	 * A generic `Array#map` utility function.
+	 * @private
+	 * @param {Array} array The array to iterate over.
+	 * @param {Function} callback The function that gets called for every array
+	 * item.
+	 * @returns {Array} A new array of values returned by the callback function.
+	 */
+	function map(array, fn) {
+		var length = array.length;
+		while (length--) {
+			array[length] = fn(array[length]);
+		}
+		return array;
+	}
 
-function encode_digit(d) {
-  return d + (d < 26 ? 97 : 22);
-}
+	/**
+	 * A simple `Array#map`-like wrapper to work with domain name strings.
+	 * @private
+	 * @param {String} domain The domain name.
+	 * @param {Function} callback The function that gets called for every
+	 * character.
+	 * @returns {Array} A new string of characters returned by the callback
+	 * function.
+	 */
+	function mapDomain(string, fn) {
+		return map(string.split(regexSeparators), fn).join('.');
+	}
 
-function decode_digit(d) {
-  if (d >= 48 && d <= 57) {
-    return d - 22; // 0..9
-  }
-  if (d >= 65 && d <= 90) {
-    return d - 65; // A..Z
-  }
-  if (d >= 97 && d <= 122) {
-    return d - 97; // a..z
-  }
-  throw new Error('Illegal digit #' + d);
-}
+	/**
+	 * Creates an array containing the decimal code points of each Unicode
+	 * character in the string. While JavaScript uses UCS-2 internally,
+	 * this function will convert a pair of surrogate halves (each of which
+	 * UCS-2 exposes as separate characters) into a single code point,
+	 * matching UTF-16.
+	 * @see `punycode.ucs2.encode`
+	 * @see <http://mathiasbynens.be/notes/javascript-encoding>
+	 * @memberOf punycode.ucs2
+	 * @name decode
+	 * @param {String} string The Unicode input string (UCS-2).
+	 * @returns {Array} The new array of code points.
+	 */
+	function ucs2decode(string) {
+		var output = [],
+		    counter = 0,
+		    length = string.length,
+		    value,
+		    extra;
+		while (counter < length) {
+			value = string.charCodeAt(counter++);
+			if ((value & 0xF800) == 0xD800 && counter < length) {
+				// high surrogate, and there is a next character
+				extra = string.charCodeAt(counter++);
+				if ((extra & 0xFC00) == 0xDC00) { // low surrogate
+					output.push(((value & 0x3FF) << 10) + (extra & 0x3FF) + 0x10000);
+				} else {
+					output.push(value, extra);
+				}
+			} else {
+				output.push(value);
+			}
+		}
+		return output;
+	}
 
-function threshold(k, bias) {
-  if (k <= bias + TMIN) {
-    return TMIN;
-  }
-  if (k >= bias + TMAX) {
-    return TMAX;
-  }
-  return k - bias;
-}
+	/**
+	 * Creates a string based on an array of decimal code points.
+	 * @see `punycode.ucs2.decode`
+	 * @memberOf punycode.ucs2
+	 * @name encode
+	 * @param {Array} codePoints The array of decimal code points.
+	 * @returns {String} The new Unicode string (UCS-2).
+	 */
+	function ucs2encode(array) {
+		return map(array, function(value) {
+			var output = '';
+			if (value > 0xFFFF) {
+				value -= 0x10000;
+				output += stringFromCharCode(value >>> 10 & 0x3FF | 0xD800);
+				value = 0xDC00 | value & 0x3FF;
+			}
+			output += stringFromCharCode(value);
+			return output;
+		}).join('');
+	}
 
-function encode_int(bias, delta) {
-  var result = [];
+	/**
+	 * Converts a basic code point into a digit/integer.
+	 * @see `digitToBasic()`
+	 * @private
+	 * @param {Number} codePoint The basic (decimal) code point.
+	 * @returns {Number} The numeric value of a basic code point (for use in
+	 * representing integers) in the range `0` to `base - 1`, or `base` if
+	 * the code point does not represent a value.
+	 */
+	function basicToDigit(codePoint) {
+		return codePoint - 48 < 10
+			? codePoint - 22
+			: codePoint - 65 < 26
+				? codePoint - 65
+				: codePoint - 97 < 26
+					? codePoint - 97
+					: base;
+	}
 
-  for (var k = BASE, q = delta;; k += BASE) {
-    var t = threshold(k, bias);
-    if (q < t) {
-      result.push(encode_digit(q));
-      break;
-    }
-    else {
-      result.push(encode_digit(t + ((q - t) % (BASE - t))));
-      q = ~~((q - t) / (BASE - t));
-    }
-  }
+	/**
+	 * Converts a digit/integer into a basic code point.
+	 * @see `basicToDigit()`
+	 * @private
+	 * @param {Number} digit The numeric value of a basic code point.
+	 * @returns {Number} The basic code point whose value (when used for
+	 * representing integers) is `digit`, which needs to be in the range
+	 * `0` to `base - 1`. If `flag` is non-zero, the uppercase form is
+	 * used; else, the lowercase form is used. The behavior is undefined
+	 * if flag is non-zero and `digit` has no uppercase form.
+	 */
+	function digitToBasic(digit, flag) {
+		//  0..25 map to ASCII a..z or A..Z
+		// 26..35 map to ASCII 0..9
+		return digit + 22 + 75 * (digit < 26) - ((flag != 0) << 5);
+	}
 
-  return result;
-}
+	/**
+	 * Bias adaptation function as per section 3.4 of RFC 3492.
+	 * http://tools.ietf.org/html/rfc3492#section-3.4
+	 * @private
+	 */
+	function adapt(delta, numPoints, firstTime) {
+		var k = 0;
+		delta = firstTime ? floor(delta / damp) : delta >> 1;
+		delta += floor(delta / numPoints);
+		for (/* no initialization */; delta > baseMinusTMin * tMax >> 1; k += base) {
+			delta = floor(delta / baseMinusTMin);
+		}
+		return floor(k + (baseMinusTMin + 1) * delta / (delta + skew));
+	}
 
-function encode(input) {
-  if (typeof input != 'string') {
-    throw new Error('Argument must be a string.');
-  }
+	/**
+	 * Converts a basic code point to lowercase if `flag` is falsy, or to
+	 * uppercase if `flag` is truthy. The code point is unchanged if it's
+	 * caseless. The behavior is undefined if `codePoint` is not a basic code
+	 * point.
+	 * @private
+	 * @param {Number} codePoint The numeric value of a basic code point.
+	 * @returns {Number} The resulting basic code point.
+	 */
+	function encodeBasic(codePoint, flag) {
+		codePoint -= (codePoint - 97 < 26) << 5;
+		return codePoint + (!flag && codePoint - 65 < 26) << 5;
+	}
 
-  input = input.split('').map(function(c) {
-    return c.charCodeAt(0);
-  });
+	/**
+	 * Converts a Punycode string of ASCII code points to a string of Unicode
+	 * code points.
+	 * @memberOf punycode
+	 * @param {String} input The Punycode string of ASCII code points.
+	 * @returns {String} The resulting string of Unicode code points.
+	 */
+	function decode(input) {
+		// Don't use UCS-2
+		var output = [],
+		    inputLength = input.length,
+		    out,
+		    i = 0,
+		    n = initialN,
+		    bias = initialBias,
+		    basic,
+		    j,
+		    index,
+		    oldi,
+		    w,
+		    k,
+		    digit,
+		    t,
+		    length,
+		    /** Cached calculation results */
+		    baseMinusT;
 
-  var output = [];
-  var non_basic = [];
+		// Handle the basic code points: let `basic` be the number of input code
+		// points before the last delimiter, or `0` if there is none, then copy
+		// the first basic code points to the output.
 
-  for (var i = 0, len = input.length; i < len; ++i) {
-    var c = input[i];
-    if (c < 128) {
-      output.push(c);
-    }
-    else {
-      non_basic.push(c);
-    }
-  }
+		basic = input.lastIndexOf(delimiter);
+		if (basic < 0) {
+			basic = 0;
+		}
 
-  var b, h;
-  b = h = output.length;
+		for (j = 0; j < basic; ++j) {
+			// if it's not a basic code point
+			if (input.charCodeAt(j) >= 0x80) {
+				error('not-basic');
+			}
+			output.push(input.charCodeAt(j));
+		}
 
-  if (b) {
-    output.push(45); // delimiter '-'
-  }
+		// Main decoding loop: start just after the last delimiter if any basic code
+		// points were copied; start at the beginning otherwise.
 
-  var n = INITIAL_N;
-  var bias = INITIAL_BIAS;
-  var delta = 0;
+		for (index = basic > 0 ? basic + 1 : 0; index < inputLength; /* no final expression */) {
 
-  for (var len = input.length; h < len; ++n, ++delta) {
-    var m = next_smallest_codepoint(non_basic, n);
-    delta += (m - n) * (h + 1);
-    n = m;
+			// `index` is the index of the next character to be consumed.
+			// Decode a generalized variable-length integer into `delta`,
+			// which gets added to `i`. The overflow checking is easier
+			// if we increase `i` as we go, then subtract off its starting
+			// value at the end to obtain `delta`.
+			for (oldi = i, w = 1, k = base; /* no condition */; k += base) {
 
-    for (var i = 0; i < len; ++i) {
-      var c = input[i];
-      if (c < n) {
-        if (++delta == MAX_INTEGER) {
-          throw new Error('Delta overflow.');
-        }
-      }
-      else if (c == n) {
-        // TODO append in-place?
-        // i.e. -> output.push.apply(output, encode_int(bias, delta));
-        output = output.concat(encode_int(bias, delta));
-        bias = adapt_bias(delta, h + 1, b == h);
-        delta = 0;
-        h++;
-      }
-    }
-  }
+				if (index >= inputLength) {
+					error('invalid-input');
+				}
 
-  return String.fromCharCode.apply(String, output);
-}
+				digit = basicToDigit(input.charCodeAt(index++));
 
-function decode(input) {
-  if (typeof input != 'string') {
-    throw new Error('Argument must be a string.');
-  }
+				if (digit >= base || digit > floor((maxInt - i) / w)) {
+					error('overflow');
+				}
 
-  // find basic code points/delta separator
-  var b = 1 + input.lastIndexOf('-');
+				i += digit * w;
+				t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
 
-  input = input.split('').map(function(c) {
-    return c.charCodeAt(0);
-  });
+				if (digit < t) {
+					break;
+				}
 
-  // start with a copy of the basic code points
-  var output = input.slice(0, b ? (b - 1) : 0);
+				baseMinusT = base - t;
+				if (w > floor(maxInt / baseMinusT)) {
+					error('overflow');
+				}
 
-  var n = INITIAL_N;
-  var bias = INITIAL_BIAS;
+				w *= baseMinusT;
 
-  for (var i = 0, len = input.length; b < len; ++i) {
-    var org_i = i;
+			}
 
-    for (var k = BASE, w = 1;; k += BASE) {
-      var d = decode_digit(input[b++]);
+			out = output.length + 1;
+			bias = adapt(i - oldi, out, oldi == 0);
 
-      // TODO overflow check
-      i += d * w;
+			// `i` was supposed to wrap around from `out` to `0`,
+			// incrementing `n` each time, so we'll fix that now:
+			if (floor(i / out) > maxInt - n) {
+				error('overflow');
+			}
 
-      var t = threshold(k, bias);
-      if (d < t) {
-        break;
-      }
+			n += floor(i / out);
+			i %= out;
 
-      // TODO overflow check
-      w *= BASE - t;
-    }
+			// Insert `n` at position `i` of the output
+			output.splice(i++, 0, n);
 
-    var x = 1 + output.length;
-    bias = adapt_bias(i - org_i, x, org_i == 0);
-    // TODO overflow check
-    n += ~~(i / x);
-    i %= x;
+		}
 
-    output.splice(i, 0, n);
-  }
+		return ucs2encode(output);
+	}
 
-  return String.fromCharCode.apply(String, output);
-}
+	/**
+	 * Converts a string of Unicode code points to a Punycode string of ASCII
+	 * code points.
+	 * @memberOf punycode
+	 * @param {String} input The string of Unicode code points.
+	 * @returns {String} The resulting Punycode string of ASCII code points.
+	 */
+	function encode(input) {
+		var n,
+		    delta,
+		    handledCPCount,
+		    basicLength,
+		    bias,
+		    j,
+		    m,
+		    q,
+		    k,
+		    t,
+		    currentValue,
+		    output = [],
+		    /** `inputLength` will hold the number of code points in `input`. */
+		    inputLength,
+		    /** Cached calculation results */
+		    handledCPCountPlusOne,
+		    baseMinusT,
+		    qMinusT;
+
+		// Convert the input in UCS-2 to Unicode
+		input = ucs2decode(input);
+
+		// Cache the length
+		inputLength = input.length;
+
+		// Initialize the state
+		n = initialN;
+		delta = 0;
+		bias = initialBias;
+
+		// Handle the basic code points
+		for (j = 0; j < inputLength; ++j) {
+			currentValue = input[j];
+			if (currentValue < 0x80) {
+				output.push(stringFromCharCode(currentValue));
+			}
+		}
+
+		handledCPCount = basicLength = output.length;
+
+		// `handledCPCount` is the number of code points that have been handled;
+		// `basicLength` is the number of basic code points.
+
+		// Finish the basic string - if it is not empty - with a delimiter
+		if (basicLength) {
+			output.push(delimiter);
+		}
+
+		// Main encoding loop:
+		while (handledCPCount < inputLength) {
+
+			// All non-basic code points < n have been handled already. Find the next
+			// larger one:
+			for (m = maxInt, j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+				if (currentValue >= n && currentValue < m) {
+					m = currentValue;
+				}
+			}
+
+			// Increase `delta` enough to advance the decoder's <n,i> state to <m,0>,
+			// but guard against overflow
+			handledCPCountPlusOne = handledCPCount + 1;
+			if (m - n > floor((maxInt - delta) / handledCPCountPlusOne)) {
+				error('overflow');
+			}
+
+			delta += (m - n) * handledCPCountPlusOne;
+			n = m;
+
+			for (j = 0; j < inputLength; ++j) {
+				currentValue = input[j];
+
+				if (currentValue < n && ++delta > maxInt) {
+					error('overflow');
+				}
+
+				if (currentValue == n) {
+					// Represent delta as a generalized variable-length integer
+					for (q = delta, k = base; /* no condition */; k += base) {
+						t = k <= bias ? tMin : (k >= bias + tMax ? tMax : k - bias);
+						if (q < t) {
+							break;
+						}
+						qMinusT = q - t;
+						baseMinusT = base - t;
+						output.push(
+							stringFromCharCode(digitToBasic(t + qMinusT % baseMinusT, 0))
+						);
+						q = floor(qMinusT / baseMinusT);
+					}
+
+					output.push(stringFromCharCode(digitToBasic(q, 0)));
+					bias = adapt(delta, handledCPCountPlusOne, handledCPCount == basicLength);
+					delta = 0;
+					++handledCPCount;
+				}
+			}
+
+			++delta;
+			++n;
+
+		}
+		return output.join('');
+	}
+
+	/**
+	 * Converts a Punycode string representing a domain name to Unicode. Only the
+	 * Punycoded parts of the domain name will be converted, i.e. it doesn't
+	 * matter if you call it on a string that has already been converted to
+	 * Unicode.
+	 * @memberOf punycode
+	 * @param {String} domain The Punycode domain name to convert to Unicode.
+	 * @returns {String} The Unicode representation of the given Punycode
+	 * string.
+	 */
+	function toUnicode(domain) {
+		return mapDomain(domain, function(string) {
+			return regexPunycode.test(string)
+				? decode(string.slice(4).toLowerCase())
+				: string;
+		});
+	}
+
+	/**
+	 * Converts a Unicode string representing a domain name to Punycode. Only the
+	 * non-ASCII parts of the domain name will be converted, i.e. it doesn't
+	 * matter if you call it with a domain that's already in ASCII.
+	 * @memberOf punycode
+	 * @param {String} domain The domain name to convert, as a Unicode string.
+	 * @returns {String} The Punycode representation of the given domain name.
+	 */
+	function toASCII(domain) {
+		return mapDomain(domain, function(string) {
+			return regexNonASCII.test(string)
+				? 'xn--' + encode(string)
+				: string;
+		});
+	}
+
+	/*--------------------------------------------------------------------------*/
+
+	/** Define the public API */
+	punycode = {
+		/**
+		 * A string representing the current Punycode.js version number.
+		 * @memberOf punycode
+		 * @type String
+		 */
+		'version': '1.2.0',
+		/**
+		 * An object of methods to convert from JavaScript's internal character
+		 * representation (UCS-2) to decimal Unicode code points, and back.
+		 * @see <http://mathiasbynens.be/notes/javascript-encoding>
+		 * @memberOf punycode
+		 * @type Object
+		 */
+		'ucs2': {
+			'decode': ucs2decode,
+			'encode': ucs2encode
+		},
+		'decode': decode,
+		'encode': encode,
+		'toASCII': toASCII,
+		'toUnicode': toUnicode
+	};
+
+	/** Expose `punycode` */
+	if (freeExports) {
+		if (freeModule && freeModule.exports == freeExports) {
+			// in Node.js or Ringo 0.8+
+			freeModule.exports = punycode;
+		} else {
+			// in Narwhal or Ringo 0.7-
+			for (key in punycode) {
+				punycode.hasOwnProperty(key) && (freeExports[key] = punycode[key]);
+			}
+		}
+	} else if (freeDefine) {
+		// via curl.js or RequireJS
+		define('punycode', punycode);
+	} else {
+		// in a browser or Rhino
+		root.punycode = punycode;
+	}
+
+}(this));

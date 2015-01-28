@@ -283,6 +283,22 @@
         "filename": "http://code.jquery.com/jquery-1.11.1.min.js",
         "result": "[freelib]"
     },
+    "8130544c215fe5d1ec081d83461bf4a711e74882": {
+        "filename": "http://code.jquery.com/jquery-1.11.2.min.js",
+        "result": "[freelib]"
+    },
+    "5b57851b09022c5e5f3a5fd08152b2dc12671974": {
+        "filename": "http://code.jquery.com/jquery-1.11.2.js",
+        "result": "[freelib]"
+    },
+    "41b4bfbaa96be6d1440db6e78004ade1c134e276": {
+        "filename": "http://code.jquery.com/jquery-2.1.3.min.js",
+        "result": "[freelib]"
+    },
+    "1852661bd11a09ca9b9cb63d1aa6ff390fffaf4e": {
+        "filename": "http://code.jquery.com/jquery-2.1.3.js",
+        "result": "[freelib]"
+    },
     "0be05c714a7e6cf28fe692629ece5b3769901dca": {
         "filename": "http://code.jquery.com/jquery-2.0.0.min.js",
         "result": "[freelib]"
@@ -332,6 +348,14 @@
         "result": "[freelib]"
     },
 
+    "0b327b43256da9f57b78e3134aaecc2a4a5a3bad": {
+        "filename": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.js",
+        "result": "[freelib]"
+    },
+    "01100f829bce3f074adcb6ae5309d9e769ef29fe": {
+        "filename": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.js",
+        "result": "[freelib]"
+    },
     "5f99079e4564f94a1d5e45d22d6dc18acbb148da": {
         "filename": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.js",
         "result": "[freelib]"
@@ -434,6 +458,14 @@
     },
     "b87f7150da2b0811ed143443af4038e3e2d41eda": {
         "filename": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.7.0/jquery-ui.js",
+        "result": "[freelib]"
+    },
+    "9927afbb31df93a76977a676a933b7e3696d61ba": {
+        "filename": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.1/jquery-ui.min.js",
+        "result": "[freelib]"
+    },
+    "7b6f5c747c19ad6fbe28957e4318559b45d89111": {
+        "filename": "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.0/jquery-ui.min.js",
         "result": "[freelib]"
     },
     "429282063ca7f3bae9797d70a6f09f2e3e05458a": {
@@ -1435,6 +1467,61 @@
     },
     "fe1b87838b7328273812380d26837f58348103b0": {
         "filename": "https://raw.github.com/documentcloud/underscore/1.6.0/underscore.js",
+        "result": "[freelib]"
+    },
+    "92d29762b3d85d123d593f14b113d4fb6385598f": {
+        "filename": "https://raw.github.com/documentcloud/underscore/1.7.0/underscore.js",
+        "result": "[freelib]"
+    },
+    "fb26909af4ad2a6c240b9aa4b35bb983cf4b20e4": {
+        "filename": "https://raw.github.com/documentcloud/underscore/1.7.0/underscore-min.js",
+        "result": "[freelib]"
+    },
+
+    "63a001665725b35d2bc4a6212385a746584c1a3b": {
+        "filename": "http://cdn.jsdelivr.net/jquery.fancytree/2.6.0/jquery.fancytree-all.min.js",
+        "result": "[freelib]"
+    },
+    "d6469e3aa15a6107ad5783a96e3c8fa3f5ce21ca": {
+        "filename": "http://cdn.jsdelivr.net/jquery.fancytree/2.5.0/jquery.fancytree-all.min.js",
+        "result": "[freelib]"
+    },
+    "2de56a2ec01b0aa170754bd6ed7485576f16f165": {
+        "filename": "http://cdn.jsdelivr.net/jquery.fancytree/2.4.1/jquery.fancytree-all.min.js",
+        "result": "[freelib]"
+    },
+
+    "5ada7c103fc1deabc925cc1fdbbb6e451c21fc70": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js",
+        "result": "[freelib]"
+    },
+    "afa7af2bc7cbe37eeccb9b65577744c08219c5a9": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.js",
+        "result": "[freelib]"
+    },
+    "5814e91bb6276f4de8b7951c965f2f190a03978d": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js",
+        "result": "[freelib]"
+    },
+    "fd607f85d598503b24d7799722db29fec4de1ef6": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.js",
+        "result": "[freelib]"
+    },
+    "c6a8a0f02ee0ecd975226ae4b38e9660750d1f93": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js",
+        "result": "[freelib]"
+    },
+    "539e456bb40d9e98244060186f5f131b1a7f4b33": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.js",
+        "result": "[freelib]"
+    },
+
+    "128273a9c66a32d7d59a6f290deb6cc4a2b2ee5a": {
+        "filename": "http://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js",
+        "result": "[freelib]"
+    },
+    "250d7c160f17c13e89cee0e1dcd1debb2e940ed2": {
+        "filename": "http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js",
         "result": "[freelib]"
     }
 }

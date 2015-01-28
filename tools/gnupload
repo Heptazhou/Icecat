@@ -7,7 +7,12 @@ find binaries -type f | grep -e asc$ -e sig$ | xargs -r rm
 
 set -e
 
-VERSION=31.2.0
+if [ $# != 1 ]; then
+  echo E: pass the version as parameter
+  exit 1
+fi
+VERSION=$1
+
 newline="
 "
 mputs=""
@@ -44,7 +49,7 @@ mputs="${mputs}put binaries/langpacks/$file.directive.asc $file.directive.asc $n
 done
 
 #cat << EOF
-ftp -v -p -n -i  << EOF | tee log
+ftp -v -p -n -i  << EOF 2>&1| tee log
 open ftp-upload.gnu.org
 user anonymous anonymous
 cd /incoming/ftp

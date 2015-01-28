@@ -42,39 +42,24 @@
       *
       */
     </script>      
-    <!-- Bootstrap CSS (APL 2.0)-->
-    <link href="third-party/bootstrap/css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="third-party/jquery-ui/css/ui-lightness/jquery-ui.theme.min.css" rel="stylesheet" media="screen">
-
+    <link href="third-party/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link media="screen" rel="stylesheet" href="styles/form.css">
-    <script src="third-party/jquery/jquery.min.js"></script>
-    <script src="third-party/jquery-ui/js/jquery-ui.min.js"></script>
-    <script src="third-party/bootstrap/js/bootstrap.min.js"></script>
 
-    <link href="third-party/editable/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet">
-    <script src="third-party/editable/bootstrap-editable/js/bootstrap-editable-inline.min.js"></script>
-    <script src="third-party/block-ui/jquery.blockUI.js"></script>
+    <script src="third-party/jquery/jquery.min.js"></script>
     <!--<script src="js/form-types.js"></script>-->
     <script src="js/form-row.js"></script>
-    <style>
-      #rules button {
-      margin-top:0 !important;
-      }
-      .drag-handle {
-      cursor:pointer;
-      }
-      #loadingBox {
-      display:none;
-      }
-    </style>
-	  
   </head>
 
   <body>
     <header id="site-header">
       <div class="container">
         <hgroup class="row">
-          <h1><a id="logo" target="_blank" href="http://www.gnu.org/s/librejs/" title="LibreJS -- Free JavaScript in your browser">LibreJS -- Free JavaScript in your browser</a></h1>
+            <div>
+                <a id="logo" target="_blank"
+                   href="https://www.gnu.org/s/librejs/"
+                   title="LibreJS - Free JavaScript in your browser"
+                   >LibreJS - Free JavaScript in your browser</a>
+            </div>
         </hgroup>
       </div>
     </header>
@@ -82,27 +67,28 @@
     <div  id="main">
       <div id="promotional">
         <div class="container">
-
           <div class="row">
-            
             <div class="span12">
               <div class="page-header">
                 <h1>LibreJS | Whitelist</h1>
               </div>
               <div>
-                <button class="deleteall btn">reset whitelist to default.</button>
-                <table style="max-width:800px" id="whitelist" class="table table-bordered table-striped">
+                  <div class="btn-group librejs-controls">
+                      <button class="librejs-whitelist-reset btn btn-default">
+                          Reset whitelist to default
+                      </button>
+                  </div>
+                  <table id="whitelist"
+                         class="table table-bordered table-striped">
                   <thead>
                     <tr>
-                      <th class="rule-type">JavaScript contents hash-code</th>
-                      <th class="url">Found at URL</th>
-                      <th class="reason">Reason</th>
-                      <th class="delete-rule">Delete script from whitelist</th>
+                      <th class="info rule-type">Hash</th>
+                      <th class="info url">URL</th>
+                      <th class="info">Info</th>
+                      <th class="info delete-rule">Actions</th>
                     </tr>
                   </thead>
-                  <tbody> 
-                    
-                  </tbody>
+                  <tbody></tbody>
                 </table>
               </div>
             </div>
@@ -110,19 +96,15 @@
           
         </div>
         <div id="loadingBox"><img src="images/ajax-loader.gif"/></div>
-
       </div>
-      <div id="banners" class="row">
-        <div class="twelvecol">
-          <a href="http://www.gnu.org/philosophy/free-sw.html"><img src="images/libre.png"></a>
-
-        </div>
+      <div class="librejs-banners">
+          <a href="http://www.gnu.org/philosophy/free-sw.html"
+             ><img src="images/libre.png"></a>
       </div>
-
     </div>
     <footer>	
 	    <p class="copyrights">
-	      Copyright (C) 2011, 2012, 2013, 2014 Loic J. Duros<br/>
+	      Copyright &copy; 2011, 2012, 2013, 2014 Loic J. Duros<br/>
 	    </p>
     </footer>
 

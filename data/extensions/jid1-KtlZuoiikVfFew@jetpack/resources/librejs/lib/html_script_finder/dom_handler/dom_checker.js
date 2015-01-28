@@ -2,20 +2,22 @@
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
  * Copyright (C) 2011, 2012, 2013, 2014 Loic J. Duros
+ * Copyright (C) 2014, 2015 Nik Nyby
  *
- * This program is free software: you can redistribute it and/or modify
+ * This file is part of GNU LibreJS.
+ *
+ * GNU LibreJS is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * This program is distributed in the hope that it will be useful,
+ * GNU LibreJS is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see  <http://www.gnu.org/licenses/>.
- *
+ * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
@@ -26,13 +28,11 @@
  */
 
 var {Cc, Ci, Cu, Cm, Cr} = require("chrome");
+var timer = require("sdk/timers");
 
 var scriptProperties = require("html_script_finder/dom_handler/script_properties");
-
 const scriptTypes = scriptProperties.scriptTypes;
-
 const statusTypes = scriptProperties.statusTypes;
-
 const reasons = scriptProperties.reasons;
 
 // ensure xhr won't create an infinite loop
@@ -40,18 +40,13 @@ const reasons = scriptProperties.reasons;
 var urlTester = require("html_script_finder/url_seen_tester").urlSeenTester;
 var urlHandler = require("url_handler/url_handler");
 
-
 var privacyChecker = require("js_checker/privacy_checker").privacyCheck;
 var jsChecker = require("js_checker/js_checker");
 
 const types = require("js_checker/constant_types");
-
 var checkTypes = types.checkTypes;
-
 var stripCDATAOpen = /<\!\[CDATA\[/gi;
 var stripCDATAClose = /]]>/g;
-
-var timer = require("sdk/timers");
 
 const getHash = require("script_entries/scripts_cache").scriptsCached.getHash;
 
@@ -154,7 +149,6 @@ DomChecker.prototype.concatAttributes = function(script) {
     }
 
     return text;
-
 };
 
 /**
@@ -247,6 +241,7 @@ DomChecker.prototype.processInlineCheckResult = function(
 DomChecker.prototype.readyForExternal = function() {
     "use strict";
 
+    console.debug('DomChecker.readyForExternal');
     // done with those inline scripts, continue with
     // the rest.
     this.checkExternalScripts();
@@ -259,6 +254,8 @@ DomChecker.prototype.checkSingleInlineScript = function(
         script, loadedScript, checker) {
     "use strict";
     var check, text;
+
+    console.debug('DomChecker.checkSingleInlineScript');
 
     try {
 
@@ -288,36 +285,40 @@ DomChecker.prototype.checkSingleInlineScript = function(
  */
 DomChecker.prototype.checkExternalScripts = function() {
     "use strict";
-    var i = 0, 
-        len = this.d.externalScripts.length,
-        that = this;
-    console.debug("externalScripts length", this.d.externalScripts.length);
-    if (this.d.removedAllScripts ||
-            this.d.externalScripts.length === 0) {
-                // all js has already been removed.
-                // stop check.
-                this.wrapUpBeforeLeaving();
-                return;
 
-            }
+    console.debug('DomChecker.checkExternalScripts');
+
+    var i = 0;
+    var len = this.d.externalScripts.length;
+    var that = this;
+
+    console.debug("externalScripts length", len);
+    if (this.d.removedAllScripts || len === 0) {
+        // all js has already been removed.
+        // stop check.
+        this.wrapUpBeforeLeaving();
+        return;
+    }
 
     for (; i < len; i++) {
+        this.xhr(
+            this.d.externalScripts[i],
+            function(script, scriptText) {
+                console.debug("In xhr callback for script url:", script.url);
+                if (scriptText === false) {
+                    that.d.removeGivenJs(script);
+                    that.d.scriptHasBeenTested();
+                    that.externalCheckIsDone();
+                    return;
+                }
 
-        this.xhr(this.d.externalScripts[i], 
-
-                function(script, scriptText) { 
-                    console.debug("doing xhr", script.url);
-                    if (scriptText === false) {
-                        that.d.removeGivenJs(script);
-                        that.d.scriptHasBeenTested();
-                        that.externalCheckIsDone();
-                        return;
-                    }
-
-                    that.analyzeJs(script, 
-                        scriptText, 
-                        that.checkSingleExternalScript.bind(that));
-                });
+                console.debug('about to analyzeJS for script:', script.url);
+                that.analyzeJs(
+                    script,
+                    scriptText,
+                    that.checkSingleExternalScript.bind(that));
+            }
+        );
     }
 };
 
@@ -332,8 +333,8 @@ DomChecker.prototype.wrapUpBeforeLeaving = function() {
 
 DomChecker.prototype.analyzeJs = function(script, scriptText, callback) {
     "use strict";
+    console.debug('DomChecker.analyzeJs for script:', script.url);
     try {
-        console.debug("checking ", script.url);
         var checker = jsChecker.jsChecker();
         var url = "";
         if (typeof script.url !== "undefined") {
@@ -356,17 +357,19 @@ DomChecker.prototype.analyzeJs = function(script, scriptText, callback) {
  * Check a single external script.
  */
 DomChecker.prototype.checkSingleExternalScript = function(
-        script, loadedScript, checker) {
+    script, loadedScript, checker
+) {
     "use strict";
     var check;
 
+    console.debug('DomChecker.checkSingleExternalScript()');
     try {
-
         check = checker.parseTree.freeTrivialCheck;
 
         script.tree = checker;
         script.result = check;
-        console.debug('in checkSingleExternalScript, checker.hash is', checker.hash);
+        console.debug('in checkSingleExternalScript, checker.hash is',
+                      checker.hash);
         if (script.status != statusTypes.JSWEBLABEL) {
             script.status = statusTypes.CHECKED;		
         } 
@@ -391,12 +394,13 @@ DomChecker.prototype.checkSingleExternalScript = function(
         } else {
             // anything else is nontrivial. Including TRIVIAL_DEFINES_FUNCTION.
             console.debug("checker hash for remove is ", checker.hash);
-            this.d.removeGivenJs(script, reasons.FUNCTIONS_EXTERNAL, false, checker.hash);
+            this.d.removeGivenJs(
+                script, reasons.FUNCTIONS_EXTERNAL, false, checker.hash);
         } 
 
     } catch (e) {
         console.debug('error in checkExternalScript',
-                e, e.lineNumber, 'for script', script.url);
+                      e, e.lineNumber, 'for script', script.url);
 
         this.d.removeAllJs();
         this.destroy();
@@ -409,6 +413,7 @@ DomChecker.prototype.checkSingleExternalScript = function(
 
 DomChecker.prototype.externalCheckIsDone = function() {
     "use strict";
+    console.debug('DomChecker.externalCheckIsDone');
 
     console.debug('scriptsTested is', this.d.scriptsTested);
     console.debug('num external', this.d.numExternalScripts);
@@ -416,6 +421,17 @@ DomChecker.prototype.externalCheckIsDone = function() {
     if (this.d.scriptsTested  >= this.d.numExternalScripts) {
         console.debug('wrapping up external');
         this.wrapUpBeforeLeaving();
+    } else {
+        var scriptsToCheck = this.d.numExternalScripts - this.d.scriptsTested;
+        console.debug('Not wrapping up! Waiting to check ' + scriptsToCheck +
+                      ' more script(s)');
+
+        if (this.d.externalScripts[0]) {
+            console.debug('script 0 is', this.d.externalScripts[0]);
+        }
+        if (this.d.externalScripts[1]) {
+            console.debug('script 1 is', this.d.externalScripts[1]);
+        }
     }
 };
 

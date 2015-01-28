@@ -1,8 +1,7 @@
-/*
-
+/**
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
- * Copyright (C) 2011, 2012 Loic J. Duros
+ * Copyright (C) 2011, 2012, 2014 Loic J. Duros
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +21,13 @@
 
 */
 /* quick reset for box and children */
-#librejs-complaint-box, #librejs-complaint-box *, #librejs-complaint-box a:hover, #librejs-complaint-box a:active, #librejs-complaint-box a:visited, #librejs-time-mention, #librejs-time-mention:hover {
+#librejs-complaint-box,
+#librejs-complaint-box *,
+#librejs-complaint-box a:hover,
+#librejs-complaint-box a:active,
+#librejs-complaint-box a:visited,
+#librejs-time-mention,
+#librejs-time-mention:hover {
     margin:0;
     padding:0;
     line-height:1;
@@ -36,9 +41,9 @@
     font-size:12px;
     text-decoration:none;
     font-variant:normal;
-    font-family:sans-serif !important;
-    text-shadow:none !important;
-    text-transform:none !important;
+    font-family: sans-serif !important;
+    text-shadow: none !important;
+    text-transform: none;
     background-image:none;
     background-color:transparent;
 }
@@ -50,52 +55,88 @@
 }
 
 #librejs-complaint-box, #librejs-complaint-box * {
-    width:auto;
+    box-sizing: content-box;
+    width: auto;
 }
 
 div {
     width:auto;
 }
 
-#librejs-tab-button, #librejs-tab-button:hover, #librejs-tab-button:visited, #librejs-tab-button:active {
+#librejs-tab-button {
+    cursor: move;
+    opacity: 0.6;
     display: block;
     width: 18px;
-    height: 70px;
-    color: rgb(255, 255, 255);
-    padding: 30px !important;
-    background-color:#e3dedb !important;
-    background-image:url("../images/torchy.png"), url("../images/separator.png") !important;
-    background-position: 19px 23px, 55px 16px !important;
-    background-repeat: no-repeat !important;
-    border:solid #454545 3px !important;
+
+    padding-top: 16px;
+    padding-bottom: 16px;
+    padding-left: 20px;
+
+    background-color: #e3dedb !important;
+    border: solid #454545 1px !important;
     border-right:none !important;
     overflow: hidden;
-    text-indent: -1000em;
     border-top-left-radius:20px !important;
     border-bottom-left-radius:20px !important;
     float:left;
     z-index:50;
-    position:relative;
+    position: relative;
+
+    top: 40px;
+}
+
+#librejs-tab-button:hover {
+    opacity: 1;
+}
+
+#librejs-tab-button .librejs-complain-button {
+    height: 93px;
+    width: 20px;
+    margin-left: -10px;
+    background-image: url('../images/complain.png');
+    background-repeat: no-repeat;
+}
+
+#librejs-tab-button .librejs-complain-separator {
+    width: 18px;
+    height: 88px;
+    position: absolute;
+    top: 36px;
+    left: 46px;
+    background-image: url("../images/separator.png") !important;
+    background-repeat: no-repeat !important;
 }
 
 #librejs-complaint-box {
-    position: fixed;   
-    top: 15%;
+    position: fixed;
     z-index: 2147483647 !important; /* fix for tech crunch big number */
-    right:-530px;
-    display:none;
+    right: -465px;
+    display: none;
 }
 
 #librejs-complaint-info {
-    border:solid #454545 3px;
+    border: solid #454545 1px;
     background-color:#e3dedb !important;
     width:460px !important;
-    margin-left:78px !important;
-    border-bottom-left-radius:30px;
+    border-top-left-radius: 10px;
     z-index:0;
-    padding:0 20px 50px;
     text-align:center;
-    position:relative;
+    position: relative;
+    margin-left: 38px !important;
+    margin-top: 40px;
+}
+
+#librejs-complaint-info .librejs-hide-button {
+    cursor: pointer;
+    font-size: 24px;
+    float: left;
+    margin-top: 6px;
+    margin-left: 8px;
+}
+
+#librejs-complaint-info .librejs-hide-button:hover {
+    font-weight: bold;
 }
 
 #librejs-complaint-info:hover {
@@ -103,9 +144,9 @@ div {
 }
 
 #librejs-complaint-info-text {
-    overflow:auto !important;
-    height:auto;
-    padding:0 30px;
+    overflow: auto;
+    height: auto;
+    padding: 0 30px;
 }
 
 #librejs-complaint-info h1 {
@@ -114,10 +155,10 @@ div {
     font-size:25px;
     text-align:center;
     background:url('../images/info-title.png') no-repeat 50% 30px !important;
-    overflow:hidden;
+    overflow: hidden;
     text-indent:-3000em;
     height:100px;
-    padding:30px;
+    padding: 20px;
     margin:0 !important;
     line-height:0 !important;
     display:block !important;
@@ -142,9 +183,9 @@ div {
 }
 
 #librejs-complaint-info ul {
-    margin-left:15px;
+    margin-left: 15px;
 }
 
 #librejs-complaint-info ul li a {
-    font-size:14px !important;
+    font-size: 14px !important;
 }

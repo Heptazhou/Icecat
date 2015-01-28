@@ -130,7 +130,7 @@ pref("plugin.state.flash", 1);
 // Do not autoupdate search engines
 pref("browser.search.update", false);
 // Warn when the page tries to redirect or refresh
-pref("accessibility.blockautorefresh", true);
+//pref("accessibility.blockautorefresh", true);
 
 // Disable channel updates
 pref("app.update.enabled", false);
