@@ -19,17 +19,6 @@ cat << EOF > binaries/$ARCH/run.sh
 set -e
 set -x
 
-if [ $ARCH = "i386" ]; then
-for BIN in /bin/uname /usr/bin/arch ; do
-cp \$BIN \$BIN.orig
-cat << EOF2 > \$BIN
-#!/bin/bash
-\$BIN.orig "\\\$@" | sed s/x86_64/i686/g
-EOF2
-chmod 755 \$BIN
-done
-fi
-
 cd $PWD/binaries/$ARCH/temp
 apt-get -q -y --yes build-dep firefox
 ../configure --with-l10n-base=\$PWD/../l10n --enable-official-branding --disable-crashreporter --disable-gnomevfs --enable-gio --disable-debug --enable-gstreamer=0.10 --with-distribution-id=org.gnu --disable-updater
