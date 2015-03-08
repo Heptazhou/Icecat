@@ -30,13 +30,13 @@
 
 label{
 position:relative;
-bottom:2px;
-left:2px;
+bottom:0.25em;
+left:0.25em;
 }
 
 #addonsform form{
 position:relative;
-left:10px;
+left:1em;
 }
 
 em {
@@ -49,14 +49,14 @@ color:#004998
 
 #addonsform{
 background-color:#fff;
-font-size:14px;
-padding:10px 30px 20px 30px;
-border-radius: 10px;
-box-shadow: 0px 0px 5px #888888;
+font-size:0.8em;
+padding:1em 3em 2em 2.5em;
+border-radius: 0.5em;
+box-shadow: 0px 0px 5px #888888 inset;
 }
 
 .block-side-margin {
-  min-width: 16px;
+  min-width: 1em;
   -moz-box-flex: 1;
 }
 
@@ -89,7 +89,43 @@ box-shadow: 0px 2px 0 #aaa;
 }
 
 #footer{
-min-height:100px;
+min-height:4em;
+display: -moz-box;
+-moz-box-align: center;
+-moz-box-pack: center;
+width: 100%;
+background-color: hsla(0,0%,0%,.03);
+box-shadow: 0 2px 5px hsla(0,0%,0%,.1) inset, 0 -1px 0 hsla(0,0%,100%,.25);
+}
+
+.titlelink{
+font-weight:bold;
+color: #678;
+text-shadow: 0px 1px 0px white;
+}
+
+#searchLogoContainer{
+background:#ddd;
+padding-left:10px;
+font-size:0.8em;
+border-radius: 3px 0px 0px 3px;
+text-shadow:0px 1px 0px #fff;
+border:1px solid ;
+border-right:none;
+
+border-color: rgba(51, 166, 255, 0.6) rgba(39, 145, 225, 0.6) rgba(0, 122, 204, 0.6);
+    border-top-color: rgba(51, 166, 255, 0.6);
+    border-right-color-value: rgba(39, 145, 225, 0.6);
+    border-bottom-color: rgba(0, 122, 204, 0.6);
+    border-left-color-value: rgba(39, 145, 225, 0.6);
+    border-left-color-ltr-source: physical;
+    border-left-color-rtl-source: physical;
+    border-right-color-ltr-source: physical;
+    border-right-color-rtl-source: physical;
+}
+
+input{
+border-radius:0px!important;
 }
 
 </style>
@@ -272,7 +308,7 @@ function onSearchSubmit(){
 
     <div class="spacer"/>
     <div id="topSection">
-      <img src="chrome://branding/content/about-logo.png"/>
+      <img src="chrome://icecathome/content/aboutIceCat/about-logo.png"/><br/><br/>
 
       <div id="searchContainer">
         <form name="searchForm" id="searchForm" onsubmit="onSearchSubmit(); return false">
@@ -283,9 +319,8 @@ function onSearchSubmit(){
         </form>
       </div>
 
+<br/><br/>
     </div>
-
-    <div class="spacer"/>
 
 <div id="block-horizontal-margin">
 <div class="block-side-margin"></div>
@@ -297,6 +332,19 @@ function onSearchSubmit(){
 </div>
 
     <div class="spacer"/>
+
+<div id="footer">
+<p ><a class="titlelink" href="https://www.gnu.org">GNU's not UNIX!</a></p>
+<ul style="font-size:0.8em">
+<li><a href="https://gnu.org/gnu/gnu.html">About GNU</a></li>
+<li><a href="https://gnu.org/philosophy/philosophy.html">Philosophy</a></li>
+<li><a href="https://gnu.org/licenses/licenses.html">Licenses</a></li>
+<li><a href="https://gnu.org/education/education.html">Education</a></li>
+<li><a href="https://gnu.org/software/software.html">Software</a></li>
+<li><a href="https://gnu.org/doc/doc.html">Documentation</a></li>
+<li><a href="https://gnu.org/help/help.html">Help GNU</a></li>
+</ul>
+</div>
 
   </body>
 </html>
