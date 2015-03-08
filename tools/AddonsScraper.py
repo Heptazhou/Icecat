@@ -79,6 +79,7 @@ def parsepage(url, category):
         return 0
     name = re.sub('/$','', normalink(url))
     name = re.sub('.*/','', name)
+    id = soup.findAll('div',{'id':'addon'})[0]['data-id']
     prettyname = soup.findAll(attrs={"property":"og:title"})[0]['content']
     description = soup.findAll(attrs={"property":"og:description"})[0]['content']
     rating = soup.findAll(attrs={"itemprop":"ratingValue"})[0]['content']
@@ -93,6 +94,10 @@ def parsepage(url, category):
             screenshots.append(normalink(a['href']))
     except:
         pass
+    tmp=""
+    for value in screenshots:
+        tmp+=value+' '
+        screenshots=tmp
     version =  soup.findAll('span',{'class':'version-number'})[0].text
     addondiv = soup.findAll('div',{'id':'addon'})[0]
     addonp = addondiv.findAll('p',{'class':'install-button'})[0]
@@ -108,34 +113,30 @@ def parsepage(url, category):
         supportlink = re.sub('.*//','http://',supportlink)
     except:
         supportlink = ""
-    
+
+    versioninfo = unicode(soup.findAll('div',{'class':'desc prose'})[0])
+    versiontime = soup.findAll('time')[0].text
+    filesize = soup.findAll('span',{'class':'filesize'})[0].text
+ 
     htmldescription = unicode(htmldescription)
     description = unicode(description)
     prettyname = unicode(prettyname)
     description = re.sub('\'', '\\\'', description)
     htmldescription = re.sub('\'', '\\\'', htmldescription)
+    versioninfo = re.sub('\'', '\\\'', versioninfo)
     prettyname = re.sub('\'', '\\\'', prettyname)
-    screenshots = unicode(screenshots)
 
-    sql = u'INSERT INTO addons.addons (`name`, `prettyname`, `description`, `htmldescription`, `icon`, `screenshots`, `version`, `rating`, `popularity`, `downloadlink`, `homelink`, `supportlink`, `retrievedlink`, `license`, `category`) VALUES ("' +name+ '", \'' +prettyname+ '\', \'' +description+ '\', \'' +htmldescription+ '\', "' +icon+ '", "' +screenshots+ '", "' +version+ '", "' +rating+ '", "' +popularity+ '", "' +downloadlink+ '", "' +homelink+ '", "' +supportlink+ '", "' +url+ '" , "' +license+ '", "' +category+ '");'
-    try:
-        cursor = db.cursor()
-        cursor.execute(sql)
-        cursor.close() 
-        db.commit()
-    except:
-        print 'Failed to insert "' + name + '", query: "' + sql
-    else:
-        print "Added " + name + " " + url
+    sql = "INSERT INTO addons (\
+id, name, prettyname, description, htmldescription, icon, screenshots, version, versioninfo, versiontime, filesize, rating, popularity, homelink, supportlink, downloadlink, license, category \
+) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s');" % (\
+id, name, prettyname, description, htmldescription, icon, screenshots, version, versioninfo, versiontime, filesize, rating, popularity, homelink, supportlink, downloadlink, license, category)
+    print sql.encode('utf-8').strip()
 
-import MySQLdb
-db = MySQLdb.connect(host="localhost",user=dbuser,passwd=dbpass, charset="utf8", use_unicode=True)
-cursor = db.cursor()
 sql = """DROP DATABASE IF EXISTS addons;
 CREATE DATABASE addons CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE addons;
 CREATE TABLE addons(
-id INT PRIMARY KEY AUTO_INCREMENT,
+id INT PRIMARY KEY,
 name VARCHAR(50),
 prettyname VARCHAR(50),
 description TEXT,
@@ -143,6 +144,9 @@ htmldescription TEXT,
 icon VARCHAR(255),
 screenshots TEXT,
 version VARCHAR(20),
+versioninfo TEXT,
+versiontime VARCHAR(40),
+filesize VARCHAR(10),
 rating VARCHAR(10),
 popularity INT,
 downloadlink VARCHAR(255),
@@ -153,17 +157,22 @@ license VARCHAR(255),
 category VARCHAR(20)
 );
 """
-cursor.execute(sql)
-cursor.close()
-db.commit()
 
+print sql
+
+"""
 for category in categories:
     links=[]
     for page in range(1,1+parsepages):
         links = links + parselist(server + "/en-US/firefox/extensions/" + category + "/?sort=popular&page="+str(page))
     for link in links:
         parsepage(server+link, category)
-
+"""
 #tests
-#parsepage("https://addons.mozilla.org/en-US/firefox/addon/twoo/", "test")
+#parsepage("https://addons.mozilla.org/en-US/firefox/addon/adblock-plus/", "test")
 #parsepage("https://addons.mozilla.org/en-US/firefox/addon/what-about/", "test")
+#parsepage("https://addons.mozilla.org/en-US/firefox/addon/noscript/", "test")
+
+for item in [394968, 1865, 3829, 722, 1843, 201, 748, 3456, 220, 60, 59 ]:
+    parsepage(("https://addons.mozilla.org/en-US/firefox/addon/%s" % item) , "test")
+
