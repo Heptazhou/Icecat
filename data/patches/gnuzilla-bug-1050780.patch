@@ -1,0 +1,53 @@
+# HG changeset patch
+# User Lucas Rocha <lucasr@mozilla.com>
+
+Bug 1050780 - Avoid disabled items in GeckoMenu's adapter (r=margaret)
+
+diff --git a/mobile/android/base/menu/GeckoMenu.java b/mobile/android/base/menu/GeckoMenu.java
+index eff2a51..cd2404b 100644
+--- a/mobile/android/base/menu/GeckoMenu.java
++++ b/mobile/android/base/menu/GeckoMenu.java
+@@ -781,17 +781,19 @@ public class GeckoMenu extends ListView
+         public boolean areAllItemsEnabled() {
+             // Setting this to true is a workaround to fix disappearing
+             // dividers in the menu (bug 963249).
+             return true;
+         }
+ 
+         @Override
+         public boolean isEnabled(int position) {
+-            return getItem(position).isEnabled();
++            // Setting this to true is a workaround to fix disappearing
++            // dividers in the menu in L (bug 1050780).
++            return true;
+         }
+ 
+         public void addMenuItem(GeckoMenuItem menuItem) {
+             if (mItems.contains(menuItem))
+                 return;
+ 
+             // Insert it in proper order.
+             int index = 0;
+diff --git a/mobile/android/base/resources/drawable/action_bar_button.xml b/mobile/android/base/resources/drawable/action_bar_button.xml
+index 9cb7aa8..fe36bc4 100644
+--- a/mobile/android/base/resources/drawable/action_bar_button.xml
++++ b/mobile/android/base/resources/drawable/action_bar_button.xml
+@@ -1,16 +1,17 @@
+ <?xml version="1.0" encoding="utf-8"?>
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ 
+ <selector xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+-    <item android:state_pressed="true">
++    <item android:state_pressed="true"
++          android:state_enabled="true">
+         <shape>
+             <solid android:color="@color/highlight" />
+         </shape>
+     </item>
+ 
+     <item android:state_focused="true"
+           android:state_pressed="false">
+         <shape>

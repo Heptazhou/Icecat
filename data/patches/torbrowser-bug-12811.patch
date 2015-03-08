@@ -1,0 +1,19 @@
+    Bug 12811: WTypes.h -> wtypes.h
+---
+ .../google-breakpad/src/google_breakpad/common/breakpad_types.h      |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/toolkit/crashreporter/google-breakpad/src/google_breakpad/common/breakpad_types.h b/toolkit/crashreporter/google-breakpad/src/google_breakpad/common/breakpad_types.h
+index a60c5f3..e92436f 100644
+--- a/toolkit/crashreporter/google-breakpad/src/google_breakpad/common/breakpad_types.h
++++ b/toolkit/crashreporter/google-breakpad/src/google_breakpad/common/breakpad_types.h
+@@ -58,7 +58,7 @@
+  */
+ #include BREAKPAD_CUSTOM_STDINT_H
+ #else
+-#include <WTypes.h>
++#include <wtypes.h>
+ 
+ typedef unsigned __int8  uint8_t;
+ typedef unsigned __int16 uint16_t;
+

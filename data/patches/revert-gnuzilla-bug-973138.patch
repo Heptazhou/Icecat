@@ -1,0 +1,25 @@
+This patch reverts fix for gnuzilla bug:
+https://bugzilla.mozilla.org/show_bug.cgi?id=973138
+which introduces:
+https://trac.torproject.org/projects/tor/ticket/12811
+https://bugzilla.mozilla.org/show_bug.cgi?id=1049366
+
+--- a/mozglue/build/WindowsDllBlocklist.cpp	2015-01-27 19:17:08.585519129 +0100
++++ b/mozglue/build/WindowsDllBlocklist.cpp	2015-01-30 00:42:10.817863012 +0100
+@@ -551,7 +551,7 @@
+   printf_stderr("LdrLoadDll: dll name '%s'\n", dllName);
+ #endif
+ 
+-  // Block a suspicious binary that uses various 12-digit hex strings
++/*  // Block a suspicious binary that uses various 12-digit hex strings
+   // e.g. MovieMode.48CA2AEFA22D.dll (bug 973138)
+   char * dot = strchr(dllName, '.');
+   if (dot && (strchr(dot+1, '.') == dot+13)) {
+@@ -561,6 +561,7 @@
+       return STATUS_DLL_NOT_FOUND;
+     }
+   }
++*/
+ 
+   // then compare to everything on the blocklist
+   info = &sWindowsDllBlocklist[0];

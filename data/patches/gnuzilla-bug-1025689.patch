@@ -1,0 +1,19 @@
+diff -ru mozilla-esr31/media/libopus/moz.build icecat-31.4.0/media/libopus/moz.build
+--- a/media/libopus/moz.build	2015-01-06 06:08:03.000000000 +0100
++++ b/media/libopus/moz.build	2015-02-02 02:37:44.416803188 +0100
+@@ -23,10 +23,11 @@
+     DEFINES['OPUS_ARM_ASM'] = True
+     DEFINES['OPUS_ARM_EXTERNAL_ASM'] = True
+     DEFINES['OPUS_ARM_INLINE_ASM'] = True
+-    DEFINES['OPUS_ARM_INLINE_EDSP'] = True
+-    DEFINES['OPUS_ARM_MAY_HAVE_EDSP'] = True
+-    DEFINES['OPUS_ARM_MAY_HAVE_MEDIA'] = True
+-    DEFINES['OPUS_ARM_MAY_HAVE_NEON'] = True
++    if int(CONFIG['ARM_ARCH']) >= 6:
++        DEFINES['OPUS_ARM_INLINE_EDSP'] = True
++        DEFINES['OPUS_ARM_MAY_HAVE_EDSP'] = True
++        DEFINES['OPUS_ARM_MAY_HAVE_MEDIA'] = True
++        DEFINES['OPUS_ARM_MAY_HAVE_NEON'] = True
+ 
+ if CONFIG['MOZ_DEBUG']:
+     DEFINES['ENABLE_ASSERTIONS'] = True

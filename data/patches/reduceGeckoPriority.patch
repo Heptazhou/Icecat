@@ -1,0 +1,18 @@
+diff -ur icecat-31.4.0.orig/mobile/android/base/util/ThreadUtils.java icecat-31.4.0/mobile/android/base/util/ThreadUtils.java
+--- icecat-31.4.0.orig/mobile/android/base/util/ThreadUtils.java	2015-02-22 18:35:21.022789023 +0000
++++ icecat-31.4.0/mobile/android/base/util/ThreadUtils.java	2015-02-22 22:09:50.518544343 +0000
+@@ -179,7 +179,13 @@
+      * @param timeout Timeout in ms after which the priority will be reset
+      */
+     public static void reduceGeckoPriority(long timeout) {
+-        if (!sIsGeckoPriorityReduced) {
++        if (Runtime.getRuntime().availableProcessors() > 1) {
++            // Don't reduce priority for multicore devices. We use availableProcessors()
++            // for its fast performance. It may give false negatives (i.e. multicore
++            // detected as single-core), but we can tolerate this behavior.
++            return;
++        }
++        if (!sIsGeckoPriorityReduced && sGeckoThread != null) {
+             sIsGeckoPriorityReduced = true;
+             sGeckoThread.setPriority(Thread.MIN_PRIORITY);
+             getUiHandler().postDelayed(sPriorityResetRunnable, timeout);

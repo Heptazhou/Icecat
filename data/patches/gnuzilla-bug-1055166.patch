@@ -1,0 +1,33 @@
+From: James Willcox <snorp@snorp.net>
+Bug 1055166 - Catch IllegalStateException when recycling Message
+
+
+
+diff --git a/mobile/android/base/GeckoAppShell.java b/mobile/android/base/GeckoAppShell.java
+index b06547f8c8135542d27713bb8e4c5d0e7496bb17..a50538e1b3449d3767ad78ed3fb8e596bc1acfbb 100644
+--- a/mobile/android/base/GeckoAppShell.java
++++ b/mobile/android/base/GeckoAppShell.java
+@@ -2478,17 +2478,22 @@ public class GeckoAppShell
+             // Our "queue is empty" message; see runGecko()
+             msg.recycle();
+             return false;
+         }
+         if (msg.getTarget() == null) 
+             Looper.myLooper().quit();
+         else
+             msg.getTarget().dispatchMessage(msg);
+-        msg.recycle();
++
++        try {
++            msg.recycle();
++        } catch (IllegalStateException e) {
++            // There is nothing we can do here so just eat it
++        }
+         return true;
+     }
+ 
+     @WrapElementForJNI
+     public static void notifyWakeLockChanged(String topic, String state) {
+         if (getGeckoInterface() != null)
+             getGeckoInterface().notifyWakeLockChanged(topic, state);
+     }

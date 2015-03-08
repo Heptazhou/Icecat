@@ -1,0 +1,93 @@
+# HG changeset patch
+# User Lucas Rocha <lucasr@mozilla.com>
+
+Bug 1034167 - Part 2: Explicit set scrollbars in TabsTray (r=mfinkle)
+
+diff --git a/mobile/android/base/resources/values-land/styles.xml b/mobile/android/base/resources/values-land/styles.xml
+index 774c48e..6769b1e 100644
+--- a/mobile/android/base/resources/values-land/styles.xml
++++ b/mobile/android/base/resources/values-land/styles.xml
+@@ -2,16 +2,17 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ 
+ <resources>
+ 
+     <style name="TabsList" parent="TabsListBase">
+          <item name="android:orientation">horizontal</item>
++         <item name="android:scrollbars">horizontal</item>
+     </style>
+ 
+     <style name="TabsItem">
+          <item name="android:nextFocusDown">@+id/close</item>
+     </style>
+ 
+     <style name="TabsItemClose">
+          <item name="android:nextFocusUp">@+id/info</item>
+diff --git a/mobile/android/base/resources/values-large-land-v11/styles.xml b/mobile/android/base/resources/values-large-land-v11/styles.xml
+index 557b659..1468914 100644
+--- a/mobile/android/base/resources/values-large-land-v11/styles.xml
++++ b/mobile/android/base/resources/values-large-land-v11/styles.xml
+@@ -2,16 +2,17 @@
+ <!-- This Source Code Form is subject to the terms of the Mozilla Public
+    - License, v. 2.0. If a copy of the MPL was not distributed with this
+    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
+ 
+ <resources>
+ 
+     <style name="TabsList" parent="TabsListBase">
+          <item name="android:orientation">vertical</item>
++         <item name="android:scrollbars">vertical</item>
+     </style>
+ 
+     <style name="Widget.BookmarkFolderView" parent="Widget.TwoLinePageRow.Title">
+         <item name="android:paddingLeft">60dip</item>
+         <item name="android:drawablePadding">10dip</item>
+         <item name="android:drawableLeft">@drawable/bookmark_folder</item>
+     </style>
+ 
+diff --git a/mobile/android/base/resources/values-large-v11/styles.xml b/mobile/android/base/resources/values-large-v11/styles.xml
+index 7a22789..a6a6221 100644
+--- a/mobile/android/base/resources/values-large-v11/styles.xml
++++ b/mobile/android/base/resources/values-large-v11/styles.xml
+@@ -25,16 +25,17 @@
+         <item name="android:layout_marginTop">6dp</item>
+         <item name="android:layout_marginBottom">6dp</item>
+         <!-- Start with forward hidden -->
+         <item name="android:orientation">horizontal</item>
+     </style>
+ 
+     <style name="TabsList" parent="TabsListBase">
+          <item name="android:orientation">horizontal</item>
++         <item name="android:scrollbars">horizontal</item>
+     </style>
+ 
+     <style name="TabsItem">
+          <item name="android:nextFocusDown">@+id/close</item>
+     </style>
+ 
+     <style name="TabsItemClose">
+          <item name="android:nextFocusUp">@+id/info</item>
+diff --git a/mobile/android/base/resources/values/styles.xml b/mobile/android/base/resources/values/styles.xml
+index a15f72e..f479180 100644
+--- a/mobile/android/base/resources/values/styles.xml
++++ b/mobile/android/base/resources/values/styles.xml
+@@ -430,16 +430,17 @@
+     <!-- TabsTray List -->
+     <style name="TabsListBase">
+          <item name="android:background">@android:color/transparent</item>
+          <item name="android:listSelector">@android:color/transparent</item>
+     </style>
+ 
+     <style name="TabsList" parent="TabsListBase">
+          <item name="android:orientation">vertical</item>
++         <item name="android:scrollbars">vertical</item>
+     </style>
+ 
+     <style name="TabsItem">
+          <item name="android:nextFocusRight">@+id/close</item>
+     </style>
+ 
+     <style name="TabsItemClose">
+          <item name="android:nextFocusLeft">@+id/info</item>

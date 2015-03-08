@@ -1,0 +1,60 @@
+--- a/ipc/chromium/src/third_party/libevent-dont-use-issetugid-on-android.patch	
++++ a/ipc/chromium/src/third_party/libevent-dont-use-issetugid-on-android.patch	
+@@ -0,0 +1,22 @@ 
++diff --git a/ipc/chromium/src/third_party/libevent/android/event2/event-config.h b/ipc/chromium/src/third_party/libevent/android/event2/event-config.h
++--- a/ipc/chromium/src/third_party/libevent/android/event2/event-config.h
+++++ b/ipc/chromium/src/third_party/libevent/android/event2/event-config.h
++@@ -119,17 +119,17 @@
++ 
++ /* Define to 1 if you have the `inet_pton' function. */
++ #define _EVENT_HAVE_INET_PTON 1
++ 
++ /* Define to 1 if you have the <inttypes.h> header file. */
++ #define _EVENT_HAVE_INTTYPES_H 1
++ 
++ /* Define to 1 if you have the `issetugid' function. */
++-#define _EVENT_HAVE_ISSETUGID 1
+++/* #undef _EVENT_HAVE_ISSETUGID */
++ 
++ /* Define to 1 if you have the `kqueue' function. */
++ /* #undef _EVENT_HAVE_KQUEUE */
++ 
++ /* Define if the system has zlib */
++ #define _EVENT_HAVE_LIBZ 1
++ 
++ /* Define to 1 if you have the <memory.h> header file. */
+--- a/ipc/chromium/src/third_party/libevent/README.mozilla	
++++ a/ipc/chromium/src/third_party/libevent/README.mozilla	
+@@ -10,8 +10,10 @@ These files are taken from libevent-2.0.
+ 
+ 2. This is ugly, prepare yourself. OS X has a weird problem with how the "TAILQ_END(head)" is used, causing a linking error. Just replace all use of the "TAILQ_END(head)" macro with "NULL".
+ 
+ 3. Apply "add mac-arc4random-buf.patch", which removes some bad OS X compatibility code. This will allow libevent to compile on all supported versions of OS X.
+ 
+ 4. Apply "openbsd-no-arc4random_addrandom.patch", which fixes the build on OpenBSD (which doesnt provide arc4random_addrandom anymore, see #931354)
+ 
+ 5. Apply "libevent-use-non-deprecated-syscalls.patch", which fixes the build on AArch64 architecture (which does not provide deprecated syscalls)
++
++6. Apply "libevent-dont-use-issetugid-on-android.patch'. which fixes the build on Android L preview
+--- a/ipc/chromium/src/third_party/libevent/android/event2/event-config.h	
++++ a/ipc/chromium/src/third_party/libevent/android/event2/event-config.h	
+@@ -119,17 +119,17 @@ 
+ 
+ /* Define to 1 if you have the `inet_pton' function. */
+ #define _EVENT_HAVE_INET_PTON 1
+ 
+ /* Define to 1 if you have the <inttypes.h> header file. */
+ #define _EVENT_HAVE_INTTYPES_H 1
+ 
+ /* Define to 1 if you have the `issetugid' function. */
+-#define _EVENT_HAVE_ISSETUGID 1
++/* #undef _EVENT_HAVE_ISSETUGID */
+ 
+ /* Define to 1 if you have the `kqueue' function. */
+ /* #undef _EVENT_HAVE_KQUEUE */
+ 
+ /* Define if the system has zlib */
+ #define _EVENT_HAVE_LIBZ 1
+ 
+ /* Define to 1 if you have the <memory.h> header file. */
+
