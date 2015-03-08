@@ -9,48 +9,95 @@ const {
 const data = require("sdk/self").data;
 const pageMod = require("sdk/page-mod");
 const events = require("sdk/system/events");
+const staticArgs = require("sdk/system").staticArgs;
 const utils = require("sdk/window/utils");
 var prefs = require("sdk/simple-prefs").prefs;
 //  list of current workers
 const workers = [];
-const drivers = [
-    require("./youtube.js"),
-    require("./vimeo.js"),
-    require("./dailymotion.js"),
-    require("./break.js"),
-    require("./metacafe.js"),
-    require("./facebook.js")
-];
+const pageMods = {};
+const common = require("./common");
+const allDrivers = {
+    "facebook": require("./facebook"),
+    "vimeo": require("./vimeo"),
+    "dailymotion": require("./dailymotion"),
+    "break": require("./break"),
+    "metacafe": require("./metacafe"),
+    "youtube": require("./youtube")
+};
+var disabledDrivers = prefs.disable.split(",").map(i => i.trim());
+const drivers = (Array.isArray(staticArgs.drivers) ?
+    staticArgs.drivers :
+    Object.keys(allDrivers)).filter(i =>
+    disabledDrivers.indexOf(i) === -1
+);
 
-for (let driver of drivers) {
+
+const onWorkerAttach = (drvName, listen) => (worker) => {
+    logify("onAttach", worker);
+    //send current Addon preferences to content-script
+    let _prefs = {};
+    for (let pref in prefs)
+        _prefs[pref] = prefs[pref];
+    _prefs.driver = drvName;
+    _prefs.production = staticArgs.production;
+    worker.port.emit("preferences", _prefs);
+    add(workers, worker);
+    worker.port.on("prefChang", (pref) =>
+        prefs[pref.name] = pref.val);
+    worker.port.on("disable", () => {
+        disabledDrivers.push(drvName);
+        prefs.disable = disabledDrivers.join(",");
+        remove(drivers, drvName);
+        pageMods[drvName].destroy();
+    });
+    for (let evt in listen) {
+        logify("Add listener:", evt);
+        worker.port.on(evt, (obj) => {
+            listen[evt](obj, worker);
+        });
+    }
+    worker.on("detach", function(e) {
+        remove(workers, this);
+
+    });
+};
+for (let drvName of drivers) {
+    var driver = allDrivers[drvName];
     if (driver.match === void(0))
         continue;
-    pageMod.PageMod({
+    var scripts, styles;
+    scripts = common.inject.concat(driver.inject)
+        .map(i => data.url(i));
+    styles = common.style.concat(driver.style || [])
+        .map(i => data.url(i));
+    pageMods[drvName] = pageMod.PageMod({
         include: driver.match,
-        contentScriptFile: driver.inject.map(i => data.url(i)),
+        contentScriptFile: scripts,
+        contentStyleFile: styles,
         contentScriptWhen: driver.when || "ready",
-        onAttach: onWorkerAttach
+        onAttach: onWorkerAttach(drvName, driver.listen)
     });
 }
 
 function listener(event) {
     var channel = event.subject.QueryInterface(Ci.nsIHttpChannel);
     var url = event.subject.URI.spec;
-    for (let driver of drivers) {
+    for (let drvName of drivers) {
+        var driver = allDrivers[drvName];
         for (let redirect of(driver.redirect || [])) {
             if (redirect.src.test(url)) {
                 channel.redirectTo(Cc["@mozilla.org/network/io-service;1"].getService(Ci.nsIIOService).newURI(
                     String.replace(url, redirect.src, redirect.funct),
                     null,
                     null));
-                console.log("Redirect:", url);
+                logify("Redirect:", url);
                 return;
             }
         }
         for (let block of(driver.block || [])) {
             if (block.test(url)) {
                 channel.cancel(Cr.NS_BINDING_ABORTED);
-                console.log("Block:", url);
+                logify("Block:", url);
                 return;
             }
         }
@@ -75,20 +122,14 @@ function workersPrefHandler(pref) {
         });
 }
 
-function onWorkerAttach(worker) {
-    console.log("onAttach", worker);
-    //send current Addon preferences to content-script
-    let _prefs = {};
-    for (let pref in prefs)
-        _prefs[pref] = prefs[pref];
-    worker.port.emit("preferences", _prefs);
-    add(workers, worker);
-    worker.on("detach", function(e) {
-        remove(workers, this);
-
-    });
+function logify(...args) {
+    if (staticArgs.production)
+        return;
+    args.unshift("[CORE]");
+    dump(args.join(" ") + "\n");
 }
-exports.main = function() {
+
+exports.main = () => {
     events.on("http-on-modify-request", listener);
 };
 exports.onUnload = function(reason) {

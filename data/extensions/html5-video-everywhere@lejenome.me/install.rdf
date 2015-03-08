@@ -3,7 +3,7 @@
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. --><RDF xmlns="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:em="http://www.mozilla.org/2004/em-rdf#">
   <Description about="urn:mozilla:install-manifest">
     <em:id>html5-video-everywhere@lejenome.me</em:id>
-    <em:version>0.1.1</em:version>
+    <em:version>0.2.30</em:version>
     <em:type>2</em:type>
     <em:bootstrap>true</em:bootstrap>
     <em:unpack>false</em:unpack>
@@ -20,9 +20,9 @@
     <!-- Front End MetaData -->
     <em:name>HTML5 Video Everywhere!</em:name>
     <em:description>Replace video player with Firefox native video player</em:description>
-    <em:creator>Moez Bouhlel &lt;bmoez.j@gmail.com&gt; (http://lejenome.github.io/</em:creator>
+    <em:creator>Moez Bouhlel &lt;bmoez.j@gmail.com&gt; (http://lejenome.github.io/)</em:creator>
     <em:homepageURL>https://github.com/lejenome/html5-video-everywhere</em:homepageURL>
     <em:optionsType>2</em:optionsType>
     
-  </Description>
+  <em:contributor>HTML5 Video Everywhere Contributors (https://github.com/lejenome/html5-video-everywhere/graphs/contributors)</em:contributor><em:targetApplication><Description><em:id>{aa3c5121-dab2-40e2-81ca-7ea25febc110}</em:id><em:minVersion>26.0</em:minVersion><em:maxVersion>30.0a1</em:maxVersion></Description></em:targetApplication></Description>
 </RDF>

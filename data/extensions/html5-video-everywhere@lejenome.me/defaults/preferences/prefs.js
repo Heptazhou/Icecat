@@ -1,7 +1,11 @@
+pref("extensions.html5-video-everywhere@lejenome.me.autoNext", true);
+pref("extensions.html5-video-everywhere@lejenome.me.genYTSign", true);
+pref("extensions.html5-video-everywhere@lejenome.me.lang", 0);
 pref("extensions.html5-video-everywhere@lejenome.me.prefCdc", 0);
 pref("extensions.html5-video-everywhere@lejenome.me.prefQlt", 2);
 pref("extensions.html5-video-everywhere@lejenome.me.autoplay", 2);
 pref("extensions.html5-video-everywhere@lejenome.me.preload", 2);
 pref("extensions.html5-video-everywhere@lejenome.me.volume", 100);
+pref("extensions.html5-video-everywhere@lejenome.me.player", 0);
 pref("extensions.html5-video-everywhere@lejenome.me.disableEmbed", false);
-pref("extensions.html5-video-everywhere@lejenome.me.dontPlayNext", false);
+pref("extensions.html5-video-everywhere@lejenome.me.disable", "");

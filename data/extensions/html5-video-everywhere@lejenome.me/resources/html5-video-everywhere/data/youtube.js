@@ -1,14 +1,14 @@
 /*globals FMT_WRAPPER*/
 (function() {
     "use strict";
-    var player, player_container;
+    var vp;
+    var swf_url;
 
     onReady(() => {
-        player = createNode("video");
         changePlayer();
         window.addEventListener("spfrequest", function() {
-            if (player)
-                player.src = "";
+            if (vp)
+                vp.stop();
         });
         window.addEventListener("spfdone", function() {
             changePlayer();
@@ -20,14 +20,17 @@
             .then(getVideoInfo)
             .then((conf) => {
                 try {
-                    if (player_container)
-                        player_container.innerHTML = "";
-                    player_container = getPlayerContainer(conf);
+                    if (vp)
+                        vp.end();
+                    var player_container = getPlayerContainer(conf);
                     if (!player_container)
                         return;
-                    player_container.innerHTML = "";
-                    player_container.className = conf.className || "";
-                    player = createNode("video", {
+                    vp = new VP(player_container);
+                    vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url);
+                    vp.containerProps({
+                        className: conf.className || ""
+                    });
+                    vp.props({
                         id: "video_player",
                         className: conf.className || "",
                         autoplay: autoPlay(!conf.isEmbed),
@@ -35,16 +38,22 @@
                         controls: true,
                         poster: conf.poster || "",
                         volume: OPTIONS.volume / 100
-                    }, {
+                    });
+                    vp.style({
                         position: "relative"
                     });
-                    player.appendChild(createNode("source", {
-                        src: conf.url,
-                        type: conf.type
-                    }));
-                    player_container.appendChild(player);
+                    vp.tracksList((conf.tracks || []).map(i => i.lc), (lang, resolve, reject) => {
+                        var o = conf.tracks.find((i) => i.lc === lang);
+                        if (o === undefined)
+                            return reject();
+                        addWebVTT(lang, o.u, resolve, reject);
+                    });
+                    vp.setup();
+                    if (conf.isWatch)
+                        playNextOnFinish();
                 } catch (e) {
-                    console.error("Exception on changePlayer()", e.lineNumber, e.columnNumber, e.message, e.stack);
+                    logify("EXCEPTION: unexpected error on changePlayer",
+                        e.lineNumber, e.columnNumber, e.message, e.stack);
                 }
             })
             .catch((rej) => {
@@ -52,48 +61,50 @@
                     return;
                 switch (rej.error) {
                     case "VIDEO_URL_UNACCESSIBLE":
-                        var error = rej.data.match(/reason=([^&]*)&/);
-                        if (error)
+                        if (rej.data.reason)
                             errorMessage("Failed to load video url with the following error message: " +
-                                error[1].replace("+", " ", "g"));
+                                rej.data.reason, rej.conf);
                         break;
                     case "NO_SUPPORTED_VIDEO_FOUND":
                         errorMessage("Failed to find any playable video url." +
                             (rej.unsig ? " All urls are not signed" : ""), rej.conf);
+                        break;
+                    default:
+                        logify("EXCEPTION: unexpected error on changePlayer", rej);
                         break;
                 }
             });
     }
 
     function errorMessage(msg, conf) {
-        logify("errorMessage", msg, conf);
         var error_container;
+        if (vp)
+            vp.end();
         if (conf)
             error_container = getPlayerContainer(conf);
         if (!error_container)
             error_container = document.getElementById("player-unavailable") || document.getElementById("player");
         if (!error_container)
             return;
+        vp = new VP(error_container);
+        vp.srcs(conf.fmts, FMT_WRAPPER);
         if (conf && conf.isWatch)
-            error_container.className += " player-height player-width";
+            vp.containerProps({
+                className: " player-height player-width"
+            });
         if (conf && conf.isChannel)
-            error_container.className += " html5-main-video";
+            vp.containerProps({
+                className: " c4-player-container"
+            }); //" html5-main-video";
         if (conf && conf.isEmbed) {
-            error_container.className += " full-frame";
+            vp.containerProps({
+                className: " full-frame"
+            });
         }
-        error_container.style.background = "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626";
-        error_container.innerHTML = "";
-        error_container.appendChild(createNode("p", {
-            textContent: "Ooops! :("
-        }, {
-            padding: "15px",
-            fontSize: "20px"
-        }));
-        error_container.appendChild(createNode("p", {
-            textContent: msg
-        }, {
-            fontSize: "20px"
-        }));
+        vp.containerStyle({
+            background: "linear-gradient(to bottom, #383838 0px, #131313 100%) repeat scroll 0% 0% #262626"
+        });
+        vp.error(msg);
     }
 
     function getPlayerContainer(conf) {
@@ -107,94 +118,190 @@
 
     function getConfig() {
         return new Promise((resolve, reject) => {
-            var isEmbed = location.href.search("youtube.com/embed/") > -1;
-            var isWatch = location.href.search("youtube.com/watch?") > -1;
-            var isChannel = location.href.search("youtube.com/channel/") > -1 || location.href.search("youtube.com/user/") > -1;
-            if (!isEmbed && !isWatch && !isChannel)
+            var conf = {};
+            conf.isEmbed = location.href.search("youtube.com/embed/") > -1;
+            conf.isWatch = location.href.search("youtube.com/watch?") > -1;
+            conf.isChannel = location.href.search("youtube.com/channel/") > -1 || location.href.search("youtube.com/user/") > -1;
+            if (!conf.isEmbed && !conf.isWatch && !conf.isChannel)
                 reject();
-            var player_id, player_class;
-            if (isEmbed) {
-                player_id = location.pathname.match(/^\/embed\/([^?#/]*)/)[1];
-                player_class = "full-frame";
-            } else if (isChannel) {
+            if (conf.isEmbed) {
+                conf.id = location.pathname.match(/^\/embed\/([^?#/]*)/)[1];
+                conf.className = "full-frame";
+            } else if (conf.isChannel) {
                 var upsell = document.getElementById("upsell-video");
                 if (!upsell)
                     reject();
-                player_id = upsell.dataset["videoId"];
-                player_class = "html5-main-video";
+                conf.id = upsell.dataset["videoId"];
+                conf.className = "c4-player-container"; //+ " html5-main-video"
             } else {
-                player_id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
-                player_class = "player-width player-height";
+                conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
+                conf.className = "player-width player-height";
             }
-            if (!player_id)
+            if (!conf.id)
                 reject({
-                    error: "PLAYER_ID_NOT_FOUND"
+                    error: "PLAYER_ID_NOT_FOUND",
+                    conf: conf
                 });
-            resolve({
-                isEmbed: isEmbed,
-                isWatch: isWatch,
-                isChannel: isChannel,
-                id: player_id,
-                className: player_class
-            });
+            else
+                resolve(conf);
         });
     }
 
     function getVideoInfo(conf) {
-        var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
-        return asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
-            if (data.endsWith("="))
-                try {
-                    data = atob(data);
-                } catch (_) {}
-            if (/status=fail/.test(data)) {
-                return Promise.reject({
-                    error: "VIDEO_URL_UNACCESSIBLE",
-                    data: data
+        return new Promise((resolve, reject) => {
+            var INFO_URL = "https://www.youtube.com/get_video_info?html5=1&hl=en_US&el=detailpage&video_id=";
+            if (unsafeWindow.ytplayer && unsafeWindow.ytplayer.config) {
+                conf.info = unsafeWindow.ytplayer.config.args.url_encoded_fmt_stream_map;
+                conf.poster = unsafeWindow.ytplayer.config.args.iurlsd ||
+                    unsafeWindow.ytplayer.config.args.iurl ||
+                    unsafeWindow.ytplayer.config.args.iurlhq ||
+                    unsafeWindow.ytplayer.config.args.iurlmaxres ||
+                    unsafeWindow.ytplayer.config.args.iurlmq;
+                if (unsafeWindow.ytplayer.config.args.caption_tracks)
+                    conf.tracks = parse(unsafeWindow.ytplayer.config.args.caption_tracks, true);
+                swf_url = unsafeWindow.ytplayer.config.url;
+                resolve(conf);
+            } else {
+                asyncGet(INFO_URL + conf.id, {}, "text/plain").then((data) => {
+                    if (data.endsWith("="))
+                        try {
+                            data = atob(data);
+                        } catch (_) {}
+                    data = parse(data);
+                    if (data.status === "fail") {
+                        return reject({
+                            error: "VIDEO_URL_UNACCESSIBLE",
+                            data: data,
+                            conf: conf
+                        });
+                    }
+                    // get the poster url
+                    if (data.iurlhq)
+                        conf.poster = data.iurlhq;
+                    // extract avalable formats to fmts object
+                    conf.info = data.url_encoded_fmt_stream_map;
+                    if (data.caption_tracks)
+                        conf.tracks = parse(data.caption_tracks, true);
+                    resolve(conf);
                 });
             }
-            // get the poster url
-            var poster = data.match(/iurlhq=([^&]*)/);
-            if (poster)
-                conf.poster = decodeURIComponent(poster[1]);
-            // extract avalable formats to fmts object
-            var info = data.match(/url_encoded_fmt_stream_map=([^&]*)/)[1];
-            info = decodeURIComponent(info);
-            var fmt, fmts = {},
-                unsignedVideos;
-            info.split(",")
-                .map(it1 => {
-                    var oo = {};
-                    it1.split("&")
-                        .map(it2 => it2.split("="))
-                        .map(it3 => [it3[0], decodeURIComponent(it3[1])])
-                        .forEach(it4 => oo[it4[0]] = it4[1]);
-                    return oo;
+        }).then((conf) => {
+            var player = createNode("video");
+            var unsignedVideos = false;
+            conf.fmts = {};
+            parse(conf.info, true)
+                .filter(it5 => {
+                    if (player.canPlayType(it5.type) !== "probably")
+                        return false;
+                    if (it5.url.search("signature=") === -1) {
+                        unsignedVideos = true;
+                        if (!OPTIONS.genYTSign)
+                            return false;
+                    }
+                    return true;
                 })
-                .filter(it5 => (player.canPlayType(
-                    (it5.type = it5.type.replace("+", " ", "g"))
-                ) === "probably"))
-                .filter(it6 => {
-                    if (it6.url.search("signature=") > 0)
-                        return true;
-                    unsignedVideos = true;
-                    logify("Url without signature!!", it6.itag);
-                    return false;
-                })
-                .forEach(fmt => fmts[fmt.itag] = fmt);
-            // choose best format from fmts onject
-            fmt = getPreferredFmt(fmts, FMT_WRAPPER);
-            if (fmt === undefined) {
-                return Promise.reject({
-                    error: "NO_SUPPORTED_VIDEO_FOUND",
-                    unsig: unsignedVideos,
-                    conf: conf
+                .forEach(fmt => {
+                    conf.fmts[fmt.itag] = fmt;
                 });
+            if (unsignedVideos && OPTIONS.genYTSign) {
+                return fixSignature(conf);
             } else {
-                conf.url = fmt.url;
-                conf.type = fmt.type;
                 return Promise.resolve(conf);
             }
+        });
+    }
+
+    function fixSignature(conf) {
+        return new Promise((resolve, reject) => {
+            self.port.emit("fix_signature", {
+                fmts: conf.fmts,
+                swf_url: swf_url
+            });
+            self.port.on("fixed_signature", (fmts) => {
+                conf.fmts = fmts;
+                logify("fixed Signature");
+                resolve(conf);
+            });
+        });
+    }
+
+    function playNextOnFinish() {
+        //Credits to @durazell github.com/lejenome/youtube-html5-player/issues/9
+        if (document.getElementsByClassName("playlist-header").length > 0) {
+            vp.on("ended", function(e) {
+                if (this.currentTime !== this.duration || OPTIONS.autoNext === false)
+                    return;
+                var cur = 0,
+                    len = 0;
+                var current, playlist;
+                if ((current = document.getElementsByClassName("currently-playing")).length > 0) {
+                    cur = parseInt(current[0].dataset["index"]) + 1;
+                } else if ((current = document.getElementById("playlist-current-index"))) {
+                    cur = parseInt(current.textContent);
+                }
+                if ((playlist = document.getElementsByClassName("playlist-videos-list")).length > 0) {
+                    len = playlist[0].childElementCount;
+                } else if ((playlist = document.getElementById("playlist-length"))) {
+                    len = parseInt(playlist.textContent);
+                }
+
+                if (isNaN(cur) === true || isNaN(len) === true) {
+                    logify("Cannot find location in playlist, autoplay failed");
+                    return;
+                }
+
+                if (cur < len) {
+                    window.location.href = document.getElementsByClassName("yt-uix-scroller-scroll-unit")[cur].getElementsByTagName("a")[0].href;
+                }
+            });
+        }
+    }
+
+    function parse(data, splitComma) {
+        if (splitComma) {
+            return data.split(",").map(i => parse(i));
+        } else {
+            var res = {};
+            var nv;
+            data.split("&").forEach((p) => {
+                try {
+                    nv = p.split("=").map(function(v) {
+                        return decodeURIComponent(v.replace(/\+/g, " "));
+                    });
+                    if (!(nv[0] in res)) res[nv[0]] = nv[1];
+                } catch (e) {}
+            });
+            return res;
+        }
+    }
+
+    function addWebVTT(lang, url, resolve, reject) {
+        asyncGet(url).then((data) => {
+            var webvtt = "WEBVTT\n\n";
+            var XMLParser = new DOMParser();
+            var xml = XMLParser.parseFromString(data, "text/xml");
+            if (xml.documentElement.nodeName !== "transcript")
+                reject();
+            var els = xml.documentElement.childNodes;
+            for (var i = 0; i < els.length; i++) {
+                var start = els[i].attributes.getNamedItem("start");
+                var dur = els[i].attributes.getNamedItem("dur");
+                if (start === null || dur === null)
+                    continue;
+                start = parseFloat(start.value);
+                dur = parseFloat(dur.value);
+                var s = start % 60;
+                var m = (start - s) / 60;
+                var tl1 = "" + (m < 10 ? "0" : "") + m + ":" +
+                    (s < 10 ? "0" : "") + s.toFixed(3);
+                s = (start + dur) % 60;
+                m = (start + dur - s) / 60;
+                var tl2 = "" + (m < 10 ? "0" : "") + m + ":" +
+                    (s < 10 ? "0" : "") + s.toFixed(3);
+
+                webvtt += (i + 1) + "\n" + tl1 + " --> " + tl2 + "\n" + els[i].textContent + "\n\n";
+            }
+            resolve("data:text/vtt;base64," + btoa(webvtt.replace("&#39;", "'", "g")));
         });
     }
 }());

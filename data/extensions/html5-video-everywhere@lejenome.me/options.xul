@@ -1,5 +1,33 @@
 <?xml version="1.0" ?>
 <vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.autoNext" pref-name="autoNext" title="Auto play next" type="bool">Auto play the next Video on playlist</setting>
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.genYTSign" pref-name="genYTSign" title="Decode YouTube Signature" type="bool">Extract YouTube signature decoder from their video player, and use it to decode signatures</setting>
+  <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.lang" pref-name="lang" title="Subtitles" type="menulist">
+    Select Subtitles language if available
+    <menulist>
+      <menupopup>
+        <menuitem label="None" value="0"/>
+        <menuitem label="Af" value="1"/>
+        <menuitem label="Ar" value="2"/>
+        <menuitem label="Bn" value="3"/>
+        <menuitem label="De" value="4"/>
+        <menuitem label="En" value="5"/>
+        <menuitem label="Es" value="6"/>
+        <menuitem label="Fi" value="7"/>
+        <menuitem label="Fr" value="8"/>
+        <menuitem label="Hi" value="9"/>
+        <menuitem label="Id" value="10"/>
+        <menuitem label="Is" value="11"/>
+        <menuitem label="It" value="12"/>
+        <menuitem label="Ja" value="13"/>
+        <menuitem label="Ko" value="14"/>
+        <menuitem label="Pt" value="15"/>
+        <menuitem label="Ru" value="16"/>
+        <menuitem label="Tu" value="17"/>
+        <menuitem label="Zh" value="18"/>
+      </menupopup>
+    </menulist>
+  </setting>
   <setting data-jetpack-id="html5-video-everywhere@lejenome.me" pref="extensions.html5-video-everywhere@lejenome.me.prefCdc" pref-name="prefCdc" title="Preferred Codec" type="menulist">
     <menulist>
       <menupopup>

@@ -10,44 +10,69 @@
  "manifest": {
   "html5-video-everywhere/break": {
    "docsSHA256": null, 
-   "jsSHA256": "44287333a482842991e2acfd6d4446f1f31c8759349eca1ca94d5a21a570f2e1", 
-   "moduleName": "break.js", 
+   "jsSHA256": "3b95c2dd1ad43dcd055feca9e629f07b903267b0e6cb7c2def7830e1fb307809", 
+   "moduleName": "break", 
    "packageName": "html5-video-everywhere", 
    "requirements": {}, 
    "sectionName": "lib"
   }, 
+  "html5-video-everywhere/common": {
+   "docsSHA256": null, 
+   "jsSHA256": "3cc11dd63276fd19fdc32d38772c79be75f5487cef6bf0be2d806b052fdcb3e2", 
+   "moduleName": "common", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {
+    "sdk/simple-prefs": "sdk/simple-prefs"
+   }, 
+   "sectionName": "lib"
+  }, 
   "html5-video-everywhere/dailymotion": {
    "docsSHA256": null, 
-   "jsSHA256": "e4107011ad40fcd3741b7d4bf3216aa80126490889ca70264eb7a8a93405e72b", 
-   "moduleName": "dailymotion.js", 
+   "jsSHA256": "5a3b5f31424ec84769bbf6577c1dcb010423d960855c286a61078195f9ba3f7d", 
+   "moduleName": "dailymotion", 
    "packageName": "html5-video-everywhere", 
    "requirements": {}, 
    "sectionName": "lib"
   }, 
   "html5-video-everywhere/facebook": {
    "docsSHA256": null, 
-   "jsSHA256": "ed4075b7c113a2c869cc7aff028973a4e8f3779361d2d1b3a8468d4ec1cdd6f1", 
-   "moduleName": "facebook.js", 
+   "jsSHA256": "c6a46824a0bac1fdcc434e60aec31247fc2992ef0e51c2de323b6b285d320ad3", 
+   "moduleName": "facebook", 
    "packageName": "html5-video-everywhere", 
    "requirements": {}, 
    "sectionName": "lib"
   }, 
+  "html5-video-everywhere/flashgot-YouTube": {
+   "docsSHA256": null, 
+   "jsSHA256": "126b5e88bb2d17aa80945b7616466b747b29bac06c88e031ac8f43e5d6d001a4", 
+   "moduleName": "flashgot-YouTube", 
+   "packageName": "html5-video-everywhere", 
+   "requirements": {
+    "chrome": "chrome", 
+    "sdk/preferences/service": "sdk/preferences/service", 
+    "sdk/self": "sdk/self", 
+    "sdk/system": "sdk/system"
+   }, 
+   "sectionName": "lib"
+  }, 
   "html5-video-everywhere/main": {
-   "docsSHA256": "2600330609036287c5d48070ba591543183b0f1619d06d2c61f016088f81d2ec", 
-   "jsSHA256": "9b53c709d2869db49baadc00c3a5cb6bef31ccccd9595be4e851a513b5de34e7", 
+   "docsSHA256": "40f094347101eaf752165137f7ff4e55c6f6bb08eba8225a04c13cefe5ebc1c9", 
+   "jsSHA256": "f03f04fb553f7641efe5d3427240c53dd48879f2058ae4d0b8b43cf3070eea21", 
    "moduleName": "main", 
    "packageName": "html5-video-everywhere", 
    "requirements": {
-    "./break.js": "html5-video-everywhere/break", 
-    "./dailymotion.js": "html5-video-everywhere/dailymotion", 
-    "./facebook.js": "html5-video-everywhere/facebook", 
-    "./metacafe.js": "html5-video-everywhere/metacafe", 
-    "./vimeo.js": "html5-video-everywhere/vimeo", 
-    "./youtube.js": "html5-video-everywhere/youtube", 
+    "./break": "html5-video-everywhere/break", 
+    "./common": "html5-video-everywhere/common", 
+    "./dailymotion": "html5-video-everywhere/dailymotion", 
+    "./facebook": "html5-video-everywhere/facebook", 
+    "./metacafe": "html5-video-everywhere/metacafe", 
+    "./vimeo": "html5-video-everywhere/vimeo", 
+    "./youtube": "html5-video-everywhere/youtube", 
     "chrome": "chrome", 
     "sdk/page-mod": "sdk/page-mod", 
     "sdk/self": "sdk/self", 
     "sdk/simple-prefs": "sdk/simple-prefs", 
+    "sdk/system": "sdk/system", 
     "sdk/system/events": "sdk/system/events", 
     "sdk/util/array": "sdk/util/array", 
     "sdk/window/utils": "sdk/window/utils"
@@ -56,26 +81,28 @@
   }, 
   "html5-video-everywhere/metacafe": {
    "docsSHA256": null, 
-   "jsSHA256": "3c14cc0f0915d2f5966f6592c7ece0afc1229f783b8ae78a14acf2ea8408fcb8", 
-   "moduleName": "metacafe.js", 
+   "jsSHA256": "e171e1e7b2fb660bbed3a0d641c8ae6a701fe8c404c64d0ff8f670ed3242f944", 
+   "moduleName": "metacafe", 
    "packageName": "html5-video-everywhere", 
    "requirements": {}, 
    "sectionName": "lib"
   }, 
   "html5-video-everywhere/vimeo": {
    "docsSHA256": null, 
-   "jsSHA256": "f44444a72857e73b2b1cad2526aad121e5b96da6f6e201760e6cb6f7d19efa59", 
-   "moduleName": "vimeo.js", 
+   "jsSHA256": "fb9aac20d13ac8a8da380b2b579946e0633a0f7cb554989d23c65d17ac69cfb5", 
+   "moduleName": "vimeo", 
    "packageName": "html5-video-everywhere", 
    "requirements": {}, 
    "sectionName": "lib"
   }, 
   "html5-video-everywhere/youtube": {
    "docsSHA256": null, 
-   "jsSHA256": "e0446c651e43306ffe9872354463bcbc0380f050088c1ba19ea85bfbb36ba625", 
-   "moduleName": "youtube.js", 
+   "jsSHA256": "796869ed281e07f7716407b0a9b2b285f104f912cb9f33cdb7aa6c81c5cb71aa", 
+   "moduleName": "youtube", 
    "packageName": "html5-video-everywhere", 
-   "requirements": {}, 
+   "requirements": {
+    "./flashgot-YouTube": "html5-video-everywhere/flashgot-YouTube"
+   }, 
    "sectionName": "lib"
   }
  }, 
@@ -95,7 +122,10 @@
    "name": "addon-sdk"
   }, 
   "html5-video-everywhere": {
-   "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/", 
+   "author": "Moez Bouhlel <bmoez.j@gmail.com> (http://lejenome.github.io/)", 
+   "contributors": [
+    "HTML5 Video Everywhere Contributors (https://github.com/lejenome/html5-video-everywhere/graphs/contributors)"
+   ], 
    "description": "Replace video player with Firefox native video player", 
    "homepage": "https://github.com/lejenome/html5-video-everywhere", 
    "license": "MPL 2.0", 
@@ -104,12 +134,111 @@
    "permissions": {
     "private-browsing": true
    }, 
-   "version": "0.1.1"
+   "version": "0.2.30"
   }
  }, 
  "name": "html5-video-everywhere", 
  "parseable": false, 
  "preferences": [
+  {
+   "description": "Auto play the next Video on playlist", 
+   "name": "autoNext", 
+   "title": "Auto play next", 
+   "type": "bool", 
+   "value": true
+  }, 
+  {
+   "description": "Extract YouTube signature decoder from their video player, and use it to decode signatures", 
+   "name": "genYTSign", 
+   "title": "Decode YouTube Signature", 
+   "type": "bool", 
+   "value": true
+  }, 
+  {
+   "description": "Select Subtitles language if available", 
+   "name": "lang", 
+   "options": [
+    {
+     "label": "None", 
+     "value": "0"
+    }, 
+    {
+     "label": "Af", 
+     "value": "1"
+    }, 
+    {
+     "label": "Ar", 
+     "value": "2"
+    }, 
+    {
+     "label": "Bn", 
+     "value": "3"
+    }, 
+    {
+     "label": "De", 
+     "value": "4"
+    }, 
+    {
+     "label": "En", 
+     "value": "5"
+    }, 
+    {
+     "label": "Es", 
+     "value": "6"
+    }, 
+    {
+     "label": "Fi", 
+     "value": "7"
+    }, 
+    {
+     "label": "Fr", 
+     "value": "8"
+    }, 
+    {
+     "label": "Hi", 
+     "value": "9"
+    }, 
+    {
+     "label": "Id", 
+     "value": "10"
+    }, 
+    {
+     "label": "Is", 
+     "value": "11"
+    }, 
+    {
+     "label": "It", 
+     "value": "12"
+    }, 
+    {
+     "label": "Ja", 
+     "value": "13"
+    }, 
+    {
+     "label": "Ko", 
+     "value": "14"
+    }, 
+    {
+     "label": "Pt", 
+     "value": "15"
+    }, 
+    {
+     "label": "Ru", 
+     "value": "16"
+    }, 
+    {
+     "label": "Tu", 
+     "value": "17"
+    }, 
+    {
+     "label": "Zh", 
+     "value": "18"
+    }
+   ], 
+   "title": "Subtitles", 
+   "type": "menulist", 
+   "value": 0
+  }, 
   {
    "name": "prefCdc", 
    "options": [
@@ -199,7 +328,25 @@
    "value": 100
   }, 
   {
-   "description": "Use default youtube video player for embed videos", 
+   "description": "Set video player to use", 
+   "hidden": true, 
+   "name": "player", 
+   "options": [
+    {
+     "label": "Firefox Video Player", 
+     "value": "0"
+    }, 
+    {
+     "label": "Lean Back Player", 
+     "value": "1"
+    }
+   ], 
+   "title": "Video Player", 
+   "type": "menulist", 
+   "value": 0
+  }, 
+  {
+   "description": "Use default video player for embed videos", 
    "hidden": true, 
    "name": "disableEmbed", 
    "title": "Disable for Embed Youtube", 
@@ -207,16 +354,26 @@
    "value": false
   }, 
   {
-   "description": "Do not tell youtube that video reached the end, so it will no play the next Video on playlist mode", 
+   "description": "comma-separated list of drivers to disable", 
    "hidden": true, 
-   "name": "dontPlayNext", 
-   "title": "Do not play next Item", 
-   "type": "bool", 
-   "value": false
+   "name": "disable", 
+   "title": "Drivers to disable", 
+   "type": "string", 
+   "value": ""
   }
  ], 
  "preferencesBranch": "html5-video-everywhere@lejenome.me", 
  "sdkVersion": "1.17", 
- "staticArgs": {}, 
+ "staticArgs": {
+  "drivers": [
+   "break", 
+   "dailymotion", 
+   "facebook", 
+   "metacafe", 
+   "vimeo", 
+   "youtube"
+  ], 
+  "production": true
+ }, 
  "verbose": false
 }

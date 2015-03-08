@@ -1,26 +1,25 @@
-/* global OPTIONS:true, onPrefChange:true, getPreferredFmt:true */
-/* global createNode:true, asyncGet:true, onReady:true, onInit:true, logify:true */
+/* global OPTIONS:true, onPrefChange:true, LANGS:true */
+/* global createNode:true, asyncGet:true, onReady:true, logify:true */
 /* global preLoad:true, autoPlay:true, HANDLE_VOL_PREF_CHANGE:true */
+/* global rmChildren:true, Qlt:true, Cdc:true, chgPref:true */
 // the following jshint global rule is only because jshint support for ES6 arrow
 // functions is limited
 /* global wrapper:true, args:true, auto:true */
 "use strict";
 
 //This Addons Preferences
-var OPTIONS = {};
+var OPTIONS, init;
 // push your prefernces change listner function to this table, yah the old way
 const onPrefChange = [];
-const Qlt = [
-    "higher",
-    "high",
-    "medium",
-    "low"
-];
+const Cdc = ["webm", "mp4"];
+const Qlt = ["higher", "high", "medium", "low"];
+const LANGS = ["af", "ar", "bn", "de", "en", "es", "fi", "fr", "hi", "id", "is", "it", "ja", "ko", "pt", "ru", "tu", "zh"];
 // set it to false if the module uses custom listener
 var HANDLE_VOL_PREF_CHANGE = true;
-const Cdc = ["webm", "mp4"];
 self.port.on("preferences", function(prefs) {
     OPTIONS = prefs;
+    if (init)
+        init();
     onPrefChange.forEach(f => f());
 });
 
@@ -32,31 +31,14 @@ self.port.on("prefChanged", function(pref) {
         });
     onPrefChange.forEach(f => f(pref.name));
 });
-
-const getPreferredFmt = (fmts, wrapper = {}) => {
-    // for example of the optional wrapper, see data/youtube-formats.js
-    var i, j, slct;
-    var _cdc = [
-        Cdc[OPTIONS.prefCdc],
-        Cdc[(OPTIONS.prefCdc + 1 % 2)]
-    ];
-    i = OPTIONS.prefQlt;
-    while (i > -1) {
-        for (j = 0; j < 2; j++) {
-            slct = Qlt[i] + "/" + _cdc[j];
-            slct = wrapper[slct] || slct;
-            if (fmts[slct])
-                return fmts[slct];
-        }
-        i = (i >= OPTIONS.prefQlt) ? i + 1 : i - 1;
-        if (i > 3)
-            i = OPTIONS.prefQlt - 1;
-    }
-    logify("Error on getPreferredFmt", fmts, wrapper);
+const chgPref = (name, val) => {
+    self.port.emit("prefChang", {
+        name: name,
+        val: val
+    });
 };
-
 const createNode = (type, prprt, style, data) => {
-    logify("createNode", type, prprt);
+    //logify("createNode", type, prprt);
     var node = document.createElement(type);
     if (prprt)
         Object.keys(prprt).forEach(p => node[p] = prprt[p]);
@@ -91,33 +73,34 @@ const asyncGet = (url, headers, mimetype) => {
     });
 };
 
-const logify = (...args) =>
-    console.log.apply(console, args.map(s => JSON.stringify(s, null, 2)));
-
-const onReady = f => {
-    //TODO: document readyState is "loading" (and DOMECotentLoaded) even DOM elements are
-    //accessible
-    try {
-        if (document.readyState !== "loading") {
-            f();
-        } else {
-            document.addEventListener("DOMContentLoaded", f);
-        }
-    } catch (e) {
-        console.error("Exception", e.lineNumber, e.columnNumber, e.message, e.stack);
-    }
+const logify = (...args) => {
+    if (OPTIONS.production) return;
+    args = args.map(s => JSON.stringify(s, null, 2));
+    args.unshift("[DRIVER]");
+    dump(args.join(" ") + "\n");
 };
 
-const onInit = f => {
-    // code running on when="ready" mode or does not need until onReady
-    // execc but depend on preferences, need to wrapped to this funct.
-    // need
-    document.onafterscriptexecute = function() {
-        document.onafterscriptexecute = undefined;
-        f();
-    };
+const onReady = f => {
+    if (document.readyState !== "loading") {
+        if (OPTIONS)
+            f();
+        else
+            init = f;
+    } else {
+        document.addEventListener("DOMContentLoaded", () => {
+            if (OPTIONS)
+                f();
+            else
+                init = f;
+        });
+    }
 };
 const autoPlay = (auto = false) => ((OPTIONS.autoplay === 1 || auto === true) &&
     OPTIONS.autoplay !== 0);
 const preLoad = (auto = false) => ((OPTIONS.preload === 1 || auto === true) &&
     OPTIONS.preload !== 0) ? "auto" : "metadata";
+
+const rmChildren = (prnt) => {
+    while (prnt && prnt.firstChild)
+        prnt.removeChild(prnt.firstChild);
+};
