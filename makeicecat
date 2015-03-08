@@ -292,6 +292,9 @@ do
  find -name aboutRights.dtd | xargs sed -i "s/ENTITY $STRING.*/ENTITY $STRING \"\">/"
 done
 
+cp $DATA/aboutRights.xhtml toolkit/content/aboutRights.xhtml
+cp $DATA/aboutRights.xhtml toolkit/content/aboutRights-unbranded.xhtml
+
 sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ href\=\"http\:\/\/www.gnu.org\/\"\>GNU\ Project<\/a>/g' browser/base/content/overrides/app-license.html
 
 ###############################################################################
