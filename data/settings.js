@@ -157,6 +157,19 @@ pref("font.default.x-western", "sans-serif");
 pref ("extensions.webservice.discoverURL", "https://directory.fsf.org/wiki/GNU_IceCat");
 pref ("extensions.getAddons.search.url", "https://directory.fsf.org/wiki/GNU_IceCat");
 
+// Mobile
+pref("privacy.announcements.enabled", false);
+pref("browser.snippets.enabled", false);
+pref("browser.snippets.syncPromo.enabled", false);
+pref("browser.snippets.geoUrl", "http://127.0.0.1/");
+pref("browser.snippets.updateUrl", "http://127.0.0.1/");
+pref("browser.snippets.statsUrl", "http://127.0.0.1/");
+pref("datareporting.policy.firstRunTime", 0);
+pref("datareporting.policy.dataSubmissionPolicyVersion", 2);
+pref("browser.webapps.checkForUpdates", 0);
+pref("browser.webapps.updateCheckUrl", "http://127.0.0.1/");
+pref("app.faqURL", "http://libreplanet.org/wiki/Group:IceCat/FAQ");
+
 // PFS url
 pref("pfs.datasource.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
 pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");

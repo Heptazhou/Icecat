@@ -251,9 +251,12 @@ sed  "s/^MOZ_PKG_NAME\t.*/MOZ_PKG_NAME\t\t:= icecat/;" debian/build/config.mk -i
 ###############################################################################
 
 # Branding files
-rm browser/branding/* -rf
-cp -a $DATA/branding/ browser/branding/official
-cp -a $DATA/branding/ browser/branding/nightly
+rm browser/branding/* mobile/android/branding/* -rf
+cp -a $DATA/branding/icecat/ browser/branding/official
+cp -a $DATA/branding/icecat/ browser/branding/nightly
+cp -a $DATA/branding/icecatmobile/ mobile/android/branding/official
+cp -a $DATA/branding/icecatmobile/ mobile/android/branding/unofficial
+cp -a $DATA/branding/icecatmobile/ mobile/android/branding/nightly
 cat << EOF > debian/config/branch.mk
 CHANNEL                 = release
 MOZ_WANT_UNIT_TESTS     = 0
@@ -270,7 +273,7 @@ cp $DATA/abouthome -a browser/base/content
 sed '/mozilla.*png/d' -i ./browser/base/jar.mn
 
 # Delete stuff we don't use and that may contain trademaked logos
-rm -rf ./browser/metro ./mobile ./addon-sdk/source/doc/static-files/media ./browser/themes/windows ./browser/themes/osx ./b2b
+rm -rf ./browser/metro ./addon-sdk/source/doc/static-files/media ./b2g
 
 # Custom bookmarks
 cp $DATA/bookmarks.html.in browser/locales/generic/profile/bookmarks.html.in
@@ -302,32 +305,49 @@ sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ hr
 ###############################################################################
 
 # Replace Firefox branding
-find -type d | grep firefox | xargs rename s/firefox/icecat/
-find -type f | grep firefox | xargs rename s/firefox/icecat/
-find -type f | grep Firefox | xargs rename s/Firefox/IceCat/
+find -type d | grep fennec | xargs prename s/fennec/icecatmobile/
+find -type f | grep fennec | xargs prename s/fennec/icecatmobile/
+find -type f | grep Fennec | xargs prename s/Fennec/IceCatMobile/
+find -type d | grep firefox | xargs prename -f s/firefox/icecat/
+find -type f | grep firefox | xargs prename -f s/firefox/icecat/
+find -type f | grep Firefox | xargs prename -f s/Firefox/IceCat/
 
 echo "Running batch rebranding"
 SEDSCRIPT="
+s|marketplace.firefox.com|f-droid.org/repository/browse|g;
+s/org.mozilla.firefox/org.gnu.icecat/g;
+s/Adobe Flash/Flash/g;
+s|addons.mozilla.org.*/mobile|directory.fsf.org/wiki/GNU_IceCat|g;
+s|addons.mozilla.org.*/android|directory.fsf.org/wiki/GNU_IceCat|g;
+s|support.mozilla.org.*/mobile|libreplanet.org/wiki/Group:IceCat/icecat-help|g;
+s|fhr.cdn.mozilla.net.*mobile|127.0.0.1|g;
+s/run-mozilla.sh/run-icecat.sh/g;
+s/Firefox Marketplace/F-droid free software repository/g;
+s|mozilla.com/plugincheck|$ADDONSURL|g;
+s|www.mozilla.com/firefox/central|$INFOURL|g;
+s|www.mozilla.*/legal/privacy.*html|$LEGALINFOURL|g;
+s|www.mozilla.*/legal/privacy|$LEGALINFOURL|g;
+
 s/Mozilla Firefox/GNU IceCat/g;
 s/firefox/icecat/g;
+s/fennec/icecatmobile/g;
 s/Firefox/IceCat/g;
+s/Fennec/IceCatMobile/g;
 s/FIREFOX/ICECAT/g;
+s/FENNEC/ICECATMOBILE/g;
 s/ Mozilla / GNU /g;
-s_PACKAGES/icecat_PACKAGES/firefox_g;
-s/Adobe Flash/Flash/g;
-s/run-mozilla.sh/run-icecat.sh/g;
 
-s^mozilla.com/plugincheck^$ADDONSURL^g;
-s^www.mozilla.com/icecat/central^$INFOURL^g;
-s^www.mozilla.com/legal/privacy^$LEGALINFOURL^g;
-
+s|PACKAGES/icecat|PACKAGES/firefox|g;
 s/GNU Public/Mozilla Public/g;
 s/GNU Foundation/Mozilla Foundation/g;
 s/GNU Corporation/Mozilla Corporation/g;
 s/icecat.com/firefox.com/g;
 s/IceCat-Spdy/Firefox-Spdy/g;
+s/icecat-accounts/firefox-accounts/g;
+s/IceCatAccountsCommand/FirefoxAccountsCommand/g;
+s|https://www.mozilla.org/icecat/?utm_source=synceol|https://www.mozilla.org/firefox/?utm_source=synceol|g;
 
-s_www.gnu.org/software/gnuzilla/icecat-help_libreplanet.org/wiki/Group:IceCat/Help_g;
+s|www.gnu.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
 "
 find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
 
@@ -363,6 +383,80 @@ sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/src
 # Copy js settings
 cat $DATA/settings.js >> browser/app/profile/icecat.js
 
+sed "s/MOZ_PAY=1/MOZ_PAY=0/" -i browser/confvars.sh
+sed "s/MOZ_APP_VENDOR=.*/MOZ_APP_VENDOR=GNU/" -i browser/confvars.sh
+sed "s/MOZ_SERVICES_HEALTHREPORT=1/MOZ_SERVICES_HEALTHREPORT=0/" -i browser/confvars.sh
+sed "s/MOZ_SERVICES_FXACCOUNTS=1/MOZ_SERVICES_FXACCOUNTS=0/" -i browser/confvars.sh 
+sed "s/MOZ_SERVICES_METRICS=1/MOZ_SERVICES_METRICS=0/" -i browser/confvars.sh
+sed "s/MOZ_SERVICES_SYNC=1/MOZ_SERVICES_SYNC=0/" -i browser/confvars.sh
+echo "MOZ_DATA_REPORTING=0" >> browser/confvars.sh
+sed 's/mozilla-esr/gnu-esr/' -i browser/confvars.sh
+
+###############################################################################
+# Mobile
+###############################################################################
+
+sed "s/MOZ_APP_VERSION=.*/MOZ_APP_VERSION=$FFVERSION/" -i mobile/android/confvars.sh
+sed "s/MOZ_APP_VENDOR=.*/MOZ_APP_VENDOR=GNU/" -i mobile/android/confvars.sh
+sed "s/MOZ_PAY=1/MOZ_PAY=0/" -i mobile/android/confvars.sh
+sed "s/MOZ_SERVICES_HEALTHREPORT=1/MOZ_SERVICES_HEALTHREPORT=0/" -i mobile/android/confvars.sh
+sed "s/MOZ_SERVICES_FXACCOUNTS=1/MOZ_SERVICES_FXACCOUNTS=0/" -i mobile/android/confvars.sh
+sed "s/MOZ_DATA_REPORTING=1/MOZ_DATA_REPORTING=0/" -i mobile/android/confvars.sh
+cat << EOF >> mobile/android/confvars.sh
+
+MOZ_SERVICES_SYNC=0
+MOZ_SERVICES_METRICS=0
+MOZ_DEVICES=0
+MOZ_NATIVE_DEVICES=0
+MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
+EOF
+
+cat $DATA/settings.js >> mobile/android/app/mobile.js
+
+cat << EOF > mobile/locales/en-US/chrome/region.properties
+browser.search.defaultenginename=DuckDuckGo
+browser.search.order.1=DuckDuckGo
+browser.search.order.2=Google
+browser.search.order.3=Yahoo
+EOF
+
+cp $DATA/preferences_vendor.xml mobile/android/base/resources/xml/preferences_vendor.xml
+
+sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' mobile/android/base/DataReportingNotification.java -i
+
+cp -a $DATA/android-images/core/* mobile/android/themes/core/images/
+cp -a $DATA/android-images/resources mobile/android/base
+
+sed '/DISABLED/s/false/true/' -i mobile/android/base/background/announcements/AnnouncementsConstants.java.in
+
+###############################################################################
+# Macos packaging
+###############################################################################
+
+cat << EOF > ./build/package/mac_osx/pkg-dmg
+#!/bin/sh
+set -e
+export LC_ALL=C
+
+cd \$2
+DMGFILE=\$4
+
+# We need group readability for some Macs to be able to handle /Applications
+# installation. Still unclear exactly why this is -- it is not dependent on
+# OSX version...
+find . -executable -exec chmod 750 {} \;
+find . ! -executable -exec chmod 640 {} \;
+
+find . -type f | sed -e 's/^\.\///' | sort | xargs -i echo "{}={}" > /tmp/filelist.txt
+find . -type l | sed -e 's/^\.\///' | sort | xargs -i echo "{}={}" >> /tmp/filelist.txt
+
+mkisofs -D -V "\$6" -no-pad -R -apple -o /tmp/icecat-uncompressed.dmg -path-list /tmp/filelist.txt -graft-points -gid 20 -dir-mode 0750 -new-dir-mode 0750
+
+
+dmg dmg /tmp/icecat-uncompressed.dmg \$4
+rm /tmp/icecat-uncompressed.dmg
+EOF
+
 ###############################################################################
 # Extensions
 ###############################################################################
@@ -377,7 +471,7 @@ EOF
 
 # Add extensions to manifest
 for EXTENSION in $(ls $DATA/extensions/); do
-sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in
+sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in mobile/android/installer/package-manifest.in
 #echo "DIRS += ['$EXTENSION']" >> browser/app/profile/extensions/moz.build
 #touch browser/app/profile/extensions/$EXTENSION/moz.build
 done
@@ -389,6 +483,12 @@ libs::
 	cp -a \$(topsrcdir)/extensions/gnu/* \$(FINAL_TARGET)/extensions/
 	mkdir -p \$(DIST)/icecat/browser/extensions/ 
 	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/icecat/browser/extensions/
+EOF
+
+cat << EOF >> mobile/android/app/Makefile.in
+libs::
+	mkdir -p \$(DIST)/bin/distribution
+	cp -a \$(topsrcdir)/extensions/gnu/ \$(DIST)/bin/distribution/extensions
 EOF
 
 #sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk
