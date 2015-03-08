@@ -46,6 +46,9 @@ pref("browser.shell.checkDefaultBrowser", false);
 // Prevent EULA dialog to popup on first run
 pref("browser.EULA.override", true);
 
+// disable app updater url
+pref("app.update.url", "http://127.0.0.1/");"
+
 // Default name strings
 pref ("distribution.about", "GNU IceCat");
 pref ("distribution.id", "gnu");
@@ -110,9 +113,11 @@ pref("browser.safebrowsing.malware.enabled", false);
 pref("social.enabled", false);
 pref("social.remote-install.enabled", false);
 pref("datareporting.healthreport.uploadEnabled", false);
+pref("datareporting.healthreport.about.reportUrl", "127.0.0.1");
+pref("datareporting.healthreport.documentServerURI", "127.0.0.1");
+pref("healthreport.uploadEnabled", false);
 pref("social.toast-notifications.enabled", false);
 pref("datareporting.policy.dataSubmissionEnabled", false);
-pref("datareporting.healthreport.uploadEnabled", false);
 pref("datareporting.healthreport.service.enabled", false);
 pref("browser.slowStartup.notificationDisabled", true);
 pref("network.http.sendRefererHeader", 2);
