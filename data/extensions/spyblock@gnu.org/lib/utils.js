@@ -54,7 +54,7 @@ let Utils = exports.Utils =
   get isFennec()
   {
     let {application} = require("info");
-    let result = (application == "fennec" || application == "fennec2");
+    let result = (application == "fennec" || application == "fennec2" || application == "icecatmobile");
     Utils.__defineGetter__("isFennec", () => result);
     return result;
   },

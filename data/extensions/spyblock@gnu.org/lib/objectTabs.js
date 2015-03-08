@@ -178,7 +178,7 @@ var objTabs =
   {
     // Object tabs aren't usable in Fennec
     let {application} = require("info");
-    if (application == "fennec" || application == "fennec2")
+    if (application == "fennec" || application == "fennec2" || application == "icecatmobile")
       return;
 
     let {Prefs} = require("prefs");
