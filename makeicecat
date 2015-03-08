@@ -371,7 +371,7 @@ sed s/GNU/Mozilla/ python/compare-locales/scripts/compare-locales -i
 sed s/GNU/Mozilla/ python/compare-locales/setup.py -i
 sed 's/mozilla-bin/icecat-bin/' -i build/unix/run-mozilla.sh
 
-find -type f | grep run-mozilla | xargs rename s/mozilla/icecat/
+find -type f | grep run-mozilla | xargs prename s/mozilla/icecat/
 
 sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
 
