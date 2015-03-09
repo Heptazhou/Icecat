@@ -1,0 +1,50 @@
+Link failure due to static const integers in WebRTC
+https://bugzilla.mozilla.org/show_bug.cgi?id=1002729
+
+# HG changeset patch
+# User Blake Kaplan <mrbkap@gmail.com>
+
+Bug 1002729 - Avoid problems with ternary expressions and static const integers with no definition. r=jesup
+
+diff --git a/content/media/webrtc/MediaEngine.h b/content/media/webrtc/MediaEngine.h
+index 91ae08a..c7500cd 100644
+--- a/content/media/webrtc/MediaEngine.h
++++ b/content/media/webrtc/MediaEngine.h
+@@ -149,23 +149,33 @@ public:
+ 
+   int32_t GetHeight(bool aHD = false) const {
+     return mHeight? mHeight : (mWidth?
+                                (mWidth * GetDefHeight(aHD)) / GetDefWidth(aHD) :
+                                GetDefHeight(aHD));
+   }
+ private:
+   static int32_t GetDefWidth(bool aHD = false) {
+-    return aHD ? MediaEngine::DEFAULT_169_VIDEO_WIDTH :
+-                 MediaEngine::DEFAULT_43_VIDEO_WIDTH;
++    // It'd be nice if we could use the ternary operator here, but we can't
++    // because of bug 1002729.
++    if (aHD) {
++      return MediaEngine::DEFAULT_169_VIDEO_WIDTH;
++    }
++
++    return MediaEngine::DEFAULT_43_VIDEO_WIDTH;
+   }
+ 
+   static int32_t GetDefHeight(bool aHD = false) {
+-    return aHD ? MediaEngine::DEFAULT_169_VIDEO_HEIGHT :
+-                 MediaEngine::DEFAULT_43_VIDEO_HEIGHT;
++    // It'd be nice if we could use the ternary operator here, but we can't
++    // because of bug 1002729.
++    if (aHD) {
++      return MediaEngine::DEFAULT_169_VIDEO_HEIGHT;
++    }
++
++    return MediaEngine::DEFAULT_43_VIDEO_HEIGHT;
+   }
+ };
+ 
+ class MediaEngineVideoSource : public MediaEngineSource
+ {
+ public:
+   virtual ~MediaEngineVideoSource() {}
+
