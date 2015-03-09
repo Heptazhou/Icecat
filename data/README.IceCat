@@ -53,6 +53,13 @@ To build a langpack:
 
 The xpi file is created at tempBuildDir/dist/linux-x86_64/xpi
 
+CROSSCOMPILING FOR WINDOWS, ANDROID AND MACOS
+=============================================
+
+You can use the scripts at data/buildscripts to build the toolchains
+and binary packages for the listed platforms. The scripts are made
+to work on Debian-based systems.
+
 INSTALL
 =======
 When you have it built you can install it with:

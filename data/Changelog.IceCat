@@ -1,3 +1,21 @@
+2015-03-08 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v31.5.0ESR
+	* Added build support for Windows, MacOS and Android
+	* Searchplugin instalation for mobile
+	* Make sure app.update and datareporting are disabled
+	* Updated html5-video-everywhere to 0.2.30
+	* Use prename instead of rename
+	* Added buildscripts and needed changes to crosscompile packages for MacOS, Windows and Android
+	* Adapt Spyblock for mobile
+	* Added patches to fix build bugs for Windows, MacOS and Android
+	* Enable LibreJs on mobile
+	* Updated aboutIcecat graphics
+	* Added android-images dir
+	* Fixed about:rights page content
+	* Added mobile branding files
+	* Added more fields to AddonsScraper.py
+	* Fake uname/arch no longer needed
+
 2015-01-27 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.4.0ESR
 	* Search form in about:icecat now searches in default search engine
