@@ -16,7 +16,9 @@ apt-get -q -y --force-yes  install zip unzip yasm
 
 rm -rf obj-android
 
-cp ../../data/buildscripts/mozconfig-android .mozconfig
+cp ../../data/buildscripts/mozconfig-common .mozconfig
+cat ../../data/buildscripts/mozconfig-android >> .mozconfig
+
 
 rm extensions/gnu/abouticecat* -rf
 
@@ -31,3 +33,5 @@ done
 popd
 
 ./mach package
+
+pkill adb

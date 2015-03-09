@@ -7,7 +7,6 @@ apt-get -q -y --yes --force-yes install libmpfrc++-dev libmpc-dev zlib1g-dev
 WD=$HOME/mingw-w64-build
 rm -rf $WD
 mkdir $WD
-cp spec $WD/msvcr100.spec
 
 cd $WD
 wget http://ftp.gnu.org/gnu/binutils/binutils-2.24.tar.bz2
@@ -41,14 +40,12 @@ make install
 
 # First stage of gcc compilation
 cd $WD
-# We don't want to link against msvcrt.dll due to bug 9084.
-sed 's/msvcrt/msvcr100/' -i $WD/msvcr100.spec
 # Linking libgcc against msvcrt is hard-coded...
 sed 's/msvcrt/msvcr100/' -i $WD/gcc-4.9.1/gcc/config/i386/t-mingw-w32 $WD/gcc-4.9.1/libgcc/config/i386/t-mingw32
 mkdir gcc-4.9.1-mingw32 && cd gcc-4.9.1-mingw32
 # LDFLAGS_FOR_TARGET does not work for some reason. Thus, we take
 # CFLAGS_FOR_TARGET.
-export CFLAGS_FOR_TARGET="-specs=$WD/msvcr100.spec -Wl,--nxcompat -Wl,--dynamicbase"
+export CFLAGS_FOR_TARGET="-Wl,--nxcompat -Wl,--dynamicbase"
 ../gcc-4.9.1/configure --prefix=/usr/local/ --target=i686-w64-mingw32 --with-gnu-ld --with-gnu-as --enable-languages=c,c++ --disable-multilib
 make all-gcc -j7
 make install-gcc

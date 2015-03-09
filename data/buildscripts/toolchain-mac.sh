@@ -1,6 +1,11 @@
 set -e 
 
-WD=macos-build
+WD=mac-build
+
+#export CCACHE_DIR=$HOME/ccache/mac-amd64
+#export CC="ccache gcc"
+#export CXX="ccache g++"
+
 apt-get -q -y --force-yes install cmake rsync zlib1g-dev libssl-dev mkisofs
 
 rm -rf $WD
@@ -38,4 +43,4 @@ git am ../tor-browser-bundle/gitian/patches/libdmg.patch
 cmake CMakeLists.txt
 cd dmg
 make
-
+cp dmg /usr/local/bin
