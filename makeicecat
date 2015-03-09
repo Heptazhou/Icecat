@@ -468,6 +468,10 @@ mkisofs -D -V "\$6" -no-pad -R -apple -o /tmp/icecat-uncompressed.dmg -path-list
 
 dmg dmg /tmp/icecat-uncompressed.dmg \$4
 rm /tmp/icecat-uncompressed.dmg
+
+find . -executable -exec chmod 755 {} \;
+find . ! -executable -exec chmod 644 {} \;
+find . -type d -exec chmod 755 {} \;
 EOF
 
 ###############################################################################
