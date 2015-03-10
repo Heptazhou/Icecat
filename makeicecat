@@ -89,25 +89,19 @@ mv compare-locales $SOURCEDIR/python/
 
 mkdir l10n
 cd l10n
-
-
-echo Downloading translations in parallel
 while read line;do
-    hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line > /dev/null &
-done < ../$SOURCEDIR/browser/locales/shipped-locales
-
-wait
-echo Done downloading translations in parallel
-
-for dir in *; do
-    cd $dir
+    line=$(echo $line |cut -d' ' -f1)
+    #[ $line = "es-ES" ] || continue
+    [ $line = "en-US" ] && continue
+    hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
+    cd $line
     hg checkout FIREFOX_31_0esr_RELEASE || true
     hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
-    mkdir -p browser/chrome/browser/preferences
-    touch browser/chrome/browser/preferences/advanced-scripts.dtd
+    mkdir -p $line/browser/chrome/browser/preferences
+    touch $line/browser/chrome/browser/preferences/advanced-scripts.dtd
     rm -rf .hg*
     cd ..
-done
+done < ../$SOURCEDIR/browser/locales/shipped-locales
 cd ..
 
 mv l10n $SOURCEDIR
