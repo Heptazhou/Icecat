@@ -17,14 +17,14 @@
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 #
 
-VERSION=1
-
 set -e
 
 FFMAJOR=31
 FFMINOR=5
 FFSUB=0
+GNUVERSION=2
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
+ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
 
 CODENAME=trusty
@@ -188,7 +188,7 @@ LISTURL="lists.gnu.org/mailman/listinfo/bug-gnuzilla"
 cat << EOF > debian/distribution.ini
 [Global]
 id=gnu
-version=$ICEATVERSION
+version=$ICECATVERSION
 about=GNU IceCat
 
 [Preferences]
@@ -611,4 +611,4 @@ sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/cra
 
 cd ..
 echo Packaging tarball
-tar cfj icecat-$FFVERSION.tar.bz2 icecat-$FFVERSION
+tar cfj icecat-$ICECATVERSION.tar.bz2 $SOURCEDIR

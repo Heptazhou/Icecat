@@ -1,3 +1,6 @@
+2015-03-15 Ruben Rodriguez <ruben@gnu.org>
+	* Fixed profile path to .mozilla/icecat
+
 2015-03-08 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.5.0ESR
 	* Added build support for Windows, MacOS and Android
