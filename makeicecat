@@ -397,6 +397,7 @@ sed "s/MOZ_SERVICES_FXACCOUNTS=1/MOZ_SERVICES_FXACCOUNTS=0/" -i browser/confvars
 sed "s/MOZ_SERVICES_METRICS=1/MOZ_SERVICES_METRICS=0/" -i browser/confvars.sh
 sed "s/MOZ_SERVICES_SYNC=1/MOZ_SERVICES_SYNC=0/" -i browser/confvars.sh
 echo "MOZ_DATA_REPORTING=0" >> browser/confvars.sh
+echo "MOZ_APP_PROFILE=mozilla/icecat" >> browser/confvars.sh
 sed 's/mozilla-esr/gnu-esr/' -i browser/confvars.sh
 
 ###############################################################################
