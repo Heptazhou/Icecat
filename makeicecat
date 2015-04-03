@@ -20,9 +20,9 @@
 set -e
 
 FFMAJOR=31
-FFMINOR=5
+FFMINOR=6
 FFSUB=0
-GNUVERSION=2
+GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
@@ -596,7 +596,7 @@ debian/rules debian/control
 touch -d "yesterday" debian/control
 debian/rules debian/control
 
-echo | dch -D stable -v "$FFVERSION-$VERSION"  "Converted into IceCat (http://www.gnu.org/software/gnuzilla/)"
+echo | dch -D stable -v "$ICECATVERSION"  "Converted into IceCat (http://www.gnu.org/software/gnuzilla/)"
 sed "1s/firefox/icecat/" -i debian/changelog
 
 touch configure js/src/configure
