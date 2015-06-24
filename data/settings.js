@@ -183,3 +183,9 @@ pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.ph
 pref("keyword.URL", "https://duckduckgo.com/html?t=gnu&q=!+");
 pref("browser.search.defaultenginename", "DuckDuckGo");
 pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
+
+// https://directory.fsf.org/wiki/Disable_DHE
+pref("security.ssl3.dhe_rsa_aes_128_sha", false);
+pref("security.ssl3.dhe_rsa_aes_256_sha", false);
+pref("security.ssl3.dhe_dss_aes_128_sha", false);
+pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
