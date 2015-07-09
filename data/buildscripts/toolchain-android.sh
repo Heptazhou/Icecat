@@ -22,6 +22,8 @@ while true; do echo y; sleep 1; done |./android-sdk-linux/tools/android update a
 echo export PATH=$PATH:$PWD/android-sdk-linux/tools:$PWD/android-sdk-linux/build-tools:$PWD/android-sdk-linux/platform-tools
 export PATH=$PATH:$PWD/android-sdk-linux/tools:$PWD/android-sdk-linux/build-tools:$PWD/android-sdk-linux/platform-tools
 
+ln -s $PWD/android-sdk-linux/build_tools $PWD/android-sdk-linux/build-tools
+
 pkill adb
 
 echo DONE

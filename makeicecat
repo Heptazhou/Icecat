@@ -19,10 +19,10 @@
 
 set -e
 
-FFMAJOR=31
-FFMINOR=8
-FFSUB=0
-GNUVERSION=2
+FFMAJOR=38
+FFMINOR=0
+FFSUB=1
+GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
@@ -47,9 +47,9 @@ cd output
 rm mozilla-esr${FFMAJOR} $SOURCEDIR -rf
 
 wget -N http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2
-wget -N http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2.asc
-gpg --recv-keys --keyserver keyserver.ubuntu.com 15A0A4BC
-gpg --verify firefox-${FFVERSION}esr.source.tar.bz2.asc
+#wget -N ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2.asc
+#gpg --recv-keys --keyserver keyserver.ubuntu.com 15A0A4BC
+#gpg --verify firefox-${FFVERSION}esr.source.tar.bz2.asc
 
 echo Extracting Firefox tarball
 tar -jxf firefox-${FFVERSION}esr.source.tar.bz2
@@ -91,7 +91,7 @@ mkdir l10n
 cd l10n
 while read line;do
     line=$(echo $line |cut -d' ' -f1)
-    #[ $line = "es-ES" ] || continue
+    [ $line = "es-ES" ] || continue
     [ $line = "en-US" ] && continue
     hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
     cd $line
@@ -110,9 +110,10 @@ mv l10n $SOURCEDIR
 
 cd $SOURCEDIR
 
-for patch in $DATA/patches/*; do
-    patch -p1 < $patch
-done
+#for patch in $DATA/patches/*; do
+#    echo Patching with file: $patch
+#    patch -p1 < $patch
+#done
 
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
 cp $DATA/Changelog.IceCat $DATA/README.IceCat debian
@@ -208,7 +209,7 @@ pref("datareporting.healthreport.infoURL", "https://$INFOURL");
 EOF
 
 # Custom privacy statement link
-sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./modules/libpref/src/init/all.js ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
+sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
 
 # Replace versions for building on Trisquel
 sed 's/1310/70/g; s/1204/60/g; s/1210/65/g; s/1404/70/g' -i debian/config/mozconfig.in debian/firefox-dev.install.in debian/firefox-dev.links.in
@@ -385,35 +386,41 @@ sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHan
 find . -name region.properties |xargs -i /bin/sed 's_https://www.mibbit.*__' -i {}
 
 # Set migrator scripts
-sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/src/IceCatProfileMigrator.js
+cp browser/components/migration/IceCatProfileMigrator.js browser/components/migration/FirefoxProfileMigrator.js
+sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/FirefoxProfileMigrator.js
 
 # Copy js settings
 cat $DATA/settings.js >> browser/app/profile/icecat.js
 
-sed "s/MOZ_PAY=1/MOZ_PAY=0/" -i browser/confvars.sh
-sed "s/MOZ_APP_VENDOR=.*/MOZ_APP_VENDOR=GNU/" -i browser/confvars.sh
-sed "s/MOZ_SERVICES_HEALTHREPORT=1/MOZ_SERVICES_HEALTHREPORT=0/" -i browser/confvars.sh
-sed "s/MOZ_SERVICES_FXACCOUNTS=1/MOZ_SERVICES_FXACCOUNTS=0/" -i browser/confvars.sh 
-sed "s/MOZ_SERVICES_METRICS=1/MOZ_SERVICES_METRICS=0/" -i browser/confvars.sh
-sed "s/MOZ_SERVICES_SYNC=1/MOZ_SERVICES_SYNC=0/" -i browser/confvars.sh
-echo "MOZ_DATA_REPORTING=0" >> browser/confvars.sh
-echo "MOZ_APP_PROFILE=mozilla/icecat" >> browser/confvars.sh
+cat << EOF >> browser/confvars.sh
+# IceCat settings
+MOZ_APP_VENDOR=GNU
+MOZ_APP_VERSION=$FFVERSION
+MOZ_APP_PROFILE=mozilla/icecat
+MOZ_SERVICES_SYNC=0
+MOZ_SERVICES_METRICS=0
+MOZ_SERVICES_FXACCOUNTS=0
+MOZ_SERVICES_HEALTHREPORT=0
+MOZ_DATA_REPORTING=0
+MOZ_PAY=0
+EOF
+
 sed 's/mozilla-esr/gnu-esr/' -i browser/confvars.sh
 
 ###############################################################################
 # Mobile
 ###############################################################################
 
-sed "s/MOZ_APP_VERSION=.*/MOZ_APP_VERSION=$FFVERSION/" -i mobile/android/confvars.sh
-sed "s/MOZ_APP_VENDOR=.*/MOZ_APP_VENDOR=GNU/" -i mobile/android/confvars.sh
-sed "s/MOZ_PAY=1/MOZ_PAY=0/" -i mobile/android/confvars.sh
-sed "s/MOZ_SERVICES_HEALTHREPORT=1/MOZ_SERVICES_HEALTHREPORT=0/" -i mobile/android/confvars.sh
-sed "s/MOZ_SERVICES_FXACCOUNTS=1/MOZ_SERVICES_FXACCOUNTS=0/" -i mobile/android/confvars.sh
-sed "s/MOZ_DATA_REPORTING=1/MOZ_DATA_REPORTING=0/" -i mobile/android/confvars.sh
 cat << EOF >> mobile/android/confvars.sh
-
-MOZ_SERVICES_SYNC=0
+# IceCat settings
+MOZ_APP_VENDOR=GNU
+MOZ_APP_VERSION=$FFVERSION
+MOZ_PAY=0
+MOZ_SERVICES_HEALTHREPORT=0
+MOZ_SERVICES_FXACCOUNTS=0
 MOZ_SERVICES_METRICS=0
+MOZ_DATA_REPORTING=0
+MOZ_SERVICES_SYNC=0
 MOZ_DEVICES=0
 MOZ_NATIVE_DEVICES=0
 MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
@@ -435,8 +442,6 @@ sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private
 
 cp -a $DATA/android-images/core/* mobile/android/themes/core/images/
 cp -a $DATA/android-images/resources mobile/android/base
-
-sed '/DISABLED/s/false/true/' -i mobile/android/base/background/announcements/AnnouncementsConstants.java.in
 
 ###############################################################################
 # Macos packaging
@@ -573,8 +578,8 @@ $(cat debian/copyright)" > debian/copyright
 # Remove icecat-globalmenu package
 sed '/Package:.*globalmenu/,/^$/d' -i debian/control.in
 
-# Don't recommend ubufox, Recommend torproxy
-sed 's/xul-ext-ubufox/xul-ext-torproxy/' -i debian/control.in
+# Don't recommend ubufox
+sed 's/xul-ext-ubufox//' -i debian/control.in
 
 # Provide iceweasel, firefox
 sed 's/iceweasel,/iceweasel, firefox,/' -i debian/control.in
@@ -608,7 +613,9 @@ sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
 #(cd toolkit/crashreporter/google-breakpad; automake)
 
 # Fix CVE-2012-3386
-sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/crashreporter/google-breakpad/Makefile.in ./toolkit/crashreporter/google-breakpad/src/third_party/glog/Makefile.in
+/bin/sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/crashreporter/google-breakpad/Makefile.in ./toolkit/crashreporter/google-breakpad/src/third_party/glog/Makefile.in || true
+
+./mach generate-addon-sdk-moz-build
 
 cd ..
 echo Packaging tarball
