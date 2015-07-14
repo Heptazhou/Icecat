@@ -5,7 +5,7 @@
  "is-sdk-bundled": false, 
  "jetpackID": "html5-video-everywhere@lejenome.me", 
  "loader": "addon-sdk/lib/sdk/loader/cuddlefish.js", 
- "main": "main", 
+ "main": "./lib/main.js", 
  "mainPath": "html5-video-everywhere/main", 
  "manifest": {
   "html5-video-everywhere/break": {
@@ -36,7 +36,7 @@
   }, 
   "html5-video-everywhere/facebook": {
    "docsSHA256": null, 
-   "jsSHA256": "c6a46824a0bac1fdcc434e60aec31247fc2992ef0e51c2de323b6b285d320ad3", 
+   "jsSHA256": "b1b059dcca9426349b83f5194d910b7cf2fc217811b9e56ab52aebba3076f1ef", 
    "moduleName": "facebook", 
    "packageName": "html5-video-everywhere", 
    "requirements": {}, 
@@ -44,7 +44,7 @@
   }, 
   "html5-video-everywhere/flashgot-YouTube": {
    "docsSHA256": null, 
-   "jsSHA256": "126b5e88bb2d17aa80945b7616466b747b29bac06c88e031ac8f43e5d6d001a4", 
+   "jsSHA256": "82248ac1442dd88f87de49b9f7eccde9c78c83360c124a2e126205cf7b8b16a5", 
    "moduleName": "flashgot-YouTube", 
    "packageName": "html5-video-everywhere", 
    "requirements": {
@@ -57,7 +57,7 @@
   }, 
   "html5-video-everywhere/main": {
    "docsSHA256": "40f094347101eaf752165137f7ff4e55c6f6bb08eba8225a04c13cefe5ebc1c9", 
-   "jsSHA256": "f03f04fb553f7641efe5d3427240c53dd48879f2058ae4d0b8b43cf3070eea21", 
+   "jsSHA256": "2c646510b6adcf416063dcbb9a5302a32adf5f60c225a9993f93ddc1459b09f2", 
    "moduleName": "main", 
    "packageName": "html5-video-everywhere", 
    "requirements": {
@@ -129,12 +129,12 @@
    "description": "Replace video player with Firefox native video player", 
    "homepage": "https://github.com/lejenome/html5-video-everywhere", 
    "license": "MPL 2.0", 
-   "main": "main", 
+   "main": "./lib/main.js", 
    "name": "html5-video-everywhere", 
    "permissions": {
     "private-browsing": true
    }, 
-   "version": "0.2.30"
+   "version": "0.2.38"
   }
  }, 
  "name": "html5-video-everywhere", 
@@ -322,6 +322,26 @@
    "value": 2
   }, 
   {
+   "name": "loop", 
+   "options": [
+    {
+     "label": "Default", 
+     "value": "2"
+    }, 
+    {
+     "label": "Always", 
+     "value": "1"
+    }, 
+    {
+     "label": "Never", 
+     "value": "0"
+    }
+   ], 
+   "title": "Auto Loop Video", 
+   "type": "menulist", 
+   "value": 2
+  }, 
+  {
    "name": "volume", 
    "title": "Volume", 
    "type": "integer", 
@@ -354,12 +374,46 @@
    "value": false
   }, 
   {
-   "description": "comma-separated list of drivers to disable", 
-   "hidden": true, 
-   "name": "disable", 
-   "title": "Drivers to disable", 
-   "type": "string", 
-   "value": ""
+   "description": "Use default video player on Break", 
+   "name": "disablebreak", 
+   "title": "Disable on Break", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "description": "Use default video player on Dailymotion", 
+   "name": "disabledailymotion", 
+   "title": "Disable on Dailymotion", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "description": "Use default video player on Facebook", 
+   "name": "disablefacebook", 
+   "title": "Disable on Facebook", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "description": "Use default video player on Metacafe", 
+   "name": "disablemetacafe", 
+   "title": "Disable on Metacafe", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "description": "Use default video player on Vimeo", 
+   "name": "disablevimeo", 
+   "title": "Disable on Vimeo", 
+   "type": "bool", 
+   "value": false
+  }, 
+  {
+   "description": "Use default video player on Youtube", 
+   "name": "disableyoutube", 
+   "title": "Disable on Youtube", 
+   "type": "bool", 
+   "value": false
   }
  ], 
  "preferencesBranch": "html5-video-everywhere@lejenome.me", 

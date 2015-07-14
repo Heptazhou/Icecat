@@ -15,11 +15,12 @@
 
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
-    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                              
 ***** END LICENSE BLOCK *****/
 /* Modified By Moez Bouhlel to be used on HTML5-Video-EveryWhere */
 /* jshint laxbreak:true, maxstatements:false, evil:true, latedef:false */
+/* jshint maxdepth:4 */
 /* jshint maxcomplexity:false, -W116 */
 /* global args:false */
 "use strict";
@@ -491,6 +492,8 @@ Youtube.fix_signature = function(data, fmts, swf_url, cb) {
           if (sig) {
             fg.log("Fmt", itag, "url fixed:", sig);
             fmts[itag].url += "&signature=" + encodeURIComponent(sig);
+	    if(!sig.match(/^[0-9A-Z]{40}\.[0-9A-Z]{40}$/))
+		    fg.setPref("media.YouTube.decode_signature_func", "");
           } else {
             fg.log("Failed to fix fmt", itag, "signature");
 	    delete fmts[itag];

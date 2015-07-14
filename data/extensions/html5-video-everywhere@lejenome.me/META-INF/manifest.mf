@@ -1,0 +1,127 @@
+Manifest-Version: 1.0
+
+Name: install.rdf
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: yEAlVKMLjXkyf3c7msk/Xw==
+SHA1-Digest: aV3Z43FdsOjtb5MVBqTufnvUCLc=
+
+Name: bootstrap.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: 7e6z9LJUzPhqfgyfhRMzhA==
+SHA1-Digest: TWD0b5BkAoKXr56l0Tt3AkKBy8s=
+
+Name: harness-options.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: gvOukOdXNjdHv1ejWNp02g==
+SHA1-Digest: kbPOKwGp8XnWtsH95t0fwLRplOE=
+
+Name: locales.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: p3Qh60/6wDH/UunTuTWZjQ==
+SHA1-Digest: DBci+JD/520hUnFSB3zB1xoBE9g=
+
+Name: options.xul
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: AQXhzeAfLxO+ATnTSo9pOw==
+SHA1-Digest: TjNQdfc9jutGAHq9GjWhCrjsXaI=
+
+Name: defaults/preferences/prefs.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: WB3cSv+b4ydlRWW5JKfkyw==
+SHA1-Digest: 8NhNf95wV6r8Pj6T2VaLw4URH/k=
+
+Name: resources/html5-video-everywhere/data/break.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: FHcsZl9Qe91hW/7B28cAkg==
+SHA1-Digest: P4o5B+pFXkcUyTcjR/EjVPN2NEY=
+
+Name: resources/html5-video-everywhere/data/common.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: E1LUgC77SvIagwSzhOELtQ==
+SHA1-Digest: RKAZ/SxZXihI9RR/YuPqx/qr+Zo=
+
+Name: resources/html5-video-everywhere/data/dailymotion.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: ozG1xmyo2629YYbN1ZP18Q==
+SHA1-Digest: 9opU+TINoR5HlMlK1LTq29yB3OA=
+
+Name: resources/html5-video-everywhere/data/facebook.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: fqr4Z17t/ZoygcVknd9/dg==
+SHA1-Digest: xicvIjTGA2Usu3fRfOkDnoEZaek=
+
+Name: resources/html5-video-everywhere/data/flashgot-YouTubeSwf.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: T+XZ+Rd72kqQauBCH92lDQ==
+SHA1-Digest: FqZ/r+c3xYHqFzMwYAQLk2OP9vU=
+
+Name: resources/html5-video-everywhere/data/metacafe.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: NMql8+nLTPMdxjV6sP5H3g==
+SHA1-Digest: q2qpkNvUhobvaJjcc7UalhgXnMI=
+
+Name: resources/html5-video-everywhere/data/video-player.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: GdLZBfcj0UrWd0diFLtwlQ==
+SHA1-Digest: T4kSzQs0WwEMwBTvWXR0zG9Xvio=
+
+Name: resources/html5-video-everywhere/data/vimeo.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: vysLIrQbnaQs04x+JUaY1A==
+SHA1-Digest: /4NusOTf5vM0OvXpI/gBGnd+CwU=
+
+Name: resources/html5-video-everywhere/data/youtube-formats.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: ba8pxu4YWbMTFLI7u9nSww==
+SHA1-Digest: 8LdbGx/9NDqLQ9CndverrJzTRHA=
+
+Name: resources/html5-video-everywhere/data/youtube.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: fw7qzIDcMToQ8yY0VkEdqQ==
+SHA1-Digest: ezxXLeySGAqP/Yh/E3UCTu1F/RE=
+
+Name: resources/html5-video-everywhere/lib/break.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: Gs/Etew95x/lD3IuZifl5Q==
+SHA1-Digest: 56GIkHz/2jJL9bEjPkLPdO1KVNo=
+
+Name: resources/html5-video-everywhere/lib/common.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: CYP8cXv4SBDfwNklEF7UmA==
+SHA1-Digest: 5B8qBt1SCvK4GERTM/ggXyZLYiM=
+
+Name: resources/html5-video-everywhere/lib/dailymotion.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: G7beTZLJ9bV8qd4TQKvSJA==
+SHA1-Digest: rg2Qw46iUoN3IjqEDdcklKTq3XM=
+
+Name: resources/html5-video-everywhere/lib/facebook.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: MwgClTBiBe7LFJNcvKMjlg==
+SHA1-Digest: H9dSJUDuos2GyVC5dqLB/wMH+9Q=
+
+Name: resources/html5-video-everywhere/lib/flashgot-YouTube.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: VHCubRXtltPxbjJwQSP8Ug==
+SHA1-Digest: ejl5VDFw9wkD6xs+QZGKxD0B6jw=
+
+Name: resources/html5-video-everywhere/lib/main.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: R6NltxG2mAW+bFuh2zJOdQ==
+SHA1-Digest: HjEEU999PhXM4vX4gski8wIY058=
+
+Name: resources/html5-video-everywhere/lib/metacafe.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: Kapqu2JlNqdfYVl1mzWZVQ==
+SHA1-Digest: Wk6FJJqfUJsTY4EsqXHkk9hMkmc=
+
+Name: resources/html5-video-everywhere/lib/vimeo.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: jTJdcUeScUvccb3lLljoNg==
+SHA1-Digest: PFedn4/SHpnfvE32ZXSLJON1SYg=
+
+Name: resources/html5-video-everywhere/lib/youtube.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: 2iKx56tEhaAJbSLMWZITlA==
+SHA1-Digest: nEY1iWkxNKagLglR5KVwjS+meYU=
+

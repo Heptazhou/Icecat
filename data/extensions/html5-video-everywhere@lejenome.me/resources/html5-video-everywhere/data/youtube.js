@@ -25,23 +25,25 @@
                     var player_container = getPlayerContainer(conf);
                     if (!player_container)
                         return;
+                    var seek = getSeek();
                     vp = new VP(player_container);
-                    vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url);
-                    vp.containerProps({
-                        className: conf.className || ""
-                    });
+                    vp.srcs(conf.fmts, FMT_WRAPPER, (fmt) => fmt.url + seek);
+                    //vp.containerProps({
+                    //    className: conf.className || ""
+                    //});
                     vp.props({
                         id: "video_player",
                         className: conf.className || "",
-                        autoplay: autoPlay(!conf.isEmbed),
+                        autoplay: autoPlay(location.search.search("autoplay=") === -1 ? !conf.isEmbed : location.search.search("autoplay=0") === -1),
                         preload: preLoad(),
+                        loop: isLoop(location.search.search("loop=1") !== -1),
                         controls: true,
                         poster: conf.poster || "",
                         volume: OPTIONS.volume / 100
                     });
-                    vp.style({
-                        position: "relative"
-                    });
+                    //vp.style({
+                    //    position: "relative"
+                    //});
                     vp.tracksList((conf.tracks || []).map(i => i.lc), (lang, resolve, reject) => {
                         var o = conf.tracks.find((i) => i.lc === lang);
                         if (o === undefined)
@@ -90,7 +92,7 @@
         vp.srcs(conf.fmts, FMT_WRAPPER);
         if (conf && conf.isWatch)
             vp.containerProps({
-                className: " player-height player-width"
+                className: " player-height player-width player-api"
             });
         if (conf && conf.isChannel)
             vp.containerProps({
@@ -135,7 +137,7 @@
                 conf.className = "c4-player-container"; //+ " html5-main-video"
             } else {
                 conf.id = location.search.slice(1).match(/v=([^/?#]*)/)[1];
-                conf.className = "player-width player-height";
+                conf.className = "player-width player-height player-api";
             }
             if (!conf.id)
                 reject({
@@ -301,7 +303,25 @@
 
                 webvtt += (i + 1) + "\n" + tl1 + " --> " + tl2 + "\n" + els[i].textContent + "\n\n";
             }
-            resolve("data:text/vtt;base64," + btoa(webvtt.replace("&#39;", "'", "g")));
+            resolve("data:text/vtt;base64," + btoa(window.unescape(
+                encodeURIComponent(webvtt.replace("&#39;", "'", "g")))));
         });
+    }
+
+    function getSeek() {
+        var seek = 0;
+        if (location.search.search("start=") > -1) {
+            seek = location.search.match(/start=(\d+)/);
+            seek = seek ? parseInt(seek[1]) : 0;
+        } else if (location.search.search(/[&?]t=\d/) > -1) {
+            seek = location.search.match(/[&?]t=([^&]*)/)[1];
+            var h = seek.match(/(\d+)h/);
+            var m = seek.match(/(\d+)m/);
+            var s = seek.match(/(\d+)s/);
+            seek = (h ? parseInt(h[1]) : 0) * 3600 +
+                (m ? parseInt(m[1]) : 0) * 60 +
+                (s ? parseInt(s[1]) : 0);
+        }
+        return seek > 0 ? ("#t=" + seek) : "";
     }
 }());
