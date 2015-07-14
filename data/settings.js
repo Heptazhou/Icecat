@@ -189,3 +189,7 @@ pref("security.ssl3.dhe_rsa_aes_128_sha", false);
 pref("security.ssl3.dhe_rsa_aes_256_sha", false);
 pref("security.ssl3.dhe_dss_aes_128_sha", false);
 pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
+
+// Disable hardware acceleration and WebGL
+pref("layers.acceleration.disabled", true);
+pref("webgl.disabled", true);

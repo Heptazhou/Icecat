@@ -420,6 +420,7 @@ MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
 EOF
 
 cat $DATA/settings.js >> mobile/android/app/mobile.js
+cat $DATA/settings-android.js >> mobile/android/app/mobile.js
 
 cat << EOF > mobile/locales/en-US/chrome/region.properties
 browser.search.defaultenginename=DuckDuckGo
