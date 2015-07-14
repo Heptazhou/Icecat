@@ -1,3 +1,20 @@
+2015-07-12 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v31.8.0ESR
+	* Applied fix for LogJam attack [https://weakdh.org/]
+	* HTML5 Video Everywhere updated to 0.2.38.1
+	* LibreJS updated to 6.0.9
+	* HTTPS-Everywhere updated to 5.0.5
+	* Spyblock updated to 2.6.9.0 from upstream changes
+	* Disabled hardware acceleration and WebGL
+
+2015-06-05 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v31.7.0ESR
+        * Fix build system for translation packages
+
+2015-04-03 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v31.6.0ESR
+	* Disable CNNIC root certificate
+
 2015-03-15 Ruben Rodriguez <ruben@gnu.org>
 	* Fixed profile path to .mozilla/icecat
 
