@@ -22,11 +22,12 @@ cat ../../data/buildscripts/mozconfig-android >> .mozconfig
 
 rm extensions/gnu/abouticecat* -rf
 
+export MOZILLA_DIR=$PWD
+
 ./mach build
 
 pushd obj-android/mobile/android/locales
-#for loc in $(cat ../../../../mobile/android/locales/maemo-locales); do
-for loc in es-ES ; do
+for loc in $(cat ../../../../mobile/android/locales/maemo-locales); do
   LOCALE_MERGEDIR=$PWD/merge-$loc make merge-$loc LOCALE_MERGEDIR=$PWD/merge-$loc
   make LOCALE_MERGEDIR=$PWD/merge-$loc chrome-$loc LOCALE_MERGEDIR=$PWD/merge-$loc
 done
