@@ -291,12 +291,28 @@
         "filename": "http://code.jquery.com/jquery-1.11.2.js",
         "result": "[freelib]"
     },
+    "276c87ff3e1e3155679c318938e74e5c1b76d809": {
+        "filename": "http://code.jquery.com/jquery-1.11.3.min.js",
+        "result": "[freelib]"
+    },
+    "96c73f3774471cc8378c77a64ecf09b7f625d8b7": {
+        "filename": "http://code.jquery.com/jquery-1.11.3.js",
+        "result": "[freelib]"
+    },
     "41b4bfbaa96be6d1440db6e78004ade1c134e276": {
         "filename": "http://code.jquery.com/jquery-2.1.3.min.js",
         "result": "[freelib]"
     },
     "1852661bd11a09ca9b9cb63d1aa6ff390fffaf4e": {
         "filename": "http://code.jquery.com/jquery-2.1.3.js",
+        "result": "[freelib]"
+    },
+    "43dc554608df885a59ddeece1598c6ace434d747": {
+        "filename": "http://code.jquery.com/jquery-2.1.4.min.js",
+        "result": "[freelib]"
+    },
+    "0fed45ad7a48ace869bc725ca474ad86a1ef1562": {
+        "filename": "http://code.jquery.com/jquery-2.1.4.js",
         "result": "[freelib]"
     },
     "0be05c714a7e6cf28fe692629ece5b3769901dca": {
@@ -1497,6 +1513,30 @@
     },
     "afa7af2bc7cbe37eeccb9b65577744c08219c5a9": {
         "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.js",
+        "result": "[freelib]"
+    },
+    "b3f2ef9f985e7906c9360756b73cd64bf7733647": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js",
+        "result": "[freelib]"
+    },
+    "f8752e9ae24daec0a0baffd7819122f8c6fd9103": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.js",
+        "result": "[freelib]"
+    },
+    "253711c6d825de55a8360552573be950da180614": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js",
+        "result": "[freelib]"
+    },
+    "542cfd539f0cad650342c8cab8baf1cdbcd5fea6": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.js",
+        "result": "[freelib]"
+    },
+    "6c264e0e0026ab5ece49350c6a8812398e696cbb": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js",
+        "result": "[freelib]"
+    },
+    "bbf55e20f1ebb6368522799f29db39830a08ef93": {
+        "filename": "http://netdna.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.js",
         "result": "[freelib]"
     },
     "5814e91bb6276f4de8b7951c965f2f190a03978d": {

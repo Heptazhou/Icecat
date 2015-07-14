@@ -193,7 +193,7 @@
   }, 
   "librejs/html_script_finder/web_labels/script_hash_worker": {
    "docsSHA256": null, 
-   "jsSHA256": "f61a609b6a32a5b142294e1455aaa9183afa96eb2be1f05b76cbbdebb3ff454a", 
+   "jsSHA256": "cf9a9c2c803daa74e223429431f9140c5524cbe570dd09bf611c3b8f32572d4a", 
    "moduleName": "html_script_finder/web_labels/script_hash_worker", 
    "packageName": "librejs", 
    "requirements": {
@@ -238,7 +238,7 @@
   }, 
   "librejs/http_observer/process_response": {
    "docsSHA256": null, 
-   "jsSHA256": "f063959462e1744381d0f17b5daff6ff0bba8f91e44c0eb33f6d6b4c45c2f995", 
+   "jsSHA256": "c9efc372a64c71375964ef567de75db8a09f9244e134e4d0feff6d7acc49a939", 
    "moduleName": "http_observer/process_response", 
    "packageName": "librejs", 
    "requirements": {
@@ -258,7 +258,7 @@
   }, 
   "librejs/http_observer/stream_loader": {
    "docsSHA256": null, 
-   "jsSHA256": "75c3d9f7e8396e1b261757c1cf65b72de1cb1a402be40632faa79c6810d6cee7", 
+   "jsSHA256": "0d3694002a24e5735391556eb5013364cd02d9b43d323c2be56f57467ed9a784", 
    "moduleName": "http_observer/stream_loader", 
    "packageName": "librejs", 
    "requirements": {
@@ -291,7 +291,7 @@
   }, 
   "librejs/js_checker/js_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "4d591ef0b1fcfb3f15f77428529412a7c9e23c2f9312d3aece81b912404e2b0c", 
+   "jsSHA256": "cfdc61f93a49072fcccc542746520fb9d48feb4b6768262af12d3622a0871e9f", 
    "moduleName": "js_checker/js_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -311,7 +311,7 @@
   }, 
   "librejs/js_checker/license_definitions": {
    "docsSHA256": null, 
-   "jsSHA256": "f7b9ea8e7544ea46767ac116de5b7493dd45d55341bc277e35beba1a6886a2b1", 
+   "jsSHA256": "801bf3c6435824d0746d888c6833819bb6a8b36ba2d38c2235825c99f43e86f7", 
    "moduleName": "js_checker/license_definitions", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -429,7 +429,7 @@
   }, 
   "librejs/script_entries/crypto": {
    "docsSHA256": null, 
-   "jsSHA256": "f8ba64a0941891c900d9d862876c6a41cae3154dbdf96b3516fd6639209f4350", 
+   "jsSHA256": "74a2c6893ba9b871f01a340403fee1639dcc78dbe869a9f23bace2478e60abf5", 
    "moduleName": "script_entries/crypto", 
    "packageName": "librejs", 
    "requirements": {
@@ -450,13 +450,13 @@
   }, 
   "librejs/script_entries/free_libraries": {
    "docsSHA256": null, 
-   "jsSHA256": "b57ae64f260b2ae671337e2923e15369981da926ffbaca4f160e84b46b1ec8e9", 
+   "jsSHA256": "c9bf7ad7a2492324b98f32bff69147d59c019fcf71c18f9cc37851a94ad468a3", 
    "moduleName": "script_entries/free_libraries", 
    "packageName": "librejs", 
    "requirements": {
-    "./scripts_cache": "librejs/script_entries/scripts_cache", 
     "js_checker/constant_types": "librejs/js_checker/constant_types", 
     "js_checker/relation_checker": "librejs/js_checker/relation_checker", 
+    "script_entries/scripts_cache": "librejs/script_entries/scripts_cache", 
     "sdk/self": "sdk/self"
    }, 
    "sectionName": "lib"
@@ -474,7 +474,7 @@
   }, 
   "librejs/script_entries/scripts_cache": {
    "docsSHA256": null, 
-   "jsSHA256": "030b71b0336647a67fe07ddc185a38f240e5d017e1d5f3e16b3bfd19f3ef6e3a", 
+   "jsSHA256": "7c03ea3f3926e4c802b6b14aa01fa9d78be25326b06f3e228915b70f4416d5e3", 
    "moduleName": "script_entries/scripts_cache", 
    "packageName": "librejs", 
    "requirements": {
@@ -679,7 +679,7 @@
     "private-browsing": true, 
     "unsafe-content-script": true
    }, 
-   "version": "6.0.8"
+   "version": "6.0.9"
   }, 
   "menuitems": {
    "author": "Erik Vold (http://erikvold.com/) <erikvvold@gmail.com>", 

@@ -81,17 +81,6 @@ var processResponseObject = {
     },
 
     /**
-     * genBinaryOutput
-     * Set or reset binaryOutputStream and storageStream.
-     */
-    genBinaryOutput: function () {
-        this.storageStream = Cc["@mozilla.org/storagestream;1"]
-            .createInstance(Ci.nsIStorageStream);
-        this.binaryOutputStream = Cc["@mozilla.org/binaryoutputstream;1"]
-            .createInstance(Ci.nsIBinaryOutputStream);
-    },
-
-    /**
      * Gather the data gathered from onDataAvailable.
      */
     setData: function () {
@@ -203,7 +192,6 @@ var processResponseObject = {
     processJS: function() {
         var checker, check, jsCheckString,
             that = this;
-        //var start = Date.now(), end;
 
         try {
             // make sure script isn't already listed as free
@@ -212,7 +200,6 @@ var processResponseObject = {
                 // this is free. we are done.
                 this.jsListenerCallback();
                 return;
-
             }
 
             // analyze javascript in response.
@@ -221,8 +208,6 @@ var processResponseObject = {
                 //console.debug("Has been analyzing", that.data);
                 that.processJsCallback(checker);
             }, that.url);
-
-
 
         } catch(e) {
 
@@ -273,7 +258,6 @@ var processResponseObject = {
                     return true;
 
                 }
-
             }
         }
     },
@@ -393,21 +377,26 @@ var processResponseObject = {
 
     jsListenerCallback: function () {
 
-        var len = this.data.length;
+        var converter = Cc["@mozilla.org/intl/scriptableunicodeconverter"]
+            .createInstance(Ci.nsIScriptableUnicodeConverter);
 
-        this.genBinaryOutput();
+        if (typeof this.req.contentCharset !== 'undefined' &&
+            this.req.contentCharset !== '' &&
+            this.req.contentCharset !== null
+           ) {
+            converter.charset = this.req.contentCharset;
+        } else {
+            converter.charset = "UTF-8";
+        }
 
-        this.storageStream.init(8192, len, null);
-        this.binaryOutputStream.setOutputStream(
-            this.storageStream.getOutputStream(0));
-        this.binaryOutputStream.writeBytes(this.data, len);
+        var stream = converter.convertToInputStream(this.data);
 
         try {
             this.listener.onDataAvailable(
                 this.req,
                 this.resInfo.context,
-                this.storageStream.newInputStream(0),
-                0, len);
+                stream,
+                0, stream.available());
         } catch (e) {
             this.req.cancel(this.req.NS_BINDING_ABORTED);
         }

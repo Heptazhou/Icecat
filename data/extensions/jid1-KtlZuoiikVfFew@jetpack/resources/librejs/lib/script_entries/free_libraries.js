@@ -24,7 +24,7 @@
 
 var relationChecker = require("js_checker/relation_checker").relationChecker;
 var checkTypes = require("js_checker/constant_types").checkTypes;
-var scriptsCached = require("./scripts_cache").scriptsCached;
+var scriptsCached = require("script_entries/scripts_cache").scriptsCached;
 
 
 // find the json database path.
@@ -40,7 +40,6 @@ var freeLibraries = JSON.parse(dbContents); /* a database of the free libraries 
  */
 
 var init = function () {
-
     // relationChecker, which roughly checks if variables are window
     //  variables or not, is useless in this case.  Use the same
     //  object for all entries.
