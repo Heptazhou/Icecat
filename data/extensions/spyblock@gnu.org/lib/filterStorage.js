@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -29,7 +29,6 @@ let {Filter, ActiveFilter} = require("filterClasses");
 let {Subscription, SpecialSubscription, ExternalSubscription} = require("subscriptionClasses");
 let {FilterNotifier} = require("filterNotifier");
 let {Utils} = require("utils");
-let {TimeLine} = require("timeline");
 
 /**
  * Version number of the filter storage file format.
@@ -85,8 +84,9 @@ let FilterStorage = exports.FilterStorage =
     if (!file)
       Cu.reportError("Adblock Plus: Failed to resolve filter file location from extensions.adblockplus.patternsfile preference");
 
-    this.__defineGetter__("sourceFile", () => file);
-    return this.sourceFile;
+    // Property is configurable because of the test suite.
+    Object.defineProperty(this, "sourceFile", {value: file, configurable: true});
+    return file;
   },
 
   /**
@@ -99,7 +99,7 @@ let FilterStorage = exports.FilterStorage =
    * Map of properties listed in the filter storage file before the sections
    * start. Right now this should be only the format version.
    */
-  fileProperties: {__proto__: null},
+  fileProperties: Object.create(null),
 
   /**
    * List of filter subscriptions containing all filters
@@ -111,7 +111,7 @@ let FilterStorage = exports.FilterStorage =
    * Map of subscriptions already on the list, by their URL/identifier
    * @type Object
    */
-  knownSubscriptions: {__proto__: null},
+  knownSubscriptions: Object.create(null),
 
   /**
    * Finds the filter group that a filter should be added to by default. Will
@@ -368,17 +368,13 @@ let FilterStorage = exports.FilterStorage =
     if (this._loading)
       return;
 
-    TimeLine.enter("Entered FilterStorage.loadFromDisk()");
     this._loading = true;
 
     let readFile = function(sourceFile, backupIndex)
     {
-      TimeLine.enter("FilterStorage.loadFromDisk() -> readFile()");
-
       let parser = new INIParser();
       IO.readFromFile(sourceFile, parser, function(e)
       {
-        TimeLine.enter("FilterStorage.loadFromDisk() read callback");
         if (!e && parser.subscriptions.length == 0)
         {
           // No filter subscriptions in the file, this isn't right.
@@ -406,21 +402,18 @@ let FilterStorage = exports.FilterStorage =
               else
                 doneReading(parser);
             });
-            TimeLine.leave("FilterStorage.loadFromDisk() read callback done");
             return;
           }
         }
         doneReading(parser);
-      }.bind(this), "FilterStorageRead");
-
-      TimeLine.leave("FilterStorage.loadFromDisk() <- readFile()", "FilterStorageRead");
+      }.bind(this));
     }.bind(this);
 
     var doneReading = function(parser)
     {
       // Old special groups might have been converted, remove them if they are empty
       let specialMap = {"~il~": true, "~wl~": true, "~fl~": true, "~eh~": true};
-      let knownSubscriptions = {__proto__: null};
+      let knownSubscriptions = Object.create(null);
       for (let i = 0; i < parser.subscriptions.length; i++)
       {
         let subscription = parser.subscriptions[i];
@@ -444,7 +437,6 @@ let FilterStorage = exports.FilterStorage =
           this.addFilter(filter, null, undefined, true);
         }
       }
-      TimeLine.log("Initializing data done, triggering observers")
 
       this._loading = false;
       FilterNotifier.triggerListeners("load");
@@ -452,7 +444,6 @@ let FilterStorage = exports.FilterStorage =
       if (sourceFile != this.sourceFile)
         this.saveToDisk();
 
-      TimeLine.leave("FilterStorage.loadFromDisk() read callback done");
     }.bind(this);
 
     let explicitFile;
@@ -473,8 +464,6 @@ let FilterStorage = exports.FilterStorage =
           this.firstRun = true;
           this._loading = false;
           FilterNotifier.triggerListeners("load");
-
-          TimeLine.leave("FilterStorage.loadFromDisk() read callback done");
         }
         else
           readFile(sourceFile, 0);
@@ -485,8 +474,6 @@ let FilterStorage = exports.FilterStorage =
       else
         callback(true);
     }
-
-    TimeLine.leave("FilterStorage.loadFromDisk() done");
   },
 
   _generateFilterData: function(subscriptions)
@@ -494,7 +481,7 @@ let FilterStorage = exports.FilterStorage =
     yield "# Adblock Plus preferences";
     yield "version=" + formatVersion;
 
-    let saved = {__proto__: null};
+    let saved = Object.create(null);
     let buf = [];
 
     // Save filter data
@@ -568,8 +555,6 @@ let FilterStorage = exports.FilterStorage =
       return;
     }
 
-    TimeLine.enter("Entered FilterStorage.saveToDisk()");
-
     // Make sure the file's parent directory exists
     try {
       targetFile.parent.create(Ci.nsIFile.DIRECTORY_TYPE, FileUtils.PERMS_DIRECTORY);
@@ -577,10 +562,8 @@ let FilterStorage = exports.FilterStorage =
 
     let writeFilters = function()
     {
-      TimeLine.enter("FilterStorage.saveToDisk() -> writeFilters()");
       IO.writeToFile(targetFile, this._generateFilterData(subscriptions), function(e)
       {
-        TimeLine.enter("FilterStorage.saveToDisk() write callback");
         if (!explicitFile)
           this._saving = false;
 
@@ -594,9 +577,7 @@ let FilterStorage = exports.FilterStorage =
         }
         else
           FilterNotifier.triggerListeners("save");
-        TimeLine.leave("FilterStorage.saveToDisk() write callback done");
-      }.bind(this), "FilterStorageWrite");
-      TimeLine.leave("FilterStorage.saveToDisk() -> writeFilters()", "FilterStorageWrite");
+      }.bind(this));
     }.bind(this);
 
     let checkBackupRequired = function(callbackNotRequired, callbackRequired)
@@ -628,16 +609,13 @@ let FilterStorage = exports.FilterStorage =
 
     let removeLastBackup = function(part1, part2)
     {
-      TimeLine.enter("FilterStorage.saveToDisk() -> removeLastBackup()");
       let file = targetFile.clone();
       file.leafName = part1 + "-backup" + Prefs.patternsbackups + part2;
       IO.removeFile(file, (e) => renameBackup(part1, part2, Prefs.patternsbackups - 1));
-      TimeLine.leave("FilterStorage.saveToDisk() <- removeLastBackup()");
     }.bind(this);
 
     let renameBackup = function(part1, part2, index)
     {
-      TimeLine.enter("FilterStorage.saveToDisk() -> renameBackup()");
       if (index > 0)
       {
         let fromFile = targetFile.clone();
@@ -654,7 +632,6 @@ let FilterStorage = exports.FilterStorage =
 
         IO.copyFile(targetFile, toFile, writeFilters);
       }
-      TimeLine.leave("FilterStorage.saveToDisk() <- renameBackup()");
     }.bind(this);
 
     // Do not persist external subscriptions
@@ -663,8 +640,6 @@ let FilterStorage = exports.FilterStorage =
       this._saving = true;
 
     checkBackupRequired(writeFilters, removeLastBackup);
-
-    TimeLine.leave("FilterStorage.saveToDisk() done");
   },
 
   /**
@@ -794,8 +769,8 @@ function INIParser()
 {
   this.fileProperties = this.curObj = {};
   this.subscriptions = [];
-  this.knownFilters = {__proto__: null};
-  this.knownSubscriptions = {__proto__: null};
+  this.knownFilters = Object.create(null);
+  this.knownSubscriptions = Object.create(null);
 }
 INIParser.prototype =
 {

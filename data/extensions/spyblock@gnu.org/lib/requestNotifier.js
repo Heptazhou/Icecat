@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -27,6 +27,7 @@ let {BlockingFilter, WhitelistFilter, ElemHideBase, ElemHideFilter, ElemHideExce
 let nodeData = new WeakMap();
 let windowStats = new WeakMap();
 let windowSelection = new WeakMap();
+let requestEntryMaxId = 0;
 
 let setEntry, hasEntry, getEntry;
 // Last issue(Bug 982561) preventing us from using WeakMap fixed for FF version 32
@@ -134,8 +135,11 @@ RequestNotifier.prototype =
 
   /**
    * Notifies listener about a new request.
+   * @param {Window} wnd
+   * @param {Node} node
+   * @param {RequestEntry} entry
    */
-  notifyListener: function(/**Window*/ wnd, /**Node*/ node, /**RequestEntry*/ entry)
+  notifyListener: function(wnd, node, entry)
   {
     this.listener.call(this.listenerObj, wnd, node, entry, this.scanComplete);
   },
@@ -244,16 +248,19 @@ RequestNotifier.getDataForNode = function(node, noParent, type, location)
     let data = getEntry(nodeData, node);
     if (typeof data != "undefined")
     {
+      let entry = null;
       // Look for matching entry
       for (let k in data)
       {
-        let entry = data[k];
-        if ((typeof type == "undefined" || entry.type == type) &&
-            (typeof location == "undefined" || entry.location == location))
+        if ((!entry || entry.id < data[k].id) &&
+            (typeof type == "undefined" || data[k].type == type) &&
+            (typeof location == "undefined" || data[k].location == location))
         {
-          return [node, entry];
+          entry = data[k];
         }
       }
+      if (entry)
+        return [node, entry];
     }
 
     // If we don't have any match on this node then maybe its parent will do
@@ -278,6 +285,7 @@ function RequestEntry(node, topWnd, contentType, docDomain, thirdParty, location
   this.thirdParty = thirdParty;
   this.location = location;
   this.filter = filter;
+  this.id = ++requestEntryMaxId;
 
   this.attachToNode(node);
 
@@ -318,6 +326,11 @@ function RequestEntry(node, topWnd, contentType, docDomain, thirdParty, location
 }
 RequestEntry.prototype =
 {
+  /**
+   * id of request (used to determine last entry attached to a node)
+   * @type integer
+   */
+  id: 0,
   /**
    * Content type of the request (one of the nsIContentPolicy constants)
    * @type Integer

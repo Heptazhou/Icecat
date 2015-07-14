@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -146,7 +146,7 @@ function init()
   let typeGroup = E("typeGroup");
   let defaultTypes = RegExpFilter.prototype.contentType & ~RegExpFilter.typeMap.DOCUMENT;
   let isDefaultType = (RegExpFilter.typeMap[item.typeDescr] & defaultTypes) != 0;
-  for each (let type in types)
+  for (let type of types)
   {
     if (type == Policy.type.ELEMHIDE)
       continue;

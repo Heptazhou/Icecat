@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -239,7 +239,7 @@ function validateURL(url)
 {
   if (!url)
     return null;
-  url = url.replace(/^\s+/, "").replace(/\s+$/, "");
+  url = url.trim();
 
   // Is this a file path?
   try {
@@ -266,7 +266,7 @@ function addSubscription()
     return false;
   }
 
-  let title = E("title").value.replace(/^\s+/, "").replace(/\s+$/, "");
+  let title = E("title").value.trim();
   if (!title)
     title = url;
 

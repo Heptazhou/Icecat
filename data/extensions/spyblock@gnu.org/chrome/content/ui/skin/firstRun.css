@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -79,7 +79,7 @@ header
   background-image: url(background.png);
   background-repeat: repeat-x;
   width: 100%;
-  padding: 40px 0 0 0;
+  padding: 25px 0 0 0;
 }
 
 header h1
@@ -152,11 +152,9 @@ section > p
 #logo
 {
   margin: 0 auto;
-  height: 100px;
-  width: 99px;
+  height: 128px;
+  width: 128px;
   display: block;
-  background-image: url(abp-icon-big.png);
-  background-repeat: no-repeat;
 }
 
 #can-do-more
@@ -296,19 +294,21 @@ section > p
   display: inline-block;
   vertical-align: top;
   padding: 5px 0 5px 0;
+  border: 1px dashed #37506d;
+  border-style: none dashed;
 }
 
 #donate-block
 {
-  border: 1px dashed #37506d;
-  border-style: none dashed;
   width: 50%;
 }
 
 #share-block
 {
-  border-right: 1px dashed #37506d;
   width: 49%;
+
+  -webkit-border-start-style: none;
+  -moz-border-start-style: none;
 }
 
 .share-buttons
@@ -334,12 +334,12 @@ section > p
 }
 
 #share-general,
-:root[lang^="zh-"] #share-chinese
+#share-chinese:lang(zh)
 {
   display: block;
 }
 
-:root[lang^="zh-"] #share-general,
+#share-general:lang(zh),
 #share-chinese
 {
   display: none;
@@ -476,6 +476,19 @@ section > p
 {
   -webkit-transition-duration: 0.15s;
   transition-duration: 0.15s;
+}
+
+/* Change order of the blocks for French */
+#content:lang(fr)
+{
+  display: table;
+  margin: auto;
+  caption-side: bottom;
+}
+
+#share:lang(fr)
+{
+  display: table-caption;
 }
 
 .toggle

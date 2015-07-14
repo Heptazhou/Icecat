@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -27,31 +27,30 @@ let {Prefs} = require("prefs");
 let {ElemHideException} = require("filterClasses");
 let {FilterNotifier} = require("filterNotifier");
 let {AboutHandler} = require("elemHideHitRegistration");
-let {TimeLine} = require("timeline");
 
 /**
  * Lookup table, filters by their associated key
  * @type Object
  */
-let filterByKey = {__proto__: null};
+let filterByKey = Object.create(null);
 
 /**
  * Lookup table, keys of the filters by filter text
  * @type Object
  */
-let keyByFilter = {__proto__: null};
+let keyByFilter = Object.create(null);
 
 /**
  * Lookup table, keys are known element hiding exceptions
  * @type Object
  */
-let knownExceptions = {__proto__: null};
+let knownExceptions = Object.create(null);
 
 /**
  * Lookup table, lists of element hiding exceptions by selector
  * @type Object
  */
-let exceptions = {__proto__: null};
+let exceptions = Object.create(null);
 
 /**
  * Currently applied stylesheet URL
@@ -82,7 +81,6 @@ let ElemHide = exports.ElemHide =
    */
   init: function()
   {
-    TimeLine.enter("Entered ElemHide.init()");
     Prefs.addListener(function(name)
     {
       if (name == "enabled")
@@ -93,14 +91,9 @@ let ElemHide = exports.ElemHide =
       ElemHide.unapply();
     });
 
-    TimeLine.log("done adding prefs listener");
-
     let styleFile = IO.resolveFilePath(Prefs.data_directory);
     styleFile.append("elemhide.css");
     styleURL = Services.io.newFileURI(styleFile).QueryInterface(Ci.nsIFileURL);
-    TimeLine.log("done determining stylesheet URL");
-
-    TimeLine.leave("ElemHide.init() done");
   },
 
   /**
@@ -108,10 +101,10 @@ let ElemHide = exports.ElemHide =
    */
   clear: function()
   {
-    filterByKey = {__proto__: null};
-    keyByFilter = {__proto__: null};
-    knownExceptions = {__proto__: null};
-    exceptions = {__proto__: null};
+    filterByKey = Object.create(null);
+    keyByFilter = Object.create(null);
+    knownExceptions = Object.create(null);
+    exceptions = Object.create(null);
     ElemHide.isDirty = false;
     ElemHide.unapply();
   },
@@ -184,7 +177,6 @@ let ElemHide = exports.ElemHide =
    */
   getException: function(/**Filter*/ filter, /**String*/ docDomain) /**ElemHideException*/
   {
-    let selector = filter.selector;
     if (!(filter.selector in exceptions))
       return null;
 
@@ -220,8 +212,6 @@ let ElemHide = exports.ElemHide =
       return;
     }
 
-    TimeLine.enter("Entered ElemHide.apply()");
-
     if (!ElemHide.isDirty || !Prefs.enabled)
     {
       // Nothing changed, looks like we merely got enabled/disabled
@@ -236,21 +226,17 @@ let ElemHide = exports.ElemHide =
         {
           Cu.reportError(e);
         }
-        TimeLine.log("Applying existing stylesheet finished");
       }
       else if (!Prefs.enabled && ElemHide.applied)
       {
         ElemHide.unapply();
-        TimeLine.log("ElemHide.unapply() finished");
       }
 
-      TimeLine.leave("ElemHide.apply() done (no file changes)");
       return;
     }
 
     IO.writeToFile(styleURL.file, this._generateCSSContent(), function(e)
     {
-      TimeLine.enter("ElemHide.apply() write callback");
       this._applying = false;
 
       // _generateCSSContent is throwing NS_ERROR_NOT_AVAILABLE to indicate that
@@ -275,7 +261,6 @@ let ElemHide = exports.ElemHide =
         ElemHide.isDirty = false;
 
         ElemHide.unapply();
-        TimeLine.log("ElemHide.unapply() finished");
 
         if (!noFilters)
         {
@@ -288,24 +273,19 @@ let ElemHide = exports.ElemHide =
           {
             Cu.reportError(e);
           }
-          TimeLine.log("Applying stylesheet finished");
         }
 
         FilterNotifier.triggerListeners("elemhideupdate");
       }
-      TimeLine.leave("ElemHide.apply() write callback done");
-    }.bind(this), "ElemHideWrite");
+    }.bind(this));
 
     this._applying = true;
-
-    TimeLine.leave("ElemHide.apply() done", "ElemHideWrite");
   },
 
   _generateCSSContent: function()
   {
     // Grouping selectors by domains
-    TimeLine.log("start grouping selectors");
-    let domains = {__proto__: null};
+    let domains = Object.create(null);
     let hasFilters = false;
     for (let key in filterByKey)
     {
@@ -317,13 +297,12 @@ let ElemHide = exports.ElemHide =
         list = domains[domain];
       else
       {
-        list = {__proto__: null};
+        list = Object.create(null);
         domains[domain] = list;
       }
       list[filter.selector] = key;
       hasFilters = true;
     }
-    TimeLine.log("done grouping selectors");
 
     if (!hasFilters)
       throw Cr.NS_ERROR_NOT_AVAILABLE;
@@ -402,13 +381,7 @@ let ElemHide = exports.ElemHide =
     for (let key in filterByKey)
     {
       let filter = filterByKey[key];
-
-      // it is important to always access filter.domains
-      // here, even if it isn't used, in order to
-      // workaround WebKit bug 132872, also see #419
-      let domains = filter.domains;
-
-      if (specificOnly && (!domains || domains[""]))
+      if (specificOnly && (!filter.domains || filter.domains[""]))
         continue;
 
       if (filter.isActiveOnDomain(domain) && !this.getException(filter, domain))

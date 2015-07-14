@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -23,7 +23,7 @@ var mainWin = parent;
 // The window handler currently in use
 var requestNotifier = null;
 
-var cacheSession = null;
+var cacheStorage = null;
 var noFlash = false;
 
 // Matcher for disabled filters
@@ -85,7 +85,7 @@ function init() {
   }
 
   let {getBrowser, addBrowserLocationListener} = require("appSupport");
-  window.__defineGetter__("content", function() {return getBrowser(mainWin).contentWindow;});
+  Object.defineProperty(window, "content", { get: () => getBrowser(mainWin).contentWindow });
 
   // Initialize matcher for disabled filters
   reloadDisabledFilters();
@@ -155,12 +155,12 @@ function reloadDisabledFiltersInternal()
 
   if (Prefs.enabled)
   {
-    for each (let subscription in FilterStorage.subscriptions)
+    for (let subscription of FilterStorage.subscriptions)
     {
       if (subscription.disabled)
         continue;
 
-      for each (let filter in subscription.filters)
+      for (let filter of subscription.filters)
         if (filter instanceof RegExpFilter && filter.disabled)
           disabledMatcher.add(filter);
     }
@@ -200,6 +200,7 @@ function handleLocationChange()
     if (item)
       treeView.addItem(node, item, scanComplete);
   });
+  cacheStorage = null;
 }
 
 // Fills a box with text splitting it up into multiple lines if necessary
@@ -295,43 +296,67 @@ function fillInTooltip(e) {
   var showPreview = Prefs.previewimages && !("tooltip" in item);
   showPreview = showPreview && item.typeDescr == "IMAGE";
   showPreview = showPreview && (!item.filter || item.filter.disabled || item.filter instanceof WhitelistFilter);
+  E("tooltipPreviewBox").hidden = true;
   if (showPreview)
   {
-    // Check whether image is in cache (stolen from ImgLikeOpera)
-    if (!cacheSession)
+    if (!cacheStorage)
     {
-      var cacheService = Cc["@mozilla.org/network/cache-service;1"].getService(Ci.nsICacheService);
-      cacheSession = cacheService.createSession("HTTP", Ci.nsICache.STORE_ANYWHERE, true);
+      let {Services} = Cu.import("resource://gre/modules/Services.jsm", null);
+      // Cache v2 API is enabled by default starting with Gecko 32
+      if (Services.vc.compare(Utils.platformVersion, "32.0a1") >= 0)
+      {
+        let {LoadContextInfo} = Cu.import("resource://gre/modules/LoadContextInfo.jsm", null);
+        let loadContext = content.QueryInterface(Ci.nsIInterfaceRequestor)
+                                 .getInterface(Ci.nsIWebNavigation)
+                                 .QueryInterface(Ci.nsILoadContext);
+        cacheStorage = Services.cache2.diskCacheStorage(LoadContextInfo.fromLoadContext(loadContext, false), false);
+      }
+      else
+        cacheStorage = Services.cache.createSession("HTTP", Ci.nsICache.STORE_ANYWHERE, true);
     }
-
-    let cacheListener =
+    
+    let showTooltipPreview = function ()
     {
-       onCacheEntryAvailable: function(descriptor, accessGranted, status)
-       {
-          if (!descriptor)
-            return;
-
-          descriptor.close();
-          // Show preview here since this is asynchronous now
-          // and we have a valid descriptor
-          E("tooltipPreview").setAttribute("src", item.location);
-          E("tooltipPreviewBox").hidden = false;
-       },
-       onCacheEntryDoomed: function(status)
-       {
-       }
+      E("tooltipPreview").setAttribute("src", item.location);
+      E("tooltipPreviewBox").hidden = false;
     };
     try
     {
-      cacheSession.asyncOpenCacheEntry(item.location, Ci.nsICache.ACCESS_READ, cacheListener);
+      if (Ci.nsICacheStorage && cacheStorage instanceof Ci.nsICacheStorage)
+      {
+        cacheStorage.asyncOpenURI(Utils.makeURI(item.location), "", Ci.nsICacheStorage.OPEN_READONLY, {
+          onCacheEntryCheck: function (entry, appCache)
+          {
+            return Ci.nsICacheEntryOpenCallback.ENTRY_WANTED;
+          },
+          onCacheEntryAvailable: function (entry, isNew, appCache, status)
+          {
+            if (!isNew)
+              showTooltipPreview();
+          }
+        });
+      }
+      else
+      {
+        cacheStorage.asyncOpenCacheEntry(item.location, Ci.nsICache.ACCESS_READ, {
+          onCacheEntryAvailable: function(descriptor, accessGranted, status)
+          {
+            if (!descriptor)
+              return;
+            descriptor.close();
+            showTooltipPreview();
+          },
+          onCacheEntryDoomed: function(status)
+          {
+          }
+        });
+      }
     }
     catch (e)
     {
       Cu.reportError(e);
     }
   }
-
-  E("tooltipPreviewBox").hidden = true;
 }
 
 const visual = {
@@ -451,7 +476,7 @@ function handleDblClick(event)
 function openInTab(item, /**Event*/ event)
 {
   let items = (item ? [item] : treeView.getAllSelectedItems());
-  for each (let item in items)
+  for (let item of items)
   {
     if (item && item.typeDescr != "ELEMHIDE")
       UI.loadInBrowser(item.location, mainWin, event);
@@ -647,7 +672,7 @@ function getItemSize(item)
   if (item.filter && !item.filter.disabled && item.filter instanceof BlockingFilter)
     return null;
 
-  for each (let node in item.nodes)
+  for (let node of item.nodes)
   {
     if (node instanceof HTMLImageElement && (node.naturalWidth || node.naturalHeight))
       return [node.naturalWidth, node.naturalHeight];
@@ -777,9 +802,9 @@ var treeView = {
     var boolAtoms = ["selected", "dummy", "filter-disabled"];
     var atomService = Cc["@mozilla.org/atom-service;1"].getService(Ci.nsIAtomService);
     this.atoms = {};
-    for each (let atom in stringAtoms)
+    for (let atom of stringAtoms)
       this.atoms[atom] = atomService.getAtom(atom);
-    for each (let atom in boolAtoms)
+    for (let atom of boolAtoms)
     {
       this.atoms[atom + "-true"] = atomService.getAtom(atom + "-true");
       this.atoms[atom + "-false"] = atomService.getAtom(atom + "-false");
@@ -1009,7 +1034,7 @@ var treeView = {
   filter: "",
   data: null,
   allData: [],
-  dataMap: {__proto__: null},
+  dataMap: Object.create(null),
   sortColumn: null,
   sortProc: null,
   resortTimeout: null,
@@ -1038,7 +1063,7 @@ var treeView = {
   clearData: function(data) {
     var oldRows = this.rowCount;
     this.allData = [];
-    this.dataMap = {__proto__: null};
+    this.dataMap = Object.create(null);
     this.refilter();
 
     this.boxObject.rowCountChanged(0, -oldRows);
@@ -1119,7 +1144,7 @@ var treeView = {
 
   updateFilters: function()
   {
-    for each (let item in this.allData)
+    for (let item of this.allData)
     {
       if (item.filter instanceof RegExpFilter && item.filter.disabled)
         delete item.filter;

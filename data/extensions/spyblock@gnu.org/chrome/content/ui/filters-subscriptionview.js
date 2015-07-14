@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -87,7 +87,7 @@ ListManager.prototype =
     let subscriptions = FilterStorage.subscriptions.filter(this._filter, this);
     if (subscriptions.length)
     {
-      for each (let subscription in subscriptions)
+      for (let subscription of subscriptions)
         this.addSubscription(subscription, null);
 
       // Make sure first list item is selected after list initialization
@@ -176,7 +176,7 @@ ListManager.prototype =
     {
       if (this._scheduledUpdateDisabled == null)
       {
-        this._scheduledUpdateDisabled = {__proto__: null};
+        this._scheduledUpdateDisabled = Object.create(null);
         Utils.runAsync(this.updateDisabled, this);
       }
       for (let i = 0; i < item.subscriptions.length; i++)
@@ -273,7 +273,7 @@ ListManager.prototype =
       {
         if (this._scheduledUpdateDisabled == null)
         {
-          this._scheduledUpdateDisabled = {__proto__: null};
+          this._scheduledUpdateDisabled = Object.create(null);
           Utils.runAsync(this.updateDisabled, this);
         }
         this._scheduledUpdateDisabled[item.url] = true;

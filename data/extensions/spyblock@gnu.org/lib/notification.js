@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -21,7 +21,6 @@
 
 Cu.import("resource://gre/modules/Services.jsm");
 
-let {TimeLine} = require("timeline");
 let {Prefs} = require("prefs");
 let {Downloader, Downloadable, MILLIS_IN_MINUTE, MILLIS_IN_HOUR, MILLIS_IN_DAY} = require("downloader");
 let {Utils} = require("utils");
@@ -81,8 +80,6 @@ let Notification = exports.Notification =
    */
   init: function()
   {
-    TimeLine.enter("Entered Notification.init()");
-
     downloader = new Downloader(this._getDownloadables.bind(this), INITIAL_DELAY, CHECK_INTERVAL);
     onShutdown.add(function()
     {
@@ -92,8 +89,6 @@ let Notification = exports.Notification =
     downloader.onExpirationChange = this._onExpirationChange.bind(this);
     downloader.onDownloadSuccess = this._onDownloadSuccess.bind(this);
     downloader.onDownloadError = this._onDownloadError.bind(this);
-
-    TimeLine.leave("Notification.init() done");
   },
 
   /**
@@ -112,6 +107,8 @@ let Notification = exports.Notification =
       downloadable.softExpiration = Prefs.notificationdata.softExpiration;
     if (typeof Prefs.notificationdata.hardExpiration === "number")
       downloadable.hardExpiration = Prefs.notificationdata.hardExpiration;
+    if (typeof Prefs.notificationdata.downloadCount === "number")
+      downloadable.downloadCount = Prefs.notificationdata.downloadCount;
     yield downloadable;
   },
 
@@ -149,6 +146,7 @@ let Notification = exports.Notification =
     Prefs.notificationdata.lastError = 0;
     Prefs.notificationdata.downloadStatus = "synchronize_ok";
     [Prefs.notificationdata.softExpiration, Prefs.notificationdata.hardExpiration] = downloader.processExpirationInterval(EXPIRATION_INTERVAL);
+    Prefs.notificationdata.downloadCount = downloadable.downloadCount;
     saveNotificationData();
   },
 

@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -15,81 +15,30 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-var i18n;
+// This variable should no longer be necessary once options.js in Chrome
+// accesses ext.i18n directly.
+var i18n = ext.i18n;
 
-if (typeof ext != "undefined")
-  i18n = ext.i18n;
-else if (typeof chrome != "undefined")
-  // TODO: This check only exist for backwards compatibility, while the Safari
-  // port isn't merged into the adblockpluschrome repo. So this branch should
-  // be removed when the Safari port was merged.
-  i18n = chrome.i18n;
-else
-{
-  // Using Firefox' approach on i18n instead
-
-  // Randomize URI to work around bug 719376
-  var pageName = location.pathname.replace(/.*\//, '').replace(/\..*?$/, '');
-  var stringBundle = Services.strings.createBundle("chrome://adblockplus/locale/" + pageName +
-    ".properties?" + Math.random());
-
-  function getI18nMessage(key)
+// Getting UI locale cannot be done synchronously on Firefox,
+// requires messaging the background page. For Chrome and Safari,
+// we could get the UI locale here, but would need to duplicate
+// the logic implemented in Utils.appLocale.
+ext.backgroundPage.sendMessage(
   {
-    return {
-      "message": stringBundle.GetStringFromName(key)
-    };
+    type: "app.get",
+    what: "localeInfo"
+  },
+  function(localeInfo)
+  {
+    document.documentElement.lang = localeInfo.locale;
+    document.documentElement.dir = localeInfo.bidiDir;
   }
-
-  i18n = (function()
-  {
-    function getText(message, args)
-    {
-      var text = message.message;
-      var placeholders = message.placeholders;
-
-      if (!args || !placeholders)
-        return text;
-
-      for (var key in placeholders)
-      {
-        var content = placeholders[key].content;
-        if (!content)
-          continue;
-
-        var index = parseInt(content.slice(1), 10);
-        if (isNaN(index))
-          continue;
-
-        var replacement = args[index - 1];
-        if (typeof replacement === "undefined")
-          continue;
-
-        text = text.split("$" + key + "$").join(replacement);
-      }
-      return text;
-    }
-
-    return {
-      getMessage: function(key, args)
-      {
-        try{
-          var message = getI18nMessage(key);
-          return getText(message, args);
-        }
-        catch(e)
-        {
-          Cu.reportError(e);
-          return "Missing translation: " + key;
-        }
-      }
-    };
-  })();
-}
+);
 
 // Inserts i18n strings into matching elements. Any inner HTML already in the element is
 // parsed as JSON and used as parameters to substitute into placeholders in the i18n
 // message.
-i18n.setElementText = function(element, stringName, arguments)
+ext.i18n.setElementText = function(element, stringName, arguments)
 {
   function processString(str, element)
   {
@@ -110,7 +59,7 @@ i18n.setElementText = function(element, stringName, arguments)
 
   while (element.lastChild)
     element.removeChild(element.lastChild);
-  processString(i18n.getMessage(stringName, arguments), element);
+  processString(ext.i18n.getMessage(stringName, arguments), element);
 }
 
 // Loads i18n strings
@@ -129,7 +78,7 @@ function loadI18nStrings()
       className = className.animVal;
     var stringName = className.split(/\s/)[0].substring(5);
 
-    i18n.setElementText(node, stringName, arguments);
+    ext.i18n.setElementText(node, stringName, arguments);
   }
 }
 

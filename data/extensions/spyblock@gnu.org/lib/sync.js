@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -250,7 +250,7 @@ ABPStore.prototype =
     let data = record.cleartext.subscriptions;
 
     // First make sure we have the same subscriptions on both sides
-    let seenSubscription = {__proto__: null};
+    let seenSubscription = Object.create(null);
     for (let remoteSubscription of data)
     {
       seenSubscription[remoteSubscription.url] = true;
@@ -292,7 +292,7 @@ ABPStore.prototype =
     }
 
     // Now sync the custom filters
-    let seenFilter = {__proto__: null};
+    let seenFilter = Object.create(null);
     for (let remoteSubscription of data)
     {
       if (!("filters" in remoteSubscription))

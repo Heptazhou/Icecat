@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -26,8 +26,20 @@ var FilterSearch =
    */
   init: function()
   {
+    let filters = E("filtersTree");
+    for (let prop in FilterSearch.fakeBrowser)
+      filters[prop] = FilterSearch.fakeBrowser[prop];
+    Object.defineProperty(filters, "_lastSearchString", {
+      get: function()
+      {
+        return this.finder.searchString;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
     let findbar = E("findbar");
-    findbar.browser = FilterSearch.fakeBrowser;
+    findbar.browser = filters;
 
     findbar.addEventListener("keypress", function(event)
     {
@@ -144,8 +156,25 @@ FilterSearch.fakeBrowser =
     _notifyResultListeners: function(result, findBackwards)
     {
       this.lastResult = result;
-      for each (let listener in this._resultListeners)
-        listener.onFindResult(result, findBackwards);
+      for (let listener of this._resultListeners)
+      {
+        // See https://bugzilla.mozilla.org/show_bug.cgi?id=958101, starting
+        // with Gecko 29 only one parameter is expected.
+        try
+        {
+          if (listener.onFindResult.length == 1)
+          {
+            listener.onFindResult({searchString: this.searchString,
+                result: result, findBackwards: findBackwards});
+          }
+          else
+            listener.onFindResult(result, findBackwards);
+        }
+        catch (e)
+        {
+          Cu.reportError(e);
+        }
+      }
     },
 
     fastFind: function(searchString, linksOnly, drawOutline)
@@ -178,6 +207,7 @@ FilterSearch.fakeBrowser =
     },
 
     // Irrelevant for us
+    requestMatchesCount: function(searchString, matchLimit, linksOnly) {},
     highlight: function(highlight, word) {},
     enableSelection: function() {},
     removeSelection: function() {},
@@ -185,57 +215,6 @@ FilterSearch.fakeBrowser =
     keyPress: function() {}
   },
 
-  get _lastSearchString()
-  {
-    return this.finder.searchString;
-  },
-
-  // This was used before Firefox 27 instead of the "finder" property.
-  fastFind:
-  {
-    get searchString()
-    {
-      return FilterSearch.fakeBrowser.finder.searchString;
-    },
-
-    set searchString(searchString)
-    {
-      FilterSearch.fakeBrowser.finder.searchString = searchString;
-    },
-
-    foundLink: null,
-    foundEditable: null,
-
-    get caseSensitive()
-    {
-      return FilterSearch.fakeBrowser.finder.caseSensitive;
-    },
-
-    set caseSensitive(caseSensitive)
-    {
-      FilterSearch.fakeBrowser.finder.caseSensitive = caseSensitive;
-    },
-
-    get currentWindow() FilterSearch.fakeBrowser.contentWindow,
-
-    find: function(searchString, linksOnly)
-    {
-      FilterSearch.fakeBrowser.finder.fastFind(searchString, linksOnly);
-      return FilterSearch.fakeBrowser.finder.lastResult;
-    },
-
-    findAgain: function(findBackwards, linksOnly)
-    {
-      FilterSearch.fakeBrowser.finder.findAgain(findBackwards, linksOnly);
-      return FilterSearch.fakeBrowser.finder.lastResult;
-    },
-
-    // Irrelevant for us
-    init: function() {},
-    setDocShell: function() {},
-    setSelectionModeAndRepaint: function() {},
-    collapseSelection: function() {}
-  },
   currentURI: Utils.makeURI("http://example.com/"),
   contentWindow:
   {
@@ -251,16 +230,7 @@ FilterSearch.fakeBrowser =
     {
       E("filtersTree").boxObject.scrollByPages(num);
     },
-  },
-
-  addEventListener: function(event, handler, capture)
-  {
-    E("filtersTree").addEventListener(event, handler, capture);
-  },
-  removeEventListener: function(event, handler, capture)
-  {
-    E("filtersTree").addEventListener(event, handler, capture);
-  },
+  }
 };
 
 window.addEventListener("load", function()

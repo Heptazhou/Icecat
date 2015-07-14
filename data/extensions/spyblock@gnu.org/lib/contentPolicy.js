@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -22,7 +22,6 @@
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
 
-let {TimeLine} = require("timeline");
 let {Utils} = require("utils");
 let {Prefs} = require("prefs");
 let {FilterStorage} = require("filterStorage");
@@ -90,8 +89,6 @@ let Policy = exports.Policy =
    */
   init: function()
   {
-    TimeLine.enter("Entered content policy initialization");
-
     // type constant by type description and type description by type constant
     let iface = Ci.nsIContentPolicy;
     for (let typeName of contentTypes)
@@ -120,12 +117,8 @@ let Policy = exports.Policy =
     for (let scheme of Prefs.whitelistschemes.toLowerCase().split(" "))
       this.whitelistSchemes[scheme] = true;
 
-    TimeLine.log("done initializing types");
-
     // Generate class identifier used to collapse node and register corresponding
     // stylesheet.
-    TimeLine.log("registering global stylesheet");
-
     let offset = "a".charCodeAt(0);
     for (let i = 0; i < 20; i++)
       collapsedClass +=  String.fromCharCode(offset + Math.random() * 26);
@@ -137,10 +130,7 @@ let Policy = exports.Policy =
     onShutdown.add(function()
     {
       Utils.styleService.unregisterSheet(collapseStyle, Ci.nsIStyleSheetService.USER_SHEET);
-    })
-    TimeLine.log("done registering stylesheet");
-
-    TimeLine.leave("Done initializing content policy");
+    });
   },
 
   /**
@@ -160,44 +150,25 @@ let Policy = exports.Policy =
 
     let privatenode=false;
     Components.utils.import("resource://gre/modules/PrivateBrowsingUtils.jsm");
-    if (PrivateBrowsingUtils.isWindowPrivate(wnd))
+    if (PrivateBrowsingUtils.isContentWindowPrivate(wnd))
       privatenode=true;
 
     let originWindow = Utils.getOriginWindow(wnd);
     let wndLocation = originWindow.location.href;
     let docDomain = getHostname(wndLocation);
     let match = null;
+    let [sitekey, sitekeyWnd] = getSitekey(wnd);
     if (!match && Prefs.enabled)
     {
       let testWnd = wnd;
+      let testSitekey = sitekey;
+      let testSitekeyWnd = sitekeyWnd;
       let parentWndLocation = getWindowLocation(testWnd);
       while (true)
       {
         let testWndLocation = parentWndLocation;
         parentWndLocation = (testWnd == testWnd.parent ? testWndLocation : getWindowLocation(testWnd.parent));
-        match = Policy.isWhitelisted(testWndLocation, parentWndLocation);
-
-        if (!(match instanceof WhitelistFilter))
-        {
-          let keydata = (testWnd.document && testWnd.document.documentElement ? testWnd.document.documentElement.getAttribute("data-adblockkey") : null);
-          if (keydata && keydata.indexOf("_") >= 0)
-          {
-            let [key, signature] = keydata.split("_", 2);
-            let keyMatch = defaultMatcher.matchesByKey(testWndLocation, key.replace(/=/g, ""), docDomain);
-            if (keyMatch && Utils.crypto)
-            {
-              // Website specifies a key that we know but is the signature valid?
-              let uri = Services.io.newURI(testWndLocation, null, null);
-              let params = [
-                uri.path.replace(/#.*/, ""),  // REQUEST_URI
-                uri.asciiHost,                // HTTP_HOST
-                Utils.httpProtocol.userAgent  // HTTP_USER_AGENT
-              ];
-              if (Utils.verifySignature(key, signature, params.join("\0")))
-                match = keyMatch;
-            }
-          }
-        }
+        match = Policy.isWhitelisted(testWndLocation, parentWndLocation, testSitekey);
 
         if (match instanceof WhitelistFilter)
         {
@@ -208,8 +179,10 @@ let Policy = exports.Policy =
 
         if (testWnd.parent == testWnd)
           break;
-        else
-          testWnd = testWnd.parent;
+
+        if (testWnd == testSitekeyWnd)
+          [testSitekey, testSitekeyWnd] = getSitekey(testWnd.parent);
+        testWnd = testWnd.parent;
       }
     }
 
@@ -231,7 +204,7 @@ let Policy = exports.Policy =
         let testWndLocation = parentWndLocation;
         parentWndLocation = (testWnd == testWnd.parent ? testWndLocation : getWindowLocation(testWnd.parent));
         let parentDocDomain = getHostname(parentWndLocation);
-        match = defaultMatcher.matchesAny(testWndLocation, "ELEMHIDE", parentDocDomain, false);
+        match = defaultMatcher.matchesAny(testWndLocation, "ELEMHIDE", parentDocDomain, false, sitekey);
         if (match instanceof WhitelistFilter)
         {
           FilterStorage.increaseHitCount(match, wnd);
@@ -256,7 +229,7 @@ let Policy = exports.Policy =
       if (exception)
       {
         FilterStorage.increaseHitCount(exception, wnd);
-        RequestNotifier.addNodeData(node, topWnd, contentType, docDomain, thirdParty, locationText, exception);
+        RequestNotifier.addNodeData(node, topWnd, contentType, docDomain, false, locationText, exception);
         return true;
       }
     }
@@ -265,7 +238,7 @@ let Policy = exports.Policy =
 
     if (!match && Prefs.enabled)
     {
-      match = defaultMatcher.matchesAny(locationText, Policy.typeDescr[contentType] || "", docDomain, thirdParty, privatenode);
+      match = defaultMatcher.matchesAny(locationText, Policy.typeDescr[contentType] || "", docDomain, thirdParty, sitekey, privatenode);
       if (match instanceof BlockingFilter && node.ownerDocument && !(contentType in Policy.nonVisual))
       {
         let prefCollapse = (match.collapse != null ? match.collapse : !Prefs.fastcollapse);
@@ -303,9 +276,10 @@ let Policy = exports.Policy =
    * Checks whether a page is whitelisted.
    * @param {String} url
    * @param {String} [parentUrl] location of the parent page
+   * @param {String} [sitekey] public key provided on the page
    * @return {Filter} filter that matched the URL or null if not whitelisted
    */
-  isWhitelisted: function(url, parentUrl)
+  isWhitelisted: function(url, parentUrl, sitekey)
   {
     if (!url)
       return null;
@@ -323,12 +297,12 @@ let Policy = exports.Policy =
     if (index >= 0)
       url = url.substring(0, index);
 
-    let result = defaultMatcher.matchesAny(url, "DOCUMENT", getHostname(parentUrl), false);
+    let result = defaultMatcher.matchesAny(url, "DOCUMENT", getHostname(parentUrl), false, sitekey);
     return (result instanceof WhitelistFilter ? result : null);
   },
 
   /**
-   * Checks whether the page loaded in a window is whitelisted.
+   * Checks whether the page loaded in a window is whitelisted for indication in the UI.
    * @param wnd {nsIDOMWindow}
    * @return {Filter} matching exception rule or null if not whitelisted
    */
@@ -337,11 +311,12 @@ let Policy = exports.Policy =
     return Policy.isWhitelisted(getWindowLocation(wnd));
   },
 
-
   /**
    * Asynchronously re-checks filters for given nodes.
+   * @param {Node[]} nodes
+   * @param {RequestEntry} entry
    */
-  refilterNodes: function(/**Node[]*/ nodes, /**RequestEntry*/ entry)
+  refilterNodes: function(nodes, entry)
   {
     // Ignore nodes that have been blocked already
     if (entry.filter && !(entry.filter instanceof WhitelistFilter))
@@ -693,6 +668,47 @@ function getHostname(/**String*/ url) /**String*/
   {
     return null;
   }
+}
+
+/**
+ * Retrieves the sitekey of a window.
+ */
+function getSitekey(wnd)
+{
+  let sitekey = null;
+
+  while (true)
+  {
+    if (wnd.document && wnd.document.documentElement)
+    {
+      let keydata = wnd.document.documentElement.getAttribute("data-adblockkey");
+      if (keydata && keydata.indexOf("_") >= 0)
+      {
+        let [key, signature] = keydata.split("_", 2);
+        key = key.replace(/=/g, "");
+
+        // Website specifies a key but is the signature valid?
+        let uri = Services.io.newURI(getWindowLocation(wnd), null, null);
+        let host = uri.asciiHost;
+        if (uri.port > 0)
+          host += ":" + uri.port;
+        let params = [
+          uri.path.replace(/#.*/, ""),  // REQUEST_URI
+          host,                         // HTTP_HOST
+          Utils.httpProtocol.userAgent  // HTTP_USER_AGENT
+        ];
+        if (Utils.verifySignature(key, signature, params.join("\0")))
+          return [key, wnd];
+      }
+    }
+
+    if (wnd === wnd.parent)
+      break;
+
+    wnd = wnd.parent;
+  }
+
+  return [sitekey, wnd];
 }
 
 /**

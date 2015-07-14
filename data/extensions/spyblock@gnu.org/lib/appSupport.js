@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -359,6 +359,14 @@ switch (application)
         return (browser ? browser.currentURI : null);
       }
     };
+    
+    // for Seamonkey we have to ignore same document flag because of
+    // bug #1035171 (https://bugzilla.mozilla.org/show_bug.cgi?id=1035171)
+    let origAddBrowserLocationListener = exports.addBrowserLocationListener;
+    exports.addBrowserLocationListener = function sm_addBrowserLocationListener(window, callback, ignoreSameDoc)
+    {
+      origAddBrowserLocationListener(window, callback, false);
+    };
 
     exports.contentContextMenu = ["contentAreaContextMenu", "mailContext"];
 
@@ -694,7 +702,11 @@ switch (application)
       this.window = window;
       this.callback = callback;
       this.onSelect = this.onSelect.bind(this);
-      this.attach();
+      this.attach = this.attach.bind(this);
+      if (window.BrowserApp.deck)
+        this.attach();
+      else
+        window.addEventListener("UIReady", this.attach, false);
     };
     BrowserChangeListener.prototype = {
       window: null,
@@ -722,8 +734,8 @@ switch (application)
 
       attach: function()
       {
+        this.window.removeEventListener("UIReady", this.attach, false);
         this.onSelect();
-
         this.window.BrowserApp.deck.addEventListener("TabSelect", this.onSelect, false);
       },
       detach: function()

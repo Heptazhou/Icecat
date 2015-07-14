@@ -2,7 +2,7 @@
 
 <!--
   - This file is part of the Adblock Plus web scripts,
-  - Copyright (C) 2006-2014 Eyeo GmbH
+  - Copyright (C) 2006-2015 Eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -45,7 +45,7 @@
   <subscription title="EasyList Czech and Slovak+EasyList"
                 specialization="čeština, slovenčina"
                 url="https://easylist-downloads.adblockplus.org/easylistczechslovak+easylist.txt"
-                homepage="http://adblocksk.tk/"
+                homepage="http://adblock.sk/"
                 prefixes="cs,sk"
                 author="tomasko126"/>
   <subscription title="EasyList Dutch+EasyList"
@@ -108,10 +108,4 @@
                 homepage="https://code.google.com/p/ruadlist/"
                 prefixes="ru,uk"
                 author="Lain_13"/>
-  <subscription title="Wiltteri+EasyList"
-                specialization="suomi"
-                url="https://easylist-downloads.adblockplus.org/wiltteri+easylist.txt"
-                homepage="http://wiltteri.net/"
-                prefixes="fi"
-                author="None"/>
   </subscriptions>

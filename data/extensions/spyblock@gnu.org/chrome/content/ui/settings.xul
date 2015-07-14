@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <!--
-  - This file is part of Adblock Plus <http://adblockplus.org/>,
-  - Copyright (C) 2006-2014 Eyeo GmbH
+  - This file is part of Adblock Plus <https://adblockplus.org/>,
+  - Copyright (C) 2006-2015 Eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -29,7 +29,6 @@
   </setting>
   <setting pref="extensions.adblockplus.enabled" type="bool" inverted="true" title="&disable.label;"/>
   <setting pref="extensions.adblockplus.frameobjects" type="bool" title="&objecttabs.label;"/>
-  <setting pref="extensions.adblockplus.fastcollapse" type="bool" inverted="true" title="&hideplaceholders.label;"/>
   <setting id="adblockplus-savestats" type="bool" title="&counthits.label;"/>
   <setting id="adblockplus-sync" type="bool" title="&sync.label;"/>
   <setting id="adblockplus-showintoolbar" type="bool" title="&showintoolbar.label;"/>

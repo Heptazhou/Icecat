@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -46,10 +46,17 @@ exports.initAntiAdblockNotification = function initAntiAdblockNotification()
   {
     let urlFilters = [];
     for (let filter of subscription.filters)
+    {
       if (filter instanceof ActiveFilter)
+      {
         for (let domain in filter.domains)
-          if (domain && urlFilters.indexOf(domain) == -1)
-            urlFilters.push(domain);
+        {
+          let urlFilter = "||" + domain + "^";
+          if (domain && filter.domains[domain] && urlFilters.indexOf(urlFilter) == -1)
+            urlFilters.push(urlFilter);
+        }
+      }
+    }
     notification.urlFilters = urlFilters;
     Notification.addNotification(notification);
     Notification.addQuestionListener(notification.id, notificationListener);

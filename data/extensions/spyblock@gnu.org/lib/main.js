@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -22,24 +22,14 @@
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
 
-let {TimeLine} = require("timeline");
-
-TimeLine.enter("Adblock Plus startup");
 registerPublicAPI();
-TimeLine.log("Done registering public API");
 require("filterListener");
-TimeLine.log("Done loading filter listener");
 require("contentPolicy");
-TimeLine.log("Done loading content policy");
 require("synchronizer");
-TimeLine.log("Done loading subscription synchronizer");
 require("notification");
-TimeLine.log("Done loading notification downloader");
 require("sync");
-TimeLine.log("Done loading sync support");
+require("messageResponder");
 require("ui");
-TimeLine.log("Done loading UI integration code");
-TimeLine.leave("Started up");
 
 function registerPublicAPI()
 {

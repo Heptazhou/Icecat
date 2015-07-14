@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -49,8 +49,8 @@ Matcher.prototype = {
    */
   clear: function()
   {
-    this.filterByKeyword = {__proto__: null};
-    this.keywordByFilter = {__proto__: null};
+    this.filterByKeyword = Object.create(null);
+    this.keywordByFilter = Object.create(null);
   },
 
   /**
@@ -165,13 +165,13 @@ Matcher.prototype = {
   /**
    * Checks whether the entries for a particular keyword match a URL
    */
-  _checkEntryMatch: function(keyword, location, contentType, docDomain, thirdParty, privatenode)
+  _checkEntryMatch: function(keyword, location, contentType, docDomain, thirdParty, sitekey, privatenode)
   {
     let list = this.filterByKeyword[keyword];
     for (let i = 0; i < list.length; i++)
     {
       let filter = list[i];
-      if (filter.matches(location, contentType, docDomain, thirdParty,privatenode))
+      if (filter.matches(location, contentType, docDomain, thirdParty, sitekey, privatenode))
         return filter;
     }
     return null;
@@ -183,9 +183,10 @@ Matcher.prototype = {
    * @param {String} contentType content type identifier of the URL
    * @param {String} docDomain domain name of the document that loads the URL
    * @param {Boolean} thirdParty should be true if the URL is a third-party request
+   * @param {String} sitekey public key provided by the document
    * @return {RegExpFilter} matching filter or null
    */
-  matchesAny: function(location, contentType, docDomain, thirdParty)
+  matchesAny: function(location, contentType, docDomain, thirdParty, sitekey)
   {
     let candidates = location.toLowerCase().match(/[a-z0-9%]{3,}/g);
     if (candidates === null)
@@ -196,7 +197,7 @@ Matcher.prototype = {
       let substr = candidates[i];
       if (substr in this.filterByKeyword)
       {
-        let result = this._checkEntryMatch(substr, location, contentType, docDomain, thirdParty);
+        let result = this._checkEntryMatch(substr, location, contentType, docDomain, thirdParty, sitekey);
         if (result)
           return result;
       }
@@ -215,8 +216,7 @@ function CombinedMatcher()
 {
   this.blacklist = new Matcher();
   this.whitelist = new Matcher();
-  this.keys = {__proto__: null};
-  this.resultCache = {__proto__: null};
+  this.resultCache = Object.create(null);
 }
 exports.CombinedMatcher = CombinedMatcher;
 
@@ -241,12 +241,6 @@ CombinedMatcher.prototype =
   whitelist: null,
 
   /**
-   * Exception rules that are limited by public keys, mapped by the corresponding keys.
-   * @type Object
-   */
-  keys: null,
-
-  /**
    * Lookup table of previous matchesAny results
    * @type Object
    */
@@ -265,8 +259,7 @@ CombinedMatcher.prototype =
   {
     this.blacklist.clear();
     this.whitelist.clear();
-    this.keys = {__proto__: null};
-    this.resultCache = {__proto__: null};
+    this.resultCache = Object.create(null);
     this.cacheEntries = 0;
   },
 
@@ -276,21 +269,13 @@ CombinedMatcher.prototype =
   add: function(filter)
   {
     if (filter instanceof WhitelistFilter)
-    {
-      if (filter.siteKeys)
-      {
-        for (let i = 0; i < filter.siteKeys.length; i++)
-          this.keys[filter.siteKeys[i]] = filter.text;
-      }
-      else
-        this.whitelist.add(filter);
-    }
+      this.whitelist.add(filter);
     else
       this.blacklist.add(filter);
 
     if (this.cacheEntries > 0)
     {
-      this.resultCache = {__proto__: null};
+      this.resultCache = Object.create(null);
       this.cacheEntries = 0;
     }
   },
@@ -301,21 +286,13 @@ CombinedMatcher.prototype =
   remove: function(filter)
   {
     if (filter instanceof WhitelistFilter)
-    {
-      if (filter.siteKeys)
-      {
-        for (let i = 0; i < filter.siteKeys.length; i++)
-          delete this.keys[filter.siteKeys[i]];
-      }
-      else
-        this.whitelist.remove(filter);
-    }
+      this.whitelist.remove(filter);
     else
       this.blacklist.remove(filter);
 
     if (this.cacheEntries > 0)
     {
-      this.resultCache = {__proto__: null};
+      this.resultCache = Object.create(null);
       this.cacheEntries = 0;
     }
   },
@@ -370,7 +347,7 @@ CombinedMatcher.prototype =
    * simultaneously. For parameters see Matcher.matchesAny().
    * @see Matcher#matchesAny
    */
-  matchesAnyInternal: function(location, contentType, docDomain, thirdParty, privatenode)
+  matchesAnyInternal: function(location, contentType, docDomain, thirdParty, sitekey, privatenode)
   {
     let candidates = location.toLowerCase().match(/[a-z0-9%]{3,}/g);
     if (candidates === null)
@@ -383,12 +360,12 @@ CombinedMatcher.prototype =
       let substr = candidates[i];
       if (substr in this.whitelist.filterByKeyword)
       {
-        let result = this.whitelist._checkEntryMatch(substr, location, contentType, docDomain, thirdParty, privatenode);
+        let result = this.whitelist._checkEntryMatch(substr, location, contentType, docDomain, thirdParty, sitekey, privatenode);
         if (result)
           return result;
       }
       if (substr in this.blacklist.filterByKeyword && blacklistHit === null)
-        blacklistHit = this.blacklist._checkEntryMatch(substr, location, contentType, docDomain, thirdParty, privatenode);
+        blacklistHit = this.blacklist._checkEntryMatch(substr, location, contentType, docDomain, thirdParty, sitekey, privatenode);
     }
     return blacklistHit;
   },
@@ -396,19 +373,19 @@ CombinedMatcher.prototype =
   /**
    * @see Matcher#matchesAny
    */
-  matchesAny: function(location, contentType, docDomain, thirdParty, privatenode)
+  matchesAny: function(location, contentType, docDomain, thirdParty, sitekey, privatenode)
   {
-    let key = location + " " + contentType + " " + docDomain + " " + thirdParty;
+    let key = location + " " + contentType + " " + docDomain + " " + thirdParty + " " + sitekey;
     if (!privatenode){
       if (key in this.resultCache)
         return this.resultCache[key];
     }
 
-    let result = this.matchesAnyInternal(location, contentType, docDomain, thirdParty, privatenode);
+    let result = this.matchesAnyInternal(location, contentType, docDomain, thirdParty, sitekey, privatenode);
 
     if (this.cacheEntries >= CombinedMatcher.maxCacheEntries)
     {
-      this.resultCache = {__proto__: null};
+      this.resultCache = Object.create(null);
       this.cacheEntries = 0;
     }
 
@@ -418,24 +395,6 @@ CombinedMatcher.prototype =
     }
 
     return result;
-  },
-
-  /**
-   * Looks up whether any filters match the given website key.
-   */
-  matchesByKey: function(/**String*/ location, /**String*/ key, /**String*/ docDomain)
-  {
-    key = key.toUpperCase();
-    if (key in this.keys)
-    {
-      let filter = Filter.knownFilters[this.keys[key]];
-      if (filter && filter.matches(location, "DOCUMENT", docDomain, false))
-        return filter;
-      else
-        return null;
-    }
-    else
-      return null;
   }
 }
 

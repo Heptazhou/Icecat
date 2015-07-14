@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <!--
-  - This file is part of Adblock Plus <http://adblockplus.org/>,
-  - Copyright (C) 2006-2014 Eyeo GmbH
+  - This file is part of Adblock Plus <https://adblockplus.org/>,
+  - Copyright (C) 2006-2015 Eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -29,8 +29,6 @@
   <setting type="control" title="&subscriptions.tab.label;">
     <menulist id="adblockplus-subscription-list"/>
   </setting>
-  <setting pref="extensions.adblockplus.fastcollapse" type="bool" title="&hideplaceholders.label;"
-           inverted="true"/>
   <setting id="adblockplus-sync" type="bool" title="&sync.label;"
     oncommand="/**See bug 762015*/ if (event.type == 'oncommand') {event = document.createEvent('Events'); event.initEvent('command', false, false); this.dispatchEvent(event);}"/>
 </vbox>

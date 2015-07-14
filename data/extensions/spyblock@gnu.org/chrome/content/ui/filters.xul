@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <!--
-  - This file is part of Adblock Plus <http://adblockplus.org/>,
-  - Copyright (C) 2006-2014 Eyeo GmbH
+  - This file is part of Adblock Plus <https://adblockplus.org/>,
+  - Copyright (C) 2006-2015 Eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -264,11 +264,6 @@
           </richlistbox>
         </deck>
 
-        <!--description>
-          <checkbox id="acceptableAds" label="&acceptableAds2.label;" oncommand="ListManager.allowAcceptableAds(this.checked);"/>
-          <label class="text-link" value="&viewList.label;" onclick="UI.loadInBrowser(Prefs.subscriptions_exceptionsurl);"/>
-          <label class="text-link" value="&readMore.label;" onclick="UI.loadDocLink('acceptable_ads');"/>
-        </description-->
       </tabpanel>
       <tabpanel id="filtersTab" orient="vertical" flex="1">
         <hbox pack="end">

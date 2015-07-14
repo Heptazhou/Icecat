@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -122,7 +122,7 @@ Subscription.prototype =
   },
 
   /**
-   * Serializes the filter to an array of strings for writing out on the disk.
+   * Serializes the subscription to an array of strings for writing out on the disk.
    * @param {Array of String} buffer  buffer to push the serialization results into
    */
   serialize: function(buffer)
@@ -154,7 +154,7 @@ Subscription.prototype =
  * Cache for known filter subscriptions, maps URL to subscription objects.
  * @type Object
  */
-Subscription.knownSubscriptions = {__proto__: null};
+Subscription.knownSubscriptions = Object.create(null);
 
 /**
  * Returns a subscription from its URL, creates a new one if necessary.
@@ -176,7 +176,7 @@ Subscription.fromURL = function(url)
   {
     return new SpecialSubscription(url);
   }
-}
+};
 
 /**
  * Deserializes a subscription
@@ -196,17 +196,17 @@ Subscription.fromObject = function(obj)
     if ("downloadStatus" in obj)
       result._downloadStatus = obj.downloadStatus;
     if ("lastSuccess" in obj)
-      result.lastSuccess = parseInt(obj.lastSuccess) || 0;
+      result.lastSuccess = parseInt(obj.lastSuccess, 10) || 0;
     if ("lastCheck" in obj)
-      result._lastCheck = parseInt(obj.lastCheck) || 0;
+      result._lastCheck = parseInt(obj.lastCheck, 10) || 0;
     if ("expires" in obj)
-      result.expires = parseInt(obj.expires) || 0;
+      result.expires = parseInt(obj.expires, 10) || 0;
     if ("softExpiration" in obj)
-      result.softExpiration = parseInt(obj.softExpiration) || 0;
+      result.softExpiration = parseInt(obj.softExpiration, 10) || 0;
     if ("errors" in obj)
-      result._errors = parseInt(obj.errors) || 0;
+      result._errors = parseInt(obj.errors, 10) || 0;
     if ("version" in obj)
-      result.version = parseInt(obj.version) || 0;
+      result.version = parseInt(obj.version, 10) || 0;
     if ("requiredVersion" in obj)
     {
       let {addonVersion} = require("info");
@@ -217,7 +217,9 @@ Subscription.fromObject = function(obj)
     if ("homepage" in obj)
       result._homepage = obj.homepage;
     if ("lastDownload" in obj)
-      result._lastDownload = parseInt(obj.lastDownload) || 0;
+      result._lastDownload = parseInt(obj.lastDownload, 10) || 0;
+    if ("downloadCount" in obj)
+      result.downloadCount = parseInt(obj.downloadCount, 10) || 0;
   }
   catch (e)
   {
@@ -250,7 +252,7 @@ Subscription.fromObject = function(obj)
     result._disabled = (obj.disabled == "true");
 
   return result;
-}
+};
 
 /**
  * Class for special filter subscriptions (user's filters)
@@ -329,7 +331,7 @@ SpecialSubscription.create = function(title)
   {
     url = "~user~" + Math.round(Math.random()*1000000);
   } while (url in Subscription.knownSubscriptions);
-  return new SpecialSubscription(url, title)
+  return new SpecialSubscription(url, title);
 };
 
 /**
@@ -425,7 +427,7 @@ RegularSubscription.prototype =
 };
 
 /**
- * Class for filter subscriptions updated by externally (by other extension)
+ * Class for filter subscriptions updated externally (by other extension)
  * @param {String} url    see Subscription()
  * @param {String} [title]  see Subscription()
  * @constructor
@@ -451,7 +453,7 @@ ExternalSubscription.prototype =
 };
 
 /**
- * Class for filter subscriptions updated by externally (by other extension)
+ * Class for filter subscriptions updated externally (by other extension)
  * @param {String} url  see Subscription()
  * @param {String} [title]  see Subscription()
  * @constructor
@@ -564,6 +566,12 @@ DownloadableSubscription.prototype =
   upgradeRequired: false,
 
   /**
+   * Number indicating how often the object was downloaded.
+   * @type Number
+   */
+  downloadCount: 0,
+
+  /**
    * Should be true if the Privatemode: header is set to true in the subscription
    * @type Boolean
    */
@@ -591,6 +599,8 @@ DownloadableSubscription.prototype =
       buffer.push("version=" + this.version);
     if (this.requiredVersion)
       buffer.push("requiredVersion=" + this.requiredVersion);
+    if (this.downloadCount)
+      buffer.push("downloadCount=" + this.downloadCount);
     if (this.privateMode)
       buffer.push("privateMode=" + this.privateMode);
   }

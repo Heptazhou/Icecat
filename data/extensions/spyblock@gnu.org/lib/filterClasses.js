@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -68,7 +68,7 @@ Filter.prototype =
  * Cache for known filters, maps string representation to filter objects.
  * @type Object
  */
-Filter.knownFilters = {__proto__: null};
+Filter.knownFilters = Object.create(null);
 
 /**
  * Regular expression that element hiding filters should match
@@ -109,7 +109,7 @@ Filter.fromText = function(text)
 
   Filter.knownFilters[ret.text] = ret;
   return ret;
-}
+};
 
 /**
  * Deserializes a filter
@@ -130,7 +130,7 @@ Filter.fromObject = function(obj)
       ret._lastHit = parseInt(obj.lastHit) || 0;
   }
   return ret;
-}
+};
 
 /**
  * Removes unnecessary whitespaces from filter text, will only return null if
@@ -147,17 +147,17 @@ Filter.normalize = function(/**String*/ text) /**String*/
   if (/^\s*!/.test(text))
   {
     // Don't remove spaces inside comments
-    return text.replace(/^\s+/, "").replace(/\s+$/, "");
+    return text.trim();
   }
   else if (Filter.elemhideRegExp.test(text))
   {
     // Special treatment for element hiding filters, right side is allowed to contain spaces
     let [, domain, separator, selector] = /^(.*?)(#\@?#?)(.*)$/.exec(text);
-    return domain.replace(/\s/g, "") + separator + selector.replace(/^\s+/, "").replace(/\s+$/, "");
+    return domain.replace(/\s/g, "") + separator + selector.trim();
   }
   else
     return text.replace(/\s/g, "");
-}
+};
 
 /**
  * Class for invalid filters
@@ -215,7 +215,7 @@ CommentFilter.prototype =
 /**
  * Abstract base class for filters that can get hits
  * @param {String} text see Filter()
- * @param {String} domains  (optional) Domains that the filter is restricted to separated by domainSeparator e.g. "foo.com|bar.com|~baz.com"
+ * @param {String} [domains] Domains that the filter is restricted to separated by domainSeparator e.g. "foo.com|bar.com|~baz.com"
  * @constructor
  * @augments Filter
  */
@@ -324,6 +324,12 @@ ActiveFilter.prototype =
    */
   get domains()
   {
+    // Despite this property being cached, the getter is called
+    // several times on Safari, due to WebKit bug 132872
+    let prop = Object.getOwnPropertyDescriptor(this, "domains");
+    if (prop)
+      return prop.value;
+
     let domains = null;
 
     if (this.domainSource)
@@ -366,7 +372,7 @@ ActiveFilter.prototype =
           }
 
           if (!domains)
-            domains = {__proto__: null};
+            domains = Object.create(null);
 
           domains[domain] = include;
         }
@@ -381,10 +387,24 @@ ActiveFilter.prototype =
   },
 
   /**
-   * Checks whether this filter is active on a domain.
+   * Array containing public keys of websites that this filter should apply to
+   * @type Array of String
    */
-  isActiveOnDomain: function(/**String*/ docDomain) /**Boolean*/
+  sitekeys: null,
+
+  /**
+   * Checks whether this filter is active on a domain.
+   * @param {String} docDomain domain name of the document that loads the URL
+   * @param {String} [sitekey] public key provided by the document
+   * @return {Boolean} true in case of the filter being active
+   */
+  isActiveOnDomain: function(docDomain, sitekey)
   {
+    // Sitekeys are case-sensitive so we shouldn't convert them to upper-case to avoid false
+    // positives here. Instead we need to change the way filter options are parsed.
+    if (this.sitekeys && (!sitekey || this.sitekeys.indexOf(sitekey.toUpperCase()) < 0))
+      return false;
+
     // If no domains are set the rule matches everywhere
     if (!this.domains)
       return true;
@@ -451,16 +471,17 @@ ActiveFilter.prototype =
  * Abstract base class for RegExp-based filters
  * @param {String} text see Filter()
  * @param {String} regexpSource filter part that the regular expression should be build from
- * @param {Number} contentType  (optional) Content types the filter applies to, combination of values from RegExpFilter.typeMap
- * @param {Boolean} matchCase   (optional) Defines whether the filter should distinguish between lower and upper case letters
- * @param {String} domains      (optional) Domains that the filter is restricted to, e.g. "foo.com|bar.com|~baz.com"
- * @param {Boolean} thirdParty  (optional) Defines whether the filter should apply to third-party or first-party content only
+ * @param {Number} [contentType] Content types the filter applies to, combination of values from RegExpFilter.typeMap
+ * @param {Boolean} [matchCase] Defines whether the filter should distinguish between lower and upper case letters
+ * @param {String} [domains] Domains that the filter is restricted to, e.g. "foo.com|bar.com|~baz.com"
+ * @param {Boolean} [thirdParty] Defines whether the filter should apply to third-party or first-party content only
+ * @param {String} [sitekeys] Public keys of websites that this filter should apply to
  * @constructor
  * @augments ActiveFilter
  */
-function RegExpFilter(text, regexpSource, contentType, matchCase, domains, thirdParty)
+function RegExpFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys)
 {
-  ActiveFilter.call(this, text, domains);
+  ActiveFilter.call(this, text, domains, sitekeys);
 
   if (contentType != null)
     this.contentType = contentType;
@@ -468,12 +489,14 @@ function RegExpFilter(text, regexpSource, contentType, matchCase, domains, third
     this.matchCase = matchCase;
   if (thirdParty != null)
     this.thirdParty = thirdParty;
+  if (sitekeys != null)
+    this.sitekeySource = sitekeys;
 
   if (regexpSource.length >= 2 && regexpSource[0] == "/" && regexpSource[regexpSource.length - 1] == "/")
   {
     // The filter is a regular expression - convert it immediately to catch syntax errors
     let regexp = new RegExp(regexpSource.substr(1, regexpSource.length - 2), this.matchCase ? "" : "i");
-    this.__defineGetter__("regexp", () => regexp);
+    Object.defineProperty(this, "regexp", {value: regexp});
   }
   else
   {
@@ -514,6 +537,12 @@ RegExpFilter.prototype =
    */
   get regexp()
   {
+    // Despite this property being cached, the getter is called
+    // several times on Safari, due to WebKit bug 132872
+    let prop = Object.getOwnPropertyDescriptor(this, "regexp");
+    if (prop)
+      return prop.value;
+
     // Remove multiple wildcards
     let source = this.regexpSource
       .replace(/\*+/g, "*")        // remove multiple wildcards
@@ -529,10 +558,8 @@ RegExpFilter.prototype =
       .replace(/(\.\*)$/, "");     // remove trailing wildcards
 
     let regexp = new RegExp(source, this.matchCase ? "" : "i");
-
-    delete this.regexpSource;
-    this.__defineGetter__("regexp", () => regexp);
-    return this.regexp;
+    Object.defineProperty(this, "regexp", {value: regexp});
+    return regexp;
   },
   /**
    * Content types the filter applies to, combination of values from RegExpFilter.typeMap
@@ -551,14 +578,45 @@ RegExpFilter.prototype =
   thirdParty: null,
 
   /**
+   * String that the sitekey property should be generated from
+   * @type String
+   */
+  sitekeySource: null,
+
+  /**
+   * Array containing public keys of websites that this filter should apply to
+   * @type Array of String
+   */
+  get sitekeys()
+  {
+    // Despite this property being cached, the getter is called
+    // several times on Safari, due to WebKit bug 132872
+    let prop = Object.getOwnPropertyDescriptor(this, "sitekeys");
+    if (prop)
+      return prop.value;
+
+    let sitekeys = null;
+
+    if (this.sitekeySource)
+    {
+      sitekeys = this.sitekeySource.split("|");
+      this.sitekeySource = null;
+    }
+
+    Object.defineProperty(this, "sitekeys", {value: sitekeys, enumerable: true});
+    return this.sitekeys;
+  },
+
+  /**
    * Tests whether the URL matches this filter
    * @param {String} location URL to be tested
    * @param {String} contentType content type identifier of the URL
    * @param {String} docDomain domain name of the document that loads the URL
    * @param {Boolean} thirdParty should be true if the URL is a third-party request
+   * @param {String} sitekey public key provided by the document
    * @return {Boolean} true in case of a match
    */
-  matches: function(location, contentType, docDomain, thirdParty, privatenode)
+  matches: function(location, contentType, docDomain, thirdParty, sitekey, privatenode)
   {
 
     if(this.subscriptions[0])
@@ -566,10 +624,9 @@ RegExpFilter.prototype =
             if (privatenode==false)
               return false;
 
-    if (this.regexp.test(location) &&
-        (RegExpFilter.typeMap[contentType] & this.contentType) != 0 &&
+    if ((RegExpFilter.typeMap[contentType] & this.contentType) != 0 &&
         (this.thirdParty == null || this.thirdParty == thirdParty) &&
-        this.isActiveOnDomain(docDomain))
+        this.isActiveOnDomain(docDomain, sitekey) && this.regexp.test(location))
     {
       return true;
     }
@@ -578,9 +635,10 @@ RegExpFilter.prototype =
   }
 };
 
-RegExpFilter.prototype.__defineGetter__("0", function()
+// Required to optimize Matcher, see also RegExpFilter.prototype.length
+Object.defineProperty(RegExpFilter.prototype, "0",
 {
-  return this;
+  get: function() { return this; }
 });
 
 /**
@@ -600,7 +658,7 @@ RegExpFilter.fromText = function(text)
   let contentType = null;
   let matchCase = null;
   let domains = null;
-  let siteKeys = null;
+  let sitekeys = null;
   let thirdParty = null;
   let collapse = null;
   let options;
@@ -646,7 +704,7 @@ RegExpFilter.fromText = function(text)
       else if (option == "~COLLAPSE")
         collapse = false;
       else if (option == "SITEKEY" && typeof value != "undefined")
-        siteKeys = value.split(/\|/);
+        sitekeys = value;
       else
         return new InvalidFilter(origText, "Unknown option " + option.toLowerCase());
     }
@@ -660,21 +718,19 @@ RegExpFilter.fromText = function(text)
       contentType = RegExpFilter.prototype.contentType;
     contentType &= ~RegExpFilter.typeMap.DOCUMENT;
   }
-  if (!blocking && siteKeys)
-    contentType = RegExpFilter.typeMap.DOCUMENT;
 
   try
   {
     if (blocking)
-      return new BlockingFilter(origText, text, contentType, matchCase, domains, thirdParty, collapse);
+      return new BlockingFilter(origText, text, contentType, matchCase, domains, thirdParty, sitekeys, collapse);
     else
-      return new WhitelistFilter(origText, text, contentType, matchCase, domains, thirdParty, siteKeys);
+      return new WhitelistFilter(origText, text, contentType, matchCase, domains, thirdParty, sitekeys);
   }
   catch (e)
   {
     return new InvalidFilter(origText, e);
   }
-}
+};
 
 /**
  * Maps type strings like "SCRIPT" or "OBJECT" to bit masks
@@ -712,13 +768,14 @@ RegExpFilter.prototype.contentType &= ~(RegExpFilter.typeMap.ELEMHIDE | RegExpFi
  * @param {Boolean} matchCase see RegExpFilter()
  * @param {String} domains see RegExpFilter()
  * @param {Boolean} thirdParty see RegExpFilter()
+ * @param {String} sitekeys see RegExpFilter()
  * @param {Boolean} collapse  defines whether the filter should collapse blocked content, can be null
  * @constructor
  * @augments RegExpFilter
  */
-function BlockingFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, collapse)
+function BlockingFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys, collapse)
 {
-  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains, thirdParty);
+  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys);
 
   this.collapse = collapse;
 }
@@ -743,34 +800,25 @@ BlockingFilter.prototype =
  * @param {Boolean} matchCase see RegExpFilter()
  * @param {String} domains see RegExpFilter()
  * @param {Boolean} thirdParty see RegExpFilter()
- * @param {String[]} siteKeys public keys of websites that this filter should apply to
+ * @param {String} sitekeys see RegExpFilter()
  * @constructor
  * @augments RegExpFilter
  */
-function WhitelistFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, siteKeys)
+function WhitelistFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys)
 {
-  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains, thirdParty);
-
-  if (siteKeys != null)
-    this.siteKeys = siteKeys;
+  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys);
 }
 exports.WhitelistFilter = WhitelistFilter;
 
 WhitelistFilter.prototype =
 {
-  __proto__: RegExpFilter.prototype,
-
-  /**
-   * List of public keys of websites that this filter should apply to
-   * @type String[]
-   */
-  siteKeys: null
-}
+  __proto__: RegExpFilter.prototype
+};
 
 /**
  * Base class for element hiding filters
  * @param {String} text see Filter()
- * @param {String} domains    (optional) Host names or domains the filter should be restricted to
+ * @param {String} [domains] Host names or domains the filter should be restricted to
  * @param {String} selector   CSS selector for the HTML elements that should be hidden
  * @constructor
  * @augments ActiveFilter
@@ -865,7 +913,7 @@ ElemHideBase.fromText = function(text, domain, isException, tagName, attrRules, 
     return new ElemHideException(text, domain, selector);
   else
     return new ElemHideFilter(text, domain, selector);
-}
+};
 
 /**
  * Class for element hiding filters

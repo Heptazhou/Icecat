@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -73,8 +73,8 @@ let Utils = exports.Utils =
     {
       Cu.reportError(e);
     }
-    Utils.__defineGetter__("appLocale", () => locale);
-    return Utils.appLocale;
+    Object.defineProperty(this, "appLocale", {value: locale});
+    return locale;
   },
 
   /**
@@ -83,8 +83,8 @@ let Utils = exports.Utils =
   get platformVersion()
   {
     let platformVersion = Services.appinfo.platformVersion;
-    Utils.__defineGetter__("platformVersion", () => platformVersion);
-    return Utils.platformVersion;
+    Object.defineProperty(this, "platformVersion", {value: platformVersion});
+    return platformVersion;
   },
 
   /**
@@ -215,8 +215,10 @@ let Utils = exports.Utils =
    * Posts an action to the event queue of the current thread to run it
    * asynchronously. Any additional parameters to this function are passed
    * as parameters to the callback.
+   * @param {function} callback
+   * @param {object} thisPtr
    */
-  runAsync: function(/**Function*/ callback, /**Object*/ thisPtr)
+  runAsync: function(callback, thisPtr)
   {
     let params = Array.prototype.slice.call(arguments, 2);
     let runnable = {
@@ -400,8 +402,12 @@ let Utils = exports.Utils =
 
   /**
    * Verifies RSA signature. The public key and signature should be base64-encoded.
+   * @param {string} key
+   * @param {string} signature
+   * @param {string} data
+   * @return {boolean}
    */
-  verifySignature: function(/**String*/ key, /**String*/ signature, /**String*/ data) /**Boolean*/
+  verifySignature: function(key, signature, data)
   {
     if (!Utils.crypto)
       return false;
@@ -539,7 +545,7 @@ let Utils = exports.Utils =
 function Cache(/**Integer*/ size)
 {
   this._ringBuffer = new Array(size);
-  this.data = {__proto__: null};
+  this.data = Object.create(null);
 }
 exports.Cache = Cache;
 
@@ -593,7 +599,7 @@ Cache.prototype =
   clear: function()
   {
     this._ringBuffer = new Array(this._ringBuffer.length);
-    this.data = {__proto__: null};
+    this.data = Object.create(null);
   }
 }
 
@@ -631,7 +637,12 @@ XPCOMUtils.defineLazyGetter(Utils, "crypto", function()
     catch (e)
     {
       // It seems that on Mac OS X the full path name needs to be specified
-      let file = Services.dirsvc.get("GreD", Ci.nsILocalFile);
+      let file;
+      // Gecko 35 added GreBinD key, see https://bugzilla.mozilla.org/show_bug.cgi?id=1077099
+      if (Services.dirsvc.has("GreBinD"))
+        file = Services.dirsvc.get("GreBinD", Ci.nsILocalFile);
+      else
+        file = Services.dirsvc.get("GreD", Ci.nsILocalFile);
       file.append(ctypes.libraryName("nss3"));
       nsslib = ctypes.open(file.path);
     }

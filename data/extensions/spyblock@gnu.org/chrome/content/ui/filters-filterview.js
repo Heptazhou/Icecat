@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -647,9 +647,9 @@ var FilterView =
       let boolAtoms = ["selected", "dummy", "slow", "disabled"];
 
       this.atoms = {};
-      for each (let atom in stringAtoms)
+      for (let atom of stringAtoms)
         this.atoms[atom] = atomService.getAtom(atom);
-      for each (let atom in boolAtoms)
+      for (let atom of boolAtoms)
       {
         this.atoms[atom + "-true"] = atomService.getAtom(atom + "-true");
         this.atoms[atom + "-false"] = atomService.getAtom(atom + "-false");

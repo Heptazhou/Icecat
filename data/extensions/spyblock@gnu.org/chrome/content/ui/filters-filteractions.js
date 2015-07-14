@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -26,11 +26,7 @@ var FilterActions =
    */
   init: function()
   {
-    let me = this;
-    this.treeElement.parentNode.addEventListener("keypress", function(event)
-    {
-      me.keyPress(event);
-    }, true);
+    this.treeElement.parentNode.addEventListener("keydown", this.keyDown.bind(this), true);
     this.treeElement.view = FilterView;
 
     // Work around https://bugzilla.mozilla.org/show_bug.cgi?id=777832, don't
@@ -373,7 +369,7 @@ var FilterActions =
   /**
    * Called whenever a key is pressed on the list.
    */
-  keyPress: function(/**Event*/ event)
+  keyDown: function(/**Event*/ event)
   {
     if (event.target != E("filtersTree"))
       return;
@@ -386,7 +382,7 @@ var FilterActions =
     if (event.metaKey)
       modifiers |= SubscriptionActions._metaMask;
 
-    if (event.charCode == " ".charCodeAt(0) && modifiers == 0 && !E("col-enabled").hidden)
+    if (event.keyCode == Ci.nsIDOMKeyEvent.DOM_VK_SPACE && modifiers == 0 && !E("col-enabled").hidden)
       this.selectionToggleDisabled();
     else if (event.keyCode == Ci.nsIDOMKeyEvent.DOM_VK_UP && modifiers == SubscriptionActions._accelMask)
     {

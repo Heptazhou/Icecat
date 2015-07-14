@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -236,7 +236,7 @@ var SubscriptionActions =
       else if (accelKey == Ci.nsIDOMKeyEvent.DOM_VK_ALT)
         result = this._altMask;
     } catch(e) {}
-    this.__defineGetter__("_accelMask", function() result);
+    Object.defineProperty(this, "_accelMask", {value: result});
     return result;
   },
 
@@ -444,7 +444,7 @@ var TitleEditor =
     if (save)
     {
       newTitle = subscriptionNode.getElementsByClassName("titleEditor")[0].value;
-      newTitle = newTitle.replace(/^\s+/, "").replace(/\s+$/, "");
+      newTitle = newTitle.trim();
     }
 
     let subscription = Templater.getDataForNode(subscriptionNode).subscription

@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -159,7 +159,8 @@ let optionsObserver =
             return;
 
           let currentSubscription = FilterStorage.subscriptions.filter((subscription) => subscription instanceof DownloadableSubscription &&
-            subscription.url != Prefs.subscriptions_exceptionsurl);
+            subscription.url != Prefs.subscriptions_exceptionsurl && 
+            subscription.url != Prefs.subscriptions_antiadblockurl);
           currentSubscription = (currentSubscription.length ? currentSubscription[0] : null);
 
           let subscriptions =request.responseXML.getElementsByTagName("subscription");
@@ -504,6 +505,11 @@ let UI = exports.UI =
     {
       Prefs.currentVersion = addonVersion;
       this.addSubscription(window, prevVersion);
+
+      // The "Hide placeholders" option has been removed from the UI in 2.6.6.3881
+      // So we reset the option for users updating from older versions.
+      if (prevVersion && Services.vc.compare(prevVersion, "2.6.6.3881") < 0)
+        Prefs.fastcollapse = false;
     }
   },
 
@@ -830,12 +836,12 @@ let UI = exports.UI =
     FilterStorage.addSubscription(subscription);
     Synchronizer.execute(subscription);
 
-    let subscription = Subscription.fromURL("http://gnuzilla.gnu.org/filters/third-party.txt");
+    subscription = Subscription.fromURL("http://gnuzilla.gnu.org/filters/third-party.txt");
     subscription.disabled = false;
     FilterStorage.addSubscription(subscription);
     Synchronizer.execute(subscription);
 
-    let subscription = Subscription.fromURL("http://gnuzilla.gnu.org/filters/javascript.txt");
+    subscription = Subscription.fromURL("http://gnuzilla.gnu.org/filters/javascript.txt");
     subscription.disabled = true;
     FilterStorage.addSubscription(subscription);
     Synchronizer.execute(subscription);
@@ -967,12 +973,12 @@ let UI = exports.UI =
       mainSubscriptionURL = null;
 
     // Trim spaces in title and URL
-    title = title.replace(/^\s+/, "").replace(/\s+$/, "");
-    url = url.replace(/^\s+/, "").replace(/\s+$/, "");
+    title = title.trim();
+    url = url.trim();
     if (mainSubscriptionURL)
     {
-      mainSubscriptionTitle = mainSubscriptionTitle.replace(/^\s+/, "").replace(/\s+$/, "");
-      mainSubscriptionURL = mainSubscriptionURL.replace(/^\s+/, "").replace(/\s+$/, "");
+      mainSubscriptionTitle = mainSubscriptionTitle.trim();
+      mainSubscriptionURL = mainSubscriptionURL.trim();
     }
 
     // Verify that the URL is valid
@@ -1548,7 +1554,6 @@ let UI = exports.UI =
 
     setChecked(prefix + "disabled", !Prefs.enabled);
     setChecked(prefix + "frameobjects", Prefs.frameobjects);
-    setChecked(prefix + "slowcollapse", !Prefs.fastcollapse);
     setChecked(prefix + "savestats", Prefs.savestats);
 
     let {defaultToolbarPosition, statusbarPosition} = require("appSupport");
@@ -1903,8 +1908,10 @@ let UI = exports.UI =
     let messageElement = window.document.getElementById("abp-notification-message");
     messageElement.innerHTML = "";
     let docLinks = [];
-    for (let link of notification.links)
-      docLinks.push(Utils.getDocLink(link));
+    if (notification.links)
+      for (let link of notification.links)
+        docLinks.push(Utils.getDocLink(link));
+
     insertMessage(messageElement, texts.message, docLinks);
 
     messageElement.addEventListener("click", function(event)
@@ -1955,7 +1962,6 @@ let eventHandlers = [
   ["abp-command-togglesitewhitelist", "command", function() { UI.toggleFilter(siteWhitelist); }],
   ["abp-command-togglepagewhitelist", "command", function() { UI.toggleFilter(pageWhitelist); }],
   ["abp-command-toggleobjtabs", "command", UI.togglePref.bind(UI, "frameobjects")],
-  ["abp-command-togglecollapse", "command", UI.togglePref.bind(UI, "fastcollapse")],
   ["abp-command-togglesavestats", "command", UI.toggleSaveStats.bind(UI)],
   ["abp-command-togglesync", "command", UI.toggleSync.bind(UI)],
   ["abp-command-toggleshowintoolbar", "command", UI.toggleToolbarIcon.bind(UI)],

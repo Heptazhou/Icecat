@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -22,7 +22,6 @@
 Cu.import("resource://gre/modules/XPCOMUtils.jsm");
 Cu.import("resource://gre/modules/Services.jsm");
 
-let {TimeLine} = require("timeline");
 let {Downloader, Downloadable,
     MILLIS_IN_SECOND, MILLIS_IN_MINUTE, MILLIS_IN_HOUR, MILLIS_IN_DAY} = require("downloader");
 let {Filter, CommentFilter} = require("filterClasses");
@@ -54,8 +53,6 @@ let Synchronizer = exports.Synchronizer =
    */
   init: function()
   {
-    TimeLine.enter("Entered Synchronizer.init()");
-
     downloader = new Downloader(this._getDownloadables.bind(this), INITIAL_DELAY, CHECK_INTERVAL);
     onShutdown.add(function()
     {
@@ -66,8 +63,6 @@ let Synchronizer = exports.Synchronizer =
     downloader.onDownloadStarted = this._onDownloadStarted.bind(this);
     downloader.onDownloadSuccess = this._onDownloadSuccess.bind(this);
     downloader.onDownloadError = this._onDownloadError.bind(this);
-
-    TimeLine.leave("Synchronizer.init() done");
   },
 
   /**
@@ -118,6 +113,7 @@ let Synchronizer = exports.Synchronizer =
     result.softExpiration = subscription.softExpiration * MILLIS_IN_SECOND;
     result.hardExpiration = subscription.expires * MILLIS_IN_SECOND;
     result.manual = manual;
+    result.downloadCount = subscription.downloadCount;
     result.privateMode = subscription.privateMode;
     return result;
   },
@@ -202,6 +198,7 @@ let Synchronizer = exports.Synchronizer =
     // The download actually succeeded
     subscription.lastSuccess = subscription.lastDownload = Math.round(Date.now() / MILLIS_IN_SECOND);
     subscription.downloadStatus = "synchronize_ok";
+    subscription.downloadCount = downloadable.downloadCount;
     subscription.errors = 0;
 
     // Remove lines containing parameters

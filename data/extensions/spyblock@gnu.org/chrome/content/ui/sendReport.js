@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -189,7 +189,7 @@ let requestsDataSource =
   origRequests: [],
   requestNotifier: null,
   callback: null,
-  nodeByKey: {__proto__: null},
+  nodeByKey: Object.create(null),
 
   collectData: function(wnd, windowURI, callback)
   {
@@ -636,7 +636,7 @@ let errorsDataSource =
       messages = messages.slice(messages.length - 10, messages.length);
 
     // Censor app and profile paths in error messages
-    let censored = {__proto__: null};
+    let censored = Object.create(null);
     let pathList = [["ProfD", "%PROFILE%"], ["GreD", "%GRE%"], ["CurProcD", "%APP%"]];
     for (let i = 0; i < pathList.length; i++)
     {
@@ -733,6 +733,14 @@ let subscriptionUpdateDataSource =
   type: null,
   outdated: null,
   needUpdate: null,
+  
+  subscriptionFilter: function(s)
+  {
+    if (s instanceof DownloadableSubscription)
+      return subscriptionsDataSource.subscriptionFilter(s);
+    else
+      return false;
+  },
 
   collectData: function(wnd, windowURI, callback)
   {
@@ -744,7 +752,7 @@ let subscriptionUpdateDataSource =
     this.outdated = [];
     this.needUpdate = [];
 
-    let subscriptions = FilterStorage.subscriptions.filter(issuesDataSource.subscriptionFilter);
+    let subscriptions = FilterStorage.subscriptions.filter(this.subscriptionFilter);
     for (let i = 0; i < subscriptions.length; i++)
     {
       let lastSuccess = subscriptions[i].lastSuccess;
@@ -884,8 +892,12 @@ let issuesDataSource =
 
   subscriptionFilter: function(s)
   {
-    if (s instanceof DownloadableSubscription)
+    if (s instanceof DownloadableSubscription &&
+        s.url != Prefs.subscriptions_exceptionsurl &&
+        s.url != Prefs.subscriptions_antiadblockurl)
+    {
       return subscriptionsDataSource.subscriptionFilter(s);
+    }
     else
       return false;
   },
@@ -899,18 +911,18 @@ let issuesDataSource =
     {
       // Find disabled filters in active subscriptions matching any of the requests
       let disabledMatcher = new CombinedMatcher();
-      for each (let subscription in FilterStorage.subscriptions)
+      for (let subscription of FilterStorage.subscriptions)
       {
         if (subscription.disabled)
           continue;
 
-        for each (let filter in subscription.filters)
+        for (let filter of subscription.filters)
           if (filter instanceof BlockingFilter && filter.disabled)
             disabledMatcher.add(filter);
       }
 
-      let seenFilters = {__proto__: null};
-      for each (let request in requestsDataSource.origRequests)
+      let seenFilters = Object.create(null);
+      for (let request of requestsDataSource.origRequests)
       {
         if (request.filter)
           continue;
@@ -924,18 +936,18 @@ let issuesDataSource =
       }
 
       // Find disabled subscriptions with filters matching any of the requests
-      let seenSubscriptions = {__proto__: null};
-      for each (let subscription in FilterStorage.subscriptions)
+      let seenSubscriptions = Object.create(null);
+      for (let subscription of FilterStorage.subscriptions)
       {
         if (!subscription.disabled)
           continue;
 
         disabledMatcher.clear();
-        for each (let filter in subscription.filters)
+        for (let filter of subscription.filters)
           if (filter instanceof BlockingFilter)
             disabledMatcher.add(filter);
 
-        for each (let request in requestsDataSource.origRequests)
+        for (let request of requestsDataSource.origRequests)
         {
           if (request.filter)
             continue;
@@ -952,7 +964,7 @@ let issuesDataSource =
 
       this.numSubscriptions = FilterStorage.subscriptions.filter(this.subscriptionFilter).length;
       this.numAppliedFilters = 0;
-      for each (let filter in filtersDataSource.origFilters)
+      for (let filter of filtersDataSource.origFilters)
       {
         if (filter instanceof WhitelistFilter)
           continue;
@@ -984,7 +996,7 @@ let issuesDataSource =
     if (this.ownFilters.length && !ownFiltersBox.firstChild)
     {
       let template = E("issuesOwnFiltersTemplate");
-      for each (let filter in this.ownFilters)
+      for (let filter of this.ownFilters)
       {
         let element = template.cloneNode(true);
         element.removeAttribute("id");
@@ -1001,7 +1013,7 @@ let issuesDataSource =
     if (this.disabledSubscriptions.length && !disabledSubscriptionsBox.firstChild)
     {
       let template = E("issuesDisabledSubscriptionsTemplate");
-      for each (let subscription in this.disabledSubscriptions)
+      for (let subscription of this.disabledSubscriptions)
       {
         let element = template.cloneNode(true);
         element.removeAttribute("id");
@@ -1018,7 +1030,7 @@ let issuesDataSource =
     if (this.disabledFilters.length && !disabledFiltersBox.firstChild)
     {
       let template = E("issuesDisabledFiltersTemplate");
-      for each (let filter in this.disabledFilters)
+      for (let filter of this.disabledFilters)
       {
         let element = template.cloneNode(true);
         element.removeAttribute("id");
@@ -1107,7 +1119,7 @@ let issuesDataSource =
     if ("mainSubscriptionURL" in result)
       subscriptionResults.push([result.mainSubscriptionURL, result.mainSubscriptionTitle]);
 
-    for each (let [url, title] in subscriptionResults)
+    for (let [url, title] of subscriptionResults)
     {
       let subscription = Subscription.fromURL(url);
       if (!subscription)

@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -226,8 +226,10 @@ var objTabs =
 
   /**
    * Makes the tab element visible.
+   * @param {Element} element
+   * @param {RequestEntry} data
    */
-  _showTab: function(/**Element*/ element, /**RequestEntry*/ data)
+  _showTab: function(element, data)
   {
     let {UI} = require("ui");
     if (!UI.overlay)
@@ -420,8 +422,11 @@ var objTabs =
 
   /**
    * Called whenever a timer fires.
+   * @param {nsISupport} subject
+   * @param {string} topic
+   * @param {string} data
    */
-  observe: function(/**nsISupport*/ subject, /**String*/ topic, /**String*/ data)
+  observe: function(subject, topic, data)
   {
     if (subject == this.positionTimer)
     {

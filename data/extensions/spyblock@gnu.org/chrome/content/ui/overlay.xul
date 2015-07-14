@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
 <!--
-  - This file is part of Adblock Plus <http://adblockplus.org/>,
-  - Copyright (C) 2006-2014 Eyeo GmbH
+  - This file is part of Adblock Plus <https://adblockplus.org/>,
+  - Copyright (C) 2006-2015 Eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -47,7 +47,6 @@
 
   <!-- Icon's context menu -->
   <menupopup id="abp-status-popup" context="">
-    <!--menuitem id="abp-status-sendReport" label="&sendReport.label;…" key="abp-key-sendReport" command="abp-command-sendReport"/-->
     <menuitem id="abp-status-openbottombar" label="&opensidebar.label;" key="abp-key-sidebar" command="abp-command-sidebar"/>
     <menuitem id="abp-status-closebottombar" label="&closesidebar.label;" key="abp-key-sidebar" command="abp-command-sidebar"/>
     <menuitem id="abp-status-filters" label="&filters.label;…" key="abp-key-filters" command="abp-command-filters"/>
@@ -59,7 +58,6 @@
     <menu id="abp-status-options" label="&options.label;">
       <menupopup id="abp-status-options-popup">
         <menuitem id="abp-status-frameobjects" label="&objecttabs.label;" type="checkbox" command="abp-command-toggleobjtabs"/>
-        <menuitem id="abp-status-slowcollapse" label="&hideplaceholders.label;" type="checkbox" command="abp-command-togglecollapse"/>
         <menuitem id="abp-status-savestats" label="&counthits.label;" type="checkbox" command="abp-command-togglesavestats"/>
         <menuitem id="abp-status-sync" label="&sync.label;" type="checkbox" command="abp-command-togglesync"/>
         <menuseparator id="abp-status-iconSettingsSeparator"/>
@@ -68,26 +66,18 @@
       </menupopup>
     </menu>
 
-    <hbox class="abp-contributebutton" id="abp-status-contributebutton" pack="center" align="center">
-      <!-- noautoclose attribute tells Australis menu that it shouldn't close when
-           these are clicked, see https://bugzilla.mozilla.org/show_bug.cgi?id=940693 -->
-      <button class="abp-contributebutton-btn" label="&contribute.label;" command="abp-command-contribute" flex="1" noautoclose="true"/>
-      <toolbarbutton class="abp-contributebutton-close" command="abp-command-contribute-hide" noautoclose="true"/>
-    </hbox>
   </menupopup>
 
   <keyset id="abp-keyset"/>
 
   <!-- Dummy oncommand attributes are work-arounds for bug 371900 -->
   <commandset id="abp-commandset">
-    <command id="abp-command-sendReport" oncommand="//"/>
     <command id="abp-command-filters" oncommand="//"/>
     <command id="abp-command-settings" oncommand="//"/>
     <command id="abp-command-sidebar" oncommand="//"/>
     <command id="abp-command-togglesitewhitelist"/>
     <command id="abp-command-togglepagewhitelist"/>
     <command id="abp-command-toggleobjtabs"/>
-    <command id="abp-command-togglecollapse"/>
     <command id="abp-command-togglesavestats"/>
     <command id="abp-command-togglesync"/>
     <command id="abp-command-toggleshowintoolbar"/>

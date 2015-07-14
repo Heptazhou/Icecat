@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -147,7 +147,7 @@ var Templater =
 
     // Process <if> tags - remove if condition is false, replace by their children
     // if it is true
-    for each (let node in conditionals)
+    for (let node of conditionals)
     {
       let fragment = document.createDocumentFragment();
       let condition = node.getAttribute("condition");

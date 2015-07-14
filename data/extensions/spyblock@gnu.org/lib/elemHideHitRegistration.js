@@ -1,6 +1,6 @@
 /*
- * This file is part of Adblock Plus <http://adblockplus.org/>,
- * Copyright (C) 2006-2014 Eyeo GmbH
+ * This file is part of Adblock Plus <https://adblockplus.org/>,
+ * Copyright (C) 2006-2015 Eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -70,7 +70,7 @@ let AboutHandler = exports.AboutHandler =
 
   newChannel: function(uri)
   {
-    let match = /\?(\d+)/.exec(uri.path)
+    let match = /\?(\d+)/.exec(uri.path);
     if (!match)
       throw Cr.NS_ERROR_FAILURE;
 
@@ -126,7 +126,11 @@ HitRegistrationChannel.prototype = {
   {
     let {Policy} = require("contentPolicy");
     let {ElemHide} = require("elemHide");
-    let data = "<bindings xmlns='http://www.mozilla.org/xbl'><binding id='dummy'/></bindings>";
+
+    // This dummy binding below won't have any effect on the element. For
+    // elements that should be hidden however we don't return any binding at
+    // all, this makes Gecko stop constructing the node - it cannot be shown.
+    let data = "<bindings xmlns='http://www.mozilla.org/xbl'><binding id='dummy' bindToUntrustedContent='true'/></bindings>";
     let filter = ElemHide.getFilterByKey(this.key);
     if (filter)
     {
