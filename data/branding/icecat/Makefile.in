@@ -12,7 +12,6 @@ BRANDING_FILES := \
 	branding.nsi \
 	appname.bmp \
 	bgintro.bmp \
-	bgplain.bmp \
 	clock.bmp \
 	particles.bmp \
 	pencil.bmp \
@@ -45,13 +44,6 @@ BRANDING_FILES := \
 	$(NULL)
 endif
 
-ifeq ($(OS_ARCH),OS2)
-BRANDING_FILES := \
-	icecat-os2.ico \
-	document-os2.ico \
-	$(NULL)
-endif
-
 BRANDING_DEST := $(DIST)/branding
 BRANDING_TARGET := export
 INSTALL_TARGETS += BRANDING
@@ -62,4 +54,3 @@ VISUALMANIFEST_FLAGS := -Fsubstitution -DMOZ_APP_DISPLAYNAME=${MOZ_APP_DISPLAYNA
 VISUALMANIFEST_PATH := $(DIST)/bin
 PP_TARGETS += VISUALMANIFEST
 endif
-

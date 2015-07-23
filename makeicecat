@@ -20,8 +20,8 @@
 set -e
 
 FFMAJOR=38
-FFMINOR=0
-FFSUB=1
+FFMINOR=1
+FFSUB=0
 GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
@@ -110,10 +110,10 @@ mv l10n $SOURCEDIR
 
 cd $SOURCEDIR
 
-#for patch in $DATA/patches/*; do
-#    echo Patching with file: $patch
-#    patch -p1 < $patch
-#done
+for patch in $DATA/patches/*; do
+    echo Patching with file: $patch
+    patch -p1 < $patch
+done
 
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
 cp $DATA/Changelog.IceCat $DATA/README.IceCat debian
@@ -253,6 +253,11 @@ sed "$LINE,+1 d" debian/build/rules.mk -i
 #sed "s_https://input.mozilla.org/feedback_https://${LISTURL}_" -i browser/base/content/utilityOverlay.js
 sed  "s/^MOZ_APP_NAME\t.*/MOZ_APP_NAME\t\t:= icecat/;" debian/build/config.mk -i
 sed  "s/^MOZ_PKG_NAME\t.*/MOZ_PKG_NAME\t\t:= icecat/;" debian/build/config.mk -i
+
+# Hide help buttons in newtab page
+for file in toolkit/themes/linux/global/global.css toolkit/themes/windows/global/global.css toolkit/themes/osx/global/global.css; do
+  echo '#newtab-customize-button, #newtab-intro-what{display:none}' >> $file
+done
 
 ###############################################################################
 # Branding
@@ -397,26 +402,9 @@ cat << EOF >> browser/confvars.sh
 MOZ_APP_VENDOR=GNU
 MOZ_APP_VERSION=$FFVERSION
 MOZ_APP_PROFILE=mozilla/icecat
-MOZ_SERVICES_SYNC=0
-MOZ_SERVICES_METRICS=0
-MOZ_SERVICES_FXACCOUNTS=0
-MOZ_SERVICES_HEALTHREPORT=0
-MOZ_DATA_REPORTING=0
-MOZ_PAY=0
-EOF
-
-sed 's/mozilla-esr/gnu-esr/' -i browser/confvars.sh
-
-###############################################################################
-# Mobile
-###############################################################################
-
-cat << EOF >> mobile/android/confvars.sh
-# IceCat settings
-MOZ_APP_VENDOR=GNU
-MOZ_APP_VERSION=$FFVERSION
 MOZ_PAY=0
 MOZ_SERVICES_HEALTHREPORT=0
+MOZ_SERVICES_HEALTHREPORTER=0
 MOZ_SERVICES_FXACCOUNTS=0
 MOZ_SERVICES_METRICS=0
 MOZ_DATA_REPORTING=0
@@ -425,6 +413,33 @@ MOZ_DEVICES=0
 MOZ_NATIVE_DEVICES=0
 MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
 EOF
+
+sed 's/mozilla-esr/gnu-esr/' -i browser/confvars.sh
+
+###############################################################################
+# Mobile
+###############################################################################
+
+sed  '/MOZ_SERVICES_HEALTHREPORT/d; /MOZ_DEVICES/d; /MOZ_ANDROID_RESOURCE_CONSTRAINED/,+2d' -i mobile/android/confvars.sh
+
+cat << EOF >> mobile/android/confvars.sh
+# IceCat settings
+MOZ_APP_VENDOR=GNU
+MOZ_APP_VERSION=$FFVERSION
+MOZ_PAY=0
+MOZ_SERVICES_HEALTHREPORT=0
+MOZ_SERVICES_HEALTHREPORTER=0
+MOZ_SERVICES_FXACCOUNTS=0
+MOZ_SERVICES_METRICS=0
+MOZ_DATA_REPORTING=0
+MOZ_SERVICES_SYNC=0
+MOZ_DEVICES=0
+MOZ_NATIVE_DEVICES=0
+MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
+EOF
+
+rm -R mobile/android/gradle/
+sed -i '/gradle/d' mobile/android/base/Makefile.in
 
 cat $DATA/settings.js >> mobile/android/app/mobile.js
 cat $DATA/settings-android.js >> mobile/android/app/mobile.js

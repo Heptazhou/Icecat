@@ -59,9 +59,9 @@ pref ("distribution.version", "1.0");
 // Spoof the useragent to a generic one
 pref("general.useragent.compatMode.firefox",true);
 // Spoof the useragent to a generic one
-pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:31.0) Gecko/20100101 Firefox/31.0");
+pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0");
 pref("general.appname.override", "Netscape");
-pref("general.appversion.override", "31.0");
+pref("general.appversion.override", "38.0");
 pref("general.buildID.override", "Gecko/20100101");
 pref("general.oscpu.override", "Windows NT 6.1");
 pref("general.platform.override", "Win32");
@@ -183,6 +183,7 @@ pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.ph
 pref("keyword.URL", "https://duckduckgo.com/html?t=gnu&q=!+");
 pref("browser.search.defaultenginename", "DuckDuckGo");
 pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
+pref("browser.search.showOneOffButtons", false);
 
 // https://directory.fsf.org/wiki/Disable_DHE
 pref("security.ssl3.dhe_rsa_aes_128_sha", false);
@@ -190,6 +191,42 @@ pref("security.ssl3.dhe_rsa_aes_256_sha", false);
 pref("security.ssl3.dhe_dss_aes_128_sha", false);
 pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
 
+// Disable Gecko media plugins: https://wiki.mozilla.org/GeckoMediaPlugins
+pref("media.gmp-manager.url", "http://127.0.0.1/");
+pref("media.gmp-manager.url.override", "data:text/plain,");
+pref("media.gmp-provider.enabled", false);
+// Don't install openh264 codec
+pref("media.gmp-gmpopenh264.enabled", false);
+
+//Disable heartbeat
+pref("browser.selfsupport.url", "");
+
+//Disable Link to FireFox Marketplace, currently loaded with non-free "apps"
+pref("browser.apps.URL", "");
+
+//Disable Firefox Hello
+pref("loop.enabled",false);
+
+// Use old style preferences, that allow javascript to be disabled
+pref("browser.preferences.inContent",false);
+
+// Avoid logjam attack
+pref("security.ssl3.dhe_rsa_aes_128_sha", false);
+pref("security.ssl3.dhe_rsa_aes_256_sha", false);
+pref("security.ssl3.dhe_dss_aes_128_sha", false);
+pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
+
+// Don't download ads for the newtab page
+pref("browser.newtabpage.directory.source", "");
+pref("browser.newtabpage.directory.ping", "");
+pref("browser.newtabpage.introShown", true);
+
+// Disable home snippets
+pref("browser.aboutHomeSnippets.updateUrl", "data:text/html");
+
 // Disable hardware acceleration and WebGL
-pref("layers.acceleration.disabled", true);
-pref("webgl.disabled", true);
+//pref("layers.acceleration.disabled", false);
+//pref("webgl.disabled", false);
+
+// Disable SSDP
+pref("browser.casting.enabled", false);

@@ -1,3 +1,7 @@
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
 pref("startup.homepage_override_url","http://www.gnu.org");
 pref("startup.homepage_welcome_url","http://www.gnu.org/software/gnuzilla/");
 // The time interval between checks for a new version (in seconds)
@@ -22,3 +26,4 @@ pref("browser.search.param.yahoo-fr", "");
 pref("browser.search.param.yahoo-fr-cjkt", ""); // now unused
 pref("browser.search.param.yahoo-fr-ja", "");
 pref("browser.search.param.yahoo-f-CN", "");
+

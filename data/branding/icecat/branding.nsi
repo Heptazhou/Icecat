@@ -8,13 +8,11 @@
 
 # BrandFullNameInternal is used for some registry and file system values
 # instead of BrandFullName and typically should not be modified.
-!define BrandFullNameInternal "IceCat"
+!define BrandFullNameInternal "GNU IceCat"
 !define CompanyName           "GNU"
 !define URLInfoAbout          "http://www.gnu.org/software/gnuzilla/"
-!define URLUpdateInfo         "http://www.gnu.org/software/gnuzilla/"
-
-!define URLStubDownload "http://www.gnu.org/software/gnuzilla/"
-!define URLManualDownload "http://ftp.gnu.org/gnu/gnuzilla/"
+!define URLUpdateInfo         "https://savannah.gnu.org/projects/gnuzilla/"
+!define HelpLink              "http://libreplanet.org/wiki/Group:IceCat/ "
 
 ; The OFFICIAL define is a workaround to support different urls for Release and
 ; Beta since they share the same branding when building with other branches that
@@ -42,9 +40,8 @@
 !define FOOTER_CONTROL_TEXT_COLOR_FADED 0x666666
 !define FOOTER_BKGRD_COLOR 0xFFFFFF
 !define INTRO_BLURB_TEXT_COLOR 0x666666
-!define OPTIONS_TEXT_COLOR_NORMAL 0x000000
-!define OPTIONS_TEXT_COLOR_FADED 0x666666
-!define OPTIONS_BKGRD_COLOR 0xF0F0F0
 !define INSTALL_BLURB_TEXT_COLOR 0x666666
 !define INSTALL_PROGRESS_TEXT_COLOR_NORMAL 0x666666
-!define INSTALL_PROGRESS_TEXT_COLOR_FADED 0x999999
+!define COMMON_TEXT_COLOR_NORMAL 0x000000
+!define COMMON_TEXT_COLOR_FADED 0x666666
+!define COMMON_BKGRD_COLOR 0xF0F0F0
