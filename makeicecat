@@ -22,7 +22,7 @@ set -e
 FFMAJOR=31
 FFMINOR=8
 FFSUB=0
-GNUVERSION=1
+GNUVERSION=2
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
@@ -46,8 +46,8 @@ cd output
 
 rm mozilla-esr${FFMAJOR} $SOURCEDIR -rf
 
-wget -N ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2
-wget -N ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2.asc
+wget -N http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2
+wget -N http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2.asc
 gpg --recv-keys --keyserver keyserver.ubuntu.com 15A0A4BC
 gpg --verify firefox-${FFVERSION}esr.source.tar.bz2.asc
 

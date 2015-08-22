@@ -1,3 +1,6 @@
+2015-08-22 Ruben Rodriguez <ruben@gnu.org>
+	* Applied patch for CVE-2015-4473 CVE-2015-4482 CVE-2015-4488 CVE-2015-4489 CVE-2015-4491 CVE-2015-4492 CVE-2015-4495 from Guix.
+
 2015-07-12 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.8.0ESR
 	* Applied fix for LogJam attack [https://weakdh.org/]
