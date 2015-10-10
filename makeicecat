@@ -255,7 +255,7 @@ sed  "s/^MOZ_APP_NAME\t.*/MOZ_APP_NAME\t\t:= icecat/;" debian/build/config.mk -i
 sed  "s/^MOZ_PKG_NAME\t.*/MOZ_PKG_NAME\t\t:= icecat/;" debian/build/config.mk -i
 
 # Hide help buttons in newtab page
-for file in toolkit/themes/linux/global/global.css toolkit/themes/windows/global/global.css toolkit/themes/osx/global/global.css; do
+for file in browser/base/content/newtab/newTab.css browser/themes/linux/newtab/newTab.css browser/themes/windows/newtab/newTab.css browser/themes/osx/newtab/newTab.css; do
   echo '#newtab-customize-button, #newtab-intro-what{display:none}' >> $file
 done
 
