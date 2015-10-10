@@ -412,11 +412,95 @@ MOZ_SERVICES_METRICS=0
 MOZ_DATA_REPORTING=0
 MOZ_SERVICES_SYNC=0
 MOZ_DEVICES=0
-MOZ_NATIVE_DEVICES=0
 MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
 EOF
 
 sed 's/mozilla-esr/gnu-esr/' -i browser/confvars.sh
+
+###############################################################################
+# Icons
+###############################################################################
+
+favicon=$DATA/branding/icecat/icecat.ico
+jpglogo=$DATA/../artwork/icecat.jpg
+
+#Firefox logo
+ff256=$DATA/branding/icecat/default256.png
+ff128=$DATA/branding/icecat/mozicon128.png
+ff64=$DATA/branding/icecat/content/icon64.png
+ff48=$DATA/branding/icecat/default48.png
+ff32=$DATA/branding/icecat/default32.png
+ff24=$DATA/branding/icecat/default24.png
+ff22=$DATA/branding/icecat/default22.png
+ff16=$DATA/branding/icecat/default16.png
+
+#Grey flat logo
+gf300=$DATA/android-images/resources/drawable-xhdpi/icon_home_empty_icecat.png
+gf225=$DATA/android-images/resources/drawable-hdpi/icon_home_empty_icecat.png
+gf150=$DATA/android-images/resources/drawable-mdpi/icon_home_empty_icecat.png
+gf32=$DATA/android-images/resources/drawable-xhdpi/ic_status_logo.png
+gf24=$DATA/android-images/resources/drawable-hdpi/ic_status_logo.png
+gf16=$DATA/android-images/resources/drawable-mdpi/ic_status_logo.png
+# White flat
+wf24=$DATA/android-images/resources/drawable-mdpi-v11/ic_status_logo.png
+wf48=$DATA/android-images/resources/drawable-xhdpi-v11/ic_status_logo.png
+wf36=$DATA/android-images/resources/drawable-hdpi-v11/ic_status_logo.png
+
+#Market logo
+ma50=$DATA/android-images/core/marketplace-logo.png
+ma128=$DATA/android-images/resources/drawable-mdpi/marketplace.png
+
+cp $ff256 browser/components/loop/content/shared/img/icecat-logo.png
+cp $ff64 browser/devtools/framework/dev-edition-promo/dev-edition-logo.png
+cp $ma128 mobile/android/base/resources/raw/bookmarkdefaults_favicon_marketplace.png
+cp $ff128 mobile/android/base/resources/raw/bookmarkdefaults_favicon_support.png
+cp $favicon addon-sdk/source/examples/toolbar-api/data/favicon.ico
+cp $gf32 browser/themes/shared/icon.png
+cp $gf150 mobile/android/base/resources/drawable-hdpi/icon_search_empty_icecat.png
+cp $gf150 mobile/android/base/resources/drawable-mdpi/icon_search_empty_icecat.png
+cp $gf150 mobile/android/base/resources/drawable-xhdpi/icon_search_empty_icecat.png
+cp $gf150 mobile/android/base/resources/drawable-xxhdpi/icon_search_empty_icecat.png
+cp $gf32 browser/themes/linux/theme-switcher-icon.png
+cp $gf32 browser/themes/osx/theme-switcher-icon.png
+cp $gf32 browser/themes/windows/theme-switcher-icon.png
+cp $gf32 browser/themes/osx/theme-switcher-icon@2x.png
+cp $gf32 browser/themes/windows/theme-switcher-icon-aero.png
+cp $gf32 browser/base/content/aboutaccounts/images/fox.png
+cp $ff256 browser/components/loop/standalone/content/legal/images/icecat.png
+cp $ff256 browser/components/loop/content/shared/img/icecat-logo.png
+
+cp $ff16 dom/canvas/test/crossorigin/image.png
+cp $ff16 image/test/unit/image1.png
+cp $jpglogo  image/test/unit/image1png16x16.jpg
+cp $jpglogo  image/test/unit/image1png64x64.jpg
+cp $ff16 image/test/unit/image2jpg16x16.png
+cp $ff16 image/test/unit/image2jpg16x16-win.png
+cp $ff32 image/test/unit/image2jpg32x32.png
+cp $ff32 image/test/unit/image2jpg32x32-win.png
+cp $ff16 dom/canvas/test/crossorigin/image-allow-credentials.png
+cp $ff16 dom/html/test/image-allow-credentials.png
+cp $ff16 dom/canvas/test/crossorigin/image-allow-star.png
+cp $ff32 toolkit/webapps/tests/data/icon.png
+cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big32.jpg.png
+cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big64.png.png
+cp $jpglogo  toolkit/components/places/tests/favicons/favicon-big32.jpg
+cp $ff64 toolkit/components/places/tests/favicons/favicon-big64.png
+cp $favicon image/test/unit/image4gif16x16bmp24bpp.ico
+cp $favicon image/test/unit/image4gif16x16bmp32bpp.ico
+cp $favicon image/test/unit/image4gif32x32bmp24bpp.ico
+cp $favicon image/test/unit/image4gif32x32bmp32bpp.ico
+cp $jpglogo  mobile/android/base/tests/IceCat.jpg
+cp $jpglogo image/test/unit/image1png16x16.jpg
+cp $jpglogo image/test/unit/image2.jpg
+cp $jpglogo image/test/unit/image2jpg16x16cropped.jpg
+cp $jpglogo image/test/unit/image2jpg16x16cropped2.jpg
+cp $jpglogo image/test/unit/image2jpg16x32cropped3.jpg
+cp $jpglogo image/test/unit/image2jpg16x32scaled.jpg
+cp $jpglogo image/test/unit/image2jpg32x16cropped4.jpg
+cp $jpglogo image/test/unit/image2jpg32x16scaled.jpg
+cp $jpglogo image/test/unit/image2jpg32x32.jpg
+cp $ff32 image/test/unit/image2jpg32x32.png
+cp $ff32 image/test/unit/image2jpg32x32-win.png
 
 ###############################################################################
 # Mobile
