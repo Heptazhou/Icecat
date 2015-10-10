@@ -175,7 +175,7 @@
   }, 
   "librejs/html_script_finder/web_labels/js_web_labels": {
    "docsSHA256": null, 
-   "jsSHA256": "b9d202e43ee6e0882f19a14e6a21ab4e816769b553f079540cde4c9204670228", 
+   "jsSHA256": "97c3f8b0ed2695db5298a40c38cc14ae670dd3e0a571f1560477905472173d11", 
    "moduleName": "html_script_finder/web_labels/js_web_labels", 
    "packageName": "librejs", 
    "requirements": {
@@ -291,7 +291,7 @@
   }, 
   "librejs/js_checker/js_checker": {
    "docsSHA256": null, 
-   "jsSHA256": "cfdc61f93a49072fcccc542746520fb9d48feb4b6768262af12d3622a0871e9f", 
+   "jsSHA256": "5aefeae7e553157314165bd28998b852dc7c8387153d582f05b453a4b567228c", 
    "moduleName": "js_checker/js_checker", 
    "packageName": "librejs", 
    "requirements": {
@@ -311,7 +311,7 @@
   }, 
   "librejs/js_checker/license_definitions": {
    "docsSHA256": null, 
-   "jsSHA256": "801bf3c6435824d0746d888c6833819bb6a8b36ba2d38c2235825c99f43e86f7", 
+   "jsSHA256": "e59b0a4595a3143ae40dcde99c64cb1b403994411aa1836f0838064a2ed99974", 
    "moduleName": "js_checker/license_definitions", 
    "packageName": "librejs", 
    "requirements": {}, 
@@ -450,7 +450,7 @@
   }, 
   "librejs/script_entries/free_libraries": {
    "docsSHA256": null, 
-   "jsSHA256": "c9bf7ad7a2492324b98f32bff69147d59c019fcf71c18f9cc37851a94ad468a3", 
+   "jsSHA256": "07ec51813e419fceda598ca6e279b71fefea60166dc9a9c966bb869b501eaf43", 
    "moduleName": "script_entries/free_libraries", 
    "packageName": "librejs", 
    "requirements": {
@@ -474,7 +474,7 @@
   }, 
   "librejs/script_entries/scripts_cache": {
    "docsSHA256": null, 
-   "jsSHA256": "7c03ea3f3926e4c802b6b14aa01fa9d78be25326b06f3e228915b70f4416d5e3", 
+   "jsSHA256": "030b71b0336647a67fe07ddc185a38f240e5d017e1d5f3e16b3bfd19f3ef6e3a", 
    "moduleName": "script_entries/scripts_cache", 
    "packageName": "librejs", 
    "requirements": {
@@ -679,7 +679,7 @@
     "private-browsing": true, 
     "unsafe-content-script": true
    }, 
-   "version": "6.0.9"
+   "version": "6.0.10.20150620"
   }, 
   "menuitems": {
    "author": "Erik Vold (http://erikvold.com/) <erikvvold@gmail.com>", 

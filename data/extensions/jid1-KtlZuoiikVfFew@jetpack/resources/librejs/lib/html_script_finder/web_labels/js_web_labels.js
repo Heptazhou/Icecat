@@ -124,7 +124,8 @@ WebLabelFinder.prototype.formatURL = function(link) {
 WebLabelFinder.prototype.fetchLicensePage = function() {
     var that = this;
     try {
-        var req =  Cc["@mozilla.org/xmlextras/xmlhttprequest;1"].createInstance();
+        var req =  Cc["@mozilla.org/xmlextras/xmlhttprequest;1"]
+            .createInstance();
 
         req.onload = function() {
             console.debug("Fetching License!");
@@ -172,6 +173,26 @@ WebLabelFinder.prototype.isLicenseFree = function(
     for (var i = 0; i < lic.licenses.length; i++) {
         var license;
         var found = false;
+
+        // Check if we can look up this license by its identifier.
+        var identifier = lic.licenses[i]['licenseName'];
+        if (typeof identifier !== 'undefined' &&
+            typeof licenses[identifier] !== 'undefined'
+           ) {
+            console.debug('recognized by index', identifier);
+            // This license was recognized, and it was free. Add it
+            // to the array of license status, which we'll look at
+            // when we're done with this web label row.
+            licenseStatuses.push(true);
+
+            console.debug("about TO ADD TO XHR: ", lic.fileUrl);
+            this.listCheck[lic.fileUrl] = 0;
+            addToCache(lic, 0, jslicenseURL, callback);
+
+            // Break out of the loop cause we found a matching license.
+            found = true;
+            continue;
+        }
 
         // For each license from the internal license definitions
         for (license in licenses) {
@@ -261,8 +282,6 @@ WebLabelFinder.prototype.matchListWithDefs = function(jslicenseURL) {
             console.debug(that.listCheck);
         }
     }, 15000);
-
-
 
     for (var i = 0; i < this.licenseList.length; i++) {
         // this.licenseList[i] is the web labels license column
