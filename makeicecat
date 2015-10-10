@@ -308,6 +308,8 @@ do
  find -name aboutRights.dtd | xargs sed -i "s/ENTITY $STRING.*/ENTITY $STRING \"\">/"
 done
 
+sed '/helpus.start/d' -i browser/base/content/aboutDialog.xul
+
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights.xhtml
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights-unbranded.xhtml
 
