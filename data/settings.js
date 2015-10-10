@@ -136,6 +136,40 @@ pref("plugin.state.flash", 1);
 pref("browser.search.update", false);
 // Warn when the page tries to redirect or refresh
 //pref("accessibility.blockautorefresh", true);
+pref("dom.battery.enabled", false);
+pref("device.sensors.enabled", false);
+pref("camera.control.face_detection.enabled", false);
+pref("camera.control.autofocus_moving_callback.enabled", false);
+pref("network.http.speculative-parallel-limit", 0);
+
+// Crypto hardening
+// https://gist.github.com/haasn/69e19fc2fe0e25f3cff5
+//General settings
+pref("security.tls.unrestricted_rc4_fallback", false);
+pref("security.tls.insecure_fallback_hosts.use_static_list", false);
+pref("security.tls.version.min", 1);
+pref("security.ssl.require_safe_negotiation", true);
+pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
+pref("security.ssl3.rsa_seed_sha", true);
+pref("security.OCSP.enabled", 1);
+pref("security.OCSP.require", true);
+//Disable unnecessary protocols
+pref("security.ssl3.rsa_rc4_128_sha", false);
+pref("security.ssl3.rsa_rc4_128_md5", false);
+pref("security.ssl3.rsa_des_ede3_sha", false);
+pref("security.ssl3.ecdhe_ecdsa_rc4_128_sha", false);
+pref("security.ssl3.ecdhe_rsa_rc4_128_sha", false);
+// https://directory.fsf.org/wiki/Disable_DHE
+// Avoid logjam attack
+pref("security.ssl3.dhe_rsa_aes_128_sha", false);
+pref("security.ssl3.dhe_rsa_aes_256_sha", false);
+pref("security.ssl3.dhe_dss_aes_128_sha", false);
+pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
+//Optional
+//Perfect forward secrecy
+// pref("security.ssl3.rsa_aes_256_sha", false);
+//Force TLS 1.2
+// pref("security.tls.version.min", 3);
 
 // Disable channel updates
 pref("app.update.enabled", false);
@@ -185,12 +219,6 @@ pref("browser.search.defaultenginename", "DuckDuckGo");
 pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
 pref("browser.search.showOneOffButtons", false);
 
-// https://directory.fsf.org/wiki/Disable_DHE
-pref("security.ssl3.dhe_rsa_aes_128_sha", false);
-pref("security.ssl3.dhe_rsa_aes_256_sha", false);
-pref("security.ssl3.dhe_dss_aes_128_sha", false);
-pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
-
 // Disable Gecko media plugins: https://wiki.mozilla.org/GeckoMediaPlugins
 pref("media.gmp-manager.url", "http://127.0.0.1/");
 pref("media.gmp-manager.url.override", "data:text/plain,");
@@ -210,12 +238,6 @@ pref("loop.enabled",false);
 // Use old style preferences, that allow javascript to be disabled
 pref("browser.preferences.inContent",false);
 
-// Avoid logjam attack
-pref("security.ssl3.dhe_rsa_aes_128_sha", false);
-pref("security.ssl3.dhe_rsa_aes_256_sha", false);
-pref("security.ssl3.dhe_dss_aes_128_sha", false);
-pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
-
 // Don't download ads for the newtab page
 pref("browser.newtabpage.directory.source", "");
 pref("browser.newtabpage.directory.ping", "");
@@ -226,7 +248,10 @@ pref("browser.aboutHomeSnippets.updateUrl", "data:text/html");
 
 // Disable hardware acceleration and WebGL
 //pref("layers.acceleration.disabled", false);
-//pref("webgl.disabled", false);
+pref("webgl.disabled", false);
 
 // Disable SSDP
 pref("browser.casting.enabled", false);
+
+//Disable directory service
+pref("social.directories", "");
