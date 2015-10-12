@@ -100,9 +100,9 @@ EXTENSIONS INCLUDED IN ICECAT 31.x
   requests when in private browsing mode. Based on Adblock Plus.
 
 * AboutIceCat
-  Adds a custom "about:icecat" homepage with links to information about the
-  free software and privacy features in IceCat, and checkboxes to enable
-  and disable the ones more prone to break websites.
+  Adds a custom homepage with links to information about the  free software 
+  and privacy features in IceCat, and checkboxes to enable and disable the 
+  ones more prone to break websites.
 
 * html5-video-everywhere
   Uses the native video player to play embedded videos from different sources
