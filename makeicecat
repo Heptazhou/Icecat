@@ -20,7 +20,7 @@
 set -e
 
 FFMAJOR=38
-FFMINOR=1
+FFMINOR=3
 FFSUB=0
 GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
@@ -91,7 +91,7 @@ mkdir l10n
 cd l10n
 while read line;do
     line=$(echo $line |cut -d' ' -f1)
-    [ $line = "es-ES" ] || continue
+    #[ $line = "es-ES" ] || continue
     [ $line = "en-US" ] && continue
     hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
     cd $line

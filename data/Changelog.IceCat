@@ -1,3 +1,16 @@
+2015-10-08 Ruben Rodriguez <ruben@gnu.org>
+	* Rebased to v38.x
+	* Updated to v38.3.0ESR
+	* LibreJS updated to 6.0.10.20150620
+	* HTTPS-Everywhere updated to 5.1.1
+	* HTML5 Video Everywhere updated to 0.3.3
+	* Added more privacy settings and crypto hardening
+	 - Disabled battery handling in dom
+	 - Disabled sensor handling in dom
+	 - Disable face detection and autofocus controls
+	 - Disabled DNS prefetch
+	 - Disabled ssl/tls protocols that are useless or too weak
+
 2015-08-22 Ruben Rodriguez <ruben@gnu.org>
 	* Applied patch for CVE-2015-4473 CVE-2015-4482 CVE-2015-4488 CVE-2015-4489 CVE-2015-4491 CVE-2015-4492 CVE-2015-4495 from Guix.
 
@@ -13,6 +26,7 @@
 2015-06-05 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.7.0ESR
         * Fix build system for translation packages
+	* Remove tor-proxy from debian recommends field
 
 2015-04-03 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.6.0ESR
