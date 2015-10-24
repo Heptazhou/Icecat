@@ -22,13 +22,13 @@ set -e
 FFMAJOR=38
 FFMINOR=3
 FFSUB=0
-GNUVERSION=1
+GNUVERSION=2
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
 
 CODENAME=trusty
-REVISION=1065
+REVISION=1093
 #CODENAME=precise
 #REVISION=993
 
@@ -66,7 +66,7 @@ cd firefox.$CODENAME
 bzr revert -r$REVISION
 echo '3.0 (native)' > debian/source/format
 
-for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch fix-broken-langpack-install-manifests.patch
+for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch
 do
   rm debian/patches/$PATCH
   sed "/$PATCH/d" -i debian/patches/series
