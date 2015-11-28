@@ -1,8 +1,0 @@
-<?xml version="1.0" ?>
-<vbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-  <setting data-jetpack-id="jid1-KtlZuoiikVfFew@jetpack" pref="extensions.jid1-KtlZuoiikVfFew@jetpack.whitelist" pref-name="whitelist" title="Whitelist domain, separated by comma, omit protocol, e.g.: gnu.org, wildcard is *" type="string"/>
-  <setting data-jetpack-id="jid1-KtlZuoiikVfFew@jetpack" pref="extensions.jid1-KtlZuoiikVfFew@jetpack.complaint_tab" pref-name="complaint_tab" title="Display complaint tab on sites where nonfree nontrivial JavaScript is detected" type="bool"/>
-  <setting data-jetpack-id="jid1-KtlZuoiikVfFew@jetpack" pref="extensions.jid1-KtlZuoiikVfFew@jetpack.display_notifications" pref-name="display_notifications" title="Display notifications of the JavaScript code being analyzed by LibreJS." type="bool"/>
-  <setting data-jetpack-id="jid1-KtlZuoiikVfFew@jetpack" pref="extensions.jid1-KtlZuoiikVfFew@jetpack.complaint_email_subject" pref-name="complaint_email_subject" title="Complaint email subject" type="string">Initial subject line used in complaint emails</setting>
-  <setting data-jetpack-id="jid1-KtlZuoiikVfFew@jetpack" pref="extensions.jid1-KtlZuoiikVfFew@jetpack.complaint_email_body" pref-name="complaint_email_body" title="Complaint email body" type="string">Initial body text used in complaint emails</setting>
-</vbox>
