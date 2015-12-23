@@ -1,6 +1,12 @@
+2015-12-22 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v38.5.0ESR
+	* Fixed v38 related issues on multiarch builds (MacOS, Windows, Android)
+	* LibreJS updated to 6.0.10 final
+	* Made sure main (DuckDuckGO) search plugin doesn't require javascript
+
 2015-11-05 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v38.4.0ESR
-	* LibreJS updated to 6.0.10
+	* LibreJS updated to 6.0.10 prerelease
 
 2015-10-08 Ruben Rodriguez <ruben@gnu.org>
 	* Rebased to v38.x
