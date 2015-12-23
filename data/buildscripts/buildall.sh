@@ -32,18 +32,18 @@ EOF
 env -i TERM=screen eatmydata sudo HOME=/home/ruben BUILDDIST=$2 ARCH=$3 pbuilder execute $SRCDIR/run.sh
 }
 
-#buildpackage windows belenos amd64 |tee  windows.log 2>&1
-#buildpackage mac belenos amd64 |tee mac.log 2>&1
-#buildpackage gnulinux belenos i386 |tee gnulinux-i386.log 2>&1
-#mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-i386
-#buildpackage gnulinux belenos amd64 |tee gnulinux-amd64.log 2>&1
-#mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-amd64
+buildpackage windows belenos amd64 |tee  windows.log 2>&1
+buildpackage mac belenos amd64 |tee mac.log 2>&1
+buildpackage gnulinux belenos i386 |tee gnulinux-i386.log 2>&1
+mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-i386
+buildpackage gnulinux belenos amd64 |tee gnulinux-amd64.log 2>&1
+mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-amd64
 buildpackage android belenos i386  |tee android.log 2>&1
 
 rm binaries -rf
 mkdir binaries/langpacks -p
-#cp $1/obj-windows/dist/icecat*.zip binaries
-#cp $1/obj-mac/dist/icecat/icecat*.dmg binaries
-#cp $1/obj-gnulinux*/dist/icecat*.bz2 binaries
+cp $1/obj-windows/dist/icecat*.zip binaries
+cp $1/obj-mac/dist/icecat/icecat*.dmg binaries
+cp $1/obj-gnulinux*/dist/icecat*.bz2 binaries
 cp $1/obj-android/dist/icecat*.apk binaries
-#cp $1/obj-gnulinux-amd64/dist/linux-x86_64/xpi/* binaries/langpacks
+cp $1/obj-gnulinux-amd64/dist/linux-x86_64/xpi/* binaries/langpacks

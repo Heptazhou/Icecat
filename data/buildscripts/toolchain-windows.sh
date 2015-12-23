@@ -15,7 +15,10 @@ wget http://gcc.fyxm.net/releases/gcc-4.9.1/gcc-4.9.1.tar.bz2
 tar -jxf gcc-4.9.1.tar.bz2
 git clone git://git.code.sf.net/p/mingw-w64/mingw-w64
 cd mingw-w64
-git checkout 469ed5d227202b373409c8a3b4c1358be39b9983
+#git checkout 5db531
+#git checkout 7268caece9b4cb33ff698306e51140b11d7656b0
+#git checkout master
+git checkout a883b47a45ff74ced41dfbd9f748d5c2c61f3c01
 cd ..
 git clone https://git.torproject.org/builders/tor-browser-bundle.git
 PATCHES=$WD/tor-browser-bundle/gitian/patches

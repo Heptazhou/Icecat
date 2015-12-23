@@ -12,8 +12,12 @@ rm -rf $WD
 mkdir $WD
 cd $WD
 #wget http://ppa.launchpad.net/flosoft/cross-apple/ubuntu/pool/main/a/apple-uni-sdk-10.6/apple-uni-sdk-10.6_20110407-0.flosoft1_i386.deb
-wget http://ppa.launchpad.net/flosoft/cross-apple/ubuntu/pool/main/a/apple-uni-sdk-10.6/apple-uni-sdk-10.6_20110407-0.flosoft1_amd64.deb
-dpkg -i *.deb
+#wget http://ppa.launchpad.net/flosoft/cross-apple/ubuntu/pool/main/a/apple-uni-sdk-10.6/apple-uni-sdk-10.6_20110407-0.flosoft1_amd64.deb
+wget https://people.torproject.org/~mikeperry/mirrors/sources/MacOSX10.7.sdk.tar.gz
+tar -xzvf MacOSX10.7.sdk.tar.gz
+mkdir -p /usr/lib/apple/SDKs 
+mv MacOSX10.7.sdk /usr/lib/apple/SDKs
+#dpkg -i *.deb
 
 wget https://mingw-and-ndk.googlecode.com/files/multiarch-darwin11-cctools127.2-gcc42-5666.3-llvmgcc42-2336.1-Linux-120724.tar.xz
 unp multiarch-darwin*
@@ -29,11 +33,11 @@ unp x86_64-apple-darwin10.tar.xz
 cp x-tools/x86_64-apple-darwin10/* /usr/local/ -a
 # FIXME: path hacks:
 mkdir -p /System/Library/ || true
-ln -fs /usr/lib/apple/SDKs/MacOSX10.6.sdk /usr/lib/apple/SDKs/MacOSX10.5.sdk
-ln -fs /usr/lib/apple/SDKs/MacOSX10.6.sdk /usr/lib/apple/SDKs/MacOSX10.5.sdk
-ln -fs /usr/lib/apple/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/ /System/Library/
-ln -fs /usr/lib/apple/SDKs/MacOSX10.6.sdk/System/Library/PrivateFrameworks/ /System/Library/
-ln -fs /usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/libstdc++.6.dylib /usr/lib/apple/SDKs/MacOSX10.6.sdk/usr/lib/libstdc++.dylib
+ln -fs /usr/lib/apple/SDKs/MacOSX10.7.sdk /usr/lib/apple/SDKs/MacOSX10.5.sdk
+ln -fs /usr/lib/apple/SDKs/MacOSX10.7.sdk /usr/lib/apple/SDKs/MacOSX10.5.sdk
+ln -fs /usr/lib/apple/SDKs/MacOSX10.7.sdk/System/Library/Frameworks/ /System/Library/
+ln -fs /usr/lib/apple/SDKs/MacOSX10.7.sdk/System/Library/PrivateFrameworks/ /System/Library/
+ln -fs /usr/lib/apple/SDKs/MacOSX10.7.sdk/usr/lib/libstdc++.6.dylib /usr/lib/apple/SDKs/MacOSX10.7.sdk/usr/lib/libstdc++.dylib
 
 git clone https://git.torproject.org/builders/tor-browser-bundle.git
 git clone https://github.com/vasi/libdmg-hfsplus.git

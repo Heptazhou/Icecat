@@ -21,13 +21,13 @@ wget http://dl.google.com/android/android-sdk_r24.3.3-linux.tgz
 tar -xzf android-sdk_r24.3.3-linux.tgz
 
 while true; do echo y; sleep 1; done |./android-sdk-linux/tools/android update sdk -u
-while true; do echo y; sleep 1; done |./android-sdk-linux/tools/android update adb
+#while true; do echo y; sleep 1; done |./android-sdk-linux/tools/android update adb
 
 echo export PATH=$PATH:$PWD/android-sdk-linux/tools:$PWD/android-sdk-linux/build-tools:$PWD/android-sdk-linux/platform-tools
 export PATH=$PATH:$PWD/android-sdk-linux/tools:$PWD/android-sdk-linux/build-tools:$PWD/android-sdk-linux/platform-tools
 
 ln -s $PWD/android-sdk-linux/build_tools $PWD/android-sdk-linux/build-tools
 
-pkill adb || true
+pkill -9 adb || true
 
 echo DONE
