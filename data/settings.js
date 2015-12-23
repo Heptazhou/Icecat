@@ -17,8 +17,9 @@ pref("extensions.shownSelectionUI", true);
 pref("extensions.blocklist.enabled", false);
 
 // Release notes and vendor URLs
-pref("app.releaseNotesURL", "http://libreplanet.org/wiki/Group:IceCat/ReleaseNotes");
+pref("app.releaseNotesURL", "https://savannah.gnu.org/news/?group=gnuzilla");
 pref("app.vendorURL", "https://www.gnu.org/software/gnuzilla/");
+pref("app.privacyURL", "http://www.gnu.org/software/gnuzilla/");
 
 // Disable plugin installer
 pref("plugins.hide_infobar_for_missing_plugin", true);
