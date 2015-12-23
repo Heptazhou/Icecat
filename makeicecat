@@ -224,14 +224,13 @@ EOF
 # Set vendor string
 sed 's/com.ubuntu/org.gnu/' -i debian/config/mozconfig.in
 
+# Copy custom ddg search plugin
+find |grep -e ddg.xml -e duckduckgo.*.xml | xargs -i cp $DATA/searchplugins/duckduckgo.xml {}
+
 # Unbrand url codes for google and amazon
 find debian/searchplugins |grep google| xargs -i /bin/sed '/ubuntu/d; /channel/d' -i {}
-find debian/searchplugins |grep duck| xargs -i /bin/sed "s/canonical/gnu/" -i {}
 find debian/searchplugins |grep amazon| xargs -i /bin/sed '/canoniccom/d;' -i {}
-sed 's%duckduckgo.com/%duckduckgo.com/html%' -i debian/searchplugins/en-US/duckduckgo.xml
 
-cp debian/searchplugins/en-US/duckduckgo.xml browser/locales/en-US/searchplugins
-cp debian/searchplugins/en-US/duckduckgo.xml mobile/locales/en-US/searchplugins
 echo -e '\nduckduckgo' >> browser/locales/en-US/searchplugins/list.txt
 echo -e '\nduckduckgo' >> mobile/locales/en-US/searchplugins/list.txt
 for DIR in $(ls l10n -1); do
