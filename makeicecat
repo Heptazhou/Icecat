@@ -505,7 +505,11 @@ cp $ff32 image/test/unit/image2jpg32x32-win.png
 # Mobile
 ###############################################################################
 
-sed  '/MOZ_SERVICES_HEALTHREPORT/d; /MOZ_DEVICES/d; /MOZ_ANDROID_RESOURCE_CONSTRAINED/,+2d' -i mobile/android/confvars.sh
+echo "-dontwarn android.support.**" >> mobile/android/config/proguard/proguard.cfg
+echo "-dontwarn android.support.**" >> mobile/android/config/proguard/strip-libs.cfg
+
+sed '/MOZ_ANDROID_SEARCH_ACTIVITY/d; /MOZ_SERVICES_HEALTHREPORT/d; /MOZ_DEVICES/d; /MOZ_ANDROID_RESOURCE_CONSTRAINED/,+2d' -i mobile/android/confvars.sh
+sed '/MOZ_ANDROID_GOOGLE_PLAY_SERVICES/d' -i configure.in
 
 cat << EOF >> mobile/android/confvars.sh
 # IceCat settings
@@ -588,7 +592,8 @@ EOF
 
 # Add extensions to manifest
 for EXTENSION in $(ls $DATA/extensions/); do
-sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in mobile/android/installer/package-manifest.in
+sed "/Browser Chrome Files/s%$%\n@RESPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in
+sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i mobile/android/installer/package-manifest.in
 #echo "DIRS += ['$EXTENSION']" >> browser/app/profile/extensions/moz.build
 #touch browser/app/profile/extensions/$EXTENSION/moz.build
 done
