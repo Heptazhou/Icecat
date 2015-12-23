@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/" xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+<SearchPlugin xmlns="http://www.mozilla.org/2006/browser/search/">
 <ShortName>DuckDuckGo</ShortName> 
 <Description>Search DuckDuckGo (SSL)</Description> 
 <InputEncoding>UTF-8</InputEncoding> 
@@ -9,4 +8,4 @@
   <Param name="q" value="{searchTerms}"/>
   <Param name="t" value="gnu"/>
 </Url>  
-</OpenSearchDescription>
+</SearchPlugin>
