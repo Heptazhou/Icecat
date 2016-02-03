@@ -1,3 +1,7 @@
+2015-12-24 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v38.5.2ESR
+	* Disabled direct2d acceleration (fix for Windows crashes)
+
 2015-12-22 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v38.5.0ESR
 	* Fixed v38 related issues on multiarch builds (MacOS, Windows, Android)
