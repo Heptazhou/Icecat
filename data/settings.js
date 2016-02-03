@@ -250,6 +250,7 @@ pref("browser.aboutHomeSnippets.updateUrl", "data:text/html");
 // Disable hardware acceleration and WebGL
 //pref("layers.acceleration.disabled", false);
 pref("webgl.disabled", false);
+pref("gfx.direct2d.disabled", true);
 
 // Disable SSDP
 pref("browser.casting.enabled", false);
