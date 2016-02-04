@@ -28,7 +28,7 @@ ApplicableList.prototype = {
 
   empty: function() {
     // Empty everything, used when toggles occur in order to ensure that if
-    // the reload fails, the resulting list is not eroneous
+    // the reload fails, the resulting list is not erroneous
     this.active = {};
     this.breaking = {}; 
     this.inactive = {};
@@ -73,7 +73,9 @@ ApplicableList.prototype = {
   populate_list: function() {
     // The base URI of the dom tends to be loaded from some /other/
     // ApplicableList, so pretend we're loading it from here.
-    HTTPSEverywhere.instance.https_rules.rewrittenURI(this, this.uri);
+    HTTPSEverywhere.instance.https_rules.rewrittenURI(this, this.uri, function() {
+      // do nothing
+    });
     this.log(DBUG, "populating using alist #" + this.serial);
   },
 
@@ -115,7 +117,7 @@ ApplicableList.prototype = {
     label.setAttribute('label', strings.getString('https-everywhere.menu.enableDisable'));
     label.setAttribute('disabled', 'true');
     label.setAttribute('class', 'menuitem-non-iconic');
-    label.setAttribute('style', 'color:#000000;');
+    label.setAttribute('style', 'font-weight: bold; color: -moz-MenuBarText;');
     var label2 = false;
     if (!any_rules) {
       label2 = document.createElement('menuitem');

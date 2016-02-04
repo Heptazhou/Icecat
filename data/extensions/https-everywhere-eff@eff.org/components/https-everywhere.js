@@ -246,8 +246,7 @@ HTTPSEverywhere.prototype = {
   QueryInterface: XPCOMUtils.generateQI(
     [ Components.interfaces.nsIObserver,
       Components.interfaces.nsISupports,
-      Components.interfaces.nsISupportsWeakReference,
-      Components.interfaces.nsIChannelEventSink ]),
+      Components.interfaces.nsISupportsWeakReference ]),
 
   wrappedJSObject: null,  // Initialized by constructor
 
@@ -601,7 +600,7 @@ HTTPSEverywhere.prototype = {
   },
 
   maybeCleanupObservatoryPrefs: function(ssl_observatory) {
-    // Recover from a past UI processing bug that would leave the Obsevatory
+    // Recover from a past UI processing bug that would leave the Observatory
     // accidentally disabled for some users
     // https://trac.torproject.org/projects/tor/ticket/10728
     var clean = ssl_observatory.myGetBoolPref("clean_config");
@@ -642,19 +641,6 @@ HTTPSEverywhere.prototype = {
     return cohort;
   },
 
-  // nsIChannelEventSink implementation
-  // XXX This was here for rewrites in the past.  Do we still need it?
-  onChannelRedirect: function(oldChannel, newChannel, flags) {  
-    const uri = newChannel.URI;
-    this.log(DBUG,"Got onChannelRedirect to "+uri.spec);
-    if (!(newChannel instanceof CI.nsIHttpChannel)) {
-      this.log(DBUG, newChannel + " is not an instance of nsIHttpChannel");
-      return;
-    }
-    var alist = this.juggleApplicableListsDuringRedirection(oldChannel, newChannel);
-    HTTPS.replaceChannel(alist, newChannel, this.httpNowhereEnabled);
-  },
-
   juggleApplicableListsDuringRedirection: function(oldChannel, newChannel) {
     // If the new channel doesn't yet have a list of applicable rulesets, start
     // with the old one because that's probably a better representation of how
@@ -674,11 +660,6 @@ HTTPSEverywhere.prototype = {
       this.setExpando(browser,"applicable_rules",new_alist);
     }
     return new_alist;
-  },
-
-  asyncOnChannelRedirect: function(oldChannel, newChannel, flags, callback) {
-        this.onChannelRedirect(oldChannel, newChannel, flags);
-        callback.onRedirectVerifyCallback(0);
   },
 
   get_prefs: function(prefBranch) {
@@ -852,7 +833,7 @@ function https_everywhereLog(level, str) {
   if (level >= threshold) {
     var levelName = ["", "VERB", "DBUG", "INFO", "NOTE", "WARN"][level];
     var prefix = "HTTPS Everywhere " + levelName + ": ";
-    // dump() prints to browser stdout. That's sometimes undesireable,
+    // dump() prints to browser stdout. That's sometimes undesirable,
     // so only do it when a pref is set (running from test.sh enables
     // this pref).
     if (prefs.getBoolPref("log_to_stdout")) {
