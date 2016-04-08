@@ -11,7 +11,7 @@ mkdir $WD
 cd $WD
 wget http://ftp.gnu.org/gnu/binutils/binutils-2.24.tar.bz2
 tar -jxf binutils-2.24.tar.bz2
-wget http://gcc.fyxm.net/releases/gcc-4.9.1/gcc-4.9.1.tar.bz2
+wget https://ftp.gnu.org/gnu/gcc/gcc-4.9.1/gcc-4.9.1.tar.bz2
 tar -jxf gcc-4.9.1.tar.bz2
 git clone git://git.code.sf.net/p/mingw-w64/mingw-w64
 cd mingw-w64
