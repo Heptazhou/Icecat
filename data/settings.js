@@ -154,23 +154,6 @@ pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
 pref("security.ssl3.rsa_seed_sha", true);
 pref("security.OCSP.enabled", 1);
 pref("security.OCSP.require", true);
-//Disable unnecessary protocols
-pref("security.ssl3.rsa_rc4_128_sha", false);
-pref("security.ssl3.rsa_rc4_128_md5", false);
-pref("security.ssl3.rsa_des_ede3_sha", false);
-pref("security.ssl3.ecdhe_ecdsa_rc4_128_sha", false);
-pref("security.ssl3.ecdhe_rsa_rc4_128_sha", false);
-// https://directory.fsf.org/wiki/Disable_DHE
-// Avoid logjam attack
-pref("security.ssl3.dhe_rsa_aes_128_sha", false);
-pref("security.ssl3.dhe_rsa_aes_256_sha", false);
-pref("security.ssl3.dhe_dss_aes_128_sha", false);
-pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
-//Optional
-//Perfect forward secrecy
-// pref("security.ssl3.rsa_aes_256_sha", false);
-//Force TLS 1.2
-// pref("security.tls.version.min", 3);
 
 // Disable channel updates
 pref("app.update.enabled", false);
