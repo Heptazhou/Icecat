@@ -55,18 +55,6 @@ pref ("distribution.about", "GNU IceCat");
 pref ("distribution.id", "gnu");
 pref ("distribution.version", "1.0");
 
-// Set useragent to Firefox compatible
-//pref("general.useragent.compatMode.firefox",true);
-// Spoof the useragent to a generic one
-pref("general.useragent.compatMode.firefox",true);
-// Spoof the useragent to a generic one
-pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0");
-pref("general.appname.override", "Netscape");
-pref("general.appversion.override", "38.0");
-pref("general.buildID.override", "Gecko/20100101");
-pref("general.oscpu.override", "Windows NT 6.1");
-pref("general.platform.override", "Win32");
-
 // Startup page
 //pref ("browser.startup.page" , 3);
 //pref ("browser.startup.homepage" , "https://www.gnu.org/software/gnuzilla/");
