@@ -3,14 +3,18 @@
 <!ENTITY https-everywhere.about.ext_description "Kryptér nettet! Brug HTTPS-sikkerhed automatisk på mange netsteder.">
 <!ENTITY https-everywhere.about.version "Version">
 <!ENTITY https-everywhere.about.created_by "Oprettet af">
+<!ENTITY https-everywhere.about.and " og">
 <!ENTITY https-everywhere.about.librarians "Regelsæt-bibliotekarer">
 <!ENTITY https-everywhere.about.thanks "Tak til">
+<!ENTITY https-everywhere.about.many_contributors "Mange, mange bidragsydere, herunder">
+<!ENTITY https-everywhere.about.noscript "Derudover er dele af HTTPS Overalt baseret på kode fra NoScript af Giorgio Maone og andre. Vi er taknemmelige for deres fremragende arbejde!">
 <!ENTITY https-everywhere.about.contribute  "Hvis du kan lide HTTPS Overalt, så vil du måske overveje at">
-<!ENTITY https-everywhere.about.donate_tor "give bidrag til Tor">
+<!ENTITY https-everywhere.about.donate_tor "give et bidrag til Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "da">
-<!ENTITY https-everywhere.about.or "eller">
-<!ENTITY https-everywhere.about.donate_eff "give bidrag til EFF">
+<!ENTITY https-everywhere.about.or "eller at">
+<!ENTITY https-everywhere.about.donate_eff "give et bidrag til EFF">
 
+<!ENTITY https-everywhere.menu.donate_eff_imperative "Doner til EFF">
 <!ENTITY https-everywhere.menu.about "Om HTTPS Overalt">
 <!ENTITY https-everywhere.menu.observatory "Indstillinger for SSL-observatoriet">
 <!ENTITY https-everywhere.menu.globalEnable "Aktivér HTTPS Overalt">
@@ -34,17 +38,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "Nulstil til standardindstilling">
 <!ENTITY https-everywhere.prefs.view_xml_source "Vis XML-kilde">
 
-<!ENTITY https-everywhere.source.downloading "Henter">
-<!ENTITY https-everywhere.source.filename "Filnavn">
-<!ENTITY https-everywhere.source.unable_to_download "Kan ikke hente kilde">
+<!ENTITY https-everywhere.chrome.stable_rules "Stabile regler">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Sørg for at forbindelserne krypteres til følgende websteder:">
+<!ENTITY https-everywhere.chrome.experimental_rules "Eksperimentelle regler">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "Kan give anledning til advarsler og fejl. Deaktiveret som standardindstilling.">
+<!ENTITY https-everywhere.chrome.add_rule "Tilføj en regel for dette websted">
+<!ENTITY https-everywhere.chrome.add_new_rule "Tilføj en ny regel for dette websted">
+<!ENTITY https-everywhere.chrome.always_https_for_host "Brug altid HTTPS for dette værtsnavn">
+<!ENTITY https-everywhere.chrome.host "Værtsnavn:">
+<!ENTITY https-everywhere.chrome.show_advanced "Vis avancerede indstillinger">
+<!ENTITY https-everywhere.chrome.hide_advanced "Skjul avancerede indstillinger">
+<!ENTITY https-everywhere.chrome.rule_name "Regelnavn">
+<!ENTITY https-everywhere.chrome.regex "Alt der matcher det regulære udtryk ...">
+<!ENTITY https-everywhere.chrome.redirect_to "... skal viderestilles til ...">
+<!ENTITY https-everywhere.chrome.status_cancel_button "Annuller">
 
-<!ENTITY https-everywhere.popup.title "HTTPS Everywhere 4.0development.11 meddelelse">
-<!ENTITY https-everywhere.popup.paragraph1 "Ups. Du anvendte den stabile version af HTTPS Overalt, men måske har vi ved et uheld opdateret til udvikler-versionen ved den sidste opdatering.">
-<!ENTITY https-everywhere.popup.paragraph2 "Vil du skifte tilbage til den stabile version?">
-<!ENTITY https-everywhere.popup.paragraph3 "Vi ville sætte pris på, at du fortsatte med at anvende vores udvikler-version, og derved hjalp os med at gøre HTTPS Overalt bedre! Der optræder måske fejl her og der, som du kan rapportere på https-everywhere@eff.org, på engelsk. Vi beklager besværet. Tak for at du anvender HTTPS Oversalt.">
-<!ENTITY https-everywhere.popup.keep "Behold udvikler-versionen">
-<!ENTITY https-everywhere.popup.revert "Hent den seneste stabile version">
 
-<!ENTITY https-everywhere.ruleset-tests.status_title "Afprøvninger af HTTPS Overalt-regelsæt">
-<!ENTITY https-everywhere.ruleset-tests.status_cancel_button "Annullér">
-<!ENTITY https-everywhere.ruleset-tests.status_start_button "Start">

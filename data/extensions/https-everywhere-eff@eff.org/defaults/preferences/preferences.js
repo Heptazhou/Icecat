@@ -48,7 +48,8 @@ pref("extensions.https_everywhere._observatory.show_cert_warning",true);
 pref("extensions.https_everywhere._observatory.use_whitelist",true);
 pref("extensions.https_everywhere._observatory.clean_config",false);
 
+pref("extensions.https_everywhere._observatory.whitelist_update_due",0);
+
 // Icecat integration
 pref("extensions.https_everywhere._observatory.popup_shown",true);
 pref("extensions.https_everywhere.toolbar_hint_shown",true);
-pref("extensions.https_everywhere._observatory.whitelist_update_due",0);

@@ -1,23 +1,27 @@
-<!ENTITY https-everywhere.about.title "O HTTPS Everywhere">
-<!ENTITY https-everywhere.about.ext_name "HTTPS Everywhere">
-<!ENTITY https-everywhere.about.ext_description "Šifrirajte splet! Avtomatska uporaba HTTPS varnosti za veliko spletnih mest.">
+<!ENTITY https-everywhere.about.title "O HTTPS povsod">
+<!ENTITY https-everywhere.about.ext_name "HTTPS povsod">
+<!ENTITY https-everywhere.about.ext_description "Šifrirajte splet! Avtomatska uporaba HTTPS zaščite na različnih straneh.">
 <!ENTITY https-everywhere.about.version "Različica">
 <!ENTITY https-everywhere.about.created_by "Ustvaril">
+<!ENTITY https-everywhere.about.and ", and">
 <!ENTITY https-everywhere.about.librarians "Knjižnice pravil">
 <!ENTITY https-everywhere.about.thanks "Zahvaljujoč">
+<!ENTITY https-everywhere.about.many_contributors "Many many contributors, including">
+<!ENTITY https-everywhere.about.noscript "Also, portions of HTTPS Everywhere are based on code from NoScript, by Giorgio Maone and others.  We are grateful for their excellent work!">
 <!ENTITY https-everywhere.about.contribute  "Če vam je všeč HTTPS Everywhere, boste morda premislili o">
 <!ENTITY https-everywhere.about.donate_tor "Doniranju Tor projektu">
 <!ENTITY https-everywhere.about.tor_lang_code "en">
 <!ENTITY https-everywhere.about.or "ali">
 <!ENTITY https-everywhere.about.donate_eff "Doniranju EFF">
 
+<!ENTITY https-everywhere.menu.donate_eff_imperative "Donate to EFF">
 <!ENTITY https-everywhere.menu.about "O HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.observatory "Možnosti SSL Opazovalnice">
 <!ENTITY https-everywhere.menu.globalEnable "Omogoči HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Onemogoči HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.blockHttpRequests "Ustavi vse HTTP zahtevke">
 <!ENTITY https-everywhere.menu.showCounter "Prikaži števec">
-<!ENTITY https-everywhere.menu.viewAllRules "View All Rules">
+<!ENTITY https-everywhere.menu.viewAllRules "Preglej vsa pravila">
 
 <!ENTITY https-everywhere.prefs.title "HTTPS Everywhere možnosti">
 <!ENTITY https-everywhere.prefs.enable_all "Omogoči vse">
@@ -34,17 +38,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "Ponastavi">
 <!ENTITY https-everywhere.prefs.view_xml_source "Ogled XML kode">
 
-<!ENTITY https-everywhere.source.downloading "Prenašanje">
-<!ENTITY https-everywhere.source.filename "Ime datoteke">
-<!ENTITY https-everywhere.source.unable_to_download "Izvorne kode ni bilo moč prenesti.">
+<!ENTITY https-everywhere.chrome.stable_rules "Stable rules">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Force encrypted connections to these websites:">
+<!ENTITY https-everywhere.chrome.experimental_rules "Experimental rules">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "May cause warnings or breakage. Disabled by default.">
+<!ENTITY https-everywhere.chrome.add_rule "Add a rule for this site">
+<!ENTITY https-everywhere.chrome.add_new_rule "Add a new rule for this site">
+<!ENTITY https-everywhere.chrome.always_https_for_host "Always use https for this host">
+<!ENTITY https-everywhere.chrome.host "Host:">
+<!ENTITY https-everywhere.chrome.show_advanced "Show advanced">
+<!ENTITY https-everywhere.chrome.hide_advanced "Hide advanced">
+<!ENTITY https-everywhere.chrome.rule_name "Rule name">
+<!ENTITY https-everywhere.chrome.regex "Matching regex">
+<!ENTITY https-everywhere.chrome.redirect_to "Redirect to">
+<!ENTITY https-everywhere.chrome.status_cancel_button "Prekliči">
 
-<!ENTITY https-everywhere.popup.title "HTTPS Everywhere 4.0razvojna.11 obvestilo">
-<!ENTITY https-everywhere.popup.paragraph1 "Marička. Uporabljali ste stabilno različico HTTPS Everywhere, vendar smo jo ponesreči nadgradili z razvojno pri zadnji izdaji.">
-<!ENTITY https-everywhere.popup.paragraph2 "Želite nazaj na stabilno?">
-<!ENTITY https-everywhere.popup.paragraph3 "Všeč nam bo, če boste še nadalje uporabljali razvojno izdajo in tako pomagali izboljšati HTTPS Everywhere! Morda boste od časa do časa našli več hroščev, ki jih lahko sporočite na https-everywhere@eff.org. Za neprijetnosti se opravičujemo in ob enem zahvaljujemo za uporabo HTTPS Everywhere.">
-<!ENTITY https-everywhere.popup.keep "Obdržati želim razvojno različico">
-<!ENTITY https-everywhere.popup.revert "Snemite zadnjo stabilno različico">
 
-<!ENTITY https-everywhere.ruleset-tests.status_title "HTTPS Everywhere testiranje pravil">
-<!ENTITY https-everywhere.ruleset-tests.status_cancel_button "Prekliči">
-<!ENTITY https-everywhere.ruleset-tests.status_start_button "Začni">

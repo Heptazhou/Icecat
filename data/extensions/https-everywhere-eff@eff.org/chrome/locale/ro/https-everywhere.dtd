@@ -3,21 +3,25 @@
 <!ENTITY https-everywhere.about.ext_description "Criptează web-ul! Folosește automat securitatea HTTPS pe multe saituri.">
 <!ENTITY https-everywhere.about.version "Versiune">
 <!ENTITY https-everywhere.about.created_by "Creat de">
+<!ENTITY https-everywhere.about.and ", și">
 <!ENTITY https-everywhere.about.librarians "Setul de reguli al bibliotecarilor">
 <!ENTITY https-everywhere.about.thanks "Mulțumiri către">
+<!ENTITY https-everywhere.about.many_contributors "Mulți, mulți contributori, inclusiv">
+<!ENTITY https-everywhere.about.noscript "De asemenea, porțiuni de HTTPS Everywhere se bazează pe codul de NoScript, de Giorgio Maone și alții. Suntem recunoscatori pentru munca lor excelenta!">
 <!ENTITY https-everywhere.about.contribute  "Dacă îți place HTTPS Oriunde, poți considera">
 <!ENTITY https-everywhere.about.donate_tor "Să donezi către Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "ro">
 <!ENTITY https-everywhere.about.or "sau">
 <!ENTITY https-everywhere.about.donate_eff "Să donezi către EFF">
 
+<!ENTITY https-everywhere.menu.donate_eff_imperative "Donează la EFF">
 <!ENTITY https-everywhere.menu.about "Despre HTTPS Oriunde">
 <!ENTITY https-everywhere.menu.observatory "Preferințele pentru Observatorul SSL">
 <!ENTITY https-everywhere.menu.globalEnable "Activează HTTPS Oriunde">
 <!ENTITY https-everywhere.menu.globalDisable "Dezactivează HTTPS Oriunde">
 <!ENTITY https-everywhere.menu.blockHttpRequests "Blochează toate cererile HTTP">
 <!ENTITY https-everywhere.menu.showCounter "Afișează contorul">
-<!ENTITY https-everywhere.menu.viewAllRules "View All Rules">
+<!ENTITY https-everywhere.menu.viewAllRules "Vezi toate regulile">
 
 <!ENTITY https-everywhere.prefs.title "Preferințe HTTPS Oriunde">
 <!ENTITY https-everywhere.prefs.enable_all "Activează tot">
@@ -34,18 +38,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "Revino la setările inițiale">
 <!ENTITY https-everywhere.prefs.view_xml_source "Vezi sursa XML">
 
-<!ENTITY https-everywhere.source.downloading "Se descarcă">
-<!ENTITY https-everywhere.source.filename "Nume fișier">
-<!ENTITY https-everywhere.source.unable_to_download "Nu se poate descărca sursa.">
+<!ENTITY https-everywhere.chrome.stable_rules "Reguli stabile">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Pentru aceste pagini se folosesc obligatoriu conexiuni criptate:">
+<!ENTITY https-everywhere.chrome.experimental_rules "Reguli experimentale">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "Poate genera avertismente sau pierderi. Implicit dezactivat. ">
+<!ENTITY https-everywhere.chrome.add_rule "Adaugă o regulă pentru acest site">
+<!ENTITY https-everywhere.chrome.add_new_rule "Adaugă o nouă regulă pentru acest site">
+<!ENTITY https-everywhere.chrome.always_https_for_host "Folosește mereu https pentru această gazdă">
+<!ENTITY https-everywhere.chrome.host "Gazdă:">
+<!ENTITY https-everywhere.chrome.show_advanced "Arată opțiuni avansate">
+<!ENTITY https-everywhere.chrome.hide_advanced "Ascunde opțiunile avansate">
+<!ENTITY https-everywhere.chrome.rule_name "Numele regulii">
+<!ENTITY https-everywhere.chrome.regex "Regex potrivit">
+<!ENTITY https-everywhere.chrome.redirect_to "Redirecționează la">
+<!ENTITY https-everywhere.chrome.status_cancel_button "Renunță">
 
-<!ENTITY https-everywhere.popup.title "Notificare HTTPS Everywhere 4.0development.11">
-<!ENTITY https-everywhere.popup.paragraph1 "Foloseai versiunea stabilă de HTTPS Oriunde dar accidental te-am actualizat la versiunea de dezvoltare la ultima noastră lansare.">
-<!ENTITY https-everywhere.popup.paragraph2 "Vrei să te întorci la versiunea stabilă?">
-<!ENTITY https-everywhere.popup.paragraph3 "Ne-ar plăcea dacă ai continua să folosești versiunea de dezvoltare, ajutându-ne să facem HTTPS Oriunde mai bună! Ai putea găsi câteva hibe pe alocuri pe care le poți raporta la https-everywhere@eff.org.
-Ne pare rău de neplăcerea produsă și îți mulțumim pentru că folosești HTTPS Oriunde.">
-<!ENTITY https-everywhere.popup.keep "Ține-mă pe versiunea de dezvoltare">
-<!ENTITY https-everywhere.popup.revert "Descarcă ultima versiune stabilă">
 
-<!ENTITY https-everywhere.ruleset-tests.status_title "Teste pentru seturile de reguli ale HTTPS Oriunde">
-<!ENTITY https-everywhere.ruleset-tests.status_cancel_button "Anulare">
-<!ENTITY https-everywhere.ruleset-tests.status_start_button "Start">

@@ -68,10 +68,6 @@ RuleSet.prototype = {
   ensureCompiled: function() {
     // Postpone compilation of exclusions, rules and cookies until now, to accelerate
     // browser load time.
-    // NOTE: Since rulesets are now lazy-loaded in FF, this will be called immediately
-    // after the ruleset is loaded, and doesn't give much startup benefit. We
-    // may want to switch these back so patterns are compiled immediately on
-    // ruleset load, for simplicity.
     if (this.compiled) return;
     var i;
 
@@ -143,13 +139,13 @@ RuleSet.prototype = {
     var urispec = uri.spec;
 
     this.ensureCompiled();
- 
+
     if (this.ruleset_match_c && !this.ruleset_match_c.test(urispec)) 
       return false;
- 
+
     for (var i = 0; i < this.exclusions.length; ++i) 
       if (this.exclusions[i].pattern_c.test(urispec)) return false;
- 
+
     for (var i = 0; i < this.rules.length; ++i) 
       if (this.rules[i].from_c.test(urispec)) return true;
     return false;
@@ -328,7 +324,7 @@ const RuleWriter = {
     // Add this ruleset id into HTTPSRules.targets if it's not already there.
     // This should only happen for custom user rules. Built-in rules get
     // their ids preloaded into the targets map, and have their <target>
-    // tags stripped when the sqlite database is built.
+    // tags stripped when the JSON database is built.
     var targets = xmlruleset.getElementsByTagName("target");
     for (var i = 0; i < targets.length; i++) {
       var host = targets[i].getAttribute("host");
@@ -391,84 +387,32 @@ const HTTPSRules = {
                           // applicable ruleset ids
       this.rulesetsByID = {};
       this.rulesetsByName = {};
-      this.targetsLoaded = false;
-      this.targetsLoadingCallbacks = [];
+      var t1 = new Date().getTime();
       this.checkMixedContentHandling();
       var rulefiles = RuleWriter.enumerate(RuleWriter.getCustomRuleDir());
+
+      this.loadTargets();
       this.scanRulefiles(rulefiles);
 
-      // Initialize database connection.
-      var dbFile = new FileUtils.File(RuleWriter.chromeToPath("chrome://https-everywhere/content/rulesets.sqlite"));
-      this.rulesetDBConn = Services.storage.openDatabase(dbFile);
     } catch(e) {
       this.log(DBUG,"Rules Failed: "+e);
     }
+    var t2 =  new Date().getTime();
+    this.log(NOTE,"Loading targets took " + (t2 - t1) / 1000.0 + " seconds");
 
     return;
   },
 
-  loadTargets: function(callback) {
-    if (this.targetsLoaded) {
-      callback();
-      return;
-    }
-    // loadTargets can be called multiple times before it resolves. We store a
-    // list of callbacks to call when done, and make sure we only actually do
-    // the query once.
-    this.targetsLoadingCallbacks.push(callback);
-    if (this.targetsLoadingCallbacks.length > 1) {
-      this.log(DBUG, "Skipping loadTargets, a query is already in progress.");
-    }
-    // Load the mapping of hostname target -> ruleset ID from DB.
-    // This is a little slow (287 ms on a Core2 Duo @ 2.2GHz with SSD),
-    // but is faster than loading all of the rulesets. If this becomes a
-    // bottleneck, change it to load in a background webworker, or load
-    // a smaller bloom filter instead.
-    var t1 = new Date().getTime();
-    var query = this.rulesetDBConn.createStatement("select host, ruleset_id from targets");
-    var that = this;
-    var count = 0;
-    this.log(INFO, "Querying targets");
-    // TODO: Store "this is pending" and resolve all pending once the whole
-    // thing is loaded.
-    query.executeAsync({
-      handleResult: function(aResultSet) {
-        try {
-        for (let row = aResultSet.getNextRow();
-             row;
-             row = aResultSet.getNextRow()) {
-          var host = row.getResultByName("host");
-          var id = row.getResultByName("ruleset_id");
-          count ++;
-          if (!that.targets[host]) {
-            that.targets[host] = [id];
-          } else {
-            that.targets[host].push(id);
-          }
-        }
-        } catch (e) {
-          that.log(WARN, "ERROR " + e);
-        }
-      },
-      handleError: function(aError) {
-        that.log(WARN, "SQLite error loading targets: " + aError.message);
-        callback();
-      },
-
-      handleCompletion: function(aReason) {
-        if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED) {
-          that.log(WARN, "SQLite query canceled or aborted!");
-        } else {
-          var t2 =  new Date().getTime();
-          that.log(NOTE, "Loading " + count + " targets took " + (t2 - t1) / 1000.0 + " seconds");
-          that.targetsLoadingCallbacks.forEach(function(callback) {
-            callback();
-          });
-          that.targetsLoadingCallbacks = [];
-          that.targetsLoaded = true;
-        }
-      }
-    });
+  /**
+   * Read and parse the ruleset JSON.
+   * Note: This only parses the outer JSON wrapper. Each ruleset is itself an
+   * XML string, which will be parsed on an as-needed basis.
+   */
+  loadTargets: function() {
+    var file = new FileUtils.File(RuleWriter.chromeToPath("chrome://https-everywhere/content/rulesets.json"));
+    var rules = JSON.parse(RuleWriter.read(file));
+    this.targets = rules.targets;
+    this.rulesetStrings = rules.rulesetStrings;
   },
 
   checkMixedContentHandling: function() {
@@ -519,9 +463,8 @@ const HTTPSRules = {
     }
   },
 
-  // return true iff callback has been called already, false if callback will be
-  // called asynchronously
-  rewrittenURI: function(alist, input_uri, callback) {
+
+  rewrittenURI: function(alist, input_uri) {
     // This function oversees the task of working out if a uri should be
     // rewritten, what it should be rewritten to, and recordkeeping of which
     // applicable rulesets are and aren't active.  Previously this returned
@@ -535,55 +478,44 @@ const HTTPSRules = {
     if (!alist) this.log(DBUG, "No applicable list rewriting " + input_uri.spec);
     this.log(DBUG, "Processing " + input_uri.spec);
 
+    var uri = this.sanitiseURI(input_uri);
+
     // Get the list of rulesets that target this host
     try {
-      var host = input_uri.host
+      var rs = this.potentiallyApplicableRulesets(uri.host);
     } catch(e) {
-      // NS_ERROR_FAILURE is normal for accessing uri.host. It just means that
-      // host is not applicable for the URI scheme, e.g. about: URIs.
-      // If that happens we quietly return null. If another exception happens
-      // we noisily return null.
-      if (e.name != "NS_ERROR_FAILURE") {
-        this.log(WARN, 'Could not get host from ' + input_uri.spec + ': ' + e);
-      }
-      callback(null);
-      return true;
+      this.log(NOTE, 'Could not check applicable rules for '+uri.spec + '\n'+e);
+      return null;
     }
-    var that = this;
-    return this.potentiallyApplicableRulesets(host, function(rs) {
-      var uri = that.sanitiseURI(input_uri);
-      // ponder each potentially applicable ruleset, working out if it applies
-      // and recording it as active/inactive/moot/breaking in the applicable list
-      for (i = 0; i < rs.length; ++i) {
-        if (!rs[i].active) {
-          if (alist && rs[i].wouldMatch(uri, alist))
-            alist.inactive_rule(rs[i]);
-          continue;
-        }
-        blob.newuri = rs[i].transformURI(uri);
-        if (blob.newuri) {
-          if (alist) {
-            if (uri.spec in https_everywhere_blacklist) {
-              alist.breaking_rule(rs[i]);
-            } else {
-              alist.active_rule(rs[i]);
-            }
-          }
-          if (userpass_present) blob.newuri.userPass = input_uri.userPass;
-          blob.applied_ruleset = rs[i];
-          callback(blob);
-          return
-        }
-        if (uri.scheme == "https" && alist) {
-          // we didn't rewrite but the rule applies to this domain and the
-          // requests are going over https
-          if (rs[i].wouldMatch(uri, alist)) alist.moot_rule(rs[i]);
-          continue;
-        }
+
+    // ponder each potentially applicable ruleset, working out if it applies
+    // and recording it as active/inactive/moot/breaking in the applicable list
+    for (i = 0; i < rs.length; ++i) {
+      if (!rs[i].active) {
+        if (alist && rs[i].wouldMatch(uri, alist))
+          alist.inactive_rule(rs[i]);
+        continue;
+      } 
+      blob.newuri = rs[i].transformURI(uri);
+      if (blob.newuri) {
+        if (alist) {
+          if (uri.spec in https_everywhere_blacklist) 
+            alist.breaking_rule(rs[i]);
+          else 
+            alist.active_rule(rs[i]);
+  }
+        if (userpass_present) blob.newuri.userPass = input_uri.userPass;
+        blob.applied_ruleset = rs[i];
+        return blob;
       }
-      callback(null);
-      return;
-    });
+      if (uri.scheme == "https" && alist) {
+        // we didn't rewrite but the rule applies to this domain and the
+        // requests are going over https
+        if (rs[i].wouldMatch(uri, alist)) alist.moot_rule(rs[i]);
+        continue;
+      } 
+    }
+    return null;
   },
 
   sanitiseURI: function(input_uri) {
@@ -635,82 +567,30 @@ const HTTPSRules = {
   },
 
   // Load a ruleset by numeric id, e.g. 234
-  loadRulesetById: function(ruleset_id, callback) {
-    var query = this.rulesetDBConn.createStatement(
-      "select contents from rulesets where id = :id");
-    query.params.id = ruleset_id;
-    var that = this;
-    query.executeAsync({
-      handleResult: function(aResultSet) {
-        for (let row = aResultSet.getNextRow();
-             row;
-             row = aResultSet.getNextRow()) {
-
-          let value = row.getResultByName("contents");
-          RuleWriter.readFromString(value, that, ruleset_id);
-        }
-      },
-      handleError: function(aError) {
-        that.log(WARN, "SQLite error: " + aError.message);
-        callback();
-      },
-
-      handleCompletion: function(aReason) {
-        if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED) {
-          that.log(WARN, "SQLite query canceled or aborted!");
-        }
-        callback();
-      }
-    });
+  loadRulesetById: function(ruleset_id) {
+    RuleWriter.readFromString(this.rulesetStrings[ruleset_id], this, ruleset_id);
   },
 
   // Get all rulesets matching a given target, lazy-loading from DB as necessary.
-  // Returns true if callback was called immediately: i.e., didn't have to go async.
-  rulesetsByTargets: function(targets, callback) {
-    // If the array of target hosts is not already loaded, load it
-    // (asynchronously). This should only happen once.
-    if (!this.targetsLoaded) {
-      this.log(INFO, "Loading targets");
-      this.loadTargets(this.rulesetsByTargets.bind(this, targets, callback));
-      return false;
-    } else {
-      this.log(INFO, "Targets are loaded " + this.targets["www.eff.org"]);
-    }
-    var foundIds = [];
-    var neededIds = [];
-    var that = this;
-    targets.forEach(function(target) {
-      var rulesetIds = that.targets[target] || [];
-      rulesetIds.forEach(function(id) {
-        foundIds.push(id);
-        if (!that.rulesetsByID[id]) {
-          neededIds.push(id);
+  rulesetsByTarget: function(target) {
+    var rulesetIds = this.targets[target];
+
+    var output = [];
+    if (rulesetIds) {
+      this.log(INFO, "For target " + target + ", found ids " + rulesetIds.toString());
+      for (var i = 0; i < rulesetIds.length; i++) {
+        var id = rulesetIds[i];
+        if (!this.rulesetsByID[id]) {
+          this.loadRulesetById(id);
         }
-      });
-    });
-
-    this.log(DBUG, "For targets " + targets.join(' ') +
-      ", found ids " + foundIds + ", need to load: " + neededIds);
-
-    var callbackImmediate = true;
-    function loadOne(done) {
-      if (neededIds.length !== 0) {
-        callbackImmediate = false;
-        that.loadRulesetById(neededIds.pop(), loadOne.bind(null, done));
-      } else {
-        done();
+        if (this.rulesetsByID[id]) {
+          output.push(this.rulesetsByID[id]);
+        }
       }
+    } else {
+      this.log(DBUG, "For target " + target + ", found no ids in DB");
     }
-
-    loadOne(function() {
-      output = foundIds.map(function(id) {
-        return that.rulesetsByID[id];
-      })
-      that.log(DBUG, "Callback from rulesetsByTargets output = " + output);
-      callback(output);
-    });
-    that.log(DBUG, "Returning from rulesetsByTargets callbackImmediate = " + callbackImmediate);
-    return callbackImmediate;
+    return output;
   },
 
   /**
@@ -719,42 +599,43 @@ const HTTPSRules = {
    * This function is only defined for fully-qualified hostnames. Wildcards and
    * cookie-style domain attributes with a leading dot are not permitted.
    * @param host {string}
-   * @return true iff we didn't have to go async to load rules
+   * @return {Array.<RuleSet>}
    */
-  potentiallyApplicableRulesets: function(host, callback) {
-    if (!callback) {
-      this.log(WARN, 'Bad problem: potentiallyApplicableRulesets called without callback.');
-      return false;
-    }
+  potentiallyApplicableRulesets: function(host) {
     var i, tmp, t;
-    var targetsToTry = [host];
+    var results = [];
+
+    var attempt = function(target) {
+      this.setInsert(results, this.rulesetsByTarget(target));
+    }.bind(this);
+
+    attempt(host);
+
+    // Ensure host is well-formed (RFC 1035)
+    if (host.indexOf("..") != -1 || host.length > 255) {
+      this.log(WARN,"Malformed host passed to potentiallyApplicableRulesets: " + host);
+      return null;
+    }
 
     // replace each portion of the domain with a * in turn
     var segmented = host.split(".");
     for (i = 0; i < segmented.length; ++i) {
       tmp = segmented[i];
-      if (tmp.length === 0) {
-        this.log(WARN,"Malformed host passed to potentiallyApplicableRulesets: " + host);
-        return false;
-      }
       segmented[i] = "*";
       t = segmented.join(".");
       segmented[i] = tmp;
-      targetsToTry.push(t);
+      attempt(t);
     }
     // now eat away from the left, with *, so that for x.y.z.google.com we
     // check *.z.google.com and *.google.com (we did *.y.z.google.com above)
     for (i = 2; i <= segmented.length - 2; ++i) {
       t = "*." + segmented.slice(i,segmented.length).join(".");
-      targetsToTry.push(t)
+      attempt(t);
     }
-    var that = this;
-    return this.rulesetsByTargets(targetsToTry, function(rulesets) {
-      that.log(DBUG,"Potentially applicable rules for " + host + ":");
-      for (i = 0; i < rulesets.length; ++i)
-        that.log(DBUG, "  " + rulesets[i].name);
-      callback(rulesets);
-    });
+    this.log(DBUG,"Potentially applicable rules for " + host + ":");
+    for (i = 0; i < results.length; ++i)
+      this.log(DBUG, "  " + results[i].name);
+    return results;
   },
 
   /**
@@ -790,33 +671,13 @@ const HTTPSRules = {
     var i,j;
     // potentiallyApplicableRulesets is defined on hostnames not cookie-style
     // "domain" attributes, so we strip a leading dot before calling.
-    var host = this.hostFromCookieDomain(c.host);
-
-    // When checking for potentially applicable rulesets, we have to wait for a
-    // callback, because we may need to load the rulesets from disk. However, in
-    // practice this callback will always be run immediately, because the
-    // ruleset for the necessary host will have been loaded already for the HTTP
-    // request.
-    var result;
-    var callbackedImmediate = this.potentiallyApplicableRulesets(host, function(rs) {
-      result = this.shouldSecureCookieWithRulesets(applicable_list, c, known_https, rs);
-    }.bind(this));
-    if (callbackedImmediate) {
-      return result;
-    } else {
-      this.log(WARN, "Shouldn't happen: rulesets were not already loaded for host " + host)
-      // Default to securing cookies if we aren't sure.
-      return true
-    }
-  },
-
-  shouldSecureCookieWithRulesets: function(applicable_list, c, known_https, rs) {
+    var rs = this.potentiallyApplicableRulesets(this.hostFromCookieDomain(c.host));
     for (i = 0; i < rs.length; ++i) {
       var ruleset = rs[i];
       if (ruleset.active) {
         ruleset.ensureCompiled();
         // Never secure a cookie if this page might be HTTP
-        if (!(known_https || this.safeToSecureCookie(c.rawHost, rs))) {
+        if (!(known_https || this.safeToSecureCookie(c.rawHost))) {
           continue;
         }
         for (j = 0; j < ruleset.cookierules.length; j++) {
@@ -856,10 +717,9 @@ const HTTPSRules = {
    * flagged as secure.
    *
    * @param domain {string} The cookie's 'domain' attribute.
-   * @param rs {Array.<Ruleset>} A list of potentially applicable rulesets.
    * @return {boolean} True if it's safe to secure a cookie on that domain.
    */
-  safeToSecureCookie: function(domain, rs) {
+  safeToSecureCookie: function(domain) {
     if (domain in https_blacklist_domains) {
       this.log(INFO, "cookies for " + domain + "blacklisted");
       return false;
@@ -878,7 +738,9 @@ const HTTPSRules = {
     }
 
     this.log(DBUG, "Testing securecookie applicability with " + test_uri);
-
+    // potentiallyApplicableRulesets is defined on hostnames not cookie-style
+    // "domain" attributes, so we strip a leading dot before calling.
+    var rs = this.potentiallyApplicableRulesets(this.hostFromCookieDomain(domain));
     for (var i = 0; i < rs.length; ++i) {
       if (!rs[i].active) continue;
       var rewrite = rs[i].apply(test_uri);

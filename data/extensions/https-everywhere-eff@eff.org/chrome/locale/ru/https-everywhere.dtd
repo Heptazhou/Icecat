@@ -3,14 +3,18 @@
 <!ENTITY https-everywhere.about.ext_description "Зашифруйте сеть! Автоматически переключайтесь на безопасный протокол HTTPS там, где это возможно.">
 <!ENTITY https-everywhere.about.version "Версия">
 <!ENTITY https-everywhere.about.created_by "Авторы">
+<!ENTITY https-everywhere.about.and ", и">
 <!ENTITY https-everywhere.about.librarians "Хранители правил">
 <!ENTITY https-everywhere.about.thanks "Благодарности">
+<!ENTITY https-everywhere.about.many_contributors "Многим участникам, включая">
+<!ENTITY https-everywhere.about.noscript "Кроме того, части HTTPS Everywhere основаны на коде из NoScript от Джорджио Maone и других. Мы благодарны им за их отличную работу!">
 <!ENTITY https-everywhere.about.contribute  "Если Вам нравится HTTPS Everywhere, возможно, Вы хотели бы сделать">
 <!ENTITY https-everywhere.about.donate_tor "пожертвование Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "ru">
 <!ENTITY https-everywhere.about.or "или">
 <!ENTITY https-everywhere.about.donate_eff "пожертвование EFF">
 
+<!ENTITY https-everywhere.menu.donate_eff_imperative "Пожертвуйте EFF">
 <!ENTITY https-everywhere.menu.about "О HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.observatory "Настройки SSL Observatory">
 <!ENTITY https-everywhere.menu.globalEnable "Включить HTTPS Everywhere">
@@ -34,17 +38,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "Сбросить к значению по умолчанию">
 <!ENTITY https-everywhere.prefs.view_xml_source "Просмотреть исходник XML">
 
-<!ENTITY https-everywhere.source.downloading "Загрузка">
-<!ENTITY https-everywhere.source.filename "Имя файла">
-<!ENTITY https-everywhere.source.unable_to_download "Не могу загрузить исходник">
+<!ENTITY https-everywhere.chrome.stable_rules "Стабильные правила">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Принудительное шифрование на эти сайтах:">
+<!ENTITY https-everywhere.chrome.experimental_rules "Экспериментальные правила">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "Может вызвать предупреждения или поломку. Отключено по умолчанию.">
+<!ENTITY https-everywhere.chrome.add_rule "Добавить правило для этого сайта">
+<!ENTITY https-everywhere.chrome.add_new_rule "Добавить новое правило для этого сайта">
+<!ENTITY https-everywhere.chrome.always_https_for_host "Всегда использовать https для этого хоста">
+<!ENTITY https-everywhere.chrome.host "Хост:">
+<!ENTITY https-everywhere.chrome.show_advanced "Показать расширенные">
+<!ENTITY https-everywhere.chrome.hide_advanced "Скрыть расширенные">
+<!ENTITY https-everywhere.chrome.rule_name "Имя правила">
+<!ENTITY https-everywhere.chrome.regex "Соответствие regex">
+<!ENTITY https-everywhere.chrome.redirect_to "Перенаправление на">
+<!ENTITY https-everywhere.chrome.status_cancel_button "Отмена">
 
-<!ENTITY https-everywhere.popup.title "HTTPS Everywhere 4.0development.11 уведомление">
-<!ENTITY https-everywhere.popup.paragraph1 "Ой. Вы использовали стабильную версию HTTPS Everywhere, но мы, возможно, случайно обновили Вам её до разрабатываемой версии.">
-<!ENTITY https-everywhere.popup.paragraph2 "Хотели бы Вы вернуться к стабильной версии?">
-<!ENTITY https-everywhere.popup.paragraph3 "Мы были бы рады, если бы Вы продолжили использовать разрабатываемую версию, и помогли нам сделать HTTPS Everywhere лучше! Вы могли бы найти несколько ошибок, и прислать их нам на https-everywhere@eff.org. Извините за неудобства, и спасибо за использование HTTPS Everywhere.">
-<!ENTITY https-everywhere.popup.keep "Остаться на разрабатываемой версии">
-<!ENTITY https-everywhere.popup.revert "Загрузить последнюю стабильную версию">
 
-<!ENTITY https-everywhere.ruleset-tests.status_title "Тесты правил HTTPS Everywhere">
-<!ENTITY https-everywhere.ruleset-tests.status_cancel_button "Отменить">
-<!ENTITY https-everywhere.ruleset-tests.status_start_button "Старт">

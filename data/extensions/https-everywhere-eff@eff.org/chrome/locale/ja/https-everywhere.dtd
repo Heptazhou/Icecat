@@ -3,21 +3,25 @@
 <!ENTITY https-everywhere.about.ext_description "ウェブの暗号化！自動的に多くのサイトにHTTPSセキュリティを使用します。">
 <!ENTITY https-everywhere.about.version "バージョン">
 <!ENTITY https-everywhere.about.created_by "作成者:">
+<!ENTITY https-everywhere.about.and ", and">
 <!ENTITY https-everywhere.about.librarians "ルール設定ライブラリ">
 <!ENTITY https-everywhere.about.thanks "のおかげで">
+<!ENTITY https-everywhere.about.many_contributors "Many many contributors, including">
+<!ENTITY https-everywhere.about.noscript "Also, portions of HTTPS Everywhere are based on code from NoScript, by Giorgio Maone and others.  We are grateful for their excellent work!">
 <!ENTITY https-everywhere.about.contribute  "HTTPS Everywhereが好きなら、検討してください">
 <!ENTITY https-everywhere.about.donate_tor "Torに寄付する">
 <!ENTITY https-everywhere.about.tor_lang_code "英語">
 <!ENTITY https-everywhere.about.or "または">
 <!ENTITY https-everywhere.about.donate_eff "EFFに寄付する">
 
+<!ENTITY https-everywhere.menu.donate_eff_imperative "EFFに寄付する">
 <!ENTITY https-everywhere.menu.about "HTTPS Everywhereについて">
 <!ENTITY https-everywhere.menu.observatory "ssl Observatoryの設定">
 <!ENTITY https-everywhere.menu.globalEnable "HTTPS Everywhereを有効化">
 <!ENTITY https-everywhere.menu.globalDisable "HTTPS Everywhereを無効化">
 <!ENTITY https-everywhere.menu.blockHttpRequests "すべてのHTTPリクエストのブロック">
 <!ENTITY https-everywhere.menu.showCounter "カウンターを表示">
-<!ENTITY https-everywhere.menu.viewAllRules "View All Rules">
+<!ENTITY https-everywhere.menu.viewAllRules "すべてのルールを表示">
 
 <!ENTITY https-everywhere.prefs.title "HTTPS Everywhereの設定">
 <!ENTITY https-everywhere.prefs.enable_all "全て有効化">
@@ -34,17 +38,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "デフォルトにリセット">
 <!ENTITY https-everywhere.prefs.view_xml_source "XMLソースを表示">
 
-<!ENTITY https-everywhere.source.downloading "ダウンロード中">
-<!ENTITY https-everywhere.source.filename "ファイル名">
-<!ENTITY https-everywhere.source.unable_to_download "ソースをダウンロード出来ません。">
+<!ENTITY https-everywhere.chrome.stable_rules "Stable rules">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Force encrypted connections to these websites:">
+<!ENTITY https-everywhere.chrome.experimental_rules "Experimental rules">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "May cause warnings or breakage. Disabled by default.">
+<!ENTITY https-everywhere.chrome.add_rule "Add a rule for this site">
+<!ENTITY https-everywhere.chrome.add_new_rule "Add a new rule for this site">
+<!ENTITY https-everywhere.chrome.always_https_for_host "このホストでは常にhttpsを使用する">
+<!ENTITY https-everywhere.chrome.host "ホスト:">
+<!ENTITY https-everywhere.chrome.show_advanced "高度な設定を表示する">
+<!ENTITY https-everywhere.chrome.hide_advanced "高度な設定を隠す">
+<!ENTITY https-everywhere.chrome.rule_name "Rule name">
+<!ENTITY https-everywhere.chrome.regex "Matching regex">
+<!ENTITY https-everywhere.chrome.redirect_to "リダイレクト先">
+<!ENTITY https-everywhere.chrome.status_cancel_button "キャンセル">
 
-<!ENTITY https-everywhere.popup.title "HTTPS Everywhere 4.0 開発版.11の通知">
-<!ENTITY https-everywhere.popup.paragraph1 "申し訳ありません。HTTPS Everywhereの安定版を使用していましたが、誤って最新のリリースの開発版にアップグレードしてしまった可能性があります。">
-<!ENTITY https-everywhere.popup.paragraph2 "安定版に戻しますか？">
-<!ENTITY https-everywhere.popup.paragraph3 "開発版を使用し続け、HTTPS Everywhereを改善する手助けをしてくれるなら、ありがたいです！あちこちに数個以上バグがあるのに気付くこともありますが、そうしたらhttps-everywhere@eff.orgまでご報告ください。ご不便をお掛けし申し訳ありません、またHTTPS Everywhereを使用していただきありがとうございます。">
-<!ENTITY https-everywhere.popup.keep "開発用のバージョンを使い続ける">
-<!ENTITY https-everywhere.popup.revert "最新の安定版をダウンロード">
 
-<!ENTITY https-everywhere.ruleset-tests.status_title "HTTPS Everywhere ルール設定テスト">
-<!ENTITY https-everywhere.ruleset-tests.status_cancel_button "キャンセル">
-<!ENTITY https-everywhere.ruleset-tests.status_start_button "スタート">

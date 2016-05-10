@@ -3,14 +3,18 @@
 <!ENTITY https-everywhere.about.ext_description "加密网络浏览，自动使用 HTTPS 连接访问站点，更加安全。">
 <!ENTITY https-everywhere.about.version "版本">
 <!ENTITY https-everywhere.about.created_by "创建者">
+<!ENTITY https-everywhere.about.and "，及">
 <!ENTITY https-everywhere.about.librarians "规则管理员">
 <!ENTITY https-everywhere.about.thanks "致谢">
+<!ENTITY https-everywhere.about.many_contributors "许多许多贡献者，包括">
+<!ENTITY https-everywhere.about.noscript "另外，HTTPS Everywhere 的部分源代码基于 NoScript，作者是 Giorgio Maone 等人。我们非常感谢他们出色的成果！">
 <!ENTITY https-everywhere.about.contribute  "如果喜欢 HTTPS Everywhere，您可以考虑">
 <!ENTITY https-everywhere.about.donate_tor "捐助 Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "zh_CN">
 <!ENTITY https-everywhere.about.or "或">
 <!ENTITY https-everywhere.about.donate_eff "捐助电子前线基金会 (EFF)">
 
+<!ENTITY https-everywhere.menu.donate_eff_imperative "捐助电子前线基金会 (EFF)">
 <!ENTITY https-everywhere.menu.about "关于 HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.observatory "SSL Observatory 首选项">
 <!ENTITY https-everywhere.menu.globalEnable "启用 HTTPS Everywhere">
@@ -34,17 +38,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "重置为默认值">
 <!ENTITY https-everywhere.prefs.view_xml_source "查看 XML 格式的源代码">
 
-<!ENTITY https-everywhere.source.downloading "正在下载">
-<!ENTITY https-everywhere.source.filename "文件名">
-<!ENTITY https-everywhere.source.unable_to_download "无法下载源代码。">
+<!ENTITY https-everywhere.chrome.stable_rules "稳定规则">
+<!ENTITY https-everywhere.chrome.stable_rules_description "强制对这些网站加密连接：">
+<!ENTITY https-everywhere.chrome.experimental_rules "实验规则">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "可能引发警告或异常。默认被禁用。">
+<!ENTITY https-everywhere.chrome.add_rule "为此站点添加规则">
+<!ENTITY https-everywhere.chrome.add_new_rule "为此站点添加新规则">
+<!ENTITY https-everywhere.chrome.always_https_for_host "对此主机始终使用 https">
+<!ENTITY https-everywhere.chrome.host "主角:">
+<!ENTITY https-everywhere.chrome.show_advanced "显示高级选项">
+<!ENTITY https-everywhere.chrome.hide_advanced "隐藏高级选项">
+<!ENTITY https-everywhere.chrome.rule_name "规则名称">
+<!ENTITY https-everywhere.chrome.regex "正则表达式匹配">
+<!ENTITY https-everywhere.chrome.redirect_to "重定向到">
+<!ENTITY https-everywhere.chrome.status_cancel_button "取消">
 
-<!ENTITY https-everywhere.popup.title "HTTPS Everywhere 4.0development.11 通知">
-<!ENTITY https-everywhere.popup.paragraph1 "抱歉，你之前用的是 HTTPS Everywhere 稳定版，在上次发布时，我们可能不小心将你用的版本升级为开发版。">
-<!ENTITY https-everywhere.popup.paragraph2 "是否需要换为稳定版？">
-<!ENTITY https-everywhere.popup.paragraph3 "如果您愿意，我们非常欢迎您继续使用我们的开发版本，并以此帮助我们改善 HTTPS Everywhere！您也许会遇到更多的缺陷问题，您可以报告到 https-everywhere@eff.org。对此带来的不便我们深感抱歉，感谢您使用 HTTPS Everywhere。">
-<!ENTITY https-everywhere.popup.keep "我要继续使用开发版">
-<!ENTITY https-everywhere.popup.revert "下载最新稳定版">
 
-<!ENTITY https-everywhere.ruleset-tests.status_title "HTTPS Everywhere 规则集测试">
-<!ENTITY https-everywhere.ruleset-tests.status_cancel_button "取消">
-<!ENTITY https-everywhere.ruleset-tests.status_start_button "开始">
