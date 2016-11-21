@@ -159,7 +159,7 @@ let optionsObserver =
             return;
 
           let currentSubscription = FilterStorage.subscriptions.filter((subscription) => subscription instanceof DownloadableSubscription &&
-            subscription.url != Prefs.subscriptions_exceptionsurl && 
+            subscription.url != Prefs.subscriptions_exceptionsurl &&
             subscription.url != Prefs.subscriptions_antiadblockurl);
           currentSubscription = (currentSubscription.length ? currentSubscription[0] : null);
 
@@ -457,12 +457,12 @@ let UI = exports.UI =
     {
       try
       {
-        ({CustomizableUI}) = Cu.import("resource:///modules/CustomizableUI.jsm", null);
+        ({CustomizableUI} = Cu.import("resource:///modules/CustomizableUI.jsm", null));
       }
       catch (e)
       {
         // No built-in CustomizableUI API, use our own implementation.
-        ({CustomizableUI}) = require("customizableUI");
+        ({CustomizableUI} = require("customizableUI"));
       }
 
       CustomizableUI.createWidget({
@@ -838,11 +838,6 @@ let UI = exports.UI =
 
     subscription = Subscription.fromURL("http://gnuzilla.gnu.org/filters/third-party.txt");
     subscription.disabled = false;
-    FilterStorage.addSubscription(subscription);
-    Synchronizer.execute(subscription);
-
-    subscription = Subscription.fromURL("http://gnuzilla.gnu.org/filters/javascript.txt");
-    subscription.disabled = true;
     FilterStorage.addSubscription(subscription);
     Synchronizer.execute(subscription);
 
