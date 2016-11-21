@@ -19,16 +19,17 @@
 
 set -e
 
-FFMAJOR=38
-FFMINOR=8
+FFMAJOR=45
+FFMINOR=5
 FFSUB=0
-GNUVERSION=2
+GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
 
+# http://bazaar.launchpad.net/~mozillateam/firefox/firefox.trusty/changes
 CODENAME=trusty
-REVISION=1093
+REVISION=1134
 #CODENAME=precise
 #REVISION=993
 
@@ -46,15 +47,15 @@ cd output
 
 rm mozilla-esr${FFMAJOR} $SOURCEDIR -rf
 
-wget -N http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2
+wget -N http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz
 #wget -N ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2.asc
 #gpg --recv-keys --keyserver keyserver.ubuntu.com 15A0A4BC
 #gpg --verify firefox-${FFVERSION}esr.source.tar.bz2.asc
 
 echo Extracting Firefox tarball
-tar -jxf firefox-${FFVERSION}esr.source.tar.bz2
+tar -xf firefox-${FFVERSION}esr.source.tar.xz
 
-mv mozilla-esr${FFMAJOR} $SOURCEDIR
+mv firefox-${FFVERSION}esr $SOURCEDIR
 
 ###############################################################################
 # Retrieve /debian from Ubuntu
@@ -80,13 +81,6 @@ rm -rf firefox.$CODENAME
 # Retrieve l10n
 ###############################################################################
 
-hg clone http://hg.mozilla.org/build/compare-locales/
-cd compare-locales/
-hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE
-cd ..
-rm compare-locales/.hg* compare-locales/.git* -rf
-mv compare-locales $SOURCEDIR/python/
-
 mkdir l10n
 cd l10n
 while read line;do
@@ -95,7 +89,9 @@ while read line;do
     [ $line = "en-US" ] && continue
     hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
     cd $line
-    hg checkout FIREFOX_31_0esr_RELEASE || true
+    hg checkout FIREFOX_45_0esr_RELEASE
+    hg checkout FIREFOX_45_1_0esr_RELEASE
+    hg checkout FIREFOX_45_2_0esr_RELEASE || true
     hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
     mkdir -p $line/browser/chrome/browser/preferences
     touch $line/browser/chrome/browser/preferences/advanced-scripts.dtd
@@ -244,9 +240,14 @@ for DIR in $(ls l10n -1); do
   grep -q duckduckgo l10n/$DIR/mobile/searchplugins/list.txt || echo -e '\nduckduckgo' >> l10n/$DIR/mobile/searchplugins/list.txt
 done
 
-LINE=$(grep "error Plugin" debian/build/rules.mk -n | /bin/sed s/:.*//)
-LINE=$(expr $LINE - 1)
-sed "$LINE,+1 d" debian/build/rules.mk -i
+# Sanitize lists
+for file in $(find |grep searchplugins/list.txt)
+do
+  /bin/sed /^$/d -i $file
+  sort -u $file > /tmp/sorttmp
+  cp /tmp/sorttmp $file
+  echo >> $file
+done
 
 # contact link
 #sed "s_https://input.mozilla.org/feedback_https://${LISTURL}_" -i browser/base/content/utilityOverlay.js
@@ -257,6 +258,10 @@ sed  "s/^MOZ_PKG_NAME\t.*/MOZ_PKG_NAME\t\t:= icecat/;" debian/build/config.mk -i
 for file in browser/base/content/newtab/newTab.css browser/themes/linux/newtab/newTab.css browser/themes/windows/newtab/newTab.css browser/themes/osx/newtab/newTab.css; do
   echo '#newtab-customize-button, #newtab-intro-what{display:none}' >> $file
 done
+
+# Custom android link to f-droid repo
+sed /Promo2.iOSBefore/,/mobilePromo2.iOSLink/d -i browser/components/preferences/in-content/sync.xul
+sed s_www.mozilla.org/firefox/android.*sync-preferences_f-droid.org/repository/browse/?fdid=org.gnu.icecat_ -i browser/components/preferences/in-content/sync.xul
 
 ###############################################################################
 # Branding
@@ -283,6 +288,7 @@ EOF
 rm browser/base/content/abouthome -rf
 cp $DATA/abouthome -a browser/base/content
 sed '/mozilla.*png/d' -i ./browser/base/jar.mn
+sed '/abouthome/s/*/ /' -i ./browser/base/jar.mn
 
 # Delete stuff we don't use and that may contain trademaked logos
 rm -rf ./browser/metro ./addon-sdk/source/doc/static-files/media ./b2g
@@ -313,6 +319,9 @@ cp $DATA/aboutRights.xhtml toolkit/content/aboutRights.xhtml
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights-unbranded.xhtml
 
 sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ href\=\"http\:\/\/www.gnu.org\/\"\>GNU\ Project<\/a>/g' browser/base/content/overrides/app-license.html
+
+# Custom logo for about:preferences?entrypoint=menupanel#sync
+cp $DATA/branding/sync.png browser/themes/shared/fxa/logo.png
 
 ###############################################################################
 # Batch rebranding
@@ -381,8 +390,6 @@ done
 
 sed 's/which are both/which are/; s/free<\/a> and/Free Software<\/a>./; />open source</d; s/free and open source licenses/Free Software licenses/ ' -i toolkit/content/license.html
 
-sed s/GNU/Mozilla/ python/compare-locales/scripts/compare-locales -i
-sed s/GNU/Mozilla/ python/compare-locales/setup.py -i
 sed 's/mozilla-bin/icecat-bin/' -i build/unix/run-mozilla.sh
 
 find -type f | grep run-mozilla | xargs prename s/mozilla/icecat/
@@ -405,9 +412,9 @@ cat << EOF >> browser/app/profile/icecat.js
 // Spoof the useragent to a generic one
 pref("general.useragent.compatMode.firefox",true);
 // Spoof the useragent to a generic one
-pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0");
+pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20100101 Firefox/45.0");
 pref("general.appname.override", "Netscape");
-pref("general.appversion.override", "38.0");
+pref("general.appversion.override", "45.0");
 pref("general.buildID.override", "Gecko/20100101");
 pref("general.oscpu.override", "Windows NT 6.1");
 pref("general.platform.override", "Win32");
@@ -464,24 +471,18 @@ wf36=$DATA/android-images/resources/drawable-hdpi-v11/ic_status_logo.png
 ma50=$DATA/android-images/core/marketplace-logo.png
 ma128=$DATA/android-images/resources/drawable-mdpi/marketplace.png
 
-cp $ff256 browser/components/loop/content/shared/img/icecat-logo.png
-cp $ff64 browser/devtools/framework/dev-edition-promo/dev-edition-logo.png
-cp $ma128 mobile/android/base/resources/raw/bookmarkdefaults_favicon_marketplace.png
+cp $ff64  devtools/client/framework/dev-edition-promo/dev-edition-logo.png
 cp $ff128 mobile/android/base/resources/raw/bookmarkdefaults_favicon_support.png
 cp $favicon addon-sdk/source/examples/toolbar-api/data/favicon.ico
 cp $gf32 browser/themes/shared/icon.png
 cp $gf150 mobile/android/base/resources/drawable-hdpi/icon_search_empty_icecat.png
-cp $gf150 mobile/android/base/resources/drawable-mdpi/icon_search_empty_icecat.png
 cp $gf150 mobile/android/base/resources/drawable-xhdpi/icon_search_empty_icecat.png
 cp $gf150 mobile/android/base/resources/drawable-xxhdpi/icon_search_empty_icecat.png
-cp $gf32 browser/themes/linux/theme-switcher-icon.png
-cp $gf32 browser/themes/osx/theme-switcher-icon.png
-cp $gf32 browser/themes/windows/theme-switcher-icon.png
-cp $gf32 browser/themes/osx/theme-switcher-icon@2x.png
-cp $gf32 browser/themes/windows/theme-switcher-icon-aero.png
+cp $gf32 browser/themes/shared/theme-switcher-icon.png
+cp $gf32 browser/themes/shared/heme-switcher-icon@2x.png
 cp $gf32 browser/base/content/aboutaccounts/images/fox.png
-cp $ff256 browser/components/loop/standalone/content/legal/images/icecat.png
-cp $ff256 browser/components/loop/content/shared/img/icecat-logo.png
+cp $ff256 browser/extensions/loop/chrome/content/shared/img/icecat-logo.png
+cp $ff256 browser/extensions/loop/chrome/content/shared/img/icecat-hello_logo.png
 
 cp $ff16 dom/canvas/test/crossorigin/image.png
 cp $ff16 image/test/unit/image1.png
@@ -503,7 +504,6 @@ cp $favicon image/test/unit/image4gif16x16bmp24bpp.ico
 cp $favicon image/test/unit/image4gif16x16bmp32bpp.ico
 cp $favicon image/test/unit/image4gif32x32bmp24bpp.ico
 cp $favicon image/test/unit/image4gif32x32bmp32bpp.ico
-cp $jpglogo  mobile/android/base/tests/IceCat.jpg
 cp $jpglogo image/test/unit/image1png16x16.jpg
 cp $jpglogo image/test/unit/image2.jpg
 cp $jpglogo image/test/unit/image2jpg16x16cropped.jpg
@@ -556,7 +556,7 @@ EOF
 
 cp $DATA/preferences_vendor.xml mobile/android/base/resources/xml/preferences_vendor.xml
 
-sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' mobile/android/base/DataReportingNotification.java -i
+sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' -i mobile/android/base/java/org/mozilla/gecko/DataReportingNotification.java
 
 cp -a $DATA/android-images/core/* mobile/android/themes/core/images/
 cp -a $DATA/android-images/resources mobile/android/base
