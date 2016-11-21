@@ -5,7 +5,6 @@ ac_add_options --enable-default-toolkit=cairo-windows
 mk_add_options MOZ_OBJDIR=./obj-windows
 
 ac_add_options --disable-webrtc
-ac_add_options --without-intl-api
 
 ac_add_options --disable-crashreporter 
 ac_add_options --disable-maintenance-service 

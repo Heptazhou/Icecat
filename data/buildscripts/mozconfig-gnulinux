@@ -2,7 +2,6 @@ ac_add_options --enable-application=browser
 mk_add_options MOZ_OBJDIR=./obj-gnulinux
 
 ac_add_options --disable-webrtc
-ac_add_options --without-intl-api
 
 ac_add_options --disable-gnomevfs
 ac_add_options --enable-gio
