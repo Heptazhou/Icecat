@@ -28,6 +28,35 @@
 
 <style>
 
+body{  
+ margin:0;  
+ background-color:#f2f2f2;  
+}  
+#box{  
+ display: flex;  
+ flex-flow: column;  
+ justify-content: space-between;  
+ align-items: center;  
+ align-content: center;  
+ height: 100vh;  
+}  
+  
+#topSection, #box3, #block-horizontal-margin{  
+ flex: 0 1 auto;  
+ align-self: auto;  
+}  
+#topSection {  
+ margin-top:10vh;  
+ order:1;  
+}  
+#block-horizontal-margin{  
+ order:2;  
+}  
+#box3{  
+ order:3;  
+ width:100vw;  
+} 
+
 label{
 position:relative;
 bottom:0.25em;
@@ -57,12 +86,6 @@ box-shadow: 0px 0px 5px #888888 inset;
 
 .block-side-margin {
   min-width: 1em;
-  -moz-box-flex: 1;
-}
-
-#block-horizontal-margin {
-  display: -moz-box;
-  -moz-box-flex: 1;
 }
 
 ul li {
@@ -306,45 +329,48 @@ function onSearchSubmit(){
 
   <body dir="&locale.dir;" onload="prepare();">
 
-    <div class="spacer"/>
+  <div id="box">
+   <div id="box1">
     <div id="topSection">
-      <img src="chrome://icecathome/content/aboutIceCat/about-logo.png"/><br/><br/>
+     <img src="chrome://icecathome/content/aboutIceCat/about-logo.png"/><br/><br/>
 
-      <div id="searchContainer">
-        <form name="searchForm" id="searchForm" onsubmit="onSearchSubmit(); return false">
-          <div id="searchLogoContainer"></div>
-          <input type="text" name="q" value="" id="searchText" maxlength="256"
+     <div id="searchContainer">
+      <form name="searchForm" id="searchForm" onsubmit="onSearchSubmit(); return false">
+       <div id="searchLogoContainer"></div>
+        <input type="text" name="q" value="" id="searchText" maxlength="256"
                  autofocus="autofocus" dir="auto"/>
-          <input id="searchSubmit" type="submit" value="&abouthome.searchEngineButton.label;"/>
-        </form>
-      </div>
-
-<br/><br/>
+        <input id="searchSubmit" type="submit" value="Search"/>
+      </form>
+     </div>
     </div>
+   </div>
 
-<div id="block-horizontal-margin">
-<div class="block-side-margin"></div>
-<div id="addonsform">
-<h3>Enabled privacy features:</h3>
-<p>The <a target="_blank" href="http://www.gnu.org/software/gnuzilla/">GNU IceCat</a> web browser protects your <a target="_blank" href="http://www.gnu.org/philosophy/free-sw.html">freedom</a> and your privacy!</p>
-</div>
-<div class="block-side-margin"></div>
-</div>
+   <div id="box2">
+    <div id="block-horizontal-margin">
+     <div class="block-side-margin"></div>
+      <div id="addonsform">
+       <h3>Enabled privacy features:</h3>
+        <p>The <a target="_blank" href="http://www.gnu.org/software/gnuzilla/">GNU IceCat</a> web browser protects your <a target="_blank" href="http://www.gnu.org/philosophy/free-sw.html">freedom</a> and your privacy!</p>
+      </div>
+     <div class="block-side-margin"></div>
+    </div>
+   </div>
 
-    <div class="spacer"/>
-
-<div id="footer">
-<p ><a class="titlelink" href="https://www.gnu.org">GNU's not UNIX!</a></p>
-<ul style="font-size:0.8em">
-<li><a href="https://gnu.org/gnu/gnu.html">About GNU</a></li>
-<li><a href="https://gnu.org/philosophy/philosophy.html">Philosophy</a></li>
-<li><a href="https://gnu.org/licenses/licenses.html">Licenses</a></li>
-<li><a href="https://gnu.org/education/education.html">Education</a></li>
-<li><a href="https://gnu.org/software/software.html">Software</a></li>
-<li><a href="https://gnu.org/doc/doc.html">Documentation</a></li>
-<li><a href="https://gnu.org/help/help.html">Help GNU</a></li>
-</ul>
-</div>
+   <div id="box3">
+     <div id="footer">
+      <p ><a class="titlelink" href="https://www.gnu.org">GNU's not UNIX!</a></p>
+      <ul style="font-size:0.8em">
+      <li><a href="https://gnu.org/gnu/gnu.html">About GNU</a></li>
+      <li><a href="https://gnu.org/philosophy/philosophy.html">Philosophy</a></li>
+      <li><a href="https://gnu.org/licenses/licenses.html">Licenses</a></li>
+      <li><a href="https://gnu.org/education/education.html">Education</a></li>
+      <li><a href="https://gnu.org/software/software.html">Software</a></li>
+      <li><a href="https://gnu.org/doc/doc.html">Documentation</a></li>
+      <li><a href="https://gnu.org/help/help.html">Help GNU</a></li>
+      </ul>
+     </div>
+    </div> 
+   </div>
 
   </body>
 </html>
