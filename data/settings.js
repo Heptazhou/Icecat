@@ -118,9 +118,10 @@ pref("network.prefetch-next", false);
 pref("network.dns.disablePrefetch", true);
 pref("network.http.sendSecureXSiteReferrer", false);
 pref("toolkit.telemetry.enabled", false);
+pref("toolkit.telemetry.unified", false);
 // Do not tell what plugins do we have enabled: https://mail.mozilla.org/pipermail/firefox-dev/2013-November/001186.html
 pref("plugins.enumerable_names", "");
-pref("plugin.state.flash", 1);
+pref("plugin.state.flash", 0);
 // Do not autoupdate search engines
 pref("browser.search.update", false);
 // Warn when the page tries to redirect or refresh
@@ -130,6 +131,9 @@ pref("device.sensors.enabled", false);
 pref("camera.control.face_detection.enabled", false);
 pref("camera.control.autofocus_moving_callback.enabled", false);
 pref("network.http.speculative-parallel-limit", 0);
+// No search suggestions
+pref("browser.urlbar.userMadeSearchSuggestionsChoice", true);
+pref("browser.search.suggest.enabled", false);
 
 // Crypto hardening
 // https://gist.github.com/haasn/69e19fc2fe0e25f3cff5
@@ -146,6 +150,14 @@ pref("security.OCSP.require", true);
 // Disable channel updates
 pref("app.update.enabled", false);
 pref("app.update.auto", false);
+
+// EME
+pref("media.eme.enabled", false);
+pref("media.eme.apiVisible", false);
+
+// WebRTC
+pref("media.peerconnection.enabled", false);
+pref("media.peerconnection.ice.default_address_only", true);
 
 // Services
 pref("gecko.handlerService.schemes.mailto.0.name", "");
@@ -172,6 +184,7 @@ pref ("extensions.getAddons.search.url", "https://directory.fsf.org/wiki/GNU_Ice
 pref("privacy.announcements.enabled", false);
 pref("browser.snippets.enabled", false);
 pref("browser.snippets.syncPromo.enabled", false);
+pref("identity.mobilepromo.android", "https://f-droid.org/repository/browse/?fdid=org.gnu.icecat&");
 pref("browser.snippets.geoUrl", "http://127.0.0.1/");
 pref("browser.snippets.updateUrl", "http://127.0.0.1/");
 pref("browser.snippets.statsUrl", "http://127.0.0.1/");
@@ -185,11 +198,20 @@ pref("app.faqURL", "http://libreplanet.org/wiki/Group:IceCat/FAQ");
 pref("pfs.datasource.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
 pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
 
+// Geolocation depends on third party services
+pref("geo.enabled", false);
+pref("geo.wifi.uri", "");
+
 // I'm feeling Ducky.
 pref("keyword.URL", "https://duckduckgo.com/html?t=gnu&q=!+");
 pref("browser.search.defaultenginename", "DuckDuckGo");
 pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
 pref("browser.search.showOneOffButtons", false);
+// US specific default (used as a fallback if the geoSpecificDefaults request fails).
+pref("browser.search.defaultenginename.US",      "data:text/plain,browser.search.defaultenginename.US=DuckDuckGo");
+pref("browser.search.order.US.1",                "data:text/plain,browser.search.order.US.1=DuckDuckGo");
+pref("browser.search.order.US.2",                "data:text/plain,browser.search.order.US.2=Google");
+pref("browser.search.order.US.3",                "data:text/plain,browser.search.order.US.3=Yahoo");
 
 // Disable Gecko media plugins: https://wiki.mozilla.org/GeckoMediaPlugins
 pref("media.gmp-manager.url", "http://127.0.0.1/");
@@ -197,6 +219,7 @@ pref("media.gmp-manager.url.override", "data:text/plain,");
 pref("media.gmp-provider.enabled", false);
 // Don't install openh264 codec
 pref("media.gmp-gmpopenh264.enabled", false);
+pref("media.gmp-eme-adobe.enabled", false);
 
 //Disable heartbeat
 pref("browser.selfsupport.url", "");
@@ -228,3 +251,10 @@ pref("browser.casting.enabled", false);
 
 //Disable directory service
 pref("social.directories", "");
+
+// Disable Pocket integration
+pref("browser.pocket.enabled", false);
+pref("extensions.pocket.enabled", false);
+
+// Do not require xpi extensions to be signed by Mozilla
+pref("xpinstall.signatures.required", false);
