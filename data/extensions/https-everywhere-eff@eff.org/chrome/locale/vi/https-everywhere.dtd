@@ -1,13 +1,14 @@
-<!ENTITY https-everywhere.about.title "Thông tin về HTTPS Everywhere">
+<!ENTITY https-everywhere.about.title "Về HTTPS Everywhere">
 <!ENTITY https-everywhere.about.ext_name "HTTPS Everywhere">
-<!ENTITY https-everywhere.about.ext_description "Mã hóa trang web! Tự động sử dụng bảo mật HTTPS ở nhiều trang web.">
+<!ENTITY https-everywhere.about.ext_description "Mã hóa Web! Tự động sử dụng bảo mật HTTPS ở nhiều trang web.">
 <!ENTITY https-everywhere.about.version "Phiên bản">
 <!ENTITY https-everywhere.about.created_by "Tạo ra bởi">
 <!ENTITY https-everywhere.about.and ", và">
-<!ENTITY https-everywhere.about.librarians "Thư Viện Các Quy Tắc">
+<!ENTITY https-everywhere.about.librarians "Những người quản lý thư viện quy tắc">
+<!ENTITY https-everywhere.about.add_new_rule "Thêm quy định mới">
 <!ENTITY https-everywhere.about.thanks "Nhờ có">
 <!ENTITY https-everywhere.about.many_contributors "Rất rất nhiều người đóng góp, bao gồm cả">
-<!ENTITY https-everywhere.about.noscript "Portions của HTTPS Everywhere được dựa trên mã từ NoScript, bởi Giorgio Maone và những người khác. Chúng tôi rất biết ơn vì những gì họ đã làm rất xuất sắc.">
+<!ENTITY https-everywhere.about.noscript "Hơn nữa, những phần của HTTPS Everywhere được dựa trên mã của NoScript, bởi Giorgio Maone và những người khác. Chúng tôi biết ơn vì thành quả xuất sắc của họ.">
 <!ENTITY https-everywhere.about.contribute  "Nếu như bạn thích HTTPS Everywhere, có thể bạn cũng quan tâm đến">
 <!ENTITY https-everywhere.about.donate_tor "Đóng góp cho Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "en">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Các Tùy Chọn Ưu Tiên cho SSL Observatory">
 <!ENTITY https-everywhere.menu.globalEnable "Bật HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Tắt HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Chặn tất cả các yêu cầu HTTP">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Chặn tất cả những yêu cầu không được mã hóa">
 <!ENTITY https-everywhere.menu.showCounter "Hiển Thị Bộ Đếm">
 <!ENTITY https-everywhere.menu.viewAllRules "Xem Tất Cả Quy Tắc">
 

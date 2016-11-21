@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "නිර්මිත">
 <!ENTITY https-everywhere.about.and ", and">
 <!ENTITY https-everywhere.about.librarians "Ruleset Librarians">
+<!ENTITY https-everywhere.about.add_new_rule "Add New Rule">
 <!ENTITY https-everywhere.about.thanks "ස්තුතිය">
 <!ENTITY https-everywhere.about.many_contributors "Many many contributors, including">
 <!ENTITY https-everywhere.about.noscript "Also, portions of HTTPS Everywhere are based on code from NoScript, by Giorgio Maone and others.  We are grateful for their excellent work!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "SSL නිරික්ෂණාගාර මනාප ">
 <!ENTITY https-everywhere.menu.globalEnable "HTTPS Everywhere ක්‍රියාකරවන්න">
 <!ENTITY https-everywhere.menu.globalDisable "HTTPS Everywhere ක්‍රියාවිරහිත කරවන්න">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Block all HTTP requests">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
 <!ENTITY https-everywhere.menu.showCounter "Show Counter">
 <!ENTITY https-everywhere.menu.viewAllRules "View All Rules">
 

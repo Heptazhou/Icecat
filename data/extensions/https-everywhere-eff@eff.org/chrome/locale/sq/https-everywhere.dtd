@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Krijuar prej">
 <!ENTITY https-everywhere.about.and ", dhe">
 <!ENTITY https-everywhere.about.librarians "Bibliotekarët e Kompleteve të Rregullave ">
+<!ENTITY https-everywhere.about.add_new_rule "Add New Rule">
 <!ENTITY https-everywhere.about.thanks "Në sajë të">
 <!ENTITY https-everywhere.about.many_contributors "Shumë, shumë kontribuues, përfshirë">
 <!ENTITY https-everywhere.about.noscript "Gjithashtu, porcione të HTTPS Gjithkund mbështeten tek kodi nga NoScript, prej Xhiorxhio Maone dhe të tjerëve.  U jemi mirënjohës për punën e tyre të shkëlqyer!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Parapëlqimet për Vëzhguesin SSL">
 <!ENTITY https-everywhere.menu.globalEnable "Aftësoni HTTPS Kudo">
 <!ENTITY https-everywhere.menu.globalDisable "Paaftësoni HTTPS Kudo">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Pengojini të gjitha kërkesat HTTP">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
 <!ENTITY https-everywhere.menu.showCounter "Shfaqeni Llogaritësin">
 <!ENTITY https-everywhere.menu.viewAllRules "Shihini të Gjitha Rregullat">
 

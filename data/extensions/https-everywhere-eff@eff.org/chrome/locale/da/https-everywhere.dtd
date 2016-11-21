@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Oprettet af">
 <!ENTITY https-everywhere.about.and " og">
 <!ENTITY https-everywhere.about.librarians "Regelsæt-bibliotekarer">
+<!ENTITY https-everywhere.about.add_new_rule "Tilføj ny regel">
 <!ENTITY https-everywhere.about.thanks "Tak til">
 <!ENTITY https-everywhere.about.many_contributors "Mange, mange bidragsydere, herunder">
 <!ENTITY https-everywhere.about.noscript "Derudover er dele af HTTPS Overalt baseret på kode fra NoScript af Giorgio Maone og andre. Vi er taknemmelige for deres fremragende arbejde!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Indstillinger for SSL-observatoriet">
 <!ENTITY https-everywhere.menu.globalEnable "Aktivér HTTPS Overalt">
 <!ENTITY https-everywhere.menu.globalDisable "Deaktivér HTTPS Overalt">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Blokér alle HTTP-forespørgsler">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Bloker alle ukrypterede forespørgsler">
 <!ENTITY https-everywhere.menu.showCounter "Vis tæller">
 <!ENTITY https-everywhere.menu.viewAllRules "Se samtlige regler">
 

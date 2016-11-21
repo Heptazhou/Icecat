@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "建立於">
 <!ENTITY https-everywhere.about.and "，以及">
 <!ENTITY https-everywhere.about.librarians "規則集管理員">
+<!ENTITY https-everywhere.about.add_new_rule "增加新規則">
 <!ENTITY https-everywhere.about.thanks "致謝">
 <!ENTITY https-everywhere.about.many_contributors "許許多多的貢獻者，包括了">
 <!ENTITY https-everywhere.about.noscript "並且，在 HTTPS Everyhere 中有部份的程式碼，是 Giorgio Maone 及其他人從 NoScript 裡移植並修改而來的，我們非常地感謝他們如此傑出的貢獻！">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "SSL 觀測站偏好設定">
 <!ENTITY https-everywhere.menu.globalEnable "啟用 HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "停用 HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockHttpRequests "阻擋所有 HTTP 請求">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "阻擋所有未加密的請求">
 <!ENTITY https-everywhere.menu.showCounter "顯示計數器">
 <!ENTITY https-everywhere.menu.viewAllRules "檢視所有規則">
 

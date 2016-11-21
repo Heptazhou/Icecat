@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Oluşturan">
 <!ENTITY https-everywhere.about.and ", ve">
 <!ENTITY https-everywhere.about.librarians "Kural Kümesi Kitaplıkları">
+<!ENTITY https-everywhere.about.add_new_rule "Kural Ekle">
 <!ENTITY https-everywhere.about.thanks "Teşekkürler">
 <!ENTITY https-everywhere.about.many_contributors "Şu kişilerin yer aldığı birçok katılımcı">
 <!ENTITY https-everywhere.about.noscript "Ek olarak, bazı HTTPS Everywhere bölümleri Giorgio Maone ve diğerleri tarafından yazılmış NoScript kodlarına dayanmaktadır. Harika katkıları için minnettarız!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "SSL Gözlemcisi Ayarları">
 <!ENTITY https-everywhere.menu.globalEnable "HTTPS Everywhere'i Etkinleştir">
 <!ENTITY https-everywhere.menu.globalDisable "HTTPS Everywhere'i Devre Dışı Bırak">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Tüm HTTP isteklerini engelle">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Şifrelenmemiş tüm istekleri engelle">
 <!ENTITY https-everywhere.menu.showCounter "Sayacı Görüntüle">
 <!ENTITY https-everywhere.menu.viewAllRules "Tüm Kuralları Görüntüle">
 

@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "یه سافٹ ویئر بنانے والے:">
 <!ENTITY https-everywhere.about.and ", and">
 <!ENTITY https-everywhere.about.librarians "رولسیٹ لیبراریانس (Ruleset Librarians)">
+<!ENTITY https-everywhere.about.add_new_rule "Add New Rule">
 <!ENTITY https-everywhere.about.thanks "ان کی شرکت کے لئے شکریہ:">
 <!ENTITY https-everywhere.about.many_contributors "Many many contributors, including">
 <!ENTITY https-everywhere.about.noscript "Also, portions of HTTPS Everywhere are based on code from NoScript, by Giorgio Maone and others.  We are grateful for their excellent work!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "SSL Observatory Preferences">
 <!ENTITY https-everywhere.menu.globalEnable "شروع کرئیں">
 <!ENTITY https-everywhere.menu.globalDisable "بند کرئیں">
-<!ENTITY https-everywhere.menu.blockHttpRequests "HTTP کی عرض روک دیں">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
 <!ENTITY https-everywhere.menu.showCounter "کاؤنٹر دکھائیں">
 <!ENTITY https-everywhere.menu.viewAllRules "تمام قانون دکھائیں">
 

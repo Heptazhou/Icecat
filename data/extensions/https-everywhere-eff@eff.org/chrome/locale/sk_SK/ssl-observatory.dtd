@@ -42,13 +42,13 @@ pripojený k veľmi neodbytnej firemnej sieti:">
 "Pri objavení sa nového certifikátu, oznámiť Observatory, ku ktorému ISP ste pripojení.">
 
 <!ENTITY ssl-observatory.prefs.asn_tooltip
-"This will fetch and send the &quot;Autonomous System number&quot; of your network.  This will help us locate attacks against HTTPS, and to determine whether we have observations from networks in places like Iran and Syria where attacks are comparatively common.">
+"To načíta a odošle &quot;Číslo autonómneho systému&quot; vašej siete. To nám pomôže lokalizovať útoky na HTTPS a určiť, či máme hlásenia zo sietí na miestach ako je Irán a Sýria, kde sú útoky relatívne časté.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning
 "Zobraziť upozornenie, keď Observatory zistí neplatný certifikát nezachytený vašim prehliadačom ">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
-"This will check submitted certificates against known Certificate Revocation Lists. Unfortunately we cannot guarantee that we will flag every revoked certificate, but if you do see a warning there's a good chance something is wrong.">
+"To porovná zadané certifikáty so zoznamom neplatných certifikátov. Bohužiaľ nemôžeme zaručiť, že dokážeme označiť každý zrušený certifikát, ale pokiaľ sa vám zobrazí varovanie, existuje vysoká pravdepodobnosť, že niečo nie je v poriadku.">
 
 <!ENTITY ssl-observatory.prefs.done "Hotovo">
 
@@ -66,10 +66,11 @@ Mouseover the options for further details:">-->
 
 <!ENTITY ssl-observatory.prefs.explanation2
 
-"For example, when you visit https://www.something.com, the certificate
-received by the Observatory will indicate that somebody visited
-www.something.com, but not who visited the site, or what specific page they
-looked at.  Mouseover the options for further details:">
+"Ak napríklad navštívite https://www.something.com, tak certifikát, 
+ktorý príde do Observatory ukáže, že
+niekto navštívil
+www.something.com, ale nie kto ju navštívil alebo na ktorú konkrétnu stránku
+sa pozeral. Pre bližšie informácie ukážte kurzorom na možnosti.">
 
 <!ENTITY ssl-observatory.prefs.hide "Skryť rozšírené nastavenia">
 
@@ -83,7 +84,7 @@ looked at.  Mouseover the options for further details:">
 "Odoslať a skontrolovať certifikáty pre neverejné DNS názvy">
 
 <!ENTITY ssl-observatory.prefs.priv_dns_tooltip
-"Unless this option is checked, the Observatory will not record certificates for names that it cannot resolve through the DNS system.">
+"Pokiaľ nie je táto možnosť zaškrtnutá, Observatory nebude zaznemenávať názvy certifikátov, ktoré nenájde v DNS systéme.  ">
 
 <!ENTITY ssl-observatory.prefs.show "Zobraziť rozšírené nastavenia">
 

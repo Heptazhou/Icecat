@@ -20,7 +20,7 @@ to turn it on?">-->
 <!-- Observatory preferences dialog -->
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts1
-"Selle lubamine on turvaline, välja arvatud siis
+"Selle lubamine on turvaline, välja arvatud siis,
 kui kasutad sissetungivat korporatiivvõrku:">
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts2
@@ -42,21 +42,21 @@ kui kasutad sissetungivat korporatiivvõrku:">
 "Kui te näete uut sertifikaati, öelge observatooriumile mis ISPsse te olete ühendatud">
 
 <!ENTITY ssl-observatory.prefs.asn_tooltip
-"This will fetch and send the &quot;Autonomous System number&quot; of your network.  This will help us locate attacks against HTTPS, and to determine whether we have observations from networks in places like Iran and Syria where attacks are comparatively common.">
+"See hangib ja saadab su võrgu autonoomse süsteemi numbri. See aitab meil avastada ründeid HTTPSi vastu ja otsustada, kas meid jälgitakse kohtadest nagu Iraan ja Süüria, kus ründed on üsna tavalised.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning
 "Näita hoiatust kui observatoorium leiab tühistatud sertifikaadi, mida teie brauser ei märganud">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
-"This will check submitted certificates against known Certificate Revocation Lists. Unfortunately we cannot guarantee that we will flag every revoked certificate, but if you do see a warning there's a good chance something is wrong.">
+"See kontrollib, kas saadetud sertifikaat on kirjas tuntud sertifikaaditühistus loendites. Kahjuks ei saa me garanteerida, et me saame märkida kõik tühistatud sertifikaadid, aga kui sa näed hoiatust, siis on üsna kindel, et midagi on valesti.">
 
 <!ENTITY ssl-observatory.prefs.done "Valmis">
 
 <!ENTITY ssl-observatory.prefs.explanation 
-"HTTPS Everywhere can use EFF's SSL Observatory.  This does two things: (1)
-sends copies of HTTPS certificates to the Observatory, to help us
-detect 'man in the middle' attacks and improve the Web's security; and (2)
-lets us warn you about insecure connections or attacks on your browser.">
+"HTTPS Everywhere võib kasutada EFFi SSL Observatory teenust. See teeb kahte asja: (1)
+saadab HTTPS sertifikaadi koopia observatooriumisse, et tuvastada 
+'vahemeest' ja aitab parandada veebi turvalisust; ja (2)
+lubab meil sind hoiatada ebaturvaliste ühenduste või su brauseri vastu suunatud rünnete eest.">
 
 <!--<!ENTITY ssl-observatory.prefs.explanation2
 "When you visit https://www.example.com, the Observatory will learn that
@@ -65,10 +65,10 @@ Mouseover the options for further details:">-->
 
 <!ENTITY ssl-observatory.prefs.explanation2
 
-"For example, when you visit https://www.something.com, the certificate
-received by the Observatory will indicate that somebody visited
-www.something.com, but not who visited the site, or what specific page they
-looked at.  Mouseover the options for further details:">
+"Näiteks, kui sa külastada saiti https://www.midagisait.ee, siis observatooriumisse
+jõudnud sertifikaat näitab, et keegi on külastanud aadressi
+www.mingisait.ee, kuid mitte saidi külastajat või millist lehte ta 
+seal vaatas. Hiirekursori viimine valikute kohale kuvab lisainfo:">
 
 <!ENTITY ssl-observatory.prefs.hide "Peida täiendavad sätted">
 

@@ -13,7 +13,7 @@ and auditing the certificates being presented to your browser. Would you like
 to turn it on?">-->
 
 <!ENTITY ssl-observatory.popup.title 
-"HTTPS partout devrait-il utiliser l'Observatoire SSL?">
+"HTTPS partout devrait-il utiliser l'observatoire SSL?">
 
 <!ENTITY ssl-observatory.popup.yes "Oui">
 
@@ -27,10 +27,10 @@ un réseau d'entreprise très intrusif:">
 "Sécuritaire, sauf si vous utilisez un réseau d'entreprise avec noms de serveurs Intranet secrets:">
 
 <!ENTITY ssl-observatory.prefs.alt_roots 
-"Envoyer et vérifier les certificats signés par des autorités racines non-standard">
+"Envoyer et vérifier les certificats signés par des autorités racines non standards">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
-" Il est sécuritaire (et une bonne idée) d'activer cette option, sauf si vous utilisez un réseau d'entreprise intrusif ou le logiciel antivirus Kaspersky qui surveille votre navigation avec un mandataire TLS et une autorité de certificat racine privée. Si elle est activée sur un tel réseau, cette option pourrait publier des preuves de quels domaines https:// ont été visités à travers ce mandataire, de par les certificats uniques qu'elle produirait. Alors nous la désactivons par défaut">
+" Il est sécuritaire (et une bonne idée) d'activer cette option, sauf si vous utilisez un réseau d'entreprise intrusif ou le logiciel antivirus Kaspersky qui surveille votre navigation avec un mandataire TLS et une autorité de certificat racine privée. Si elle était activée sur un tel réseau, cette option pourrait publier des preuves sur les domaines https:// ont été visités avec ce mandataire en raison certificats uniques qu'elle produirait. Alors nous la désactivons par défaut">
 
 <!ENTITY ssl-observatory.prefs.anonymous "Vérifier les certificats en utilisant Tor pour l'anonymat">
 <!ENTITY ssl-observatory.prefs.anonymous_unavailable 
@@ -45,10 +45,10 @@ un réseau d'entreprise très intrusif:">
 "Cette option ira chercher et enverra le « numéro de système autonome » de votre réseau.  Ceci nous aidera à localiser les attaques contre HTTPS, et à déterminer si nous avons des observations à partir de réseaux dans des lieux comme l'Iran et la Syrie où les attaques sont comparativement fréquentes.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning
-"Afficher un avertissement si l'observatoire détecte un certificat révoqué ignoré par votre navigateur">
+"Afficher un avertissement si l'observatoire détecte un certificat révoqué, mais ignoré par votre navigateur">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
-"Ceci comparera les certificats transmis aux listes de révocation des certificats. Malheureusement nous ne pouvons pas garantir que nous signalerons tous les certificats révoqués, mais si vous voyez un avertissement, il y a de bonnes chances que quelque ne va pas.">
+"Ceci comparera les certificats transmis aux listes de révocation des certificats. Malheureusement, nous ne pouvons pas garantir que nous signalerons tous les certificats révoqués, mais si vous voyez un avertissement, il y a de bonnes chances que quelque chose ne va pas.">
 
 <!ENTITY ssl-observatory.prefs.done "Fait">
 
@@ -65,10 +65,7 @@ Mouseover the options for further details:">-->
 
 <!ENTITY ssl-observatory.prefs.explanation2
 
-"Par exemple, si vous visitez https://www.quelquechose.com, le certificat reçu
-par l'observatoire indiquera que quelqu'un a visité www.quelquechose.com,
-mais pas qui a visité le site, ou quelle page spécifique a été regardée. Passez
-votre souris sur les options pour plus d'informations:">
+"Par exemple, si vous visitez https://www.quelquechose.com, le certificat reçu par l'observatoire indiquera que quelqu'un a visité www.quelquechose.com, mais pas l'identité de la personne qui a visité le site ni quelle page particulière a été regardée. Passez votre souris sur les options pour plus d'informations :">
 
 <!ENTITY ssl-observatory.prefs.hide "Cacher les options avancées">
 
@@ -79,7 +76,7 @@ votre souris sur les options pour plus d'informations:">
 "Nous essaierons encore de garder les données anonymes, mais cette option est moins sécuritaire">
 
 <!ENTITY ssl-observatory.prefs.priv_dns 
-"Envoyer et vérifier les certificats des les noms de DNS non-publics ">
+"Envoyer et vérifier les certificats des noms de DNS non publics ">
 
 <!ENTITY ssl-observatory.prefs.priv_dns_tooltip
 "Au moins que cette option est activée, l'observatoire n'enregistrera pas les certificats pour les noms qu'il ne peut pas résoudre par le système DNS.">
@@ -96,6 +93,6 @@ votre souris sur les options pour plus d'informations:">
 <!ENTITY ssl-observatory.warning.defense "Si vous êtes connecté à ce site, il serait conseillé de changer votre mot de passe dès que vous avez une connexion sécuritaire. (Ces avertissements peuvent être désactivés dans l'onglet « Observatoire SSL » de la fenêtre de préférences de HTTPS partout).">
 
 <!ENTITY ssl-observatory.prefs.self_signed
-"Envoyer et vérifier les certificats auto-signés">
+"Envoyer et vérifier les certificats autosignés">
 <!ENTITY ssl-observatory.prefs.self_signed_tooltip
-"Ceci est recommandé; les problèmes de chiffrement sont particulièrement communs dans les dispositifs embarqués auto-signés">
+"Ceci est recommandé; les problèmes de chiffrement sont particulièrement communs dans les dispositifs embarqués autosignés">

@@ -1,11 +1,11 @@
 <!-- Observatory popup window -->
-<!ENTITY ssl-observatory.popup.details "Chi tiết và thông tin bảo mật">
-<!ENTITY ssl-observatory.popup.later "Hỏi sau">
+<!ENTITY ssl-observatory.popup.details "Thông tin riêng tư và chi tiết">
+<!ENTITY ssl-observatory.popup.later "Hỏi tôi sau">
 <!ENTITY ssl-observatory.popup.no "Không">
 
 <!ENTITY ssl-observatory.popup.text "HTTPS Everywhere có thể dò ra các cuộc tấn công
 vào trình duyệt của bạn bằng cách gửi các chứng chỉ mà bạn nhận được
-đến Observatory, đài quan sát. Bật lên?">
+đến Observatory. Bật nó lên?">
 
 <!--<!ENTITY ssl-observatory.popup.text 
 "EFF's SSL Observatory can detect attacks against HTTPS websites by collecting
@@ -24,22 +24,22 @@ to turn it on?">-->
 mạng công ty dễ bị xâm nhập:">
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts2
-"An toàn, trừ khi bạn dùng một mạng công ty với những tên máy chủ intranet bí mật:">
+"An toàn, trừ khi bạn dùng một mạng công ty với những tên máy chủ mạng nội bộ bí mật:">
 
 <!ENTITY ssl-observatory.prefs.alt_roots 
-"Gửi và kiểm tra chứng thực được ký bởi CA gốc không chuẩn">
+"Gửi và kiểm tra chứng chỉ được ký bởi những CA gốc không chuẩn">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
-"Thật an toàn (và là ý tưởng hay) để cho phép tùy chọn này, trừ khi bạn dùng mạng lưới xâm nhập công ty hoặc phần mềm diệt virus Kasspersky để theo dõi trình duyệt của bạn với TLS Proxy và root Certificate Authority riêng. Nếu bạn cho phép những mạng lưới như vậy, tùy chọn này có thể công khai bằng chứng của những tên miền https:// đang được bạn ghé thăm thông qua proxy đó, bởi vì những chứng chỉ duy nhất mà nó sẽ sinh ra. Vì vậy chúng ta nên để mặc định cho nó tắt.">
+"Thật an toàn (và là ý tưởng hay) để cho phép tùy chọn này, trừ khi bạn dùng mạng lưới công ty dễ bị xâm nhập hoặc phần mềm diệt virus Kaspersky thứ theo dõi việc duyệt web của bạn với TLS Proxy và root Certificate Authority riêng. Nếu bạn cho phép những mạng lưới như vậy, tùy chọn này có thể công khai bằng chứng của những tên miền https:// đang được bạn ghé thăm thông qua proxy đó, bởi vì những chứng chỉ duy nhất mà nó sẽ sinh ra. Vì vậy chúng ta nên để mặc định cho nó tắt.">
 
-<!ENTITY ssl-observatory.prefs.anonymous "Kiểm tra chứng thực bằng Tor để ẩn danh">
+<!ENTITY ssl-observatory.prefs.anonymous "Kiểm tra các chứng chỉ bằng Tor để ẩn danh">
 <!ENTITY ssl-observatory.prefs.anonymous_unavailable 
-"Kiểm tra chứng thực bằng Tor để ẩn danh (yêu cầu Tor)">
+"Kiểm tra các chứng chỉ bằng Tor để ẩn danh (yêu cầu Tor)">
 <!ENTITY ssl-observatory.prefs.anonymous_tooltip 
 "Tuỳ chọn này yêu cầu Tor phải được cài đặt và đang chạy">
 
 <!ENTITY ssl-observatory.prefs.asn 
-"Khi bạn thấy chứng thực mới, cho Observatory biết ISP nào bạn đang kết nối vào">
+"Khi bạn thấy một chứng chỉ mới, cho Observatory biết ISP nào bạn đang kết nối tới.">
 
 <!ENTITY ssl-observatory.prefs.asn_tooltip
 "Việc này sẽ tải và gửi &quot;Số Hệ thống Tự quản&quot; mạng của bạn. Việc này sẽ giúp chúng tôi định vị tấn công chống lại HTTPS và xác định xem chúng tôi có quan sát từ mạng trong những nơi như Iran và Syria hay không, đây là những nơi có tấn công tương đối phổ biến.">
@@ -53,10 +53,10 @@ mạng công ty dễ bị xâm nhập:">
 <!ENTITY ssl-observatory.prefs.done "Hoàn thành">
 
 <!ENTITY ssl-observatory.prefs.explanation 
-"HTTPS Everywhere can use EFF's SSL Observatory.  This does two things: (1)
-sends copies of HTTPS certificates to the Observatory, to help us
-detect 'man in the middle' attacks and improve the Web's security; and (2)
-lets us warn you about insecure connections or attacks on your browser.">
+"HTTPS Everywhere có thể dùng SSL Observatory của EFF. Việc này làm 2 việc: (1)
+gửi những bản sao của các chứng chỉ HTTPS tới Observatory, để giúp chung tôi
+phát hiện các vụ tấn công 'man in the middle' và cải thiện an ninh của trang web; và (2)
+để chúng tôi cảnh báo bạn về những kết nối không chính xác hoặc những cuộc tấn công vào trình duyệt của bạn.">
 
 <!--<!ENTITY ssl-observatory.prefs.explanation2
 "When you visit https://www.example.com, the Observatory will learn that
@@ -65,10 +65,10 @@ Mouseover the options for further details:">-->
 
 <!ENTITY ssl-observatory.prefs.explanation2
 
-"For example, when you visit https://www.something.com, the certificate
-received by the Observatory will indicate that somebody visited
-www.something.com, but not who visited the site, or what specific page they
-looked at.  Mouseover the options for further details:">
+"Ví dụ, khi bạn ghé thăm https://www.something.com, chứng chỉ
+được nhận bởi Observatory sẽ chỉ ra rằng có ai đó đã ghé thăm
+www.something.com, nhưng không rõ là ai đã ghé thăm, hoặc là chính xác trang nào họ
+đã xem. Rê chuột vào tùy chọn này để có thông tin chi tiết:">
 
 <!ENTITY ssl-observatory.prefs.hide "Ẩn tuỳ chọn nâng cao">
 
@@ -82,20 +82,20 @@ looked at.  Mouseover the options for further details:">
 "Gửi và kiểm tra chứng thực cho những tên DNS không công khai">
 
 <!ENTITY ssl-observatory.prefs.priv_dns_tooltip
-"Unless this option is checked, the Observatory will not record certificates for names that it cannot resolve through the DNS system.">
+"Trừ khi tùy chọn này được đánh dấu, Observatory sẽ không ghi lại những chứng chỉ cho những cái tên mà nó không thể giải quyết thông qua hệ thống DNS.">
 
-<!ENTITY ssl-observatory.prefs.show "Show advanced options">
+<!ENTITY ssl-observatory.prefs.show "Hiện những tùy chọn nâng cao">
 
 <!ENTITY ssl-observatory.prefs.title "Tuỳ chọn quan sát SSL">
 
-<!ENTITY ssl-observatory.prefs.use "Use the Observatory?">
-<!ENTITY ssl-observatory.warning.title "WARNING from EFF's SSL Observatory">
+<!ENTITY ssl-observatory.prefs.use "Sử dụng Observatory?">
+<!ENTITY ssl-observatory.warning.title "CẢNH BÁO từ SSL Observatory  của EFF">
 <!ENTITY ssl-observatory.warning.showcert "Hiện chuỗi chứng thực">
 <!ENTITY ssl-observatory.warning.okay "Tôi hiểu">
-<!ENTITY ssl-observatory.warning.text "EFF's SSL Observatory has issued a warning about the HTTPS certificiate(s) for this site:">
-<!ENTITY ssl-observatory.warning.defense "If you are logged in to this site, it may be advisable to change your password once you have a safe connection. (These warnings can be disabled in the &quot;SSL Observatory&quot; tab of the HTTPS Everywhere preferences dialog.)">
+<!ENTITY ssl-observatory.warning.text "SSL Observatory của EFF đã cảnh báo về (các) chứng chỉ HTTPS cho trang này:">
+<!ENTITY ssl-observatory.warning.defense "Nếu bạn đăng nhập vào trang này, bạn nên đổi mật khẩu một khi bạn có kết nối an toàn. (Những cảnh báo này có thể tắt trong thẻ &quot;SSL Observatory&quot; của hội thoại tham chiếu của HTTPS Everywhere.)">
 
 <!ENTITY ssl-observatory.prefs.self_signed
-"Submit and check self-signed certificates">
+"Gửi đi và kiểm tra những chứng chỉ tự ký.">
 <!ENTITY ssl-observatory.prefs.self_signed_tooltip
-"This is recommended; cryptographic problems are especially common in self-signed embedded devices">
+"Việc này được khuyến cáo; vấn đề về mã hóa đặc biệt hay gặp trong những thiết bị tự ký được gắn kèm. ">

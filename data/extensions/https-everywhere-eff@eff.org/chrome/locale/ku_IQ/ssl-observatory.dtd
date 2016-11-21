@@ -70,7 +70,7 @@ received by the Observatory will indicate that somebody visited
 www.something.com, but not who visited the site, or what specific page they
 looked at.  Mouseover the options for further details:">
 
-<!ENTITY ssl-observatory.prefs.hide "Hide advanced options">
+<!ENTITY ssl-observatory.prefs.hide "شاردنەوەی بژاردە پێشکەوتووەکان">
 
 <!ENTITY ssl-observatory.prefs.nonanon 
 "Check certificates even if Tor is not available">
@@ -84,7 +84,7 @@ looked at.  Mouseover the options for further details:">
 <!ENTITY ssl-observatory.prefs.priv_dns_tooltip
 "Unless this option is checked, the Observatory will not record certificates for names that it cannot resolve through the DNS system.">
 
-<!ENTITY ssl-observatory.prefs.show "Show advanced options">
+<!ENTITY ssl-observatory.prefs.show "پیشاندانی بژاردە پێشکەوتووەکان">
 
 <!ENTITY ssl-observatory.prefs.title "SSL Observatory Preferences">
 

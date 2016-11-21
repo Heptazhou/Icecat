@@ -1,10 +1,11 @@
-<!ENTITY https-everywhere.about.title "Hər yerdə HTTPS haqqında">
+<!ENTITY https-everywhere.about.title "Hər yerdə HTTPS haqda">
 <!ENTITY https-everywhere.about.ext_name "Hər yerdə HTTPS">
 <!ENTITY https-everywhere.about.ext_description "Veb-i şifrələ! Bir çox saytlarda HTTPS-i avtomatik istifadə et.">
 <!ENTITY https-everywhere.about.version "Versiya">
 <!ENTITY https-everywhere.about.created_by "Yaradan şəxs">
 <!ENTITY https-everywhere.about.and ", və">
 <!ENTITY https-everywhere.about.librarians "Kitabxanaçıların Qayda Toplusu">
+<!ENTITY https-everywhere.about.add_new_rule "Add New Rule">
 <!ENTITY https-everywhere.about.thanks "Təşəkkürlər:">
 <!ENTITY https-everywhere.about.many_contributors "Dəstək olan hər kəsə, həmçinin">
 <!ENTITY https-everywhere.about.noscript "Həmçinin HTTPS Everywhere kodunun bir hissəsi Giorgio Maone və digərləri tərəfindən olan NoScript əsasındadır. Onların böyük əməkləri üçün minnətdarıq!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "SSL İzləyici Xüsusiyyətləti">
 <!ENTITY https-everywhere.menu.globalEnable " HTTPS -ni hər yerdə aktivləşdir">
 <!ENTITY https-everywhere.menu.globalDisable "HTTPS -ni həryerdə söndür">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Bütün HTTP sorğuları blokla">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
 <!ENTITY https-everywhere.menu.showCounter "Hesablayıcını Göstər">
 <!ENTITY https-everywhere.menu.viewAllRules "Bütün Qaydaları Gör">
 

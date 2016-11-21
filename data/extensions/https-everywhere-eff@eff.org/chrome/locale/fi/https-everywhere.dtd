@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Tekijät:">
 <!ENTITY https-everywhere.about.and ", ja">
 <!ENTITY https-everywhere.about.librarians "Sääntöjen hallinnoijat">
+<!ENTITY https-everywhere.about.add_new_rule "Lisää Uusi Sääntö">
 <!ENTITY https-everywhere.about.thanks "Kiitokset">
 <!ENTITY https-everywhere.about.many_contributors "Monia myötävaikuttajia, mukaanlukien">
 <!ENTITY https-everywhere.about.noscript "Lisäksi, osia HTTPS Everywhere:stä perustuu Giorgio Maonen ja muiden koodiin NoScriptistä. Olemme kiitollisia heidän mahtavasta työstään!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "SSL Observatoryn asetukset">
 <!ENTITY https-everywhere.menu.globalEnable "Ota HTTPS Everywhere käyttöön">
 <!ENTITY https-everywhere.menu.globalDisable "Poista HTTPS Everywhere käytöstä">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Estä kaikki HTTP-pyynnöt">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Estä kaikki salaamatomat pyynnöt">
 <!ENTITY https-everywhere.menu.showCounter "Näytä laskuri">
 <!ENTITY https-everywhere.menu.viewAllRules "Näytä kaikki säännöt">
 
@@ -42,14 +43,14 @@
 <!ENTITY https-everywhere.chrome.stable_rules_description "Pakota salatut yhteydet näihin nettisivustoihin:">
 <!ENTITY https-everywhere.chrome.experimental_rules "Kokeelliset käytännöt">
 <!ENTITY https-everywhere.chrome.experimental_rules_description "Voi aiheuttaa varoituksia tai hajoamisen. Pois käytöstä oletuksena.">
-<!ENTITY https-everywhere.chrome.add_rule "Add a rule for this site">
-<!ENTITY https-everywhere.chrome.add_new_rule "Add a new rule for this site">
+<!ENTITY https-everywhere.chrome.add_rule "Lisää sääntö sivulle">
+<!ENTITY https-everywhere.chrome.add_new_rule "Lisää uusi sääntö sivulle">
 <!ENTITY https-everywhere.chrome.always_https_for_host "Käytä aina https tälle isännälle">
 <!ENTITY https-everywhere.chrome.host "Isäntä:">
-<!ENTITY https-everywhere.chrome.show_advanced "Show advanced">
-<!ENTITY https-everywhere.chrome.hide_advanced "Hide advanced">
-<!ENTITY https-everywhere.chrome.rule_name "Rule name">
-<!ENTITY https-everywhere.chrome.regex "Matching regex">
+<!ENTITY https-everywhere.chrome.show_advanced "Näytä lisäasetukset">
+<!ENTITY https-everywhere.chrome.hide_advanced "Piillota lisäasetukset">
+<!ENTITY https-everywhere.chrome.rule_name "Säännön nimi">
+<!ENTITY https-everywhere.chrome.regex "Sopiva säännöllinen lauseke">
 <!ENTITY https-everywhere.chrome.redirect_to "Uudelleenohjaa kohteeseen">
 <!ENTITY https-everywhere.chrome.status_cancel_button "Peruuta">
 

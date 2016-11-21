@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Ginawa nina">
 <!ENTITY https-everywhere.about.and "at">
 <!ENTITY https-everywhere.about.librarians "Mga Ruleset Librarian">
+<!ENTITY https-everywhere.about.add_new_rule "Add New Rule">
 <!ENTITY https-everywhere.about.thanks "Salamat sa">
 <!ENTITY https-everywhere.about.many_contributors "Maraming maraming contributor, kasama sina">
 <!ENTITY https-everywhere.about.noscript "Gayundin, ang ilang bahagi ng HTTPS Everywhere ay batay sa code mula sa NoScript nina Giorgio Maone at marami pang iba.  Lubos kaming nagpapasalamat sa kanilang mahusay na trabaho!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Mga Preference sa SSL Observatory">
 <!ENTITY https-everywhere.menu.globalEnable "I-enable ang HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "I-disable ang HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockHttpRequests "I-block ang lahat ng HTTP requests">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
 <!ENTITY https-everywhere.menu.showCounter "Ipakita ang Counter">
 <!ENTITY https-everywhere.menu.viewAllRules "Tingnan ang Lahat ng Rules">
 

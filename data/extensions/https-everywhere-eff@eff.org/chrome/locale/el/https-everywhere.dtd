@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Δημιουργήθηκε από">
 <!ENTITY https-everywhere.about.and ", και">
 <!ENTITY https-everywhere.about.librarians "Βιβλιοθήκες για κανόνες">
+<!ENTITY https-everywhere.about.add_new_rule "Προσθήκη νέου κανόνα">
 <!ENTITY https-everywhere.about.thanks "Ευχαριστούμε τους">
 <!ENTITY https-everywhere.about.many_contributors "Πολύ συνεργάτες,  συμπεριλαμβανομένου">
 <!ENTITY https-everywhere.about.noscript "Επίσης, κομμάτια του HTTPS Everywhere είναι βασισμένα στον κώδικα NoScript, από τον Giorgio Maone και άλλους. Τους ευχαριστούμε για την καταπληκτική δουλειά τους!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Προτιμήσεις για το Παρατηρητήριο SSL">
 <!ENTITY https-everywhere.menu.globalEnable "Ενεργοποίηση του HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Απενεργοποίηση του HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Μπλοκάρισμα όλων των αιτημάτων HTTP">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Αποκλεισμός όλων των μη κρυπτογραφημένων αιτημάτων">
 <!ENTITY https-everywhere.menu.showCounter "Εμφάνιση Μετρητή">
 <!ENTITY https-everywhere.menu.viewAllRules "Προβολή όλων των Κανόνων">
 

@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Sortzaileak">
 <!ENTITY https-everywhere.about.and ", eta">
 <!ENTITY https-everywhere.about.librarians "Arau-sorta Liburuzainak">
+<!ENTITY https-everywhere.about.add_new_rule "Arau berria gehitu">
 <!ENTITY https-everywhere.about.thanks "Eskerrak">
 <!ENTITY https-everywhere.about.many_contributors "Kolaboratzaile pila, barnean">
 <!ENTITY https-everywhere.about.noscript "Gainera, HTTPS Everywhere-en zenbait zati Giorgio Maone eta beste batzuen  NoScript kodean oinarritzen dira. Eskerrak eman nahi dizkiegu beraien lan bikainagatik.">
@@ -14,12 +15,12 @@
 <!ENTITY https-everywhere.about.or "edo">
 <!ENTITY https-everywhere.about.donate_eff "EFFra dohaintza eman">
 
-<!ENTITY https-everywhere.menu.donate_eff_imperative "Donate to EFF">
+<!ENTITY https-everywhere.menu.donate_eff_imperative "EFFri dohaintza eman">
 <!ENTITY https-everywhere.menu.about "HTTPS Everywhere buruz">
 <!ENTITY https-everywhere.menu.observatory "SSL Behatokiaren Hobespenak">
 <!ENTITY https-everywhere.menu.globalEnable "HTTPS Everywhere gaitu">
 <!ENTITY https-everywhere.menu.globalDisable "HTTPS Everywhere ezgaitu">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Blokeatu HTTP eskaera guztiak">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Enkriptatu gabeko eskaera guztiak blokeatu">
 <!ENTITY https-everywhere.menu.showCounter "Kopurua erakutsi">
 <!ENTITY https-everywhere.menu.viewAllRules "Ikusi arau guztiak">
 
@@ -42,15 +43,15 @@
 <!ENTITY https-everywhere.chrome.stable_rules_description "Behartu konexio enkriptatuak webgune hauetan:">
 <!ENTITY https-everywhere.chrome.experimental_rules "Arau esperimentalak">
 <!ENTITY https-everywhere.chrome.experimental_rules_description "Alarmak edo kalteak eragin dezake. Ezgaitua lehenetsia.">
-<!ENTITY https-everywhere.chrome.add_rule "Add a rule for this site">
-<!ENTITY https-everywhere.chrome.add_new_rule "Add a new rule for this site">
-<!ENTITY https-everywhere.chrome.always_https_for_host "Always use https for this host">
-<!ENTITY https-everywhere.chrome.host "Host:">
-<!ENTITY https-everywhere.chrome.show_advanced "Show advanced">
-<!ENTITY https-everywhere.chrome.hide_advanced "Hide advanced">
-<!ENTITY https-everywhere.chrome.rule_name "Rule name">
-<!ENTITY https-everywhere.chrome.regex "Matching regex">
-<!ENTITY https-everywhere.chrome.redirect_to "Redirect to">
+<!ENTITY https-everywhere.chrome.add_rule "Arau bat gehitu gune honetarako">
+<!ENTITY https-everywhere.chrome.add_new_rule "Arau berri bat gehitu gune honetarako">
+<!ENTITY https-everywhere.chrome.always_https_for_host "Beti erabili https ostalari honetarako">
+<!ENTITY https-everywhere.chrome.host "Ostalaria:">
+<!ENTITY https-everywhere.chrome.show_advanced "Erakutsi aurreratuak">
+<!ENTITY https-everywhere.chrome.hide_advanced "Ezkutatu aurreratuak">
+<!ENTITY https-everywhere.chrome.rule_name "Arauaren izena">
+<!ENTITY https-everywhere.chrome.regex "Bat egiten duen regexa">
+<!ENTITY https-everywhere.chrome.redirect_to "Hona birzuzendu">
 <!ENTITY https-everywhere.chrome.status_cancel_button "Utzi">
 
 

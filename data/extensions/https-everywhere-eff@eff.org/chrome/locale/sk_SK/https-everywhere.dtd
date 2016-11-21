@@ -3,25 +3,26 @@
 <!ENTITY https-everywhere.about.ext_description "Zašifrujte web! Automaticky používajte bezpečnosť HTTPS na mnohých stránkach.">
 <!ENTITY https-everywhere.about.version "Verzia">
 <!ENTITY https-everywhere.about.created_by "Vytvorili">
-<!ENTITY https-everywhere.about.and ", and">
+<!ENTITY https-everywhere.about.and ", a">
 <!ENTITY https-everywhere.about.librarians "Tvorcovia sád pravidiel">
+<!ENTITY https-everywhere.about.add_new_rule "Pridať nové pravidlo">
 <!ENTITY https-everywhere.about.thanks "Poďakovanie">
-<!ENTITY https-everywhere.about.many_contributors "Many many contributors, including">
-<!ENTITY https-everywhere.about.noscript "Also, portions of HTTPS Everywhere are based on code from NoScript, by Giorgio Maone and others.  We are grateful for their excellent work!">
+<!ENTITY https-everywhere.about.many_contributors "Veľa, veľa prispievateľov, vrátane">
+<!ENTITY https-everywhere.about.noscript "Taktiež, časti HTTPS Everywhere sú založené na kóde z NoScript od Giorgia Maoneho a ďalších. Sme vďační za ich excelentnú prácu!">
 <!ENTITY https-everywhere.about.contribute  "Ak sa vám HTTPS Everywhere páči, zvážte">
 <!ENTITY https-everywhere.about.donate_tor "Dar pre Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "sk">
 <!ENTITY https-everywhere.about.or "alebo">
-<!ENTITY https-everywhere.about.donate_eff "Dar pre EEF">
+<!ENTITY https-everywhere.about.donate_eff "Dar pre EFF">
 
-<!ENTITY https-everywhere.menu.donate_eff_imperative "Donate to EFF">
+<!ENTITY https-everywhere.menu.donate_eff_imperative "Darujte EFF">
 <!ENTITY https-everywhere.menu.about "O HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.observatory "Nastavenia SSL Observatory">
 <!ENTITY https-everywhere.menu.globalEnable "Zapnúť HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Vypnúť HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Blokovať všetky požiadavky HTTP">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Blokovať všetky nešifrované požiadavky">
 <!ENTITY https-everywhere.menu.showCounter "Zobraziť počítadlo">
-<!ENTITY https-everywhere.menu.viewAllRules "View All Rules">
+<!ENTITY https-everywhere.menu.viewAllRules "Zobraziť všetky pravidlá">
 
 <!ENTITY https-everywhere.prefs.title "Nastavenia HTTPS Everywhere">
 <!ENTITY https-everywhere.prefs.enable_all "Zapnúť všetko">
@@ -38,19 +39,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "Obnoviť pôvodné">
 <!ENTITY https-everywhere.prefs.view_xml_source "Zobraziť XML zdroj">
 
-<!ENTITY https-everywhere.chrome.stable_rules "Stable rules">
-<!ENTITY https-everywhere.chrome.stable_rules_description "Force encrypted connections to these websites:">
-<!ENTITY https-everywhere.chrome.experimental_rules "Experimental rules">
-<!ENTITY https-everywhere.chrome.experimental_rules_description "May cause warnings or breakage. Disabled by default.">
-<!ENTITY https-everywhere.chrome.add_rule "Add a rule for this site">
-<!ENTITY https-everywhere.chrome.add_new_rule "Add a new rule for this site">
-<!ENTITY https-everywhere.chrome.always_https_for_host "Always use https for this host">
-<!ENTITY https-everywhere.chrome.host "Host:">
-<!ENTITY https-everywhere.chrome.show_advanced "Show advanced">
-<!ENTITY https-everywhere.chrome.hide_advanced "Hide advanced">
-<!ENTITY https-everywhere.chrome.rule_name "Rule name">
-<!ENTITY https-everywhere.chrome.regex "Matching regex">
-<!ENTITY https-everywhere.chrome.redirect_to "Redirect to">
+<!ENTITY https-everywhere.chrome.stable_rules "Stabilné pravidlá">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Vynútiť šifrované spojenie pre tieto webové stránky:">
+<!ENTITY https-everywhere.chrome.experimental_rules "Experimentálne pravidlá">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "Môže spôsobiť upozornenie alebo chyby. Zakázané vo východzom nastavení.">
+<!ENTITY https-everywhere.chrome.add_rule "Pridať pravidlo pre túto stránku.">
+<!ENTITY https-everywhere.chrome.add_new_rule "Pridať nové pravidlo pre túto stránku.">
+<!ENTITY https-everywhere.chrome.always_https_for_host "Vždy používať https pre tohto hostiteľa.">
+<!ENTITY https-everywhere.chrome.host "Hostiteľ:">
+<!ENTITY https-everywhere.chrome.show_advanced "Zobraziť pokročilé">
+<!ENTITY https-everywhere.chrome.hide_advanced "Skryť pokročilé">
+<!ENTITY https-everywhere.chrome.rule_name "Názov pravidla">
+<!ENTITY https-everywhere.chrome.regex "Vyhovujúce regulárne výrazy">
+<!ENTITY https-everywhere.chrome.redirect_to "Presmerovať do">
 <!ENTITY https-everywhere.chrome.status_cancel_button "Zrušiť">
 
 

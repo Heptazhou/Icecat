@@ -30,7 +30,7 @@ korporatyvinį tinklą:">
 "Siųsti ir tikrinti sertifikatus, pasirašytus nestandartinių sertifikavimo centrų">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
-"Įjungti šią parinktį yra saugu (ir gera mintis), nebent naudojate ribojamą korporatyvinį tinklą, kuris stebi jūsų naršymą su TLS įgaliotuoju serveriu ir privačiu sertifikavimo centru.  Jei įjungsite tokiame tinkle, ši parinktis gali palikti informacijos apie tai, kurios https:// svetainės buvo aplankytos naudojant šį įgaliotąjį serverį, nes bus naudojami unikalūs sertifikatai.  Todėl pagal nutylėjimą tai išjungiame.">
+"Įjungti šį parametrą yra saugu (ir tai yra gera mintis), nebent naudojate ribojamą korporatyvinį tinklą, kuris stebi jūsų naršymą su TLS įgaliotuoju serveriu ir privačiu sertifikavimo centru.  Šis parametras, jeigu bus įjungtas tokiame tinkle, dėl jo kuriamų unikalių sertifikatų, gali palikti informaciją apie tai, kurios https:// svetainės, naudojant šį įgaliotąjį serverį, buvo aplankytos.  Todėl pagal nutylėjimą tai išjungiame.">
 
 <!ENTITY ssl-observatory.prefs.anonymous "Tikrinti sertifikatus naudojant Tor tinklą anonimiškumui">
 <!ENTITY ssl-observatory.prefs.anonymous_unavailable 
@@ -45,17 +45,17 @@ korporatyvinį tinklą:">
 "Gaus ir išsiųs jūsų tinklo &quot;autonominį sistemos numerį&quot;.  Tai padės mums aptikti atakas nukreiptas prieš HTTPS ir nustatyti, ar mes turime duomenų apie tinklus iš tokių vietų kaip Iranas ar Sirija, kur atakos yra gana dažnos.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning
-"Įspėti, kai jei Observatory aptiks Jūsų naršyklės neaptiktą sertifikatą, kurio galiojimas atšauktas.">
+"Įspėti, kai Observatorija aptiks jūsų naršyklės neaptiktą sertifikatą, kurio galiojimas panaikintas.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
-"Pateikti sertifikatai bus patikrinti Atšauktų Sertifikatų Sąraše. Deja, negalime garantuoti, kad bus nustatyti visi atšaukti sertifikatai, tačiau jei pamatysite įspėjimą, žinosite, kad tikriausiai kažkas yra negerai.">
+"Pateikti sertifikatai bus patikrinti Panaikintų Sertifikatų Sąraše. Deja, negalime garantuoti, kad bus nustatyti visi panaikinti sertifikatai, tačiau jei pamatysite įspėjimą, žinosite, kad tikriausiai kažkas yra negerai.">
 
 <!ENTITY ssl-observatory.prefs.done "Atlikta">
 
 <!ENTITY ssl-observatory.prefs.explanation 
 "HTTPS Everywhere gali naudoti EFF SSL Observatoriją.  Ji atlieka du dalykus: (1)
 siunčia HTTPS sertifikatų kopijas į Observatoriją, kad padėtų mums
-aptikti 'žmogaus viduryje' atakas ir pagerinti žiniatinkio saugumą; ir (2)
+aptikti &quot;žmogaus viduryje&quot; (angl. man in the middle) atakas ir pagerinti saityno saugumą; ir (2)
 leidžia mums įspėti jus apie nesaugius prisijungimus ar atakas nukreiptas prieš jūsų naršyklę.">
 
 <!--<!ENTITY ssl-observatory.prefs.explanation2
@@ -68,7 +68,7 @@ Mouseover the options for further details:">-->
 "Pavyzdžiui, kai aplankote https://www.kazkas.com, Observatorijos
 gautas sertifikatas rodys, kad kažkas aplankė www.kazkas.com,
 bet ne tai, kas aplankė svetainę, ar kokį konkrečiai puslapį jie
-žiūrėjo.  Išsamesniai informacijai, užveskite pelės žymeklį virš parinkčių:">
+žiūrėjo.  Išsamesniai informacijai, užveskite pelės žymeklį virš parametrų:">
 
 <!ENTITY ssl-observatory.prefs.hide "Slėpti išsamesnius nustatymus">
 
@@ -76,13 +76,13 @@ bet ne tai, kas aplankė svetainę, ar kokį konkrečiai puslapį jie
 "Tikrinti sertifikatus net jei Tor nepasiekiamas">
 
 <!ENTITY ssl-observatory.prefs.nonanon_tooltip
-"Mes vis vien bandysime išlaikyti duomenis anonimiškus, bet ši parinktis yra mažiau saugi">
+"Mes vis vien bandysime išlaikyti duomenis anonimiškus, bet šis parametras yra mažiau saugus">
 
 <!ENTITY ssl-observatory.prefs.priv_dns 
 "Siųsti ir tikrinti sertifikatus gautus iš neviešų DNS vardų">
 
 <!ENTITY ssl-observatory.prefs.priv_dns_tooltip
-"Jei ši parinktis išjungta, Observatorija neįrašinės tų sertifikatų, kurių vardų nepavyksta gauti per DNS sistemą.">
+"Jei šis parametras išjungtas, Observatorija neįrašinės tų sertifikatų, kurių vardų nepavyksta gauti per DNS sistemą.">
 
 <!ENTITY ssl-observatory.prefs.show "Rodyti išsamesnius nustatymus">
 
@@ -98,4 +98,4 @@ bet ne tai, kas aplankė svetainę, ar kokį konkrečiai puslapį jie
 <!ENTITY ssl-observatory.prefs.self_signed
 "Teikti ir tikrinti savo paties pasirašytus sertifikatus">
 <!ENTITY ssl-observatory.prefs.self_signed_tooltip
-"Rekomenduojama. Kriptografijos problemos ypač dažnos savo paties pasirašytuose įmontuotuosiuose įtaisuose">
+"Rekomenduojama. Kriptografijos problemos ypač dažnos savo paties pasirašytuose įtaisytuosiuose įrenginiuose">

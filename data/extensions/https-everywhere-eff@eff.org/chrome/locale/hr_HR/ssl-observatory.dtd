@@ -30,22 +30,22 @@ ometajuću korporativnu mrežu:">
 "Podnesi i provjeri certifikate potpisane od ne-standardnih root CA-ova">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
-"Sigurno je (i dobra je ideja) omogućiti ovu opciju, osim ako koristite ometajuću korporativnu mrežu ili Kaspersky antivirusni software koji nadgleda vaše surfanje s TLS proxy-em i privatnim root CA-ovima.  Ako je omogućeno na takvoj mreži, ova mogućnost bi mogla objaviti dokaz koja https:// domena je bila posjećena kroz taj proxy, zbog jedinstvenog certifikata kojeg bi proizvela.  Stoga je zadano ostavljena isključena.">
+"Sigurno je (i dobra je ideja) omogućiti ovu opciju, osim ako koristite ometajuću korporativnu mrežu ili Kaspersky antivirusni software koji nadgleda Vaše surfanje s TLS proxyem i privatnim root CA-ovima.  Ako je opcija omogućena na takvoj mreži, ova mogućnost bi mogla objaviti dokaz koja https:// domena je bila posjećena kroz taj proxy, zbog jedinstvenog certifikata kojeg bi proizvela. Stoga je ostavljena isključena pod zadano.">
 
 <!ENTITY ssl-observatory.prefs.anonymous "Provjeri certifikate koristeći Tor za anonimnost">
 <!ENTITY ssl-observatory.prefs.anonymous_unavailable 
 "Provjeri certifikate koristeći Tor za anonimnost (zahtijeva Tor)">
 <!ENTITY ssl-observatory.prefs.anonymous_tooltip 
-"Ova mogućnost zahtijeva instalirani i pokrenut Tor">
+"Ova mogućnost zahtijeva instaliran i pokrenut Tor">
 
 <!ENTITY ssl-observatory.prefs.asn 
 "Kad vidite novi certifikat, recite Opservatoriju na koji ste ISP spojeni">
 
 <!ENTITY ssl-observatory.prefs.asn_tooltip
-"Ovo će dohvatiti i poslati &quot;Autonomni broj sustava&quot; vaše mreže.  To će nam pomoći u lociranju napada na HTTPS i u otkrivanju kad nas promatraju iz mreža sa mjesta poput Irana i Sirije otkud stižu učestali napadi.">
+"Ovo će dohvatiti i poslati &quot;Autonomni broj sustava&quot; Vaše mreže.  To će nam pomoći u lociranju napada na HTTPS, te u otkrivanju kad nas promatraju iz mreža otkud stižu učestali napadi, mjesta poput Irana i Sirije.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning
-"Prikaži upozorenje kad Opservatorij otkrije opozvani certifikat koji vaš preglednik nije uhvatio">
+"Prikaži upozorenje kad Opservatorij otkrije opozvani certifikat koji Vaš preglednik nije uhvatio">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
 "Ovo će provjeriti predane certifikate s poznatim listama opozvanih certifikata.
@@ -56,7 +56,7 @@ Nažalost, ne možemo garantirati da ćemo uočiti svaki opozvani certifikat, al
 <!ENTITY ssl-observatory.prefs.explanation 
 "HTTPS Everywhere može koristiti EFF-ov SSL Opservatorij.  Ovo radi dvije stvari: (1)
 šalje kopije HTTPS certifikata Opservatoriju, da nam pomogne
-u otkrivanju 'čovjek u sredini' napada i poboljša sigurnost Web-a; i (2)
+u otkrivanju 'čovjek u sredini' napada i poboljša sigurnost Weba; i (2)
 dopušta nam da Vas obavijestimo o nesigurnim vezama ili napadima na Vaš preglednik.">
 
 <!--<!ENTITY ssl-observatory.prefs.explanation2
@@ -93,8 +93,8 @@ stranicu tražili.  Prelazak mišem preko &quot;opcija&quot; za daljnje pojedino
 <!ENTITY ssl-observatory.warning.title "UPOZORENJE iz EFF-ovog SSL Opservatorija">
 <!ENTITY ssl-observatory.warning.showcert "Prikaži lanac certifikata">
 <!ENTITY ssl-observatory.warning.okay "Razumijem">
-<!ENTITY ssl-observatory.warning.text "EFF-ov SSL Opservatorij je izdao upozorenje o HTTPS certifikatu(ima) za ovu stranicu:">
-<!ENTITY ssl-observatory.warning.defense "Ako ste ulogirani na ovu stranicu, preporuča se da promijenite lozinku kad budete imali sigurnu vezu. (Ova upozorenja se mogu isključiti u &quot;SSL Observatory&quot; kartici u postavkama HTTPS Everywhere.)">
+<!ENTITY ssl-observatory.warning.text "EFF-ov SSL Opservatorij je izdao upozorenje o HTTPS certifikatu(certifikatima) za ovu stranicu:">
+<!ENTITY ssl-observatory.warning.defense "Ako ste ulogirani na ovu stranicu, preporuča se da promijenite lozinku kad budete imali sigurnu vezu. (Ova upozorenja se mogu isključiti u &quot;SSL Opservatorij&quot; kartici u postavkama HTTPS Everywhere.)">
 
 <!ENTITY ssl-observatory.prefs.self_signed
 "Prijavite i provijerite samopotpisane certifikate">

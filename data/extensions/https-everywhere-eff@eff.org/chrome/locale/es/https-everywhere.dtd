@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Creado por">
 <!ENTITY https-everywhere.about.and ", y">
 <!ENTITY https-everywhere.about.librarians "Bibliotecarios de reglas">
+<!ENTITY https-everywhere.about.add_new_rule "Añadir nueva regla">
 <!ENTITY https-everywhere.about.thanks "Agradecimientos para">
 <!ENTITY https-everywhere.about.many_contributors "Muchos muchos colaboradores, incluyendo">
 <!ENTITY https-everywhere.about.noscript "Además, partes de HTTPS Everywhere están basadas en código de NoScript, de Giorgio Maone y otros. ¡Estamos agradecidos por su excelente trabajo!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Opciones del Observatorio SSL">
 <!ENTITY https-everywhere.menu.globalEnable "Activar HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Desactivar HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Bloquear todas las peticiones HTTP">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Bloquear todas las peticiones no cifradas">
 <!ENTITY https-everywhere.menu.showCounter "Mostrar contador">
 <!ENTITY https-everywhere.menu.viewAllRules "Ver todas las reglas">
 

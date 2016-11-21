@@ -5,21 +5,22 @@
 <!ENTITY https-everywhere.about.created_by "Laga av">
 <!ENTITY https-everywhere.about.and ", og">
 <!ENTITY https-everywhere.about.librarians "Regelsettbibliotekarar">
+<!ENTITY https-everywhere.about.add_new_rule "Legg til ny regel">
 <!ENTITY https-everywhere.about.thanks "Takk til">
-<!ENTITY https-everywhere.about.many_contributors "Many many contributors, including">
-<!ENTITY https-everywhere.about.noscript "Also, portions of HTTPS Everywhere are based on code from NoScript, by Giorgio Maone and others.  We are grateful for their excellent work!">
+<!ENTITY https-everywhere.about.many_contributors "Mange mange bidragsytarar, medrekna">
+<!ENTITY https-everywhere.about.noscript "Dessutan er delar av HTTPS Everywhere basert på kode frå NoScript av Giorgio Maone og andre. Me er takksame for det framifrå arbeidet deira!">
 <!ENTITY https-everywhere.about.contribute  "Om du likar HTTPS Everywhere, kunne du kanskje vurdere å ">
-<!ENTITY https-everywhere.about.donate_tor "Donere til Tor">
+<!ENTITY https-everywhere.about.donate_tor "Donera åt Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "en">
 <!ENTITY https-everywhere.about.or "eller">
-<!ENTITY https-everywhere.about.donate_eff "Donerer til EFF">
+<!ENTITY https-everywhere.about.donate_eff "Donera åt EFF">
 
-<!ENTITY https-everywhere.menu.donate_eff_imperative "Donate to EFF">
+<!ENTITY https-everywhere.menu.donate_eff_imperative "Doner til EFF">
 <!ENTITY https-everywhere.menu.about "Om HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.observatory "SSL Observatory Innstillingar">
 <!ENTITY https-everywhere.menu.globalEnable "Slå på HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Slå av HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockHttpRequests "Blokker alle HTTP-førespurnadar">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Blokker alle ukrypterde fyrespurnader">
 <!ENTITY https-everywhere.menu.showCounter "Vis teljar">
 <!ENTITY https-everywhere.menu.viewAllRules "Vis alle reglane">
 
@@ -38,19 +39,19 @@
 <!ENTITY https-everywhere.prefs.reset_default "Still tilbake til standard">
 <!ENTITY https-everywhere.prefs.view_xml_source "Vis XML-kjelde">
 
-<!ENTITY https-everywhere.chrome.stable_rules "Stable rules">
-<!ENTITY https-everywhere.chrome.stable_rules_description "Force encrypted connections to these websites:">
-<!ENTITY https-everywhere.chrome.experimental_rules "Experimental rules">
-<!ENTITY https-everywhere.chrome.experimental_rules_description "May cause warnings or breakage. Disabled by default.">
-<!ENTITY https-everywhere.chrome.add_rule "Add a rule for this site">
-<!ENTITY https-everywhere.chrome.add_new_rule "Add a new rule for this site">
-<!ENTITY https-everywhere.chrome.always_https_for_host "Always use https for this host">
-<!ENTITY https-everywhere.chrome.host "Host:">
-<!ENTITY https-everywhere.chrome.show_advanced "Show advanced">
-<!ENTITY https-everywhere.chrome.hide_advanced "Hide advanced">
-<!ENTITY https-everywhere.chrome.rule_name "Rule name">
-<!ENTITY https-everywhere.chrome.regex "Matching regex">
-<!ENTITY https-everywhere.chrome.redirect_to "Redirect to">
+<!ENTITY https-everywhere.chrome.stable_rules "Støduge reglar">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Tving krypterte tilkoplingar åt desse nettstadane:">
+<!ENTITY https-everywhere.chrome.experimental_rules "Reglar på prøve">
+<!ENTITY https-everywhere.chrome.experimental_rules_description "Kan vera årsak åt åtvaringar eller brot. Slegne av som standard.">
+<!ENTITY https-everywhere.chrome.add_rule "Legg til ein regel for denne nettstaden">
+<!ENTITY https-everywhere.chrome.add_new_rule "Legg til ein ny regel for denne nettstaden">
+<!ENTITY https-everywhere.chrome.always_https_for_host "Nytt alltid https for denne verten">
+<!ENTITY https-everywhere.chrome.host "Vert:">
+<!ENTITY https-everywhere.chrome.show_advanced "Vis avansert">
+<!ENTITY https-everywhere.chrome.hide_advanced "Gøym avansert">
+<!ENTITY https-everywhere.chrome.rule_name "Namn på regelen:">
+<!ENTITY https-everywhere.chrome.regex "Som passar med regex">
+<!ENTITY https-everywhere.chrome.redirect_to "Omdiriger til">
 <!ENTITY https-everywhere.chrome.status_cancel_button "Avbryt">
 
 

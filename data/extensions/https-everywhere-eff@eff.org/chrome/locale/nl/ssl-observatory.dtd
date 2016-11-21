@@ -22,7 +22,7 @@ to turn it on?">-->
 "Het is veilig om dit in te schakelen, tenzij u een zeer indringend bedrijfsnetwerk gebruikt:">
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts2
-"Veilig, tenzij u een bedrijfsnetwerk met geheime intranetservernamen gebruikt:">
+"Veilig, tenzij je een bedrijfsnetwerk met geheime intranetservernamen gebruikt:">
 
 <!ENTITY ssl-observatory.prefs.alt_roots 
 "Certificaten ondertekend door niet-standaard hoofd-CA’s opsturen en controleren">
@@ -68,9 +68,9 @@ Mouseover the options for further details:">-->
 
 <!ENTITY ssl-observatory.prefs.explanation2
 
-"Als u bijvoorbeeld https://www.iets.nl bezoekt, geeft het certificaat dat het observatorium ontvangt aan
+"Als je bijvoorbeeld https://www.iets.nl bezoekt, geeft het certificaat dat het observatorium ontvangt aan
 dat iemand www.iets.nl bezocht, maar niet wie de site bezocht of welke specifieke pagina de bezoeker
-bekeek. Plaats uw muis boven de opties voor meer details:">
+bekeek. Plaats je muis boven de opties voor meer details:">
 
 <!ENTITY ssl-observatory.prefs.hide "Geavanceerde opties verbergen">
 

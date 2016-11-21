@@ -13,7 +13,7 @@ and auditing the certificates being presented to your browser. Would you like
 to turn it on?">-->
 
 <!ENTITY ssl-observatory.popup.title 
-"Should HTTPS Everywhere use the SSL Observatory?">
+"¿Deberia HTTPS Everywhere usar el Observatorio SSL?">
 
 <!ENTITY ssl-observatory.popup.yes "Si">
 
@@ -27,7 +27,7 @@ se encuentre en una red corporativa muy invasiva:">
 "Seguro, a menos que utilice una red corporativa con nombres secretos de servidor de intranet:">
 
 <!ENTITY ssl-observatory.prefs.alt_roots 
-"Submit and check certificates signed by non-standard root CAs">
+"Aplicar y verificar los certificados firmados por CAs no estandar">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
 "It is safe (and a good idea) to enable this option, unless you use an intrusive corporate network or Kaspersky antivirus software that monitors your browsing with a TLS proxy and a private root Certificate Authority.  If enabled on such a network, this option might publish evidence of which https:// domains were being visited through that proxy, because of the unique certificates it would produce.  So we leave it off by default.">

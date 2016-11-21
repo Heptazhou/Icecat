@@ -5,6 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "ने निर्मित">
 <!ENTITY https-everywhere.about.and ", आणि">
 <!ENTITY https-everywhere.about.librarians "नियमावली संचय">
+<!ENTITY https-everywhere.about.add_new_rule "Add New Rule">
 <!ENTITY https-everywhere.about.thanks "धन्यवाद">
 <!ENTITY https-everywhere.about.many_contributors "अनेक योगदानकर्ते, यासह">
 <!ENTITY https-everywhere.about.noscript "Also, portions of HTTPS Everywhere are based on code from NoScript, by Giorgio Maone and others.  We are grateful for their excellent work!">
@@ -19,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "एसएसएल प्राधान्ये">
 <!ENTITY https-everywhere.menu.globalEnable "सर्वत्र HTTPS सक्षम करा">
 <!ENTITY https-everywhere.menu.globalDisable "सर्वत्र HTTPS अक्षम करा">
-<!ENTITY https-everywhere.menu.blockHttpRequests "सर्व HTTP विनंत्यां बंद करा">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
 <!ENTITY https-everywhere.menu.showCounter "काउंटर दाखवा">
 <!ENTITY https-everywhere.menu.viewAllRules "सर्व नियम पहा">
 
