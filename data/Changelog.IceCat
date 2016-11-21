@@ -1,3 +1,14 @@
+2016-11-21 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v45.5.0ESR
+	* https-everywhere updated to 5.2.7
+	* Removed unnecesary upstreamed patches
+	* Branding changes for v45
+	* Updated aboutIcecat and aboutHome
+	* Fixed syntax issues in spyblock, removed unused javascript.txt subscription
+	* Enabled intl-api at build
+	* Applied settings to deal with privacy issues regarding EME, telemetry, flash, search suggestions, WebRTC, Geolocation, GMP, Pocket, and extension signatures
+	* Updated makeicecat script for v45, improves internationalization handling, search plugins and branding
+
 2016-05-10 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v38.8.0ESR
 	* LibreJS updated to 6.0.13
