@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#    Copyright (C) 2014,2015  Ruben Rodriguez <ruben@gnu.org>
+#    Copyright (C) 2014-2016  Ruben Rodriguez <ruben@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@ set -e
 
 FFMAJOR=45
 FFMINOR=5
-FFSUB=0
+FFSUB=1
 GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
