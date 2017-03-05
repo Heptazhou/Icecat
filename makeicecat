@@ -20,8 +20,8 @@
 set -e
 
 FFMAJOR=45
-FFMINOR=5
-FFSUB=1
+FFMINOR=7
+FFSUB=0
 GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
@@ -101,6 +101,14 @@ done < ../$SOURCEDIR/browser/locales/shipped-locales
 cd ..
 
 mv l10n $SOURCEDIR
+
+hg clone http://hg.mozilla.org/build/compare-locales/
+cd compare-locales/
+hg checkout FIREFOX_45_2_0esr_RELEASE
+hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
+cd ..
+rm compare-locales/.hg* compare-locales/.git* -rf
+mv compare-locales $SOURCEDIR/l10n
 
 #######################################################
 
@@ -373,6 +381,8 @@ s|https://www.mozilla.org/icecat/?utm_source=synceol|https://www.mozilla.org/fir
 s|www.gnu.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
 "
 find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+
+find l10n -type f -execdir /bin/sed --follow-symlinks -i "s/from GNU/from Mozilla/g" '{}' ';'
 
 SEDSCRIPT="
 s/free and open source software/Free Software/g;
