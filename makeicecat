@@ -317,6 +317,13 @@ sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ hr
 # Custom logo for about:preferences?entrypoint=menupanel#sync
 cp $DATA/branding/sync.png browser/themes/shared/fxa/logo.png
 
+# Hide plugindeprecation-notice
+echo "#plugindeprecation-notice {  display: none !important; }" >> toolkit/mozapps/extensions/content/extensions.css
+# Hide warnings on unsigned extensions
+echo ".warning{display: none!important; } .addon[notification=warning]{background-image: none!important;}" >> toolkit/mozapps/extensions/content/extensions.css
+# Hide extra links in about box
+sed '/releaseNotes.link/d; /helpus/d' -i ./browser/base/content/aboutDialog.xul
+
 ###############################################################################
 # Batch rebranding
 ###############################################################################
