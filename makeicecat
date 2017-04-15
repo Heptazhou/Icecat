@@ -89,10 +89,8 @@ while read line;do
     [ $line = "en-US" ] && continue
     hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
     cd $line
-    hg checkout FIREFOX_45_0esr_RELEASE
-    hg checkout FIREFOX_45_1_0esr_RELEASE
-    hg checkout FIREFOX_45_2_0esr_RELEASE || true
-    hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
+    hg checkout FENNEC_52_0_RELEASE || true
+    hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
     mkdir -p $line/browser/chrome/browser/preferences
     touch $line/browser/chrome/browser/preferences/advanced-scripts.dtd
     rm -rf .hg*
@@ -104,8 +102,8 @@ mv l10n $SOURCEDIR
 
 hg clone http://hg.mozilla.org/build/compare-locales/
 cd compare-locales/
-hg checkout FIREFOX_45_2_0esr_RELEASE
-hg checkout FIREFOX_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
+hg checkout FENNEC_52_0_RELEASE
+hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
 cd ..
 rm compare-locales/.hg* compare-locales/.git* -rf
 mv compare-locales $SOURCEDIR/l10n
