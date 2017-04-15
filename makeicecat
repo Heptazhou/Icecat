@@ -524,9 +524,6 @@ cp $ff32 image/test/unit/image2jpg32x32-win.png
 echo "-dontwarn android.support.**" >> mobile/android/config/proguard/proguard.cfg
 echo "-dontwarn android.support.**" >> mobile/android/config/proguard/strip-libs.cfg
 
-sed '/MOZ_ANDROID_SEARCH_ACTIVITY/d; /MOZ_SERVICES_HEALTHREPORT/d; /MOZ_DEVICES/d; /MOZ_ANDROID_RESOURCE_CONSTRAINED/,+2d' -i mobile/android/confvars.sh
-sed '/MOZ_ANDROID_GOOGLE_PLAY_SERVICES/d' -i configure.in
-
 cat << EOF >> mobile/android/confvars.sh
 # IceCat settings
 MOZ_APP_VENDOR=GNU
