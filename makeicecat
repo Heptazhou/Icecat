@@ -220,13 +220,6 @@ sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./brows
 # Replace versions for building on Trisquel
 sed 's/1310/70/g; s/1204/60/g; s/1210/65/g; s/1404/70/g' -i debian/config/mozconfig.in debian/firefox-dev.install.in debian/firefox-dev.links.in
 
-# Enable gst support
-cat << EOF >> debian/config/mozconfig.in
-%%if DISTRIB_VERSION < 70
-ac_add_options --enable-gstreamer=0.10
-%%endif
-EOF
-
 # Set vendor string
 sed 's/com.ubuntu/org.gnu/' -i debian/config/mozconfig.in
 
