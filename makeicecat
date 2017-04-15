@@ -207,8 +207,8 @@ EOF
 ###############################################################################
 
 # Disable healthreport
-sed '/mozilla.org\/legal/d' -i services/healthreport/healthreport-prefs.js
-cat << EOF >>services/healthreport/healthreport-prefs.js
+sed '/mozilla.org\/legal/d' -i toolkit/components/telemetry/healthreport-prefs.js
+cat << EOF >> toolkit/components/telemetry/healthreport-prefs.js
 pref("datareporting.healthreport.infoURL", "https://$INFOURL");
 EOF
 
