@@ -560,7 +560,7 @@ cp -a $DATA/android-images/core/* mobile/android/themes/core/images/
 cp -a $DATA/android-images/resources mobile/android/base
 
 sed '/aboutDetails/,/div/d; /privacyURL/d' mobile/android/chrome/content/about.xhtml -i
-sed '/suggested_sites/,/defaultValue/d' mobile/android/base/resources/xml/preferences_home.xml -i
+#sed '/suggested_sites/,/defaultValue/d' mobile/android/base/resources/xml/preferences_home.xml -i
 
 ###############################################################################
 # Macos packaging
