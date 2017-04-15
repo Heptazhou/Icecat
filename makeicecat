@@ -727,7 +727,7 @@ debian/rules debian/control
 touch -d "yesterday" debian/control
 debian/rules debian/control
 
-echo | dch -D stable -v "$ICECATVERSION"  "Converted into IceCat (http://www.gnu.org/software/gnuzilla/)"
+echo | dch -b -D stable -v "$ICECATVERSION"  "Converted into IceCat (http://www.gnu.org/software/gnuzilla/)"
 sed "1s/firefox/icecat/" -i debian/changelog
 
 touch configure js/src/configure
