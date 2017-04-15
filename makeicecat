@@ -204,6 +204,10 @@ EOF
 # Custom settings and features
 ###############################################################################
 
+# Disable EME
+echo "ac_add_options --disable-eme" >> data/buildscripts/mozconfig-common
+echo "ac_add_options --disable-eme" >> debian/config/mozconfig.in
+
 # Disable healthreport
 sed '/mozilla.org\/legal/d' -i toolkit/components/telemetry/healthreport-prefs.js
 cat << EOF >> toolkit/components/telemetry/healthreport-prefs.js
