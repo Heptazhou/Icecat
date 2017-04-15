@@ -254,9 +254,8 @@ for file in browser/base/content/newtab/newTab.css browser/themes/linux/newtab/n
   echo '#newtab-customize-button, #newtab-intro-what{display:none}' >> $file
 done
 
-# Custom android link to f-droid repo
-sed /Promo2.iOSBefore/,/mobilePromo2.iOSLink/d -i browser/components/preferences/in-content/sync.xul
-sed s_www.mozilla.org/firefox/android.*sync-preferences_f-droid.org/repository/browse/?fdid=org.gnu.icecat_ -i browser/components/preferences/in-content/sync.xul
+# Remove the iOS link
+sed '/iOS/d; /fxaMobilePromo-ios/d;' -i browser/components/preferences/in-content/sync.xul
 
 ###############################################################################
 # Branding
