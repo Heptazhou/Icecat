@@ -3,9 +3,9 @@
 <!ENTITY ssl-observatory.popup.later "Spørg mig senere">
 <!ENTITY ssl-observatory.popup.no "Nej">
 
-<!ENTITY ssl-observatory.popup.text "HTTPS Overalt kan registrere angreb
+<!ENTITY ssl-observatory.popup.text "HTTPS Everywhere kan registrere angreb
 mod din browser ved at sende certifikaterne du modtager til
-Observatoriet.  Slå dette til?">
+Observatoriet. Slå dette til?">
 
 <!--<!ENTITY ssl-observatory.popup.text 
 "EFF's SSL Observatory can detect attacks against HTTPS websites by collecting
@@ -13,7 +13,7 @@ and auditing the certificates being presented to your browser. Would you like
 to turn it on?">-->
 
 <!ENTITY ssl-observatory.popup.title 
-"Skal HTTPS Overalt anvende SSL-observatoriet?">
+"Skal HTTPS Everywhere anvende SSL-observatoriet?">
 
 <!ENTITY ssl-observatory.popup.yes "Ja">
 
@@ -29,7 +29,7 @@ to turn it on?">-->
 "Indsend og tjek certifikater signeret af ikke-standardiserede rod-certifikat-autoriteter">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
-"Det er sikkert (og en god idé) at aktivere denne valgmulighed, medmindre du bruger et påstrængende virksomhedsnetværk eller antivirus-software fra Kaspersky, der overvåger din browserbrug med en TLS-proxy og en privat rod-certifikat-autoritet.  Hvis den er aktiveret på sådan et netværk, så kan dette tilvalg potentielt udgive spor af hvilke https://-domæner, som blev benyttet gennem proxy'en, som følge af de unikke certifikater den ville fremstille.  Lad den derfor være slået fra som standard.">
+"Det er sikkert (og en god idé) at aktivere denne valgmulighed, medmindre du bruger et påstrængende virksomhedsnetværk eller antivirus-software fra Kaspersky, der overvåger din browserbrug med en TLS-proxy og en privat rod-certifikat-autoritet. Hvis den er aktiveret på sådan et netværk, så kan dette tilvalg potentielt udgive spor af hvilke https://-domæner, som blev benyttet gennem proxy'en, som følge af de unikke certifikater den ville fremstille.  Lad den derfor være slået fra som standard.">
 
 <!ENTITY ssl-observatory.prefs.anonymous "Tjek certifikater med brug af Tor for anonymitet">
 <!ENTITY ssl-observatory.prefs.anonymous_unavailable 
@@ -52,8 +52,8 @@ to turn it on?">-->
 <!ENTITY ssl-observatory.prefs.done "Færdig">
 
 <!ENTITY ssl-observatory.prefs.explanation 
-"HTTPS Overalt kan benytte EFF's SSL-observatorium. Dette indebærer to ting: (1) Der sendes kopier af HTTPS-certifikater til Observatoriet, der
-hjælper os med at registrere 'manden i midten'-angreb og derved forøge sikkerheden på nettet, og (2): Det giver os mulighed for at advare dig om usikre forbindelser eller angreb på din browser.">
+"HTTPS Everywhere kan benytte EFF's SSL-observatorium. Dette indebærer to ting: (1) Der sendes kopier af HTTPS-certifikater til Observatoriet, der
+hjælper os med at registrere 'manden i midten'-angreb og derved øger sikkerheden på webbet, og (2): Det giver os mulighed for at advare dig om usikre forbindelser eller angreb på din browser.">
 
 <!--<!ENTITY ssl-observatory.prefs.explanation2
 "When you visit https://www.example.com, the Observatory will learn that
@@ -62,10 +62,10 @@ Mouseover the options for further details:">-->
 
 <!ENTITY ssl-observatory.prefs.explanation2
 
-"For eksempel: Hvis du besøger https://www.etellerandet.com, så vil
+"For eksempel: Hvis du besøger https://www.eksempel.dk, så vil
 certifikatet, som Observatoriet har modtaget, indikere at nogen besøgte
-www.etellerandet.com, men ikke hvem som besøgte stedet, eller hvilken
-specifik side de kiggede på.  Hold musen over valgmulighederne for at få flere
+www.eksempel.dk, men ikke hvem som besøgte stedet, eller hvilken
+specifik side de kiggede på. Hold musen over valgmulighederne for at få flere
 detaljer:">
 
 <!ENTITY ssl-observatory.prefs.hide "Skjul avancerede valgmuligheder">
@@ -74,7 +74,7 @@ detaljer:">
 "Tjek certifikater, selv når Tor ikke er tilgængeligt">
 
 <!ENTITY ssl-observatory.prefs.nonanon_tooltip
-"Vi vil stadig forsøge at bevare data anonyme, men denne valgmulighed er mindre sikker">
+"Vi vil stadig prøve at bevare data anonyme, men denne valgmulighed er mindre sikker">
 
 <!ENTITY ssl-observatory.prefs.priv_dns 
 "Indsend og tjek certifikater for DNS-navne som ikke er offentlige">
@@ -90,8 +90,8 @@ detaljer:">
 <!ENTITY ssl-observatory.warning.title "ADVARSEL fra EFF's SSL-observatorium">
 <!ENTITY ssl-observatory.warning.showcert "Vis certifikat-kæden">
 <!ENTITY ssl-observatory.warning.okay "Jeg forstår">
-<!ENTITY ssl-observatory.warning.text "EFF's SSL-observatorium har udstedt en advarsel om HTTPS-certifikaterne for dette netsted:">
-<!ENTITY ssl-observatory.warning.defense "Hvis du er logget ind på dette netsted, så kan det tilrådes, at du ændrer din adgangskode, når du har etableret en sikker forbindelse. (Disse advarsler kan slås fra i fanebladet &quot;SSL-Observatoriet&quot; under indstillinger for HTTPS Overalt.)">
+<!ENTITY ssl-observatory.warning.text "EFF's SSL-observatorium har udstedt en advarsel om HTTPS-certifikaterne for dette websted:">
+<!ENTITY ssl-observatory.warning.defense "Hvis du er logget ind på dette websted, så kan det tilrådes, at du ændrer din adgangskode, når du har etableret en sikker forbindelse. (Disse advarsler kan slås fra i fanebladet &quot;SSL-Observatoriet&quot; under indstillinger for HTTPS Everywhere).">
 
 <!ENTITY ssl-observatory.prefs.self_signed
 "Indsend og tjek selvsignerede certifikater">

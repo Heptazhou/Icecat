@@ -30,7 +30,7 @@ påtrengende bedriftsnettverk:">
 "Send inn og sjekk sertifikater signert av ikke-standardiserte rotsertifiseringsinstanser">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
-"Det er trygt (og en god idé) å aktivere denne innstillingen, med mindre du bruker et  bedriftsnettverk eller Kaspersky antivirusprogramvare som overvåker surfingen din med en TLS-mellomtjener og en privat rotsertifiseringsinstans. Hvis du aktiverer dette på et slikt nettverk, kan innstillingen publisere bevis på hvilke https://-domener som ble besøkt gjennom den mellomtjeneren, som følge av de unike sertifikatene den ville ha lagd. Så vi deaktiverer den som forvalg.">
+"Det er trygt (og en god idé) å aktivere denne innstillingen, med mindre du bruker et  bedriftsnettverk eller Kaspersky antivirusprogramvare som overvåker surfingen din med en TLS-mellomtjener og en privat rotsertifiseringsinstans. Hvis du aktiverer dette på et slikt nettverk, kan innstillingen publisere bevis på hvilke https://-domener som ble besøkt gjennom den mellomtjeneren, som følge av de unike sertifikatene den ville ha lagd. Som forvalg er den avskrudd.">
 
 <!ENTITY ssl-observatory.prefs.anonymous "Sjekk sertifikatene ved å bruke Tor for anonymitet">
 <!ENTITY ssl-observatory.prefs.anonymous_unavailable 
@@ -94,7 +94,7 @@ de så på. Hold muspekeren over innstillingene for flere detaljer:">
 <!ENTITY ssl-observatory.warning.showcert "Vis sertifikatkjede">
 <!ENTITY ssl-observatory.warning.okay "Jeg forstår">
 <!ENTITY ssl-observatory.warning.text "EFF sitt SSL-observatorium har utstedt en advarsel om HTTPS-sertifikatene for dette nettstedet:">
-<!ENTITY ssl-observatory.warning.defense "Hvis du er logget inn på denne siden, så kan det være en god idé å endre passordet ditt så snart du har en sikker tilkobling. (Disse advarslene kan deaktiveres i &quot;SSL-observatoriet&quot;-fanen under innstillinger i HTTPS-everywhere).">
+<!ENTITY ssl-observatory.warning.defense "Hvis du er logget inn på denne siden, så kan det være en god idé å endre passordet ditt så snart du har en sikker tilkobling. (Disse advarslene kan skrus av i &quot;SSL-observatoriet&quot;-fanen under innstillinger i HTTPS-everywhere).">
 
 <!ENTITY ssl-observatory.prefs.self_signed
 "Send og sjekk selvsignerte sertifikater">

@@ -6,14 +6,14 @@
 <!ENTITY https-everywhere.about.and ", et">
 <!ENTITY https-everywhere.about.librarians "Bibliothécaires des ensembles de règles">
 <!ENTITY https-everywhere.about.add_new_rule "Ajouter une nouvelle règle">
-<!ENTITY https-everywhere.about.thanks "Merci à">
+<!ENTITY https-everywhere.about.thanks "Nos remerciements à">
 <!ENTITY https-everywhere.about.many_contributors "De très nombreux collaborateurs, incluant">
 <!ENTITY https-everywhere.about.noscript "Aussi, des parties de HTTPS partout reposent sur du code de NoScript par Giorgio Maone et al. Nous les remercions pour leur excellent travail !">
-<!ENTITY https-everywhere.about.contribute  "Si vous aimez HTTPS partout, vous devriez considérer">
+<!ENTITY https-everywhere.about.contribute  "Si vous aimez HTTPS partout, vous devriez envisager">
 <!ENTITY https-everywhere.about.donate_tor "Faire un don à Tor">
-<!ENTITY https-everywhere.about.tor_lang_code "en">
+<!ENTITY https-everywhere.about.tor_lang_code "fr">
 <!ENTITY https-everywhere.about.or "ou">
-<!ENTITY https-everywhere.about.donate_eff "Faire un don à EFF">
+<!ENTITY https-everywhere.about.donate_eff "Faire un don à l'EFF">
 
 <!ENTITY https-everywhere.menu.donate_eff_imperative "Faire un don à l'EFF">
 <!ENTITY https-everywhere.menu.about "À propos de HTTPS partout">

@@ -10,12 +10,12 @@
 <!ENTITY https-everywhere.about.many_contributors "Многим участникам, включая">
 <!ENTITY https-everywhere.about.noscript "Кроме того, фрагменты HTTPS Everywhere основаны на коде, взятом из NoScript разработчика Giorgio Maone и других авторов. Мы благодарны им за отличную работу!">
 <!ENTITY https-everywhere.about.contribute  "Если вам нравится HTTPS Everywhere, подумайте о">
-<!ENTITY https-everywhere.about.donate_tor "Пожертвование Tor">
+<!ENTITY https-everywhere.about.donate_tor "пожертвовании Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "ru">
 <!ENTITY https-everywhere.about.or "или">
-<!ENTITY https-everywhere.about.donate_eff "пожертвование EFF">
+<!ENTITY https-everywhere.about.donate_eff "пожертвовании EFF">
 
-<!ENTITY https-everywhere.menu.donate_eff_imperative "Пожертвуйте EFF">
+<!ENTITY https-everywhere.menu.donate_eff_imperative "Поддержать EFF">
 <!ENTITY https-everywhere.menu.about "О HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.observatory "Настройки SSL Observatory">
 <!ENTITY https-everywhere.menu.globalEnable "Включить HTTPS Everywhere">
@@ -33,14 +33,14 @@
 <!ENTITY https-everywhere.prefs.notes "Примечания">
 <!ENTITY https-everywhere.prefs.list_caption "Какие правила перенаправлений следует использовать?">
 <!ENTITY https-everywhere.prefs.enabled "Включено">
-<!ENTITY https-everywhere.prefs.ruleset_howto "Руководство по созданию новых правил находится">
+<!ENTITY https-everywhere.prefs.ruleset_howto "Вы можете научиться писать собственные правила (добавить поддержку для других сайтов)">
 <!ENTITY https-everywhere.prefs.here_link "здесь">
 <!ENTITY https-everywhere.prefs.toggle "Переключить">
 <!ENTITY https-everywhere.prefs.reset_default "Сбросить к значению по умолчанию">
-<!ENTITY https-everywhere.prefs.view_xml_source "Просмотреть исходник XML">
+<!ENTITY https-everywhere.prefs.view_xml_source "Просмотр исходника XML">
 
 <!ENTITY https-everywhere.chrome.stable_rules "Стабильные правила">
-<!ENTITY https-everywhere.chrome.stable_rules_description "Принудительное шифрование на эти сайтах:">
+<!ENTITY https-everywhere.chrome.stable_rules_description "Принудительное шифрование на этих сайтах:">
 <!ENTITY https-everywhere.chrome.experimental_rules "Экспериментальные правила">
 <!ENTITY https-everywhere.chrome.experimental_rules_description "Может вызвать предупреждения или поломку. Отключено по умолчанию.">
 <!ENTITY https-everywhere.chrome.add_rule "Добавить правило для этого сайта">

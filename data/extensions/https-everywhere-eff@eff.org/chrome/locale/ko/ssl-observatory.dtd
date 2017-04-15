@@ -27,11 +27,11 @@ to turn it on?">-->
 "비표준 루트 CA로부터 서명되지 않은 인증서를 확인하고 제보함.">
 
 <!ENTITY ssl-observatory.prefs.alt_roots_tooltip 
-"개인 루트 인증서 권한과 부라우징을 모니터하는 방해하는 기업 네트워크나 TLS 프록시와  카스퍼스키 안티바이러스를 사용하지 않는다면,  이 옵션을 활성화하는 것은 안전합니다(그리고 좋은 생각입니다).   그 네트워크에서 활성화된다면, 이 옵션은 제공되어져야하는 드문 인증서 때문에 https:// 도메인을 그 프록시를 통해 방문한 증거를 알릴 것입니다.  그래서 우리는 기본값으로 두는 것을 추천합니다.">
+"방해적인 기업 네트워크나 자체적인 인증 기관과 TLS 프록시를 사용하는 Kaspersky 안티바이러스 소프트웨어를 사용하지 않는 한 이 옵션을 활성화하는 것은 안전(하며 권장되는) 행위입니다. 문제가 되는 네트워크에서 활성화되면 이 옵션은 https:// 도메인이 프록시를 통해 열람된다는 사실을 게시할 수도 있으며, 따라서 기본적으로 꺼져 있습니다.">
 
 <!ENTITY ssl-observatory.prefs.anonymous "익명을 위해 Tor를 사용하는 동안 인증서 확인">
 <!ENTITY ssl-observatory.prefs.anonymous_unavailable 
-"익명을 위해 Tor를 사용하는 동안 인증서 확인 (Torcheck 권장)">
+"익명을 위해 Tor를 사용하는 동안 인증서 확인 (Tor 필요함)">
 <!ENTITY ssl-observatory.prefs.anonymous_tooltip 
 "이 옵션은 Tor와 Torbutton이 설치된 경우 권장됩니다.">
 
@@ -45,7 +45,7 @@ to turn it on?">-->
 "당신의 브라우저에서 관측소가 해지된 인증서가 포착되지 않을때 경고하는 것을 보여주기">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
-"이것은 알려진 인증서 해지 목록에 제출 된 인증서를 확인합니다. 불행히도 저희는 플래그마다 해지 된 인증서를 보증 할 수 없지만 이 경고를 보면 무엇이 잘못되었는지 알 수 있는 좋은 기회입니다. ">
+"알려진 인증서 해지 목록에 제출된 인증서인지 여부를 확인합니다. 안타깝게도 모든 해지된 인증서를 가려낼 것이라고 보증할 수는 없지만, 경고를 발견한다면 무언가가 잘못되었음을 알아낼 수 있습니다.">
 
 <!ENTITY ssl-observatory.prefs.done "완료">
 

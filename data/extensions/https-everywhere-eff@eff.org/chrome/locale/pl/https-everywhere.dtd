@@ -8,7 +8,7 @@
 <!ENTITY https-everywhere.about.add_new_rule "Dodaj Nową Regułę">
 <!ENTITY https-everywhere.about.thanks "Dzięki dla">
 <!ENTITY https-everywhere.about.many_contributors "W tym wielu współtworóców, jak">
-<!ENTITY https-everywhere.about.noscript "Ponadto, fragmenty protokołu HTTPS Everywhere oparte są na kodzie z NoScript, od Giorgio Maone i innych. Jesteśmy wdzięczni za ich wspaniałą pracę!">
+<!ENTITY https-everywhere.about.noscript "Ponadto, fragmenty HTTPS Everywhere oparte są na kodzie z NoScript, od Giorgio Maone i innych. Jesteśmy wdzięczni za ich wspaniałą pracę!">
 <!ENTITY https-everywhere.about.contribute  "Jeżeli lubisz HTTPS Everywhere, możesz rozważyć ">
 <!ENTITY https-everywhere.about.donate_tor "Dotacje dla Tora">
 <!ENTITY https-everywhere.about.tor_lang_code "en">

@@ -5,7 +5,7 @@
 <!ENTITY https-everywhere.about.created_by "Dibuat oleh">
 <!ENTITY https-everywhere.about.and ", dan">
 <!ENTITY https-everywhere.about.librarians "Pustakawan Ruleset">
-<!ENTITY https-everywhere.about.add_new_rule "Add New Rule">
+<!ENTITY https-everywhere.about.add_new_rule "Tambah Aturan Baru">
 <!ENTITY https-everywhere.about.thanks "Terima kasih kepada">
 <!ENTITY https-everywhere.about.many_contributors "Sangat banyak kontributor, termasuk">
 <!ENTITY https-everywhere.about.noscript "Juga, sebagian kode HTTPS Everywhere dikembangkan berdasarkan NoScript, oleh Giorgio Maone dan lainnya. Kami berterima kasih untuk hasil karya mereka yang luar biasa!">
@@ -20,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Preferensi SSL Observatory">
 <!ENTITY https-everywhere.menu.globalEnable "Fungsikan HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Nonfungsikan HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Blokir semua permintaan tidak terenkripsi">
 <!ENTITY https-everywhere.menu.showCounter "Tampilkan Penghitung">
 <!ENTITY https-everywhere.menu.viewAllRules "Lihat Semua Aturan">
 

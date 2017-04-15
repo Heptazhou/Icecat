@@ -56,7 +56,7 @@ una red corporativa muy intrusiva:">
 "HTTPS Everywhere puede utilizar el Observatorio SSL de EFF. Esto hace dos cosas: 
 (1) envía copias de los certificados HTTPS al Observatorio, para ayudarnos 
 a detectar ataques de 'hombre en el medio' (MitM) y mejorar la seguridad de la Web; y 
-(2) nos permite advertirle de conexiones inseguras o ataques sobre su navegador.">
+(2) nos permite advertirte de conexiones inseguras o ataques sobre tu navegador.">
 
 <!--<!ENTITY ssl-observatory.prefs.explanation2
 "When you visit https://www.example.com, the Observatory will learn that
@@ -65,10 +65,10 @@ Mouseover the options for further details:">-->
 
 <!ENTITY ssl-observatory.prefs.explanation2
 
-"Por ejemplo, cuando visita https://www.algo.com, el certificado 
+"Por ejemplo cuando visitas https://www.algo.com, el certificado 
 recibido por el Observatorio indicará que alguien visitó 
 www.algo.com, pero no quién visitó el sitio, o qué página específica 
-miró. Pase el ratón sobre las opciones para mayores detalles:">
+miró. Pasa el ratón sobre las opciones para mayores detalles:">
 
 <!ENTITY ssl-observatory.prefs.hide "Ocultar opciones avanzadas">
 
@@ -82,7 +82,7 @@ miró. Pase el ratón sobre las opciones para mayores detalles:">
 "Enviar y verificar certificados para nombres no publicados en DNS">
 
 <!ENTITY ssl-observatory.prefs.priv_dns_tooltip
-"A menos que esta opción esté marcada, el Observatorio no registra certificados para nombres que no pueda resolver a través del sistema DNS.">
+"A menos que esta opción esté marcada el Observatorio no registrará certificados para nombres que no pueda resolver a través del sistema DNS.">
 
 <!ENTITY ssl-observatory.prefs.show "Mostrar opciones avanzadas">
 
@@ -93,7 +93,7 @@ miró. Pase el ratón sobre las opciones para mayores detalles:">
 <!ENTITY ssl-observatory.warning.showcert "Mostrar la cadena del certificado">
 <!ENTITY ssl-observatory.warning.okay "Entiendo">
 <!ENTITY ssl-observatory.warning.text "El Observatorio SSL de la EFF ha emitido una advertencia sobre el(los) certificado(s) para este sitio:">
-<!ENTITY ssl-observatory.warning.defense "Si ha iniciado sesión en este sitio, puede ser aconsejable que cambie su contraseña una vez tenga una conexión segura. (Estas advertencias pueden deshabilitarse en la pestaña &quot;Observatorio SSL&quot; del cuadro de preferencias de HTTPS Everywhere).">
+<!ENTITY ssl-observatory.warning.defense "Si has iniciado sesión en este sitio es aconsejable que cambies tu contraseña cuando tengas una conexión segura. (Estas advertencias pueden deshabilitarse en la pestaña &quot;Observatorio SSL&quot; del cuadro de preferencias de HTTPS Everywhere).">
 
 <!ENTITY ssl-observatory.prefs.self_signed
 "Enviar y verificar certificados auto-firmados">

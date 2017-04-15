@@ -45,7 +45,7 @@ to turn it on?">-->
 "Isso irá obter e enviar o &quot;Número de sistema autónomo&quot; da sua rede. Este número ajuda-nos a localizar os ataques ao HTTPS e a determinar se possuímos observações de locais como o Irão ou a Síria, locais estes onde  os ataques são bastante comuns.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning
-"Mostrar um aviso se o observatório detetar um certificado revogado não descoberto pelo seu navegador web">
+"Mostrar um aviso quando o 'Observatório' deteta um certificado revogado não descoberto pelo seu navegador da Web">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
 "Isto irá comparar os certificados submetidos com a lista de certificados revogados. Infelizmente, não podemos garantir que iremos detetar todos os certificados revogados, mas se você vir um aviso existe uma grande probabilidade de algo estar errado.">
@@ -88,13 +88,13 @@ Passe com o rato pelas opções para mais informações:">
 <!ENTITY ssl-observatory.prefs.title "Preferências do observatório SSL">
 
 <!ENTITY ssl-observatory.prefs.use "Utilizar observatório?">
-<!ENTITY ssl-observatory.warning.title "Aviso do observatório SSL da EFF">
+<!ENTITY ssl-observatory.warning.title "AVISO do Observatório SSL EFF">
 <!ENTITY ssl-observatory.warning.showcert "Mostrar a cadeia do certificado">
 <!ENTITY ssl-observatory.warning.okay "Eu percebo">
 <!ENTITY ssl-observatory.warning.text "O observatório SSL da EFF emitiu um aviso sobre o certificado(s) HTTPS deste site:">
 <!ENTITY ssl-observatory.warning.defense "Se iniciou a sessão neste site, pode ser aconselhável alterar a sua palavra-passe assim que estabelecer uma ligação segura. (Estes avisos podem ser desativados no separador &quot;Observatório SSL&quot; nas preferências do HTTPS Everywhere).">
 
 <!ENTITY ssl-observatory.prefs.self_signed
-"Submeter e verificar os certificados auto-assinados">
+"Submeter e verificar os certificados assinados automaticamente">
 <!ENTITY ssl-observatory.prefs.self_signed_tooltip
 "Recomenda-se esta prática; os problemas criptográficos são particularmente comuns em dispositivos com certificados auto-assinados incorporados">
