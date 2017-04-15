@@ -262,7 +262,7 @@ sed '/iOS/d; /fxaMobilePromo-ios/d;' -i browser/components/preferences/in-conten
 ###############################################################################
 
 # Branding files
-rm browser/branding/* mobile/android/branding/* -rf
+rm browser/branding/{official,unofficial,aurora,nightly} mobile/android/branding/* -rf
 cp -a $DATA/branding/icecat/ browser/branding/official
 cp -a $DATA/branding/icecat/ browser/branding/nightly
 cp -a $DATA/branding/icecatmobile/ mobile/android/branding/official
@@ -477,8 +477,6 @@ cp $gf150 mobile/android/base/resources/drawable-xxhdpi/icon_search_empty_icecat
 cp $gf32 browser/themes/shared/theme-switcher-icon.png
 cp $gf32 browser/themes/shared/heme-switcher-icon@2x.png
 cp $gf32 browser/base/content/aboutaccounts/images/fox.png
-cp $ff256 browser/extensions/loop/chrome/content/shared/img/icecat-logo.png
-cp $ff256 browser/extensions/loop/chrome/content/shared/img/icecat-hello_logo.png
 
 cp $ff16 dom/canvas/test/crossorigin/image.png
 cp $ff16 image/test/unit/image1.png
@@ -491,7 +489,7 @@ cp $ff32 image/test/unit/image2jpg32x32-win.png
 cp $ff16 dom/canvas/test/crossorigin/image-allow-credentials.png
 cp $ff16 dom/html/test/image-allow-credentials.png
 cp $ff16 dom/canvas/test/crossorigin/image-allow-star.png
-cp $ff32 toolkit/webapps/tests/data/icon.png
+#cp $ff32 toolkit/webapps/tests/data/icon.png
 cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big32.jpg.png
 cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big64.png.png
 cp $jpglogo  toolkit/components/places/tests/favicons/favicon-big32.jpg
@@ -653,6 +651,13 @@ cp $DATA/adblock_artwork/64.png $ABPDIR/icon64.png
 
 sed '/972ce4c6/d;' -i debian/icecat.install.in
 echo "@MOZ_LIBDIR@/browser/extensions @MOZ_ADDONDIR@" >> debian/icecat.install.in
+
+# Add extensions to allowed-dupes.mn
+cat << EOF >> ./browser/installer/allowed-dupes.mn
+# IceCat extras
+browser/chrome/browser/content/browser/aboutaccounts/images/fox.png
+EOF
+find extensions/gnu/ | sed s=extensions/gnu=browser/extensions= >> ./browser/installer/allowed-dupes.mn
 
 ###############################################################################
 # Deb generation specifics
