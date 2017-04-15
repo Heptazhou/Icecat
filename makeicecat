@@ -235,19 +235,6 @@ find |grep -e ddg.xml -e duckduckgo.*.xml | xargs -i cp $DATA/searchplugins/duck
 find debian/searchplugins |grep google| xargs -i /bin/sed '/ubuntu/d; /channel/d' -i {}
 find debian/searchplugins |grep amazon| xargs -i /bin/sed '/canoniccom/d;' -i {}
 
-echo -e '\nduckduckgo' >> browser/locales/en-US/searchplugins/list.txt
-echo -e '\nduckduckgo' >> mobile/locales/en-US/searchplugins/list.txt
-for DIR in $(ls l10n -1); do
-  [ -d l10n/$DIR/browser/searchplugins/ ] || continue
-  cp debian/searchplugins/en-US/duckduckgo.xml l10n/$DIR/browser/searchplugins/
-  grep -q duckduckgo l10n/$DIR/browser/searchplugins/list.txt || echo -e '\nduckduckgo' >> l10n/$DIR/browser/searchplugins/list.txt
-done
-for DIR in $(ls l10n -1); do
-  [ -d l10n/$DIR/mobile/searchplugins/ ] || continue
-  cp debian/searchplugins/en-US/duckduckgo.xml l10n/$DIR/mobile/searchplugins/
-  grep -q duckduckgo l10n/$DIR/mobile/searchplugins/list.txt || echo -e '\nduckduckgo' >> l10n/$DIR/mobile/searchplugins/list.txt
-done
-
 # Sanitize lists
 for file in $(find |grep searchplugins/list.txt)
 do
