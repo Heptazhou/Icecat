@@ -114,10 +114,10 @@ mv compare-locales $SOURCEDIR/l10n
 
 cd $SOURCEDIR
 
-for patch in $DATA/patches/*; do
-    echo Patching with file: $patch
-    patch -p1 < $patch
-done
+#for patch in $DATA/patches/*; do
+#    echo Patching with file: $patch
+#    patch -p1 < $patch
+#done
 
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
 cp $DATA/Changelog.IceCat $DATA/README.IceCat debian
