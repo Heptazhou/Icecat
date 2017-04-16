@@ -208,7 +208,8 @@ EOF
 ###############################################################################
 
 # Disable EME
-echo "ac_add_options --disable-eme" >> data/buildscripts/mozconfig-common
+echo "ac_add_options --disable-eme" >> build/mozconfig.common.override
+echo "ac_add_options --disable-eme" >> build/mozconfig.common
 echo "ac_add_options --disable-eme" >> debian/config/mozconfig.in
 
 # Disable healthreport
