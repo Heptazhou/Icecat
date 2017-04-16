@@ -29,7 +29,7 @@ SOURCEDIR=icecat-$FFVERSION
 
 # http://bazaar.launchpad.net/~mozillateam/firefox/firefox.trusty/changes
 CODENAME=trusty
-REVISION=1134
+REVISION=1172
 #CODENAME=precise
 #REVISION=993
 
@@ -91,7 +91,8 @@ while read line;do
     hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
     cd $line
     hg checkout FENNEC_52_0_RELEASE || true
-    hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
+    hg checkout FENNEC_52_0_1_RELEASE || true
+    hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}_RELEASE || true
     mkdir -p $line/browser/chrome/browser/preferences
     touch $line/browser/chrome/browser/preferences/advanced-scripts.dtd
     rm -rf .hg*
@@ -104,7 +105,8 @@ mv l10n $SOURCEDIR
 hg clone http://hg.mozilla.org/build/compare-locales/
 cd compare-locales/
 hg checkout FENNEC_52_0_RELEASE
-hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}esr_RELEASE || true
+hg checkout FENNEC_52_0_1_RELEASE
+hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}_RELEASE || true
 cd ..
 rm compare-locales/.hg* compare-locales/.git* -rf
 mv compare-locales $SOURCEDIR/l10n
