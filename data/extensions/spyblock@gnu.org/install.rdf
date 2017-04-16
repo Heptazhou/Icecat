@@ -10,6 +10,7 @@
   <Description about="urn:mozilla:install-manifest">
     <em:id>spyblock@gnu.org</em:id>
     <em:version>2.6.9.0</em:version>
+    <em:multiprocessCompatible>true</em:multiprocessCompatible>
     <em:name>SpyBlock</em:name>
     <em:description>Privacy blacklist filter</em:description>
     <em:creator>Based on AdBlock Plus by Wladimir Palant</em:creator><em:contributor>Ruben Rodriguez</em:contributor><em:contributor>Claude Lespagnol aka Efdur</em:contributor><em:contributor>Nickolay Ponomarev</em:contributor><em:contributor>Kevin Keller</em:contributor><em:contributor>Fabrice Desré</em:contributor><em:contributor>Hubird</em:contributor><em:contributor>Günther Beyer (opoloo.de)</em:contributor><em:contributor>Algimantas Margevičius</em:contributor><em:contributor>anonymous74100</em:contributor><em:contributor>BsT</em:contributor><em:contributor>Crits</em:contributor><em:contributor>Famlam</em:contributor><em:contributor>fanboy</em:contributor><em:contributor>heradhis</em:contributor><em:contributor>Jiefei</em:contributor><em:contributor>John</em:contributor><em:contributor>Khrin</em:contributor><em:contributor>Lain_13</em:contributor><em:contributor>Li</em:contributor><em:contributor>Lian</em:contributor><em:contributor>MenetZ</em:contributor><em:contributor>MonztA</em:contributor><em:contributor>smed79</em:contributor><em:contributor>tomasko126</em:contributor><em:contributor>Zoso</em:contributor><em:contributor>Александър Станев</em:contributor>
