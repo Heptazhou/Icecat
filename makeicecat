@@ -67,11 +67,12 @@ cd firefox.$CODENAME
 bzr revert -r$REVISION
 echo '3.0 (native)' > debian/source/format
 
-for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch
+for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch ubuntu-search-defaults.patch allow-lockPref-everywhere.patch fix-make-package-tests-without-webrtc.patch revert-upstream-search-engine-changes.patch
 do
   rm debian/patches/$PATCH
   sed "/$PATCH/d" -i debian/patches/series
 done
+sed "/test-/d" -i debian/patches/series
 cd ..
 
 mv firefox.$CODENAME/debian $SOURCEDIR
