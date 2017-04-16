@@ -1,3 +1,26 @@
+2017-04-15 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v52.0.2ESR
+	* Disable EME
+	* Remove custom gst support tweaking, deprecated
+	* Disable addon sign verification globally
+	* Run dch ignoring wrong version number
+	* Updates to the hg downloads for locales
+	* Disable suggested_sites tweak from mobile customizations
+	* Removed deprecated values from configure.in and mobile/android/confvars.sh
+	* Hide plugindeprecation-notice, warnings on unsigned extensions, and extra links in about box
+	* Remove iOS link, keep android one
+	* Removed unnecesary step for inserting DDG searchplugin
+	* Disable healthreport
+	* Disable signed plugin warning
+	* Fixed build error in bookmarks file
+	* Remove unnecesary patches
+	* Fix Spyblock for a api change in v52
+	* Mark Spyblock extension as multiprocessor compatible
+	* Mark abouticecat extension as multiprocessor compatible
+	* Branding files updated for v52
+	* Branding installation updated for v52
+	* HTTPS Everywhere updated to 5.2.14
+
 2017-03-04 Ruben Rodriguez <ruben@gnu.org>
         * Updated to v45.7.0ESR
 
