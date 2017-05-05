@@ -1,3 +1,7 @@
+2017-05-04 Ruben Rodriguez <ruben@gnu.org>
+        * Updated to v52.1.0ESR
+	* Disabled punycode in urls
+
 2017-04-15 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v52.0.2ESR
 	* Disable EME
