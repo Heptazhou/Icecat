@@ -258,3 +258,6 @@ pref("extensions.pocket.enabled", false);
 
 // Do not require xpi extensions to be signed by Mozilla
 pref("xpinstall.signatures.required", false);
+
+// Do not show unicode urls https://www.xudongz.com/blog/2017/idn-phishing/
+pref("network.IDN_show_punycode", true);
