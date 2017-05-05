@@ -537,6 +537,7 @@ MOZ_DATA_REPORTING=0
 MOZ_SERVICES_SYNC=0
 MOZ_DEVICES=0
 MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
+MOZ_ADDON_SIGNING=0
 EOF
 
 rm -R mobile/android/gradle/
@@ -561,6 +562,10 @@ cp -a $DATA/android-images/resources mobile/android/base
 
 sed '/aboutDetails/,/div/d; /privacyURL/d' mobile/android/chrome/content/about.xhtml -i
 #sed '/suggested_sites/,/defaultValue/d' mobile/android/base/resources/xml/preferences_home.xml -i
+
+sed '/SENDERID/d' -i mobile/android/app/mobile.js
+
+cat $DATA/mobile.dupes  >> mobile/android/installer/allowed-dupes.mn
 
 ###############################################################################
 # Macos packaging
@@ -609,7 +614,7 @@ EOF
 # Add extensions to manifest
 for EXTENSION in $(ls $DATA/extensions/); do
 sed "/Browser Chrome Files/s%$%\n@RESPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in
-sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i mobile/android/installer/package-manifest.in
+sed "/Browser Chrome Files/s%$%\n@BINPATH@/distribution/extensions/$EXTENSION/*%" -i mobile/android/installer/package-manifest.in
 #echo "DIRS += ['$EXTENSION']" >> browser/app/profile/extensions/moz.build
 #touch browser/app/profile/extensions/$EXTENSION/moz.build
 done
@@ -662,6 +667,7 @@ cat << EOF >> ./browser/installer/allowed-dupes.mn
 browser/chrome/browser/content/browser/aboutaccounts/images/fox.png
 EOF
 find extensions/gnu/ | sed s=extensions/gnu=browser/extensions= >> ./browser/installer/allowed-dupes.mn
+find extensions/gnu/ | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
 
 ###############################################################################
 # Deb generation specifics

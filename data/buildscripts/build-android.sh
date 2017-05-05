@@ -6,7 +6,7 @@ apt-get -q -y --force-yes build-dep firefox
 
 export PATH=$PATH:$PWD/android-sdk-linux/tools:$PWD/android-sdk-linux/build-tools:$PWD/android-sdk-linux/platform-tools:/usr/local/bin
 
-pushd ./python/compare-locales/
+pushd ./l10n/compare-locales/
 python setup.py build
 python setup.py install
 install -m 755 scripts/* /usr/local/bin

@@ -1,15 +1,14 @@
 ac_add_options --enable-application=mobile/android
 ac_add_options --target=arm-linux-androideabi
 mk_add_options MOZ_OBJDIR=./obj-android
-ac_add_options --with-android-version=9
-ac_add_options --with-android-min-sdk=11
+#ac_add_options --with-android-version=9
+#ac_add_options --with-android-min-sdk=11
 
 ac_add_options --enable-update-channel=gnuzilla
 
 ac_add_options --disable-tests
 ac_add_options --disable-updater
 ac_add_options --disable-eme
-ac_add_options --disable-mochitest
 ac_add_options --disable-crashreporter
 ac_add_options --disable-debug
 
@@ -24,6 +23,5 @@ mk_add_options 'export MOZ_CHROME_MULTILOCALE=en-US cs da de es-ES fi fr ja ko i
 mk_add_options 'export L10NBASEDIR=$PWD/l10n'
 ac_add_options --with-l10n-base=$PWD/l10n
 
-ac_add_options --with-android-sdk=$PWD/../../toolchains/android-build/android-sdk-linux/platforms/android-22/
+ac_add_options --with-android-sdk=$PWD/../../toolchains/android-build/android-sdk-linux
 ac_add_options --with-android-ndk=$PWD/../../toolchains/android-build/android-ndk-r10e
-
