@@ -44,7 +44,7 @@ to turn it on?">-->
 "Dette vil hente og sende det &quot;autonome systemnummer&quot; for dit netværk. Dette vil hjælpe os med at lokalisere angreb mod HTTPS og afgøre, hvorvidt vi har observationer fra netværk fra steder som Iran og Syrien, hvor angreb er relativt hyppige.">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning
-"Vis en advarsel når Observatoriet finder et tilbagekaldt certifikat, som ikke bliver opdaget af din browser">
+"Vis en advarsel når Observatoriet registrere et tilbagekaldt certifikat, som ikke bliver opdaget af din browser">
 
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
 "Dette vil sammenholde indsendte certifikater med en liste af kendte tilbagekaldte certifikater. Desværre kan vi ikke garantere, at vi bemærker alle tilbagekaldte certifikater, men hvis du ser en advarsel, er der en god chance for, at der er noget galt.">
@@ -84,14 +84,14 @@ detaljer:">
 
 <!ENTITY ssl-observatory.prefs.show "Vis avancerede valgmuligheder">
 
-<!ENTITY ssl-observatory.prefs.title "Indstillinger for SSL-Observatoriet">
+<!ENTITY ssl-observatory.prefs.title "Præferencer for SSL-observatoriet">
 
 <!ENTITY ssl-observatory.prefs.use "Brug Observatoriet?">
 <!ENTITY ssl-observatory.warning.title "ADVARSEL fra EFF's SSL-observatorium">
 <!ENTITY ssl-observatory.warning.showcert "Vis certifikat-kæden">
 <!ENTITY ssl-observatory.warning.okay "Jeg forstår">
 <!ENTITY ssl-observatory.warning.text "EFF's SSL-observatorium har udstedt en advarsel om HTTPS-certifikaterne for dette websted:">
-<!ENTITY ssl-observatory.warning.defense "Hvis du er logget ind på dette websted, så kan det tilrådes, at du ændrer din adgangskode, når du har etableret en sikker forbindelse. (Disse advarsler kan slås fra i fanebladet &quot;SSL-Observatoriet&quot; under indstillinger for HTTPS Everywhere).">
+<!ENTITY ssl-observatory.warning.defense "Hvis du er logget ind på dette websted, så kan det tilrådes, at du ændrer din adgangskode, når du har etableret en sikker forbindelse. (Disse advarsler kan slås fra i fanebladet &quot;SSL-Observatoriet&quot; under dialog for præferencer for HTTPS Everywhere).">
 
 <!ENTITY ssl-observatory.prefs.self_signed
 "Indsend og tjek selvsignerede certifikater">

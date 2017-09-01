@@ -17,14 +17,14 @@
 
 <!ENTITY https-everywhere.menu.donate_eff_imperative "Doner til EFF">
 <!ENTITY https-everywhere.menu.about "Om HTTPS Everywhere">
-<!ENTITY https-everywhere.menu.observatory "Indstillinger for SSL-observatoriet">
+<!ENTITY https-everywhere.menu.observatory "Præferencer for SSL-observatoriet">
 <!ENTITY https-everywhere.menu.globalEnable "Aktivér HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.globalDisable "Deaktivér HTTPS Everywhere">
 <!ENTITY https-everywhere.menu.blockUnencryptedRequests "Bloker alle ukrypterede forespørgsler">
 <!ENTITY https-everywhere.menu.showCounter "Vis tæller">
 <!ENTITY https-everywhere.menu.viewAllRules "Se samtlige regler">
 
-<!ENTITY https-everywhere.prefs.title "Indstillinger for HTTPS Everywhere">
+<!ENTITY https-everywhere.prefs.title "Præferencer for HTTPS Everywhere">
 <!ENTITY https-everywhere.prefs.enable_all "Aktivér alle">
 <!ENTITY https-everywhere.prefs.disable_all "Deaktivér alle">
 <!ENTITY https-everywhere.prefs.reset_defaults "Nulstil til standardindstillinger">

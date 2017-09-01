@@ -1,6 +1,6 @@
 <!-- Observatory popup window -->
-<!ENTITY ssl-observatory.popup.details "ລາຍລະອຽດ ແລະ ຂໍ້ມູນ ສ່ວນໂຕ">
-<!ENTITY ssl-observatory.popup.later "ກະລຸນາຖາມຕາມພາຍຫຼັງ">
+<!ENTITY ssl-observatory.popup.details "ລາຍລະອຽດ ແລະ ຂໍ້ມູນສ່ວນໂຕ">
+<!ENTITY ssl-observatory.popup.later "ກະລຸນາຖາມຂ້ອຍຕາມພາຍຫຼັງ">
 <!ENTITY ssl-observatory.popup.no "ບໍ່">
 
 <!ENTITY ssl-observatory.popup.text "HTTPS Everywhere ສາມາດກວດພົບການຕໍ່ຕ້ານ
@@ -13,9 +13,9 @@ and auditing the certificates being presented to your browser. Would you like
 to turn it on?">-->
 
 <!ENTITY ssl-observatory.popup.title 
-"HTTPS Everywhere ຕ້ອງໄດ້ໃຊ້ ລະບົບສັງເກດການ SSL ບໍ່?">
+"HTTPS Everywhere ຕ້ອງໄດ້ໃຊ້ ລະບົບສັງເກດການ SSL ຫຼືບໍ່?">
 
-<!ENTITY ssl-observatory.popup.yes "ແມ່ນ">
+<!ENTITY ssl-observatory.popup.yes "ແມ່ນ ">
 
 <!-- Observatory preferences dialog -->
 
@@ -50,7 +50,7 @@ intrusive corporate network:">
 <!ENTITY ssl-observatory.prefs.show_cert_warning_tooltip
 "This will check submitted certificates against known Certificate Revocation Lists. Unfortunately we cannot guarantee that we will flag every revoked certificate, but if you do see a warning there's a good chance something is wrong.">
 
-<!ENTITY ssl-observatory.prefs.done "ແລ້ວໆ">
+<!ENTITY ssl-observatory.prefs.done "ແລ້ວໆ ">
 
 <!ENTITY ssl-observatory.prefs.explanation 
 "HTTPS Everywhere can use EFF's SSL Observatory.  This does two things: (1)
@@ -86,7 +86,7 @@ looked at.  Mouseover the options for further details:">
 
 <!ENTITY ssl-observatory.prefs.show "Show advanced options">
 
-<!ENTITY ssl-observatory.prefs.title "SSL Observatory Preferences">
+<!ENTITY ssl-observatory.prefs.title "ການຕັ້ງຄ່າສັງເກດການ SSL ">
 
 <!ENTITY ssl-observatory.prefs.use "Use the Observatory?">
 <!ENTITY ssl-observatory.warning.title "WARNING from EFF's SSL Observatory">

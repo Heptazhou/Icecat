@@ -1,11 +1,11 @@
 <!-- Observatory popup window -->
-<!ENTITY ssl-observatory.popup.details "Details and Privacy Information">
-<!ENTITY ssl-observatory.popup.later "Ask Me Later">
-<!ENTITY ssl-observatory.popup.no "No">
+<!ENTITY ssl-observatory.popup.details "Մանրամասներ և տեղեկություն գաղտնիության մասին">
+<!ENTITY ssl-observatory.popup.later "Հարցնել հետո">
+<!ENTITY ssl-observatory.popup.no "Ոչ">
 
-<!ENTITY ssl-observatory.popup.text "HTTPS Everywhere can detect attacks
-against your browser by sending the certificates you receive to the
-Observatory.  Turn this on?">
+<!ENTITY ssl-observatory.popup.text "«HTTPS Everywhere»-ը կարող է բացահայտել Ձեր դիտարկչի
+դեմ կատարված հարձակումները՝ Դիտակետին ուղարկելով Ձեր այցելած
+կայքերի հավաստագրերը։ Միացնե՞լ այդ գործառույթը։">
 
 <!--<!ENTITY ssl-observatory.popup.text 
 "EFF's SSL Observatory can detect attacks against HTTPS websites by collecting
@@ -13,18 +13,18 @@ and auditing the certificates being presented to your browser. Would you like
 to turn it on?">-->
 
 <!ENTITY ssl-observatory.popup.title 
-"Should HTTPS Everywhere use the SSL Observatory?">
+"«HTTPS Everywhere»-ը պե՞տք է օգտագործի SSL Դիտակետը։">
 
-<!ENTITY ssl-observatory.popup.yes "Yes">
+<!ENTITY ssl-observatory.popup.yes "Այո">
 
 <!-- Observatory preferences dialog -->
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts1
-"It is safe to enable this, unless you use a very
-intrusive corporate network:">
+"Սա միացնելն ապահով է, եթե միայն Դուք չեք
+օգտագործում խիստ նեղ աշխատանքային կապ․">
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts2
-"Safe, unless you use a corporate network with secret intranet server names:">
+"Ապահով է, եթե Դուք չեք օգտագործում գաղտնի ինտրանետ սերվեր անուններով աշխատանքային կապ․">
 
 <!ENTITY ssl-observatory.prefs.alt_roots 
 "Submit and check certificates signed by non-standard root CAs">
@@ -86,7 +86,7 @@ looked at.  Mouseover the options for further details:">
 
 <!ENTITY ssl-observatory.prefs.show "Show advanced options">
 
-<!ENTITY ssl-observatory.prefs.title "SSL Observatory Preferences">
+<!ENTITY ssl-observatory.prefs.title "SSL Դիտակետի կարգավորումներ">
 
 <!ENTITY ssl-observatory.prefs.use "Use the Observatory?">
 <!ENTITY ssl-observatory.warning.title "WARNING from EFF's SSL Observatory">

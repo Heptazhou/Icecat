@@ -9,11 +9,11 @@
 <!ENTITY https-everywhere.about.thanks "Takk til">
 <!ENTITY https-everywhere.about.many_contributors "En masse bidragsytere, inkludert">
 <!ENTITY https-everywhere.about.noscript "Også deler av HTTPS-everywhere er basert på kode fra NoScript, av Giorgio Maone og andre. Vi er takknemlige for deres utmerkede arbeid!">
-<!ENTITY https-everywhere.about.contribute  "Hvis du liker HTTPS-everywhere, vurder å">
-<!ENTITY https-everywhere.about.donate_tor "Donasjoner til Tor">
+<!ENTITY https-everywhere.about.contribute  "Hvis du liker HTTPS-everywhere, vurder en">
+<!ENTITY https-everywhere.about.donate_tor "donasjon til Tor">
 <!ENTITY https-everywhere.about.tor_lang_code "no">
-<!ENTITY https-everywhere.about.or "eller">
-<!ENTITY https-everywhere.about.donate_eff "Donasjoner til EFF">
+<!ENTITY https-everywhere.about.or "eller en">
+<!ENTITY https-everywhere.about.donate_eff "donasjon til EFF">
 
 <!ENTITY https-everywhere.menu.donate_eff_imperative "Doner til EFF">
 <!ENTITY https-everywhere.menu.about "Om HTTPS-everywhere">

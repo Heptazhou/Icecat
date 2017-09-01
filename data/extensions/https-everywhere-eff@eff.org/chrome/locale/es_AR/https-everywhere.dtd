@@ -1,6 +1,6 @@
-<!ENTITY https-everywhere.about.title "Acerca de HTTPS en todos lados">
-<!ENTITY https-everywhere.about.ext_name "HTTPS en todos lados">
-<!ENTITY https-everywhere.about.ext_description "Encriptar la Web! Usar seguridad HTTPS automáticamente en la mayoría de los sitios.">
+<!ENTITY https-everywhere.about.title "Acerca de HTTPS Everywhere">
+<!ENTITY https-everywhere.about.ext_name "HTTPS Everywhere">
+<!ENTITY https-everywhere.about.ext_description "¡Encriptar la Web! Usar seguridad HTTPS automáticamente en la mayoría de los sitios.">
 <!ENTITY https-everywhere.about.version "Versión">
 <!ENTITY https-everywhere.about.created_by "Creado por">
 <!ENTITY https-everywhere.about.and ", y">
@@ -20,7 +20,7 @@
 <!ENTITY https-everywhere.menu.observatory "Preferencias del Observatorio SSL">
 <!ENTITY https-everywhere.menu.globalEnable "Habilitar HTTPS En todos lados">
 <!ENTITY https-everywhere.menu.globalDisable "Deshabilitar HTTPS En todos lados">
-<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Block all unencrypted requests">
+<!ENTITY https-everywhere.menu.blockUnencryptedRequests "Bloquear todas las solicitudes descifradas">
 <!ENTITY https-everywhere.menu.showCounter "Mostrar contador">
 <!ENTITY https-everywhere.menu.viewAllRules "Ver todas las Reglas">
 

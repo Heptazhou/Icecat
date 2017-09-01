@@ -1,7 +1,7 @@
 <!-- Observatory popup window -->
 <!ENTITY ssl-observatory.popup.details "세부 사항과 사생활 정보">
 <!ENTITY ssl-observatory.popup.later "나중에 알림">
-<!ENTITY ssl-observatory.popup.no "아니도">
+<!ENTITY ssl-observatory.popup.no "아니오">
 
 <!ENTITY ssl-observatory.popup.text "HTTPS Everywhere">
 
@@ -18,7 +18,7 @@ to turn it on?">-->
 <!-- Observatory preferences dialog -->
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts1
-"매우 방해하는 기업 네트워크를 사용중이지 않으면, 이것을 사용하는 것이 안전압니다.">
+"매우 방해하는 기업 네트워크를 사용중 이지 않으면, 이것을 사용하는 것이 안전합니다.">
 
 <!ENTITY ssl-observatory.prefs.adv_priv_opts2
 "다음 비밀 서버 이름과 기업 네트워크를 사용하지 않는다면, 안전합니다.">
