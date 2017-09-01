@@ -46,7 +46,7 @@ body{
  align-self: auto;  
 }  
 #topSection {  
- margin-top:10vh;  
+ margin-top:5vh;  
  order:1;  
 }  
 #block-horizontal-margin{  
@@ -290,6 +290,30 @@ Services.prefs.setIntPref("extensions.icecathome.browser.display.use_document_fo
   f.appendChild(document.createElement("br"));
   document.getElementById("addonsform").appendChild(f);
 
+  var tmp = document.createElement("input");
+  tmp.setAttribute('type',"checkbox");
+  tmp.setAttribute('id', "network.http.referer.spoofSource");
+  tmp.setAttribute('value', 0);
+  tmp.setAttribute('onclick','jssettings(this);');
+  value=Services.prefs.getBoolPref("network.http.referer.spoofSource");
+  tmp.checked=(value==1);
+  var label = document.createElement("label");
+  label.htmlFor =  "network.http.referer.spoofSource" ;
+  label.id = "network.http.referer.spoofSourcelabel";
+  label.appendChild(document.createTextNode("Spoof Referers"));
+  f.appendChild(tmp);
+  f.appendChild(label);
+  f.appendChild(document.createElement("br"));
+  document.getElementById("addonsform").appendChild(f);
+
+  var tmp = document.createElement('a');
+  var linkText = document.createTextNode("Advanced Configuration");
+  tmp.appendChild(linkText);
+  tmp.title = "Advanced Configuration";
+  tmp.href = "about:config";
+  f.appendChild(document.createElement("br"));
+  document.getElementById("addonsform").appendChild(tmp);
+
   for (var i=0; i<extensions.length; ++i) {
     var ex=extensions[i][0];
     var addonObj=-1;
@@ -349,7 +373,6 @@ function onSearchSubmit(){
     <div id="block-horizontal-margin">
      <div class="block-side-margin"></div>
       <div id="addonsform">
-       <h3>Enabled privacy features:</h3>
         <p>The <a target="_blank" href="http://www.gnu.org/software/gnuzilla/">GNU IceCat</a> web browser protects your <a target="_blank" href="http://www.gnu.org/philosophy/free-sw.html">freedom</a> and your privacy!</p>
       </div>
      <div class="block-side-margin"></div>
