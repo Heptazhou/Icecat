@@ -20,7 +20,7 @@
 set -e
 
 FFMAJOR=52
-FFMINOR=1
+FFMINOR=3
 FFSUB=0
 GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
@@ -414,9 +414,9 @@ cat << EOF >> browser/app/profile/icecat.js
 // Spoof the useragent to a generic one
 pref("general.useragent.compatMode.firefox",true);
 // Spoof the useragent to a generic one
-pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:45.0) Gecko/20100101 Firefox/45.0");
+pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:${FFMAJOR}.0) Gecko/20100101 Firefox/${FFMAJOR}.0");
 pref("general.appname.override", "Netscape");
-pref("general.appversion.override", "45.0");
+pref("general.appversion.override", "${FFMAJOR}.0");
 pref("general.buildID.override", "Gecko/20100101");
 pref("general.oscpu.override", "Windows NT 6.1");
 pref("general.platform.override", "Win32");

@@ -1,6 +1,20 @@
+2017-09-01 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v52.3.0ESR
+	* Added extension collection https://addons.mozilla.org/en-US/firefox/collections/NateN1222/librejs-compatibility-add-ons/
+	* SpyBlock updated to 2.9.1
+	* HTTPS Everywhere updated to 5.2.21
+        * Removed Youtube player extension, as Youtube is no longer browsable without javascript
+        * Fixed OCSP check settings that were impeding captive portal usage
+
+2017-05-19 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v52.1.2ESR
+	* Added switch to disable spoofed referers on about:home
+	* Added link to about:config on about:home
+
 2017-05-04 Ruben Rodriguez <ruben@gnu.org>
-        * Updated to v52.1.0ESR
+	* Updated to v52.1.0ESR
 	* Disabled punycode in urls
+	* Fixed android build errors
 
 2017-04-15 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v52.0.2ESR
