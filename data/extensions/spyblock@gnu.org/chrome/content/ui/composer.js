@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -15,13 +15,14 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-let nodes = null;
-let item = null;
-let advancedMode = false;
+var nodesID = null;
+var item = null;
+var advancedMode = false;
 
 function init()
 {
-  [nodes, item] = window.arguments;
+  [nodesID, item] = window.arguments;
+  window.addEventListener("unload", () => Policy.deleteNodes(nodesID));
 
   E("filterType").value = (!item.filter || item.filter.disabled || item.filter instanceof WhitelistFilter ? "filterlist" : "whitelist");
   E("customPattern").value = item.location;
@@ -118,19 +119,8 @@ function init()
   else
     E("patternGroup").focus();
 
-  let types = [];
-  for (let type in Policy.localizedDescr)
-  {
-    types.push(parseInt(type));
-  }
-  types.sort(function(a, b) {
-    if (a < b)
-      return -1;
-    else if (a > b)
-      return 1;
-    else
-      return 0;
-  });
+  let types = Array.from(new Set(Policy.contentTypes.values()));
+  types.sort();
 
   let docDomain = item.docDomain;
   let thirdParty = item.thirdParty;
@@ -145,24 +135,24 @@ function init()
 
   let typeGroup = E("typeGroup");
   let defaultTypes = RegExpFilter.prototype.contentType & ~RegExpFilter.typeMap.DOCUMENT;
-  let isDefaultType = (RegExpFilter.typeMap[item.typeDescr] & defaultTypes) != 0;
+  let isDefaultType = (RegExpFilter.typeMap[item.type] & defaultTypes) != 0;
   for (let type of types)
   {
-    if (type == Policy.type.ELEMHIDE)
+    if (type == "ELEMHIDE" || type == "GENERICBLOCK" || type == "GENERICHIDE")
       continue;
 
     let typeNode = document.createElement("checkbox");
-    typeNode.setAttribute("value", Policy.typeDescr[type].toLowerCase().replace(/\_/g, "-"));
-    typeNode.setAttribute("label", Policy.localizedDescr[type].toLowerCase());
+    typeNode.setAttribute("value", type.toLowerCase().replace(/\_/g, "-"));
+    typeNode.setAttribute("label", Utils.getString("type_label_" + type.toLowerCase()));
 
-    let typeMask = RegExpFilter.typeMap[Policy.typeDescr[type]];
+    let typeMask = RegExpFilter.typeMap[type];
     typeNode._defaultType = (typeMask & defaultTypes) != 0;
     if ((isDefaultType && typeNode._defaultType) || (!isDefaultType && item.type == type))
       typeNode.setAttribute("checked", "true");
 
     if (item.type == type)
       typeNode.setAttribute("disabled", "true");
-    typeNode.addEventListener("command", function() checkboxUpdated(this), false);
+    typeNode.addEventListener("command", () => checkboxUpdated(typeNode), false);
     typeGroup.appendChild(typeNode);
   }
 
@@ -255,16 +245,16 @@ function updateFilter()
 
     if (options.length)
     {
-      options.sort(function(a, b) a[0] - b[0]);
-      filter += "$" + options.map(function(o) o[1]).join(",");
+      options.sort((a, b) => a[0] - b[0]);
+      filter += "$" + options.map(o => o[1]).join(",");
     }
   }
   else
   {
     let defaultTypes = RegExpFilter.prototype.contentType & ~RegExpFilter.typeMap.DOCUMENT;
-    let isDefaultType = (RegExpFilter.typeMap[item.typeDescr] & defaultTypes) != 0;
+    let isDefaultType = (RegExpFilter.typeMap[item.type] & defaultTypes) != 0;
     if (!isDefaultType)
-      filter += "$" + item.typeDescr.toLowerCase().replace(/\_/g, "-");
+      filter += "$" + item.type.toLowerCase().replace(/\_/g, "-");
   }
 
   filter = Filter.normalize(filter);
@@ -279,7 +269,7 @@ function updateFilter()
   }
   E("shortpatternWarning").hidden = !isSlow;
 
-  E("matchWarning").hidden = compiledFilter instanceof RegExpFilter && compiledFilter.matches(item.location, item.typeDescr, item.docDomain, item.thirdParty);
+  E("matchWarning").hidden = compiledFilter instanceof RegExpFilter && compiledFilter.matches(item.location, RegExpFilter.typeMap[item.type], item.docDomain, item.thirdParty);
 
   E("filter").value = filter;
 }
@@ -318,7 +308,7 @@ function updatePatternSelection()
 
   function testFilter(/**String*/ filter) /**Boolean*/
   {
-    return RegExpFilter.fromText(filter + "$" + item.typeDescr).matches(item.location, item.typeDescr, item.docDomain, item.thirdParty);
+    return RegExpFilter.fromText(filter + "$" + item.type).matches(item.location, RegExpFilter.typeMap[item.type], item.docDomain, item.thirdParty);
   }
 
   let anchorStartCheckbox = E("anchorStart");
@@ -352,8 +342,8 @@ function addFilter() {
 
   FilterStorage.addFilter(filter);
 
-  if (nodes)
-    Policy.refilterNodes(nodes, item);
+  if (nodesID)
+    Policy.refilterNodes(nodesID, item);
 
   return true;
 }

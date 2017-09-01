@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -49,7 +49,7 @@ var SubscriptionActions =
     let node = null;
     let tabIndex = -1;
     let subscriptions = filter.subscriptions.slice();
-    subscriptions.sort(function(s1, s2) s1.disabled - s2.disabled);
+    subscriptions.sort((s1, s2) => s1.disabled - s2.disabled);
     for (let i = 0; i < subscriptions.length; i++)
     {
       let subscription = subscriptions[i];
@@ -68,7 +68,7 @@ var SubscriptionActions =
         node.parentNode.selectItem(node);
         if (!FilterActions.visible)
           E("subscription-showHideFilters-command").doCommand();
-        Utils.runAsync(FilterView.selectFilter, FilterView, filter);
+        Utils.runAsync(() => FilterView.selectFilter(filter));
       });
     }
   },
@@ -295,7 +295,7 @@ var SubscriptionActions =
 
     event.dataTransfer.addElement(node);
     event.dataTransfer.setData("text/x-moz-url", data.subscription.url);
-    event.dataTransfer.setData("text/plain", data.subscription.title);
+    event.dataTransfer.setData("text/plain", getSubscriptionTitle(data.subscription));
     this.dragSubscription = data.subscription;
     event.stopPropagation();
   },
@@ -422,7 +422,7 @@ var TitleEditor =
 
     subscriptionNode.getElementsByClassName("titleBox")[0].selectedIndex = 1;
     let editor = subscriptionNode.getElementsByClassName("titleEditor")[0];
-    editor.value = subscription.title;
+    editor.value = getSubscriptionTitle(subscription);
     editor.setSelectionRange(0, editor.value.length);
     this.subscriptionEdited = subscriptionNode;
     editor.focus();
@@ -538,7 +538,7 @@ var SelectSubscription =
       // Show panel and focus list
       let position = (Utils.versionComparator.compare(Utils.platformVersion, "2.0") < 0 ? "after_end" : "bottomcenter topleft");
       panel.openPopup(E("selectSubscriptionButton"), position, 0, 0, false, false, event);
-      Utils.runAsync(list.focus, list);
+      Utils.runAsync(() => list.focus());
     };
     request.send();
   },

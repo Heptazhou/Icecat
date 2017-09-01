@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -462,14 +462,22 @@ var FilterView =
 
   /**
    * Selects a row in the tree and makes sure it is visible.
+   * @param {number} row
+   *   row index
+   * @param {boolean} [scrollToTop]
+   *   if true, the selected row should become the top row of the list if
+   *   possible, otherwise the list is only scrolled if the row isn't visible.
    */
-  selectRow: function(row)
+  selectRow: function(row, scrollToTop)
   {
     if (this.selection)
     {
       row = Math.min(Math.max(row, 0), this.data.length - 1);
       this.selection.select(row);
-      this.boxObject.ensureRowIsVisible(row);
+      if (scrollToTop)
+        this.boxObject.scrollToRow(row);
+      else
+        this.boxObject.ensureRowIsVisible(row);
     }
   },
 
@@ -489,7 +497,7 @@ var FilterView =
     }
     if (index >= 0)
     {
-      this.selectRow(index);
+      this.selectRow(index, true);
       this.treeElement.focus();
     }
   },
@@ -502,7 +510,7 @@ var FilterView =
     let oldCount = this.rowCount;
     if (this._subscription && this._subscription.filters.length)
     {
-      this.data = this._subscription.filters.map(function(f, i) ({index: i, filter: f}));
+      this.data = this._subscription.filters.map((f, i) => ({index: i, filter: f}));
       if (this.sortProc)
       {
         // Hide comments in the list, they should be sorted like the filter following them
@@ -633,35 +641,41 @@ var FilterView =
 
   setTree: function(boxObject)
   {
+    if (!boxObject)
+      return;
+
     this.init();
     this.boxObject = boxObject;
 
-    if (this.boxObject)
+    this.noGroupDummy = {index: 0, filter: {text: this.boxObject.treeBody.getAttribute("noGroupText"), dummy: true}};
+    this.noFiltersDummy = {index: 0, filter: {text: this.boxObject.treeBody.getAttribute("noFiltersText"), dummy: true}};
+    this.editDummy = {filter: {text: ""}};
+
+    let atomService = Cc["@mozilla.org/atom-service;1"].getService(Ci.nsIAtomService);
+    let stringAtoms = ["col-filter", "col-enabled", "col-hitcount", "col-lasthit", "type-invalid", "type-comment", "type-blocking", "type-whitelist", "type-elemhide", "type-elemhideexception", "type-elemhideemulation"];
+    let boolAtoms = ["selected", "dummy", "slow", "disabled"];
+
+    this.atoms = {};
+    for (let atom of stringAtoms)
+      this.atoms[atom] = atomService.getAtom(atom);
+    for (let atom of boolAtoms)
     {
-      this.noGroupDummy = {index: 0, filter: {text: this.boxObject.treeBody.getAttribute("noGroupText"), dummy: true}};
-      this.noFiltersDummy = {index: 0, filter: {text: this.boxObject.treeBody.getAttribute("noFiltersText"), dummy: true}};
-      this.editDummy = {filter: {text: ""}};
-
-      let atomService = Cc["@mozilla.org/atom-service;1"].getService(Ci.nsIAtomService);
-      let stringAtoms = ["col-filter", "col-enabled", "col-hitcount", "col-lasthit", "type-comment", "type-filterlist", "type-whitelist", "type-elemhide", "type-elemhideexception", "type-invalid"];
-      let boolAtoms = ["selected", "dummy", "slow", "disabled"];
-
-      this.atoms = {};
-      for (let atom of stringAtoms)
-        this.atoms[atom] = atomService.getAtom(atom);
-      for (let atom of boolAtoms)
-      {
-        this.atoms[atom + "-true"] = atomService.getAtom(atom + "-true");
-        this.atoms[atom + "-false"] = atomService.getAtom(atom + "-false");
-      }
-
-      let columns = this.boxObject.columns;
-      for (let i = 0; i < columns.length; i++)
-        if (columns[i].element.hasAttribute("sortDirection"))
-          this.sortBy(columns[i].id, columns[i].element.getAttribute("sortDirection"));
-
-      this.refresh(true);
+      this.atoms[atom + "-true"] = atomService.getAtom(atom + "-true");
+      this.atoms[atom + "-false"] = atomService.getAtom(atom + "-false");
     }
+
+    let columns = this.boxObject.columns;
+    for (let i = 0; i < columns.length; i++)
+      if (columns[i].element.hasAttribute("sortDirection"))
+        this.sortBy(columns[i].id, columns[i].element.getAttribute("sortDirection"));
+
+    this.refresh(true);
+
+    // Stop propagation of keypress events so that these aren't intercepted by
+    // the findbar.
+    this.treeElement.inputField.addEventListener("keypress", event => {
+      event.stopPropagation();
+    }, false);
   },
 
   selection: null,
@@ -728,19 +742,7 @@ var FilterView =
     if (filter instanceof ActiveFilter)
       list.push("disabled-" + filter.disabled);
     list.push("dummy-" + ("dummy" in filter));
-
-    if (filter instanceof CommentFilter)
-      list.push("type-comment");
-    else if (filter instanceof BlockingFilter)
-      list.push("type-filterlist");
-    else if (filter instanceof WhitelistFilter)
-      list.push("type-whitelist");
-    else if (filter instanceof ElemHideFilter)
-      list.push("type-elemhide");
-    else if (filter instanceof ElemHideException)
-      list.push("type-elemhideexception");
-    else if (filter instanceof InvalidFilter)
-      list.push("type-invalid");
+    list.push("type-" + filter.type);
 
     return this.generateProperties(list, properties);
   },
@@ -830,20 +832,20 @@ var FilterView =
       filter.disabled = !filter.disabled;
   },
 
-  isContainer: function(row) false,
-  isContainerOpen: function(row) false,
-  isContainerEmpty: function(row) true,
-  getLevel: function(row) 0,
-  getParentIndex: function(row) -1,
-  hasNextSibling: function(row, afterRow) false,
-  toggleOpenState: function(row) {},
-  getProgressMode: function() null,
-  getImageSrc: function() null,
-  isSeparator: function() false,
-  performAction: function() {},
-  performActionOnRow: function() {},
-  performActionOnCell: function() {},
-  getCellValue: function() null,
-  setCellValue: function() {},
-  selectionChanged: function() {},
+  isContainer: row => false,
+  isContainerOpen: row => false,
+  isContainerEmpty: row => true,
+  getLevel: row => 0,
+  getParentIndex: row => -1,
+  hasNextSibling: (row, afterRow) => false,
+  toggleOpenState: row => {},
+  getProgressMode: () => null,
+  getImageSrc: () => null,
+  isSeparator: () => false,
+  performAction: () => {},
+  performActionOnRow: () => {},
+  performActionOnCell: () => {},
+  getCellValue: () => null,
+  setCellValue: () => {},
+  selectionChanged: () => {}
 };

@@ -5,7 +5,7 @@
 <!ENTITY noFiltersInGroup.text "De geselecteerde groep is leeg.">
 <!ENTITY subscription.actions.label "Acties">
 <!ENTITY filter.selectAll.label "Alles selecteren">
-<!ENTITY backupButton.label "Ba&amp;ck-up en herstel">
+<!ENTITY backupButton.label "Ba&amp;ck-up maken en terugzetten">
 <!ENTITY restore.minVersion.warning "Waarschuwing: het bestand is gemaakt met een nieuwere versie van Adblock Plus. U dient Adblock Plus bij te werken naar de nieuwste versie voordat u iets vanuit dit bestand kunt terugzetten.">
 <!ENTITY restore.error "De gegevens in het bestand konden niet worden verwerkt; wellicht is het geen back-upbestand van Adblock Plus?">
 <!ENTITY sort.ascending.label "Sorteervolgorde &amp;A &gt; Z">
@@ -32,7 +32,7 @@
 <!ENTITY noSubscriptions.text "U hebt nog geen filterabonnementen toegevoegd. Adblock Plus blokkeert niets zonder filters; gebruik ‘Filterabonnement toevoegen’ om er enkele toe te voegen.">
 <!ENTITY subscription.update.label "Filters bijwerken">
 <!ENTITY dialog.title "Adblock Plus-filtervoorkeuren">
-<!ENTITY addFilter.label "Fil&amp;ter toevoegen">
+<!ENTITY addFilter.label "Filter &amp;toevoegen">
 <!ENTITY subscription.minVersion.warning "Dit filterabonnement vereist een nieuwere versie van Adblock Plus; u dient Adblock Plus bij te werken naar de nieuwste versie.">
 <!ENTITY subscription.lastDownload.invalidURL "Mislukt, geen geldig adres">
 <!ENTITY backup.error "Er is een fout opgetreden bij het wegschrijven van de filters. Zorg ervoor dat het bestand niet tegen schrijven is beveiligd of door een andere toepassing wordt gebruikt.">
@@ -43,6 +43,7 @@
 <!ENTITY acceptableAds2.label "&amp;Enkele niet-opdringerige advertenties toestaan">
 <!ENTITY addSubscriptionOther.label "Een ander abonnement toevoegen">
 <!ENTITY close.label "Sluiten">
+<!ENTITY findbar.caseSensitive "Hoofdlettergevoelig">
 <!ENTITY sort.none.label "&amp;Ongesorteerd">
 <!ENTITY filter.actions.label "Filteracties">
 <!ENTITY filter.copy.label "Kopiëren">
@@ -60,12 +61,17 @@
 <!ENTITY find.label "&amp;Zoeken">
 <!ENTITY subscription.moveDown.label "Omlaag verplaatsen">
 <!ENTITY subscription.lastDownload.connectionError "Mislukt, downloadprobleem">
+<!ENTITY findbar.statusWrappedStart "Bovenkant bereikt, doorgegaan vanaf onderkant">
 <!ENTITY subscription.lastDownload.success "Gelukt">
+<!ENTITY findbar.placeholder "Filter zoeken">
 <!ENTITY subscription.lastDownload.invalidData "Mislukt, geen geldige filterlijst">
+<!ENTITY findbar.close "Zoekbalk sluiten">
 <!ENTITY filter.paste.label "Plakken">
 <!ENTITY subscription.disabledFilters.enable "Uitgeschakelde filters inschakelen">
 <!ENTITY lasthit.column "&amp;Laatste treffer">
+<!ENTITY findbar.statusWrappedEnd "Onderkant bereikt, doorgegaan vanaf bovenkant">
 <!ENTITY subscription.editTitle.label "Titel bewerken">
+<!ENTITY findbar.statusNotFound "Tekst niet gevonden">
 <!ENTITY subscription.disabledFilters.warning "Enkele filters in dit abonnement zijn uitgeschakeld.">
 <!ENTITY filter.column "&amp;Filterregel">
 <!ENTITY subscription.lastDownload.label "Laatste download:">

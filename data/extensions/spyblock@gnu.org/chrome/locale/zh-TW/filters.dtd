@@ -70,3 +70,9 @@
 <!ENTITY filter.column "過濾條件 (&amp;F)">
 <!ENTITY subscription.lastDownload.label "最後下載：">
 <!ENTITY viewList.label "檢視條件列表">
+<!ENTITY findbar.caseSensitive "Match Case">
+<!ENTITY findbar.statusWrappedStart "Reached top, continuing from bottom">
+<!ENTITY findbar.placeholder "Find filter">
+<!ENTITY findbar.close "Close find bar">
+<!ENTITY findbar.statusWrappedEnd "Reached bottom, continuing from top">
+<!ENTITY findbar.statusNotFound "Phrase not found">

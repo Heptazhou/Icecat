@@ -2,7 +2,9 @@ content   adblockplus chrome/content/
 skin      adblockplus classic/1.0 chrome/skin/
 locale    adblockplus en-US chrome/locale/en-US/
 locale    adblockplus ar chrome/locale/ar/
+locale    adblockplus az chrome/locale/az/
 locale    adblockplus bg chrome/locale/bg/
+locale    adblockplus bn-BD chrome/locale/bn-BD/
 locale    adblockplus ca chrome/locale/ca/
 locale    adblockplus cs chrome/locale/cs/
 locale    adblockplus cy chrome/locale/cy/
@@ -11,8 +13,10 @@ locale    adblockplus de chrome/locale/de/
 locale    adblockplus dsb chrome/locale/dsb/
 locale    adblockplus el chrome/locale/el/
 locale    adblockplus en-GB chrome/locale/en-GB/
+locale    adblockplus en-ZA chrome/locale/en-ZA/
 locale    adblockplus eo chrome/locale/eo/
 locale    adblockplus es-AR chrome/locale/es-AR/
+locale    adblockplus es-CL chrome/locale/es-CL/
 locale    adblockplus es-ES chrome/locale/es-ES/
 locale    adblockplus es-MX chrome/locale/es-MX/
 locale    adblockplus et chrome/locale/et/
@@ -56,4 +60,4 @@ locale    adblockplus zh-CN chrome/locale/zh-CN/
 locale    adblockplus zh-TW chrome/locale/zh-TW/
 
 # fennec settings
-override chrome://adblockplus/content/ui/settings.xul chrome://adblockplus/content/ui/fennecSettings.xul application={a23983c0-fd0e-11dc-95ff-0800200c9a66} application={aa3c5121-dab2-40e2-81ca-7ea25febc110}
+override chrome://adblockplus/content/ui/settings.xul chrome://adblockplus/content/ui/fennecSettings.xul application={a23983c0-fd0e-11dc-95ff-0800200c9a66} application={aa3c5121-dab2-40e2-81ca-7ea25febc110} application={55aba3ac-94d3-41a8-9e25-5c21fe874539}

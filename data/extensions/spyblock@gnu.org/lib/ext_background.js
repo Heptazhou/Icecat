@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -17,31 +17,21 @@
 
 let {XPCOMUtils} = Cu.import("resource://gre/modules/XPCOMUtils.jsm", null);
 let {Services} = Cu.import("resource://gre/modules/Services.jsm", null);
-let {
-  _MessageProxy: MessageProxy,
-  _EventTarget: EventTarget,
-  _getSender: getSender
-} = require("ext_common");
-exports.onMessage = new EventTarget();
 
-let messageProxy = new MessageProxy(
-    Cc["@mozilla.org/globalmessagemanager;1"]
-      .getService(Ci.nsIMessageListenerManager),
-    exports.onMessage);
-onShutdown.add(function()
-{
-  messageProxy._disconnect();
-});
+let {_EventTarget: EventTarget, i18n} = require("ext_common");
+let {port} = require("messaging");
 
-function Page(sender)
+exports.onMessage = new EventTarget(port);
+exports.i18n = i18n;
+
+function Page(windowID)
 {
-  this._sender = sender;
+  this._windowID = windowID;
 }
 Page.prototype = {
-  sendMessage: function(message)
+  sendMessage: function(payload)
   {
-    if (this._sender)
-      this._sender.sendAsyncMessage("AdblockPlus:Message", {payload: message});
+    port.emit("ext_message", {targetID: this._windowID, payload});
   }
 };
 exports.Page = Page;
@@ -50,48 +40,35 @@ function PageMap()
 {
   this._map = new Map();
 
-  Services.obs.addObserver(this, "message-manager-disconnect", true);
-  onShutdown.add(function()
-  {
-    Services.obs.removeObserver(this, "message-manager-disconnect");
-  }.bind(this));
+  port.on("ext_disconnect", windowID => this._map.delete(windowID));
 }
 PageMap.prototype = {
-  QueryInterface: XPCOMUtils.generateQI([Ci.nsIObserver, Ci.nsISupportsWeakReference]),
-
-  observe: function(subject, topic, data)
-  {
-    if (topic == "message-manager-disconnect")
-      this._map.delete(subject);
-  },
-
   keys: function()
   {
     let result = [];
-    for (let sender of this._map.keys())
-      result.push(new Page(sender));
+    for (let windowID of this._map.keys())
+      result.push(new Page(windowID));
     return result;
   },
 
   get: function(page)
   {
-    return this._map.get(page._sender);
+    return this._map.get(page._windowID);
   },
 
   set: function(page, value)
   {
-    if (page._sender)
-      this._map.set(page._sender, value);
+    this._map.set(page._windowID, value);
   },
 
   has: function(page)
   {
-    return this._map.has(page._sender);
+    return this._map.has(page._windowID);
   },
 
   delete: function(page)
   {
-    this._map.delete(page._sender);
+    return this._map.delete(page._windowID);
   }
 };
 exports.PageMap = PageMap;

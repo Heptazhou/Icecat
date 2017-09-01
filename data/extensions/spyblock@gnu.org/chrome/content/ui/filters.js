@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -24,7 +24,7 @@ function init()
   {
     let filter = window.arguments[0].wrappedJSObject;
     if (filter instanceof Filter)
-      Utils.runAsync(SubscriptionActions.selectFilter, SubscriptionActions, filter);
+      Utils.runAsync(() => SubscriptionActions.selectFilter(filter));
   }
 }
 
@@ -117,6 +117,7 @@ var Templater =
     for (let key in data)
       sandbox[key] = data[key];
     sandbox.formatTime = Utils.formatTime;
+    sandbox.getSubscriptionTitle = getSubscriptionTitle;
 
     // Clone template but remove id/hidden attributes from it
     let result = template.cloneNode(true);

@@ -44,6 +44,7 @@
 <!ENTITY acceptableAds2.label "Baimendu publizitate ez &amp;intrusiboa">
 <!ENTITY addSubscriptionOther.label "Gehitu beste harpidetza bat">
 <!ENTITY close.label "Itxi">
+<!ENTITY findbar.caseSensitive "Bereizi letra Larriak/xeheak">
 <!ENTITY sort.none.label "Ordenatu &amp;gabe">
 <!ENTITY filter.actions.label "Iragazki ekintzak">
 <!ENTITY filter.copy.label "Kopiatu">
@@ -52,7 +53,7 @@
 <!ENTITY readMore.label "Gehiago irakurri">
 <!ENTITY subscription.moveUp.label "Igo">
 <!ENTITY addSubscription.label "Geh&amp;itu iragazki harpidetza">
-<!ENTITY subscription.homepage.label "Hasiera orria">
+<!ENTITY subscription.homepage.label "Webgunea">
 <!ENTITY backup.complete.title "Iragazki eta harpidetza guztiak">
 <!ENTITY restore.own.label "Segurtasun kopia propioa berrezarri">
 <!ENTITY restore.complete.warning "Zure iragazki hobespen guztiak aukeratutako fitxategiko edukiarekin ordeztuko dira. Aurrera jarraitu nahi duzu?">
@@ -61,13 +62,18 @@
 <!ENTITY find.label "&amp;Bilatu">
 <!ENTITY subscription.moveDown.label "Jaitsi">
 <!ENTITY subscription.lastDownload.connectionError "Huts egin du; deskarga errorea">
+<!ENTITY findbar.statusWrappedStart "Gorarte heldu da, behetik jarraitzen">
 <!ENTITY subscription.lastDownload.success "Ongi">
+<!ENTITY findbar.placeholder "Aurkitu iragazkia">
 <!ENTITY subscription.lastDownload.invalidData "Huts egin du; ez da iragazki zerrenda baliagarria">
+<!ENTITY findbar.close "Aukeratu bilaketa-barra">
 <!ENTITY filter.paste.label "Itsatsi">
 <!ENTITY subscription.disabledFilters.enable "Gaitu desgaitutako iragazkiak">
 <!ENTITY lasthit.column "&amp;Azken bategitea">
+<!ENTITY findbar.statusWrappedEnd "Beherarte heldu da, goitik jarraitzen">
 <!ENTITY subscription.editTitle.label "Editatu izenburua">
+<!ENTITY findbar.statusNotFound "Ez da esaldia aurkitu">
 <!ENTITY subscription.disabledFilters.warning "Harpidetza honetako iragazki batzuk desgaituta daude.">
-<!ENTITY filter.column "&amp;Iragazki araua">
+<!ENTITY filter.column "&amp;Iragazki-araua">
 <!ENTITY subscription.lastDownload.label "Azken deskarga:">
 <!ENTITY viewList.label "Ikusi zerrenda">

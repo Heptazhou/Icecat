@@ -2,7 +2,7 @@
 
 <!--
   - This file is part of Adblock Plus <https://adblockplus.org/>,
-  - Copyright (C) 2006-2015 Eyeo GmbH
+  - Copyright (C) 2006-2017 eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -86,9 +86,9 @@
   <command id="filters-copy-command" oncommand="FilterActions.copySelected(true);"/>
   <command id="filters-cut-command" oncommand="FilterActions.copySelected(false);"/>
   <command id="filters-paste-command" oncommand="FilterActions.paste();"/>
-  <command id="find-command" oncommand="E('findbar').startFind(E('findbar').FIND_NORMAL)"/>
-  <command id="find-again-command" oncommand="E('findbar').onFindAgainCommand(false)"/>
-  <command id="find-previous-command" oncommand="E('findbar').onFindAgainCommand(true)"/>
+  <command id="find-command" oncommand="FilterSearch.open();"/>
+  <command id="find-again-command" oncommand="FilterSearch.search(1);"/>
+  <command id="find-previous-command" oncommand="FilterSearch.search(-1);"/>
 </commandset>
 
 <popupset id="filtersPopupset">
@@ -187,7 +187,7 @@
                 <hbox align="center">
                   <deck class="titleBox" flex="1" selectedIndex="0" onselect="event.stopPropagation();">
                     <description ondblclick="if (event.button == 0) TitleEditor.start(this, true);">
-                      <description class="title" value="{subscription.title}" flex="1" crop="end"/>
+                      <description class="title" value="{getSubscriptionTitle(subscription)}" flex="1" crop="end"/>
                       (<if condition="{isExternal}">
                         <description value="&subscription.external.label;"/>
                       <else/>
@@ -246,7 +246,7 @@
               </button>
             </hbox>
 
-            <description class="warning" hidden="{!subscription.upgradeRequired}">&subscription.minVersion.warning;</description>
+            <description class="warning" hidden="{!upgradeRequired}">&subscription.minVersion.warning;</description>
             <description class="warning" hidden="{!disabledFilters}">
               &subscription.disabledFilters.warning;
               <description class="link" value="&subscription.disabledFilters.enable;" onclick="SubscriptionActions.enableFilters(this);"/>
@@ -282,7 +282,7 @@
               checked="{subscription.disabled ? 'false' : 'true'}" oncommand="SubscriptionActions.setDisabled(this, !this.checked);"/>
             <hbox align="center" flex="1">
               <deck class="titleBox" flex="1" selectedIndex="0" onselect="event.stopPropagation();">
-                <description class="title" value="{subscription.title}" crop="end" ondblclick="if (event.button == 0) TitleEditor.start(this, true);"/>
+                <description class="title" value="{getSubscriptionTitle(subscription)}" crop="end" ondblclick="if (event.button == 0) TitleEditor.start(this, true);"/>
                 <textbox oncontextmenu="event.stopPropagation();" class="titleEditor" onkeypress="TitleEditor.keyPress(event);" onblur="TitleEditor.end(true);"/>
               </deck>
             </hbox>
@@ -338,6 +338,19 @@
       </button>
       <button id="addFilterButton" label="&addFilter.label;" command="filters-add-command"/>
     </hbox>
+
+    <hbox id="findbar" hidden="true" align="center" onkeypress="FilterSearch.keyPress(event);">
+      <toolbarbutton id="findbar-closebutton" tooltiptext="&findbar.close;" oncommand="FilterSearch.close();"/>
+      <textbox id="findbar-textbox" type="search" placeholder="&findbar.placeholder;" flex="1" oncommand="FilterSearch.search();"/>
+      <spinbuttons id="findbar-findAgain" onup="FilterSearch.search(-1);" ondown="FilterSearch.search(1);"/>
+      <button id="findbar-case-sensitive" type="checkbox" label="&findbar.caseSensitive;" oncommand="FilterSearch.search(0);"/>
+      <stack>
+        <label id="findbar-status-wrappedStart" class="findbar-status" value="&findbar.statusWrappedStart;"/>
+        <label id="findbar-status-wrappedEnd" class="findbar-status" value="&findbar.statusWrappedEnd;"/>
+        <label id="findbar-status-notFound" class="findbar-status" value="&findbar.statusNotFound;"/>
+      </stack>
+    </hbox>
+
     <tree id="filtersTree"
         flex="1"
         editable="true"
@@ -368,8 +381,6 @@
   </vbox>
 </hbox>
 
-<findbar id="findbar"/>
-
 <hbox id="buttons">
   <button id="backupButton" type="menu"
       label="&backupButton.label;"
@@ -378,7 +389,7 @@
       _backupError="&backup.error;" _restoreError="&restore.error;"
       _restoreCompleteWarning="&restore.complete.warning;" _restoreCustomWarning="&restore.custom.warning;"
       _restoreVersionWarning="&restore.minVersion.warning;"
-      oncommand="if (event.target == this) Utils.runAsync(function() this.open = true, this);">
+      oncommand="if (event.target == this) Utils.runAsync(() => this.open = true);">
     <menupopup onpopupshowing="Backup.fillRestorePopup();">
       <menuitem id="backup" key="backup-key" label="&backup.label;…" oncommand="Backup.backupToFile();"/>
       <menuseparator/>

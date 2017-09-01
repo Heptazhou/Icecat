@@ -61,12 +61,18 @@
 <!ENTITY subscription.moveDown.label "הזזה מטה">
 <!ENTITY subscription.lastDownload.connectionError "נכשל, ההורדה נכשלה">
 <!ENTITY subscription.lastDownload.success "הצליח">
+<!ENTITY findbar.placeholder "חיפוש">
 <!ENTITY subscription.lastDownload.invalidData "נכשל, רשימת המסננים לא חוקית">
+<!ENTITY findbar.close "סגור את החיפוש">
 <!ENTITY filter.paste.label "הדבקה">
 <!ENTITY subscription.disabledFilters.enable "אפשר מסננים מנוטרלים">
 <!ENTITY lasthit.column "&amp;לחיצה אחרונה">
 <!ENTITY subscription.editTitle.label "עריכת הכותרת">
+<!ENTITY findbar.statusNotFound "הביטוי לא נמצא">
 <!ENTITY subscription.disabledFilters.warning "כמה מהמסננים בהרשמה זאת מנוטרלים.">
 <!ENTITY filter.column "חוק &amp;סינון">
 <!ENTITY subscription.lastDownload.label "הורדה אחרונה:">
 <!ENTITY viewList.label "הצגת רשימה">
+<!ENTITY findbar.caseSensitive "Match Case">
+<!ENTITY findbar.statusWrappedStart "Reached top, continuing from bottom">
+<!ENTITY findbar.statusWrappedEnd "Reached bottom, continuing from top">

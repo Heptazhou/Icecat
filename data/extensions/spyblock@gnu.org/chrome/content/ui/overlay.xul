@@ -2,7 +2,7 @@
 
 <!--
   - This file is part of Adblock Plus <https://adblockplus.org/>,
-  - Copyright (C) 2006-2015 Eyeo GmbH
+  - Copyright (C) 2006-2017 eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -60,6 +60,7 @@
         <menuitem id="abp-status-frameobjects" label="&objecttabs.label;" type="checkbox" command="abp-command-toggleobjtabs"/>
         <menuitem id="abp-status-savestats" label="&counthits.label;" type="checkbox" command="abp-command-togglesavestats"/>
         <menuitem id="abp-status-sync" label="&sync.label;" type="checkbox" command="abp-command-togglesync"/>
+        <menuitem id="abp-status-shownotifications" label="&shownotifications.label;" type="checkbox" command="abp-command-toggleshownotifications"/>
         <menuseparator id="abp-status-iconSettingsSeparator"/>
         <menuitem id="abp-status-showintoolbar" label="&showintoolbar.label;" type="checkbox" command="abp-command-toggleshowintoolbar"/>
         <menuitem id="abp-status-showinstatusbar" label="&showinstatusbar.label;" type="checkbox" command="abp-command-toggleshowinstatusbar"/>
@@ -85,6 +86,7 @@
     <command id="abp-command-enable" oncommand="//"/>
     <command id="abp-command-contribute"/>
     <command id="abp-command-contribute-hide"/>
+    <command id="abp-command-toggleshownotifications"/>
   </commandset>
 
   <statusbarpanel id="abp-status" class="statusbarpanel-iconic"
@@ -113,12 +115,20 @@
   <!-- Notification panel -->
   <panel id="abp-notification" type="arrow" orient="vertical"
     xmlns:html="http://www.w3.org/1999/xhtml">
-    <label id="abp-notification-title" class="header"/>
-    <html:p id="abp-notification-message"/>
-    <hbox id="abp-notification-question">
-      <button id="abp-notification-yes" label="&notification.button.yes;"/>
-      <button id="abp-notification-no" label="&notification.button.no;"/>
-      <toolbarbutton id="abp-notification-close" label="&notification.button.close;"></toolbarbutton>
-    </hbox>
+    <vbox id="abp-notification-content">
+      <toolbar align="start">
+        <label id="abp-notification-title" class="header" flex="1" crop="end"/>
+        <toolbarbutton id="abp-notification-close" tooltiptext="&notification.button.close;"/>
+      </toolbar>
+      <html:p id="abp-notification-message"/>
+      <hbox id="abp-notification-question">
+        <button id="abp-notification-yes" label="&notification.button.yes;"/>
+        <button id="abp-notification-no" label="&notification.button.no;"/>
+      </hbox>
+    </vbox>
+    <vbox id="abp-notification-close-content">
+      <toolbarbutton id="abp-notification-hide" label="&notification.closing.button.hide;"/>
+      <toolbarbutton id="abp-notification-optout" label="&notification.closing.button.optout;"/>
+    </vbox>
   </panel>
 </overlay>

@@ -33,7 +33,7 @@
 <!ENTITY subscription.update.label "Atjaunināt filtrus">
 <!ENTITY dialog.title "Adblock Plus filtra prioritātes">
 <!ENTITY addFilter.label "Pievienot Filtru">
-<!ENTITY subscription.minVersion.warning "Šo filtru abonēšanai nepieciešama jaunāka versija Adblock Plus, tadel jums vajadzētu atjaunināt ar jaunāko Adblock Plus versiju.">
+<!ENTITY subscription.minVersion.warning "Šo filtru abonēšanai nepieciešama jaunāka versija Adblock Plus, tādēļ jums vajadzētu atjaunināt ar jaunāko Adblock Plus versiju.">
 <!ENTITY subscription.lastDownload.invalidURL "Neizdevās, nav derīga adrese">
 <!ENTITY backup.error "Radās kļūda, ierakstot filtrus failā. Pārliecinieties, ka fails nav aizsargāts pret ierakstu vai netiek izmantots citā lietojumprogrammā.">
 <!ENTITY filter.moveUp.label "Pārvietot uz augšu">
@@ -61,7 +61,9 @@
 <!ENTITY subscription.moveDown.label "Pārvietot uz leju">
 <!ENTITY subscription.lastDownload.connectionError "Neizdevās, lejupielāde neizdevās">
 <!ENTITY subscription.lastDownload.success "Izdevās">
+<!ENTITY findbar.placeholder "Atrast filtru">
 <!ENTITY subscription.lastDownload.invalidData "Neizdevās, nav derīgs filtru saraksts">
+<!ENTITY findbar.close "Tuvu Atrašanas joslā">
 <!ENTITY filter.paste.label "Ielīmēt">
 <!ENTITY subscription.disabledFilters.enable "Iespējot atspējotie filtri">
 <!ENTITY lasthit.column "Pēdējai klikšķis">
@@ -70,3 +72,7 @@
 <!ENTITY filter.column "Filtra noteikumi">
 <!ENTITY subscription.lastDownload.label "Pēdējā lejupielāde:">
 <!ENTITY viewList.label "Skatīt sarakstu">
+<!ENTITY findbar.caseSensitive "Match Case">
+<!ENTITY findbar.statusWrappedStart "Reached top, continuing from bottom">
+<!ENTITY findbar.statusWrappedEnd "Reached bottom, continuing from top">
+<!ENTITY findbar.statusNotFound "Phrase not found">

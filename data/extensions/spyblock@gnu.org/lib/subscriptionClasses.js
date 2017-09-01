@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -15,20 +15,22 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+"use strict";
+
 /**
  * @fileOverview Definition of Subscription class and its subclasses.
  */
 
-Cu.import("resource://gre/modules/Services.jsm");
-
-let {ActiveFilter, BlockingFilter, WhitelistFilter, ElemHideBase} = require("filterClasses");
-let {FilterNotifier} = require("filterNotifier");
+const {ActiveFilter, BlockingFilter,
+       WhitelistFilter, ElemHideBase} = require("filterClasses");
+const {FilterNotifier} = require("filterNotifier");
+const {desc, extend} = require("coreUtils");
 
 /**
  * Abstract base class for filter subscriptions
  *
- * @param {String} url    download location of the subscription
- * @param {String} [title]  title of the filter subscription
+ * @param {string} url    download location of the subscription
+ * @param {string} [title]  title of the filter subscription
  * @constructor
  */
 function Subscription(url, title)
@@ -37,11 +39,6 @@ function Subscription(url, title)
   this.filters = [];
   if (title)
     this._title = title;
-  else
-  {
-    let {Utils} = require("utils");
-    this._title = Utils.getString("newGroup_title");
-  }
   Subscription.knownSubscriptions[url] = this;
 }
 exports.Subscription = Subscription;
@@ -50,13 +47,13 @@ Subscription.prototype =
 {
   /**
    * Download location of the subscription
-   * @type String
+   * @type {string}
    */
   url: null,
 
   /**
    * Filters contained in the filter subscription
-   * @type Array of Filter
+   * @type {Filter[]}
    */
   filters: null,
 
@@ -66,7 +63,7 @@ Subscription.prototype =
 
   /**
    * Title of the filter subscription
-   * @type String
+   * @type {string}
    */
   get title()
   {
@@ -78,14 +75,15 @@ Subscription.prototype =
     {
       let oldValue = this._title;
       this._title = value;
-      FilterNotifier.triggerListeners("subscription.title", this, value, oldValue);
+      FilterNotifier.triggerListeners("subscription.title",
+                                      this, value, oldValue);
     }
     return this._title;
   },
 
   /**
    * Determines whether the title should be editable
-   * @type Boolean
+   * @type {boolean}
    */
   get fixedTitle()
   {
@@ -97,14 +95,15 @@ Subscription.prototype =
     {
       let oldValue = this._fixedTitle;
       this._fixedTitle = value;
-      FilterNotifier.triggerListeners("subscription.fixedTitle", this, value, oldValue);
+      FilterNotifier.triggerListeners("subscription.fixedTitle",
+                                      this, value, oldValue);
     }
     return this._fixedTitle;
   },
 
   /**
    * Defines whether the filters in the subscription should be disabled
-   * @type Boolean
+   * @type {boolean}
    */
   get disabled()
   {
@@ -116,33 +115,36 @@ Subscription.prototype =
     {
       let oldValue = this._disabled;
       this._disabled = value;
-      FilterNotifier.triggerListeners("subscription.disabled", this, value, oldValue);
+      FilterNotifier.triggerListeners("subscription.disabled",
+                                      this, value, oldValue);
     }
     return this._disabled;
   },
 
   /**
-   * Serializes the subscription to an array of strings for writing out on the disk.
-   * @param {Array of String} buffer  buffer to push the serialization results into
+   * Serializes the subscription to an array of strings for writing
+   * out on the disk.
+   * @param {string[]} buffer  buffer to push the serialization results into
    */
-  serialize: function(buffer)
+  serialize(buffer)
   {
     buffer.push("[Subscription]");
     buffer.push("url=" + this.url);
-    buffer.push("title=" + this._title);
+    if (this._title)
+      buffer.push("title=" + this._title);
     if (this._fixedTitle)
       buffer.push("fixedTitle=true");
     if (this._disabled)
       buffer.push("disabled=true");
   },
 
-  serializeFilters: function(buffer)
+  serializeFilters(buffer)
   {
     for (let filter of this.filters)
       buffer.push(filter.text.replace(/\[/g, "\\["));
   },
 
-  toString: function()
+  toString()
   {
     let buffer = [];
     this.serialize(buffer);
@@ -152,45 +154,40 @@ Subscription.prototype =
 
 /**
  * Cache for known filter subscriptions, maps URL to subscription objects.
- * @type Object
+ * @type {Object}
  */
 Subscription.knownSubscriptions = Object.create(null);
 
 /**
  * Returns a subscription from its URL, creates a new one if necessary.
- * @param {String} url  URL of the subscription
- * @return {Subscription} subscription or null if the subscription couldn't be created
+ * @param {string} url
+ *   URL of the subscription
+ * @return {Subscription}
+ *   subscription or null if the subscription couldn't be created
  */
 Subscription.fromURL = function(url)
 {
   if (url in Subscription.knownSubscriptions)
     return Subscription.knownSubscriptions[url];
 
-  try
-  {
-    // Test URL for validity
-    url = Services.io.newURI(url, null, null).spec;
+  if (url[0] != "~")
     return new DownloadableSubscription(url, null);
-  }
-  catch (e)
-  {
-    return new SpecialSubscription(url);
-  }
+  return new SpecialSubscription(url);
 };
 
 /**
  * Deserializes a subscription
  *
- * @param {Object}  obj map of serialized properties and their values
- * @return {Subscription} subscription or null if the subscription couldn't be created
+ * @param {Object}  obj
+ *   map of serialized properties and their values
+ * @return {Subscription}
+ *   subscription or null if the subscription couldn't be created
  */
 Subscription.fromObject = function(obj)
 {
   let result;
-  try
+  if (obj.url[0] != "~")
   {
-    obj.url = Services.io.newURI(obj.url, null, null).spec;
-
     // URL is valid - this is a downloadable subscription
     result = new DownloadableSubscription(obj.url, obj.title);
     if ("downloadStatus" in obj)
@@ -208,12 +205,7 @@ Subscription.fromObject = function(obj)
     if ("version" in obj)
       result.version = parseInt(obj.version, 10) || 0;
     if ("requiredVersion" in obj)
-    {
-      let {addonVersion} = require("info");
       result.requiredVersion = obj.requiredVersion;
-      if (Services.vc.compare(result.requiredVersion, addonVersion) > 0)
-        result.upgradeRequired = true;
-    }
     if ("homepage" in obj)
       result._homepage = obj.homepage;
     if ("lastDownload" in obj)
@@ -221,25 +213,8 @@ Subscription.fromObject = function(obj)
     if ("downloadCount" in obj)
       result.downloadCount = parseInt(obj.downloadCount, 10) || 0;
   }
-  catch (e)
+  else
   {
-    // Invalid URL - custom filter group
-    if (!("title" in obj))
-    {
-      // Backwards compatibility - titles and filter types were originally
-      // determined by group identifier.
-      if (obj.url == "~wl~")
-        obj.defaults = "whitelist";
-      else if (obj.url == "~fl~")
-        obj.defaults = "blocking";
-      else if (obj.url == "~eh~")
-        obj.defaults = "elemhide";
-      if ("defaults" in obj)
-      {
-        let {Utils} = require("utils");
-        obj.title = Utils.getString(obj.defaults + "Group_title");
-      }
-    }
     result = new SpecialSubscription(obj.url, obj.title);
     if ("defaults" in obj)
       result.defaults = obj.defaults.split(" ");
@@ -256,8 +231,8 @@ Subscription.fromObject = function(obj)
 
 /**
  * Class for special filter subscriptions (user's filters)
- * @param {String} url see Subscription()
- * @param {String} [title]  see Subscription()
+ * @param {string} url see Subscription()
+ * @param {string} [title]  see Subscription()
  * @constructor
  * @augments Subscription
  */
@@ -267,23 +242,20 @@ function SpecialSubscription(url, title)
 }
 exports.SpecialSubscription = SpecialSubscription;
 
-SpecialSubscription.prototype =
-{
-  __proto__: Subscription.prototype,
-
+SpecialSubscription.prototype = extend(Subscription, {
   /**
    * Filter types that should be added to this subscription by default
    * (entries should correspond to keys in SpecialSubscription.defaultsMap).
-   * @type Array of String
+   * @type {string[]}
    */
   defaults: null,
 
   /**
    * Tests whether a filter should be added to this group by default
    * @param {Filter} filter filter to be tested
-   * @return {Boolean}
+   * @return {boolean}
    */
-  isDefaultFor: function(filter)
+  isDefaultFor(filter)
   {
     if (this.defaults && this.defaults.length)
     {
@@ -301,35 +273,41 @@ SpecialSubscription.prototype =
 
   /**
    * See Subscription.serialize()
+   * @inheritdoc
    */
-  serialize: function(buffer)
+  serialize(buffer)
   {
     Subscription.prototype.serialize.call(this, buffer);
     if (this.defaults && this.defaults.length)
-      buffer.push("defaults=" + this.defaults.filter((type) => type in SpecialSubscription.defaultsMap).join(" "));
+    {
+      buffer.push("defaults=" +
+        this.defaults.filter(
+          type => type in SpecialSubscription.defaultsMap
+        ).join(" ")
+      );
+    }
     if (this._lastDownload)
       buffer.push("lastDownload=" + this._lastDownload);
   }
-};
+});
 
-SpecialSubscription.defaultsMap = {
-  __proto__: null,
-  "whitelist": WhitelistFilter,
-  "blocking": BlockingFilter,
-  "elemhide": ElemHideBase
-};
+SpecialSubscription.defaultsMap = Object.create(null, desc({
+  whitelist: WhitelistFilter,
+  blocking: BlockingFilter,
+  elemhide: ElemHideBase
+}));
 
 /**
  * Creates a new user-defined filter group.
- * @param {String} [title]  title of the new filter group
- * @result {SpecialSubscription}
+ * @param {string} [title]  title of the new filter group
+ * @return {SpecialSubscription}
  */
 SpecialSubscription.create = function(title)
 {
   let url;
   do
   {
-    url = "~user~" + Math.round(Math.random()*1000000);
+    url = "~user~" + Math.round(Math.random() * 1000000);
   } while (url in Subscription.knownSubscriptions);
   return new SpecialSubscription(url, title);
 };
@@ -337,8 +315,10 @@ SpecialSubscription.create = function(title)
 /**
  * Creates a new user-defined filter group and adds the given filter to it.
  * This group will act as the default group for this filter type.
+ * @param {Filter} filter
+ * @return {SpecialSubscription}
  */
-SpecialSubscription.createForFilter = function(/**Filter*/ filter) /**SpecialSubscription*/
+SpecialSubscription.createForFilter = function(filter)
 {
   let subscription = SpecialSubscription.create();
   subscription.filters.push(filter);
@@ -349,16 +329,14 @@ SpecialSubscription.createForFilter = function(/**Filter*/ filter) /**SpecialSub
   }
   if (!subscription.defaults)
     subscription.defaults = ["blocking"];
-
-  let {Utils} = require("utils");
-  subscription.title = Utils.getString(subscription.defaults[0] + "Group_title");
   return subscription;
 };
 
 /**
- * Abstract base class for regular filter subscriptions (both internally and externally updated)
- * @param {String} url    see Subscription()
- * @param {String} [title]  see Subscription()
+ * Abstract base class for regular filter subscriptions (both
+ * internally and externally updated)
+ * @param {string} url    see Subscription()
+ * @param {string} [title]  see Subscription()
  * @constructor
  * @augments Subscription
  */
@@ -368,16 +346,13 @@ function RegularSubscription(url, title)
 }
 exports.RegularSubscription = RegularSubscription;
 
-RegularSubscription.prototype =
-{
-  __proto__: Subscription.prototype,
-
+RegularSubscription.prototype = extend(Subscription, {
   _homepage: null,
   _lastDownload: 0,
 
   /**
    * Filter subscription homepage if known
-   * @type String
+   * @type {string}
    */
   get homepage()
   {
@@ -389,14 +364,16 @@ RegularSubscription.prototype =
     {
       let oldValue = this._homepage;
       this._homepage = value;
-      FilterNotifier.triggerListeners("subscription.homepage", this, value, oldValue);
+      FilterNotifier.triggerListeners("subscription.homepage",
+                                      this, value, oldValue);
     }
     return this._homepage;
   },
 
   /**
-   * Time of the last subscription download (in seconds since the beginning of the epoch)
-   * @type Number
+   * Time of the last subscription download (in seconds since the
+   * beginning of the epoch)
+   * @type {number}
    */
   get lastDownload()
   {
@@ -408,15 +385,17 @@ RegularSubscription.prototype =
     {
       let oldValue = this._lastDownload;
       this._lastDownload = value;
-      FilterNotifier.triggerListeners("subscription.lastDownload", this, value, oldValue);
+      FilterNotifier.triggerListeners("subscription.lastDownload",
+                                      this, value, oldValue);
     }
     return this._lastDownload;
   },
 
   /**
    * See Subscription.serialize()
+   * @inheritdoc
    */
-  serialize: function(buffer)
+  serialize(buffer)
   {
     Subscription.prototype.serialize.call(this, buffer);
     if (this._homepage)
@@ -424,12 +403,12 @@ RegularSubscription.prototype =
     if (this._lastDownload)
       buffer.push("lastDownload=" + this._lastDownload);
   }
-};
+});
 
 /**
  * Class for filter subscriptions updated externally (by other extension)
- * @param {String} url    see Subscription()
- * @param {String} [title]  see Subscription()
+ * @param {string} url    see Subscription()
+ * @param {string} [title]  see Subscription()
  * @constructor
  * @augments RegularSubscription
  */
@@ -439,23 +418,23 @@ function ExternalSubscription(url, title)
 }
 exports.ExternalSubscription = ExternalSubscription;
 
-ExternalSubscription.prototype =
-{
-  __proto__: RegularSubscription.prototype,
-
+ExternalSubscription.prototype = extend(RegularSubscription, {
   /**
    * See Subscription.serialize()
+   * @inheritdoc
    */
-  serialize: function(buffer)
+  serialize(buffer)
   {
-    throw new Error("Unexpected call, external subscriptions should not be serialized");
+    throw new Error(
+      "Unexpected call, external subscriptions should not be serialized"
+    );
   }
-};
+});
 
 /**
  * Class for filter subscriptions updated externally (by other extension)
- * @param {String} url  see Subscription()
- * @param {String} [title]  see Subscription()
+ * @param {string} url  see Subscription()
+ * @param {string} [title]  see Subscription()
  * @constructor
  * @augments RegularSubscription
  */
@@ -465,17 +444,14 @@ function DownloadableSubscription(url, title)
 }
 exports.DownloadableSubscription = DownloadableSubscription;
 
-DownloadableSubscription.prototype =
-{
-  __proto__: RegularSubscription.prototype,
-
+DownloadableSubscription.prototype = extend(RegularSubscription, {
   _downloadStatus: null,
   _lastCheck: 0,
   _errors: 0,
 
   /**
    * Status of the last download (ID of a string)
-   * @type String
+   * @type {string}
    */
   get downloadStatus()
   {
@@ -485,7 +461,8 @@ DownloadableSubscription.prototype =
   {
     let oldValue = this._downloadStatus;
     this._downloadStatus = value;
-    FilterNotifier.triggerListeners("subscription.downloadStatus", this, value, oldValue);
+    FilterNotifier.triggerListeners("subscription.downloadStatus",
+                                    this, value, oldValue);
     return this._downloadStatus;
   },
 
@@ -496,10 +473,11 @@ DownloadableSubscription.prototype =
   lastSuccess: 0,
 
   /**
-   * Time when the subscription was considered for an update last time (in seconds
-   * since the beginning of the epoch). This will be used to increase softExpiration
-   * if the user doesn't use Adblock Plus for some time.
-   * @type Number
+   * Time when the subscription was considered for an update last time
+   * (in seconds since the beginning of the epoch). This will be used
+   * to increase softExpiration if the user doesn't use Adblock Plus
+   * for some time.
+   * @type {number}
    */
   get lastCheck()
   {
@@ -511,26 +489,29 @@ DownloadableSubscription.prototype =
     {
       let oldValue = this._lastCheck;
       this._lastCheck = value;
-      FilterNotifier.triggerListeners("subscription.lastCheck", this, value, oldValue);
+      FilterNotifier.triggerListeners("subscription.lastCheck",
+                                      this, value, oldValue);
     }
     return this._lastCheck;
   },
 
   /**
-   * Hard expiration time of the filter subscription (in seconds since the beginning of the epoch)
-   * @type Number
+   * Hard expiration time of the filter subscription (in seconds since
+   * the beginning of the epoch)
+   * @type {number}
    */
   expires: 0,
 
   /**
-   * Soft expiration time of the filter subscription (in seconds since the beginning of the epoch)
-   * @type Number
+   * Soft expiration time of the filter subscription (in seconds since
+   * the beginning of the epoch)
+   * @type {number}
    */
   softExpiration: 0,
 
   /**
    * Number of download failures since last success
-   * @type Number
+   * @type {number}
    */
   get errors()
   {
@@ -542,32 +523,27 @@ DownloadableSubscription.prototype =
     {
       let oldValue = this._errors;
       this._errors = value;
-      FilterNotifier.triggerListeners("subscription.errors", this, value, oldValue);
+      FilterNotifier.triggerListeners("subscription.errors", this,
+                                      value, oldValue);
     }
     return this._errors;
   },
 
   /**
    * Version of the subscription data retrieved on last successful download
-   * @type Number
+   * @type {number}
    */
   version: 0,
 
   /**
    * Minimal Adblock Plus version required for this subscription
-   * @type String
+   * @type {string}
    */
   requiredVersion: null,
 
   /**
-   * Should be true if requiredVersion is higher than current Adblock Plus version
-   * @type Boolean
-   */
-  upgradeRequired: false,
-
-  /**
    * Number indicating how often the object was downloaded.
-   * @type Number
+   * @type {number}
    */
   downloadCount: 0,
 
@@ -579,8 +555,9 @@ DownloadableSubscription.prototype =
 
   /**
    * See Subscription.serialize()
+   * @inheritdoc
    */
-  serialize: function(buffer)
+  serialize(buffer)
   {
     RegularSubscription.prototype.serialize.call(this, buffer);
     if (this.downloadStatus)
@@ -604,4 +581,4 @@ DownloadableSubscription.prototype =
     if (this.privateMode)
       buffer.push("privateMode=" + this.privateMode);
   }
-};
+});

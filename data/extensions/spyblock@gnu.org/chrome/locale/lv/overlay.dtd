@@ -28,4 +28,6 @@
 <!ENTITY showintoolbar.label "Rādīt rīkjoslā">
 <!ENTITY status.tooltip "Statuss:">
 <!ENTITY context.media.label "Adblock Plus: Bloķēt audio/video">
-<!ENTITY subscription.update.label "Atjaunināt filtrus">
+<!ENTITY notification.closing.button.hide "Close t&amp;his notification">
+<!ENTITY shownotifications.label "Show useful &amp;notifications">
+<!ENTITY notification.closing.button.optout "&amp;Stop showing notifications">

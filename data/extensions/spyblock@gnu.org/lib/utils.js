@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -213,47 +213,18 @@ let Utils = exports.Utils =
 
   /**
    * Posts an action to the event queue of the current thread to run it
-   * asynchronously. Any additional parameters to this function are passed
-   * as parameters to the callback.
+   * asynchronously.
    * @param {function} callback
-   * @param {object} thisPtr
    */
-  runAsync: function(callback, thisPtr)
+  runAsync: function(callback)
   {
-    let params = Array.prototype.slice.call(arguments, 2);
-    let runnable = {
-      run: function()
-      {
-        callback.apply(thisPtr, params);
-      }
-    };
-    Services.tm.currentThread.dispatch(runnable, Ci.nsIEventTarget.DISPATCH_NORMAL);
-  },
-
-  /**
-   * Gets the DOM window associated with a particular request (if any).
-   */
-  getRequestWindow: function(/**nsIChannel*/ channel) /**nsIDOMWindow*/
-  {
-    try
-    {
-      if (channel.notificationCallbacks)
-        return channel.notificationCallbacks.getInterface(Ci.nsILoadContext).associatedWindow;
-    } catch(e) {}
-
-    try
-    {
-      if (channel.loadGroup && channel.loadGroup.notificationCallbacks)
-        return channel.loadGroup.notificationCallbacks.getInterface(Ci.nsILoadContext).associatedWindow;
-    } catch(e) {}
-
-    return null;
+    Services.tm.currentThread.dispatch(callback, Ci.nsIEventTarget.DISPATCH_NORMAL);
   },
 
   /**
    * Generates filter subscription checksum.
    *
-   * @param {Array of String} lines filter subscription lines (with checksum line removed)
+   * @param {string[]} lines filter subscription lines (with checksum line removed)
    * @return {String} checksum or null
    */
   generateChecksum: function(lines)
@@ -364,22 +335,6 @@ let Utils = exports.Utils =
       }
     }
     return selectedItem;
-  },
-
-  /**
-   * Pauses code execution and allows events to be processed. Warning:
-   * other extension code might execute, the extension might even shut down.
-   */
-  yield: function()
-  {
-    let {Prefs} = require("prefs");
-    if (Prefs.please_kill_startup_performance)
-    {
-      this.yield = function() {};
-      return;
-    }
-    let thread = Services.tm.currentThread;
-    while (thread.processNextEvent(false));
   },
 
   /**
@@ -618,8 +573,6 @@ XPCOMUtils.defineLazyServiceGetter(Utils, "windowWatcher", "@mozilla.org/embedco
 XPCOMUtils.defineLazyServiceGetter(Utils, "chromeRegistry", "@mozilla.org/chrome/chrome-registry;1", "nsIXULChromeRegistry");
 XPCOMUtils.defineLazyServiceGetter(Utils, "systemPrincipal", "@mozilla.org/systemprincipal;1", "nsIPrincipal");
 XPCOMUtils.defineLazyServiceGetter(Utils, "dateFormatter", "@mozilla.org/intl/scriptabledateformat;1", "nsIScriptableDateFormat");
-XPCOMUtils.defineLazyServiceGetter(Utils, "childMessageManager", "@mozilla.org/childprocessmessagemanager;1", "nsISyncMessageSender");
-XPCOMUtils.defineLazyServiceGetter(Utils, "parentMessageManager", "@mozilla.org/parentprocessmessagemanager;1", "nsIFrameMessageManager");
 XPCOMUtils.defineLazyServiceGetter(Utils, "httpProtocol", "@mozilla.org/network/protocol;1?name=http", "nsIHttpProtocolHandler");
 XPCOMUtils.defineLazyServiceGetter(Utils, "clipboard", "@mozilla.org/widget/clipboard;1", "nsIClipboard");
 XPCOMUtils.defineLazyServiceGetter(Utils, "clipboardHelper", "@mozilla.org/widget/clipboardhelper;1", "nsIClipboardHelper");
@@ -627,7 +580,7 @@ XPCOMUtils.defineLazyGetter(Utils, "crypto", function()
 {
   try
   {
-    let ctypes = Components.utils.import("resource://gre/modules/ctypes.jsm", null).ctypes;
+    let ctypes = Cu.import("resource://gre/modules/ctypes.jsm", null).ctypes;
 
     let nsslib;
     try

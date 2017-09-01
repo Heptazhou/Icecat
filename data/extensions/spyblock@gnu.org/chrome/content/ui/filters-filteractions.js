@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -101,9 +101,9 @@ var FilterActions =
   fillActionsPopup: function()
   {
     let editable = FilterView.editable;
-    let items = FilterView.selectedItems.filter(function(i) !i.filter.dummy);
-    items.sort(function(entry1, entry2) entry1.index - entry2.index);
-    let activeItems = items.filter(function(i) i.filter instanceof ActiveFilter);
+    let items = FilterView.selectedItems.filter(i => !i.filter.dummy);
+    items.sort((entry1, entry2) => entry1.index - entry2.index);
+    let activeItems = items.filter(i => i.filter instanceof ActiveFilter);
 
     E("filters-edit-command").setAttribute("disabled", !editable || !items.length);
     E("filters-delete-command").setAttribute("disabled", !editable || !items.length);
@@ -142,7 +142,7 @@ var FilterActions =
     if (this.treeElement.editingColumn)
       return;
 
-    let items = FilterView.selectedItems.filter(function(i) i.filter instanceof ActiveFilter);
+    let items = FilterView.selectedItems.filter(i => i.filter instanceof ActiveFilter);
     if (items.length)
     {
       FilterView.boxObject.beginUpdateBatch();
@@ -205,7 +205,7 @@ var FilterActions =
   deleteItems: function(/**Array*/ items)
   {
     let oldIndex = FilterView.selection.currentIndex;
-    items.sort(function(entry1, entry2) entry2.index - entry1.index);
+    items.sort((entry1, entry2) => entry2.index - entry1.index);
 
     for (let i = 0; i < items.length; i++)
       FilterStorage.removeFilter(items[i].filter, FilterView._subscription, items[i].index);
@@ -236,9 +236,9 @@ var FilterActions =
     if (this.treeElement.editingColumn)
       return;
 
-    let items = FilterView.selectedItems.filter(function(i) i.filter instanceof ActiveFilter);
+    let items = FilterView.selectedItems.filter(i => i.filter instanceof ActiveFilter);
     if (items.length)
-      FilterStorage.resetHitCounts(items.map(function(i) i.filter));
+      FilterStorage.resetHitCounts(items.map(i => i.filter));
   },
 
   /**
@@ -253,7 +253,7 @@ var FilterActions =
 
     if (offset < 0)
     {
-      items.sort(function(entry1, entry2) entry1.index - entry2.index);
+      items.sort((entry1, entry2) => entry1.index - entry2.index);
       let position = items[0].index + offset;
       if (position < 0)
         return;
@@ -264,7 +264,7 @@ var FilterActions =
     }
     else if (offset > 0)
     {
-      items.sort(function(entry1, entry2) entry2.index - entry1.index);
+      items.sort((entry1, entry2) => entry2.index - entry1.index);
       let position = items[0].index + offset;
       if (position >= FilterView.rowCount)
         return;
@@ -339,10 +339,17 @@ var FilterActions =
       while (box.firstChild)
         box.removeChild(box.firstChild);
 
-      for (var i = 0; i < text.length; i += 80)
+      let lines = text.match(/.{1,80}/g);
+      if (lines.length > 7)
       {
-        var description = document.createElement("description");
-        description.setAttribute("value", text.substr(i, 80));
+        // Text is too long to display in full so we cut out the middle part
+        lines = lines.slice(0,3).concat("\u2026", lines.slice(-3));
+      }
+
+      for (let line of lines)
+      {
+        let description = document.createElement("description");
+        description.setAttribute("value", line);
         box.appendChild(description);
       }
     }
@@ -359,7 +366,7 @@ var FilterActions =
 
     E("tooltip-additional").hidden = false;
     if (item.filter instanceof InvalidFilter && item.filter.reason)
-      E("tooltip-additional").textContent = item.filter.reason;
+      E("tooltip-additional").textContent = Utils.getString(item.filter.reason);
     else if (item.filter instanceof RegExpFilter && defaultMatcher.isSlowFilter(item.filter))
       E("tooltip-additional").textContent = Utils.getString("filter_regexp_tooltip");
     else
@@ -408,8 +415,8 @@ var FilterActions =
     if (!items.length)
       return;
 
-    items.sort(function(entry1, entry2) entry1.index - entry2.index);
-    let text = items.map(function(i) i.filter.text).join(IO.lineBreak);
+    items.sort((entry1, entry2) => entry1.index - entry2.index);
+    let text = items.map(i => i.filter.text).join(IO.lineBreak);
     Utils.clipboardHelper.copyString(text);
 
     if (!keep && FilterView.editable && !this.treeElement.editingColumn)
@@ -465,8 +472,8 @@ var FilterActions =
     if (!items.length)
       return;
 
-    items.sort(function(entry1, entry2) entry1.index - entry2.index);
-    event.dataTransfer.setData("text/plain", items.map(function(i) i.filter.text).join(IO.lineBreak));
+    items.sort((entry1, entry2) => entry1.index - entry2.index);
+    event.dataTransfer.setData("text/plain", items.map(i => i.filter.text).join(IO.lineBreak));
     this.dragItems = items;
     event.stopPropagation();
   },

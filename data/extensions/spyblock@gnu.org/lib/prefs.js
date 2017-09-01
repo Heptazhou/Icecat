@@ -2,41 +2,45 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
-Cu.import("resource://gre/modules/Services.jsm");
-Cu.import("resource://gre/modules/XPCOMUtils.jsm");
+let {Services} = Cu.import("resource://gre/modules/Services.jsm", {});
+let {XPCOMUtils} = Cu.import("resource://gre/modules/XPCOMUtils.jsm", {});
 
 let {addonRoot, addonName} = require("info");
 let branchName = "extensions." + addonName + ".";
 let branch = Services.prefs.getBranch(branchName);
+let preconfiguredBranch =
+    Services.prefs.getBranch(branchName + "preconfigured.");
 let ignorePrefChanges = false;
 
 function init()
 {
   // Load default preferences and set up properties for them
   let defaultBranch = Services.prefs.getDefaultBranch(branchName);
-  let scope =
-  {
-    pref: function(pref, value)
-    {
-      if (pref.substr(0, branchName.length) != branchName)
-      {
-        Cu.reportError(new Error("Ignoring default preference " + pref + ", wrong branch."));
-        return;
-      }
-      pref = pref.substr(branchName.length);
 
-      let [getter, setter] = typeMap[typeof value];
-      setter(defaultBranch, pref, value);
-      defineProperty(pref, false, getter, setter);
+  let prefsData = require("prefs.json");
+  let defaults = prefsData.defaults;
+  let preconfigurable = new Set(prefsData.preconfigurable);
+  for (let pref in defaults)
+  {
+    let value = defaults[pref];
+    let [getter, setter] = typeMap[typeof value];
+    if (preconfigurable.has(pref))
+    {
+      try
+      {
+        value = getter(preconfiguredBranch, pref);
+      }
+      catch (e) {}
     }
-  };
-  Services.scriptloader.loadSubScript(addonRoot + "defaults/prefs.js", scope);
+    setter(defaultBranch, pref, value);
+    defineProperty(pref, false, getter, setter);
+  }
 
   // Add preference change observer
   try
   {
     branch.QueryInterface(Ci.nsIPrefBranch2).addObserver("", Prefs, true);
-    onShutdown.add(function() branch.removeObserver("", Prefs));
+    onShutdown.add(() => branch.removeObserver("", Prefs));
   }
   catch (e)
   {
@@ -50,7 +54,7 @@ function init()
 function defineProperty(/**String*/ name, defaultValue, /**Function*/ readFunc, /**Function*/ writeFunc)
 {
   let value = defaultValue;
-  Prefs["_update_" + name] = function()
+  Prefs["_update_" + name] = () =>
   {
     try
     {
@@ -62,29 +66,32 @@ function defineProperty(/**String*/ name, defaultValue, /**Function*/ readFunc, 
       Cu.reportError(e);
     }
   };
-  Prefs.__defineGetter__(name, function() value);
-  Prefs.__defineSetter__(name, function(newValue)
-  {
-    if (value == newValue)
-      return value;
+  Object.defineProperty(Prefs, name, {
+    enumerable: true,
+    get: () => value,
+    set: (newValue) =>
+    {
+      if (value == newValue)
+        return value;
 
-    try
-    {
-      ignorePrefChanges = true;
-      writeFunc(branch, name, newValue);
-      value = newValue;
-      Services.prefs.savePrefFile(null);
-      triggerListeners(name);
+      try
+      {
+        ignorePrefChanges = true;
+        writeFunc(branch, name, newValue);
+        value = newValue;
+        Services.prefs.savePrefFile(null);
+        triggerListeners(name);
+      }
+      catch(e)
+      {
+        Cu.reportError(e);
+      }
+      finally
+      {
+        ignorePrefChanges = false;
+      }
+      return value;
     }
-    catch(e)
-    {
-      Cu.reportError(e);
-    }
-    finally
-    {
-      ignorePrefChanges = false;
-    }
-    return value;
   });
   Prefs["_update_" + name]();
 }
@@ -161,6 +168,23 @@ let Prefs = exports.Prefs =
   QueryInterface: XPCOMUtils.generateQI([Ci.nsISupportsWeakReference, Ci.nsIObserver])
 };
 
+let getIntPref = (branch, pref) => branch.getIntPref(pref);
+let setIntPref = (branch, pref, newValue) => branch.setIntPref(pref, newValue);
+
+let getBoolPref = (branch, pref) => branch.getBoolPref(pref);
+let setBoolPref = (branch, pref, newValue) => branch.setBoolPref(pref, newValue);
+
+let getCharPref = (branch, pref) => branch.getComplexValue(pref, Ci.nsISupportsString).data;
+let setCharPref = (branch, pref, newValue) =>
+{
+  let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+  str.data = newValue;
+  branch.setComplexValue(pref, Ci.nsISupportsString, str);
+};
+
+let getJSONPref = (branch, pref) => JSON.parse(getCharPref(branch, pref));
+let setJSONPref = (branch, pref, newValue) => setCharPref(branch, pref, JSON.stringify(newValue));
+
 // Getter/setter functions for difference preference types
 let typeMap =
 {
@@ -169,22 +193,5 @@ let typeMap =
   string: [getCharPref, setCharPref],
   object: [getJSONPref, setJSONPref]
 };
-
-function getIntPref(branch, pref) branch.getIntPref(pref)
-function setIntPref(branch, pref, newValue) branch.setIntPref(pref, newValue)
-
-function getBoolPref(branch, pref) branch.getBoolPref(pref)
-function setBoolPref(branch, pref, newValue) branch.setBoolPref(pref, newValue)
-
-function getCharPref(branch, pref) branch.getComplexValue(pref, Ci.nsISupportsString).data
-function setCharPref(branch, pref, newValue)
-{
-  let str = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
-  str.data = newValue;
-  branch.setComplexValue(pref, Ci.nsISupportsString, str);
-}
-
-function getJSONPref(branch, pref) JSON.parse(getCharPref(branch, pref))
-function setJSONPref(branch, pref, newValue) setCharPref(branch, pref, JSON.stringify(newValue))
 
 init();

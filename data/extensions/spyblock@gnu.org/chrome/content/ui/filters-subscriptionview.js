@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -91,10 +91,7 @@ ListManager.prototype =
         this.addSubscription(subscription, null);
 
       // Make sure first list item is selected after list initialization
-      Utils.runAsync(function()
-      {
-        this._list.selectItem(this._list.getItemAtIndex(this._list.getIndexOfFirstVisibleRow()));
-      }, this);
+      Utils.runAsync(() => this._list.selectItem(this._list.getItemAtIndex(this._list.getIndexOfFirstVisibleRow())));
     }
 
     this._deck.selectedIndex = (subscriptions.length ? 1 : 0);
@@ -116,7 +113,8 @@ ListManager.prototype =
       subscription: subscription,
       isExternal: subscription instanceof ExternalSubscription,
       downloading: Synchronizer.isExecuting(subscription.url),
-      disabledFilters: disabledFilters
+      disabledFilters: disabledFilters,
+      upgradeRequired: ListManager.isUpgradeRequired(subscription)
     });
     if (insertBefore)
       this._list.insertBefore(node, insertBefore);
@@ -170,14 +168,14 @@ ListManager.prototype =
   _onChange: function(action, item, param1, param2)
   {
     if ((action == "subscription.added" || action == "subscription.removed") && item.url == Prefs.subscriptions_exceptionsurl)
-      E("acceptableAds").checked = FilterStorage.subscriptions.some(function(s) s.url == Prefs.subscriptions_exceptionsurl);
+      E("acceptableAds").checked = FilterStorage.subscriptions.some(s => s.url == Prefs.subscriptions_exceptionsurl);
 
     if (action == "filter.disabled")
     {
       if (this._scheduledUpdateDisabled == null)
       {
         this._scheduledUpdateDisabled = Object.create(null);
-        Utils.runAsync(this.updateDisabled, this);
+        Utils.runAsync(() => this.updateDisabled());
       }
       for (let i = 0; i < item.subscriptions.length; i++)
         this._scheduledUpdateDisabled[item.subscriptions[i].url] = true;
@@ -251,11 +249,14 @@ ListManager.prototype =
       case "subscription.homepage":
       case "subscription.lastDownload":
       case "subscription.downloadStatus":
+      case "subscription.downloading":
       {
         let subscriptionNode = Templater.getNodeForData(this._list, "subscription", item);
         if (subscriptionNode)
         {
-          Templater.getDataForNode(subscriptionNode).downloading = Synchronizer.isExecuting(item.url);
+          let data = Templater.getDataForNode(subscriptionNode);
+          data.downloading = Synchronizer.isExecuting(item.url);
+          data.upgradeRequired = ListManager.isUpgradeRequired(item);
           Templater.update(this._template, subscriptionNode);
 
           if (!document.commandDispatcher.focusedElement)
@@ -274,7 +275,7 @@ ListManager.prototype =
         if (this._scheduledUpdateDisabled == null)
         {
           this._scheduledUpdateDisabled = Object.create(null);
-          Utils.runAsync(this.updateDisabled, this);
+          Utils.runAsync(() => this.updateDisabled());
         }
         this._scheduledUpdateDisabled[item.url] = true;
         break;
@@ -290,13 +291,13 @@ ListManager.init = function()
 {
   new ListManager(E("subscriptions"),
                   E("subscriptionTemplate"),
-                  function(s) s instanceof RegularSubscription && !(ListManager.acceptableAdsCheckbox && s.url == Prefs.subscriptions_exceptionsurl),
+                  s => s instanceof RegularSubscription && !(ListManager.acceptableAdsCheckbox && s.url == Prefs.subscriptions_exceptionsurl),
                   SubscriptionActions.updateCommands);
   new ListManager(E("groups"),
                   E("groupTemplate"),
-                  function(s) s instanceof SpecialSubscription,
+                  s => s instanceof SpecialSubscription,
                   SubscriptionActions.updateCommands);
-  E("acceptableAds").checked = FilterStorage.subscriptions.some(function(s) s.url == Prefs.subscriptions_exceptionsurl);
+  E("acceptableAds").checked = FilterStorage.subscriptions.some(s => s.url == Prefs.subscriptions_exceptionsurl);
   E("acceptableAds").parentNode.hidden = !ListManager.acceptableAdsCheckbox;
 };
 
@@ -325,6 +326,21 @@ ListManager.allowAcceptableAds = function(/**Boolean*/ allow)
   }
   else
     FilterStorage.removeSubscription(subscription);
+};
+
+/**
+ * Checks whether Adblock Plus needs to be upgraded in order to support filters
+ * in a particular subscription.
+ */
+ListManager.isUpgradeRequired = function(/**Subscription*/ subscription)
+{
+  if (subscription instanceof DownloadableSubscription && subscription.requiredVersion)
+  {
+    let {addonVersion} = require("info");
+    if (Services.vc.compare(subscription.requiredVersion, addonVersion) > 0)
+      return true;
+  }
+  return false;
 };
 
 window.addEventListener("load", ListManager.init, false);

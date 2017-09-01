@@ -1,12 +1,12 @@
 <!ENTITY screenshot.undo.label "Onge&amp;daan maken">
 <!ENTITY issues.disabledgroups.description "De volgende filterabonnementen / filtergroepen zijn uitgeschakeld, maar zijn mogelijk wel van invloed op deze pagina:">
 <!ENTITY showData.label "Rapportgegevens tonen">
-<!ENTITY typeSelector.falsePositive.label "Adblock Plus blokkeert &amp;te veel">
+<!ENTITY typeSelector.falsePositive.label "Adblock Plus blokkeert t&amp;e veel">
 <!ENTITY issues.change.description "Uw configuratie is gewijzigd. Laad de pagina opnieuw om de wijzigingen te testen en dien een rapport in als het probleem niet door de wijzigingen is verholpen.">
 <!ENTITY email.label "E-&amp;mailadres:">
 <!ENTITY issues.openPreferences.label "Filtervoorkeuren openen">
 <!ENTITY sendPage.confirmation "Uw rapport is opgeslagen. U kunt het vinden op het volgende adres:">
-<!ENTITY copyLink.label "Rapport&amp;koppeling kopiëren">
+<!ENTITY copyLink.label "Rapportkoppeling &amp;kopiëren">
 <!ENTITY issues.nofilters.description "Adblock Plus blokkeert niets op de huidige pagina. Het door u ervaren probleem heeft zeer waarschijnlijk niets met Adblock Plus te maken.">
 <!ENTITY sendPage.knownIssue "Het door u gemelde probleem is waarschijnlijk al bekend. Meer informatie:">
 <!ENTITY typeSelector.other.description "Selecteer deze optie als u een probleem met Adblock Plus zelf vermoedt in plaats van met de filters.">

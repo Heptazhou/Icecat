@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -97,20 +97,22 @@ var Backup =
     while (this.restoreInsertionPoint.nextSibling && !this.restoreInsertionPoint.nextSibling.id)
       this.restoreInsertionPoint.parentNode.removeChild(this.restoreInsertionPoint.nextSibling);
 
-    let files = FilterStorage.getBackupFiles().reverse();
-    for (let i = 0; i < files.length; i++)
+    FilterStorage.getBackupFiles().then(backups =>
     {
-      let file = files[i];
-      let item = this.restoreTemplate.cloneNode(true);
-      let label = item.getAttribute("label");
-      label = label.replace(/\?1\?/, Utils.formatTime(file.lastModifiedTime));
-      item.setAttribute("label", label);
-      item.addEventListener("command", function()
+      backups.reverse();
+      for (let backup of backups)
       {
-        Backup.restoreAllData(file);
-      }, false);
-      this.restoreInsertionPoint.parentNode.insertBefore(item, this.restoreInsertionPoint.nextSibling);
-    }
+        let item = this.restoreTemplate.cloneNode(true);
+        let label = item.getAttribute("label");
+        label = label.replace(/\?1\?/, Utils.formatTime(backup.lastModified));
+        item.setAttribute("label", label);
+        item.addEventListener("command", function()
+        {
+          FilterStorage.restoreBackup(backup.index);
+        }, false);
+        this.restoreInsertionPoint.parentNode.insertBefore(item, this.restoreInsertionPoint.nextSibling);
+      }
+    });
   },
 
   /**
@@ -139,34 +141,40 @@ var Backup =
    */
   restoreAllData: function(/**nsIFile*/ file)
   {
-    let stream = Cc["@mozilla.org/network/file-input-stream;1"].createInstance(Ci.nsIFileInputStream);
-    stream.init(file, FileUtils.MODE_RDONLY, FileUtils.PERMS_FILE, 0);
-    stream.QueryInterface(Ci.nsILineInputStream);
-
+    let sink = FilterStorage.importData();
     let lines = [];
-    let line = {value: null};
-    if (stream.readLine(line))
-      lines.push(line.value);
-    if (stream.readLine(line))
-      lines.push(line.value);
-    stream.close();
+    IO.readFromFile(file, {
+      process(line)
+      {
+        if (line === null)
+        {
+          let match;
+          if (lines.length < 2 || lines[0] != "# Adblock Plus preferences" || !(match = /version=(\d+)/.exec(lines[1])))
+          {
+            Utils.alert(window, E("backupButton").getAttribute("_restoreError"), E("backupButton").getAttribute("_restoreDialogTitle"));
+            return;
+          }
 
-    let match;
-    if (lines.length < 2 || lines[0] != "# Adblock Plus preferences" || !(match = /version=(\d+)/.exec(lines[1])))
+          let warning = E("backupButton").getAttribute("_restoreCompleteWarning");
+          let minVersion = parseInt(match[1], 10);
+          if (minVersion > FilterStorage.formatVersion)
+            warning += "\n\n" + E("backupButton").getAttribute("_restoreVersionWarning");
+
+          if (!Utils.confirm(window, warning, E("backupButton").getAttribute("_restoreDialogTitle")))
+            return;
+        }
+        else if (lines.length < 2)
+          lines.push(line);
+
+        sink(line);
+      }
+    }, error =>
     {
-      Utils.alert(window, E("backupButton").getAttribute("_restoreError"), E("backupButton").getAttribute("_restoreDialogTitle"));
-      return;
-    }
-
-    let warning = E("backupButton").getAttribute("_restoreCompleteWarning");
-    let minVersion = parseInt(match[1], 10);
-    if (minVersion > FilterStorage.formatVersion)
-      warning += "\n\n" + E("backupButton").getAttribute("_restoreVersionWarning");
-
-    if (!Utils.confirm(window, warning, E("backupButton").getAttribute("_restoreDialogTitle")))
-      return;
-
-    FilterStorage.loadFromDisk(file);
+      if (error)
+        alert(error);
+      else
+        FilterStorage.saveToDisk();
+    });
   },
 
   /**
@@ -193,7 +201,7 @@ var Backup =
 
             if (Utils.confirm(window, warning, E("backupButton").getAttribute("_restoreDialogTitle")))
             {
-              let subscriptions = FilterStorage.subscriptions.filter(function(s) s instanceof SpecialSubscription);
+              let subscriptions = FilterStorage.subscriptions.filter(s => s instanceof SpecialSubscription);
               for (let i = 0; i < subscriptions.length; i++)
                 FilterStorage.removeSubscription(subscriptions[i]);
 
@@ -282,7 +290,11 @@ var Backup =
    */
   backupAllData: function(/**nsIFile*/ file)
   {
-    FilterStorage.saveToDisk(file);
+    IO.writeToFile(file, FilterStorage.exportData(), error =>
+    {
+      if (error)
+        alert(error);
+    });
   },
 
   /**
@@ -290,7 +302,7 @@ var Backup =
    */
   backupCustomFilters: function(/**nsIFile*/ file)
   {
-    let subscriptions = FilterStorage.subscriptions.filter(function(s) s instanceof SpecialSubscription);
+    let subscriptions = FilterStorage.subscriptions.filter(s => s instanceof SpecialSubscription);
     let minVersion = "2.0"
     let list = [];
     for (let i = 0; i < subscriptions.length; i++)
@@ -299,7 +311,7 @@ var Backup =
       let typeAddition = "";
       if (subscription.defaults)
         typeAddition = "/" + subscription.defaults.join("/");
-      list.push("! [" + subscription.title + "]" + typeAddition);
+      list.push("! [" + getSubscriptionTitle(subscription) + "]" + typeAddition);
       for (let j = 0; j < subscription.filters.length; j++)
       {
         let filter = subscription.filters[j];
@@ -313,6 +325,19 @@ var Backup =
 
         if (filter instanceof ElemHideException && Services.vc.compare(minVersion, "2.1") < 0)
           minVersion = "2.1";
+
+        if (filter instanceof RegExpFilter && filter.contentType & (RegExpFilter.typeMap.GENERICHIDE | RegExpFilter.typeMap.GENERICBLOCK) && Services.vc.compare(minVersion, "2.6.12") < 0)
+          minVersion = "2.6.12";
+
+        if (filter instanceof ElemHideEmulationFilter && Services.vc.compare(minVersion, "2.7.3") < 0)
+          minVersion = "2.7.3";
+
+        if (filter instanceof RegExpFilter &&
+            (filter.contentType & RegExpFilter.typeMap.WEBSOCKET) &&
+            Services.vc.compare(minVersion, "2.8"))
+        {
+          minVersion = "2.8";
+        }
       }
     }
     list.unshift("[Adblock Plus " + minVersion + "]");
@@ -325,13 +350,7 @@ var Backup =
     if (checksum)
       list.splice(1, 0, "! Checksum: " + checksum);
 
-    function generator()
-    {
-      for (let i = 0; i < list.length; i++)
-        yield list[i];
-    }
-
-    IO.writeToFile(file, generator(), function(e)
+    IO.writeToFile(file, list, function(e)
     {
       if (e)
       {

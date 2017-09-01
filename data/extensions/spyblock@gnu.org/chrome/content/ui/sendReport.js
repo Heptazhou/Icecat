@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -19,16 +19,20 @@
 // Report data template, more data will be added during data collection
 //
 
-Cu.import("resource://gre/modules/Services.jsm");
-Cu.import("resource://gre/modules/FileUtils.jsm");
+let {Services} = Cu.import("resource://gre/modules/Services.jsm", {});
+let {FileUtils} = Cu.import("resource://gre/modules/FileUtils.jsm", {});
 
 const MILLISECONDS_IN_SECOND = 1000;
 const SECONDS_IN_MINUTE = 60;
 const SECONDS_IN_HOUR = 60 * SECONDS_IN_MINUTE;
 const SECONDS_IN_DAY = 24 * SECONDS_IN_HOUR;
 
-let contentWindow = window.arguments[0];
-let windowURI = (window.arguments[1] instanceof Ci.nsIURI ? window.arguments[1] : null);
+let outerWindowID = window.arguments[0];
+let windowURI = window.arguments[1];
+if (typeof windowURI == "string")
+  windowURI = Services.newURI(windowURI, null, null);
+let browser = window.arguments[2];
+let isPrivate = false;
 
 let reportData = new DOMParser().parseFromString("<report></report>", "text/xml");
 
@@ -70,31 +74,30 @@ function serializeReportData()
   return result;
 }
 
-let (element = reportElement("adblock-plus"))
 {
+  let element = reportElement("adblock-plus");
   let {addonVersion} = require("info");
   element.setAttribute("version", addonVersion);
   element.setAttribute("locale", Utils.appLocale);
-};
-let (element = reportElement("application"))
+}
 {
+  let element = reportElement("application");
   element.setAttribute("name", Services.appinfo.name);
   element.setAttribute("vendor", Services.appinfo.vendor);
   element.setAttribute("version", Services.appinfo.version);
   element.setAttribute("userAgent", window.navigator.userAgent);
-};
-let (element = reportElement("platform"))
+}
 {
+  let element = reportElement("platform");
   element.setAttribute("name", "Gecko");
   element.setAttribute("version", Services.appinfo.platformVersion);
   element.setAttribute("build", Services.appinfo.platformBuildID);
 };
-let (element = reportElement("options"))
 {
+  let element = reportElement("options");
   appendElement(element, "option", {id: "enabled"}, Prefs.enabled);
   appendElement(element, "option", {id: "objecttabs"}, Prefs.frameobjects);
   appendElement(element, "option", {id: "collapse"}, !Prefs.fastcollapse);
-  appendElement(element, "option", {id: "privateBrowsing"}, PrivateBrowsing.enabledForWindow(contentWindow) || PrivateBrowsing.enabled);
   appendElement(element, "option", {id: "subscriptionsAutoUpdate"}, Prefs.subscriptions_autoupdate);
   appendElement(element, "option", {id: "javascript"}, Services.prefs.getBoolPref("javascript.enabled"));
   appendElement(element, "option", {id: "cookieBehavior"}, Services.prefs.getIntPref("network.cookie.cookieBehavior"));
@@ -104,11 +107,11 @@ let (element = reportElement("options"))
 // Data collectors
 //
 
-let reportsListDataSource =
+var reportsListDataSource =
 {
   list: [],
 
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
     let data = Prefs.recentReports;
     if (data && "length" in data)
@@ -183,7 +186,7 @@ let reportsListDataSource =
   }
 };
 
-let requestsDataSource =
+var requestsDataSource =
 {
   requests: reportElement("requests"),
   origRequests: [],
@@ -191,17 +194,17 @@ let requestsDataSource =
   callback: null,
   nodeByKey: Object.create(null),
 
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
     this.callback = callback;
-    this.requestNotifier = new RequestNotifier(wnd, this.onRequestFound, this);
+    this.requestNotifier = new RequestNotifier(outerWindowID, this.onRequestFound, this);
   },
 
-  onRequestFound: function(frame, node, entry, scanComplete)
+  onRequestFound: function(entry, scanComplete)
   {
     if (entry)
     {
-      let key = entry.location + " " + entry.typeDescr + " " + entry.docDomain;
+      let key = entry.location + " " + entry.type + " " + entry.docDomain;
       let requestXML;
       if (key in this.nodeByKey)
       {
@@ -212,29 +215,20 @@ let requestsDataSource =
       {
         requestXML = this.nodeByKey[key] = appendElement(this.requests, "request", {
           location: censorURL(entry.location),
-          type: entry.typeDescr,
+          type: entry.type,
           docDomain: entry.docDomain,
           thirdParty: entry.thirdParty,
           count: 1
         });
-      }
 
-      // Location is meaningless for element hiding hits
-      if (entry.filter && entry.filter instanceof ElemHideBase)
-        requestXML.removeAttribute("location");
+        // Location is meaningless for element hiding hits
+        if (requestXML.getAttribute("location")[0] == "#")
+          requestXML.removeAttribute("location");
+      }
 
       if (entry.filter)
-        requestXML.setAttribute("filter", entry.filter.text);
+        requestXML.setAttribute("filter", entry.filter);
 
-      if (node instanceof Element)
-      {
-        requestXML.setAttribute("node", (node.namespaceURI ? node.namespaceURI + "#" : "") + node.localName);
-
-        try
-        {
-          requestXML.setAttribute("size", node.offsetWidth + "x" + node.offsetHeight);
-        } catch(e) {}
-      }
       this.origRequests.push(entry);
     }
 
@@ -247,33 +241,35 @@ let requestsDataSource =
   }
 };
 
-let filtersDataSource =
+var filtersDataSource =
 {
   origFilters: [],
 
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
-    let wndStats = RequestNotifier.getWindowStatistics(wnd);
-    if (wndStats)
+    RequestNotifier.getWindowStatistics(outerWindowID, (wndStats) =>
     {
-      let filters = reportElement("filters");
-      for (let f in wndStats.filters)
+      if (wndStats)
       {
-        let filter = Filter.fromText(f)
-        let hitCount = wndStats.filters[f];
-        appendElement(filters, "filter", {
-          text: filter.text,
-          subscriptions: filter.subscriptions.filter(subscriptionsDataSource.subscriptionFilter).map(function(s) s.url).join(" "),
-          hitCount: hitCount
-        });
-        this.origFilters.push(filter);
+        let filters = reportElement("filters");
+        for (let f in wndStats.filters)
+        {
+          let filter = Filter.fromText(f)
+          let hitCount = wndStats.filters[f];
+          appendElement(filters, "filter", {
+            text: filter.text,
+            subscriptions: filter.subscriptions.filter(subscriptionsDataSource.subscriptionFilter).map(s => s.url).join(" "),
+            hitCount: hitCount
+          });
+          this.origFilters.push(filter);
+        }
       }
-    }
-    callback();
+      callback();
+    });
   }
 };
 
-let subscriptionsDataSource =
+var subscriptionsDataSource =
 {
   subscriptionFilter: function(s)
   {
@@ -284,7 +280,7 @@ let subscriptionsDataSource =
     return true;
   },
 
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
     let subscriptions = reportElement("subscriptions");
     let now = Math.round(Date.now() / 1000);
@@ -296,7 +292,7 @@ let subscriptionsDataSource =
 
       let subscriptionXML = appendElement(subscriptions, "subscription", {
         id: subscription.url,
-        disabledFilters: subscription.filters.filter(function(filter) filter instanceof ActiveFilter && filter.disabled).length
+        disabledFilters: subscription.filters.filter(filter => filter instanceof ActiveFilter && filter.disabled).length
       });
       if (subscription.version)
         subscriptionXML.setAttribute("version", subscription.version);
@@ -317,16 +313,31 @@ let subscriptionsDataSource =
   }
 };
 
-let screenshotDataSource =
+var remoteDataSource =
+{
+  collectData: function(outerWindowID, windowURI, browser, callback)
+  {
+    let {port} = require("messaging");
+    let screenshotWidth = screenshotDataSource.getWidth();
+    port.emitWithResponse("collectData", {outerWindowID, screenshotWidth})
+        .then(data =>
+    {
+      screenshotDataSource.setData(data && data.screenshot);
+      framesDataSource.setData(windowURI, data && data.opener, data && data.referrer, data && data.frames);
+
+      if (data && data.isPrivate)
+        isPrivate = true;
+      let element = reportElement("options");
+      appendElement(element, "option", {id: "privateBrowsing"}, isPrivate);
+
+      callback();
+    });
+  }
+}
+
+var screenshotDataSource =
 {
   imageOffset: 10,
-
-  // Fields used for color reduction
-  _mapping: [0x00,  0x55,  0xAA,  0xFF],
-  _i: null,
-  _max: null,
-  _pixelData: null,
-  _callback: null,
 
   // Fields used for user interaction
   _enabled: true,
@@ -336,76 +347,42 @@ let screenshotDataSource =
   _currentData: null,
   _undoQueue: [],
 
-  collectData: function(wnd, windowURI, callback)
+  getWidth: function()
   {
-    this._callback = callback;
-    this._canvas = E("screenshotCanvas");
-    this._canvas.width = this._canvas.offsetWidth;
+    let canvas = E("screenshotCanvas");
+    return canvas.offsetWidth - this.imageOffset * 2;
+  },
+
+  setData: function(screenshot)
+  {
+    let canvas = E("screenshotCanvas");
 
     // Do not resize canvas any more (no idea why Gecko requires both to be set)
-    this._canvas.parentNode.style.MozBoxAlign = "center";
-    this._canvas.parentNode.align = "center";
+    canvas.parentNode.style.MozBoxAlign = "center";
+    canvas.parentNode.align = "center";
 
-    this._context = this._canvas.getContext("2d");
-    let wndWidth = wnd.document.documentElement.scrollWidth;
-    let wndHeight = wnd.document.documentElement.scrollHeight;
+    let context = canvas.getContext("2d");
+    this._canvas = canvas;
+    this._context = context;
 
-    // Copy scaled screenshot of the webpage. We scale the webpage by width
-    // but leave 10px on each side for easier selecting.
-
-    // Gecko doesn't like sizes more than 64k, restrict to 30k to be on the safe side.
-    // Also, make sure height is at most five times the width to keep image size down.
-    let copyWidth = Math.min(wndWidth, 30000);
-    let copyHeight = Math.min(wndHeight, 30000, copyWidth * 5);
-    let copyX = Math.max(Math.min(wnd.scrollX - copyWidth / 2, wndWidth - copyWidth), 0);
-    let copyY = Math.max(Math.min(wnd.scrollY - copyHeight / 2, wndHeight - copyHeight), 0);
-
-    let scalingFactor = (this._canvas.width - this.imageOffset * 2) / copyWidth;
-    this._canvas.height = copyHeight * scalingFactor + this.imageOffset * 2;
-
-    this._context.save();
-    this._context.translate(this.imageOffset, this.imageOffset);
-    this._context.scale(scalingFactor, scalingFactor);
-    this._context.drawWindow(wnd, copyX, copyY, copyWidth, copyHeight, "rgb(255,255,255)");
-    this._context.restore();
+    if (screenshot)
+    {
+      canvas.width = screenshot.width + this.imageOffset * 2;
+      canvas.height = screenshot.height + this.imageOffset * 2;
+      context.putImageData(screenshot, this.imageOffset, this.imageOffset);
+    }
 
     // Init canvas settings
-    this._context.fillStyle = "rgb(0, 0, 0)";
-    this._context.strokeStyle = "rgba(255, 0, 0, 0.7)";
-    this._context.lineWidth = 3;
-    this._context.lineJoin = "round";
-
-    // Reduce colors asynchronously
-    this._pixelData = this._context.getImageData(this.imageOffset, this.imageOffset,
-                                      this._canvas.width - this.imageOffset * 2,
-                                      this._canvas.height - this.imageOffset * 2);
-    this._max = this._pixelData.width * this._pixelData.height * 4;
-    this._i = 0;
-    Utils.runAsync(this.run.bind(this));
+    context.fillStyle = "rgb(0, 0, 0)";
+    context.strokeStyle = "rgba(255, 0, 0, 0.7)";
+    context.lineWidth = 3;
+    context.lineJoin = "round";
   },
 
-  run: function()
+  get enabled()
   {
-    // Process only 5000 bytes at a time to prevent browser hangs
-    let endIndex = Math.min(this._i + 5000, this._max);
-    let i = this._i;
-    for (; i < endIndex; i++)
-      this._pixelData.data[i] = this._mapping[this._pixelData.data[i] >> 6];
-
-    if (i >= this._max)
-    {
-      // Save data back and we are done
-      this._context.putImageData(this._pixelData, this.imageOffset, this.imageOffset);
-      this._callback();
-    }
-    else
-    {
-      this._i = i;
-      Utils.runAsync(this.run.bind(this));
-    }
+    return this._enabled;
   },
-
-  get enabled() this._enabled,
   set enabled(enabled)
   {
     if (this._enabled == enabled)
@@ -418,7 +395,10 @@ let screenshotDataSource =
     E("screenshotUndoButton").disabled = !this._enabled || !this._undoQueue.length;
   },
 
-  get selectionType() this._selectionType,
+  get selectionType()
+  {
+    return this._selectionType;
+  },
   set selectionType(type)
   {
     if (this._selectionType == type)
@@ -563,11 +543,11 @@ let screenshotDataSource =
   }
 };
 
-let framesDataSource =
+var framesDataSource =
 {
   site: null,
 
-  collectData: function(wnd, windowURI, callback)
+  setData: function(windowURI, opener, referrer, frames)
   {
     try
     {
@@ -581,40 +561,29 @@ let framesDataSource =
     }
 
     let window = reportElement("window");
-    window.setAttribute("url", censorURL(windowURI ? windowURI.spec : wnd.location.href));
-    if (wnd.opener && wnd.opener.location.href)
-      window.setAttribute("opener", censorURL(wnd.opener.location.href));
-    if (wnd.document.referrer)
-      window.setAttribute("referrer", censorURL(wnd.document.referrer));
-    this.scanFrames(wnd, window);
-
-    callback();
+    window.setAttribute("url", censorURL(windowURI.spec));
+    if (opener)
+      window.setAttribute("opener", censorURL(opener));
+    if (referrer)
+      window.setAttribute("referrer", censorURL(referrer));
+    this.addFrames(frames || [], window);
   },
 
-  scanFrames: function(wnd, xmlList)
+  addFrames: function(frames, xmlList)
   {
-    try
+    for (let frame of frames)
     {
-      for (let i = 0; i < wnd.frames.length; i++)
-      {
-        let frame = wnd.frames[i];
-        let frameXML = appendElement(xmlList, "frame", {
-          url: censorURL(frame.location.href)
-        });
-        this.scanFrames(frame, frameXML);
-      }
-    }
-    catch (e)
-    {
-      // Don't break if something goes wrong
-      Cu.reportError(e);
+      let frameXML = appendElement(xmlList, "frame", {
+        url: censorURL(frame.url)
+      });
+      this.addFrames(frame.frames, frameXML);
     }
   }
 };
 
-let errorsDataSource =
+var errorsDataSource =
 {
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
     let {addonID} = require("info");
     addonID = addonID.replace(/[\{\}]/g, "");
@@ -650,6 +619,11 @@ let errorsDataSource =
       } catch(e) {}
     }
 
+    function str2regexp(str, flags)
+    {
+      return new RegExp(str.replace(/\W/g, "\\$&"), flags);
+    }
+
     let errors = reportElement("errors");
     for (let i = 0; i < messages.length; i++)
     {
@@ -657,13 +631,13 @@ let errorsDataSource =
 
       let text = message.errorMessage;
       for (let path in censored)
-        text = text.replace(path, censored[path], "gi");
+        text = text.replace(str2regexp(path, "gi"), censored[path]);
       if (text.length > 256)
         text = text.substr(0, 256) + "...";
 
       let file = message.sourceName;
       for (let path in censored)
-        file = file.replace(path, censored[path], "gi");
+        file = file.replace(str2regexp(path, "gi"), censored[path]);
       if (file.length > 256)
         file = file.substr(0, 256) + "...";
 
@@ -685,11 +659,11 @@ let errorsDataSource =
   }
 };
 
-let extensionsDataSource =
+var extensionsDataSource =
 {
   data: reportData.createElement("extensions"),
 
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
     try
     {
@@ -727,13 +701,13 @@ let extensionsDataSource =
   }
 };
 
-let subscriptionUpdateDataSource =
+var subscriptionUpdateDataSource =
 {
-  contentWnd: null,
+  browser: null,
   type: null,
   outdated: null,
   needUpdate: null,
-  
+
   subscriptionFilter: function(s)
   {
     if (s instanceof DownloadableSubscription)
@@ -742,9 +716,9 @@ let subscriptionUpdateDataSource =
       return false;
   },
 
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
-    this.contentWnd = wnd;
+    this.browser = browser;
     let now = Date.now() / MILLISECONDS_IN_SECOND;
     let outdatedThreshold = now - 14 * SECONDS_IN_DAY;
     let needUpdateThreshold = now - 1 * SECONDS_IN_HOUR;
@@ -785,7 +759,7 @@ let subscriptionUpdateDataSource =
         entry.removeAttribute("hidden");
         entry.setAttribute("_url", subscription.url);
         entry.setAttribute("tooltiptext", subscription.url);
-        entry.textContent = subscription.title;
+        entry.textContent = getSubscriptionTitle(subscription);
         list.appendChild(entry);
       }
     }
@@ -818,8 +792,14 @@ let subscriptionUpdateDataSource =
         let filtersRemoved = false;
         let requests = requestsDataSource.origRequests;
         for (let i = 0; i < requests.length; i++)
-          if (requests[i].filter && !requests[i].filter.subscriptions.filter(function(s) !s.disabled).length)
+        {
+          if (!requests[i].filter)
+            continue;
+
+          let filter = Filter.fromText(requests[i].filter);
+          if (!filter.subscriptions.some(s => !s.disabled))
             filtersRemoved = true;
+        }
 
         if (filtersRemoved)
         {
@@ -829,17 +809,17 @@ let subscriptionUpdateDataSource =
 
           let nextButton = document.documentElement.getButton("next");
           [nextButton.label, nextButton.accessKey] = Utils.splitLabel(E("updatePage").getAttribute("reloadButtonLabel"));
-          document.documentElement.addEventListener("wizardnext", function(event)
+          document.documentElement.addEventListener("wizardnext", event =>
           {
             event.preventDefault();
             event.stopPropagation();
             window.close();
-            this.contentWnd.location.reload();
-          }.bind(this), true);
+            this.browser.reload();
+          }, true);
         }
         else
         {
-          this.collectData(null, null, function() {});
+          this.collectData(null, null, null, function() {});
           this.needUpdate = [];
           if (this.outdated.length)
           {
@@ -879,9 +859,9 @@ let subscriptionUpdateDataSource =
   }
 }
 
-let issuesDataSource =
+var issuesDataSource =
 {
-  contentWnd: null,
+  browser: null,
   isEnabled: Prefs.enabled,
   whitelistFilter: null,
   disabledFilters: [],
@@ -902,10 +882,10 @@ let issuesDataSource =
       return false;
   },
 
-  collectData: function(wnd, windowURI, callback)
+  collectData: function(outerWindowID, windowURI, browser, callback)
   {
-    this.contentWnd = wnd;
-    this.whitelistFilter = Policy.isWindowWhitelisted(wnd);
+    this.browser = browser;
+    this.whitelistFilter = Policy.isWhitelisted(windowURI.spec);
 
     if (!this.whitelistFilter && this.isEnabled)
     {
@@ -927,7 +907,7 @@ let issuesDataSource =
         if (request.filter)
           continue;
 
-        let filter = disabledMatcher.matchesAny(request.location, request.typeDescr, request.docDomain, request.thirdParty);
+        let filter = disabledMatcher.matchesAny(request.location, RegExpFilter.typeMap[request.type], request.docDomain, request.thirdParty);
         if (filter && !(filter.text in seenFilters))
         {
           this.disabledFilters.push(filter);
@@ -952,7 +932,7 @@ let issuesDataSource =
           if (request.filter)
             continue;
 
-          let filter = disabledMatcher.matchesAny(request.location, request.typeDescr, request.docDomain, request.thirdParty);
+          let filter = disabledMatcher.matchesAny(request.location, RegExpFilter.typeMap[request.type], request.docDomain, request.thirdParty);
           if (filter && !(subscription.url in seenSubscriptions))
           {
             this.disabledSubscriptions.push(subscription);
@@ -970,7 +950,7 @@ let issuesDataSource =
           continue;
 
         this.numAppliedFilters++;
-        if (filter.subscriptions.some(function(subscription) subscription instanceof SpecialSubscription))
+        if (filter.subscriptions.some(subscription => subscription instanceof SpecialSubscription))
           this.ownFilters.push(filter);
       }
     }
@@ -1018,8 +998,8 @@ let issuesDataSource =
         let element = template.cloneNode(true);
         element.removeAttribute("id");
         element.removeAttribute("hidden");
-        element.firstChild.setAttribute("value", subscription.title);
-        element.setAttribute("tooltiptext", subscription instanceof DownloadableSubscription ? subscription.url : subscription.title);
+        element.firstChild.setAttribute("value", getSubscriptionTitle(subscription));
+        element.setAttribute("tooltiptext", subscription instanceof DownloadableSubscription ? subscription.url : getSubscriptionTitle(subscription));
         element.abpSubscription = subscription;
         disabledSubscriptionsBox.appendChild(element);
       }
@@ -1081,15 +1061,14 @@ let issuesDataSource =
     document.documentElement.canRewind = false;
     document.documentElement.canAdvance = true;
 
-    let contentWnd = this.contentWnd;
     let nextButton = document.documentElement.getButton("next");
     [nextButton.label, nextButton.accessKey] = Utils.splitLabel(E("updatePage").getAttribute("reloadButtonLabel"));
-    document.documentElement.addEventListener("wizardnext", function(event)
+    document.documentElement.addEventListener("wizardnext", event =>
     {
       event.preventDefault();
       event.stopPropagation();
       window.close();
-      contentWnd.location.reload();
+      this.browser.reload();
     }, true);
   },
 
@@ -1177,7 +1156,7 @@ let issuesDataSource =
 };
 
 let dataCollectors = [reportsListDataSource, requestsDataSource, filtersDataSource, subscriptionsDataSource,
-                      screenshotDataSource, framesDataSource, errorsDataSource, extensionsDataSource,
+                      remoteDataSource, errorsDataSource, extensionsDataSource,
                       subscriptionUpdateDataSource, issuesDataSource];
 
 //
@@ -1261,7 +1240,7 @@ function initDataCollectorPage()
     let dataSource = dataCollectors.shift();
     Utils.runAsync(function()
     {
-      dataSource.collectData(contentWindow, windowURI, initNextDataSource);
+      dataSource.collectData(outerWindowID, windowURI, browser, initNextDataSource);
     });
   };
 
@@ -1544,7 +1523,7 @@ function reportSent(event)
       button.setAttribute("url", link);
       button.removeAttribute("disabled");
 
-      if (!PrivateBrowsing.enabledForWindow(contentWindow) && !PrivateBrowsing.enabled)
+      if (!isPrivate)
         reportsListDataSource.addReport(framesDataSource.site, link);
     } catch (e) {}
     E("copyLinkBox").hidden = false;
@@ -1557,6 +1536,9 @@ function reportSent(event)
 
 function processLinkClick(event)
 {
+  if (event.button != 0)
+    return;
+
   event.preventDefault();
 
   let link = event.target;

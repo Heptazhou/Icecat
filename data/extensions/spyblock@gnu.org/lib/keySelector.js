@@ -4,16 +4,26 @@
 
 Cu.import("resource://gre/modules/Services.jsm");
 
-let validModifiers =
+let validModifiers = Object.create(null);
+validModifiers.ACCEL = null;
+validModifiers.CTRL = "control";
+validModifiers.CONTROL = "control";
+validModifiers.SHIFT = "shift";
+validModifiers.ALT = "alt";
+validModifiers.META = "meta";
+
+let bindingsKeys = null;
+(function()
 {
-  ACCEL: null,
-  CTRL: "control",
-  CONTROL: "control",
-  SHIFT: "shift",
-  ALT: "alt",
-  META: "meta",
-  __proto__: null
-};
+  let request = new XMLHttpRequest();
+  request.open("GET", "chrome://global/content/platformHTMLBindings.xml");
+  request.addEventListener("load", () =>
+  {
+    bindingsKeys = request.responseXML.getElementsByTagName("handler");
+  });
+  request.send();
+})();
+
 
 /**
  * Sets the correct value of validModifiers.ACCEL.
@@ -66,9 +76,11 @@ KeySelector.prototype =
     if (!validModifiers.ACCEL)
       initAccelKey();
 
-    this._existingShortcuts = {__proto__: null};
+    this._existingShortcuts = Object.create(null);
 
-    let keys = window.document.getElementsByTagName("key");
+    let keys = Array.prototype.slice.apply(window.document.getElementsByTagName("key"));
+    if (bindingsKeys)
+      keys.push.apply(keys, bindingsKeys);
     for (let i = 0; i < keys.length; i++)
     {
       let key = keys[i];
@@ -95,7 +107,7 @@ KeySelector.prototype =
 
       let keyModifiers = key.getAttribute("modifiers");
       if (keyModifiers)
-        for each (let modifier in keyModifiers.toUpperCase().match(/\w+/g))
+        for (let modifier of keyModifiers.toUpperCase().match(/\w+/g))
           if (modifier in validModifiers)
             keyData[validModifiers[modifier]] = true;
 
@@ -110,7 +122,7 @@ KeySelector.prototype =
    */
   selectKey: function(/**String*/ variants) /**Object*/
   {
-    for each (let variant in variants.split(/\s*,\s*/))
+    for (let variant of variants.split(/\s*,\s*/))
     {
       if (!variant)
         continue;
@@ -125,7 +137,7 @@ KeySelector.prototype =
         code: null,
         codeName: null
       };
-      for each (let part in variant.toUpperCase().split(/\s+/))
+      for (let part of variant.toUpperCase().split(/\s+/))
       {
         if (part in validModifiers)
           keyData[validModifiers[part]] = true;

@@ -70,3 +70,9 @@
 <!ENTITY filter.column "Filtri reegel">
 <!ENTITY subscription.lastDownload.label "Viimati alla laaditud:">
 <!ENTITY viewList.label "Vaata loetelu">
+<!ENTITY findbar.caseSensitive "Match Case">
+<!ENTITY findbar.statusWrappedStart "Reached top, continuing from bottom">
+<!ENTITY findbar.placeholder "Find filter">
+<!ENTITY findbar.close "Close find bar">
+<!ENTITY findbar.statusWrappedEnd "Reached bottom, continuing from top">
+<!ENTITY findbar.statusNotFound "Phrase not found">

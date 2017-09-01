@@ -1,6 +1,7 @@
 <!ENTITY notification.button.no "Nej">
 <!ENTITY sync.label "Syn&amp;kronisera Adblock Plus inställningar">
 <!ENTITY whitelist.site.label "Använd inte på ?1?">
+<!ENTITY notification.closing.button.hide "Stäng denna notifiering">
 <!ENTITY filters.label "Filterinställningar">
 <!ENTITY disable.label "Inaktivera för alla domäner">
 <!ENTITY objecttab.title "Blockera">
@@ -10,13 +11,15 @@
 <!ENTITY sendReport.label "Rapportera problem på denna sida">
 <!ENTITY whitelist.page.label "Använd inte på denna sida">
 <!ENTITY context.image.label "Adblock Plus: Blockera bild">
-<!ENTITY notification.button.yes "Jag">
+<!ENTITY notification.button.yes "Ja">
 <!ENTITY opensidebar.label "Visa lista över blockerbara objekt">
-<!ENTITY notification.button.close "Sluta">
+<!ENTITY notification.button.close "Stäng">
+<!ENTITY shownotifications.label "Visa användbara notifieringar">
 <!ENTITY contribute.label "Bidra till Adblock Plus">
 <!ENTITY toolbarbutton.label "Adblock Plus">
 <!ENTITY context.frame.label "Adblock Plus: Blockera ram">
 <!ENTITY blocked.tooltip "Blockerade objekt på denna sida:">
+<!ENTITY notification.closing.button.optout "Sluta visa notifieringar">
 <!ENTITY counthits.label "Räkna an&amp;talet filterträffar">
 <!ENTITY showinstatusbar.label "Visa i statusfältet">
 <!ENTITY sidebar.title "Blockerbara objekt på denna sida">
@@ -28,4 +31,3 @@
 <!ENTITY showintoolbar.label "Visa i verktygs&amp;fältet">
 <!ENTITY status.tooltip "Status:">
 <!ENTITY context.media.label "Adblock Plus: Blockera ljud/video">
-<!ENTITY subscription.update.label "Uppdatera filter">

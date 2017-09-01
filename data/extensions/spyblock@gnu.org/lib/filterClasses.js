@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -15,16 +15,20 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+"use strict";
+
 /**
  * @fileOverview Definition of Filter class and its subclasses.
  */
 
-let {FilterNotifier} = require("filterNotifier");
+const {FilterNotifier} = require("filterNotifier");
+const {extend} = require("coreUtils");
+const {filterToRegExp} = require("common");
 
 /**
  * Abstract base class for filters
  *
- * @param {String} text   string representation of the filter
+ * @param {string} text   string representation of the filter
  * @constructor
  */
 function Filter(text)
@@ -38,27 +42,36 @@ Filter.prototype =
 {
   /**
    * String representation of the filter
-   * @type String
+   * @type {string}
    */
   text: null,
 
   /**
    * Filter subscriptions the filter belongs to
-   * @type Array of Subscription
+   * @type {Subscription[]}
    */
   subscriptions: null,
 
   /**
-   * Serializes the filter to an array of strings for writing out on the disk.
-   * @param {Array of String} buffer  buffer to push the serialization results into
+   * Filter type as a string, e.g. "blocking".
+   * @type {string}
    */
-  serialize: function(buffer)
+  get type()
+  {
+    throw new Error("Please define filter type in the subclass");
+  },
+
+  /**
+   * Serializes the filter to an array of strings for writing out on the disk.
+   * @param {string[]} buffer  buffer to push the serialization results into
+   */
+  serialize(buffer)
   {
     buffer.push("[Filter]");
     buffer.push("text=" + this.text);
   },
 
-  toString: function()
+  toString()
   {
     return this.text;
   }
@@ -66,31 +79,31 @@ Filter.prototype =
 
 /**
  * Cache for known filters, maps string representation to filter objects.
- * @type Object
+ * @type {Object}
  */
 Filter.knownFilters = Object.create(null);
 
 /**
  * Regular expression that element hiding filters should match
- * @type RegExp
+ * @type {RegExp}
  */
-Filter.elemhideRegExp = /^([^\/\*\|\@"!]*?)#(\@)?(?:([\w\-]+|\*)((?:\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\))*)|#([^{}]+))$/;
+Filter.elemhideRegExp = /^([^/*|@"!]*?)#(@)?(?:([\w-]+|\*)((?:\([\w-]+(?:[$^*]?=[^()"]*)?\))*)|#(.+))$/;
 /**
  * Regular expression that RegExp filters specified as RegExps should match
- * @type RegExp
+ * @type {RegExp}
  */
-Filter.regexpRegExp = /^(@@)?\/.*\/(?:\$~?[\w\-]+(?:=[^,\s]+)?(?:,~?[\w\-]+(?:=[^,\s]+)?)*)?$/;
+Filter.regexpRegExp = /^(@@)?\/.*\/(?:\$~?[\w-]+(?:=[^,\s]+)?(?:,~?[\w-]+(?:=[^,\s]+)?)*)?$/;
 /**
  * Regular expression that options on a RegExp filter should match
- * @type RegExp
+ * @type {RegExp}
  */
-Filter.optionsRegExp = /\$(~?[\w\-]+(?:=[^,\s]+)?(?:,~?[\w\-]+(?:=[^,\s]+)?)*)$/;
+Filter.optionsRegExp = /\$(~?[\w-]+(?:=[^,\s]+)?(?:,~?[\w-]+(?:=[^,\s]+)?)*)$/;
 
 /**
- * Creates a filter of correct type from its text representation - does the basic parsing and
- * calls the right constructor then.
+ * Creates a filter of correct type from its text representation - does the
+ * basic parsing and calls the right constructor then.
  *
- * @param {String} text   as in Filter()
+ * @param {string} text   as in Filter()
  * @return {Filter}
  */
 Filter.fromText = function(text)
@@ -99,9 +112,13 @@ Filter.fromText = function(text)
     return Filter.knownFilters[text];
 
   let ret;
-  let match = (text.indexOf("#") >= 0 ? Filter.elemhideRegExp.exec(text) : null);
+  let match = (text.includes("#") ? Filter.elemhideRegExp.exec(text) : null);
   if (match)
-    ret = ElemHideBase.fromText(text, match[1], match[2], match[3], match[4], match[5]);
+  {
+    ret = ElemHideBase.fromText(
+      text, match[1], !!match[2], match[3], match[4], match[5]
+    );
+  }
   else if (text[0] == "!")
     ret = new CommentFilter(text);
   else
@@ -125,9 +142,9 @@ Filter.fromObject = function(obj)
     if ("disabled" in obj)
       ret._disabled = (obj.disabled == "true");
     if ("hitCount" in obj)
-      ret._hitCount = parseInt(obj.hitCount) || 0;
+      ret._hitCount = parseInt(obj.hitCount, 10) || 0;
     if ("lastHit" in obj)
-      ret._lastHit = parseInt(obj.lastHit) || 0;
+      ret._lastHit = parseInt(obj.lastHit, 10) || 0;
   }
   return ret;
 };
@@ -135,8 +152,10 @@ Filter.fromObject = function(obj)
 /**
  * Removes unnecessary whitespaces from filter text, will only return null if
  * the input parameter is null.
+ * @param {string} text
+ * @return {string}
  */
-Filter.normalize = function(/**String*/ text) /**String*/
+Filter.normalize = function(text)
 {
   if (!text)
     return text;
@@ -151,18 +170,23 @@ Filter.normalize = function(/**String*/ text) /**String*/
   }
   else if (Filter.elemhideRegExp.test(text))
   {
-    // Special treatment for element hiding filters, right side is allowed to contain spaces
-    let [, domain, separator, selector] = /^(.*?)(#\@?#?)(.*)$/.exec(text);
+    // Special treatment for element hiding filters, right side is allowed to
+    // contain spaces
+    let [, domain, separator, selector] = /^(.*?)(#@?#?)(.*)$/.exec(text);
     return domain.replace(/\s/g, "") + separator + selector.trim();
   }
-  else
-    return text.replace(/\s/g, "");
+  return text.replace(/\s/g, "");
 };
 
 /**
+ * @see filterToRegExp
+ */
+Filter.toRegExp = filterToRegExp;
+
+/**
  * Class for invalid filters
- * @param {String} text see Filter()
- * @param {String} reason Reason why this filter is invalid
+ * @param {string} text see Filter()
+ * @param {string} reason Reason why this filter is invalid
  * @constructor
  * @augments Filter
  */
@@ -174,25 +198,25 @@ function InvalidFilter(text, reason)
 }
 exports.InvalidFilter = InvalidFilter;
 
-InvalidFilter.prototype =
-{
-  __proto__: Filter.prototype,
+InvalidFilter.prototype = extend(Filter, {
+  type: "invalid",
 
   /**
    * Reason why this filter is invalid
-   * @type String
+   * @type {string}
    */
   reason: null,
 
   /**
    * See Filter.serialize()
+   * @inheritdoc
    */
-  serialize: function(buffer) {}
-};
+  serialize(buffer) {}
+});
 
 /**
  * Class for comments
- * @param {String} text see Filter()
+ * @param {string} text see Filter()
  * @constructor
  * @augments Filter
  */
@@ -202,20 +226,23 @@ function CommentFilter(text)
 }
 exports.CommentFilter = CommentFilter;
 
-CommentFilter.prototype =
-{
-  __proto__: Filter.prototype,
+CommentFilter.prototype = extend(Filter, {
+  type: "comment",
 
   /**
    * See Filter.serialize()
+   * @inheritdoc
    */
-  serialize: function(buffer) {}
-};
+  serialize(buffer) {}
+});
 
 /**
  * Abstract base class for filters that can get hits
- * @param {String} text see Filter()
- * @param {String} [domains] Domains that the filter is restricted to separated by domainSeparator e.g. "foo.com|bar.com|~baz.com"
+ * @param {string} text
+ *   see Filter()
+ * @param {string} [domains]
+ *   Domains that the filter is restricted to separated by domainSeparator
+ *   e.g. "foo.com|bar.com|~baz.com"
  * @constructor
  * @augments Filter
  */
@@ -227,17 +254,14 @@ function ActiveFilter(text, domains)
 }
 exports.ActiveFilter = ActiveFilter;
 
-ActiveFilter.prototype =
-{
-  __proto__: Filter.prototype,
-
+ActiveFilter.prototype = extend(Filter, {
   _disabled: false,
   _hitCount: 0,
   _lastHit: 0,
 
   /**
    * Defines whether the filter is disabled
-   * @type Boolean
+   * @type {boolean}
    */
   get disabled()
   {
@@ -256,7 +280,7 @@ ActiveFilter.prototype =
 
   /**
    * Number of hits on the filter since the last reset
-   * @type Number
+   * @type {number}
    */
   get hitCount()
   {
@@ -274,8 +298,9 @@ ActiveFilter.prototype =
   },
 
   /**
-   * Last time the filter had a hit (in milliseconds since the beginning of the epoch)
-   * @type Number
+   * Last time the filter had a hit (in milliseconds since the beginning of the
+   * epoch)
+   * @type {number}
    */
   get lastHit()
   {
@@ -294,33 +319,35 @@ ActiveFilter.prototype =
 
   /**
    * String that the domains property should be generated from
-   * @type String
+   * @type {string}
    */
   domainSource: null,
 
   /**
-   * Separator character used in domainSource property, must be overridden by subclasses
-   * @type String
+   * Separator character used in domainSource property, must be
+   * overridden by subclasses
+   * @type {string}
    */
   domainSeparator: null,
 
   /**
    * Determines whether the trailing dot in domain names isn't important and
    * should be ignored, must be overridden by subclasses.
-   * @type Boolean
+   * @type {boolean}
    */
   ignoreTrailingDot: true,
 
   /**
    * Determines whether domainSource is already upper-case,
    * can be overridden by subclasses.
-   * @type Boolean
+   * @type {boolean}
    */
   domainSourceIsUpperCase: false,
 
   /**
-   * Map containing domains that this filter should match on/not match on or null if the filter should match on all domains
-   * @type Object
+   * Map containing domains that this filter should match on/not match
+   * on or null if the filter should match on all domains
+   * @type {Object}
    */
   get domains()
   {
@@ -335,7 +362,8 @@ ActiveFilter.prototype =
     if (this.domainSource)
     {
       let source = this.domainSource;
-      if (!this.domainSourceIsUpperCase) {
+      if (!this.domainSourceIsUpperCase)
+      {
         // RegExpFilter already have uppercase domains
         source = source.toUpperCase();
       }
@@ -343,7 +371,8 @@ ActiveFilter.prototype =
       if (list.length == 1 && list[0][0] != "~")
       {
         // Fast track for the common one-domain scenario
-        domains = {__proto__: null, "": false};
+        domains = Object.create(null);
+        domains[""] = false;
         if (this.ignoreTrailingDot)
           list[0] = list[0].replace(/\.+$/, "");
         domains[list[0]] = true;
@@ -376,7 +405,8 @@ ActiveFilter.prototype =
 
           domains[domain] = include;
         }
-        domains[""] = !hasIncludes;
+        if (domains)
+          domains[""] = !hasIncludes;
       }
 
       this.domainSource = null;
@@ -388,28 +418,33 @@ ActiveFilter.prototype =
 
   /**
    * Array containing public keys of websites that this filter should apply to
-   * @type Array of String
+   * @type {string[]}
    */
   sitekeys: null,
 
   /**
    * Checks whether this filter is active on a domain.
-   * @param {String} docDomain domain name of the document that loads the URL
-   * @param {String} [sitekey] public key provided by the document
-   * @return {Boolean} true in case of the filter being active
+   * @param {string} docDomain domain name of the document that loads the URL
+   * @param {string} [sitekey] public key provided by the document
+   * @return {boolean} true in case of the filter being active
    */
-  isActiveOnDomain: function(docDomain, sitekey)
+  isActiveOnDomain(docDomain, sitekey)
   {
-    // Sitekeys are case-sensitive so we shouldn't convert them to upper-case to avoid false
-    // positives here. Instead we need to change the way filter options are parsed.
-    if (this.sitekeys && (!sitekey || this.sitekeys.indexOf(sitekey.toUpperCase()) < 0))
+    // Sitekeys are case-sensitive so we shouldn't convert them to
+    // upper-case to avoid false positives here. Instead we need to
+    // change the way filter options are parsed.
+    if (this.sitekeys &&
+        (!sitekey || this.sitekeys.indexOf(sitekey.toUpperCase()) < 0))
+    {
       return false;
+    }
 
     // If no domains are set the rule matches everywhere
     if (!this.domains)
       return true;
 
-    // If the document has no host name, match only if the filter isn't restricted to specific domains
+    // If the document has no host name, match only if the filter
+    // isn't restricted to specific domains
     if (!docDomain)
       return this.domains[""];
 
@@ -432,8 +467,10 @@ ActiveFilter.prototype =
 
   /**
    * Checks whether this filter is active only on a domain and its subdomains.
+   * @param {string} docDomain
+   * @return {boolean}
    */
-  isActiveOnlyOnDomain: function(/**String*/ docDomain) /**Boolean*/
+  isActiveOnlyOnDomain(docDomain)
   {
     if (!docDomain || !this.domains || this.domains[""])
       return false;
@@ -443,16 +480,35 @@ ActiveFilter.prototype =
     docDomain = docDomain.toUpperCase();
 
     for (let domain in this.domains)
-      if (this.domains[domain] && domain != docDomain && (domain.length <= docDomain.length || domain.indexOf("." + docDomain) != domain.length - docDomain.length - 1))
-        return false;
+    {
+      if (this.domains[domain] && domain != docDomain)
+      {
+        if (domain.length <= docDomain.length)
+          return false;
+
+        if (!domain.endsWith("." + docDomain))
+          return false;
+      }
+    }
 
     return true;
   },
 
   /**
-   * See Filter.serialize()
+   * Checks whether this filter is generic or specific
+   * @return {boolean}
    */
-  serialize: function(buffer)
+  isGeneric()
+  {
+    return !(this.sitekeys && this.sitekeys.length) &&
+            (!this.domains || this.domains[""]);
+  },
+
+  /**
+   * See Filter.serialize()
+   * @inheritdoc
+   */
+  serialize(buffer)
   {
     if (this._disabled || this._hitCount || this._lastHit)
     {
@@ -465,21 +521,31 @@ ActiveFilter.prototype =
         buffer.push("lastHit=" + this._lastHit);
     }
   }
-};
+});
 
 /**
  * Abstract base class for RegExp-based filters
- * @param {String} text see Filter()
- * @param {String} regexpSource filter part that the regular expression should be build from
- * @param {Number} [contentType] Content types the filter applies to, combination of values from RegExpFilter.typeMap
- * @param {Boolean} [matchCase] Defines whether the filter should distinguish between lower and upper case letters
- * @param {String} [domains] Domains that the filter is restricted to, e.g. "foo.com|bar.com|~baz.com"
- * @param {Boolean} [thirdParty] Defines whether the filter should apply to third-party or first-party content only
- * @param {String} [sitekeys] Public keys of websites that this filter should apply to
+ * @param {string} text see Filter()
+ * @param {string} regexpSource
+ *   filter part that the regular expression should be build from
+ * @param {number} [contentType]
+ *   Content types the filter applies to, combination of values from
+ *   RegExpFilter.typeMap
+ * @param {boolean} [matchCase]
+ *   Defines whether the filter should distinguish between lower and upper case
+ *   letters
+ * @param {string} [domains]
+ *   Domains that the filter is restricted to, e.g. "foo.com|bar.com|~baz.com"
+ * @param {boolean} [thirdParty]
+ *   Defines whether the filter should apply to third-party or first-party
+ *   content only
+ * @param {string} [sitekeys]
+ *   Public keys of websites that this filter should apply to
  * @constructor
  * @augments ActiveFilter
  */
-function RegExpFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys)
+function RegExpFilter(text, regexpSource, contentType, matchCase, domains,
+                      thirdParty, sitekeys)
 {
   ActiveFilter.call(this, text, domains, sitekeys);
 
@@ -492,10 +558,14 @@ function RegExpFilter(text, regexpSource, contentType, matchCase, domains, third
   if (sitekeys != null)
     this.sitekeySource = sitekeys;
 
-  if (regexpSource.length >= 2 && regexpSource[0] == "/" && regexpSource[regexpSource.length - 1] == "/")
+  if (regexpSource.length >= 2 &&
+      regexpSource[0] == "/" &&
+      regexpSource[regexpSource.length - 1] == "/")
   {
-    // The filter is a regular expression - convert it immediately to catch syntax errors
-    let regexp = new RegExp(regexpSource.substr(1, regexpSource.length - 2), this.matchCase ? "" : "i");
+    // The filter is a regular expression - convert it immediately to
+    // catch syntax errors
+    let regexp = new RegExp(regexpSource.substr(1, regexpSource.length - 2),
+                            this.matchCase ? "" : "i");
     Object.defineProperty(this, "regexp", {value: regexp});
   }
   else
@@ -506,18 +576,16 @@ function RegExpFilter(text, regexpSource, contentType, matchCase, domains, third
 }
 exports.RegExpFilter = RegExpFilter;
 
-RegExpFilter.prototype =
-{
-  __proto__: ActiveFilter.prototype,
-
+RegExpFilter.prototype = extend(ActiveFilter, {
   /**
    * @see ActiveFilter.domainSourceIsUpperCase
    */
   domainSourceIsUpperCase: true,
 
   /**
-   * Number of filters contained, will always be 1 (required to optimize Matcher).
-   * @type Integer
+   * Number of filters contained, will always be 1 (required to
+   * optimize Matcher).
+   * @type {number}
    */
   length: 1,
 
@@ -527,13 +595,14 @@ RegExpFilter.prototype =
   domainSeparator: "|",
 
   /**
-   * Expression from which a regular expression should be generated - for delayed creation of the regexp property
-   * @type String
+   * Expression from which a regular expression should be generated -
+   * for delayed creation of the regexp property
+   * @type {string}
    */
   regexpSource: null,
   /**
    * Regular expression to be used when testing against this filter
-   * @type RegExp
+   * @type {RegExp}
    */
   get regexp()
   {
@@ -543,49 +612,39 @@ RegExpFilter.prototype =
     if (prop)
       return prop.value;
 
-    // Remove multiple wildcards
-    let source = this.regexpSource
-      .replace(/\*+/g, "*")        // remove multiple wildcards
-      .replace(/\^\|$/, "^")       // remove anchors following separator placeholder
-      .replace(/\W/g, "\\$&")      // escape special symbols
-      .replace(/\\\*/g, ".*")      // replace wildcards by .*
-      // process separator placeholders (all ANSI characters but alphanumeric characters and _%.-)
-      .replace(/\\\^/g, "(?:[\\x00-\\x24\\x26-\\x2C\\x2F\\x3A-\\x40\\x5B-\\x5E\\x60\\x7B-\\x7F]|$)")
-      .replace(/^\\\|\\\|/, "^[\\w\\-]+:\\/+(?!\\/)(?:[^\\/]+\\.)?") // process extended anchor at expression start
-      .replace(/^\\\|/, "^")       // process anchor at expression start
-      .replace(/\\\|$/, "$")       // process anchor at expression end
-      .replace(/^(\.\*)/, "")      // remove leading wildcards
-      .replace(/(\.\*)$/, "");     // remove trailing wildcards
-
+    let source = Filter.toRegExp(this.regexpSource);
     let regexp = new RegExp(source, this.matchCase ? "" : "i");
     Object.defineProperty(this, "regexp", {value: regexp});
     return regexp;
   },
   /**
-   * Content types the filter applies to, combination of values from RegExpFilter.typeMap
-   * @type Number
+   * Content types the filter applies to, combination of values from
+   * RegExpFilter.typeMap
+   * @type {number}
    */
   contentType: 0x7FFFFFFF,
   /**
-   * Defines whether the filter should distinguish between lower and upper case letters
-   * @type Boolean
+   * Defines whether the filter should distinguish between lower and
+   * upper case letters
+   * @type {boolean}
    */
   matchCase: false,
   /**
-   * Defines whether the filter should apply to third-party or first-party content only. Can be null (apply to all content).
-   * @type Boolean
+   * Defines whether the filter should apply to third-party or
+   * first-party content only. Can be null (apply to all content).
+   * @type {boolean}
    */
   thirdParty: null,
 
   /**
    * String that the sitekey property should be generated from
-   * @type String
+   * @type {string}
    */
   sitekeySource: null,
 
   /**
    * Array containing public keys of websites that this filter should apply to
-   * @type Array of String
+   * @type {string[]}
    */
   get sitekeys()
   {
@@ -603,47 +662,48 @@ RegExpFilter.prototype =
       this.sitekeySource = null;
     }
 
-    Object.defineProperty(this, "sitekeys", {value: sitekeys, enumerable: true});
+    Object.defineProperty(
+      this, "sitekeys", {value: sitekeys, enumerable: true}
+    );
     return this.sitekeys;
   },
 
   /**
    * Tests whether the URL matches this filter
-   * @param {String} location URL to be tested
-   * @param {String} contentType content type identifier of the URL
-   * @param {String} docDomain domain name of the document that loads the URL
-   * @param {Boolean} thirdParty should be true if the URL is a third-party request
-   * @param {String} sitekey public key provided by the document
-   * @return {Boolean} true in case of a match
+   * @param {string} location URL to be tested
+   * @param {number} typeMask bitmask of content / request types to match
+   * @param {string} docDomain domain name of the document that loads the URL
+   * @param {boolean} thirdParty should be true if the URL is a third-party
+   *                             request
+   * @param {string} sitekey public key provided by the document
+   * @return {boolean} true in case of a match
    */
-  matches: function(location, contentType, docDomain, thirdParty, sitekey, privatenode)
+  matches(location, typeMask, docDomain, thirdParty, sitekey, privatenode)
   {
-
     if(this.subscriptions[0])
         if (this.subscriptions[0].privateMode)
             if (privatenode==false)
               return false;
 
-    if ((RegExpFilter.typeMap[contentType] & this.contentType) != 0 &&
+    if (this.contentType & typeMask &&
         (this.thirdParty == null || this.thirdParty == thirdParty) &&
         this.isActiveOnDomain(docDomain, sitekey) && this.regexp.test(location))
     {
       return true;
     }
-
     return false;
   }
-};
+});
 
 // Required to optimize Matcher, see also RegExpFilter.prototype.length
-Object.defineProperty(RegExpFilter.prototype, "0",
-{
-  get: function() { return this; }
+Object.defineProperty(RegExpFilter.prototype, "0", {
+  get() { return this; }
 });
 
 /**
  * Creates a RegExp filter from its text representation
- * @param {String} text   same as in Filter()
+ * @param {string} text   same as in Filter()
+ * @return {Filter}
  */
 RegExpFilter.fromText = function(text)
 {
@@ -686,7 +746,7 @@ RegExpFilter.fromText = function(text)
       else if (option[0] == "~" && option.substr(1) in RegExpFilter.typeMap)
       {
         if (contentType == null)
-          contentType = RegExpFilter.prototype.contentType;
+          ({contentType} = RegExpFilter.prototype);
         contentType &= ~RegExpFilter.typeMap[option.substr(1)];
       }
       else if (option == "MATCH_CASE")
@@ -706,29 +766,23 @@ RegExpFilter.fromText = function(text)
       else if (option == "SITEKEY" && typeof value != "undefined")
         sitekeys = value;
       else
-        return new InvalidFilter(origText, "Unknown option " + option.toLowerCase());
+        return new InvalidFilter(origText, "filter_unknown_option");
     }
-  }
-
-  if (!blocking && (contentType == null || (contentType & RegExpFilter.typeMap.DOCUMENT)) &&
-      (!options || options.indexOf("DOCUMENT") < 0) && !/^\|?[\w\-]+:/.test(text))
-  {
-    // Exception filters shouldn't apply to pages by default unless they start with a protocol name
-    if (contentType == null)
-      contentType = RegExpFilter.prototype.contentType;
-    contentType &= ~RegExpFilter.typeMap.DOCUMENT;
   }
 
   try
   {
     if (blocking)
-      return new BlockingFilter(origText, text, contentType, matchCase, domains, thirdParty, sitekeys, collapse);
-    else
-      return new WhitelistFilter(origText, text, contentType, matchCase, domains, thirdParty, sitekeys);
+    {
+      return new BlockingFilter(origText, text, contentType, matchCase, domains,
+                                thirdParty, sitekeys, collapse);
+    }
+    return new WhitelistFilter(origText, text, contentType, matchCase, domains,
+                               thirdParty, sitekeys);
   }
   catch (e)
   {
-    return new InvalidFilter(origText, e);
+    return new InvalidFilter(origText, "filter_invalid_regexp");
   }
 };
 
@@ -743,8 +797,10 @@ RegExpFilter.typeMap = {
   OBJECT: 16,
   SUBDOCUMENT: 32,
   DOCUMENT: 64,
+  WEBSOCKET: 128,
+  WEBRTC: 256,
   XBL: 1,
-  PING: 1,
+  PING: 1024,
   XMLHTTPREQUEST: 2048,
   OBJECT_SUBREQUEST: 4096,
   DTD: 1,
@@ -754,72 +810,85 @@ RegExpFilter.typeMap = {
   BACKGROUND: 4,    // Backwards compat, same as IMAGE
 
   POPUP: 0x10000000,
-  ELEMHIDE: 0x40000000
+  GENERICBLOCK: 0x20000000,
+  ELEMHIDE: 0x40000000,
+  GENERICHIDE: 0x80000000
 };
 
-// ELEMHIDE, POPUP option shouldn't be there by default
-RegExpFilter.prototype.contentType &= ~(RegExpFilter.typeMap.ELEMHIDE | RegExpFilter.typeMap.POPUP);
+// DOCUMENT, ELEMHIDE, POPUP, GENERICHIDE and GENERICBLOCK options shouldn't
+// be there by default
+RegExpFilter.prototype.contentType &= ~(RegExpFilter.typeMap.DOCUMENT |
+                                        RegExpFilter.typeMap.ELEMHIDE |
+                                        RegExpFilter.typeMap.POPUP |
+                                        RegExpFilter.typeMap.GENERICHIDE |
+                                        RegExpFilter.typeMap.GENERICBLOCK);
 
 /**
  * Class for blocking filters
- * @param {String} text see Filter()
- * @param {String} regexpSource see RegExpFilter()
- * @param {Number} contentType see RegExpFilter()
- * @param {Boolean} matchCase see RegExpFilter()
- * @param {String} domains see RegExpFilter()
- * @param {Boolean} thirdParty see RegExpFilter()
- * @param {String} sitekeys see RegExpFilter()
- * @param {Boolean} collapse  defines whether the filter should collapse blocked content, can be null
+ * @param {string} text see Filter()
+ * @param {string} regexpSource see RegExpFilter()
+ * @param {number} contentType see RegExpFilter()
+ * @param {boolean} matchCase see RegExpFilter()
+ * @param {string} domains see RegExpFilter()
+ * @param {boolean} thirdParty see RegExpFilter()
+ * @param {string} sitekeys see RegExpFilter()
+ * @param {boolean} collapse
+ *   defines whether the filter should collapse blocked content, can be null
  * @constructor
  * @augments RegExpFilter
  */
-function BlockingFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys, collapse)
+function BlockingFilter(text, regexpSource, contentType, matchCase, domains,
+                        thirdParty, sitekeys, collapse)
 {
-  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys);
+  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains,
+                    thirdParty, sitekeys);
 
   this.collapse = collapse;
 }
 exports.BlockingFilter = BlockingFilter;
 
-BlockingFilter.prototype =
-{
-  __proto__: RegExpFilter.prototype,
+BlockingFilter.prototype = extend(RegExpFilter, {
+  type: "blocking",
 
   /**
-   * Defines whether the filter should collapse blocked content. Can be null (use the global preference).
-   * @type Boolean
+   * Defines whether the filter should collapse blocked content.
+   * Can be null (use the global preference).
+   * @type {boolean}
    */
   collapse: null
-};
+});
 
 /**
  * Class for whitelist filters
- * @param {String} text see Filter()
- * @param {String} regexpSource see RegExpFilter()
- * @param {Number} contentType see RegExpFilter()
- * @param {Boolean} matchCase see RegExpFilter()
- * @param {String} domains see RegExpFilter()
- * @param {Boolean} thirdParty see RegExpFilter()
- * @param {String} sitekeys see RegExpFilter()
+ * @param {string} text see Filter()
+ * @param {string} regexpSource see RegExpFilter()
+ * @param {number} contentType see RegExpFilter()
+ * @param {boolean} matchCase see RegExpFilter()
+ * @param {string} domains see RegExpFilter()
+ * @param {boolean} thirdParty see RegExpFilter()
+ * @param {string} sitekeys see RegExpFilter()
  * @constructor
  * @augments RegExpFilter
  */
-function WhitelistFilter(text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys)
+function WhitelistFilter(text, regexpSource, contentType, matchCase, domains,
+                         thirdParty, sitekeys)
 {
-  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains, thirdParty, sitekeys);
+  RegExpFilter.call(this, text, regexpSource, contentType, matchCase, domains,
+                    thirdParty, sitekeys);
 }
 exports.WhitelistFilter = WhitelistFilter;
 
-WhitelistFilter.prototype =
-{
-  __proto__: RegExpFilter.prototype
-};
+WhitelistFilter.prototype = extend(RegExpFilter, {
+  type: "whitelist"
+});
 
 /**
  * Base class for element hiding filters
- * @param {String} text see Filter()
- * @param {String} [domains] Host names or domains the filter should be restricted to
- * @param {String} selector   CSS selector for the HTML elements that should be hidden
+ * @param {string} text see Filter()
+ * @param {string} [domains] Host names or domains the filter should be
+ *                           restricted to
+ * @param {string} selector   CSS selector for the HTML elements that should be
+ *                            hidden
  * @constructor
  * @augments ActiveFilter
  */
@@ -828,15 +897,17 @@ function ElemHideBase(text, domains, selector)
   ActiveFilter.call(this, text, domains || null);
 
   if (domains)
-    this.selectorDomain = domains.replace(/,~[^,]+/g, "").replace(/^~[^,]+,?/, "").toLowerCase();
-  this.selector = selector;
+  {
+    this.selectorDomain = domains.replace(/,~[^,]+/g, "")
+                                 .replace(/^~[^,]+,?/, "").toLowerCase();
+  }
+
+  // Braces are being escaped to prevent CSS rule injection.
+  this.selector = selector.replace("{", "\\x7B ").replace("}", "\\x7D ");
 }
 exports.ElemHideBase = ElemHideBase;
 
-ElemHideBase.prototype =
-{
-  __proto__: ActiveFilter.prototype,
-
+ElemHideBase.prototype = extend(ActiveFilter, {
   /**
    * @see ActiveFilter.domainSeparator
    */
@@ -848,28 +919,33 @@ ElemHideBase.prototype =
   ignoreTrailingDot: false,
 
   /**
-   * Host name or domain the filter should be restricted to (can be null for no restriction)
-   * @type String
+   * Host name or domain the filter should be restricted to (can be null for
+   * no restriction)
+   * @type {string}
    */
   selectorDomain: null,
   /**
    * CSS selector for the HTML elements that should be hidden
-   * @type String
+   * @type {string}
    */
   selector: null
-};
+});
 
 /**
  * Creates an element hiding filter from a pre-parsed text representation
  *
- * @param {String} text       same as in Filter()
- * @param {String} domain     domain part of the text representation (can be empty)
- * @param {String} tagName    tag name part (can be empty)
- * @param {String} attrRules  attribute matching rules (can be empty)
- * @param {String} selector   raw CSS selector (can be empty)
- * @return {ElemHideFilter|ElemHideException|InvalidFilter}
+ * @param {string} text         same as in Filter()
+ * @param {string} domain
+ *   domain part of the text representation (can be empty)
+ * @param {boolean} isException exception rule indicator
+ * @param {string} tagName      tag name part (can be empty)
+ * @param {string} attrRules    attribute matching rules (can be empty)
+ * @param {string} selector     raw CSS selector (can be empty)
+ * @return {ElemHideFilter|ElemHideException|
+ *          ElemHideEmulationFilter|InvalidFilter}
  */
-ElemHideBase.fromText = function(text, domain, isException, tagName, attrRules, selector)
+ElemHideBase.fromText = function(text, domain, isException, tagName, attrRules,
+                                 selector)
 {
   if (!selector)
   {
@@ -878,48 +954,63 @@ ElemHideBase.fromText = function(text, domain, isException, tagName, attrRules, 
 
     let id = null;
     let additional = "";
-    if (attrRules) {
-      attrRules = attrRules.match(/\([\w\-]+(?:[$^*]?=[^\(\)"]*)?\)/g);
-      for (let rule of attrRules) {
+    if (attrRules)
+    {
+      attrRules = attrRules.match(/\([\w-]+(?:[$^*]?=[^()"]*)?\)/g);
+      for (let rule of attrRules)
+      {
         rule = rule.substr(1, rule.length - 2);
         let separatorPos = rule.indexOf("=");
-        if (separatorPos > 0) {
+        if (separatorPos > 0)
+        {
           rule = rule.replace(/=/, '="') + '"';
           additional += "[" + rule + "]";
         }
-        else {
+        else
+        {
           if (id)
-          {
-            let {Utils} = require("utils");
-            return new InvalidFilter(text, Utils.getString("filter_elemhide_duplicate_id"));
-          }
-          else
-            id = rule;
+            return new InvalidFilter(text, "filter_elemhide_duplicate_id");
+
+          id = rule;
         }
       }
     }
 
     if (id)
-      selector = tagName + "." + id + additional + "," + tagName + "#" + id + additional;
+      selector = `${tagName}.${id}${additional},${tagName}#${id}${additional}`;
     else if (tagName || additional)
       selector = tagName + additional;
     else
-    {
-      let {Utils} = require("utils");
-      return new InvalidFilter(text, Utils.getString("filter_elemhide_nocriteria"));
-    }
+      return new InvalidFilter(text, "filter_elemhide_nocriteria");
   }
+
+  // We don't allow ElemHide filters which have any empty domains.
+  // Note: The ElemHide.prototype.domainSeparator is duplicated here, if that
+  // changes this must be changed too.
+  if (domain && /(^|,)~?(,|$)/.test(domain))
+    return new InvalidFilter(text, "filter_invalid_domain");
+
   if (isException)
     return new ElemHideException(text, domain, selector);
-  else
-    return new ElemHideFilter(text, domain, selector);
+
+  if (selector.indexOf("[-abp-properties=") != -1)
+  {
+    // Element hiding emulation filters are inefficient so we need to make sure
+    // that they're only applied if they specify active domains
+    if (!/,[^~][^,.]*\.[^,]/.test("," + domain))
+      return new InvalidFilter(text, "filter_elemhideemulation_nodomain");
+
+    return new ElemHideEmulationFilter(text, domain, selector);
+  }
+
+  return new ElemHideFilter(text, domain, selector);
 };
 
 /**
  * Class for element hiding filters
- * @param {String} text see Filter()
- * @param {String} domains  see ElemHideBase()
- * @param {String} selector see ElemHideBase()
+ * @param {string} text see Filter()
+ * @param {string} domains  see ElemHideBase()
+ * @param {string} selector see ElemHideBase()
  * @constructor
  * @augments ElemHideBase
  */
@@ -929,16 +1020,15 @@ function ElemHideFilter(text, domains, selector)
 }
 exports.ElemHideFilter = ElemHideFilter;
 
-ElemHideFilter.prototype =
-{
-  __proto__: ElemHideBase.prototype
-};
+ElemHideFilter.prototype = extend(ElemHideBase, {
+  type: "elemhide"
+});
 
 /**
  * Class for element hiding exceptions
- * @param {String} text see Filter()
- * @param {String} domains  see ElemHideBase()
- * @param {String} selector see ElemHideBase()
+ * @param {string} text see Filter()
+ * @param {string} domains  see ElemHideBase()
+ * @param {string} selector see ElemHideBase()
  * @constructor
  * @augments ElemHideBase
  */
@@ -948,7 +1038,24 @@ function ElemHideException(text, domains, selector)
 }
 exports.ElemHideException = ElemHideException;
 
-ElemHideException.prototype =
+ElemHideException.prototype = extend(ElemHideBase, {
+  type: "elemhideexception"
+});
+
+/**
+ * Class for element hiding emulation filters
+ * @param {string} text           see Filter()
+ * @param {string} domains        see ElemHideBase()
+ * @param {string} selector       see ElemHideBase()
+ * @constructor
+ * @augments ElemHideBase
+ */
+function ElemHideEmulationFilter(text, domains, selector)
 {
-  __proto__: ElemHideBase.prototype
-};
+  ElemHideBase.call(this, text, domains, selector);
+}
+exports.ElemHideEmulationFilter = ElemHideEmulationFilter;
+
+ElemHideEmulationFilter.prototype = extend(ElemHideBase, {
+  type: "elemhideemulation"
+});

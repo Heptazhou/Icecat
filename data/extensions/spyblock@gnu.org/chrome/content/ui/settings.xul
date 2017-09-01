@@ -2,7 +2,7 @@
 
 <!--
   - This file is part of Adblock Plus <https://adblockplus.org/>,
-  - Copyright (C) 2006-2015 Eyeo GmbH
+  - Copyright (C) 2006-2017 eyeo GmbH
   -
   - Adblock Plus is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License version 3 as
@@ -31,7 +31,7 @@
   <setting pref="extensions.adblockplus.frameobjects" type="bool" title="&objecttabs.label;"/>
   <setting id="adblockplus-savestats" type="bool" title="&counthits.label;"/>
   <setting id="adblockplus-sync" type="bool" title="&sync.label;"/>
+  <setting id="adblockplus-shownotifications" type="bool" title="&shownotifications.label;"/>
   <setting id="adblockplus-showintoolbar" type="bool" title="&showintoolbar.label;"/>
   <setting id="adblockplus-showinstatusbar" pref="extensions.adblockplus.showinstatusbar" type="bool" title="&showinstatusbar.label;"/>
-  <setting id="adblockplus-autoupdate" pref="extensions.adblockplus.subscriptions_autoupdate" type="bool" title="&subscription.update.label;"/>
 </window>

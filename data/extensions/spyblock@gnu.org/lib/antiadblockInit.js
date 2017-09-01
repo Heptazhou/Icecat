@@ -1,6 +1,6 @@
 /*
  * This file is part of Adblock Plus <https://adblockplus.org/>,
- * Copyright (C) 2006-2015 Eyeo GmbH
+ * Copyright (C) 2006-2017 eyeo GmbH
  *
  * Adblock Plus is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 3 as
@@ -15,23 +15,28 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-Cu.import("resource://gre/modules/Services.jsm");
+"use strict";
 
-let {Utils} = require("utils");
-let {Prefs} = require("prefs");
-let {ActiveFilter} = require("filterClasses");
-let {FilterStorage} = require("filterStorage");
-let {FilterNotifier} = require("filterNotifier");
-let {Subscription} = require("subscriptionClasses");
-let {Notification} = require("notification");
+const {Prefs} = require("prefs");
+const {ActiveFilter} = require("filterClasses");
+const {FilterStorage} = require("filterStorage");
+const {FilterNotifier} = require("filterNotifier");
+const {Subscription} = require("subscriptionClasses");
+const {Notification} = require("notification");
+
+let ext;
+if (typeof window != "undefined" && window.ext)
+  ({ext} = window);
+else
+  ext = require("ext_background");
 
 exports.initAntiAdblockNotification = function initAntiAdblockNotification()
 {
   let notification = {
     id: "antiadblock",
     type: "question",
-    title: Utils.getString("notification_antiadblock_title"),
-    message: Utils.getString("notification_antiadblock_message"),
+    title: ext.i18n.getMessage("notification_antiadblock_title"),
+    message: ext.i18n.getMessage("notification_antiadblock_message"),
     urlFilters: []
   };
 
@@ -51,8 +56,9 @@ exports.initAntiAdblockNotification = function initAntiAdblockNotification()
       {
         for (let domain in filter.domains)
         {
-          let urlFilter = "||" + domain + "^";
-          if (domain && filter.domains[domain] && urlFilters.indexOf(urlFilter) == -1)
+          let urlFilter = "||" + domain + "^$document";
+          if (domain && filter.domains[domain] &&
+              urlFilters.indexOf(urlFilter) == -1)
             urlFilters.push(urlFilter);
         }
       }
@@ -68,18 +74,25 @@ exports.initAntiAdblockNotification = function initAntiAdblockNotification()
     Notification.removeQuestionListener(notification.id, notificationListener);
   }
 
-  let subscription = Subscription.fromURL(Prefs.subscriptions_antiadblockurl);
-  if (subscription.lastDownload && subscription.disabled)
-    addAntiAdblockNotification(subscription);
+  let antiAdblockSubscription = Subscription.fromURL(
+    Prefs.subscriptions_antiadblockurl
+  );
+  if (antiAdblockSubscription.lastDownload && antiAdblockSubscription.disabled)
+    addAntiAdblockNotification(antiAdblockSubscription);
 
-  FilterNotifier.addListener(function(action, value, newItem, oldItem)
+  function onSubscriptionChange(subscription)
   {
-    if (!/^subscription\.(updated|removed|disabled)$/.test(action) || value.url != Prefs.subscriptions_antiadblockurl)
+    let url = Prefs.subscriptions_antiadblockurl;
+    if (url != subscription.url)
       return;
 
-    if (action == "subscription.updated")
-      addAntiAdblockNotification(value);
-    else if (action == "subscription.removed" || (action == "subscription.disabled" && !value.disabled))
+    if (url in FilterStorage.knownSubscriptions && subscription.disabled)
+      addAntiAdblockNotification(subscription);
+    else
       removeAntiAdblockNotification();
-  });
-}
+  }
+
+  FilterNotifier.on("subscription.updated", onSubscriptionChange);
+  FilterNotifier.on("subscription.removed", onSubscriptionChange);
+  FilterNotifier.on("subscription.disabled", onSubscriptionChange);
+};
