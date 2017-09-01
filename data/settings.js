@@ -141,11 +141,11 @@ pref("browser.search.suggest.enabled", false);
 pref("security.tls.unrestricted_rc4_fallback", false);
 pref("security.tls.insecure_fallback_hosts.use_static_list", false);
 pref("security.tls.version.min", 1);
-pref("security.ssl.require_safe_negotiation", true);
+pref("security.ssl.require_safe_negotiation", false);
 pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
 pref("security.ssl3.rsa_seed_sha", true);
 pref("security.OCSP.enabled", 1);
-pref("security.OCSP.require", true);
+pref("security.OCSP.require", false); // set to false otherwise it breaks captive portal usage
 
 // Disable channel updates
 pref("app.update.enabled", false);
