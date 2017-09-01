@@ -1,0 +1,27 @@
+Manifest-Version: 1.0
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: RD/oJJA6mlJUtFyZwDJtpg==
+SHA1-Digest: sMxggkMZE7UH2P/dCW4spBB78LI=
+
+Name: mcdonalds_wifi.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: uRpiX8useo4n06+tSsvdLg==
+SHA1-Digest: aPDLrsOOC12l9G1FmwtlBTwHLBA=
+
+Name: icons/L4Libre.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: soWYd1Ug8BQKF1PWpoS2jQ==
+SHA1-Digest: QpNjRX2sdfAnd8192xkX1LeuoRw=
+
+Name: icons/L4Libre128.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: SIHfXuJzvqakxTnsp76DyQ==
+SHA1-Digest: Y6TfpPAVOlilMjPdKSSakSzTKlY=
+
+Name: icons/L4Libre48.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: 22Kfe3M2hTOu6/kcSU8wew==
+SHA1-Digest: AkkqntzbVrpWlRdfoMpFUOHKD8w=
+

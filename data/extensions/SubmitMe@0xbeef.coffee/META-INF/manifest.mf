@@ -1,0 +1,67 @@
+Manifest-Version: 1.0
+
+Name: background.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: yOmX7/EYGE2ebtW7aUDNew==
+SHA1-Digest: FvWWJT+WhZhSelwxj2zC5eFucrU=
+
+Name: improve_css.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: PS8vNsUriICqQ1WeOCUhyA==
+SHA1-Digest: NEWrN1owkMMsfRpgLN5BqEps0Do=
+
+Name: License
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: Gm39a/qnCG3uf9EcuPBVMw==
+SHA1-Digest: RuxC7X//13rkWB4UkyLaA8pFg+0=
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: 3Lqk7XeEqp3xKeiutlxEfw==
+SHA1-Digest: ZGi6NqcobGpS1RvvyvRjw0UIsNc=
+
+Name: manual.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: F4FUSlFT+SzwwhVIs2cITg==
+SHA1-Digest: Ni3IUAVvHRFU6fm9oSkajGDeNW8=
+
+Name: passive_read_css.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: EazQ7CozhixAv9FFyTn7nw==
+SHA1-Digest: giclPy4jXtWSxDt7qUg32WvxESI=
+
+Name: unhide_css.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: r9yCr5Gq9KKGCBAqchqckg==
+SHA1-Digest: DFhj5jTJVXhfEE7HVUz6h7JHd1E=
+
+Name: icons/16x16.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: DQYLJy5j8HCQQMWBom0PvA==
+SHA1-Digest: L3qzeu85otC1/IrPC8CsZSFZLVk=
+
+Name: icons/16x16_2.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: NEdnIgE7tyZKOXG/VOVezw==
+SHA1-Digest: cYWgJGqTbH9vSQtLMaq5GrU0xbc=
+
+Name: icons/48x48.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: pEPpbN5ttiXyPnhQzBKKrQ==
+SHA1-Digest: 6lc40a+RRxqVcIsttO3TWsszjYg=
+
+Name: popup/popup.css
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: sI09LY624Ww1cE48VgCR5Q==
+SHA1-Digest: rjAaLEFaqS6lW4KcK40dPEsptXI=
+
+Name: popup/popup.html
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: PolGMGbRFZc26ewgpBsAKg==
+SHA1-Digest: Q4ZETG7Y/yeDJoMOLYVI9OJkoUM=
+
+Name: popup/popup.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: zocAaRgcEsEEFulzG3hM9w==
+SHA1-Digest: 8MH/b7/SXm+w837qn4OCdcFG5CU=
+

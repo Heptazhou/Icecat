@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "LibreJS Google Drive",
+  "version": "1.0",
+  "author": "Nathan Nichols",
+  "id": "LibrejsDrive@0xbeef.coffee",
+  "description": "Makes Google Drive usable with LibreJS.",
+  "icons": {
+    "16": "icons/L4Libre.png",
+    "48": "icons/L4Libre48.png",
+    "128": "icons/L4Libre128.png"
+  },
+  "applications": {
+    "gecko": {
+	  "id": "google_drive@0xbeef.coffee",
+	  "strict_min_version": "42.0"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://docs.google.com/document/*"
+      ],
+      "js": [
+        "google_drive.js"
+      ]
+    }
+  ]
+}

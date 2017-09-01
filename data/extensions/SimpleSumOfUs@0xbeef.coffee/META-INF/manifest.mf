@@ -1,0 +1,47 @@
+Manifest-Version: 1.0
+
+Name: background.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: b+hqbG+cxbyn7voEeBC6YA==
+SHA1-Digest: oqG7pr53XAo4O0cYevZ5h+QFm38=
+
+Name: background.js~
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: F9sHiccCOsmqoxeuFpLUpg==
+SHA1-Digest: 8FX8zeZe41n5PYWUZJlGZzw+MhQ=
+
+Name: improve_css.js~
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: SPoSdQ4UV9ha7VtVQr7TSA==
+SHA1-Digest: W/cOPUtvc7xRBqk+xIeaNJB0rgc=
+
+Name: License
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: HgKT6ruZj0xmqNQ4iVMdeA==
+SHA1-Digest: fKv1UikAKfPIRdhcGHC+j0w+Qug=
+
+Name: License~
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: uQsUSQeJ2hGiGWkNJivhZQ==
+SHA1-Digest: MXOhbF9Sh9YFNeRy9ShSaNE2+4U=
+
+Name: main.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: W2QYOY14QJTlytkh9cuE/A==
+SHA1-Digest: uK1t9t+sobDUU63+1CpPGV0xwsk=
+
+Name: main.js~
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: EGCv8OmU0w4fVCaS6JIcwg==
+SHA1-Digest: rN2Va7lolNC+XcwF1GUcs13wrr8=
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: jHQUFJK+JkNiuLvnV2RYGw==
+SHA1-Digest: S/HNg8iRSNhp3L6jxlO1IBL0SMw=
+
+Name: manifest.json~
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: P8fv2KGTLcz/ObrcJPN0sQ==
+SHA1-Digest: ZFEZZb80US6Y7sJkd1uXi/UHu4A=
+

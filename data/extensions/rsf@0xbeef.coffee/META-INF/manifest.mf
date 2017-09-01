@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+
+Name: License
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: o1+NLuXuBdXDUPbqMKclVg==
+SHA1-Digest: 9neKP3yy2up5cLrNOoXL0zOPkJY=
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: b7IPx7VDj2bcYY2wP5Oarg==
+SHA1-Digest: fosZdJ2QQjgMcYXVecf5Ei+gHjw=
+
+Name: rsf.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: 7G1QyNL+jjIzL6nurHRvDQ==
+SHA1-Digest: 06vXb9tjWgGGs5ltRO58Va/opws=
+
+Name: icons/L4Libre128.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: kS1d+qdXiSrLxP7VDwMeHA==
+SHA1-Digest: azirjfdr0IxCBd0hp0U9qA7wM2E=
+

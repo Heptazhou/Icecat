@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+
+Name: google_drive.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: duk91DVUHS83P64lVwfamw==
+SHA1-Digest: aM2klujxFOr+bFaD7PXd+izgCCY=
+
+Name: License
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: o1+NLuXuBdXDUPbqMKclVg==
+SHA1-Digest: 9neKP3yy2up5cLrNOoXL0zOPkJY=
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: D+WP8+P9hj/FtW2D973svQ==
+SHA1-Digest: 3zhyX2q4yAi2VAMf6cz213TWDyc=
+
+Name: icons/L4Libre.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: q3yb3JBgG37iwtqsbdifEQ==
+SHA1-Digest: g9xXtW7KmY0kT9CJhiEc24eApUw=
+
+Name: icons/L4Libre128.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: HuOWoeJwSBaX2AjC64b13g==
+SHA1-Digest: FRHLIUgqzDFxwsPz1xEw7LgLwxE=
+
+Name: icons/L4Libre48.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: zmyb8Gjl/pQrCjin3xTqxg==
+SHA1-Digest: BnrBIabVdDHRvAczhVg7e/lVcjc=
+

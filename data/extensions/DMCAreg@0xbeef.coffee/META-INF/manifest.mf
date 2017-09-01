@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+
+Name: License
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: o1+NLuXuBdXDUPbqMKclVg==
+SHA1-Digest: 9neKP3yy2up5cLrNOoXL0zOPkJY=
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: plVjkV5vw62PP3C1ag8n4A==
+SHA1-Digest: fCJ+1mLGxjfzj3xmUHIy9TR/nEc=
+
+Name: pay.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: un4kqaAFIqxkDGcTHwwZ2g==
+SHA1-Digest: VYVMmOvziHYXJmasJpY9M2OLaK0=
+
+Name: icons/L4Libre.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: 4zvLiRtcfTqAAD1tLrsEsw==
+SHA1-Digest: GcCCKFQJ8W4Nzd7mW4zEUs0xvg8=
+
+Name: icons/L4Libre128.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: BMl+LQVFGtIQC362YUozGA==
+SHA1-Digest: c4gIR+7dTNjGG4GxGBOTfen9f/Q=
+
+Name: icons/L4Libre48.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: GRl/Cx1lCE7LCMC7s3NEsg==
+SHA1-Digest: OPRWh2l1CljS+seEgz068G4P1VA=
+

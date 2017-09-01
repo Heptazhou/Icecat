@@ -1,0 +1,36 @@
+{
+  "manifest_version": 2,
+  "name": "LibreJS compatible SumOfUs.org",
+  "version": "1.0",
+  "author": "Nathan Nichols",
+  "id": "SimpleSumOfUs@0xbeef.coffee",
+  "description": "Makes sumofus.org compatible with LibreJS.",
+  "applications": {
+    "gecko": {
+	  "id": "SimpleSumOfUs@0xbeef.coffee",
+	  "strict_min_version": "42.0"
+    }
+  },
+  "permissions": [
+    "webRequestBlocking",
+	"*://*.sumofus.org/*",
+	"*://*.actions.sumofus.org/*",
+    "webRequest"
+  ],
+
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.sumofus.org/campaigns/*",
+		"*://*.actions.sumofus.org/a/*",
+		"*://*.actions.sumofus.org/api/pages/*/actions"
+      ],
+      "js": [
+        "main.js"
+      ]
+    }
+  ]
+}

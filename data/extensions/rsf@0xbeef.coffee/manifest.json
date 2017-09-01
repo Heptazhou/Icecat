@@ -1,0 +1,28 @@
+{
+  "manifest_version": 2,
+  "name": "Sign RSF.org petitions with free Javascript",
+  "version": "1.1",
+  "author": "Nathan Nichols",
+  "id": "rsf@0xbeef.coffee",
+  "description": "Allows you to sign rsf.org petitions with free Javascript.",
+  "icons": {
+    "128": "icons/L4Libre128.png"
+  },
+  "applications": {
+    "gecko": {
+	  "id": "rsf@0xbeef.coffee",
+	  "strict_min_version": "42.0"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://rsf.org/*",
+		"*://rsf.secure.force.com/*"
+      ],
+      "js": [
+        "rsf.js"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Rock and Roll McDonald's",
+  "version": "1.0",
+  "author": "Nathan Nichols",
+  "id": "rnrMcDonalds@0xbeef.coffee",
+  "description": "Makes free Wi-fi at McDonald's compatible with LibreJS.",
+  "icons": {
+    "16": "icons/L4Libre.png",
+    "48": "icons/L4Libre48.png",
+    "128": "icons/L4Libre128.png"
+  },
+  "applications": {
+    "gecko": {
+	  "id": "rnrMcDonalds@0xbeef.coffee",
+	  "strict_min_version": "42.0"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.wayport.net/*"
+      ],
+      "js": [
+        "mcdonalds_wifi.js"
+      ]
+    }
+  ]
+}
