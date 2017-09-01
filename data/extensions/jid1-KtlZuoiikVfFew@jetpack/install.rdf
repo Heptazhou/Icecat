@@ -6,6 +6,7 @@
           <em:bootstrap>true</em:bootstrap>
           <em:unpack>false</em:unpack>
           <em:version>6.0.13</em:version>
+          <em:multiprocessCompatible>false</em:multiprocessCompatible>
           <em:name>GNU LibreJS</em:name>
           <em:description>GNU LibreJS is an add-on for Mozilla-based browsers (IceCat, Firefox, Abrowser, Iceweasel)
  that prevents the execution of nonfree nontrivial JavaScript as described in &quot;The Javascript Trap&quot;: http://www.gnu.org/philosophy/javascript-trap.html</em:description>
