@@ -97,6 +97,7 @@ pref("privacy.donottrackheader.enabled", true);
 pref("privacy.donottrackheader.value", 1);
 pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 pref("browser.safebrowsing.enabled", false);
+pref("browser.safebrowsing.downloads.remote.enabled", false);
 pref("browser.safebrowsing.malware.enabled", false);
 //pref("services.sync.privacyURL", "https://www.gnu.org/software/gnuzilla/");
 pref("social.enabled", false);
@@ -134,6 +135,10 @@ pref("network.http.speculative-parallel-limit", 0);
 // No search suggestions
 pref("browser.urlbar.userMadeSearchSuggestionsChoice", true);
 pref("browser.search.suggest.enabled", false);
+// Always ask before restoring the browsing session
+pref("browser.sessionstore.max_resumed_crashes", 0);
+// Disable shield/heartbeat
+pref("extensions.shield-recipe-client.enabled", false);
 
 // Crypto hardening
 // https://gist.github.com/haasn/69e19fc2fe0e25f3cff5
@@ -156,7 +161,9 @@ pref("media.eme.enabled", false);
 pref("media.eme.apiVisible", false);
 
 // WebRTC
-pref("media.peerconnection.enabled", false);
+pref("media.peerconnection.enabled", true);
+// Don't reveal your internal IP when WebRTC is enabled
+pref("media.peerconnection.ice.no_host", true);
 pref("media.peerconnection.ice.default_address_only", true);
 
 // Services
