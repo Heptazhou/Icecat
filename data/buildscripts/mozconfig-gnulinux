@@ -4,3 +4,5 @@ mk_add_options MOZ_OBJDIR=./obj-gnulinux
 ac_add_options --disable-webrtc
 
 ac_add_options --enable-gio
+
+ac_add_options --disable-gconf
