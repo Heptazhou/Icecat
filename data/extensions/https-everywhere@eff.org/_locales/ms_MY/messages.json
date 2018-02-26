@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Tambah Peraturan Baharu"
+    }, 
+    "about_ext_description": {
+        "message": "Sulitkan Sesawang! Guna HTTPS secara automatik di kebanyakan laman."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Everywhere"
+    }, 
+    "about_title": {
+        "message": "Perihal HTTPS Everywhere"
+    }, 
+    "about_version": {
+        "message": "Versi"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Tambah satu peraturan baharu untuk laman ini"
+    }, 
+    "chrome_add_rule": {
+        "message": "Tambah peraturan untuk laman ini"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Sentiasa guna https untuk hos ini"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Peraturan ujikaji"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "Mungkin boleh menimbulkan amaran atau kerosakan. Dilumpuhkan secara lalai."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Sembunyi lanjutan"
+    }, 
+    "chrome_host": {
+        "message": "Hos:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Hala semula ke"
+    }, 
+    "chrome_regex": {
+        "message": "Ungkapan nalar sepadan"
+    }, 
+    "chrome_rule_name": {
+        "message": "Nama peraturan"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Tunjuk lanjutan"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Peraturan Stabil"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Paksa sambungan tersulit ke laman sesawang ini:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "Batal"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Sekat semua permintaan tidak disulitkan"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Derma kepada EFF"
+    }, 
+    "menu_globalEnable": {
+        "message": "Benarkan HTTPS Everywhere"
+    }, 
+    "menu_observatory": {
+        "message": "Keutamaan Pencerap SSL"
+    }, 
+    "menu_showCounter": {
+        "message": "Tunjukkan Kaunter"
+    }, 
+    "menu_viewAllRules": {
+        "message": "Lihat Semua Peraturan"
+    }, 
+    "options_generalSettings": {
+        "message": "Tetapan Umum"
+    }, 
+    "options_import": {
+        "message": "Import"
+    }, 
+    "options_importSettings": {
+        "message": "Import Tetapan"
+    }, 
+    "options_imported": {
+        "message": "Tetapan anda telah diimportkan."
+    }, 
+    "prefs_export_settings": {
+        "message": "Eksport Tetapan"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Tetapan Semula ke Lalai"
+    }
+}

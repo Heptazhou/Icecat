@@ -1,5 +1,10 @@
 Manifest-Version: 1.0
 
+Name: blockjs1.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: EJxqV3sHdfrEnJZogcJFJQ==
+SHA1-Digest: t9H09gXcb8mJU0K2MXj+M3/a92c=
+
 Name: License
 Digest-Algorithms: MD5 SHA1
 MD5-Digest: o1+NLuXuBdXDUPbqMKclVg==
@@ -7,13 +12,18 @@ SHA1-Digest: 9neKP3yy2up5cLrNOoXL0zOPkJY=
 
 Name: manifest.json
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: plVjkV5vw62PP3C1ag8n4A==
-SHA1-Digest: fCJ+1mLGxjfzj3xmUHIy9TR/nEc=
+MD5-Digest: E2bwVBj1MqIz1sQ6Pnp6Ig==
+SHA1-Digest: LD5n5QlltwSu/qekRCyEIRxhRHw=
 
 Name: pay.js
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: un4kqaAFIqxkDGcTHwwZ2g==
-SHA1-Digest: VYVMmOvziHYXJmasJpY9M2OLaK0=
+MD5-Digest: 7LwSviUdv+oFufBSawudrQ==
+SHA1-Digest: rHvrygUaSPTbupQqQitEOikvRG8=
+
+Name: unhidehtml.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: HN7YJBx4Wc/sEFu/oDG8oQ==
+SHA1-Digest: 2+2WCEMLrnyWVN26GZ038RFQcQM=
 
 Name: icons/L4Libre.png
 Digest-Algorithms: MD5 SHA1

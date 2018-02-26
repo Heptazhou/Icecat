@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "\u0a28\u0a35\u0a3e\u0a02 \u0a28\u0a3f\u0a2f\u0a2e \u0a1c\u0a4b\u0a5c\u0a4b"
+    }, 
+    "about_ext_description": {
+        "message": "Encrypt the Web! Automatically use HTTPS security on many sites."
+    }, 
+    "about_ext_name": {
+        "message": "\u0a10\u0a71\u0a1a.\u0a1f\u0a40.\u0a1f\u0a40.\u0a2a\u0a40.\u0a10\u0a71\u0a38. \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 "
+    }, 
+    "about_title": {
+        "message": "\u0a10\u0a71\u0a1a.\u0a1f\u0a40.\u0a1f\u0a40.\u0a2a\u0a40.\u0a10\u0a71\u0a38. \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a2c\u0a3e\u0a30\u0a47 "
+    }, 
+    "about_version": {
+        "message": "\u0a35\u0a30\u0a1c\u0a28"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Add a new rule for this site"
+    }, 
+    "chrome_add_rule": {
+        "message": "Add a rule for this site"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Always use https for this host"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "\u0a2a\u0a4d\u0a30\u0a2f\u0a4b\u0a17\u0a3e\u0a24\u0a2e\u0a15 \u0a28\u0a3f\u0a2f\u0a2e"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "May cause warnings or breakage. Disabled by default."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "\u0a09\u0a71\u0a28\u0a24 \u0a1b\u0a41\u0a2a\u0a3e\u0a13"
+    }, 
+    "chrome_host": {
+        "message": "\u0a39\u0a4b\u0a38\u0a1f:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Redirect to"
+    }, 
+    "chrome_regex": {
+        "message": "\u0a2e\u0a47\u0a32\u0a23 \u0a30\u0a48\u0a1c\u0a48\u0a15\u0a38"
+    }, 
+    "chrome_rule_name": {
+        "message": "\u0a28\u0a3f\u0a2f\u0a2e \u0a26\u0a3e \u0a28\u0a3e\u0a2e"
+    }, 
+    "chrome_show_advanced": {
+        "message": "\u0a09\u0a71\u0a28\u0a24 \u0a35\u0a3f\u0a16\u0a3e\u0a13 "
+    }, 
+    "chrome_stable_rules": {
+        "message": "\u0a38\u0a25\u0a3f\u0a30 \u0a28\u0a3f\u0a2f\u0a2e"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Force encrypted connections to these websites:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "\u0a30\u0a71\u0a26 \u0a15\u0a30\u0a4b"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Block all unencrypted requests"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "\u0a08.\u0a10\u0a71\u0a2b.\u0a10\u0a71\u0a2b. \u0a28\u0a42\u0a70 \u0a26\u0a3e\u0a28 \u0a26\u0a3f\u0a13"
+    }, 
+    "menu_globalEnable": {
+        "message": "\u0a10\u0a71\u0a1a.\u0a1f\u0a40.\u0a1f\u0a40.\u0a2a\u0a40.\u0a10\u0a71\u0a38. \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a1a\u0a3e\u0a32\u0a42 \u0a15\u0a30\u0a4b"
+    }, 
+    "menu_observatory": {
+        "message": "SSL Observatory Preferences"
+    }, 
+    "menu_showCounter": {
+        "message": "\u0a15\u0a3e\u0a0a\u0a02\u0a1f\u0a30 \u0a35\u0a3f\u0a16\u0a3e\u0a13"
+    }, 
+    "menu_viewAllRules": {
+        "message": "\u0a38\u0a3e\u0a30\u0a47 \u0a28\u0a3f\u0a2f\u0a2e \u0a35\u0a3f\u0a16\u0a3e\u0a13 "
+    }, 
+    "options_generalSettings": {
+        "message": "General Settings"
+    }, 
+    "options_import": {
+        "message": "Import"
+    }, 
+    "options_importSettings": {
+        "message": "Import Settings"
+    }, 
+    "options_imported": {
+        "message": "Your settings have been imported."
+    }, 
+    "prefs_export_settings": {
+        "message": "Export Settings"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "\u0a2e\u0a42\u0a32 \u0a2e\u0a41\u0a5c-\u0a38\u0a1f\u0a4b\u0a30 \u0a15\u0a30\u0a4b"
+    }
+}

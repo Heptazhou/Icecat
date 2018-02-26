@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Add New Rule"
+    }, 
+    "about_ext_description": {
+        "message": "Veb-i \u015fifr\u0259l\u0259! Bir \u00e7ox saytlarda HTTPS-i avtomatik istifad\u0259 et."
+    }, 
+    "about_ext_name": {
+        "message": "H\u0259r yerd\u0259 HTTPS"
+    }, 
+    "about_title": {
+        "message": "H\u0259r yerd\u0259 HTTPS haqda"
+    }, 
+    "about_version": {
+        "message": "Versiya"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Add a new rule for this site"
+    }, 
+    "chrome_add_rule": {
+        "message": "Add a rule for this site"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Always use https for this host"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Experimental rules"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "May cause warnings or breakage. Disabled by default."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Hide advanced"
+    }, 
+    "chrome_host": {
+        "message": "Host:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Redirect to"
+    }, 
+    "chrome_regex": {
+        "message": "Matching regex"
+    }, 
+    "chrome_rule_name": {
+        "message": "Rule name"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Show advanced"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Stable rules"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Force encrypted connections to these websites:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "L\u0259\u011fv et"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Block all unencrypted requests"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Donate to EFF"
+    }, 
+    "menu_globalEnable": {
+        "message": " HTTPS -ni h\u0259r yerd\u0259 aktivl\u0259\u015fdir"
+    }, 
+    "menu_observatory": {
+        "message": "SSL \u0130zl\u0259yici X\u00fcsusiyy\u0259tl\u0259ti"
+    }, 
+    "menu_showCounter": {
+        "message": "Hesablay\u0131c\u0131n\u0131 G\u00f6st\u0259r"
+    }, 
+    "menu_viewAllRules": {
+        "message": "B\u00fct\u00fcn Qaydalar\u0131 G\u00f6r"
+    }, 
+    "options_generalSettings": {
+        "message": "General Settings"
+    }, 
+    "options_import": {
+        "message": "Import"
+    }, 
+    "options_importSettings": {
+        "message": "Import Settings"
+    }, 
+    "options_imported": {
+        "message": "Your settings have been imported."
+    }, 
+    "prefs_export_settings": {
+        "message": "Export Settings"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "\u0130lkin Hala S\u0131f\u0131rla"
+    }
+}

@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "B\u00e6ta vi\u00f0 n\u00fdrri reglu"
+    }, 
+    "about_ext_description": {
+        "message": "Dulk\u00f3\u00f0a\u00f0u vefinn! Nota\u00f0u sj\u00e1lfkrafa HTTPS-\u00f6ryggi \u00e1 m\u00f6rgum vefsv\u00e6\u00f0um."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS-allssta\u00f0ar"
+    }, 
+    "about_title": {
+        "message": "Um HTTPS-allssta\u00f0ar"
+    }, 
+    "about_version": {
+        "message": "\u00datg\u00e1fa"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "B\u00e6ta vi\u00f0 n\u00fdrri reglu fyrir \u00feetta vefsv\u00e6\u00f0i"
+    }, 
+    "chrome_add_rule": {
+        "message": "B\u00e6ta vi\u00f0 reglu fyrir \u00feetta vefsv\u00e6\u00f0i"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Alltaf nota HTTPS fyrir \u00feessa v\u00e9l"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Reglur \u00e1 tilraunastigi"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "Getur valdi\u00f0 hruni e\u00f0a vi\u00f0v\u00f6runum. Sj\u00e1lfgefi\u00f0 \u00f3virkt."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Fela \u00edtarlegt"
+    }, 
+    "chrome_host": {
+        "message": "H\u00fdsilv\u00e9l:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Endurbeina \u00e1"
+    }, 
+    "chrome_regex": {
+        "message": "Samsvarandi reglulegri seg\u00f0"
+    }, 
+    "chrome_rule_name": {
+        "message": "Heiti reglu"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Birta \u00edtarlegt"
+    }, 
+    "chrome_stable_rules": {
+        "message": "St\u00f6\u00f0ugar reglur"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "\u00devinga dulrita\u00f0ar tengingar vi\u00f0 \u00feessi vefsv\u00e6\u00f0i:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "H\u00e6tta vi\u00f0"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Hindra allar \u00f3dulrita\u00f0ar bei\u00f0nir"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Styrkja EFF"
+    }, 
+    "menu_globalEnable": {
+        "message": "Virkja HTTPS-allssta\u00f0ar"
+    }, 
+    "menu_observatory": {
+        "message": "Kj\u00f6rstillingar SSL Observatory"
+    }, 
+    "menu_showCounter": {
+        "message": "Birta teljara"
+    }, 
+    "menu_viewAllRules": {
+        "message": "Sko\u00f0a allar reglur"
+    }, 
+    "options_generalSettings": {
+        "message": "Almennar stillingar"
+    }, 
+    "options_import": {
+        "message": "Flytja inn"
+    }, 
+    "options_importSettings": {
+        "message": "Flytja inn stillingar"
+    }, 
+    "options_imported": {
+        "message": "Stillingarnar \u00fe\u00ednar hafa veri\u00f0 fluttar inn"
+    }, 
+    "prefs_export_settings": {
+        "message": "Flytja \u00fat stillingar"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Frumstilla \u00e1 sj\u00e1lfgefnar stillingar"
+    }
+}

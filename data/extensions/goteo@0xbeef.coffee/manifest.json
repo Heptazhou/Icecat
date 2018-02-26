@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Goteo.org payments with free JS",
+  "version": "1.1",
+  "author": "Nathan Nichols",
+  "id": "goteo@0xbeef.coffee",
+  "description": "Fixes Goteo payments while running LibreJS",
+  "icons": {
+    "128": "icons/icon128.png"
+  },
+  "applications": {
+    "gecko": {
+	  "id": "goteo@0xbeef.coffee",
+	  "strict_min_version": "42.0"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://pgw.ceca.es/cgi-bin/tpv",
+		"https://pgw.ceca.es/tpvweb/tpv/compra.action",
+		"*://*.goteo.org/*"
+      ],
+      "js": [
+        "goteo.js"
+      ]
+    }
+  ]
+}

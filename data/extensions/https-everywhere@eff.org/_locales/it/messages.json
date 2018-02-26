@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Aggiungi una nuova regola"
+    }, 
+    "about_ext_description": {
+        "message": "Cripta il Web! Usa HTTPS automaticamente su numerosi siti."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Everywhere"
+    }, 
+    "about_title": {
+        "message": "Informazioni su HTTPS Everywhere"
+    }, 
+    "about_version": {
+        "message": "Versione"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Aggiungi una nuova regola per questo sito"
+    }, 
+    "chrome_add_rule": {
+        "message": "Aggiungi una regola per questo sito"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Usa sempre https per questo host"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Regole sperimentali"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "Possono causare avvisi o rotture. Normalmente disabilitato."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Nascondi avanzate"
+    }, 
+    "chrome_host": {
+        "message": "Host:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Reindirizza a"
+    }, 
+    "chrome_regex": {
+        "message": "Regex equivalente"
+    }, 
+    "chrome_rule_name": {
+        "message": "Nome regola"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Mostra avanzate"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Regole stabil"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Forza connessione criptate a questi siti:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "Annulla"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Blocca tutte le richieste in chiaro"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Dona alla EFF"
+    }, 
+    "menu_globalEnable": {
+        "message": "Abilita HTTPS Everywhere"
+    }, 
+    "menu_observatory": {
+        "message": "Preferenze Osservatorio SSL"
+    }, 
+    "menu_showCounter": {
+        "message": "Mostra contatore"
+    }, 
+    "menu_viewAllRules": {
+        "message": "Vedi tutte le regole"
+    }, 
+    "options_generalSettings": {
+        "message": "Impostazioni generali"
+    }, 
+    "options_import": {
+        "message": "Importa"
+    }, 
+    "options_importSettings": {
+        "message": "Importa impostazioni"
+    }, 
+    "options_imported": {
+        "message": "Le tue impostazioni sono state importate."
+    }, 
+    "prefs_export_settings": {
+        "message": "Esporta impostazioni"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Ripristina la configurazione predefinita"
+    }
+}

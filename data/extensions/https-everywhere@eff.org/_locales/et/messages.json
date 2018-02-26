@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Lisa uus reegel"
+    }, 
+    "about_ext_description": {
+        "message": "Kr\u00fcpteeri veeb! Kasuta HTTPS turvalaiendust automaatselt paljudel lehtedel."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Everywhere"
+    }, 
+    "about_title": {
+        "message": "HTTPS Everywhere-ist"
+    }, 
+    "about_version": {
+        "message": "Versioon"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Lisa uus reegel sellele saidile"
+    }, 
+    "chrome_add_rule": {
+        "message": "Lisa reegel sellele saidile"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Kasuta selle hostiga alati HTTPSi"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Eksperimentaalsed reeglid"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "V\u00f5ivad p\u00f5hjustada hoiatusi v\u00f5i mitte t\u00f6\u00f6tamist. Vaikimisi keelatud."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Peida t\u00e4iendavad"
+    }, 
+    "chrome_host": {
+        "message": "Host:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Suuna aadressile"
+    }, 
+    "chrome_regex": {
+        "message": "Vastav regulaaravaldis"
+    }, 
+    "chrome_rule_name": {
+        "message": "Reegli nimi"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Kuva t\u00e4iendavad"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Stabiilsed reeglid"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Kohusta kr\u00fcpteeritud \u00fchendus nende veebisaitidega:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "Katkesta"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Blokeeri k\u00f5ik kr\u00fcptimata taotlused"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Anneta EFFle"
+    }, 
+    "menu_globalEnable": {
+        "message": "Luba HTTPS Everywhere"
+    }, 
+    "menu_observatory": {
+        "message": "SSL-Observatooriumi eelistused"
+    }, 
+    "menu_showCounter": {
+        "message": "N\u00e4ita loendurit"
+    }, 
+    "menu_viewAllRules": {
+        "message": "Vaata k\u00f5iki reegleid"
+    }, 
+    "options_generalSettings": {
+        "message": "\u00dcldised seaded"
+    }, 
+    "options_import": {
+        "message": "Impordi"
+    }, 
+    "options_importSettings": {
+        "message": "Impordi seaded"
+    }, 
+    "options_imported": {
+        "message": "Sinu seaded on imporditud."
+    }, 
+    "prefs_export_settings": {
+        "message": "Ekspordi seaded"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Taasta algseaded"
+    }
+}

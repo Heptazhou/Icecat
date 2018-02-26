@@ -1,0 +1,113 @@
+{
+    "about_created_by": {
+        "message": ""
+    }, 
+    "about_donate_eff": {
+        "message": ""
+    }, 
+    "about_donate_tor": {
+        "message": ""
+    }, 
+    "about_ext_description": {
+        "message": ""
+    }, 
+    "about_ext_name": {
+        "message": ""
+    }, 
+    "about_librarians": {
+        "message": ""
+    }, 
+    "about_thanks": {
+        "message": ""
+    }, 
+    "about_title": {
+        "message": ""
+    }, 
+    "about_tor_lang_code": {
+        "message": ""
+    }, 
+    "about_version": {
+        "message": ""
+    }, 
+    "menu_about": {
+        "message": ""
+    }, 
+    "menu_globalDisable": {
+        "message": ""
+    }, 
+    "menu_globalEnable": {
+        "message": ""
+    }, 
+    "menu_observatory": {
+        "message": ""
+    }, 
+    "popup_keep": {
+        "message": ""
+    }, 
+    "popup_paragraph1": {
+        "message": ""
+    }, 
+    "popup_paragraph2": {
+        "message": ""
+    }, 
+    "popup_paragraph3": {
+        "message": ""
+    }, 
+    "popup_revert": {
+        "message": ""
+    }, 
+    "popup_title": {
+        "message": ""
+    }, 
+    "prefs_disable_all": {
+        "message": ""
+    }, 
+    "prefs_enable_all": {
+        "message": ""
+    }, 
+    "prefs_enabled": {
+        "message": ""
+    }, 
+    "prefs_here_link": {
+        "message": ""
+    }, 
+    "prefs_list_caption": {
+        "message": ""
+    }, 
+    "prefs_notes": {
+        "message": ""
+    }, 
+    "prefs_reset_default": {
+        "message": ""
+    }, 
+    "prefs_reset_defaults": {
+        "message": ""
+    }, 
+    "prefs_ruleset_howto": {
+        "message": ""
+    }, 
+    "prefs_search": {
+        "message": ""
+    }, 
+    "prefs_site": {
+        "message": ""
+    }, 
+    "prefs_title": {
+        "message": ""
+    }, 
+    "prefs_toggle": {
+        "message": ""
+    }, 
+    "prefs_view_xml_source": {
+        "message": ""
+    }, 
+    "source_downloading": {
+        "message": ""
+    }, 
+    "source_filename": {
+        "message": ""
+    }, 
+    "source_unable_to_download": {
+        "message": ""
+    }
+}

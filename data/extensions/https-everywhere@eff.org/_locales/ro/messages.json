@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Adaug\u0103 o nou\u0103 regul\u0103"
+    }, 
+    "about_ext_description": {
+        "message": "Cripteaz\u0103 web-ul! Folose\u0219te automat securitatea HTTPS pe multe site-uri."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Oriunde"
+    }, 
+    "about_title": {
+        "message": "Despre HTTPS Oriunde"
+    }, 
+    "about_version": {
+        "message": "Versiune"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Adaug\u0103 o nou\u0103 regul\u0103 pentru acest site"
+    }, 
+    "chrome_add_rule": {
+        "message": "Adaug\u0103 o regul\u0103 pentru acest site"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Folose\u0219te mereu https pentru aceast\u0103 gazd\u0103"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Reguli experimentale"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "Poate genera avertismente sau pierderi. Implicit dezactivat. "
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Ascunde op\u021biunile avansate"
+    }, 
+    "chrome_host": {
+        "message": "Gazd\u0103:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Redirec\u021bioneaz\u0103 la"
+    }, 
+    "chrome_regex": {
+        "message": "Regex potrivit"
+    }, 
+    "chrome_rule_name": {
+        "message": "Numele regulii"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Arat\u0103 op\u021biuni avansate"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Reguli stabile"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Pentru aceste pagini se folosesc obligatoriu conexiuni criptate:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "Renun\u021b\u0103"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Blocheaz\u0103 toate cererile necriptate"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Doneaz\u0103 la EFF"
+    }, 
+    "menu_globalEnable": {
+        "message": "Activeaz\u0103 HTTPS Oriunde"
+    }, 
+    "menu_observatory": {
+        "message": "Preferin\u021bele pentru Observatorul SSL"
+    }, 
+    "menu_showCounter": {
+        "message": "Afi\u0219eaz\u0103 contorul"
+    }, 
+    "menu_viewAllRules": {
+        "message": "Vezi toate regulile"
+    }, 
+    "options_generalSettings": {
+        "message": "Set\u0103ri Generale"
+    }, 
+    "options_import": {
+        "message": "Import"
+    }, 
+    "options_importSettings": {
+        "message": "Import\u0103 Set\u0103ri"
+    }, 
+    "options_imported": {
+        "message": "Set\u0103rile tale au fost importate."
+    }, 
+    "prefs_export_settings": {
+        "message": "Export\u0103 Set\u0103ri"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Revino la set\u0103rile ini\u021biale"
+    }
+}

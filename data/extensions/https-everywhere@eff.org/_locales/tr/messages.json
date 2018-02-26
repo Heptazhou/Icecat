@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Kural Ekle"
+    }, 
+    "about_ext_description": {
+        "message": "Web ileti\u015fiminizi \u015fifreleyin! Bir\u00e7ok sitede otomatik olarak HTTPS g\u00fcvenli\u011fini kullan\u0131n."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Everywhere"
+    }, 
+    "about_title": {
+        "message": "HTTPS Everywhere Hakk\u0131nda"
+    }, 
+    "about_version": {
+        "message": "S\u00fcr\u00fcm"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Bu site i\u00e7in yeni bir kural ekleyin"
+    }, 
+    "chrome_add_rule": {
+        "message": "Bu site i\u00e7in bir kural ekleyin"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "Bu sunucu i\u00e7in herzaman HTTPS kullan\u0131ls\u0131n"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Deneysel kurallar"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "Uyar\u0131 ve sorunlara yol a\u00e7abilir. Varsay\u0131lan olarak devre d\u0131\u015f\u0131d\u0131r."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Geli\u015fmi\u015f se\u00e7enekleri gizle"
+    }, 
+    "chrome_host": {
+        "message": "Sunucu:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "\u015euraya y\u00f6nlendir"
+    }, 
+    "chrome_regex": {
+        "message": "E\u015fle\u015fen kurall\u0131 ifade"
+    }, 
+    "chrome_rule_name": {
+        "message": "Kural ad\u0131"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Geli\u015fmi\u015f se\u00e7enekleri g\u00f6ster"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Kararl\u0131 kurallar"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "\u015eu web siteleri i\u00e7in \u015fifreli ba\u011flant\u0131 dayat\u0131ls\u0131n:"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "\u0130ptal"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "\u015eifrelenmemi\u015f t\u00fcm istekleri engelle"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "EFF projesine ba\u011f\u0131\u015f yap\u0131n"
+    }, 
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere'i Etkinle\u015ftir"
+    }, 
+    "menu_observatory": {
+        "message": "SSL G\u00f6zlemcisi Ayarlar\u0131"
+    }, 
+    "menu_showCounter": {
+        "message": "Sayac\u0131 G\u00f6r\u00fcnt\u00fcle"
+    }, 
+    "menu_viewAllRules": {
+        "message": "T\u00fcm Kurallar\u0131 G\u00f6r\u00fcnt\u00fcle"
+    }, 
+    "options_generalSettings": {
+        "message": "Genel Ayarlar"
+    }, 
+    "options_import": {
+        "message": "\u0130\u00e7e Aktar"
+    }, 
+    "options_importSettings": {
+        "message": "Ayarlar\u0131 \u0130\u00e7e Aktar"
+    }, 
+    "options_imported": {
+        "message": "Ayarlar\u0131n\u0131z i\u00e7e aktar\u0131ld\u0131."
+    }, 
+    "prefs_export_settings": {
+        "message": "Ayarlar\u0131 D\u0131\u015fa Aktar"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Varsay\u0131lanlar\u0131 Y\u00fckle"
+    }
+}

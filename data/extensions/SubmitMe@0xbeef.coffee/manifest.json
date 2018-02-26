@@ -1,9 +1,9 @@
 {
   "manifest_version": 2,
-  "name": "Reveal hidden HTML elements",
-  "version": "1.8",
+  "name": "Reveal hidden HTML",
+  "version": "1.6",
   "author": "Nathan Nichols",
-  "description": "Allows you to force all hidden text on a page to show, and alerts you if it detects a significant amount of hidden text on a page.",
+  "description": "Unhides hidden HTML. Also, has a tool that fixes some websites with broken form validation Javascript by forcing an HTTP post.",
   "applications": {
     "gecko": {
 	  "id": "SubmitMe@0xbeef.coffee",
@@ -18,13 +18,12 @@
 	"contextMenus",
 	"webRequest",
 	"activeTab",
-	"notifications",
-	"<all_urls>"
+	"notifications"
 	],
   "content_scripts": [
 	{
     "matches": ["<all_urls>"],
-    "js": ["improve_css.js"]
+    "js": ["passive_improve_css.js"]
 	}],
 	"page_action": {
 		"browser_style": true,
@@ -35,10 +34,10 @@
 		"default_title": "Submit Me",
 		"default_popup": "popup/popup.html"
 	},
-
-
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["background.js"
+
+	]
   }
   
 }

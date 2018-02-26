@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "\u65b0\u3057\u3044\u30eb\u30fc\u30eb\u306e\u8ffd\u52a0"
+    }, 
+    "about_ext_description": {
+        "message": "\u30a6\u30a7\u30d6\u306e\u6697\u53f7\u5316\uff01\u81ea\u52d5\u7684\u306b\u591a\u304f\u306e\u30b5\u30a4\u30c8\u306bHTTPS\u30bb\u30ad\u30e5\u30ea\u30c6\u30a3\u3092\u4f7f\u7528\u3057\u307e\u3059\u3002"
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Everywhere"
+    }, 
+    "about_title": {
+        "message": "HTTPS Everywhere\u306b\u3064\u3044\u3066"
+    }, 
+    "about_version": {
+        "message": "\u30d0\u30fc\u30b8\u30e7\u30f3"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "\u3053\u306e\u30b5\u30a4\u30c8\u3078\u306e\u65b0\u3057\u3044\u30eb\u30fc\u30eb\u306e\u8ffd\u52a0"
+    }, 
+    "chrome_add_rule": {
+        "message": "\u3053\u306e\u30b5\u30a4\u30c8\u3078\u306e\u30eb\u30fc\u30eb\u306e\u8ffd\u52a0"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "\u3053\u306e\u30db\u30b9\u30c8\u3067\u306f\u5e38\u306bhttps\u3092\u4f7f\u7528\u3059\u308b"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "\u5b9f\u9a13\u7684\u306a\u30eb\u30fc\u30eb"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "\u8b66\u544a\u304c\u51fa\u305f\u308a\u6b63\u3057\u304f\u8868\u793a\u3067\u304d\u306a\u304b\u3063\u305f\u308a\u3059\u308b\u53ef\u80fd\u6027\u304c\u3042\u308a\u307e\u3059\u3002\u30c7\u30d5\u30a9\u30eb\u30c8\u3067\u306f\u7121\u52b9\u3067\u3059\u3002"
+    }, 
+    "chrome_hide_advanced": {
+        "message": "\u9ad8\u5ea6\u306a\u8a2d\u5b9a\u3092\u96a0\u3059"
+    }, 
+    "chrome_host": {
+        "message": "\u30db\u30b9\u30c8:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "\u30ea\u30c0\u30a4\u30ec\u30af\u30c8\u5148"
+    }, 
+    "chrome_regex": {
+        "message": "\u4e00\u81f4\u3059\u308b\u6b63\u898f\u8868\u73fe"
+    }, 
+    "chrome_rule_name": {
+        "message": "\u30eb\u30fc\u30eb\u540d"
+    }, 
+    "chrome_show_advanced": {
+        "message": "\u9ad8\u5ea6\u306a\u8a2d\u5b9a\u3092\u8868\u793a\u3059\u308b"
+    }, 
+    "chrome_stable_rules": {
+        "message": "\u5b89\u5b9a\u7248\u30eb\u30fc\u30eb"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "\u4ee5\u4e0b\u306e\u30b5\u30a4\u30c8\u3067\u6697\u53f7\u5316\u3055\u308c\u305f\u63a5\u7d9a\u306e\u307f\u3092\u5229\u7528\u3059\u308b\uff1a"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "\u30ad\u30e3\u30f3\u30bb\u30eb"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "\u3059\u3079\u3066\u306e\u975e\u6697\u53f7\u5316\u30ea\u30af\u30a8\u30b9\u30c8\u3092\u30d6\u30ed\u30c3\u30af"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "EFF\u306b\u5bc4\u4ed8\u3059\u308b"
+    }, 
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere\u3092\u6709\u52b9\u5316"
+    }, 
+    "menu_observatory": {
+        "message": "ssl Observatory\u306e\u8a2d\u5b9a"
+    }, 
+    "menu_showCounter": {
+        "message": "\u30ab\u30a6\u30f3\u30bf\u30fc\u3092\u8868\u793a"
+    }, 
+    "menu_viewAllRules": {
+        "message": "\u3059\u3079\u3066\u306e\u30eb\u30fc\u30eb\u3092\u8868\u793a"
+    }, 
+    "options_generalSettings": {
+        "message": "\u4e00\u822c\u8a2d\u5b9a"
+    }, 
+    "options_import": {
+        "message": "\u30a4\u30f3\u30dd\u30fc\u30c8"
+    }, 
+    "options_importSettings": {
+        "message": "\u30a4\u30f3\u30dd\u30fc\u30c8\u306e\u8a2d\u5b9a"
+    }, 
+    "options_imported": {
+        "message": "\u8a2d\u5b9a\u304c\u30a4\u30f3\u30dd\u30fc\u30c8\u3055\u308c\u307e\u3057\u305f\u3002"
+    }, 
+    "prefs_export_settings": {
+        "message": "\u30a8\u30af\u30b9\u30dd\u30fc\u30c8\u306e\u8a2d\u5b9a"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "\u30c7\u30d5\u30a9\u30eb\u30c8\u306b\u30ea\u30bb\u30c3\u30c8"
+    }
+}

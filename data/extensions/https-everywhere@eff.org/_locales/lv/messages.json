@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Pievienot jaunu k\u0101rtulu"
+    }, 
+    "about_ext_description": {
+        "message": "\u0160ifr\u0113t t\u012bmekli! Autom\u0101tiski lietot HTTPS dro\u0161\u012bbu daudz\u0101s vietn\u0113s."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Everywhere"
+    }, 
+    "about_title": {
+        "message": "Par HTTPS Everywhere"
+    }, 
+    "about_version": {
+        "message": "Versija"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "\u0160ai vietnei pievienot jaunu k\u0101rtulu"
+    }, 
+    "chrome_add_rule": {
+        "message": "\u0160ai vietnei pievienot k\u0101rtulu"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "\u0160im resursdatoram vienm\u0113r lietot https"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Eksperiment\u0101las k\u0101rtulas"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "Var izsaukt br\u012bdin\u0101jumus vai darb\u012bbas p\u0101rtraukumus. P\u0113c noklus\u0113juma ir atsp\u0113jots."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Sl\u0113pt lietprat\u012bg\u0101s"
+    }, 
+    "chrome_host": {
+        "message": "Resursdators:"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Novirz\u012bt uz"
+    }, 
+    "chrome_regex": {
+        "message": "Atbilsto\u0161a regul\u0101ra izteiksme jeb regex"
+    }, 
+    "chrome_rule_name": {
+        "message": "K\u0101rtulas nosaukums"
+    }, 
+    "chrome_show_advanced": {
+        "message": "R\u0101d\u012bt lietprat\u012bg\u0101s"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Stabilas k\u0101rtulas"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Uzspiest \u0161ifr\u0113tus savienojumus ar \u0161\u012bm t\u012bmek\u013ca vietn\u0113m."
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "Atcelt"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Blo\u0137\u0113t visus ne\u0161ifr\u0113tus piepras\u012bjumus"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Ziedojiet EFF"
+    }, 
+    "menu_globalEnable": {
+        "message": "Iesp\u0113jot HTTPS Everywhere"
+    }, 
+    "menu_observatory": {
+        "message": "SSL Observatory preferences"
+    }, 
+    "menu_showCounter": {
+        "message": "R\u0101d\u012bjumu skait\u012bt\u0101js"
+    }, 
+    "menu_viewAllRules": {
+        "message": "Skat\u012bt visas k\u0101rtulas"
+    }, 
+    "options_generalSettings": {
+        "message": "Visp\u0101r\u012bgi iestat\u012bjumi"
+    }, 
+    "options_import": {
+        "message": "Import\u0113t"
+    }, 
+    "options_importSettings": {
+        "message": "Import\u0113t iestat\u012bjumus"
+    }, 
+    "options_imported": {
+        "message": "J\u016bsu iestat\u012bjumi ir ieimport\u0113ti."
+    }, 
+    "prefs_export_settings": {
+        "message": "Eksporta iestat\u012bjumi"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Atiestat\u012bt uz noklus\u0113juma v\u0113rt\u012bb\u0101m"
+    }
+}

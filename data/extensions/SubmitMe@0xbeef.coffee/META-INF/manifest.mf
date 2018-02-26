@@ -2,38 +2,38 @@ Manifest-Version: 1.0
 
 Name: background.js
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: yOmX7/EYGE2ebtW7aUDNew==
-SHA1-Digest: FvWWJT+WhZhSelwxj2zC5eFucrU=
+MD5-Digest: YzgZsc8pIzxKQl3hOSbXbA==
+SHA1-Digest: vRFNa8dD6SIYJLe76PyyxBAhjwM=
 
 Name: improve_css.js
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: PS8vNsUriICqQ1WeOCUhyA==
-SHA1-Digest: NEWrN1owkMMsfRpgLN5BqEps0Do=
+MD5-Digest: r9yCr5Gq9KKGCBAqchqckg==
+SHA1-Digest: DFhj5jTJVXhfEE7HVUz6h7JHd1E=
 
 Name: License
 Digest-Algorithms: MD5 SHA1
 MD5-Digest: Gm39a/qnCG3uf9EcuPBVMw==
 SHA1-Digest: RuxC7X//13rkWB4UkyLaA8pFg+0=
 
+Name: main.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: X8CEMRmGQ5jvunlVTVnsZg==
+SHA1-Digest: hK5Y/HSqA/pK/eLQEmuejONMQxU=
+
 Name: manifest.json
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: 3Lqk7XeEqp3xKeiutlxEfw==
-SHA1-Digest: ZGi6NqcobGpS1RvvyvRjw0UIsNc=
+MD5-Digest: yhzzahp5eeg93Blz91q/iQ==
+SHA1-Digest: KC5MD4gPIS5Unps8mu4jJXjLxm0=
 
 Name: manual.js
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: F4FUSlFT+SzwwhVIs2cITg==
-SHA1-Digest: Ni3IUAVvHRFU6fm9oSkajGDeNW8=
+MD5-Digest: M7TpHu8tKcYU2fl+boykHQ==
+SHA1-Digest: e+zLK1abhJu6+FZWIkIT7x5C9Rg=
 
-Name: passive_read_css.js
+Name: passive_improve_css.js
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: EazQ7CozhixAv9FFyTn7nw==
-SHA1-Digest: giclPy4jXtWSxDt7qUg32WvxESI=
-
-Name: unhide_css.js
-Digest-Algorithms: MD5 SHA1
-MD5-Digest: r9yCr5Gq9KKGCBAqchqckg==
-SHA1-Digest: DFhj5jTJVXhfEE7HVUz6h7JHd1E=
+MD5-Digest: TxFaHuoWzq38nMMN6imFxA==
+SHA1-Digest: 1L1plvtA+xaZuEcXOQE7+bnpDSs=
 
 Name: icons/16x16.png
 Digest-Algorithms: MD5 SHA1

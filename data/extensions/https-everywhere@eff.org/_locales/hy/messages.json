@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "\u0531\u057e\u0565\u056c\u0561\u0581\u0576\u0565\u056c \u056f\u0561\u0576\u0578\u0576"
+    }, 
+    "about_ext_description": {
+        "message": "\u053f\u0578\u0564\u0561\u057e\u0578\u0580\u0565\u055b\u0584 \u054e\u0565\u0562\u0568\u0589 \u0531\u057e\u057f\u0578\u0574\u0561\u057f \u0585\u0563\u057f\u0561\u0563\u0578\u0580\u056e\u0565\u0584 HTTPS \u0561\u0576\u057e\u057f\u0561\u0576\u0563\u0578\u0582\u0569\u0575\u0578\u0582\u0576 \u0577\u0561\u057f \u056f\u0561\u0575\u0584\u0565\u0580\u056b \u057e\u0580\u0561\u0589"
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS Everywhere"
+    }, 
+    "about_title": {
+        "message": "\u00abHTTPS Everywhere\u00bb-\u056b \u0574\u0561\u057d\u056b\u0576"
+    }, 
+    "about_version": {
+        "message": "\u054f\u0561\u0580\u0562\u0565\u0580\u0561\u056f"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "\u0531\u057e\u0565\u056c\u0561\u0581\u0576\u0565\u056c \u0576\u0578\u0580 \u056f\u0561\u0576\u0578\u0576 \u0561\u0575\u057d \u056f\u0561\u0575\u0584\u056b \u0570\u0561\u0574\u0561\u0580"
+    }, 
+    "chrome_add_rule": {
+        "message": "\u0531\u057e\u0565\u056c\u0561\u0581\u0576\u0565 \u056f\u0561\u0576\u0578\u0576 \u0561\u0575\u057d \u056f\u0561\u0575\u0584\u056b \u0570\u0561\u0574\u0561\u0580"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "\u0544\u056b\u0577\u057f \u0585\u0563\u057f\u0561\u0563\u0578\u0580\u056e\u0565\u056c https \u0561\u0575\u057d \u0570\u0578\u057d\u0569\u056b \u0570\u0561\u0574\u0561\u0580"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "\u0553\u0578\u0580\u0571\u0561\u0580\u0561\u0580\u0561\u056f\u0561\u0576 \u056f\u0561\u0576\u0578\u0576\u0576\u0565\u0580"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "\u053f\u0561\u0580\u0578\u0572 \u0567 \u0561\u057c\u0561\u057b \u0562\u0565\u0580\u0565\u056c \u0566\u0563\u0578\u0582\u0577\u0561\u0581\u0578\u0582\u0574\u0576\u0565\u0580 \u056f\u0561\u0574 \u056d\u0561\u0583\u0561\u0576\u0578\u0582\u0574\u0576\u0565\u0580\u0589 \u053c\u057c\u0565\u056c\u0575\u0561\u0575\u0576 \u0561\u0580\u0563\u0565\u056c\u0561\u0583\u0561\u056f\u057e\u0561\u056e \u0567\u0589"
+    }, 
+    "chrome_hide_advanced": {
+        "message": "\u0539\u0561\u0584\u0581\u0576\u0565\u056c \u0574\u0561\u0576\u0580\u0561\u0574\u0561\u057d\u0576\u0565\u0580\u0568"
+    }, 
+    "chrome_host": {
+        "message": "\u0540\u0578\u057d\u0569. "
+    }, 
+    "chrome_redirect_to": {
+        "message": "\u054e\u0565\u0580\u0561\u0570\u0561\u057d\u0581\u0565\u0561\u057e\u0578\u0580\u0565\u056c \u0564\u0565\u057a\u056b"
+    }, 
+    "chrome_regex": {
+        "message": "\u0540\u0561\u0574\u0568\u0576\u056f\u0576\u0578\u0572 regex"
+    }, 
+    "chrome_rule_name": {
+        "message": "\u053f\u0561\u0576\u0578\u0576\u056b \u0561\u0576\u057e\u0561\u0576\u0578\u0582\u0574\u0568"
+    }, 
+    "chrome_show_advanced": {
+        "message": "\u0551\u0578\u0582\u0581\u0561\u0564\u0580\u0565\u056c \u0574\u0561\u0576\u0580\u0561\u0574\u0561\u057d\u0576\u0565\u0580\u0568"
+    }, 
+    "chrome_stable_rules": {
+        "message": "\u053f\u0561\u0575\u0578\u0582\u0576 \u056f\u0561\u0576\u0578\u0576\u0576\u0565\u0580"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "\u054d\u057f\u056b\u057a\u0565\u056c \u056f\u0578\u0564\u0561\u057e\u0578\u0580\u057e\u0561\u056e \u0574\u056b\u0561\u0581\u0578\u0582\u0574 \u0561\u0575\u057d \u056f\u0561\u0575\u0584\u0565\u0580\u056b\u0576."
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "\u0549\u0565\u0572\u0561\u0580\u056f\u0565\u056c"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "\u0531\u0580\u0563\u0565\u056c\u0561\u0583\u0561\u056f\u0565\u056c \u0562\u0578\u056c\u0578\u0580 \u0579\u056f\u0578\u0564\u0561\u057e\u0578\u0580\u057e\u0561\u056e \u0574\u056b\u0561\u0581\u0578\u0582\u0574\u0576\u0565\u0580\u0568"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "\u0546\u057e\u056b\u0580\u0561\u0562\u0565\u0580\u0565\u0584 EFF-\u056b\u0576"
+    }, 
+    "menu_globalEnable": {
+        "message": "\u0544\u056b\u0561\u0581\u0576\u0565\u056c \u00abHTTPS Everywhere\u00bb-\u0568"
+    }, 
+    "menu_observatory": {
+        "message": "SSL \u0534\u056b\u057f\u0561\u056f\u0565\u057f\u056b \u056f\u0561\u0580\u0563\u0561\u057e\u0578\u0580\u0578\u0582\u0574\u0576\u0565\u0580"
+    }, 
+    "menu_showCounter": {
+        "message": "\u0551\u0578\u0582\u0581\u0561\u0564\u0580\u0565\u056c \u0570\u0561\u0577\u057e\u056b\u0579\u0568"
+    }, 
+    "menu_viewAllRules": {
+        "message": "\u0534\u056b\u057f\u0565\u056c \u0562\u0578\u056c\u0578\u0580 \u056f\u0561\u0576\u0578\u0576\u0576\u0565\u0580\u0568"
+    }, 
+    "options_generalSettings": {
+        "message": "General Settings"
+    }, 
+    "options_import": {
+        "message": "Import"
+    }, 
+    "options_importSettings": {
+        "message": "Import Settings"
+    }, 
+    "options_imported": {
+        "message": "Your settings have been imported."
+    }, 
+    "prefs_export_settings": {
+        "message": "Export Settings"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "\u0535\u057f \u0562\u0565\u0580\u0565\u056c \u056c\u057c\u0565\u056c\u0575\u0561\u0575\u0576\u0576\u0565\u0580\u0568"
+    }
+}

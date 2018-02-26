@@ -10,7 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 console.log("background.js");
 var not_executing = true;
-
+//passive_fix_css();
 var notify_id = "submit-me";
 
 function display_multiple_forms(){
@@ -30,16 +30,21 @@ function display_single_form(){
 		"message": "The website uses a submit button outside of a form.<br> Please select which form you would like to attempt to submit."
 	});
 };
-/*
+
 browser.contextMenus.create({
   id: "submit-me",
   title: "Force submit a form",
   contexts: ["all"]
 });
-*/
 browser.contextMenus.create({
-  id: "reveal-css",
-  title: "Remove all page's CSS",
+  id: "submit-me-manual",
+  title: "Manually choose a form to submit",
+  contexts: ["all"]
+});
+
+browser.contextMenus.create({
+  id: "submit-me-css",
+  title: "Remove all CSS (Try this if the website is scrambled)",
   contexts: ["all"]
 });
 
@@ -60,17 +65,19 @@ function display_manual_dialog(){
 	executing.then(onExecuted, onError);
 }
 
-function passive_read_css(){
+function passive_fix_css(){
 	function onExecuted(result) {
-		console.log("passive_read_css.js executed.");
+		console.log("passive_improve_css.js executed.");
+		//not_executing = true;	
 	}
 
 	function onError(error) {
-		console.log("Error in passive_read_css.js");
+		//not_executing = true;
+		console.log("Error in passive_improve_css.js");
 		console.log(error);
 	}
 	var executing = browser.tabs.executeScript({
-		file: "/passive_read_css.js",
+		file: "/passive_improve_css.js",
 		allFrames: true
 	});
 	//not_executing = false;
@@ -79,17 +86,17 @@ function passive_read_css(){
 
 function fix_css(){
 	function onExecuted(result) {
-		console.log("unhide_css.js executed.");
+		console.log("improve_css.js executed.");
 		not_executing = true;
 	}
 
 	function onError(error) {
-		console.log("Error in unhide_css.js");
+		console.log("Error in improve_css.js");
 		console.log(error);
 		not_executing = true;
 	}
 	var executing = browser.tabs.executeScript({
-		file: "/unhide_css.js",
+		file: "/improve_css.js",
 		allFrames: true
 	});
 	not_executing = false;
@@ -124,13 +131,12 @@ browser.pageAction.onClicked.addListener(function(info, tab) {
 
 browser.contextMenus.onClicked.addListener(function(info, tab) {
 	console.log(info);
-	/*
 	if(info.menuItemId == "submit-me-manual" && not_executing){
 		not_executing = false;
 		display_manual_dialog();
 	}
-	*/
-	if(info.menuItemId == "reveal-css" && not_executing){
+		
+	if(info.menuItemId == "submit-me-css" && not_executing){
 		not_executing = false;
 		fix_css();
 	}
@@ -154,6 +160,5 @@ browser.contextMenus.onClicked.addListener(function(info, tab) {
 	}
 });
 
-passive_read_css();
 
 // https://developer.mozilla.org/en-US/Add-ons/WebExtensions/API/contextMenus/create

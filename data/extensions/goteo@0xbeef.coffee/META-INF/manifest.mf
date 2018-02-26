@@ -1,0 +1,22 @@
+Manifest-Version: 1.0
+
+Name: goteo.js
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: 3elwuBy3QRWReEvbC03YuQ==
+SHA1-Digest: p3WBAte1gf+zbH7g1BJB+4CfrpE=
+
+Name: License
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: o1+NLuXuBdXDUPbqMKclVg==
+SHA1-Digest: 9neKP3yy2up5cLrNOoXL0zOPkJY=
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: BtPIvN6g8boHUHxaFeFWRw==
+SHA1-Digest: 3WO/Gmup8zhPeItgFgupSekv+E0=
+
+Name: icons/icon128.png
+Digest-Algorithms: MD5 SHA1
+MD5-Digest: R9JV/fdqXWQ11FI1x0TYkw==
+SHA1-Digest: r+71Sv1o8ykxrQ5ZO1Iq9exKXBs=
+

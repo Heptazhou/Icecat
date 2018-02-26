@@ -1,0 +1,95 @@
+{
+    "about_add_new_rule": {
+        "message": "Aldoni novan regulon"
+    }, 
+    "about_ext_description": {
+        "message": "\u0108ifrigu la reton! A\u016dtomate uzu HTTPS\u2010sekurecon \u0109e multaj retejoj."
+    }, 
+    "about_ext_name": {
+        "message": "HTTPS-\u0108ie"
+    }, 
+    "about_title": {
+        "message": "Pri HTTPS-\u0108ie"
+    }, 
+    "about_version": {
+        "message": "Versio"
+    }, 
+    "chrome_add_new_rule": {
+        "message": "Aldoni novan regulon por tiu \u0109i retejo"
+    }, 
+    "chrome_add_rule": {
+        "message": "Aldoni regulon por tiu \u0109i retejo"
+    }, 
+    "chrome_always_https_for_host": {
+        "message": "\u0108iam uzi https por tiu \u0109i retejo"
+    }, 
+    "chrome_experimental_rules": {
+        "message": "Eksperimentaj reguloj"
+    }, 
+    "chrome_experimental_rules_description": {
+        "message": "Povas ka\u016dzi avertojn a\u016d malfunkciojn. Implicite mal\u015daltitaj."
+    }, 
+    "chrome_hide_advanced": {
+        "message": "Ka\u015di altnivelajn"
+    }, 
+    "chrome_host": {
+        "message": "Servilo"
+    }, 
+    "chrome_redirect_to": {
+        "message": "Aldirekti al"
+    }, 
+    "chrome_regex": {
+        "message": "Kongrua regula esprimo"
+    }, 
+    "chrome_rule_name": {
+        "message": "Nomo de regulo"
+    }, 
+    "chrome_show_advanced": {
+        "message": "Montri altnivelajn"
+    }, 
+    "chrome_stable_rules": {
+        "message": "Stabilaj reguloj"
+    }, 
+    "chrome_stable_rules_description": {
+        "message": "Devigi \u0109ifritan konekton al tiuj retejoj"
+    }, 
+    "chrome_status_cancel_button": {
+        "message": "Rezigni"
+    }, 
+    "menu_blockUnencryptedRequests": {
+        "message": "Bloki \u0109iujn ne\u0109ifritajn petojn"
+    }, 
+    "menu_donate_eff_imperative": {
+        "message": "Donaci al EFF"
+    }, 
+    "menu_globalEnable": {
+        "message": "En\u015dalti HTTPS-\u0108ie"
+    }, 
+    "menu_observatory": {
+        "message": "Agordoj de SSL-Observejo"
+    }, 
+    "menu_showCounter": {
+        "message": "Montri nombrilon"
+    }, 
+    "menu_viewAllRules": {
+        "message": "Montri \u0109iujn regulojn"
+    }, 
+    "options_generalSettings": {
+        "message": "\u011ceneralaj agordoj"
+    }, 
+    "options_import": {
+        "message": "Enporti"
+    }, 
+    "options_importSettings": {
+        "message": "Enporti agordojn"
+    }, 
+    "options_imported": {
+        "message": "Viaj \u015dan\u011doj estis enportitaj."
+    }, 
+    "prefs_export_settings": {
+        "message": "Elporti agordojn"
+    }, 
+    "prefs_reset_defaults": {
+        "message": "Re\u015dargi al aprioraj"
+    }
+}
