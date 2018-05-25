@@ -28,7 +28,7 @@
 
 #####################################################################
 #
-# This program is 
+# This program is obsolete.
 # 
 # AddonsScraper.py (a web scraper) has been superseded by
 # https://savannah.gnu.org/projects/directory
