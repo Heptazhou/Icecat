@@ -26,6 +26,27 @@
 #    To run, install mysql-server, python-mysqldb and python-beautifulsoup
 #
 
+#####################################################################
+#
+# This program is 
+# 
+# AddonsScraper.py (a web scraper) has been superseded by
+# https://savannah.gnu.org/projects/directory
+# that has implemented the addons.mozilla.org (AMO) API
+# (https://addons-server.readthedocs.io/en/latest/topics/api/addons.html)
+# script that I wrote to sync AMO with
+# https://directory.fsf.org/wiki/Collection:IceCat
+#
+# The binary release of IceCat already uses
+# https://directory.fsf.org/wiki/Collection:IceCat in 
+# IceCat -> Tools -> Add-ons (about:addons) -> Get Add-ons
+# 
+# Besides, AddonsScraper.py is broken. It's better to delete it than
+# maintaining it in my opinion.
+# 
+# -- David Hedlund
+#
+#####################################################################
 
 import re
 import sys
