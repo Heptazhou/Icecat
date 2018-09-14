@@ -2,7 +2,7 @@
 
 set -e
 
-for extension in 827475 821614 808959 821609 837436 821607 830681 841449 https-everywhere; do
+for extension in librejs https-everywhere librejs-usps-compatibility free-js-for-rsf-org-petitions librejs-compatible-sumofus-org librejs-compatible-pay-gov submit-me rock-and-roll-mcdonald-s goteo-org-payments-w-free-js use-google-drive-with-librejs tprb; do
 
   rm -rf /tmp/update-extension
   mkdir /tmp/update-extension
@@ -22,3 +22,5 @@ for extension in 827475 821614 808959 821609 837436 821607 830681 841449 https-e
   mv /tmp/update-extension extensions/$ID
 
 done
+
+sed '/autoUpdateRulesets/s/true/false/' -i extensions/https-everywhere@eff.org/pages/options/ux.js extensions/https-everywhere@eff.org/background-scripts/update.js

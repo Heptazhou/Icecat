@@ -1,95 +1,110 @@
 {
     "about_add_new_rule": {
         "message": "\uc0c8 \uaddc\uce59 \ucd94\uac00\ud558\uae30"
-    }, 
+    },
     "about_ext_description": {
         "message": "\uc6f9\uc744 \uc554\ud638\ud654 \ud558\uc138\uc694! \uc790\ub3d9\uc73c\ub85c \uc5ec\ub7ec \uc0ac\uc774\ud2b8\uc5d0 HTTPS \ubcf4\uc548\uc744 \uc0ac\uc6a9\ud569\ub2c8\ub2e4."
-    }, 
+    },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
-    }, 
+    },
+    "about_rulesets_version": {
+        "message": "Rulesets version for"
+    },
     "about_title": {
         "message": "HTTPS Everywhere\uc5d0 \ub300\ud558\uc5ec"
-    }, 
+    },
     "about_version": {
         "message": "\ubc84\uc804"
-    }, 
+    },
+    "cancel_he_blocking_explainer": {
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+    },
+    "cancel_he_blocking_network": {
+        "message": "network-based downgrade attacks"
+    },
     "chrome_add_new_rule": {
         "message": "\ud574\ub2f9 \uc0ac\uc774\ud2b8\uc5d0 \uc0c8 \uaddc\uce59 \ucd94\uac00"
-    }, 
+    },
     "chrome_add_rule": {
         "message": "\ud574\ub2f9 \uc0ac\uc774\ud2b8\uc5d0 \uaddc\uce59 \ucd94\uac00"
-    }, 
+    },
     "chrome_always_https_for_host": {
         "message": "\ud574\ub2f9 \ud638\uc2a4\ud2b8\ub294 \ud56d\uc0c1 https \uc0ac\uc6a9"
-    }, 
+    },
     "chrome_experimental_rules": {
         "message": "\uc2e4\ud5d8\uc6a9 \uaddc\uce59"
-    }, 
+    },
     "chrome_experimental_rules_description": {
         "message": "\uacbd\uace0\ub098 \uc624\ub958\ub97c \ubc1c\uc0dd\uc2dc\ud0ac \uc218 \uc788\uc74c. \uae30\ubcf8\uc124\uc815\uc740 \ube44\ud65c\uc131\ud654."
-    }, 
+    },
     "chrome_hide_advanced": {
         "message": "\uace0\uae09 \uc228\uae30\uae30"
-    }, 
+    },
     "chrome_host": {
         "message": "\ud638\uc2a4\ud2b8:"
-    }, 
+    },
     "chrome_redirect_to": {
         "message": "\ub2e4\uc74c\uc73c\ub85c \ub9ac\ub2e4\uc774\ub809\ud2b8"
-    }, 
+    },
     "chrome_regex": {
         "message": "\ud574\ub2f9\ud558\ub294 regex"
-    }, 
+    },
     "chrome_rule_name": {
         "message": "\uaddc\uce59\uba85"
-    }, 
+    },
     "chrome_show_advanced": {
         "message": "\uace0\uae09 \ubcf4\uc774\uae30"
-    }, 
+    },
     "chrome_stable_rules": {
         "message": "Stable, \uc548\uc815\ub41c \uaddc\uce59"
-    }, 
+    },
     "chrome_stable_rules_description": {
         "message": "\ub2e4\uc74c \uc0ac\uc774\ud2b8\uc5d0 \uc811\uc18d\uc2dc \uac15\uc81c \uc554\ud638\ud654:"
-    }, 
+    },
     "chrome_status_cancel_button": {
         "message": "\ucde8\uc18c"
-    }, 
+    },
     "menu_blockUnencryptedRequests": {
         "message": "\uc554\ud638\ud654\ub418\uc9c0 \uc54a\uc740 \ubaa8\ub4e0 \uc694\uccad \ucc28\ub2e8"
-    }, 
+    },
     "menu_donate_eff_imperative": {
         "message": "EFF\uc5d0 \uae30\ubd80\ud558\uae30"
-    }, 
+    },
     "menu_globalEnable": {
         "message": "\ubaa8\ub4e0\uacf3\uc5d0\uc11c HTTPS \uc0ac\uc6a9"
-    }, 
+    },
     "menu_observatory": {
         "message": "SSL \uad00\uce21 \ud658\uacbd \uc124\uc815"
-    }, 
+    },
     "menu_showCounter": {
         "message": "\uce74\uc6b4\ud130 \ubcf4\uae30"
-    }, 
+    },
     "menu_viewAllRules": {
         "message": "\ubaa8\ub4e0 \uaddc\uce59 \ud45c\uc2dc"
-    }, 
+    },
+    "options_advancedSettings": {
+        "message": "\uace0\uae09 \uc124\uc815"
+    },
+    "options_autoUpdateRulesets": {
+        "message": "Auto-update rulesets"
+    },
+    "options_enableMixedRulesets": {
+        "message": "Enable mixed content rulesets"
+    },
     "options_generalSettings": {
-        "message": "General Settings"
-    }, 
-    "options_import": {
-        "message": "\uac00\uc838\uc624\uae30"
-    }, 
-    "options_importSettings": {
-        "message": "\uc124\uc815 \uac00\uc838\uc624\uae30"
-    }, 
-    "options_imported": {
-        "message": "\uc124\uc815\uc744 \uac00\uc838\uc654\uc2b5\ub2c8\ub2e4."
-    }, 
+        "message": "\uc77c\ubc18 \uc124\uc815"
+    },
+    "options_showDevtoolsTab": {
+        "message": "Show Devtools tab"
+    },
     "prefs_export_settings": {
         "message": "\uc124\uc815 \ub0b4\ubcf4\ub0b4\uae30"
-    }, 
+    },
     "prefs_reset_defaults": {
         "message": "\uae30\ubcf8\uac12\uc73c\ub85c \ub2e4\uc2dc \uc124\uc815"
+    },
+    "prefs_reset_defaults_message": {
+        "message": "This will reset each ruleset to its default state. Continue?"
     }
 }

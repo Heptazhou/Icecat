@@ -12,18 +12,18 @@ SHA1-Digest: 9neKP3yy2up5cLrNOoXL0zOPkJY=
 
 Name: manifest.json
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: E2bwVBj1MqIz1sQ6Pnp6Ig==
-SHA1-Digest: LD5n5QlltwSu/qekRCyEIRxhRHw=
+MD5-Digest: wSkRLX9zPT6qxHA/KBuKjA==
+SHA1-Digest: LRYM22J0nOa9TGAFPiZ3yAQVHng=
 
 Name: pay.js
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: 7LwSviUdv+oFufBSawudrQ==
-SHA1-Digest: rHvrygUaSPTbupQqQitEOikvRG8=
+MD5-Digest: 8YqH25U8K1pHrnecFcUlNg==
+SHA1-Digest: LVBxTR+tNs6IYqxtVG/HxOHQLzE=
 
 Name: unhidehtml.js
 Digest-Algorithms: MD5 SHA1
-MD5-Digest: HN7YJBx4Wc/sEFu/oDG8oQ==
-SHA1-Digest: 2+2WCEMLrnyWVN26GZ038RFQcQM=
+MD5-Digest: VjeA5iRQTGfTKX03WqXygg==
+SHA1-Digest: aPdjED+4h+IQol3tm9Brlo2WzRQ=
 
 Name: icons/L4Libre.png
 Digest-Algorithms: MD5 SHA1

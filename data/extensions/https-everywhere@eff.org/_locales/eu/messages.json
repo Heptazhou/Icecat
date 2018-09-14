@@ -1,95 +1,110 @@
 {
     "about_add_new_rule": {
         "message": "Arau berria gehitu"
-    }, 
+    },
     "about_ext_description": {
         "message": "Weba enkriptatu! Automatikoki erabili HTTPS segurtasuna leku askotan."
-    }, 
+    },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
-    }, 
+    },
+    "about_rulesets_version": {
+        "message": "Arauen multzoaren bertsioa:"
+    },
     "about_title": {
         "message": "HTTPS Everywhere buruz"
-    }, 
+    },
     "about_version": {
         "message": "Bertsioa"
-    }, 
+    },
+    "cancel_he_blocking_explainer": {
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+    },
+    "cancel_he_blocking_network": {
+        "message": "network-based downgrade attacks"
+    },
     "chrome_add_new_rule": {
         "message": "Arau berri bat gehitu gune honetarako"
-    }, 
+    },
     "chrome_add_rule": {
         "message": "Arau bat gehitu gune honetarako"
-    }, 
+    },
     "chrome_always_https_for_host": {
         "message": "Beti erabili https ostalari honetarako"
-    }, 
+    },
     "chrome_experimental_rules": {
         "message": "Arau esperimentalak"
-    }, 
+    },
     "chrome_experimental_rules_description": {
         "message": "Alarmak edo kalteak eragin dezake. Ezgaitua lehenetsia."
-    }, 
+    },
     "chrome_hide_advanced": {
         "message": "Ezkutatu aurreratuak"
-    }, 
+    },
     "chrome_host": {
         "message": "Ostalaria:"
-    }, 
+    },
     "chrome_redirect_to": {
         "message": "Hona birzuzendu"
-    }, 
+    },
     "chrome_regex": {
         "message": "Bat egiten duen regexa"
-    }, 
+    },
     "chrome_rule_name": {
         "message": "Arauaren izena"
-    }, 
+    },
     "chrome_show_advanced": {
         "message": "Erakutsi aurreratuak"
-    }, 
+    },
     "chrome_stable_rules": {
         "message": "Arau egonkorrak"
-    }, 
+    },
     "chrome_stable_rules_description": {
         "message": "Behartu konexio enkriptatuak webgune hauetan:"
-    }, 
+    },
     "chrome_status_cancel_button": {
         "message": "Utzi"
-    }, 
+    },
     "menu_blockUnencryptedRequests": {
         "message": "Enkriptatu gabeko eskaera guztiak blokeatu"
-    }, 
+    },
     "menu_donate_eff_imperative": {
         "message": "EFFri dohaintza eman"
-    }, 
+    },
     "menu_globalEnable": {
         "message": "HTTPS Everywhere gaitu"
-    }, 
+    },
     "menu_observatory": {
         "message": "SSL Behatokiaren Hobespenak"
-    }, 
+    },
     "menu_showCounter": {
         "message": "Kopurua erakutsi"
-    }, 
+    },
     "menu_viewAllRules": {
         "message": "Ikusi arau guztiak"
-    }, 
+    },
+    "options_advancedSettings": {
+        "message": "Ezarpen Aurreratuak"
+    },
+    "options_autoUpdateRulesets": {
+        "message": "Auto-eguneratu arauen multzoak"
+    },
+    "options_enableMixedRulesets": {
+        "message": "Gaitu nahasitako arauen multzoak"
+    },
     "options_generalSettings": {
-        "message": "General Settings"
-    }, 
-    "options_import": {
-        "message": "Inportatu"
-    }, 
-    "options_importSettings": {
-        "message": "Import Settings"
-    }, 
-    "options_imported": {
-        "message": "Your settings have been imported."
-    }, 
+        "message": "Ezarpen Orokorrak"
+    },
+    "options_showDevtoolsTab": {
+        "message": "Erakutsi Devtools fitxa"
+    },
     "prefs_export_settings": {
-        "message": "Export Settings"
-    }, 
+        "message": "Esportatu Ezarpenak"
+    },
     "prefs_reset_defaults": {
         "message": "Lehenetsiak berrezarri"
+    },
+    "prefs_reset_defaults_message": {
+        "message": "Honek arauen multzo bakoitza bere egoera lehenetsira berrasieratuko du. Jarraitu?"
     }
 }

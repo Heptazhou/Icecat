@@ -38,27 +38,12 @@ if(document.location.href.indexOf("pay.gov/tcsonline/") != -1){
 }
 
 if(get_domain(document.location.href) == "https://dmca.copyright.gov/"){
-	console.log("here");
-	document.body.style.display = true;
-
-
 	var form = document.getElementById("file");
 	if(form !== null){
 		console.log("upload page detected");
 		document.getElementById("btnUpload").disabled = false;
 	}
-}
 
-var content;
-function replace_regex(){
-	content = document.documentElement.innerHTML;
-	content = content.replace(/type\s*\=\s*("|')\s*hidden\s*\1\s*;/g,"");   // type=hidden (HTML inputs can have this);
-	content = content.replace(/display\s*:\s*none/g,"");    				// display:none ()
-	content = content.replace(/visibility\s*:\s*hidden/g,"");				// visibility: hidden
-	document.documentElement.innerHTML = "<html>"+content+"</html>";
-}
 
-if(window.getComputedStyle(document.body)["display"] == "none"){
-	replace_regex();
 }
 

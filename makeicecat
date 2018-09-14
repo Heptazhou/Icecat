@@ -319,7 +319,7 @@ cp $DATA/branding/sync.png browser/themes/shared/fxa/logo.png
 # Hide plugindeprecation-notice
 echo "#plugindeprecation-notice {  display: none !important; }" >> toolkit/mozapps/extensions/content/extensions.css
 # Hide warnings on unsigned extensions
-#echo ".warning{display: none!important; } .addon[notification=warning]{background-image: none!important;}" >> toolkit/mozapps/extensions/content/extensions.css
+echo ".warning{display: none!important; } .addon[notification=warning]{background-image: none!important;}" >> toolkit/mozapps/extensions/content/extensions.css
 # Hide extra links in about box
 sed '/releaseNotes.link/d; /helpus/d' -i ./browser/base/content/aboutDialog.xul
 
@@ -613,8 +613,8 @@ EOF
 
 # Add extensions to manifest
 for EXTENSION in $(ls $DATA/extensions/); do
-sed "/Browser Chrome Files/s%$%\n@RESPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in
-sed "/Browser Chrome Files/s%$%\n@BINPATH@/distribution/extensions/$EXTENSION/*%" -i mobile/android/installer/package-manifest.in
+sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in
+sed "/Browser Chrome Files/s%$%\n@BINPATH@/extensions/$EXTENSION/*%" -i mobile/android/installer/package-manifest.in
 #echo "DIRS += ['$EXTENSION']" >> browser/app/profile/extensions/moz.build
 #touch browser/app/profile/extensions/$EXTENSION/moz.build
 done
@@ -623,10 +623,11 @@ cp $DATA/extensions/ extensions/gnu -a
 
 cat << EOF >> browser/app/Makefile.in
 libs::
-	cp -a \$(topsrcdir)/extensions/gnu/* \$(FINAL_TARGET)/extensions/
+	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/bin/browser/extensions
 	mkdir -p \$(DIST)/icecat/browser/extensions/ 
 	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/icecat/browser/extensions/
 EOF
+
 
 cat << EOF >> mobile/android/app/Makefile.in
 libs::
@@ -637,26 +638,6 @@ EOF
 #sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk
 #sed '/972ce4c6/  s%$%\n/extensions.gnu/* @MOZ_ADDONDIR@/extensions%' -i debian/icecat.install.in
 
-ABPDIR="extensions/gnu/spyblock@gnu.org"
-ABPBRAND="SpyBlock"
-SEDSCRIPT="
-s/ABP/$ABPBRAND/g;
-s/Adblock Plus/$ABPBRAND/g;
-s/AdblockPlus/$ABPBRAND/g;
-s/Adblock/$ABPBRAND/g;
-s/Adblok/$ABPBRAND/g;
-/This file is part of/ s_adblockplus.org_www.gnu.org/software/gnuzilla_;
-/Copyright.*Eyeo GmbH/ s/\$/ (Adblock Plus) \\n * Copyright (C) $(date +%Y) $DEBFULLNAME <$DEBEMAIL>/;
-"
-find $ABPDIR  -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
-sed '/\[Spy/s/SpyBlock/Adblock/g' -i $ABPDIR/lib/synchronizer.js
-
-cp $DATA/adblock_artwork/48.png $ABPDIR/icon.png
-cp $DATA/adblock_artwork/24.png $ABPDIR/chrome/skin/abp-status.png
-cp $DATA/adblock_artwork/16.png $ABPDIR/chrome/skin/abp-status-16.png
-cp $DATA/adblock_artwork/100.png $ABPDIR/chrome/skin/abp-icon-big.png
-cp $DATA/adblock_artwork/32.png $ABPDIR/chrome/skin/abp-status-32.png
-cp $DATA/adblock_artwork/64.png $ABPDIR/icon64.png
 
 sed '/972ce4c6/d;' -i debian/icecat.install.in
 echo "@MOZ_LIBDIR@/browser/extensions @MOZ_ADDONDIR@" >> debian/icecat.install.in

@@ -1,7 +1,0 @@
-{
-  "extends": "eslint-config-eyeo",
-  "root": true,
-  "env": {
-    "webextensions": true
-  }
-}

@@ -1,95 +1,110 @@
 {
     "about_add_new_rule": {
         "message": "Add New Rule"
-    }, 
+    },
     "about_ext_description": {
         "message": "\u12f5\u1229\u1295 \u12eb\u1218\u1235\u1325\u1229! \u1260\u1265\u12d9 \u1323\u1262\u12eb\u12ce\u127d \u120b\u12ed HTTPS\u1295 \u1260\u122b\u1235-\u1230\u122d \u12ed\u1320\u1240\u1219\u1362"
-    }, 
+    },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
-    }, 
+    },
+    "about_rulesets_version": {
+        "message": "Rulesets version for"
+    },
     "about_title": {
         "message": "\u1235\u1208HTTPS Everywhere"
-    }, 
+    },
     "about_version": {
         "message": "\u1235\u122a\u1275"
-    }, 
+    },
+    "cancel_he_blocking_explainer": {
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+    },
+    "cancel_he_blocking_network": {
+        "message": "network-based downgrade attacks"
+    },
     "chrome_add_new_rule": {
         "message": "Add a new rule for this site"
-    }, 
+    },
     "chrome_add_rule": {
         "message": "Add a rule for this site"
-    }, 
+    },
     "chrome_always_https_for_host": {
         "message": "Always use https for this host"
-    }, 
+    },
     "chrome_experimental_rules": {
         "message": "Experimental rules"
-    }, 
+    },
     "chrome_experimental_rules_description": {
         "message": "May cause warnings or breakage. Disabled by default."
-    }, 
+    },
     "chrome_hide_advanced": {
         "message": "Hide advanced"
-    }, 
+    },
     "chrome_host": {
         "message": "Host:"
-    }, 
+    },
     "chrome_redirect_to": {
         "message": "Redirect to"
-    }, 
+    },
     "chrome_regex": {
         "message": "Matching regex"
-    }, 
+    },
     "chrome_rule_name": {
         "message": "Rule name"
-    }, 
+    },
     "chrome_show_advanced": {
         "message": "Show advanced"
-    }, 
+    },
     "chrome_stable_rules": {
         "message": "Stable rules"
-    }, 
+    },
     "chrome_stable_rules_description": {
         "message": "Force encrypted connections to these websites:"
-    }, 
+    },
     "chrome_status_cancel_button": {
         "message": "\u12ed\u1245\u122d"
-    }, 
+    },
     "menu_blockUnencryptedRequests": {
         "message": "Block all unencrypted requests"
-    }, 
+    },
     "menu_donate_eff_imperative": {
         "message": "Donate to EFF"
-    }, 
+    },
     "menu_globalEnable": {
         "message": "HTTPS Everywhere\u1295 \u12a0\u1295\u1243"
-    }, 
+    },
     "menu_observatory": {
         "message": "\u12e8SSL \u1218\u1273\u12d8\u1262\u12eb \u121d\u122d\u132b\u12ce\u127d"
-    }, 
+    },
     "menu_showCounter": {
         "message": "\u1246\u1323\u122a\u1295 \u12a0\u1233\u12ed"
-    }, 
+    },
     "menu_viewAllRules": {
         "message": "View All Rules"
-    }, 
+    },
+    "options_advancedSettings": {
+        "message": "Advanced Settings"
+    },
+    "options_autoUpdateRulesets": {
+        "message": "Auto-update rulesets"
+    },
+    "options_enableMixedRulesets": {
+        "message": "Enable mixed content rulesets"
+    },
     "options_generalSettings": {
         "message": "General Settings"
-    }, 
-    "options_import": {
-        "message": "Import"
-    }, 
-    "options_importSettings": {
-        "message": "Import Settings"
-    }, 
-    "options_imported": {
-        "message": "Your settings have been imported."
-    }, 
+    },
+    "options_showDevtoolsTab": {
+        "message": "Show Devtools tab"
+    },
     "prefs_export_settings": {
         "message": "Export Settings"
-    }, 
+    },
     "prefs_reset_defaults": {
         "message": "\u12c8\u12f0 \u1290\u1263\u122a\u12ce\u127d \u12f3\u130d\u121d \u12a0\u1235\u1300\u121d\u122d"
+    },
+    "prefs_reset_defaults_message": {
+        "message": "This will reset each ruleset to its default state. Continue?"
     }
 }

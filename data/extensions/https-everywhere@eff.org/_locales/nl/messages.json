@@ -1,95 +1,110 @@
 {
     "about_add_new_rule": {
-        "message": "Voeg nieuwe regel toe"
-    }, 
+        "message": "Nieuwe regel toevoegen"
+    },
     "about_ext_description": {
         "message": "Versleutel het web! Gebruik HTTPS-beveiliging automatisch op vele sites."
-    }, 
+    },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
-    }, 
+    },
+    "about_rulesets_version": {
+        "message": "Regelsetversie voor"
+    },
     "about_title": {
         "message": "Over HTTPS Everywhere"
-    }, 
+    },
     "about_version": {
         "message": "Versie"
-    }, 
+    },
+    "cancel_he_blocking_explainer": {
+        "message": "HTTPS Everywhere heeft gemerkt dat u naar een niet-HTTPS-pagina bent genavigeerd, en heeft geprobeerd u in plaats daarvan naar de HTTPS-versie te sturen. De HTTPS-versie is niet beschikbaar. Waarschijnlijk ondersteunt deze website geen HTTPS, maar het is ook mogelijk dat een aanvaller de HTTPS-versie blokkeert. Als u de niet-versleutelde versie van deze pagina wilt bekijken, kunt u dat alsnog doen door de optie \u2018Alle niet-versleutelde aanvragen blokkeren\u2019 in uw HTTPS Everywhere-extensie uit te schakelen. Bedenk wel dat het uitschakelen van deze optie uw browser kwetsbaar kan maken voor op netwerk gebaseerde downgrade-aanvallen op websites die u bezoekt."
+    },
+    "cancel_he_blocking_network": {
+        "message": "op netwerk gebaseerde downgrade-aanvallen"
+    },
     "chrome_add_new_rule": {
-        "message": "Voeg een nieuwe regel toe voor deze site"
-    }, 
+        "message": "Nieuwe regel voor deze website toevoegen"
+    },
     "chrome_add_rule": {
-        "message": "Voeg een regel toe voor deze site"
-    }, 
+        "message": "Een regel voor deze website toevoegen"
+    },
     "chrome_always_https_for_host": {
-        "message": "Gebruik altijd https voor deze host"
-    }, 
+        "message": "Altijd https voor deze host gebruiken"
+    },
     "chrome_experimental_rules": {
         "message": "Experimentele regels"
-    }, 
+    },
     "chrome_experimental_rules_description": {
-        "message": "Kan schade aanrichten of waarschuwingen tonen. Standaard is deze uitgeschakeld."
-    }, 
+        "message": "Kan waarschuwingen of defecten veroorzaken. Standaard uitgeschakeld."
+    },
     "chrome_hide_advanced": {
         "message": "Geavanceerd verbergen"
-    }, 
+    },
     "chrome_host": {
         "message": "Host:"
-    }, 
+    },
     "chrome_redirect_to": {
-        "message": "Verwijs naar"
-    }, 
+        "message": "Doorverwijzen naar"
+    },
     "chrome_regex": {
-        "message": "Matchende regex"
-    }, 
+        "message": "Overeenkomende regex"
+    },
     "chrome_rule_name": {
-        "message": "Regel naam"
-    }, 
+        "message": "Regelnaam"
+    },
     "chrome_show_advanced": {
-        "message": "Toon geavanceerd"
-    }, 
+        "message": "Geavanceerd weergeven"
+    },
     "chrome_stable_rules": {
         "message": "Stabiele regels"
-    }, 
+    },
     "chrome_stable_rules_description": {
-        "message": "Forceer versleutelde connecties naar deze websites:"
-    }, 
+        "message": "Versleutelde verbindingen afdwingen voor deze websites:"
+    },
     "chrome_status_cancel_button": {
         "message": "Annuleren"
-    }, 
+    },
     "menu_blockUnencryptedRequests": {
         "message": "Blokkeer alle onversleutelde verzoeken"
-    }, 
+    },
     "menu_donate_eff_imperative": {
         "message": "Doneer aan EFF"
-    }, 
+    },
     "menu_globalEnable": {
         "message": "HTTPS Everywhere inschakelen"
-    }, 
+    },
     "menu_observatory": {
         "message": "SSL-observatoriumvoorkeuren"
-    }, 
+    },
     "menu_showCounter": {
-        "message": "Toon Teller"
-    }, 
+        "message": "Teller weergeven"
+    },
     "menu_viewAllRules": {
-        "message": "Toon Alle Regels"
-    }, 
+        "message": "Alle regels bekijken"
+    },
+    "options_advancedSettings": {
+        "message": "Geavanceerde instellingen"
+    },
+    "options_autoUpdateRulesets": {
+        "message": "Regelsets automatisch bijwerken"
+    },
+    "options_enableMixedRulesets": {
+        "message": "Regelsets voor gemengde inhoud inschakelen"
+    },
     "options_generalSettings": {
-        "message": "Algemene Instellingen"
-    }, 
-    "options_import": {
-        "message": "Importeren"
-    }, 
-    "options_importSettings": {
-        "message": "Instellingen importeren"
-    }, 
-    "options_imported": {
-        "message": "De instellingen zijn ge\u00cfmporteerd"
-    }, 
+        "message": "Algemene instellingen"
+    },
+    "options_showDevtoolsTab": {
+        "message": "Devtools-tabblad tonen"
+    },
     "prefs_export_settings": {
         "message": "Instellingen exporteren"
-    }, 
+    },
     "prefs_reset_defaults": {
         "message": "Standaardwaarden herstellen"
+    },
+    "prefs_reset_defaults_message": {
+        "message": "Dit zet alle regelsets terug naar hun standaardstatus. Doorgaan?"
     }
 }

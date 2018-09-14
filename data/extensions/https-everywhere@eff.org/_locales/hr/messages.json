@@ -1,95 +1,110 @@
 {
     "about_add_new_rule": {
         "message": "Dodaj novo pravilo"
-    }, 
+    },
     "about_ext_description": {
         "message": "Encrypt the Web! Automatically use HTTPS security on many sites."
-    }, 
+    },
     "about_ext_name": {
         "message": "HTTPS Svuda"
-    }, 
+    },
+    "about_rulesets_version": {
+        "message": "Rulesets version for"
+    },
     "about_title": {
         "message": "O HTTPS-u Svuda"
-    }, 
+    },
     "about_version": {
         "message": "Verzija"
-    }, 
+    },
+    "cancel_he_blocking_explainer": {
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+    },
+    "cancel_he_blocking_network": {
+        "message": "network-based downgrade attacks"
+    },
     "chrome_add_new_rule": {
         "message": "Dodaj novo pravilo za ovu stranicu"
-    }, 
+    },
     "chrome_add_rule": {
         "message": "Dodaj pravilo za ovu stranicu"
-    }, 
+    },
     "chrome_always_https_for_host": {
         "message": "Uvijek koristi https za ovaj poslu\u017eitelj"
-    }, 
+    },
     "chrome_experimental_rules": {
         "message": "Probna pravila"
-    }, 
+    },
     "chrome_experimental_rules_description": {
         "message": "Mogu\u0107e je da urokuje upozorenja i prekide. Uga\u0161eno po standardnim postavkama"
-    }, 
+    },
     "chrome_hide_advanced": {
         "message": "Sakrij napredno"
-    }, 
+    },
     "chrome_host": {
         "message": "Poslu\u017eitelj:"
-    }, 
+    },
     "chrome_redirect_to": {
         "message": "Preusmjeri na"
-    }, 
+    },
     "chrome_regex": {
         "message": "Odgovaraju\u0107i regex"
-    }, 
+    },
     "chrome_rule_name": {
         "message": "Naziv pravila"
-    }, 
+    },
     "chrome_show_advanced": {
         "message": "Prika\u017ei napredno"
-    }, 
+    },
     "chrome_stable_rules": {
         "message": "Stabilna pravila"
-    }, 
+    },
     "chrome_stable_rules_description": {
         "message": "Prisli enkriptirane konekcije na sljede\u0107e stranice:"
-    }, 
+    },
     "chrome_status_cancel_button": {
         "message": "Odustani"
-    }, 
+    },
     "menu_blockUnencryptedRequests": {
         "message": "Block all unencrypted requests"
-    }, 
+    },
     "menu_donate_eff_imperative": {
         "message": "Doniraj EFF-u"
-    }, 
+    },
     "menu_globalEnable": {
         "message": "Omogu\u0107i HTTPS svuda."
-    }, 
+    },
     "menu_observatory": {
         "message": "SSL Observatory Preferences"
-    }, 
+    },
     "menu_showCounter": {
         "message": "Prika\u017ei brojilo"
-    }, 
+    },
     "menu_viewAllRules": {
         "message": "Pogledaj sva pravila"
-    }, 
+    },
+    "options_advancedSettings": {
+        "message": "Napredne postavke"
+    },
+    "options_autoUpdateRulesets": {
+        "message": "Auto-update rulesets"
+    },
+    "options_enableMixedRulesets": {
+        "message": "Enable mixed content rulesets"
+    },
     "options_generalSettings": {
         "message": "Generalne postavke"
-    }, 
-    "options_import": {
-        "message": "Uvoz"
-    }, 
-    "options_importSettings": {
-        "message": "Uvoz postavki"
-    }, 
-    "options_imported": {
-        "message": "Va\u0161e postavke su unesene"
-    }, 
+    },
+    "options_showDevtoolsTab": {
+        "message": "Show Devtools tab"
+    },
     "prefs_export_settings": {
         "message": "Izvoz postavki"
-    }, 
+    },
     "prefs_reset_defaults": {
         "message": "Resetiraj na standardne postavke"
+    },
+    "prefs_reset_defaults_message": {
+        "message": "This will reset each ruleset to its default state. Continue?"
     }
 }

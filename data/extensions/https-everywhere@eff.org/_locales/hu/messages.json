@@ -1,95 +1,110 @@
 {
     "about_add_new_rule": {
         "message": "\u00daj szab\u00e1ly hozz\u00e1ad\u00e1s"
-    }, 
+    },
     "about_ext_description": {
         "message": "Titkos\u00edtsa a Web-et! Automatikusan haszn\u00e1lja a HTTPS titkos\u00edt\u00e1st a legt\u00f6bb oldalon."
-    }, 
+    },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
-    }, 
+    },
+    "about_rulesets_version": {
+        "message": "Rulesets version for"
+    },
     "about_title": {
         "message": "A HTTPS Everywhere n\u00e9vjegye"
-    }, 
+    },
     "about_version": {
         "message": "Verzi\u00f3"
-    }, 
+    },
+    "cancel_he_blocking_explainer": {
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+    },
+    "cancel_he_blocking_network": {
+        "message": "network-based downgrade attacks"
+    },
     "chrome_add_new_rule": {
         "message": "\u00daj szab\u00e1ly az oldalhoz"
-    }, 
+    },
     "chrome_add_rule": {
         "message": "Szab\u00e1ly felv\u00e9tel az oldalhoz"
-    }, 
+    },
     "chrome_always_https_for_host": {
         "message": "Mindig https-t haszn\u00e1ljon ehhez a kiszolg\u00e1l\u00f3hoz"
-    }, 
+    },
     "chrome_experimental_rules": {
         "message": "K\u00eds\u00e9rleti szab\u00e1lyok"
-    }, 
+    },
     "chrome_experimental_rules_description": {
         "message": "Figyelmeztet\u00e9seket \u00e9s megszak\u00edt\u00e1sokat okozhat. Alap\u00e9rtelmez\u00e9sben letiltva."
-    }, 
+    },
     "chrome_hide_advanced": {
         "message": "Speci\u00e1lis be\u00e1ll\u00edt\u00e1sok elrejt\u00e9se"
-    }, 
+    },
     "chrome_host": {
         "message": "Kiszolg\u00e1l\u00f3:"
-    }, 
+    },
     "chrome_redirect_to": {
         "message": "\u00c1tir\u00e1ny\u00edt\u00e1s ide:"
-    }, 
+    },
     "chrome_regex": {
         "message": "Illeszked\u0151 regex"
-    }, 
+    },
     "chrome_rule_name": {
         "message": "Szab\u00e1ly neve"
-    }, 
+    },
     "chrome_show_advanced": {
         "message": "Speci\u00e1lis be\u00e1ll\u00edt\u00e1sok megjelen\u00edt\u00e9se"
-    }, 
+    },
     "chrome_stable_rules": {
         "message": "Stabil szab\u00e1lyok"
-    }, 
+    },
     "chrome_stable_rules_description": {
         "message": "Titkos\u00edtott kapcsolatok k\u00e9nyszer\u00edt\u00e9se ezekhez a weboldalakhoz:"
-    }, 
+    },
     "chrome_status_cancel_button": {
         "message": "M\u00e9gsem"
-    }, 
+    },
     "menu_blockUnencryptedRequests": {
         "message": "Minden titkos\u00edtatlan k\u00e9r\u00e9s tilt\u00e1sa"
-    }, 
+    },
     "menu_donate_eff_imperative": {
         "message": "T\u00e1mogat\u00e1s az EFF-nek"
-    }, 
+    },
     "menu_globalEnable": {
         "message": "HTTPS Everywhere bekapcsol\u00e1sa"
-    }, 
+    },
     "menu_observatory": {
         "message": "SSL Observatory Preferenci\u00e1k"
-    }, 
+    },
     "menu_showCounter": {
         "message": "Mutassa a sz\u00e1ml\u00e1l\u00f3t"
-    }, 
+    },
     "menu_viewAllRules": {
         "message": "\u00d6sszes szab\u00e1ly megtekint\u00e9se"
-    }, 
+    },
+    "options_advancedSettings": {
+        "message": "Speci\u00e1lis be\u00e1ll\u00edt\u00e1sok"
+    },
+    "options_autoUpdateRulesets": {
+        "message": "Auto-update rulesets"
+    },
+    "options_enableMixedRulesets": {
+        "message": "Enable mixed content rulesets"
+    },
     "options_generalSettings": {
         "message": "\u00c1ltal\u00e1nos be\u00e1ll\u00edt\u00e1sok"
-    }, 
-    "options_import": {
-        "message": "Import\u00e1l\u00e1s"
-    }, 
-    "options_importSettings": {
-        "message": "Be\u00e1ll\u00edt\u00e1sok import\u00e1l\u00e1sa"
-    }, 
-    "options_imported": {
-        "message": "A be\u00e1ll\u00edt\u00e1said import\u00e1lva."
-    }, 
+    },
+    "options_showDevtoolsTab": {
+        "message": "Show Devtools tab"
+    },
     "prefs_export_settings": {
         "message": "Be\u00e1ll\u00edt\u00e1sok export\u00e1l\u00e1sa"
-    }, 
+    },
     "prefs_reset_defaults": {
         "message": "Vissza\u00e1ll\u00edt\u00e1s alaphelyzetre"
+    },
+    "prefs_reset_defaults_message": {
+        "message": "This will reset each ruleset to its default state. Continue?"
     }
 }

@@ -1,95 +1,110 @@
 {
     "about_add_new_rule": {
         "message": "Lisa uus reegel"
-    }, 
+    },
     "about_ext_description": {
         "message": "Kr\u00fcpteeri veeb! Kasuta HTTPS turvalaiendust automaatselt paljudel lehtedel."
-    }, 
+    },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
-    }, 
+    },
+    "about_rulesets_version": {
+        "message": "Reeglistike versioon"
+    },
     "about_title": {
         "message": "HTTPS Everywhere-ist"
-    }, 
+    },
     "about_version": {
         "message": "Versioon"
-    }, 
+    },
+    "cancel_he_blocking_explainer": {
+        "message": "HTTPS Everywhere avastas, et sa navigeerisid mitte-HTTPS lehele ning proovis sind saata selle asemel HTTPS-versioonile. HTTPS-versioon pole saadaval. T\u00f5en\u00e4oliselt see sait ei toeta HTTPS'i, ent on ka v\u00f5imalik, et r\u00fcndaja blokeerib selle HTTPS-versiooni. Kui soovid vaadata selle lehe kr\u00fcptimata versiooni, v\u00f5id seda siiski teha, keelates valiku &quot;Blokeeri k\u00f5ik kr\u00fcptimata taotlused&quot; oma HTTPS Everywhere laienduses. Pane t\u00e4hele, et selle valiku keelamine v\u00f5ib muuta sinu brauseri k\u00fclastatavatel lehtedel haavatavaks v\u00f5rgup\u00f5histele madaldusr\u00fcnnetele."
+    },
+    "cancel_he_blocking_network": {
+        "message": "v\u00f5rgup\u00f5hised madaldusr\u00fcnded"
+    },
     "chrome_add_new_rule": {
         "message": "Lisa uus reegel sellele saidile"
-    }, 
+    },
     "chrome_add_rule": {
         "message": "Lisa reegel sellele saidile"
-    }, 
+    },
     "chrome_always_https_for_host": {
         "message": "Kasuta selle hostiga alati HTTPSi"
-    }, 
+    },
     "chrome_experimental_rules": {
         "message": "Eksperimentaalsed reeglid"
-    }, 
+    },
     "chrome_experimental_rules_description": {
         "message": "V\u00f5ivad p\u00f5hjustada hoiatusi v\u00f5i mitte t\u00f6\u00f6tamist. Vaikimisi keelatud."
-    }, 
+    },
     "chrome_hide_advanced": {
         "message": "Peida t\u00e4iendavad"
-    }, 
+    },
     "chrome_host": {
         "message": "Host:"
-    }, 
+    },
     "chrome_redirect_to": {
         "message": "Suuna aadressile"
-    }, 
+    },
     "chrome_regex": {
         "message": "Vastav regulaaravaldis"
-    }, 
+    },
     "chrome_rule_name": {
         "message": "Reegli nimi"
-    }, 
+    },
     "chrome_show_advanced": {
         "message": "Kuva t\u00e4iendavad"
-    }, 
+    },
     "chrome_stable_rules": {
         "message": "Stabiilsed reeglid"
-    }, 
+    },
     "chrome_stable_rules_description": {
         "message": "Kohusta kr\u00fcpteeritud \u00fchendus nende veebisaitidega:"
-    }, 
+    },
     "chrome_status_cancel_button": {
         "message": "Katkesta"
-    }, 
+    },
     "menu_blockUnencryptedRequests": {
         "message": "Blokeeri k\u00f5ik kr\u00fcptimata taotlused"
-    }, 
+    },
     "menu_donate_eff_imperative": {
         "message": "Anneta EFFle"
-    }, 
+    },
     "menu_globalEnable": {
         "message": "Luba HTTPS Everywhere"
-    }, 
+    },
     "menu_observatory": {
         "message": "SSL-Observatooriumi eelistused"
-    }, 
+    },
     "menu_showCounter": {
         "message": "N\u00e4ita loendurit"
-    }, 
+    },
     "menu_viewAllRules": {
         "message": "Vaata k\u00f5iki reegleid"
-    }, 
+    },
+    "options_advancedSettings": {
+        "message": "T\u00e4psemad seaded"
+    },
+    "options_autoUpdateRulesets": {
+        "message": "Uuenda reeglistikke automaatselt"
+    },
+    "options_enableMixedRulesets": {
+        "message": "Luba segatud sisu reeglistikud"
+    },
     "options_generalSettings": {
         "message": "\u00dcldised seaded"
-    }, 
-    "options_import": {
-        "message": "Impordi"
-    }, 
-    "options_importSettings": {
-        "message": "Impordi seaded"
-    }, 
-    "options_imported": {
-        "message": "Sinu seaded on imporditud."
-    }, 
+    },
+    "options_showDevtoolsTab": {
+        "message": "Kuva arendajate t\u00f6\u00f6riistade kaarti"
+    },
     "prefs_export_settings": {
         "message": "Ekspordi seaded"
-    }, 
+    },
     "prefs_reset_defaults": {
         "message": "Taasta algseaded"
+    },
+    "prefs_reset_defaults_message": {
+        "message": "See l\u00e4htestab iga reeglistiku vaikev\u00e4\u00e4rtustele. J\u00e4tkad?"
     }
 }
