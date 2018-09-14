@@ -95,9 +95,9 @@ pref("app.update.url", "http://127.0.0.1/");"
 // Set useragent to Firefox compatible
 //pref("general.useragent.compatMode.firefox", true);
 // Spoof the useragent to a generic one
-pref("general.useragent.compatMode.firefox", true);
+//pref("general.useragent.compatMode.firefox", true);
 // Spoof the useragent to a generic one
-pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0");
+//pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0");
 pref("general.appname.override", "Netscape");
 pref("general.appversion.override", "38.0");
 pref("general.buildID.override", "Gecko/20100101");
