@@ -8,21 +8,26 @@
 
 # BrandFullNameInternal is used for some registry and file system values
 # instead of BrandFullName and typically should not be modified.
-!define BrandFullNameInternal "GNU IceCat"
+!define BrandFullNameInternal "IceCat"
+!define BrandFullName         "IceCat"
 !define CompanyName           "GNU"
-!define URLInfoAbout          "http://www.gnu.org/software/gnuzilla/"
+!define URLInfoAbout          "https://www.gnu.org/software/gnuzilla/"
 !define URLUpdateInfo         "https://savannah.gnu.org/projects/gnuzilla/"
-!define HelpLink              "http://libreplanet.org/wiki/Group:IceCat/ "
+!define HelpLink              "https://libreplanet.org/wiki/Group:IceCat/ "
 
 ; The OFFICIAL define is a workaround to support different urls for Release and
 ; Beta since they share the same branding when building with other branches that
 ; set the update channel to beta.
 !define OFFICIAL
+!define URLStubDownload32 "https://www.gnu.org/software/gnuzilla/"
+!define URLStubDownload64 "https://www.gnu.org/software/gnuzilla/"
+!define URLManualDownload "https://www.gnu.org/software/gnuzilla/"
+!define URLSystemRequirements "https://www.gnu.org/software/gnuzilla/"
 !define Channel "release"
 
 # The installer's certificate name and issuer expected by the stub installer
 !define CertNameDownload   "Mozilla Corporation"
-!define CertIssuerDownload "DigiCert Assured ID Code Signing CA-1"
+!define CertIssuerDownload "DigiCert SHA2 Assured ID Code Signing CA"
 
 # Dialog units are used so the UI displays correctly with the system's DPI
 # settings.

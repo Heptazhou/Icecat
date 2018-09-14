@@ -474,17 +474,6 @@ wf36=$DATA/android-images/resources/drawable-hdpi-v11/ic_status_logo.png
 ma50=$DATA/android-images/core/marketplace-logo.png
 ma128=$DATA/android-images/resources/drawable-mdpi/marketplace.png
 
-cp $ff64  devtools/client/framework/dev-edition-promo/dev-edition-logo.png
-cp $ff128 mobile/android/base/resources/raw/bookmarkdefaults_favicon_support.png
-cp $favicon addon-sdk/source/examples/toolbar-api/data/favicon.ico
-cp $gf32 browser/themes/shared/icon.png
-cp $gf150 mobile/android/base/resources/drawable-hdpi/icon_search_empty_icecat.png
-cp $gf150 mobile/android/base/resources/drawable-xhdpi/icon_search_empty_icecat.png
-cp $gf150 mobile/android/base/resources/drawable-xxhdpi/icon_search_empty_icecat.png
-cp $gf32 browser/themes/shared/theme-switcher-icon.png
-cp $gf32 browser/themes/shared/heme-switcher-icon@2x.png
-cp $gf32 browser/base/content/aboutaccounts/images/fox.png
-
 cp $ff16 dom/canvas/test/crossorigin/image.png
 cp $ff16 image/test/unit/image1.png
 cp $jpglogo  image/test/unit/image1png16x16.jpg
@@ -496,7 +485,6 @@ cp $ff32 image/test/unit/image2jpg32x32-win.png
 cp $ff16 dom/canvas/test/crossorigin/image-allow-credentials.png
 cp $ff16 dom/html/test/image-allow-credentials.png
 cp $ff16 dom/canvas/test/crossorigin/image-allow-star.png
-#cp $ff32 toolkit/webapps/tests/data/icon.png
 cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big32.jpg.png
 cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big64.png.png
 cp $jpglogo  toolkit/components/places/tests/favicons/favicon-big32.jpg
