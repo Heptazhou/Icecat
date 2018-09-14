@@ -19,19 +19,17 @@
 
 set -e
 
-FFMAJOR=52
-FFMINOR=6
+FFMAJOR=60
+FFMINOR=2
 FFSUB=0
 GNUVERSION=1
-FFVERSION=$FFMAJOR.$FFMINOR.${FFSUB}
+FFVERSION=$FFMAJOR.$FFMINOR.$FFSUB
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
 
 # http://bazaar.launchpad.net/~mozillateam/firefox/firefox.trusty/changes
-CODENAME=trusty
-REVISION=1172
-#CODENAME=precise
-#REVISION=993
+CODENAME=xenial
+REVISION=1253
 
 export DEBEMAIL=ruben@gnu.org
 export DEBFULLNAME="Ruben Rodriguez"
@@ -47,15 +45,15 @@ cd output
 
 rm mozilla-esr${FFMAJOR} $SOURCEDIR -rf
 
-wget -N http://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz
-#wget -N ftp://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.bz2.asc
-#gpg --recv-keys --keyserver keyserver.ubuntu.com 15A0A4BC
-#gpg --verify firefox-${FFVERSION}esr.source.tar.bz2.asc
+wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz
+wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz.asc
+gpg --recv-keys --keyserver keyserver.ubuntu.com 24C6F355
+gpg --verify firefox-${FFVERSION}esr.source.tar.xz.asc
 
 echo Extracting Firefox tarball
 tar -xf firefox-${FFVERSION}esr.source.tar.xz
 
-mv firefox-${FFVERSION}esr $SOURCEDIR
+mv firefox-${FFVERSION} $SOURCEDIR
 
 ###############################################################################
 # Retrieve /debian from Ubuntu
@@ -67,7 +65,7 @@ cd firefox.$CODENAME
 bzr revert -r$REVISION
 echo '3.0 (native)' > debian/source/format
 
-for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch ubuntu-search-defaults.patch allow-lockPref-everywhere.patch fix-make-package-tests-without-webrtc.patch revert-upstream-search-engine-changes.patch
+for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch ubuntu-search-defaults.patch fix-make-package-tests-without-webrtc.patch revert-upstream-search-engine-changes.patch
 do
   rm debian/patches/$PATCH
   sed "/$PATCH/d" -i debian/patches/series
@@ -86,27 +84,20 @@ mkdir l10n
 cd l10n
 while read line;do
     line=$(echo $line |cut -d' ' -f1)
-    #[ $line = "es-ES" ] || continue
+    #[ $line = "es-ES" ] || continue # To speed up testing
     [ $line = "en-US" ] && continue
-    hg clone http://hg.mozilla.org/releases/l10n/mozilla-release/$line
-    cd $line
-    hg checkout FENNEC_52_0_RELEASE || true
-    hg checkout FENNEC_52_0_1_RELEASE || true
-    hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}_RELEASE || true
+    hg clone https://hg.mozilla.org/l10n-central/$line
     mkdir -p $line/browser/chrome/browser/preferences
     touch $line/browser/chrome/browser/preferences/advanced-scripts.dtd
-    rm -rf .hg*
-    cd ..
+    rm -rf $line/.hg*
 done < ../$SOURCEDIR/browser/locales/shipped-locales
 cd ..
 
 mv l10n $SOURCEDIR
 
-hg clone http://hg.mozilla.org/build/compare-locales/
+hg clone http://hg.mozilla.org/l10n/compare-locales/
 cd compare-locales/
-hg checkout FENNEC_52_0_RELEASE
-hg checkout FENNEC_52_0_1_RELEASE
-hg checkout FENNEC_${FFMAJOR}_${FFMINOR}_${FFSUB}_RELEASE || true
+hg checkout RELEASE_3_3_0
 cd ..
 rm compare-locales/.hg* compare-locales/.git* -rf
 mv compare-locales $SOURCEDIR/l10n
@@ -221,9 +212,6 @@ EOF
 # Custom privacy statement link
 sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
 
-# Replace versions for building on Trisquel
-sed 's/1310/70/g; s/1204/60/g; s/1210/65/g; s/1404/70/g' -i debian/config/mozconfig.in debian/firefox-dev.install.in debian/firefox-dev.links.in
-
 # Set vendor string
 sed 's/com.ubuntu/org.gnu/' -i debian/config/mozconfig.in
 
@@ -279,11 +267,14 @@ cp -a $DATA/branding/icecat/ browser/branding/nightly
 cp -a $DATA/branding/icecatmobile/ mobile/android/branding/official
 cp -a $DATA/branding/icecatmobile/ mobile/android/branding/unofficial
 cp -a $DATA/branding/icecatmobile/ mobile/android/branding/nightly
+# Disable preprocessor
+sed 's/_PP//' -i browser/branding/branding-common.mozbuild
 cat << EOF > debian/config/branch.mk
 CHANNEL                 = release
 MOZ_WANT_UNIT_TESTS     = 0
-# MOZ_BUILD_OFFICIAL    = 1
+MOZ_BUILD_OFFICIAL      = 0
 MOZ_ENABLE_BREAKPAD     = 0
+MOZ_ENABLE_TELEMETRY    = 0
 
 MOZILLA_REPO = http://hg.mozilla.org/releases/mozilla-release
 L10N_REPO = http://hg.mozilla.org/releases/l10n/mozilla-release
@@ -381,7 +372,8 @@ s|https://www.mozilla.org/icecat/?utm_source=synceol|https://www.mozilla.org/fir
 
 s|www.gnu.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
 "
-find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -not -iregex '.*third_party/rust.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+
 
 find l10n -type f -execdir /bin/sed --follow-symlinks -i "s/from GNU/from Mozilla/g" '{}' ';'
 
@@ -714,8 +706,7 @@ sed 's/iceweasel,/iceweasel, firefox,/' -i debian/control.in
 sed "s/Provides.*/Provides: firefox-locale-@LANGCODE@, abrowser-locale-@LANGCODE@/" -i debian/control.langpacks
 
 # icecat-dev should provide firefox-dev
-sed '/Package: @MOZ_PKG_NAME@-dev/,/Description:/ s/Provides:/Provides:firefox-dev, /' debian/control.in -i
-
+sed '/Package: @MOZ_PKG_NAME@-dev/ s/$/\nProvides: firefox-dev/' debian/control.in -i
 # icacat should provide and replace abrowser and firefox
 sed '/Package: @MOZ_PKG_NAME@$/,/Description:/ s/Provides:/Provides:firefox, abrowser, /' debian/control.in -i
 sed '/Package: @MOZ_PKG_NAME@$/,/Description:/ s/Replaces:/Replaces:firefox, abrowser, /' debian/control.in -i
@@ -741,7 +732,6 @@ sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
 # Fix CVE-2012-3386
 /bin/sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/crashreporter/google-breakpad/Makefile.in ./toolkit/crashreporter/google-breakpad/src/third_party/glog/Makefile.in || true
 
-./mach generate-addon-sdk-moz-build
 
 cd ..
 echo Packaging tarball
