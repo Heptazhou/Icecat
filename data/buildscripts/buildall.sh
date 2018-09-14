@@ -15,8 +15,6 @@ cat << EOF > $SRCDIR/run.sh
 set -e
 set -x
 
-export LD_PRELOAD="/usr/lib/libeatmydata/libeatmydata.so"
-
 mkdir -p $HOME/ccache/$1-$3 || true
 export CCACHE_DIR=$HOME/ccache/$1-$3
 mkdir $SRCDIR/../../toolchains || true
@@ -25,9 +23,9 @@ sh ../data/buildscripts/toolchain-${1}.sh
 
 apt-get install -y --force-yes mercurial
 cd /usr/local/src
-hg clone http://hg.mozilla.org/build/compare-locales/
+hg clone http://hg.mozilla.org/l10n/compare-locales/
 cd compare-locales/
-hg checkout FIREFOX_45_2_0esr_RELEASE
+hg checkout RELEASE_3_3_0
 python setup.py install
 cp /usr/local/bin/compare* /usr/bin
 
@@ -35,14 +33,14 @@ cd $SRCDIR
 sh ../../data/buildscripts/build-${1}.sh
 EOF
 
-env -i TERM=screen eatmydata sudo HOME=/home/ruben BUILDDIST=$2 ARCH=$3 pbuilder execute $SRCDIR/run.sh
+env -i TERM=screen sudo HOME=/home/ruben BUILDDIST=$2 ARCH=$3 pbuilder execute $SRCDIR/run.sh
 }
 
 #buildpackage windows belenos amd64 |tee  windows.log 2>&1
 #buildpackage mac belenos amd64 |tee mac.log 2>&1
-buildpackage gnulinux belenos i386 |tee gnulinux-i386.log 2>&1
+buildpackage gnulinux flidas i386 |tee gnulinux-i386.log 2>&1
 sudo mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-i386
-buildpackage gnulinux belenos amd64 |tee gnulinux-amd64.log 2>&1
+buildpackage gnulinux flidas amd64 |tee gnulinux-amd64.log 2>&1
 sudo mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-amd64
 #buildpackage android belenos amd64  |tee android.log 2>&1
 

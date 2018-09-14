@@ -3,7 +3,6 @@ set -e
 set -x
 
 apt-get -q -y --force-yes build-dep firefox
-apt-get -q -y --force-yes install libgstreamermm-0.10-dev
 
 cp ../../data/buildscripts/mozconfig-common .mozconfig
 cat ../../data/buildscripts/mozconfig-gnulinux >> .mozconfig
