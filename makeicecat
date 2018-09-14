@@ -267,8 +267,6 @@ sed '/name: "snippets"/,/value/s/value: true/value: false/' -i browser/extension
 sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
 sed '/name: "section.topstories"/,/return/s/return.*/return false;/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
 
-# Remove the iOS link
-sed '/iOS/d; /fxaMobilePromo-ios/d;' -i browser/components/preferences/in-content/sync.xul
 
 ###############################################################################
 # Branding
@@ -323,6 +321,9 @@ sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ hr
 
 # Custom logo for about:preferences?entrypoint=menupanel#sync
 cp $DATA/branding/sync.png browser/themes/shared/fxa/logo.png
+
+# Hide mobile promo
+echo ".fxaMobilePromo {  display: none !important; }" >> browser/themes/shared/incontentprefs/preferences.inc.css
 
 # Hide plugindeprecation-notice
 echo "#plugindeprecation-notice {  display: none !important; }" >> toolkit/mozapps/extensions/content/extensions.css
@@ -549,7 +550,7 @@ browser.search.order.2=Google
 browser.search.order.3=Yahoo
 EOF
 
-cp $DATA/preferences_vendor.xml mobile/android/base/resources/xml/preferences_vendor.xml
+cp $DATA/preferences_vendor.xml ./mobile/android/app/src/main/res/xml/preferences_vendor.xml
 
 sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' -i mobile/android/base/java/org/mozilla/gecko/DataReportingNotification.java
 
@@ -557,7 +558,6 @@ cp -a $DATA/android-images/core/* mobile/android/themes/core/images/
 cp -a $DATA/android-images/resources mobile/android/base
 
 sed '/aboutDetails/,/div/d; /privacyURL/d' mobile/android/chrome/content/about.xhtml -i
-#sed '/suggested_sites/,/defaultValue/d' mobile/android/base/resources/xml/preferences_home.xml -i
 
 sed '/SENDERID/d' -i mobile/android/app/mobile.js
 
