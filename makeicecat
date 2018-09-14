@@ -248,10 +248,24 @@ done
 sed  "s/^MOZ_APP_NAME\t.*/MOZ_APP_NAME\t\t:= icecat/;" debian/build/config.mk -i
 sed  "s/^MOZ_PKG_NAME\t.*/MOZ_PKG_NAME\t\t:= icecat/;" debian/build/config.mk -i
 
-# Hide help buttons in newtab page
-for file in browser/base/content/newtab/newTab.css browser/themes/linux/newtab/newTab.css browser/themes/windows/newtab/newTab.css browser/themes/osx/newtab/newTab.css; do
-  echo '#newtab-customize-button, #newtab-intro-what{display:none}' >> $file
-done
+# Disable activity-stream antifeatures.
+# These are not condensed into a single sed script to make it fail on individual commands that didn't change the source
+sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/\["showSponsored/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/\["disableSnippets/,/value/s/value: false/value: true/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/\["telemetry"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/\["section.highlights.includePocket"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/\["telemetry.ping.endpoint"/,/value/s/value: .*/value: ""/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/\["tippyTop.service.endpoint"/,/value/s/value: .*/value: ""/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed 's/\(read_more_endpoint:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed 's/\(stories_endpoint:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed 's/\(privacy_notice_link:\) .http.*/\1 "https:\/\/trisquel.info\/legal",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed 's/\(disclaimer_link:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/name: "snippets"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
+sed '/name: "section.topstories"/,/return/s/return.*/return false;/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
 
 # Remove the iOS link
 sed '/iOS/d; /fxaMobilePromo-ios/d;' -i browser/components/preferences/in-content/sync.xul
@@ -276,12 +290,6 @@ MOZ_ENABLE_BREAKPAD     = 0
 MOZILLA_REPO = http://hg.mozilla.org/releases/mozilla-release
 L10N_REPO = http://hg.mozilla.org/releases/l10n/mozilla-release
 EOF
-
-# Replace about:home
-rm browser/base/content/abouthome -rf
-cp $DATA/abouthome -a browser/base/content
-sed '/mozilla.*png/d' -i ./browser/base/jar.mn
-sed '/abouthome/s/*/ /' -i ./browser/base/jar.mn
 
 # Delete stuff we don't use and that may contain trademaked logos
 rm -rf ./browser/metro ./addon-sdk/source/doc/static-files/media ./b2g
@@ -637,6 +645,16 @@ browser/chrome/browser/content/browser/aboutaccounts/images/fox.png
 EOF
 find extensions/gnu/ | sed s=extensions/gnu=browser/extensions= >> ./browser/installer/allowed-dupes.mn
 find extensions/gnu/ | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
+
+# Onboarding
+
+cp $DATA/onboarding/bootstrap.js browser/extensions/onboarding
+cp $DATA/onboarding/onboarding.js browser/extensions/onboarding/content
+cp $DATA/onboarding/onboarding.properties browser/extensions/onboarding/locales/en-US
+for locale in $(ls -1 $DATA/onboarding/locales/); do
+    mkdir -p l10n/$locale/browser/extensions/onboarding || true
+    cp $DATA/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
+done
 
 ###############################################################################
 # Deb generation specifics
