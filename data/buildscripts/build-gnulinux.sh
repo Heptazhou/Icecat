@@ -2,6 +2,7 @@
 set -e
 set -x
 
+apt-get update
 apt-get -q -y --force-yes build-dep firefox
 
 cp ../../data/buildscripts/mozconfig-common .mozconfig
