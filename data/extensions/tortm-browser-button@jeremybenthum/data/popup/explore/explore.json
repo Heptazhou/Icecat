@@ -1,0 +1,8 @@
+[
+  {"id": "smart-https", "title": "Smart HTTPS"},
+  {"id": "cache-cleaner", "title": "Cache Cleaner"},
+  {"id": "webrtc-control", "title": "WebRTC Control"},
+  {"id": "policy-control-wext", "title": "Policy Control"},
+  {"id": "privacy-guard", "title": "Privacy Guard & Manager"},
+  {"id": "block-miners", "title": "NoMiner - Block Coin Miners"}
+]

@@ -3,7 +3,7 @@
         "message": "Dodaj Novo Pravilo"
     },
     "about_ext_description": {
-        "message": "Sifriraj Web! Automatski koristi HTTPS sigurnost na mnogim sajtovima."
+        "message": "\u0160ifriraj Web! Automatski koristi HTTPS sigurnost na mnogim sajtovima."
     },
     "about_ext_name": {
         "message": "HTTPS Svuda"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Uvek koristi https za ovog host-a"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentalna pravila"
@@ -66,7 +72,7 @@
         "message": "Otka\u017ei"
     },
     "menu_blockUnencryptedRequests": {
-        "message": "Blokiraj sve ne-enkriptovane zahteve"
+        "message": "Blokiraj sve ne-\u0161ifrovane zahteve"
     },
     "menu_donate_eff_imperative": {
         "message": "Doniraj EFF-u"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Vidi Sva Pravila"
     },
+    "options_addUpdateChannel": {
+        "message": "Dodaj Kanal za A\u017euriranje"
+    },
     "options_advancedSettings": {
         "message": "Napredna Pode\u0161avanja"
     },
     "options_autoUpdateRulesets": {
         "message": "Automatski a\u017euriraj setove pravila"
     },
+    "options_delete": {
+        "message": "Bri\u0161i"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Omogu\u0107i setove pravila me\u0161ovitog sadr\u017eaja"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Unesi Naziv Kanala za A\u017euriranje"
     },
     "options_generalSettings": {
         "message": "Op\u0161ta Pode\u0161avanja"
     },
     "options_showDevtoolsTab": {
         "message": "Poka\u017ei Dev-alatke tab"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Stored rulesets version: "
+    },
+    "options_update": {
+        "message": "A\u017euriranje"
+    },
+    "options_updateChannels": {
+        "message": "Kanali za A\u017euriranje "
+    },
+    "options_updateChannelsWarning": {
+        "message": "Upozorenje: Dodavanje kanala za a\u017euriranje mo\u017ee prouzrokovati otimanje va\u0161eg pretra\u017eiva\u010da od strane napada\u010da.  Menjati ovaj odeljak samo u slu\u010daju da znate \u0161ta radite!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Updates last checked: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "nikada"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Izvoz pode\u0161avanja"

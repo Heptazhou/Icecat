@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Brug altid HTTPS til v\u00e6rtsnavnet"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Deaktiv\u00e9r HTTPS Everywhere p\u00e5 dette sted"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Aktiv\u00e9r HTTPS Everywhere p\u00e5 dette sted"
+    },
     "chrome_experimental_rules": {
         "message": "Eksperimentelle regler"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Vis alle regler"
     },
+    "options_addUpdateChannel": {
+        "message": "Tilf\u00f8j opdateringskanal"
+    },
     "options_advancedSettings": {
         "message": "Avancerede indstillinger"
     },
     "options_autoUpdateRulesets": {
         "message": "Automatisk opdatering af regels\u00e6t"
     },
+    "options_delete": {
+        "message": "Delete"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere-steder deaktiveret"
+    },
     "options_enableMixedRulesets": {
         "message": "Aktiv\u00e9r blandet indhold-regels\u00e6t"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Indtast navn p\u00e5 opdateringskanal"
     },
     "options_generalSettings": {
         "message": "Generelle indstillinger"
     },
     "options_showDevtoolsTab": {
         "message": "Vis Devtools-faneblad"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Gemt regels\u00e6t-version: "
+    },
+    "options_update": {
+        "message": "Opdater"
+    },
+    "options_updateChannels": {
+        "message": "Opdateringskanaler"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Advarsel: Tilf\u00f8jelse af opdateringskanaler kan g\u00f8re at angribere kan kidnappe din browser. Rediger kun sektionen hvis du ved hvad du g\u00f8r!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Opdateringer sidste tjekket:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "aldrig"
+    },
+    "options_userRulesListed": {
+        "message": "Brugerregler for HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Eksport\u00e9r indstillinger"

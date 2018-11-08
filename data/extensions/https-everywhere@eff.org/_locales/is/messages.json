@@ -9,7 +9,7 @@
         "message": "HTTPS-allssta\u00f0ar"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "\u00datg\u00e1fa reglusetta fyrir"
     },
     "about_title": {
         "message": "Um HTTPS-allssta\u00f0ar"
@@ -18,10 +18,10 @@
         "message": "\u00datg\u00e1fa"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS-allssta\u00f0ar t\u00f3k eftir a\u00f0 \u00fe\u00fa varst a\u00f0 fara \u00e1 s\u00ed\u00f0u sem ekki notar HTTPS, og reyndi \u00fev\u00ed a\u00f0 senda \u00feig \u00ed sta\u00f0inn \u00e1 HTTPS \u00fatg\u00e1fu s\u00ed\u00f0unnar. HTTPS \u00fatg\u00e1fan er ekki a\u00f0gengileg. L\u00edklega sty\u00f0ur \u00feetta vefsv\u00e6\u00f0i ekki HTTPS, en \u00fea\u00f0 er l\u00edka inni \u00ed myndinni a\u00f0 einhver \u00ferj\u00f3tur s\u00e9 a\u00f0 hindra a\u00f0ganginn a\u00f0 HTTPS \u00fatg\u00e1funni. Ef \u00fe\u00fa vilt samt sj\u00e1 \u00f3dulrita\u00f0a \u00fatg\u00e1fu s\u00ed\u00f0unnar, getur\u00f0u gert \u00fea\u00f0 me\u00f0 \u00fev\u00ed a\u00f0 velja 'Loka \u00e1 allar \u00f3dulrita\u00f0ar bei\u00f0nir' \u00ed HTTPS-allssta\u00f0ar vi\u00f0aukanum. Haf\u00f0u samt \u00ed huga a\u00f0 me\u00f0 \u00fev\u00ed a\u00f0 gera \u00feennan valkost \u00f3virkan g\u00e6ti vafrinn \u00feinn or\u00f0i\u00f0 a\u00f0gengilegur fyrir netkerfistengdar ni\u00f0urf\u00e6rslu\u00e1r\u00e1sir \u00e1 vefsv\u00e6\u00f0um sem \u00fe\u00fa sko\u00f0ar."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "netkerfistengdar ni\u00f0urf\u00e6rslu\u00e1r\u00e1sir"
     },
     "chrome_add_new_rule": {
         "message": "B\u00e6ta vi\u00f0 n\u00fdrri reglu fyrir \u00feetta vefsv\u00e6\u00f0i"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Alltaf nota HTTPS fyrir \u00feessa v\u00e9l"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Gera HTTPS-allssta\u00f0ar \u00f3virkt \u00e1 \u00feessum vef"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Virkja HTTPS-allssta\u00f0ar \u00e1 \u00feessum vef"
     },
     "chrome_experimental_rules": {
         "message": "Reglur \u00e1 tilraunastigi"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Sko\u00f0a allar reglur"
     },
+    "options_addUpdateChannel": {
+        "message": "B\u00e6ta vi\u00f0 uppf\u00e6rslur\u00e1s"
+    },
     "options_advancedSettings": {
         "message": "\u00cdtarlegar stillingar"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Uppf\u00e6ra reglusett sj\u00e1lfvirkt"
+    },
+    "options_delete": {
+        "message": "Ey\u00f0a"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Vefir me\u00f0 HTTPS-allssta\u00f0ar \u00f3virkir"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "Virkja reglusett fyrir blanda\u00f0 efni"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Settu inn heiti \u00e1 uppf\u00e6rslur\u00e1s"
     },
     "options_generalSettings": {
         "message": "Almennar stillingar"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Birta Devtools-flipa"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "\u00datg\u00e1fa vista\u00f0ra reglusetta:"
+    },
+    "options_update": {
+        "message": "Uppf\u00e6ra"
+    },
+    "options_updateChannels": {
+        "message": "Uppf\u00e6rslur\u00e1sir"
+    },
+    "options_updateChannelsWarning": {
+        "message": "A\u00f0v\u00f6run: ef b\u00e6tt er vi\u00f0 uppf\u00e6rslur\u00e1sum, gefast fleiri lei\u00f0ir fyrir \u00f3\u00feokka a\u00f0 n\u00e1 v\u00f6ldum yfir vafranum \u00fe\u00ednum. Ekki breyta \u00feessum hluta nema a\u00f0 \u00fe\u00fa vitir hva\u00f0 \u00fe\u00fa ert a\u00f0 gera!"
+    },
+    "options_updatesLastChecked": {
+        "message": "S\u00ed\u00f0ast athuga\u00f0 me\u00f0 uppf\u00e6rslur:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "aldrei"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Flytja \u00fat stillingar"
@@ -105,6 +144,6 @@
         "message": "Frumstilla \u00e1 sj\u00e1lfgefnar stillingar"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "\u00deetta mun frumstilla hvert reglusett \u00e1 sj\u00e1lfgefin gildi \u00feess. Halda \u00e1fram?"
     }
 }

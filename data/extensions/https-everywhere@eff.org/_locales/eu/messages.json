@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Arauen multzoaren bertsioa:"
+        "message": "Arau-multzoaren bertsioa:"
     },
     "about_title": {
         "message": "HTTPS Everywhere buruz"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Beti erabili https ostalari honetarako"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
     },
     "chrome_experimental_rules": {
         "message": "Arau esperimentalak"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Ikusi arau guztiak"
     },
+    "options_addUpdateChannel": {
+        "message": "Eguneraketa kanala gehitu"
+    },
     "options_advancedSettings": {
         "message": "Ezarpen Aurreratuak"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-eguneratu arauen multzoak"
+        "message": "Auto-eguneratu arau-multzoak"
+    },
+    "options_delete": {
+        "message": "Delete"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
     },
     "options_enableMixedRulesets": {
-        "message": "Gaitu nahasitako arauen multzoak"
+        "message": "Gaitu nahasitako arau-multzoak"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Sartu eguneraketa kanalaren izena"
     },
     "options_generalSettings": {
         "message": "Ezarpen Orokorrak"
     },
     "options_showDevtoolsTab": {
         "message": "Erakutsi Devtools fitxa"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Gordetako arau-multzoen bertsioa:"
+    },
+    "options_update": {
+        "message": "Eguneratu"
+    },
+    "options_updateChannels": {
+        "message": "Eguneraketa kanalak"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Adi: Eguneraketa kanalak gehitzea erasotzaileak zure nabigatzailea bahitzea eragin dezake. Atal hau editatu ezazu zer egiten ari zaren ondo baldin badakizu soilik!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Eguneraketak azkenengoz egiaztatuta:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "inoiz"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Esportatu Ezarpenak"
@@ -105,6 +144,6 @@
         "message": "Lehenetsiak berrezarri"
     },
     "prefs_reset_defaults_message": {
-        "message": "Honek arauen multzo bakoitza bere egoera lehenetsira berrasieratuko du. Jarraitu?"
+        "message": "Honek arau-multzo bakoitza bere egoera lehenetsira berrasieratuko du. Jarraitu?"
     }
 }

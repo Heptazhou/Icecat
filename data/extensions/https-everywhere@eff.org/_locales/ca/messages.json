@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Utilitza sempre https per a aquest host"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
+    },
     "chrome_experimental_rules": {
         "message": "Normes experimentals"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Ensenya totes les regles"
     },
+    "options_addUpdateChannel": {
+        "message": "Afegeix un canal d'actualitzaci\u00f3"
+    },
     "options_advancedSettings": {
         "message": "Configuracions avan\u00e7ades"
     },
     "options_autoUpdateRulesets": {
         "message": "Actualitza autom\u00e0ticament el conjunt de regles"
     },
+    "options_delete": {
+        "message": "Esborrar"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Permet contingut amb conjunt de regles mixt"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Introdu\u00efu el nom del canal d'actualitzaci\u00f3"
     },
     "options_generalSettings": {
         "message": "Configuraci\u00f3 general"
     },
     "options_showDevtoolsTab": {
         "message": "Mostra la pestanya d'eines de desenvolupador"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Versi\u00f3 de regles emmagatzemades:"
+    },
+    "options_update": {
+        "message": "Actualitzaci\u00f3"
+    },
+    "options_updateChannels": {
+        "message": "Actualitza els canals"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Advert\u00e8ncia: afegir canals d'actualitzaci\u00f3 pot provocar que els atacants segrestin el vostre navegador. Nom\u00e9s editeu aquesta secci\u00f3 si sabeu el que feu!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Ultima verificaci\u00f3 d'actualitzacions:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "mai"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Configuraci\u00f3 d' exportaci\u00f3"

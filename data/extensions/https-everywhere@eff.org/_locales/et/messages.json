@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Kasuta selle hostiga alati HTTPSi"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
+    },
     "chrome_experimental_rules": {
         "message": "Eksperimentaalsed reeglid"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Vaata k\u00f5iki reegleid"
     },
+    "options_addUpdateChannel": {
+        "message": "Lisa uuenduskanal"
+    },
     "options_advancedSettings": {
         "message": "T\u00e4psemad seaded"
     },
     "options_autoUpdateRulesets": {
         "message": "Uuenda reeglistikke automaatselt"
     },
+    "options_delete": {
+        "message": "Kustuta"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Luba segatud sisu reeglistikud"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Sisesta uuenduskanali nimi"
     },
     "options_generalSettings": {
         "message": "\u00dcldised seaded"
     },
     "options_showDevtoolsTab": {
         "message": "Kuva arendajate t\u00f6\u00f6riistade kaarti"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Hoiustatud reeglistike versioon:"
+    },
+    "options_update": {
+        "message": "Uuenda"
+    },
+    "options_updateChannels": {
+        "message": "Uuenduskanalid"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Hoiatus: Uuenduskanalite lisamine v\u00f5ib v\u00f5imaldada r\u00fcndajatel sinu brauserit kaaperdada. Muuda seda jaotist vaid siis, kui tead, mida teed!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Uuendusi viimati kontrollitud:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "mitte kunagi"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Ekspordi seaded"

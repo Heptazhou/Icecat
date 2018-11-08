@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Folose\u0219te mereu https pentru aceast\u0103 gazd\u0103"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Dezactiveaz\u0103 HTTPS Oriunde pentru acest site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Activeaz\u0103 HTTPS Oriunde pentru acest site"
+    },
     "chrome_experimental_rules": {
         "message": "Reguli experimentale"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Vezi toate regulile"
     },
+    "options_addUpdateChannel": {
+        "message": "Adaug\u0103 canal de actualizare"
+    },
     "options_advancedSettings": {
         "message": "Set\u0103ri avansate"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Actualizeaz\u0103 automat seturile de reguli"
+    },
+    "options_delete": {
+        "message": "Delete"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "Permite seturi de reguli pentru con\u021binut mixt"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Introdu numele canalului de actualizare"
     },
     "options_generalSettings": {
         "message": "Set\u0103ri Generale"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Versiunea seturilor de reguli stocate:"
+    },
+    "options_update": {
+        "message": "Actualizare"
+    },
+    "options_updateChannels": {
+        "message": "Canale de actualizare"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Aten\u021bie: Ad\u0103ugarea canalelor de actualizare le poate permite atacatorilor s\u0103 preia controlul navigatorului. Modifica\u021bi aceast\u0103 sec\u021biune doar dac\u0103 \u0219ti\u021bi ce face\u021bi!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Ultima verificare a actualiz\u0103rilor:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "niciodat\u0103"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Export\u0103 Set\u0103ri"
@@ -105,6 +144,6 @@
         "message": "Revino la set\u0103rile ini\u021biale"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Toate seturile de reguli vor fi aduse la starea ini\u021bial\u0103. Continua\u021bi?"
     }
 }

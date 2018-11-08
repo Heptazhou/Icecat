@@ -24,22 +24,28 @@
         "message": "serangan downgrade berdasarkan-jaringan"
     },
     "chrome_add_new_rule": {
-        "message": "Tambah aturan baru untuk situs ini"
+        "message": "Tambahkan aturan baru untuk situs web ini"
     },
     "chrome_add_rule": {
-        "message": "Tambah aturan untuk situs ini"
+        "message": "Tambah aturan untuk situs web ini"
     },
     "chrome_always_https_for_host": {
         "message": "Selalu gunakan https untuk host ini"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Nonaktifkan HTTPS Everywhere di situs web ini"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Aktifkan HTTPS Everywhere di situs web ini"
     },
     "chrome_experimental_rules": {
         "message": "Aturan eksperimental"
     },
     "chrome_experimental_rules_description": {
-        "message": "Dapat mengakibatkan peringatan atau kerusakan. Dinonfungsikan secara bawaan."
+        "message": "Mungkin dikarenakan peringatan atau kerusakan. Dinonaktifkan secara mendasar."
     },
     "chrome_hide_advanced": {
-        "message": "Sembunyikan opsi lanjutan"
+        "message": "Sembunyikan pengaturan lanjutan"
     },
     "chrome_host": {
         "message": "Host:"
@@ -54,7 +60,7 @@
         "message": "Nama aturan"
     },
     "chrome_show_advanced": {
-        "message": "Tampilkan opsi lanjutan"
+        "message": "Tampilkan pengaturan lanjutan"
     },
     "chrome_stable_rules": {
         "message": "Aturan stabil"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Lihat Semua Aturan"
     },
+    "options_addUpdateChannel": {
+        "message": "Tambah Pembaruan Saluran"
+    },
     "options_advancedSettings": {
         "message": "Pengaturan Lanjutan"
     },
     "options_autoUpdateRulesets": {
         "message": "Set aturan untuk pembaruan otomatis"
     },
+    "options_delete": {
+        "message": "Hapus"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Halaman HTTPS Everywhere Dinonaktifkan"
+    },
     "options_enableMixedRulesets": {
         "message": "Aktifkan mixed content ruleset "
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Masukkan nama pembaruan saluran"
     },
     "options_generalSettings": {
         "message": "Pengaturan Umum"
     },
     "options_showDevtoolsTab": {
         "message": "Tampilkan tab Devtools"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Versi ruleset tersimpan:"
+    },
+    "options_update": {
+        "message": "Perbarui"
+    },
+    "options_updateChannels": {
+        "message": "Memperbarui Saluran"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Peringatan: Menambahkan saluran pembaruan dapat menyebabkan penyerang membajak p\u00e8ramban  web anda. Hanya modifikasi  bagian ini jika anda tahu yang anda lakukan."
+    },
+    "options_updatesLastChecked": {
+        "message": "Pembaruan terakhir diperiksa:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "Tidak pernah"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Pengaturan Ekspor"

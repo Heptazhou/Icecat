@@ -1,6 +1,6 @@
 {
     "about_add_new_rule": {
-        "message": "Add New Rule"
+        "message": "\u0928\u0935\u0940\u0928 \u0928\u093f\u092f\u092e \u091c\u094b\u0921\u093e"
     },
     "about_ext_description": {
         "message": "\u0935\u0947\u092c \u0915\u0942\u091f\u092c\u0926\u094d\u0927 \u0915\u0930\u093e ! \u0906\u092a\u094b\u0906\u092a \u0905\u0928\u0947\u0915 \u0938\u093e\u0907\u091f\u0935\u0930 HTTPS \u0938\u0941\u0930\u0915\u094d\u0937\u093e \u0935\u093e\u092a\u0930\u093e."
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Always use https for this host"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
     },
     "chrome_experimental_rules": {
         "message": "Experimental rules"
@@ -69,7 +75,7 @@
         "message": "Block all unencrypted requests"
     },
     "menu_donate_eff_imperative": {
-        "message": "Donate to EFF"
+        "message": "EFF \u0932\u093e \u0926\u093e\u0928 \u0915\u0930\u093e"
     },
     "menu_globalEnable": {
         "message": "\u0938\u0930\u094d\u0935\u0924\u094d\u0930 HTTPS \u0938\u0915\u094d\u0937\u092e \u0915\u0930\u093e"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "\u0938\u0930\u094d\u0935 \u0928\u093f\u092f\u092e \u092a\u0939\u093e"
     },
+    "options_addUpdateChannel": {
+        "message": "\u0905\u0926\u094d\u092f\u0924\u0928 \u091a\u0945\u0928\u0947\u0932 \u091c\u094b\u0921\u093e"
+    },
     "options_advancedSettings": {
-        "message": "Advanced Settings"
+        "message": "\u092a\u094d\u0930\u0917\u0924 \u0938\u0947\u091f\u093f\u0902\u0917"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "\u0928\u093f\u092f\u092e\u093e\u0935\u0932\u0940 \u0938\u094d\u0935\u092f\u0902-\u0905\u0926\u094d\u092f\u0924\u0928 \u0915\u0930\u093e"
+    },
+    "options_delete": {
+        "message": "\u0928\u0937\u094d\u091f \u0915\u0930\u093e "
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "\u092e\u093f\u0936\u094d\u0930\u093f\u0924 \u0938\u093e\u092e\u0917\u094d\u0930\u0940 \u0928\u093f\u092f\u092e\u093e\u0935\u0932\u0940 \u0938\u0915\u094d\u0937\u092e \u0915\u0930\u093e"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "\u0905\u0926\u094d\u092f\u0924\u0928 \u091a\u0945\u0928\u0947\u0932\u091a\u0947 \u0928\u093e\u0935 \u092a\u094d\u0930\u0935\u093f\u0937\u094d\u091f \u0915\u0930\u093e"
     },
     "options_generalSettings": {
-        "message": "General Settings"
+        "message": "\u0938\u093e\u092e\u093e\u0928\u094d\u092f \u0938\u0947\u091f\u093f\u0902\u0917"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "\u0935\u093f\u0915\u0938\u0915 \u0938\u093e\u0927\u0928\u0947 \u091f\u0945\u092c \u0926\u0930\u094d\u0936\u0935\u093e"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Stored rulesets version: "
+    },
+    "options_update": {
+        "message": "\u0905\u0926\u094d\u092f\u0924\u0928 \u0915\u0930\u093e"
+    },
+    "options_updateChannels": {
+        "message": "\u091a\u0945\u0928\u0947\u0932 \u0905\u0926\u094d\u092f\u0924\u0928\u093f\u0924 \u0915\u0930\u093e"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Updates last checked: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "\u0915\u0927\u0940\u0939\u0940 \u0928\u093e\u0939\u0940"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Export Settings"

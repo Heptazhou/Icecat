@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "\u5bf9\u6b64\u4e3b\u673a\u59cb\u7ec8\u4f7f\u7528 https"
     },
+    "chrome_disable_on_this_site": {
+        "message": "\u5728\u6b64\u7f51\u7ad9\u4e0a\u7981\u7528HTTPS Everywhere"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "\u5728\u6b64\u7f51\u7ad9\u4e0a\u4f7f\u7528HTTPS Everywhere"
+    },
     "chrome_experimental_rules": {
         "message": "\u5b9e\u9a8c\u6027\u89c4\u5219"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "\u67e5\u770b\u6240\u6709\u89c4\u5219"
     },
+    "options_addUpdateChannel": {
+        "message": "\u6dfb\u52a0\u66f4\u65b0\u6e20\u9053"
+    },
     "options_advancedSettings": {
         "message": "\u9ad8\u7ea7\u8bbe\u7f6e"
     },
     "options_autoUpdateRulesets": {
         "message": "\u81ea\u52a8\u66f4\u65b0\u89c4\u5219\u96c6"
     },
+    "options_delete": {
+        "message": "\u5220\u9664"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere \u7f51\u7ad9\u88ab\u7981\u6b62"
+    },
     "options_enableMixedRulesets": {
         "message": "\u542f\u7528\u6df7\u5408\u5185\u5bb9\u89c4\u5219\u96c6"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "\u8f93\u5165\u66f4\u65b0\u89c4\u5219\u96c6\u8ba2\u9605\u7684\u540d\u79f0\u3002"
     },
     "options_generalSettings": {
         "message": "\u5e38\u89c4\u8bbe\u7f6e"
     },
     "options_showDevtoolsTab": {
         "message": "\u663e\u793a\u5f00\u53d1\u8005\u5de5\u5177\u680f"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "\u672c\u5730\u89c4\u5219\u96c6\u7248\u672c\uff1a"
+    },
+    "options_update": {
+        "message": "\u66f4\u65b0"
+    },
+    "options_updateChannels": {
+        "message": "\u66f4\u65b0\u89c4\u5219\u96c6\u8ba2\u9605"
+    },
+    "options_updateChannelsWarning": {
+        "message": "\u8b66\u544a\uff1a\u6dfb\u52a0\u66f4\u65b0\u89c4\u5219\u96c6\u8ba2\u9605\u53ef\u80fd\u5bfc\u81f4\u6d4f\u89c8\u5668\u906d\u53d7\u653b\u51fb\u3002\u9664\u975e\u4f60\u786e\u5207\u7684\u77e5\u9053\u4f60\u5728\u505a\u4ec0\u4e48\uff0c\u5426\u5219\u4e0d\u8981\u7f16\u8f91\u5b83\uff01"
+    },
+    "options_updatesLastChecked": {
+        "message": "\u4e0a\u6b21\u68c0\u67e5\u66f4\u65b0\u7684\u65f6\u95f4\uff1a"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "\u4ece\u672a"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere \u7528\u6237\u89c4\u5219"
     },
     "prefs_export_settings": {
         "message": "\u5bfc\u51fa\u8bbe\u7f6e"
@@ -105,6 +144,6 @@
         "message": "\u91cd\u7f6e\u4e3a\u9ed8\u8ba4\u503c"
     },
     "prefs_reset_defaults_message": {
-        "message": "\u91cd\u7f6e\u5c06\u4f1a\u8ba9\u89c4\u5219\u96c6\u56de\u5230\u9ed8\u8ba4\u72b6\u6001\uff0c\u7ee7\u7eed\uff1f"
+        "message": "\u91cd\u7f6e\u5c06\u4f1a\u8ba9\u89c4\u5219\u96c6\u56de\u5230\u9ed8\u8ba4\u72b6\u6001\u3002\u662f\u5426\u7ee7\u7eed\uff1f"
     }
 }

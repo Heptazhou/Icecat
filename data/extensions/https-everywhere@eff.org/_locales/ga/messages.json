@@ -18,10 +18,10 @@
         "message": "Leagan"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "Thug HTTPS Everywhere faoi deara go raibh t\u00fa ag iarraidh cuairt a thabhairt ar leathanach gan HTTPS, agus rinne s\u00e9 iarracht an leagan HTTPS a sheoladh chugat ina \u00e1it, ach theip air toisc nach bhfuil an leagan HTTPS ar f\u00e1il. Is d\u00f3cha nach dtaca\u00edonn an su\u00edomh seo le HTTPS, ach d'fh\u00e9adfadh s\u00e9 gur chuir ionsaitheoir cosc ar an leagan HTTPS. M\u00e1s mian leat an leagan neamhchriptithe den leathanach seo a fh\u00e1il, is f\u00e9idir leat \u00e9 sin a dh\u00e9anamh tr\u00ed 'Cuir cosc ar gach iarratas neamhchriptithe' a mh\u00fachadh sa mbreise\u00e1n HTTPS Everywhere. M\u00e1 mh\u00fachann t\u00fa an rogha seo, b'fhurasta ionsa\u00ed \u00edosghr\u00e1daithe a dh\u00e9anamh ort ar na su\u00edmh Ghr\u00e9as\u00e1in a dtugann t\u00fa cuairt orthu."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "ionsaithe \u00edosghr\u00e1daithe ar an l\u00edonra"
     },
     "chrome_add_new_rule": {
         "message": "Cuir riail nua i bhfeidhm ar an su\u00edomh seo"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Bain \u00fas\u00e1id as https i gc\u00f3na\u00ed leis an \u00f3str\u00edomhaire seo"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "D\u00edchumasaigh HTTPS Everywhere ar an su\u00edomh seo"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Cumasaigh HTTPS Everywhere ar an su\u00edomh seo"
     },
     "chrome_experimental_rules": {
         "message": "Rialacha turgnamhacha"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Taispe\u00e1in Gach Riail"
     },
+    "options_addUpdateChannel": {
+        "message": "Cain\u00e9al Nuashonraithe Nua"
+    },
     "options_advancedSettings": {
         "message": "Ardsocruithe"
     },
     "options_autoUpdateRulesets": {
         "message": "Nuashonraigh rialacha go huathoibr\u00edoch"
     },
+    "options_delete": {
+        "message": "Scrios"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Su\u00edmh ar ar d\u00edchumasa\u00edodh HTTPS Everywhere"
+    },
     "options_enableMixedRulesets": {
         "message": "Cumasaigh rialacha d'\u00e1bhar measctha"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Cuir isteach ainm an chain\u00e9il nuashonraithe"
     },
     "options_generalSettings": {
         "message": "Socruithe Ginear\u00e1lta"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Taispe\u00e1in cluais\u00edn na n-uirlis\u00ed forbartha"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Leagan na rialacha at\u00e1 st\u00f3r\u00e1ilte:"
+    },
+    "options_update": {
+        "message": "Nuashonr\u00fa"
+    },
+    "options_updateChannels": {
+        "message": "Cain\u00e9il Nuashonraithe"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Rabhadh: M\u00e1 \u00fas\u00e1ideann t\u00fa cain\u00e9al nuashonraithe, tugann s\u00e9 deis do dhrochdhaoine ionsa\u00ed a dh\u00e9anamh ar do bhrabhs\u00e1la\u00ed. N\u00e1 hathraigh aon rud sa rann\u00e1n seo mura bhfuil t\u00fa l\u00e1nchinnte!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Lorga\u00edodh nuashonr\u00fa:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "n\u00ed lorga\u00edodh riamh"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Easp\u00f3rt\u00e1il Socruithe"
@@ -105,6 +144,6 @@
         "message": "Fill ar R\u00e9amhshocruithe"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Fillfidh gach tacar rialacha ar a r\u00e9amhshocr\u00fa. An bhfuil t\u00fa cinnte?"
     }
 }

@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Toujours utiliser HTTPS pour cet h\u00f4te"
     },
+    "chrome_disable_on_this_site": {
+        "message": "D\u00e9sactiver HTTPS partout sur ce site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Activer HTTPS partout sur ce site"
+    },
     "chrome_experimental_rules": {
         "message": "R\u00e8gles exp\u00e9rimentales :"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Visualiser toutes les r\u00e8gles"
     },
+    "options_addUpdateChannel": {
+        "message": "Ajouter un canal de mise \u00e0 jour"
+    },
     "options_advancedSettings": {
         "message": "Param\u00e8tres avanc\u00e9s"
     },
     "options_autoUpdateRulesets": {
         "message": "Ensembles de r\u00e8gles de mise \u00e0 jour automatique"
     },
+    "options_delete": {
+        "message": "Supprimer"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Sites d\u00e9sactiv\u00e9s dans HTTPS partout"
+    },
     "options_enableMixedRulesets": {
         "message": "Activer les ensembles de r\u00e8gles pour le contenu mixte"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Saisir le nom du canal de mise \u00e0 jour"
     },
     "options_generalSettings": {
         "message": "Param\u00e8tres g\u00e9n\u00e9raux"
     },
     "options_showDevtoolsTab": {
         "message": "Afficher l\u2019onglet des outils pour d\u00e9veloppeurs"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Version enregistr\u00e9e des ensembles de r\u00e8gles\u00a0:"
+    },
+    "options_update": {
+        "message": "Mise \u00e0 jour"
+    },
+    "options_updateChannels": {
+        "message": "Canaux de mise \u00e0 jour"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Avertissement\u00a0: l\u2019ajout de canaux de mise \u00e0 jour peut permettre \u00e0 des assaillants de pirater votre navigateur. Ne modifiez cette section que si vous savez ce que vous faites\u2009!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Derni\u00e8re v\u00e9rification des mises \u00e0 jour\u00a0:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "jamais"
+    },
+    "options_userRulesListed": {
+        "message": "R\u00e8gles utilisateur de HTTPS partout"
     },
     "prefs_export_settings": {
         "message": "Exporter les param\u00e8tres"

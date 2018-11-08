@@ -40,6 +40,7 @@ async function initializeAllRules() {
 var httpNowhereOn = false;
 var showCounter = true;
 var isExtensionEnabled = true;
+let disabledList = new Set();
 
 function initializeStoredGlobals(){
   return new Promise(resolve => {
@@ -47,11 +48,15 @@ function initializeStoredGlobals(){
       httpNowhere: false,
       showCounter: true,
       globalEnabled: true,
-      enableMixedRulesets: false
+      enableMixedRulesets: false,
+      disabledList: [],
     }, function(item) {
       httpNowhereOn = item.httpNowhere;
       showCounter = item.showCounter;
       isExtensionEnabled = item.globalEnabled;
+      for (let disabledSite of item.disabledList) {
+        disabledList.add(disabledSite);
+      }
       updateState();
 
       rules.settings.enableMixedRulesets = item.enableMixedRulesets;
@@ -147,14 +152,6 @@ function updateState () {
     iconState = 'blocking';
   }
 
-  if ('setIcon' in chrome.browserAction) {
-    chrome.browserAction.setIcon({
-      path: {
-        38: 'images/icons/icon-' + iconState + '-38.png'
-      }
-    });
-  }
-
   chrome.browserAction.setTitle({
     title: 'HTTPS Everywhere' + ((iconState === 'active') ? '' : ' (' + iconState + ')')
   });
@@ -164,16 +161,37 @@ function updateState () {
       return;
     }
     const tabId = tabs[0].id;
-    const activeCount = appliedRulesets.getActiveRulesetCount(tabId);
+    const tabUrl = new URL(tabs[0].url);
 
-    if ('setBadgeBackgroundColor' in chrome.browserAction) {
-      chrome.browserAction.setBadgeBackgroundColor({ color: '#666666', tabId });
-    }
+    if (disabledList.has(tabUrl.host) || iconState == "disabled") {
+      if ('setIcon' in chrome.browserAction) {
+        chrome.browserAction.setIcon({
+          path: {
+            38: 'images/icons/icon-disabled-38.png'
+          }
+        });
+      }
+    } else {
 
-    const showBadge = activeCount > 0 && isExtensionEnabled && showCounter;
+      if ('setIcon' in chrome.browserAction) {
+        chrome.browserAction.setIcon({
+          path: {
+            38: 'images/icons/icon-' + iconState + '-38.png'
+          }
+        });
+      }
 
-    if ('setBadgeText' in chrome.browserAction) {
-      chrome.browserAction.setBadgeText({ text: showBadge ? String(activeCount) : '', tabId });
+      const activeCount = appliedRulesets.getActiveRulesetCount(tabId);
+
+      if ('setBadgeBackgroundColor' in chrome.browserAction) {
+        chrome.browserAction.setBadgeBackgroundColor({ color: '#666666', tabId });
+      }
+
+      const showBadge = activeCount > 0 && isExtensionEnabled && showCounter;
+
+      if ('setBadgeText' in chrome.browserAction) {
+        chrome.browserAction.setBadgeText({ text: showBadge ? String(activeCount) : '', tabId });
+      }
     }
   });
 }
@@ -277,10 +295,18 @@ var urlBlacklist = new Set();
 // TODO: Remove this code if they ever give us a real counter
 var redirectCounter = new Map();
 
+// Create a map to indicate whether a given request has been subject to a simple
+// HTTP Nowhere redirect.
+let simpleHTTPNowhereRedirect = new Map();
+
 const cancelUrl = chrome.extension.getURL("/pages/cancel/index.html");
 
-function redirectOnCancel(shouldCancel){
-  return shouldCancel ? {redirectUrl: cancelUrl} : {cancel: false};
+function redirectOnCancel(shouldCancel, originURL){
+  return shouldCancel ? {redirectUrl: newCancelUrl(originURL)} : {cancel: false};
+}
+
+function newCancelUrl(originURL){
+  return cancelUrl + "?originURL=" + encodeURI(originURL);
 }
 
 /**
@@ -295,6 +321,27 @@ function onBeforeRequest(details) {
   }
 
   let uri = new URL(details.url);
+
+  // Check if a user has disabled HTTPS Everywhere on this site.  We should
+  // ensure that all subresources are not run through HTTPS Everywhere as well.
+  let firstPartyHost;
+  if (details.type == "main_frame") {
+    firstPartyHost = uri.host;
+  } else {
+    // In Firefox, documentUrl is preferable here, since it will always be the
+    // URL in the URL bar, but it was only introduced in FF 54.  We should get
+    // rid of `originUrl` at some point.
+    if ('documentUrl' in details) { // Firefox 54+
+      firstPartyHost = new URL(details.documentUrl).host;
+    } else if ('originUrl' in details) { // Firefox < 54
+      firstPartyHost = new URL(details.originUrl).host;
+    } else if('initiator' in details) { // Chrome
+      firstPartyHost = new URL(details.initiator).host;
+    }
+  }
+  if (disabledList.has(firstPartyHost)) {
+    return;
+  }
 
   // Normalise hosts with tailing dots, e.g. "www.example.com."
   while (uri.hostname[uri.hostname.length - 1] === '.' && uri.hostname !== '.') {
@@ -330,7 +377,7 @@ function onBeforeRequest(details) {
         " changed before processing to " + uri.href);
   }
   if (urlBlacklist.has(uri.href)) {
-    return redirectOnCancel(shouldCancel);
+    return redirectOnCancel(shouldCancel, details.url);
   }
 
   if (details.type == "main_frame") {
@@ -344,7 +391,7 @@ function onBeforeRequest(details) {
     urlBlacklist.add(uri.href);
     rules.settings.domainBlacklist.add(uri.hostname);
     util.log(util.WARN, "Domain blacklisted " + uri.hostname);
-    return redirectOnCancel(shouldCancel);
+    return redirectOnCancel(shouldCancel, details.url);
   }
 
   // whether to use mozilla's upgradeToSecure BlockingResponse if available
@@ -352,9 +399,11 @@ function onBeforeRequest(details) {
   let newuristr = null;
 
   for (let ruleset of potentiallyApplicable) {
-    appliedRulesets.addRulesetToTab(details.tabId, details.type, ruleset);
-    if (ruleset.active && !newuristr) {
-      newuristr = ruleset.apply(uri.href);
+    if (details.url.match(ruleset.scope)) {
+      appliedRulesets.addRulesetToTab(details.tabId, details.type, ruleset);
+      if (ruleset.active && !newuristr) {
+        newuristr = ruleset.apply(uri.href);
+      }
     }
   }
 
@@ -396,6 +445,7 @@ function onBeforeRequest(details) {
     if (shouldCancel) {
       if (!newuristr) {
         newuristr = uri.href.replace(/^http:/, "https:");
+        simpleHTTPNowhereRedirect.set(details.requestId, true);
         upgradeToSecure = true;
       } else {
         newuristr = newuristr.replace(/^http:/, "https:");
@@ -409,7 +459,7 @@ function onBeforeRequest(details) {
       )
     ) {
       // Abort early if we're about to redirect to HTTP or FTP in HTTP Nowhere mode
-      return {redirectUrl: cancelUrl};
+      return {redirectUrl: newCancelUrl(newuristr)};
     }
   }
 
@@ -421,7 +471,7 @@ function onBeforeRequest(details) {
     return {redirectUrl: newuristr};
   } else {
     util.log(util.INFO, 'onBeforeRequest returning shouldCancel: ' + shouldCancel);
-    return redirectOnCancel(shouldCancel);
+    return redirectOnCancel(shouldCancel, details.url);
   }
 }
 
@@ -577,6 +627,9 @@ function onCompleted(details) {
   if (redirectCounter.has(details.requestId)) {
     redirectCounter.delete(details.requestId);
   }
+  if (simpleHTTPNowhereRedirect.has(details.requestId)) {
+    simpleHTTPNowhereRedirect.delete(details.requestId);
+  }
 }
 
 /**
@@ -584,8 +637,44 @@ function onCompleted(details) {
  * @param details details for the chrome.webRequest (see chrome doc)
  */
 function onErrorOccurred(details) {
+  if (httpNowhereOn &&
+    details.type == "main_frame" &&
+    simpleHTTPNowhereRedirect.get(details.requestId) &&
+    ( // Enumerate a class of errors that are likely due to HTTPS misconfigurations
+      details.error.indexOf("net::ERR_SSL_") == 0 ||
+      details.error.indexOf("net::ERR_CERT_") == 0 ||
+      details.error.indexOf("net::ERR_CONNECTION_") == 0 ||
+      details.error.indexOf("net::ERR_ABORTED") == 0 ||
+      details.error.indexOf("NS_ERROR_CONNECTION_REFUSED") == 0 ||
+      details.error.indexOf("NS_ERROR_UNKNOWN_HOST") == 0 ||
+      details.error.indexOf("NS_ERROR_NET_TIMEOUT") == 0 ||
+      details.error.indexOf("NS_ERROR_NET_ON_TLS_HANDSHAKE_ENDED") == 0 ||
+      details.error.indexOf("NS_BINDING_ABORTED") == 0 ||
+      details.error.indexOf("SSL received a record that exceeded the maximum permissible length.") == 0 ||
+      details.error.indexOf("Peer’s Certificate has expired.") == 0 ||
+      details.error.indexOf("Unable to communicate securely with peer: requested domain name does not match the server’s certificate.") == 0 ||
+      details.error.indexOf("Peer’s Certificate issuer is not recognized.") == 0 ||
+      details.error.indexOf("Peer’s Certificate has been revoked.") == 0 ||
+      details.error.indexOf("The server uses key pinning (HPKP) but no trusted certificate chain could be constructed that matches the pinset. Key pinning violations cannot be overridden.") == 0 ||
+      details.error.indexOf("SSL received a weak ephemeral Diffie-Hellman key in Server Key Exchange handshake message.") == 0 ||
+      details.error.indexOf("The certificate was signed using a signature algorithm that is disabled because it is not secure.") == 0 ||
+      details.error.indexOf("Unable to communicate securely with peer: requested domain name does not match the server’s certificate.") == 0 ||
+      details.error.indexOf("Cannot communicate securely with peer: no common encryption algorithm(s).") == 0 ||
+      details.error.indexOf("SSL peer has no certificate for the requested DNS name.") == 0
+    ))
+  {
+    let url = new URL(details.url);
+    if (url.protocol == "https:") {
+      url.protocol = "http:";
+    }
+    chrome.tabs.update(details.tabId, {url: newCancelUrl(url.toString())});
+  }
+
   if (redirectCounter.has(details.requestId)) {
     redirectCounter.delete(details.requestId);
+  }
+  if (simpleHTTPNowhereRedirect.has(details.requestId)) {
+    simpleHTTPNowhereRedirect.delete(details.requestId);
   }
 }
 
@@ -742,6 +831,14 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
     });
   }
 
+  function storeDisabledList() {
+    const disabledListArray = Array.from(disabledList);
+    store.set({disabledList: disabledListArray}, () => {
+      sendResponse(true);
+    });
+    return true;
+  }
+
   const responses = {
     get_option: () => {
       store.get(message.object, sendResponse);
@@ -791,6 +888,10 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
         chrome.tabs.reload();
       });
     },
+    get_user_rules: () => {
+      store.get_promise(all_rules.USER_RULE_KEY, []).then(userRules => sendResponse(userRules));
+      return true;
+    },
     add_new_rule: () => {
       all_rules.addNewRuleAndStore(message.object).then(() => {
         sendResponse(true);
@@ -798,7 +899,23 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
       return true;
     },
     remove_rule: () => {
-      all_rules.removeRuleAndStore(message.object);
+      all_rules.removeRuleAndStore(message.object.ruleset, message.object.src)
+        .then(() => {
+          /**
+           * FIXME: initializeAllRules is needed for calls from the option pages.
+           * Since message.object is not of type Ruleset, rules.removeUserRule
+           * is not usable...
+           */
+          if (message.object.src === 'options') {
+            return initializeAllRules();
+          }
+        })
+        .then(() => {
+          if (sendResponse !== null) {
+            sendResponse(true);
+          }
+        })
+      return true;
     },
     get_ruleset_timestamps: () => {
       update.getRulesetTimestamps().then(timestamps => sendResponse(timestamps));
@@ -830,7 +947,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
         item.update_channels.push({
           name: message.object,
           jwk: {},
-          update_path_prefix: ''
+          update_path_prefix: '',
+          scope: ''
         });
 
         store.set({update_channels: item.update_channels}, () => {
@@ -859,14 +977,30 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
     },
     update_update_channel: () => {
       store.get({update_channels: []}, item => {
-        for(let i = 0; i < item.update_channels.length; i++){
-          if(item.update_channels[i].name == message.object.name){
-            item.update_channels[i] = message.object;
+        let scope_changed = false;
+        item.update_channels = item.update_channels.map(update_channel => {
+          if(update_channel.name == message.object.name){
+            if(update_channel.scope != message.object.scope){
+              scope_changed = true;
+            }
+            update_channel = message.object;
           }
-        }
+          return update_channel;
+        });
 
+        // Ensure that we check for new rulesets from the update channel immediately.
+        // If the scope has changed, make sure that the rulesets are re-initialized.
         store.set({update_channels: item.update_channels}, () => {
-          sendResponse(true);
+          // Since loadUpdateChannesKeys is already contained in chrome.storage.onChanged
+          // within update.js, the below call will make it run twice. This is
+          // necesssary to avoid a race condition, see #16673
+          update.loadUpdateChannelsKeys().then(() => {
+            update.resetTimer();
+            if(scope_changed){
+              initializeAllRules();
+            }
+            sendResponse(true);
+          });
         });
 
       });
@@ -876,6 +1010,18 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
       store.local.get({'last-checked': false}, item => {
         sendResponse(item['last-checked']);
       });
+      return true;
+    },
+    disable_on_site: () => {
+      disabledList.add(message.object);
+      return storeDisabledList();
+    },
+    enable_on_site: () => {
+      disabledList.delete(message.object);
+      return storeDisabledList();
+    },
+    check_if_site_disabled: () => {
+      sendResponse(disabledList.has(message.object));
       return true;
     }
   };

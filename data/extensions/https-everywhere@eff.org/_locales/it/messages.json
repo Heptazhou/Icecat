@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Usa sempre https per questo host"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disattiva HTTPS Everywhere per questo sito"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Attiva HTTPS Everywhere per questo sito"
+    },
     "chrome_experimental_rules": {
         "message": "Regole sperimentali"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Vedi tutte le regole"
     },
+    "options_addUpdateChannel": {
+        "message": "Aggiungi canale di aggiornamento"
+    },
     "options_advancedSettings": {
         "message": "Impostazioni Avanzate"
     },
     "options_autoUpdateRulesets": {
         "message": "Aggiorna automaticamente regole"
     },
+    "options_delete": {
+        "message": "Canc"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Siti disattivati per HTTPS Everywhere"
+    },
     "options_enableMixedRulesets": {
         "message": "Attiva regole per contenuti misti"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Inserisci il nome del canale"
     },
     "options_generalSettings": {
         "message": "Impostazioni generali"
     },
     "options_showDevtoolsTab": {
         "message": "Mostra scheda Sviluppo"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Versione regole memorizzate:"
+    },
+    "options_update": {
+        "message": "Aggiorna"
+    },
+    "options_updateChannels": {
+        "message": "Canali di aggiornamento"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Attenzione: l'aggiunta di canali di aggiornamento pu\u00f2 causare il dirottamento del browser da parte di aggressori. Modifica questa sezione solo se sai cosa stai facendo!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Ultimo controllo aggiornamenti:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "mai"
+    },
+    "options_userRulesListed": {
+        "message": "Regole utente di HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Esporta impostazioni"

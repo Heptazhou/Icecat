@@ -18,7 +18,7 @@
         "message": "\u7248\u672c"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere \u5728\u6b64\u63d0\u9192\u60a8\u7531\u65bc\u5728\u700f\u89a7\u975e\u52a0\u5bc6\u7db2\u9801\uff0c\u6240\u4ee5\u8a66\u8457\u5e6b\u60a8\u5207\u63db\u5230\u52a0\u5bc6\u7db2\u9801\u3002\u5982\u679c\u7121\u6cd5\u6210\u529f\u5207\u63db\uff0c\u8868\u793a\u6b64\u7db2\u7ad9\u4e0d\u652f\u63f4\u52a0\u5bc6\u7248\u672c\uff0c\u4f46\u4e5f\u53ef\u80fd\u8868\u793a\u6709\u99ed\u5ba2\u963b\u64cb\u60a8\u5207\u63db\u5230\u52a0\u5bc6\u7db2\u9801\u3002\u5982\u679c\u60a8\u5e0c\u671b\u700f\u89a7\u975e\u52a0\u5bc6\u7db2\u9801\uff0c\u60a8\u53ef\u4ee5\u4f9d\u7136\u53ef\u4ee5\u5728  HTTPS Everywhere \u95dc\u9589 'Block all unencrypted requests' \u9078\u9805\u3002\u4f46\u8acb\u6ce8\u610f\uff0c\u95dc\u9589\u6b64\u9078\u9805\u8868\u793a\u60a8\u7684\u700f\u89a7\u5668\u5c07\u8655\u65bc\u5371\u96aa\u72c0\u614b\uff1b\u800c\u4e14\u7576\u700f\u89a7\u7db2\u7ad9\u6642\uff0c\u5bb9\u6613\u88ab\u964d\u7248\u653b\u64ca\u3002"
     },
     "cancel_he_blocking_network": {
         "message": "\u57fa\u65bc\u7db2\u8def\u7684\u964d\u7d1a\u653b\u64ca"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "\u8a72\u4e3b\u6a5f\u7686\u4f7f\u7528https\u52a0\u5bc6\u7db2\u5740"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
     },
     "chrome_experimental_rules": {
         "message": "\u8a66\u9a57\u7248\u898f\u5247"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "\u6aa2\u8996\u6240\u6709\u898f\u5247"
     },
+    "options_addUpdateChannel": {
+        "message": "\u52a0\u5165\u66f4\u65b0\u983b\u9053"
+    },
     "options_advancedSettings": {
         "message": "\u9032\u968e\u8a2d\u5b9a"
     },
     "options_autoUpdateRulesets": {
         "message": "\u81ea\u52d5\u66f4\u65b0\u6240\u6709\u689d\u4ef6"
     },
+    "options_delete": {
+        "message": "Delete"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "\u958b\u555f\u591a\u91cd\u689d\u4ef6"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "\u8f38\u5165\u66f4\u65b0\u983b\u9053\u540d\u7a31"
     },
     "options_generalSettings": {
         "message": "\u4e00\u822c\u8a2d\u5b9a"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "\u986f\u793a\u958b\u767c\u8005\u5de5\u5177\u9801\u9762"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "\u5132\u5b58\u7684\u898f\u5247\u96c6\u7248\u672c\uff1a"
+    },
+    "options_update": {
+        "message": "\u66f4\u65b0"
+    },
+    "options_updateChannels": {
+        "message": "\u66f4\u65b0\u983b\u9053"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+    },
+    "options_updatesLastChecked": {
+        "message": "\u6700\u5f8c\u6aa2\u67e5\u66f4\u65b0\uff1a"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "\u5f9e\u672a"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "\u532f\u51fa\u8a2d\u5b9a\u503c"

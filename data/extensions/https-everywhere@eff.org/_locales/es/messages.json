@@ -18,7 +18,7 @@
         "message": "Versi\u00f3n"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere (HTTPS en todos lados) ha detectado que estabas navegando en un sitio que no admite HTTPS y ha intentado enviarte a la versi\u00f3n HTTPS en su lugar. La versi\u00f3n HTTPS no se encuentra disponible. Es probable que este sitio no soporte HTTPS. Tambi\u00e9n es posible que un atacante este bloqueando la versi\u00f3n HTTPS. Si deseas ver la versi\u00f3n sin encriptar de esta p\u00e1gina, puedes hacerlo deshabilitando la opci\u00f3n &quot;Bloquear todas las peticiones no cifradas&quot; en la extensi\u00f3n HTTPS Everywhere. Se consciente que deshabilitar esto podr\u00eda hacer que tu navegador sea vulnerable a ataques de red en p\u00e1ginas que visites."
+        "message": "HTTPS Everywhere (HTTPS en todos lados) ha detectado que estabas navegando en un sitio que no admite HTTPS y ha intentado enviarte a la versi\u00f3n HTTPS en su lugar. La versi\u00f3n HTTPS no se encuentra disponible. Es probable que este sitio no soporte HTTPS. Tambi\u00e9n es posible que un atacante este bloqueando la versi\u00f3n HTTPS. Si deseas ver la versi\u00f3n sin encriptar de esta p\u00e1gina, puedes hacerlo deshabilitando la opci\u00f3n &quot;Bloquear todas las peticiones no cifradas&quot; en la extensi\u00f3n HTTPS Everywhere. Recuerda que deshabilitar esto podr\u00eda hacer que tu navegador sea vulnerable a ataques de red en p\u00e1ginas que visites."
     },
     "cancel_he_blocking_network": {
         "message": "ataques de baja intensidad basados en la red"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Usar siempre https para este servidor"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Deshabilitar HTTPS Everywhere en este sitio"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Habilitar HTTPS Everywhere en este sitio"
     },
     "chrome_experimental_rules": {
         "message": "Reglas estables"
@@ -60,7 +66,7 @@
         "message": "Reglas estables"
     },
     "chrome_stable_rules_description": {
-        "message": "Fuerzan conexiones cifradas a estos sitios web:"
+        "message": "Forzar conexiones cifradas a estos sitios web:"
     },
     "chrome_status_cancel_button": {
         "message": "Cancelar"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Ver todas las reglas"
     },
+    "options_addUpdateChannel": {
+        "message": "A\u00f1adir Actualizar Canales"
+    },
     "options_advancedSettings": {
         "message": "Configuraci\u00f3n avanzada"
     },
     "options_autoUpdateRulesets": {
         "message": "Reglas actualizadas autom\u00e1ticamente"
     },
+    "options_delete": {
+        "message": "Borrar"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Sitios deshabilitados por HTTPS Everywhere"
+    },
     "options_enableMixedRulesets": {
         "message": "Habilitar conjuntos de reglas de contenido mixto"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Introduce el nombre del canal de actualizaci\u00f3n"
     },
     "options_generalSettings": {
         "message": "Configuraci\u00f3n general"
     },
     "options_showDevtoolsTab": {
         "message": "Mostrar pesta\u00f1a Devtools"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Versi\u00f3n de reglas almacenadas:"
+    },
+    "options_update": {
+        "message": "Actualizar"
+    },
+    "options_updateChannels": {
+        "message": "Actualizar Canales"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Cuidado: Agregar canales de actualizaci\u00f3n puede originar que los atacantes secuestren tu navegador. \u00a1Edita esta secci\u00f3n s\u00f3lo si sabes lo que est\u00e1s haciendo!"
+    },
+    "options_updatesLastChecked": {
+        "message": "\u00daltimas actualizaciones verificadas: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "nunca"
+    },
+    "options_userRulesListed": {
+        "message": "Reglas del Usuario para HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Exportar configuraci\u00f3n"

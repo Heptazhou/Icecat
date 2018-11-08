@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Szab\u00e1lyk\u00e9szlet verzi\u00f3k ehhez:"
     },
     "about_title": {
         "message": "A HTTPS Everywhere n\u00e9vjegye"
@@ -18,10 +18,10 @@
         "message": "Verzi\u00f3"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "A HTTPS Everywhere \u00fagy \u00e9szlelte, hogy egy nem-HTTPS oldalra navig\u00e1lt, \u00e9s megpr\u00f3b\u00e1lta elk\u00fcldeni a HTTPS verzi\u00f3t ink\u00e1bb helyette. A HTTPS verzi\u00f3 nem el\u00e9rhet\u0151. Legink\u00e1bb \u00fagy t\u0171nik, hogy ez az oldal nem t\u00e1mogatja a HTTPS-t, de az is elk\u00e9pzelhet\u0151, hogy egy t\u00e1mad\u00f3 blokkolja a HTTPS verzi\u00f3 el\u00e9r\u00e9s\u00e9t. Ha szeretn\u00e9 megn\u00e9zni a titkos\u00edtatlan verzi\u00f3j\u00e1t az oldalnak, tov\u00e1bbra is megteheti a 'Minden titkos\u00edtatlan k\u00e9r\u00e9s blokkol\u00e1sa' opci\u00f3 kikapcsol\u00e1s\u00e1val a HTTPS Everywhere b\u0151v\u00edtm\u00e9nyben. Figyeljen arra, hogy ennek az opci\u00f3nak a kikapcsol\u00e1s\u00e1val a b\u00f6ng\u00e9sz\u0151t s\u00e9r\u00fcl\u00e9kenny\u00e9 teszi a h\u00e1l\u00f3zati b\u00e1zis\u00fa lefokoz\u00f3 t\u00e1mad\u00e1sokkal szemben a weboldalakon, amit l\u00e1togat."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "h\u00e1l\u00f3zati b\u00e1zis\u00fa lefokoz\u00f3 t\u00e1mad\u00e1s"
     },
     "chrome_add_new_rule": {
         "message": "\u00daj szab\u00e1ly az oldalhoz"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Mindig https-t haszn\u00e1ljon ehhez a kiszolg\u00e1l\u00f3hoz"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "HTTPS Everywhere kikapcsol\u00e1sa ezen oldaln\u00e1l"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "HTTPS Everywhere bekapcsol\u00e1sa ezen oldaln\u00e1l"
     },
     "chrome_experimental_rules": {
         "message": "K\u00eds\u00e9rleti szab\u00e1lyok"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "\u00d6sszes szab\u00e1ly megtekint\u00e9se"
     },
+    "options_addUpdateChannel": {
+        "message": "Friss\u00edt\u0151 csatorna hozz\u00e1ad\u00e1sa"
+    },
     "options_advancedSettings": {
         "message": "Speci\u00e1lis be\u00e1ll\u00edt\u00e1sok"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Automata friss\u00edt\u00e9s szab\u00e1lyok"
+    },
+    "options_delete": {
+        "message": "T\u00f6rl\u00e9s"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites kikapcsolva"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "Kevert tartalom be\u00e1ll\u00edt\u00e1sszab\u00e1lyok enged\u00e9lyez\u00e9se"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Adja meg a Friss\u00edt\u0151 csatorna nev\u00e9t"
     },
     "options_generalSettings": {
         "message": "\u00c1ltal\u00e1nos be\u00e1ll\u00edt\u00e1sok"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Fejleszt\u0151eszk\u00f6z\u00fck f\u00fcl megjelen\u00edt\u00e9se"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "T\u00e1rolt szab\u00e1lyk\u00e9szletek verzi\u00f3ja:"
+    },
+    "options_update": {
+        "message": "Friss\u00edt\u00e9s"
+    },
+    "options_updateChannels": {
+        "message": "Csatorn\u00e1k friss\u00edt\u00e9se"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Figyelem: A friss\u00edt\u00e9si csatorn\u00e1k hozz\u00e1ad\u00e1s\u00e1val a t\u00e1mad\u00f3k elt\u00e9r\u00edthetik a b\u00f6ng\u00e9sz\u0151j\u00e9t. Csak akkor szerkessze ezt a be\u00e1ll\u00edt\u00e1st, ha tudja mit csin\u00e1l!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Friss\u00edt\u00e9sek utols\u00f3 ellen\u0151rz\u00e9se:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "soha"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere felhaszn\u00e1l\u00f3i szab\u00e1lyok"
     },
     "prefs_export_settings": {
         "message": "Be\u00e1ll\u00edt\u00e1sok export\u00e1l\u00e1sa"
@@ -105,6 +144,6 @@
         "message": "Vissza\u00e1ll\u00edt\u00e1s alaphelyzetre"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Ez minden szab\u00e1lybe\u00e1ll\u00edt\u00e1st vissza\u00e1ll\u00edt az alap\u00e9rtelmezett \u00e9rt\u00e9kre. Folytatja?"
     }
 }

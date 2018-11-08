@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Bruk alltid https for denne verten"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
+    },
     "chrome_experimental_rules": {
         "message": "Eksperimentelle regler"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Vis alle regler"
     },
+    "options_addUpdateChannel": {
+        "message": "Legg til oppdateringskanal"
+    },
     "options_advancedSettings": {
         "message": "Avanserte innstillinger"
     },
     "options_autoUpdateRulesets": {
         "message": "Automatisk oppdatering av regler"
     },
+    "options_delete": {
+        "message": "Slett"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Aktiver blandet innhold regelsett"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Skriv inn oppdateringskanalnavn"
     },
     "options_generalSettings": {
         "message": "Generelle innstillinger"
     },
     "options_showDevtoolsTab": {
         "message": "Vis Utviklerverkt\u00f8y fanen"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Lagret regelsettversjon:"
+    },
+    "options_update": {
+        "message": "Oppdater"
+    },
+    "options_updateChannels": {
+        "message": "Oppdater Kanaler"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Advarsel: \u00c5 legge til oppdateringskanaler kan f\u00f8re til at angriperne kaprer nettleseren din. Bare rediger denne delen hvis du vet hva du gj\u00f8r!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Oppdateringer sist sjekket:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "aldri"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Eksporter innstillinger"

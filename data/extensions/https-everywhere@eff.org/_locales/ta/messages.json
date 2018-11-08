@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Always use https for this host"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
+    },
     "chrome_experimental_rules": {
         "message": "\u0b9a\u0bcb\u0ba4\u0ba9\u0bc8 \u0b85\u0b9f\u0bbf\u0baa\u0bcd\u0baa\u0b9f\u0bc8\u0baf\u0bbf\u0bb2\u0bbe\u0ba9 \u0bb5\u0bbf\u0ba4\u0bbf\u0b95\u0bb3\u0bcd"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "\u0b85\u0ba9\u0bc8\u0ba4\u0bcd\u0ba4\u0bc1 \u0bb5\u0bbf\u0ba4\u0bbf\u0b95\u0bb3\u0bcd \u0b95\u0bbe\u0ba3\u0bcd\u0b95\u0bb5\u0bc1\u0bae\u0bcd"
     },
+    "options_addUpdateChannel": {
+        "message": "Add Update Channel"
+    },
     "options_advancedSettings": {
         "message": "\u0bae\u0bc7\u0bae\u0bcd\u0baa\u0b9f\u0bcd\u0b9f \u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bcd"
     },
     "options_autoUpdateRulesets": {
         "message": "Auto-update rulesets"
     },
+    "options_delete": {
+        "message": "\u0ba8\u0bc0\u0b95\u0bcd\u0b95\u0bc1"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Enable mixed content rulesets"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Enter update channel name"
     },
     "options_generalSettings": {
         "message": "\u0baa\u0bca\u0ba4\u0bc1\u0bb5\u0bbe\u0ba9 \u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bcd"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Stored rulesets version: "
+    },
+    "options_update": {
+        "message": "Update"
+    },
+    "options_updateChannels": {
+        "message": "Update Channels"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Updates last checked: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "never"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bc8 \u0b8f\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0ba4\u0bbf \u0b9a\u0bc6\u0baf\u0bcd"

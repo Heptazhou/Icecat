@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "\uaddc\uce59 \ubc84\uc804\ub294 \ub2e4\uc74c\uc5d0 \uc0c1\uc751\ud569\ub2c8\ub2e4:"
     },
     "about_title": {
         "message": "HTTPS Everywhere\uc5d0 \ub300\ud558\uc5ec"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "\ud574\ub2f9 \ud638\uc2a4\ud2b8\ub294 \ud56d\uc0c1 https \uc0ac\uc6a9"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c HTTPS Everywhere \uc0ac\uc6a9 \uc548 \ud558\uae30"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c HTTPS Everywhere \uc0ac\uc6a9\ud558\uae30"
     },
     "chrome_experimental_rules": {
         "message": "\uc2e4\ud5d8\uc6a9 \uaddc\uce59"
@@ -72,7 +78,7 @@
         "message": "EFF\uc5d0 \uae30\ubd80\ud558\uae30"
     },
     "menu_globalEnable": {
-        "message": "\ubaa8\ub4e0\uacf3\uc5d0\uc11c HTTPS \uc0ac\uc6a9"
+        "message": "\ubaa8\ub4e0 \uacf3\uc5d0\uc11c HTTPS \uc0ac\uc6a9"
     },
     "menu_observatory": {
         "message": "SSL \uad00\uce21 \ud658\uacbd \uc124\uc815"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "\ubaa8\ub4e0 \uaddc\uce59 \ud45c\uc2dc"
     },
+    "options_addUpdateChannel": {
+        "message": "\uc5c5\ub370\uc774\ud2b8 \ucc44\ub110 \ucd94\uac00"
+    },
     "options_advancedSettings": {
         "message": "\uace0\uae09 \uc124\uc815"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "\uaddc\uce59 \uc790\ub3d9 \uc5c5\ub370\uc774\ud2b8"
+    },
+    "options_delete": {
+        "message": "\uc0ad\uc81c"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere \uc0ac\uc774\ud2b8\ub4e4\uc774 \ube44\ud65c\uc131\ud654"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "\ub0b4\uc6a9\uc744 \ud63c\uc131\uc758 \uaddc\uce59\uc774 \ud65c\uc131\ud654"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "\uc5c5\ub370\uc774\ud2b8 \ucc44\ub110 \uc774\ub984\uc744 \uc785\ub825\ud558\uc138\uc694"
     },
     "options_generalSettings": {
         "message": "\uc77c\ubc18 \uc124\uc815"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "\uac1c\ubc1c\uc790 \ub3c4\uad6c \ud0ed \ubcf4\uae30"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "\uc800\uc7a5\ub41c \uaddc\uce59 \ubc84\uc804:"
+    },
+    "options_update": {
+        "message": "\uc5c5\ub370\uc774\ud2b8"
+    },
+    "options_updateChannels": {
+        "message": "\uc5c5\ub370\uc774\ud2b8 \ucc44\ub110"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+    },
+    "options_updatesLastChecked": {
+        "message": "\ub9c8\uc9c0\ub9c9 \uc5c5\ub370\uc774\ud2b8 \ud655\uc778 \uc77c\uc790:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "\uacb0\ub2e8\ucf54"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere \uc0ac\uc6a9\uc790\uc758 \uaddc\uce59"
     },
     "prefs_export_settings": {
         "message": "\uc124\uc815 \ub0b4\ubcf4\ub0b4\uae30"
@@ -105,6 +144,6 @@
         "message": "\uae30\ubcf8\uac12\uc73c\ub85c \ub2e4\uc2dc \uc124\uc815"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "\uaddc\uce59\uc774 \uae30\ubcf8\uac12\uc73c\ub85c \ucd08\uae30\ud654\ub429\ub2c8\ub2e4. \uacc4\uc18d\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c?"
     }
 }

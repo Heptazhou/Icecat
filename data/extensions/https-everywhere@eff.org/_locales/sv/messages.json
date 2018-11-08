@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Regelupps\u00e4ttningsversion f\u00f6r"
     },
     "about_title": {
         "message": "Om HTTPS Everywhere"
@@ -18,10 +18,10 @@
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere m\u00e4rkte att du navigerade till en icke-HTTPS-sida och f\u00f6rs\u00f6kte skicka dig till HTTPS-versionen i st\u00e4llet. HTTPS-versionen \u00e4r inte tillg\u00e4nglig. Mest sannolikt st\u00f6der inte denna webbplats HTTPS, men det \u00e4r ocks\u00e5 m\u00f6jligt att en angripare blockerar HTTPS-versionen. Om du vill visa den okrypterade versionen av den h\u00e4r sidan kan du fortfarande g\u00f6ra det genom att inaktivera alternativet &quot;Blockera alla okrypterade f\u00f6rfr\u00e5gningar&quot; i ditt HTTPS Everywhere-till\u00e4gg. Var medveten om att inaktivering av det h\u00e4r alternativet kan g\u00f6ra din webbl\u00e4sare utsatt f\u00f6r n\u00e4tverksbaserade nedgraderingsangrepp p\u00e5 webbplatser du bes\u00f6ker."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "n\u00e4tverksbaserade nedgraderingsattacker"
     },
     "chrome_add_new_rule": {
         "message": "L\u00e4gg till en ny regel f\u00f6r denna sida"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Anv\u00e4nd alltid https f\u00f6r denna v\u00e4rd"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
     },
     "chrome_experimental_rules": {
         "message": "Experimentella regler"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Visa alla regler"
     },
+    "options_addUpdateChannel": {
+        "message": "L\u00e4gg till uppdateringskanal"
+    },
     "options_advancedSettings": {
         "message": "Avancerade inst\u00e4llningar"
     },
     "options_autoUpdateRulesets": {
         "message": "Automatisk uppdatering av regler"
     },
+    "options_delete": {
+        "message": "Delete"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Aktivera regler med blandade inneh\u00e5ll"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Ange namn p\u00e5 uppdateringskanal"
     },
     "options_generalSettings": {
         "message": "Allm\u00e4nna Inst\u00e4llningar"
     },
     "options_showDevtoolsTab": {
         "message": "Visa fliken Devtools"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Lagrad version f\u00f6r reglerupps\u00e4ttning: "
+    },
+    "options_update": {
+        "message": "Uppdatera"
+    },
+    "options_updateChannels": {
+        "message": "Uppdatera kanaler"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Varning: Till\u00e4ggningen av uppdateringskanaler kan leda till att angripare kapar din webbl\u00e4sare. \u00c4ndra bara det h\u00e4r avsnittet om du vet vad du g\u00f6r!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Uppdateringar som senast kontrollerats: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "aldrig"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Exportera inst\u00e4llningar"
@@ -105,6 +144,6 @@
         "message": "\u00c5terst\u00e4ll till standardv\u00e4rden"
     },
     "prefs_reset_defaults_message": {
-        "message": "Detta \u00e5terst\u00e4ller varje regel till dess standardstatus. Forts\u00e4tta?"
+        "message": "Detta \u00e5terst\u00e4ller varje regel till dess standardv\u00e4rde. Forts\u00e4tta?"
     }
 }

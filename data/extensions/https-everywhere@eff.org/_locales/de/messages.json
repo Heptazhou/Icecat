@@ -18,7 +18,7 @@
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere hat festgestellt, dass Sie auf eine nicht-HTTPS-Seite navigieren m\u00f6chten und hat versucht, Ihnen stattdessen die HTTPS-Version zu senden. Die HTTPS-Version ist nicht verf\u00fcgbar. Wahrscheinlich unterst\u00fctzt diese Seite kein HTTPS, es ist aber auch m\u00f6glich, dass ein Angreifer die HTTPS-Version blockiert. Falls Sie die nicht verschl\u00fcsselte Version dieser Seite ansehen m\u00f6chten k\u00f6nnen Sie dass immer noch tun, indem Sie die Option &quot;Alle unverschl\u00fcsselten Anforderungen blockieren&quot; in Ihrer HTTPS Everywhere Extension deaktivieren. Nehmen Sie bitte zur Kenntnis, dass die Deaktivierung dieser Option Ihren Browser f\u00fcr Netzwerk-basierende Downgrade Attacks auf von Ihnen besuchten Internetseiten verletzlich macht."
+        "message": "HTTPS Everywhere hat festgestellt, dass Sie auf eine nicht-HTTPS-Seite navigieren m\u00f6chten, und hat versucht, Ihnen stattdessen die HTTPS-Version zu senden. Die HTTPS-Version ist nicht verf\u00fcgbar. Wahrscheinlich unterst\u00fctzt diese Seite kein HTTPS, es ist aber auch m\u00f6glich, dass ein Angreifer die HTTPS-Version blockiert. Falls Sie die nicht verschl\u00fcsselte Version dieser Seite ansehen m\u00f6chten, k\u00f6nnen Sie dass immer noch tun, indem Sie die Option &quot;Alle unverschl\u00fcsselten Anforderungen blockieren&quot; in Ihrer HTTPS Everywhere Extension deaktivieren. Nehmen Sie bitte zur Kenntnis, dass die Deaktivierung dieser Option Ihren Browser f\u00fcr Netzwerk-basierende Downgrade Attacks auf von Ihnen besuchten Internetseiten angreifbar macht."
     },
     "cancel_he_blocking_network": {
         "message": "Netzwerk-basierende Downgrade Attacks"
@@ -31,6 +31,12 @@
     },
     "chrome_always_https_for_host": {
         "message": "Benutze immer https f\u00fcr diesen host"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "HTTPS Everywhere auf dieser Website deaktivieren"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "HTTPS Everywhere auf dieser Website aktivieren"
     },
     "chrome_experimental_rules": {
         "message": "Experimentelle Regeln"
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Alle Regeln ansehen"
     },
+    "options_addUpdateChannel": {
+        "message": "Aktualisierungs-Quelle hinzuf\u00fcgen"
+    },
     "options_advancedSettings": {
         "message": "Erweiterte Einstellungen"
     },
     "options_autoUpdateRulesets": {
         "message": "Regels\u00e4tze automatisch aktualisieren"
     },
+    "options_delete": {
+        "message": "Entf"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere deaktivierte Webseiten"
+    },
     "options_enableMixedRulesets": {
         "message": "Regels\u00e4tze f\u00fcr gemischte Inhalte aktivieren"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Name der Aktualisierungs-Quelle eingeben"
     },
     "options_generalSettings": {
         "message": "Allgemeine Einstellungen"
     },
     "options_showDevtoolsTab": {
-        "message": "Entwicklungswerkzeuge Tab anzeigen"
+        "message": "Entwicklungswerkzeuge-Reiter anzeigen"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Regelsatz-Version:"
+    },
+    "options_update": {
+        "message": "Speichern"
+    },
+    "options_updateChannels": {
+        "message": "Aktualisierungs-Quellen"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warnung: Neue Quellen hinzuzuf\u00fcgen k\u00f6nnte es Angreifern erlauben, den Browser zu \u00fcbernehmen. Dieser Bereich sollte nur bearbeitet werden, wenn Sie wissen, was Sie tun."
+    },
+    "options_updatesLastChecked": {
+        "message": "Letzte Aktualisierung:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "nie"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere Benutzerregeln"
     },
     "prefs_export_settings": {
         "message": "Einstellungen exportieren"

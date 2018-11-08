@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Always use https for this host"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
+    },
     "chrome_experimental_rules": {
         "message": "Experimental rules"
     },
@@ -95,6 +101,9 @@
     "options_delete": {
         "message": "Delete"
     },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Enable mixed content rulesets"
     },
@@ -124,6 +133,9 @@
     },
     "options_updatesLastCheckedNever": {
         "message": "never"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Export Settings"

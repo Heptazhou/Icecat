@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Uvjek koristi https za ovog doma\u0107ina"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Onemogu\u0107i HTTPS Everywhere na ovoj stranici"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Omogu\u0107i HTTPS Everywhere na ovoj stranici"
+    },
     "chrome_experimental_rules": {
         "message": "Eksperimentalna pravila"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Pogledaj sva pravila"
     },
+    "options_addUpdateChannel": {
+        "message": "Dodaj kanal za a\u017euriranje"
+    },
     "options_advancedSettings": {
         "message": "Napredne postavke"
     },
     "options_autoUpdateRulesets": {
         "message": "Automatski a\u017euriraj nizove pravila"
     },
+    "options_delete": {
+        "message": "Obri\u0161i"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere onemogu\u0107ene stranice"
+    },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "Omogu\u0107i skupove pravila mije\u0161anog sadr\u017eaja"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Unesite ime kanala za a\u017euriranje"
     },
     "options_generalSettings": {
         "message": "Op\u0107e postavke"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Prika\u017ei Devtools karticu"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Verzija spremljenih skupova pravila:"
+    },
+    "options_update": {
+        "message": "A\u017euriraj"
+    },
+    "options_updateChannels": {
+        "message": "Kanal za a\u017euriranje"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+    },
+    "options_updatesLastChecked": {
+        "message": "A\u017euriranja zadnji put provjerena:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "nikad"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere pravila korisnika"
     },
     "prefs_export_settings": {
         "message": "Izvezi postavke"
@@ -105,6 +144,6 @@
         "message": "Vrati na po\u010detno"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Ovo \u0107e obnoviti svaki skup pravila na svoje zadano stanje. Nastavi?"
     }
 }

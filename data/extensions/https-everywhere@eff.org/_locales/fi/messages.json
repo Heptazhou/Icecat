@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "K\u00e4yt\u00e4 aina https t\u00e4lle is\u00e4nn\u00e4lle"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
+    },
     "chrome_experimental_rules": {
         "message": "Kokeelliset k\u00e4yt\u00e4nn\u00f6t"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "N\u00e4yt\u00e4 kaikki s\u00e4\u00e4nn\u00f6t"
     },
+    "options_addUpdateChannel": {
+        "message": "Add Update Channel"
+    },
     "options_advancedSettings": {
         "message": "Lis\u00e4asetukset"
     },
     "options_autoUpdateRulesets": {
         "message": "Auto-update rulesets"
     },
+    "options_delete": {
+        "message": "Poista"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "Enable mixed content rulesets"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Enter update channel name"
     },
     "options_generalSettings": {
         "message": "Yleiset asetukset"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Stored rulesets version: "
+    },
+    "options_update": {
+        "message": "P\u00e4ivit\u00e4"
+    },
+    "options_updateChannels": {
+        "message": "Update Channels"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Updates last checked: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "ei koskaan"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "Vie asetukset"

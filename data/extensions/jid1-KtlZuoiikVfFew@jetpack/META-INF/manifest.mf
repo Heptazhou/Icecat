@@ -2,21 +2,15 @@ Manifest-Version: 1.0
 
 Name: bundle.js
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: 6en04qcAU18ecDlENLfTlw==
-SHA1-Digest: 9o/KrI9OZHVJ04Guze33SZYA6jc=
-SHA256-Digest: Yq0zZogzXpo7fURcjxPyeln8NGl3Ok69B14XKIqP1RI=
-
-Name: contact_finder.js
-Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: q/te8c0vlLG/eykRRTaAVg==
-SHA1-Digest: rXmHK1oZCxtvo3pPu/b69+I4sko=
-SHA256-Digest: rUweT65BRWMtP8xWrqlZWNXL3cv9QTl9hKQRJ5iHC88=
+MD5-Digest: chnl5FFMGAinEHLcQuUqqg==
+SHA1-Digest: MnAW5ePdtZFoxR44zTuhPsgS3sM=
+SHA256-Digest: rAnXKFhbofKxsMBkJc7AIqXPvOOAA7YqJJs+9Oa9UYc=
 
 Name: manifest.json
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: G9ICf62jdF9HQ4lY6CTH3g==
-SHA1-Digest: t/B/vPtRsG19/h9HxfquWvCTRcw=
-SHA256-Digest: MlytL27Z277zKvkch7BG2OGizYWNRV1wmTTQx2MLnmQ=
+MD5-Digest: DP7iWDR2WO63YX58ICbyyg==
+SHA1-Digest: 0GC61V7+4ekeT36GNT3r3k3Sxuw=
+SHA256-Digest: Ym+wro43TH9HqfxH1sPRDRAxiHqllCoGeSItnjTiOuk=
 
 Name: common/Storage.js
 Digest-Algorithms: MD5 SHA1 SHA256
@@ -24,11 +18,35 @@ MD5-Digest: XknN7QnoZ+4hUyB8Iq9p4Q==
 SHA1-Digest: ULBbLu6E4/AxcM13yJgh0WL7mg0=
 SHA256-Digest: eqlSKI2pauLf2OfK0oJbtM1dmBpTDDDcGDJwqteWg8o=
 
+Name: common/Test.js
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: /xrvG2mKv/WwH2xV6le5vw==
+SHA1-Digest: V6rYjMO15exXtS8Gsk6qzutJHzY=
+SHA256-Digest: BvUhNJgjyuD4MGFa3Ga2gEDunpwbn8PiDt1zeG9SJRs=
+
+Name: content/contactFinder.js
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: PWVDe7GG9dSGs3ml0tSUPw==
+SHA1-Digest: 6kejS+GJk1afxi0q0xhCf61QKIw=
+SHA256-Digest: 5sJk/9cmVNxCQAk9tFUuzXTZceDI7hXlRkUY2OqWL1Q=
+
+Name: content/dialog.css
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: W8uik0AALIYU8sh9/lyJjA==
+SHA1-Digest: OtHx7b2GxD8MYhJ2WJ6+FESRLt0=
+SHA256-Digest: PmP1jGEKgeLl698KLlhzFHKr1kKuXGjs2fekHWfri40=
+
 Name: content/externalLicenseChecker.js
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: kgiipkwEPP4VVS2UsjZpgw==
-SHA1-Digest: 7oBFXS9UowGs/1+cYzTgMzy8OPg=
-SHA256-Digest: cl8v1UKiuokgyvEBhpsT8bz1ow6jkrFJhYGDgvS+Cis=
+MD5-Digest: Sl2FdQKCTDjZjyUMSMBvhw==
+SHA1-Digest: hMvdvWdSf/w9EvoTCZfaTTeBDWs=
+SHA256-Digest: MrvR4yCtKDVzKOKf2LIef6uTbYctTX3J84QFReMuvgw=
+
+Name: content/overlay.css
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: hLA4XnU1U6SRi4eY1k56Vw==
+SHA1-Digest: HiornR2qULIjaGkBgK9+4mo6zhE=
+SHA256-Digest: QpbfWaEXXtxpCOA7o11c0plSmemhdrEp/AJF8uegrME=
 
 Name: html/background-panel.png
 Digest-Algorithms: MD5 SHA1 SHA256
@@ -38,9 +56,9 @@ SHA256-Digest: 8QXq/xEzAlvUjmlnoLZsSUNRzJVMlXfxvHXg+CjQCeo=
 
 Name: html/common.css
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: w9MbKnB8IOM18qpvD6VT5Q==
-SHA1-Digest: WV0HlFwt+OUxUDjSRh/cQ02b3GA=
-SHA256-Digest: 82940VEzo4bAK2BzdHa24RvUnbQtY2sTA3igZZUJcXg=
+MD5-Digest: /UyMvbNRLkMg16SUWBwfOQ==
+SHA1-Digest: o6/zL7koozqruepEs+gvg5oUbb8=
+SHA256-Digest: yxeB+bGnBghAhvZ0yzdf5Lz429egs72Z16L32bL16lo=
 
 Name: html/librejs-title.png
 Digest-Algorithms: MD5 SHA1 SHA256
@@ -56,21 +74,21 @@ SHA256-Digest: woimzHpj0kwEyX4pkh/OEWZg+nZMy//j3FFaxIUUSqE=
 
 Name: html/display_panel/content/display-panel.html
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: 9oTVelB+xHtOGKvQiQr9lQ==
-SHA1-Digest: NxAh/UW9LRRjSDdrPUCSqJezXt0=
-SHA256-Digest: d1QN45dTcRq7wWIh+B9AIFKRget6sd6i79+ir14459k=
+MD5-Digest: V1BZ0u/h4aPJkUW16tVEGQ==
+SHA1-Digest: 8ENBA17b5EPEhy0rhYsIrFldg1w=
+SHA256-Digest: krlx07T1g/t9XN9uPUJlAwA4Yf2JdbCCt55aSZW6+tY=
 
 Name: html/display_panel/content/main_panel.js
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: Z6/u/Xo7tD2Ge3wWMXg3PQ==
-SHA1-Digest: vMOHBFepDnzRFsflnoM6Md13Cno=
-SHA256-Digest: AQb3IJ3Wot6OWGeuW8vKioc/7d7SAkHiRoUp1Vvy9+U=
+MD5-Digest: mlLUTOuI0OiELp8rehU0bg==
+SHA1-Digest: saTukDvddiD+UY/Mavb8S2VYx6o=
+SHA256-Digest: oF74xayKVPIZY7n9+OKaSAdvwScEMtD1IOb9dix32D4=
 
 Name: html/display_panel/content/panel-styles.css
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: ceuW5hugF2ei2xuk9spiWA==
-SHA1-Digest: PZjIwk54Dmk/oMngCfZrHiIbWEc=
-SHA256-Digest: ptawtRBknBtsqY72T4kGvwHPycfRRsjyjcMR8Q3P+ok=
+MD5-Digest: 1CWzvMVt54XKDtxrNmcuwg==
+SHA1-Digest: nUIHXk8Z4nnsjD4IHYjdebSPh2Y=
+SHA256-Digest: puM8ec8cOeAVOb1P9pMV0fVDfyO8DpbjnkkKl+K0Aws=
 
 Name: html/preferences_panel/pref.js
 Digest-Algorithms: MD5 SHA1 SHA256
@@ -80,15 +98,15 @@ SHA256-Digest: 1+YDHE3wec6bgOwpvYisodDxLgqswy372azfiZIPfNo=
 
 Name: html/preferences_panel/preferences_panel.html
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: knFSyZ0Kx1rJnyV1GxFKZQ==
-SHA1-Digest: 8MRg2ICuSJnR1wNGnwDSFmlgMfU=
-SHA256-Digest: QsDHDI7d7F1yTy8S5UFDMun5ifc88fHpBHJsnJhmkLE=
+MD5-Digest: Ue6bF5KLFYQm7dA2mD5Frg==
+SHA1-Digest: N8YMrhm+Pu/V5Ms18ZejVV64ZgY=
+SHA256-Digest: goUr8B3e5DDVuvJjfprkGVhL93Blm5W7djf396hNdnM=
 
 Name: html/preferences_panel/prefs.css
 Digest-Algorithms: MD5 SHA1 SHA256
-MD5-Digest: exN7vR4k3Q23xWFcJVsvKQ==
-SHA1-Digest: 4M/iQCvCKCONmOCvZ/dGi+Ms7iE=
-SHA256-Digest: Olzdei+a43eQ2pfy6yrTB6lFgbq9lMb3x03gl0PJGcQ=
+MD5-Digest: Gddgx9kXNYTFXmjosSr61g==
+SHA1-Digest: pcsCRYBKnwUyTcRWuvjCTuQ/1ow=
+SHA256-Digest: tka3B4VXzE/NnqA5QUSqUWqMGtGsjOyYaqrbB/mISdk=
 
 Name: icons/librejs.png
 Digest-Algorithms: MD5 SHA1 SHA256

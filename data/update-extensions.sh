@@ -2,7 +2,7 @@
 
 set -e
 
-for extension in librejs https-everywhere librejs-usps-compatibility free-js-for-rsf-org-petitions librejs-compatible-sumofus-org librejs-compatible-pay-gov submit-me rock-and-roll-mcdonald-s goteo-org-payments-w-free-js use-google-drive-with-librejs tprb; do
+for extension in librejs https-everywhere librejs-usps-compatibility free-js-for-rsf-org-petitions librejs-compatible-sumofus-org librejs-compatible-pay-gov submit-me rock-and-roll-mcdonald-s goteo-org-payments-w-free-js use-google-drive-with-librejs tortm-browser-button; do
 
   rm -rf /tmp/update-extension
   mkdir /tmp/update-extension
@@ -17,6 +17,7 @@ for extension in librejs https-everywhere librejs-usps-compatibility free-js-for
   if [ -f /tmp/update-extension/manifest.json ]; then
     ID=$(grep '"id":' /tmp/update-extension/manifest.json |head -n1|cut -d \" -f 4)
   fi
+  [ $extension = "tortm-browser-button" ] && ID="tortm-browser-button@jeremybenthum"
 
   rm -rf extensions/$ID
   mv /tmp/update-extension extensions/$ID

@@ -1,4 +1,7 @@
 /* global sendMessage */
+/* global getOption_ */
+/* global e */
+/* global hide */
 
 "use strict";
 
@@ -116,6 +119,28 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channel_path_prefix.value = update_channel.update_path_prefix;
     update_channel_path_prefix_column_right.appendChild(update_channel_path_prefix);
 
+    let clearer = document.createElement('div');
+    clearer.className = "clearer";
+    update_channel_div.appendChild(clearer);
+
+    const update_channel_row_scope = document.createElement('div');
+    update_channel_row_scope.className = "update-channel-row-scope";
+    update_channel_div.appendChild(update_channel_row_scope);
+    const update_channel_scope_column_left = document.createElement('div');
+    update_channel_scope_column_left.className = "update-channel-column-left";
+    update_channel_scope_column_left.innerText = "Scope:";
+    update_channel_row_scope.appendChild(update_channel_scope_column_left);
+    const update_channel_scope_column_right = document.createElement('div');
+    update_channel_scope_column_right.className = "update-channel-column-right";
+    update_channel_row_scope.appendChild(update_channel_scope_column_right);
+    const update_channel_scope = document.createElement('input');
+    update_channel_scope.setAttribute("type", "text");
+    update_channel_scope.className = "update-channel-scope";
+    update_channel_scope.setAttribute("data-name", update_channel.name);
+    update_channel_scope.disabled = pinned;
+    update_channel_scope.value = update_channel.scope;
+    update_channel_scope_column_right.appendChild(update_channel_scope);
+
     const update_channel_row_controls = document.createElement('div');
     update_channel_row_controls.className = "update-channel-row-controls";
     update_channel_div.appendChild(update_channel_row_controls);
@@ -139,7 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channel_delete.innerText = chrome.i18n.getMessage("options_delete");
     update_channel_controls_column_right.appendChild(update_channel_delete);
 
-    const clearer = document.createElement('div');
+    clearer = document.createElement('div');
     clearer.className = "clearer";
     update_channel_div.appendChild(clearer);
 
@@ -153,7 +178,8 @@ document.addEventListener("DOMContentLoaded", () => {
       sendMessage("update_update_channel", {
         name: update_channel.name,
         jwk: JSON.parse(update_channel_jwk.value),
-        update_path_prefix: update_channel_path_prefix.value
+        update_path_prefix: update_channel_path_prefix.value,
+        scope: update_channel_scope.value
       }, () => {
         render_update_channels();
       });
@@ -206,6 +232,75 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channels_error.style.display = "block";
     window.scrollTo(0,0);
   }
+
+  // Get a list of user Rules
+  sendMessage("get_user_rules", null, userRules => {
+    let user_rules_parent = e("user-rules-wrapper");
+
+    if ( 0 === userRules.length) {
+      hide(user_rules_parent);
+      return ;
+    }
+
+    // img element "remove button"
+    let templateRemove = document.createElement("img");
+    templateRemove.src = chrome.extension.getURL("images/remove.png");
+    templateRemove.className = "remove";
+
+    for (const userRule of userRules) {
+      let user_rule_host = document.createElement("div");
+      let user_rule_name = document.createElement("p");
+      let remove = templateRemove.cloneNode(true);
+
+      user_rule_host.className = "user-rules-list-item";
+      user_rule_name.className = "user-rules-list-item-single"
+      user_rule_name.innerText = userRule.name;
+      user_rule_host.appendChild(user_rule_name);
+      user_rules_parent.appendChild(user_rule_host);
+      user_rule_host.appendChild(remove);
+
+      remove.addEventListener("click", () => {
+        // assume the removal is successful and hide ui element
+        hide( user_rule_host );
+        // remove the user rule
+        sendMessage("remove_rule", { ruleset: userRule, src: 'options' });
+      });
+    }
+  })
+
+  // HTTPS Everywhere Sites Disabled section in General Settings module
+  getOption_("disabledList", [], function(item) {
+    let rule_host_parent = e("disabled-rules-wrapper");
+
+    if( 0 === item.disabledList.length ){
+      hide(rule_host_parent);
+      return;
+    }
+    // img element "remove button"
+    let templateRemove = document.createElement("img");
+    templateRemove.src = chrome.extension.getURL("images/remove.png");
+    templateRemove.className = "remove";
+
+    if( item ){
+      for (const key of item.disabledList) {
+        let rule_host = document.createElement("div");
+        let remove = templateRemove.cloneNode(true);
+        let rule_host_site_name = document.createElement("p");
+
+        rule_host.className = "disabled-rule-list-item";
+        rule_host_site_name.className = "disabled-rule-list-item_single"
+        rule_host_site_name.innerText = key;
+        rule_host.appendChild( rule_host_site_name);
+        rule_host_parent.appendChild(rule_host);
+        rule_host.appendChild(remove);
+
+        remove.addEventListener("click", () => {
+          hide( rule_host );
+          sendMessage("enable_on_site", key);
+        });
+      }
+    }
+  });
 
   add_update_channel.addEventListener("click", () => {
     const update_channel_name = update_channel_name_div.value;

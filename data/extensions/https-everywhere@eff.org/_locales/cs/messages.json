@@ -3,25 +3,25 @@
         "message": "P\u0159idat nov\u00e9 pravidlo"
     },
     "about_ext_description": {
-        "message": "Za\u0161ifrujte Web! Automaticky pou\u017e\u00edvejte HTTPS zabezpe\u010den\u00ed na mnoha str\u00e1nk\u00e1ch."
+        "message": "\u0160ifrujte! Pou\u017e\u00edvejte automaticky zabezpe\u010den\u00e9 HTTPS na mnoha str\u00e1nk\u00e1ch."
     },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Verze sady pravidel pro"
     },
     "about_title": {
-        "message": "O aplikaci HTTPS Everywhere"
+        "message": "O HTTPS Everywhere"
     },
     "about_version": {
         "message": "Verze"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere si v\u0161imlo p\u0159echodu na str\u00e1nku bez HTTPS a pokusilo se zaslat nam\u00edsto toho HTTPS verzi. Verze s HTTPS je nedostupn\u00e1. Tato str\u00e1nka pravd\u011bpodobn\u011b HTTPS nepodporuje nebo je \u00fato\u010dn\u00edk blokuje HTTPS. Pokud chcete zobrazit ne\u0161ifrovanou verzi t\u00e9to str\u00e1nky, vypn\u011bte v nastaven\u00ed roz\u0161\u00ed\u0159en\u00ed HTTPS Everywhere volbu &quot;Blokovat v\u0161echny ne\u0161ifrovan\u00e9 po\u017eadavky&quot;. M\u011bjte pros\u00edm na pam\u011bti, \u017ee vypnut\u00edm bude v\u00e1\u0161 prohl\u00ed\u017ee\u010d zraniteln\u00fd v\u016f\u010di s\u00ed\u0165ov\u00fdm degrada\u010dn\u00edm \u00fatok\u016fm na str\u00e1nk\u00e1ch, kter\u00e9 nav\u0161t\u00edv\u00edte."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "s\u00ed\u0165ov\u00fd degrada\u010dn\u00ed \u00fatok"
     },
     "chrome_add_new_rule": {
         "message": "P\u0159idat nov\u00e9 pravidlo pro tuto str\u00e1nku"
@@ -30,7 +30,13 @@
         "message": "P\u0159idat pravidlo pro tuto str\u00e1nku"
     },
     "chrome_always_https_for_host": {
-        "message": "V\u017edy pou\u017e\u00edvat https pro tohoto hostitele"
+        "message": "V\u017edy pou\u017e\u00edvat https pro tento server"
+    },
+    "chrome_disable_on_this_site": {
+        "message": "Vypnout HTTPS Everywhere pro tento server"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Zapnout HTTPS Everywhere pro tento server"
     },
     "chrome_experimental_rules": {
         "message": "Experiment\u00e1ln\u00ed pravidla"
@@ -39,22 +45,22 @@
         "message": "M\u016f\u017ee zp\u016fsobit upozorn\u011bn\u00ed nebo chyby. Zak\u00e1z\u00e1no ve v\u00fdchoz\u00edm nastaven\u00ed."
     },
     "chrome_hide_advanced": {
-        "message": "Skr\u00fdt pokro\u010dil\u00e9"
+        "message": "Skr\u00fdt roz\u0161\u00ed\u0159en\u00e9"
     },
     "chrome_host": {
-        "message": "Hostitel:"
+        "message": "Server:"
     },
     "chrome_redirect_to": {
         "message": "P\u0159esm\u011brovat na"
     },
     "chrome_regex": {
-        "message": "Vyhovuj\u00edc\u00ed regul\u00e1rn\u00ed v\u00fdrazy"
+        "message": "Vyhovuj\u00edc\u00ed regul\u00e1rn\u00ed v\u00fdraz"
     },
     "chrome_rule_name": {
-        "message": "Jm\u00e9no pravidla"
+        "message": "N\u00e1zev pravidla"
     },
     "chrome_show_advanced": {
-        "message": "Zobrazit pokro\u010dil\u00e9"
+        "message": "Zobrazit roz\u0161\u00ed\u0159en\u00e9"
     },
     "chrome_stable_rules": {
         "message": "Stabiln\u00ed pravidla"
@@ -66,16 +72,16 @@
         "message": "Zru\u0161it"
     },
     "menu_blockUnencryptedRequests": {
-        "message": "Zablokovat v\u0161echny ne\u0161ifrovan\u00e9 po\u017eadavky"
+        "message": "Blokovat v\u0161echny ne\u0161ifrovan\u00e9 po\u017eadavky"
     },
     "menu_donate_eff_imperative": {
-        "message": "P\u0159isp\u011bt na EFF"
+        "message": "P\u0159isp\u011bt EFF"
     },
     "menu_globalEnable": {
         "message": "Zapnout HTTPS Everywhere"
     },
     "menu_observatory": {
-        "message": "Nastaven\u00ed SSL Observato\u0159e"
+        "message": "Nastaven\u00ed SSL observato\u0159e"
     },
     "menu_showCounter": {
         "message": "Zobrazit po\u010d\u00edtadlo"
@@ -83,28 +89,61 @@
     "menu_viewAllRules": {
         "message": "Zobrazit v\u0161echna pravidla"
     },
+    "options_addUpdateChannel": {
+        "message": "Aktualiza\u010dn\u00ed kan\u00e1l aplikace"
+    },
     "options_advancedSettings": {
         "message": "Roz\u0161\u00ed\u0159en\u00e9 nastaven\u00ed"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Automaticky aktualizovat sady pravidel"
+    },
+    "options_delete": {
+        "message": "Smazat"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Str\u00e1nky HTTPS Everywhere zak\u00e1z\u00e1ny"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "Povolit sady pravidel pro sm\u00ed\u0161en\u00fd obsah"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Zadejte n\u00e1zev aktualiza\u010dn\u00edho kan\u00e1lu"
     },
     "options_generalSettings": {
         "message": "Hlavn\u00ed nastaven\u00ed"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Zobrazit panel v n\u00e1stroj\u00edch pro v\u00fdvoj\u00e1\u0159e"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Verze ulo\u017een\u00fdch sad pravidel:"
+    },
+    "options_update": {
+        "message": "Aktualizovat"
+    },
+    "options_updateChannels": {
+        "message": "Aktualizovat kan\u00e1ly"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Varov\u00e1n\u00ed: P\u0159id\u00e1n\u00ed aktualiza\u010dn\u00edho kan\u00e1lu m\u016f\u017ee vystavit v\u00e1\u0161 po\u010d\u00edta\u010d riziku \u00fatoku. Nastaven\u00ed v t\u00e9to sekci upravujte jen pokud opravdu v\u00edte, co d\u011bl\u00e1te."
+    },
+    "options_updatesLastChecked": {
+        "message": "Posledn\u00ed kontrola aktualizac\u00ed:"
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "nikdy"
+    },
+    "options_userRulesListed": {
+        "message": "U\u017eivatelsk\u00e1 pravidla pro HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Exportovat nastaven\u00ed"
     },
     "prefs_reset_defaults": {
-        "message": "Vr\u00e1tit v\u00fdchoz\u00ed nastaven\u00ed"
+        "message": "Obnovit v\u00fdchoz\u00ed nastaven\u00ed"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Toto obnov\u00ed ka\u017edou sadu pravidel do jej\u00edho v\u00fdchoz\u00edho stavu. Pokra\u010dovat?"
     }
 }

@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "Always use https for this host"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Disable HTTPS Everywhere on this site"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Enable HTTPS Everywhere on this site"
+    },
     "chrome_experimental_rules": {
         "message": "\u0a2a\u0a4d\u0a30\u0a2f\u0a4b\u0a17\u0a3e\u0a24\u0a2e\u0a15 \u0a28\u0a3f\u0a2f\u0a2e"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "\u0a38\u0a3e\u0a30\u0a47 \u0a28\u0a3f\u0a2f\u0a2e \u0a35\u0a3f\u0a16\u0a3e\u0a13 "
     },
+    "options_addUpdateChannel": {
+        "message": "Add Update Channel"
+    },
     "options_advancedSettings": {
         "message": "\u0a24\u0a15\u0a28\u0a40\u0a15\u0a40 \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a1c\u0a3c"
     },
     "options_autoUpdateRulesets": {
         "message": "Auto-update rulesets"
     },
+    "options_delete": {
+        "message": "Delete"
+    },
+    "options_disabledUrlsListed": {
+        "message": "HTTPS Everywhere Sites Disabled"
+    },
     "options_enableMixedRulesets": {
         "message": "\u0a2e\u0a3f\u0a38\u0a3c\u0a30\u0a24 \u0a38\u0a2e\u0a71\u0a17\u0a30\u0a40 \u0a28\u0a3f\u0a2f\u0a2e \u0a28\u0a42\u0a70 \u0a2f\u0a4b\u0a17 \u0a15\u0a30\u0a4b"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Enter update channel name"
     },
     "options_generalSettings": {
         "message": "\u0a06\u0a2e \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a1c\u0a3c"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Stored rulesets version: "
+    },
+    "options_update": {
+        "message": "Update"
+    },
+    "options_updateChannels": {
+        "message": "Update Channels"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Updates last checked: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "never"
+    },
+    "options_userRulesListed": {
+        "message": "HTTPS Everywhere User Rules"
     },
     "prefs_export_settings": {
         "message": "\u0a28\u0a3f\u0a30\u0a2f\u0a3e\u0a24 \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a1c\u0a3c"

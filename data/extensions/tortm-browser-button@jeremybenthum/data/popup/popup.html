@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="popup.css"/>
+    <link rel="stylesheet" type="text/css" href="explore/explore.css"/>
+  </head>
+  <body>
+    <div class="content">
+      <table class="controls">
+        <tr>
+          <td title="Connect to TOR proxy" id="ON"></td>
+          <td title="Disconnect from TOR proxy" id="OFF"></td>
+        </tr>
+        <tr><td colspan=2><p class="description">Do not use TOR for the following addresses (comma separated)</p></td></tr>
+        <tr><td colspan=2><textarea id="whitelist" placeholder="i.e. <local>, foobar.com, *foobar.com, *.foobar.com, *foobar.com:99, https://x.*.y.com:99"></textarea></td></tr>
+        <tr>
+          <td colspan=2>
+            <table class="footer">
+              <tr>
+                <td id="status">Tor Browser Button</td>
+                <td id="install" title="Open github repo to get TOR patch files"></td>
+                <td id="check" title="Check tor connection via: check.torproject.org"></td>
+                <td id="support" title="Open support page"></td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="explore"></div>
+    <script async src="explore/explore.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

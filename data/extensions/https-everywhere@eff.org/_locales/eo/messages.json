@@ -32,6 +32,12 @@
     "chrome_always_https_for_host": {
         "message": "\u0108iam uzi https por tiu \u0109i retejo"
     },
+    "chrome_disable_on_this_site": {
+        "message": "Malaktivigi HTTPS-\u0108ie por tiu \u0109i retejo"
+    },
+    "chrome_enable_on_this_site": {
+        "message": "Aktivigi HTTPS-\u0108ie por tiu \u0109i retejo"
+    },
     "chrome_experimental_rules": {
         "message": "Eksperimentaj reguloj"
     },
@@ -83,20 +89,53 @@
     "menu_viewAllRules": {
         "message": "Montri \u0109iujn regulojn"
     },
+    "options_addUpdateChannel": {
+        "message": "Aldoni \u011disdatigan kanalon"
+    },
     "options_advancedSettings": {
         "message": "Altnivelaj agordoj"
     },
     "options_autoUpdateRulesets": {
         "message": "A\u016dtomate \u011disdatigi regulojn"
     },
+    "options_delete": {
+        "message": "Forigi"
+    },
+    "options_disabledUrlsListed": {
+        "message": "Retejoj malaktivigitaj por HTTPS-\u0108ie"
+    },
     "options_enableMixedRulesets": {
         "message": "En\u015dalti regulojn de miksita enhavo"
+    },
+    "options_enterUpdateChannelName": {
+        "message": "Entajpu nomon por \u011disdatiga kanalo"
     },
     "options_generalSettings": {
         "message": "\u011ceneralaj agordoj"
     },
     "options_showDevtoolsTab": {
         "message": "Montri langeton de programista ilaro"
+    },
+    "options_storedRulesetsVersion": {
+        "message": "Versio de reguloj:"
+    },
+    "options_update": {
+        "message": "\u011cisdatigi"
+    },
+    "options_updateChannels": {
+        "message": "\u011cisdatigaj kanaloj"
+    },
+    "options_updateChannelsWarning": {
+        "message": "Averto: aldoni \u011disdatigajn kanalojn povas ebligi al atakantoj kontroli vian retumilon. Nur redaktu tiun \u0109i sekcion se vi scias, kion vi faras!"
+    },
+    "options_updatesLastChecked": {
+        "message": "Laste kontrolis pri \u011disdatigo je: "
+    },
+    "options_updatesLastCheckedNever": {
+        "message": "neniam"
+    },
+    "options_userRulesListed": {
+        "message": "Reguloj de uzanto"
     },
     "prefs_export_settings": {
         "message": "Elporti agordojn"
@@ -105,6 +144,6 @@
         "message": "Re\u015dargi al aprioraj"
     },
     "prefs_reset_defaults_message": {
-        "message": "Tio \u0109i agordos \u0109iun regulon al implicita stato? \u0108u pluigi?"
+        "message": "Tio \u0109i agordos \u0109iun regulon al implicita stato. \u0108u pluigi?"
     }
 }
