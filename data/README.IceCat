@@ -1,6 +1,6 @@
 This is the README file for the GNU IceCat distribution.
 
-Copyright (C) 2014, 2015 Ruben Rodriguez <ruben@gnu.org>
+Copyright (C) 2014-2018 Ruben Rodriguez <ruben@gnu.org>
 Copyright (C) 2006, 2007, 2008, 2010, 2011, 2012, 2014 Free Software Foundation, Inc.
 
 Copying and distribution of this file, with or without modification,
@@ -82,33 +82,6 @@ LICENSING
 Because we hope and want our privacy enhancements to be picked up by
 Mozilla itself, we are keeping the same tri-licensing scheme for
 Gnuzilla/IceCat as Mozilla uses: MPL/GPL/LGPL.
-
-EXTENSIONS INCLUDED IN ICECAT 31.x
-==================================
-
-* LibreJS
-  GNU LibreJS aims to address the JavaScript problem described in Richard
-  Stallman's article The JavaScript Trap.
-  http://www.gnu.org/philosophy/javascript-trap.html
-
-* Https-Everywhere
-  Extension that encrypts your communications with many major websites,
-  making your browsing more secure.
-
-* SpyBlock
-  Blocks privacy trackers while in normal browsing mode, and all third party
-  requests when in private browsing mode. Based on Adblock Plus.
-
-* AboutIceCat
-  Adds a custom homepage with links to information about the  free software 
-  and privacy features in IceCat, and checkboxes to enable and disable the 
-  ones more prone to break websites.
-
-* html5-video-everywhere
-  Uses the native video player to play embedded videos from different sources
-  https://github.com/lejenome/html5-video-everywhere
-
-All the extensions are released under the GNU Public License.
 
 CONTRIBUTORS AND HELP
 =====================

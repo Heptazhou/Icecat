@@ -1,3 +1,26 @@
+2018-11-07 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v60.3.0ESR
+	* New about:home allows to tune the privacy settings and enable key extensions.
+	* First release including the re-implementation of LibreJS using WebExtensions.
+	* LibreJS companion extensions allow to use some sites without running their nonfree scripts, including: usps.com, pay.gov, goteo.org, Google drive, McDonalds wireless hotspots, rsf.org, sumofus.org
+	* Applied default settings and other changes that prevent IceCat from initiating connections that the user didn't explicitly request.
+	* Third-party requests blocked by default, with graphical interface for manageing exceptions.
+	* Simple TOR network integration (requires running TOR separately at the operating system level).
+	* Extensions:
+		"GNU LibreJS" 7.18.1
+		  LibreJS companion extensions:
+		    "LibreJS compatible Pay.gov" 1.2
+		    "LibreJS/USPS compatibility" 1.0
+		    "Goteo.org payments with free JS" 1.1
+		    "LibreJS Google Drive" 1.0
+		    "Rock and Roll McDonald's" 1.0
+		    "Sign RSF.org petitions with free Javascript" 1.1
+		    "LibreJS compatible SumOfUs.org" 1.1
+		"HTTPS Everywhere" 1.0.0
+		"Reveal hidden HTML" 1.6
+		"Tor™ Browser Button" 0.1.5
+		"Searxes' Third-party Request Blocker" 1.0.14
+
 2018-02-25 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v52.6.0ESR
 	* Extensions:
