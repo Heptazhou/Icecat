@@ -24,4 +24,5 @@ for extension in librejs https-everywhere librejs-usps-compatibility free-js-for
 
 done
 
+sed '/type=install/s=^=//=' -i extensions/tortm-browser-button@jeremybenthum/lib/common.js
 sed '/autoUpdateRulesets/s/true/false/' -i extensions/https-everywhere@eff.org/pages/options/ux.js extensions/https-everywhere@eff.org/background-scripts/update.js

@@ -1,7 +1,7 @@
 window.setTimeout(function () {
   var version = config.welcome.version;
   if (!version) {
-    app.tab.open(app.homepage() + "?v=" + app.version() + "&type=install");
+//    app.tab.open(app.homepage() + "?v=" + app.version() + "&type=install");
     config.welcome.version = app.version();
   }
 }, 3000);
