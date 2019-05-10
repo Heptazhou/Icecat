@@ -17,7 +17,7 @@
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
 #
 
-set -e
+set -euxo pipefail
 
 FFMAJOR=60
 FFMINOR=3
@@ -45,6 +45,7 @@ wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr
 wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz.asc
 gpg --recv-keys --keyserver keyserver.ubuntu.com 24C6F355
 gpg --verify firefox-${FFVERSION}esr.source.tar.xz.asc
+echo -n eebf34968c64cf8c007dd0da98124edf55cdda141f8b4c653e8e00b22650833e firefox-${FFVERSION}esr.source.tar.xz |sha256sum -c -
 
 echo Extracting Firefox tarball
 tar -xf firefox-${FFVERSION}esr.source.tar.xz
