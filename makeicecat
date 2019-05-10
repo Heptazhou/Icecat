@@ -27,10 +27,6 @@ FFVERSION=$FFMAJOR.$FFMINOR.$FFSUB
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
 
-# http://bazaar.launchpad.net/~mozillateam/firefox/firefox.trusty/changes
-CODENAME=xenial
-REVISION=1253
-
 export DEBEMAIL=ruben@gnu.org
 export DEBFULLNAME="Ruben Rodriguez"
 
@@ -54,27 +50,6 @@ echo Extracting Firefox tarball
 tar -xf firefox-${FFVERSION}esr.source.tar.xz
 
 mv firefox-${FFVERSION} $SOURCEDIR
-
-###############################################################################
-# Retrieve /debian from Ubuntu
-###############################################################################
-
-rm -rf firefox.$CODENAME
-bzr branch https://code.launchpad.net/~mozillateam/firefox/firefox.$CODENAME
-cd firefox.$CODENAME
-bzr revert -r$REVISION
-echo '3.0 (native)' > debian/source/format
-
-for PATCH in ubuntu-bookmarks.patch ubuntu-ua-string-changes.patch unity-menubar.patch ubuntu-search-defaults.patch fix-make-package-tests-without-webrtc.patch revert-upstream-search-engine-changes.patch
-do
-  rm debian/patches/$PATCH
-  sed "/$PATCH/d" -i debian/patches/series
-done
-sed "/test-/d" -i debian/patches/series
-cd ..
-
-mv firefox.$CODENAME/debian $SOURCEDIR
-rm -rf firefox.$CODENAME
 
 ###############################################################################
 # Retrieve l10n
@@ -112,9 +87,7 @@ cd $SOURCEDIR
 #done
 
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
-cp $DATA/Changelog.IceCat $DATA/README.IceCat debian
-echo 'debian/README.IceCat
-debian/Changelog.IceCat' >>  debian/docs
+cp $DATA/Changelog.IceCat $DATA/README.IceCat
 
 ###############################################################################
 # Functions
@@ -182,18 +155,6 @@ LEGALINFOURL="www.gnu.org/software/gnuzilla/"
 ADDONSURL="www.gnu.org/software/gnuzilla/addons.html"
 LISTURL="lists.gnu.org/mailman/listinfo/bug-gnuzilla"
 
-cat << EOF > debian/distribution.ini
-[Global]
-id=gnu
-version=$ICECATVERSION
-about=GNU IceCat
-
-[Preferences]
-app.distributor = "GNU"
-app.distributor.channel = "GNU"
-app.partner.ubuntu = "GNU"
-EOF
-
 ###############################################################################
 # Custom settings and features
 ###############################################################################
@@ -201,7 +162,6 @@ EOF
 # Disable EME
 echo "ac_add_options --disable-eme" >> build/mozconfig.common.override
 echo "ac_add_options --disable-eme" >> build/mozconfig.common
-echo "ac_add_options --disable-eme" >> debian/config/mozconfig.in
 
 # Disable healthreport
 sed '/mozilla.org\/legal/d' -i toolkit/components/telemetry/healthreport-prefs.js
@@ -212,15 +172,8 @@ EOF
 # Custom privacy statement link
 sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
 
-# Set vendor string
-sed 's/com.ubuntu/org.gnu/' -i debian/config/mozconfig.in
-
 # Copy custom ddg search plugin
 find |grep -e ddg.xml -e duckduckgo.*.xml | xargs -i cp $DATA/searchplugins/duckduckgo.xml {}
-
-# Unbrand url codes for google and amazon
-find debian/searchplugins |grep google| xargs -i /bin/sed '/ubuntu/d; /channel/d' -i {}
-find debian/searchplugins |grep amazon| xargs -i /bin/sed '/canoniccom/d;' -i {}
 
 # Sanitize lists
 for file in $(find |grep searchplugins/list.txt)
@@ -230,11 +183,6 @@ do
   cp /tmp/sorttmp $file
   echo >> $file
 done
-
-# contact link
-#sed "s_https://input.mozilla.org/feedback_https://${LISTURL}_" -i browser/base/content/utilityOverlay.js
-sed  "s/^MOZ_APP_NAME\t.*/MOZ_APP_NAME\t\t:= icecat/;" debian/build/config.mk -i
-sed  "s/^MOZ_PKG_NAME\t.*/MOZ_PKG_NAME\t\t:= icecat/;" debian/build/config.mk -i
 
 # Disable activity-stream antifeatures.
 # These are not condensed into a single sed script to make it fail on individual commands that didn't change the source
@@ -269,25 +217,12 @@ cp -a $DATA/branding/icecatmobile/ mobile/android/branding/unofficial
 cp -a $DATA/branding/icecatmobile/ mobile/android/branding/nightly
 # Disable preprocessor
 sed 's/_PP//' -i browser/branding/branding-common.mozbuild
-cat << EOF > debian/config/branch.mk
-CHANNEL                 = release
-MOZ_WANT_UNIT_TESTS     = 0
-MOZ_BUILD_OFFICIAL      = 0
-MOZ_ENABLE_BREAKPAD     = 0
-MOZ_ENABLE_TELEMETRY    = 0
-
-MOZILLA_REPO = http://hg.mozilla.org/releases/mozilla-release
-L10N_REPO = http://hg.mozilla.org/releases/l10n/mozilla-release
-EOF
 
 # Delete stuff we don't use and that may contain trademaked logos
 rm -rf ./browser/metro ./addon-sdk/source/doc/static-files/media ./b2g
 
 # Custom bookmarks
 cp $DATA/bookmarks.html.in browser/locales/generic/profile/bookmarks.html.in
-
-[ -d $DATA/searchplugins ] && cp $DATA/searchplugins debian/search -a
-[ -d $DATA/searchplugins ] && echo "debian/search/* /usr/lib/icecat-addons/searchplugins" >> debian/firefox.install.in
 
 # Custom legal about pages
 
@@ -630,11 +565,6 @@ libs::
 EOF
 
 #sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk
-#sed '/972ce4c6/  s%$%\n/extensions.gnu/* @MOZ_ADDONDIR@/extensions%' -i debian/icecat.install.in
-
-
-sed '/972ce4c6/d;' -i debian/icecat.install.in
-echo "@MOZ_LIBDIR@/browser/extensions @MOZ_ADDONDIR@" >> debian/icecat.install.in
 
 # Add extensions to allowed-dupes.mn
 cat << EOF >> ./browser/installer/allowed-dupes.mn
@@ -655,76 +585,6 @@ for locale in $(ls -1 $DATA/onboarding/locales/); do
     cp $DATA/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
 done
 
-###############################################################################
-# Deb generation specifics
-###############################################################################
-cat << EOF >> debian/abrowser.postinst.in
-
-if [ "\$1" = "configure" ] || [ "\$1" = "abort-upgrade" ] ; then
-
-[ -f /usr/bin/mozilla ] || ln -s /usr/bin/icecat /usr/bin/mozilla && true
-
-for USER in \$(grep -v /bin/false /etc/passwd|grep :/home|cut -d: -f1)
-do
-    [ -d /home/\$USER/.mozilla/ ] || continue
-    [ -d /home/\$USER/.mozilla/icecat ] && continue
-    [ -d /home/\$USER/.mozilla/firefox ] && DIR=/home/\$USER/.mozilla/firefox
-    [ -d /home/\$USER/.mozilla/abrowser ] && DIR=/home/\$USER/.mozilla/abrowser
-    [ \$DIR ] || continue
-    echo Copying \$DIR into /home/\$USER/.mozilla/icecat
-    cp -a \$DIR /home/\$USER/.mozilla/icecat
-done
-fi
-EOF
-
-cat << EOF >> debian/icecat.preinst.in
-
-EOF
-
-cat << EOF >> debian/icecat.postrm.in
-
-[ -L /usr/bin/mozilla ] && rm /usr/bin/mozilla -f || true
-EOF
-
-echo "This package generated from Mozilla Firefox by $DEBFULLNAME <$DEBEMAIL> on
-$(date)
-More info at http://www.gnu.org/software/gnuzilla/
-
-===
-
-$(cat debian/copyright)" > debian/copyright
-
-# Remove icecat-globalmenu package
-sed '/Package:.*globalmenu/,/^$/d' -i debian/control.in
-
-# Don't recommend ubufox
-sed 's/xul-ext-ubufox//' -i debian/control.in
-
-# Provide iceweasel, firefox
-sed 's/iceweasel,/iceweasel, firefox,/' -i debian/control.in
-
-# Locale packages should provide firefox-locale-$LANG
-sed "s/Provides.*/Provides: firefox-locale-@LANGCODE@, abrowser-locale-@LANGCODE@/" -i debian/control.langpacks
-
-# icecat-dev should provide firefox-dev
-sed '/Package: @MOZ_PKG_NAME@-dev/ s/$/\nProvides: firefox-dev/' debian/control.in -i
-# icacat should provide and replace abrowser and firefox
-sed '/Package: @MOZ_PKG_NAME@$/,/Description:/ s/Provides:/Provides:firefox, abrowser, /' debian/control.in -i
-sed '/Package: @MOZ_PKG_NAME@$/,/Description:/ s/Replaces:/Replaces:firefox, abrowser, /' debian/control.in -i
-
-sed '/Vcs-Bzr/d; s/from Mozilla/from GNU/' debian/control.in -i
-
-sed "s_^Maintainer.*_Maintainer: $DEBFULLNAME <$DEBEMAIL>_g" -i debian/control.in
-rm debian/control
-debian/rules debian/control
-touch -d "yesterday" debian/control
-debian/rules debian/control
-
-echo | dch -b -D stable -v "$ICECATVERSION"  "Converted into IceCat (http://www.gnu.org/software/gnuzilla/)"
-sed "1s/firefox/icecat/" -i debian/changelog
-
-touch configure js/src/configure
-
 # Fix CVE-2009-4029
 sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
 #(cd toolkit/crashreporter/google-breakpad; aclocal)
@@ -732,7 +592,6 @@ sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
 
 # Fix CVE-2012-3386
 /bin/sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/crashreporter/google-breakpad/Makefile.in ./toolkit/crashreporter/google-breakpad/src/third_party/glog/Makefile.in || true
-
 
 cd ..
 echo Packaging tarball
