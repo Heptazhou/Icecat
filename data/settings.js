@@ -36,6 +36,9 @@ pref("nglayout.initialpaint.delay", 0);
 // Disable third party cookies
 pref("network.cookie.cookieBehavior", 1);
 
+//privacy.firstparty.isolate
+pref("privacy.firstparty.isolate", true);
+
 // Extensions cannot be updated without permission
 pref("extensions.update.enabled", false);
 // Use LANG environment variable to choose locale
@@ -119,7 +122,9 @@ pref("datareporting.policy.dataSubmissionEnabled", false);
 pref("datareporting.healthreport.service.enabled", false);
 pref("browser.slowStartup.notificationDisabled", true);
 pref("network.http.sendRefererHeader", 2);
-pref("network.http.referer.spoofSource", false);
+pref("network.http.referer.spoofSource", true);
+// We don't want to send the Origin header
+pref("network.http.originextension", false);
 //http://grack.com/blog/2010/01/06/3rd-party-cookies-dom-storage-and-privacy/
 //pref("dom.storage.enabled", false);
 pref("dom.event.clipboardevents.enabled",false);
