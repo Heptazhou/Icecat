@@ -18,10 +18,13 @@
         "message": "Versi\u00f3n"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere not\u00f3 que estuviste navegando hacia una p\u00e1gina no HTTPS, y en cambio trat\u00f3 de enviarte a la versi\u00f3n HTTPS. La versi\u00f3n HTTPS no est\u00e1 disponible. Muy probablemente, este sitio no soporta HTTPS, pero tambi\u00e9n es posible que un atacante est\u00e9 bloqueando la versi\u00f3n HTTPS. Si dese\u00e1s ver la versi\u00f3n no encriptada de \u00e9sta p\u00e1gina, a\u00fan pod\u00e9s hacerlo desabilitando la opci\u00f3n &quot;Bloquear todas las requisiciones no encriptadas&quot; en tu extensi\u00f3n HTTPS Everywhere. Qued\u00e1s advertido que deshabilitando \u00e9sta opci\u00f3n puede hacer a tu navegador vulnerable a ataques remotos de degradaci\u00f3n de servicio en sitios web que visites."
+        "message": "HTTPS Everywhere not\u00f3 que estabas navegando hacia una p\u00e1gina no-HTTPS, y trat\u00f3 en vez de enviarte hacia la versi\u00f3n HTTPS. La versi\u00f3n HTTPS no est\u00e1 disponible. Muy probablemente este sitio no soporta HTTPS, pero tambi\u00e9n es posible que un atacante est\u00e9 bloqueando la versi\u00f3n HTTPS. Si dese\u00e1s ver la versi\u00f3n no encriptada de \u00e9sta p\u00e1gina, a\u00fan pod\u00e9s hacerlo deshabilitando la opci\u00f3n 'Encriptar Todos los Sitios Elegibles' (EASE) en tu extensi\u00f3n HTTPS Everywhere. Ten\u00e9 en cuenta que el deshabilitar \u00e9sta opci\u00f3n podr\u00eda hacer a tu navegador vulnerable a ataques de degradaci\u00f3n basados en red en los sitios web que visites."
     },
     "cancel_he_blocking_network": {
         "message": "ataques remotos de degradaci\u00f3n de servicio"
+    },
+    "cancel_open_page": {
+        "message": "Abrir p\u00e1gina insegura"
     },
     "chrome_add_new_rule": {
         "message": "Agregar una nueva regla para este sitio"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nombre de la Regla"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Mostrar avanzado"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Cancelar"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Bloquear todas las solicitudes no encriptadas"
-    },
     "menu_donate_eff_imperative": {
         "message": "Donar a EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "Habilitar HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "Preferencias del Observatorio SSL"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Mostrar contador"

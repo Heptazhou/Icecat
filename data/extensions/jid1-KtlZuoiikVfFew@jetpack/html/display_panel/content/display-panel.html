@@ -28,6 +28,7 @@
  *
  */
 -->
+<script src="/html/mobile.js"></script>
 </head>
 
 <body>
@@ -59,20 +60,25 @@
     <div id="info">
         <div id="site">
           <h2 class="site">This whole site <span></span></h2>
+          <div class="status"></div>
           <div class="buttons">
             <button class="whitelist" name="*">Whitelist</button>
             <button class="blacklist" name="*">Blacklist</button>
             <button class="forget" name="*">Forget</button>
+            <button id="reload" class="reload">Reload</button>
           </div>
         </div>
         <div id="unknown" class="unknown-js">
           <h2></h2>
           <p id="must-reload">
-            LibreJS will decide whether blocking these scripts next time this page is loaded. <button id="reload">Reload it now</button>
+            LibreJS will decide whether blocking these scripts next time this page is loaded. <button class="reload" id="reload-now">Reload it now</button>
           </p>
           <ul>
             <li id="li-template">
-                <a class="script-url" href="#"></a>:
+                <button class="toggle-source show" title="Show code inline">Show</button>
+                <button class="toggle-source hide" title="Hide code inline">Hide</button>
+                <a class="script-url" href="#" target="librejs_viewsource"></a>:
+                <pre class="source"></pre>
                 <p class="reason"></p>
                 <div class="buttons">
                   <button class="whitelist">Whitelist</button>
@@ -80,6 +86,7 @@
                   <button class="forget">Forget</button>
                   <button class="forget" name="*">Forget <span class="domain"></span></button>
                 </div>
+
               </li>
           </ul>
         </div>

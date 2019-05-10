@@ -18,10 +18,13 @@
         "message": "\u0412\u0435\u0440\u0441\u0438\u044f"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
         "message": "network-based downgrade attacks"
+    },
+    "cancel_open_page": {
+        "message": "Open insecure page"
     },
     "chrome_add_new_rule": {
         "message": "\u0414\u043e\u0431\u0430\u0432\u0438 \u043d\u043e\u0432\u043e \u043f\u0440\u0430\u0432\u0438\u043b\u043e \u0437\u0430 \u0442\u043e\u0437\u0438 \u0441\u0430\u0439\u0442"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "\u0418\u043c\u0435 \u043d\u0430 \u043f\u0440\u0430\u0432\u0438\u043b\u043e"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "\u041f\u043e\u043a\u0430\u0436\u0438 \u0440\u0430\u0437\u0448\u0438\u0440\u0435\u043d\u0438"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "\u041e\u0442\u043a\u0430\u0437"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "\u0411\u043b\u043e\u043a\u0438\u0440\u0430\u043d\u0435 \u043d\u0430 \u0432\u0441\u0438\u0447\u043a\u0438 \u043d\u0435\u043a\u0440\u0438\u043f\u0442\u0438\u0440\u0430\u043d\u0438 \u0437\u0430\u044f\u0432\u043a\u0438"
-    },
     "menu_donate_eff_imperative": {
         "message": "\u0414\u0430\u0440\u0438 \u0437\u0430 EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "\u0412\u043a\u043b\u044e\u0447\u0438 HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u043d\u0430 SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "\u041f\u043e\u043a\u0430\u0437\u0432\u0430\u043d\u0435 \u043d\u0430 \u0431\u0440\u043e\u044f\u0447"

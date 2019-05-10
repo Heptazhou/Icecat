@@ -32,8 +32,8 @@ config.notifications = (function () {
   return {
     "id": '',
     "create": function (message) {
-      var iconUrl = /Firefox/.test(navigator.userAgent) ? "data/icons/ON/64.png" : chrome.runtime.getURL("data/icons/ON/64.png");
-      var o = {"message": message, "type": "basic", "title": "Tor Browser Button", "iconUrl": iconUrl};
+      var iconUrl = /Firefox/.test(navigator.userAgent) ? "data/icons/64.png" : chrome.runtime.getURL("data/icons/64.png");
+      var o = {"message": message, "type": "basic", "title": "Onion Browser Button", "iconUrl": iconUrl};
       if (config.notifications.id) {
         if (chrome.notifications.update) {
           return chrome.notifications.update(config.notifications.id, o, function () {});

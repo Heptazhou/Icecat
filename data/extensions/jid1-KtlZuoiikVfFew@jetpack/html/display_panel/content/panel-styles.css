@@ -20,24 +20,26 @@
 @import url("/html/common.css");
 
 body {
-  width:500px;
+  max-width: 600px;
+  min-width: 500px;
+  -moz-user-select: text !important;
 }
 #header{
-display:block;
-width:500px;
+display: block;
+width: 100%
 }
 
 h2 {
-    font-size:1.1em;
+    font-size: 1.4em;
     font-weight:bold;
     font-family:arial;
-    border-bottom:4px solid #444;
+    border-bottom:.2em solid #444;
     padding-bottom:0;
-    margin:10px 0 0 0;
+    margin:.8em 0 0 0;
     line-height:140%;
 }
 code {
-    font-size:1.2em;
+    font-size: 1.2em;
     margin:0;
     padding:0;
 }
@@ -47,18 +49,18 @@ ul {
     list-style:none;
 }
 #info li {
-    padding:5px;
-    border-bottom:2px solid #CCC;
+    padding: .3em;
+    border-bottom:.1em solid #CCC;
     margin:0;
     overflow: hidden;
 }
 
 #info ul ul {
-    margin:10px;
+    margin: .4em;
     list-style:disc;
 }
 #info ul ul li {
-    padding:5px;
+    padding: .5em;
     border-bottom:0;
 }
 #info {
@@ -94,11 +96,14 @@ ul {
   display: initial;
 }
 
+.status {
+  margin: .2em;
+}
 
-button.whitelist {
+button.whitelist, .status.whitelisted {
   color: #080;
 }
-button.blacklist {
+button.blacklist, .status.blacklisted {
   color: #800;
 }
 button.forget {
@@ -108,6 +113,27 @@ button.forget {
 button:disabled {
   color: #888 !important;
 }
+
+button.toggle-source {
+  color: #004;
+  width: 5em;
+  text-align:center;
+}
+
+pre.source {
+  display: none;
+  background: white;
+  border: 1px solid #444;
+  padding: .5em;
+  overflow: auto;
+  max-height: 20em;
+  white-space: pre-wrap;
+}
+
+button.hide { display: none  }
+.visible > button.show { display: none !important}
+.visible > pre.source { display: block }
+.visible > button.hide { display: initial }
 
 span.accepted, span.blocked {
     color:#008e00;
@@ -121,18 +147,18 @@ span.blocked {
 }
 
 .title-area {
-    width: 250px;
+    width: 50%;
     float:left !important;
     text-align: center !important;
 }
 
 .title-area #librejs-web-link {
-    font-size: 18px;
+    font-size: 1.2em;
 }
 
 #librejs-web-labels-pages>ul {
-    margin-top: 8px;
-    font-size: 14px;
+    margin-top: .5em;
+    font-size: 1.2em;
     list-style-type: disc;
 }
 
@@ -149,4 +175,8 @@ span.blocked {
 #buttons button {
   width: 100%;
   text-align: center;
+}
+
+.mobile #report-tab {
+  display: none;
 }

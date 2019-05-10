@@ -18,10 +18,13 @@
         "message": "Phi\u00ean b\u1ea3n"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
         "message": "network-based downgrade attacks"
+    },
+    "cancel_open_page": {
+        "message": "Open insecure page"
     },
     "chrome_add_new_rule": {
         "message": "Th\u00eam m\u00f4\u0323t quy t\u0103\u0301c m\u01a1\u0301i cho trang na\u0300y"
@@ -33,10 +36,10 @@
         "message": "Lu\u00f4n s\u01b0\u0309 du\u0323ng https cho host na\u0300y"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "T\u1eaft tu\u1ef3 ch\u1ecdn HTTPS Everywhere tr\u00ean trang n\u00e0y."
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "B\u1eadt tu\u1ef3 ch\u1ecdn HTTPS Everywhere tr\u00ean trang n\u00e0y."
     },
     "chrome_experimental_rules": {
         "message": "Ca\u0301c quy t\u0103\u0301c tra\u0309i nghi\u00ea\u0323m"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "T\u00ean quy t\u0103\u0301c"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Hi\u00ea\u0309n thi\u0323 chi ti\u00ea\u0301t"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "H\u1ee7y b\u1ecf"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Ch\u1eb7n t\u1ea5t c\u1ea3 nh\u1eefng y\u00eau c\u1ea7u kh\u00f4ng \u0111\u01b0\u1ee3c m\u00e3 h\u00f3a"
-    },
     "menu_donate_eff_imperative": {
         "message": "\u0110\u00f3ng g\u00f3p cho EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "B\u00e2\u0323t HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "Ca\u0301c Tu\u0300y Cho\u0323n \u01afu Ti\u00ean cho SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Hi\u00ea\u0309n Thi\u0323 B\u00f4\u0323 \u0110\u00ea\u0301m"

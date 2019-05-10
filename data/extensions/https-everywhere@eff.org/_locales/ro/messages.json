@@ -9,7 +9,7 @@
         "message": "HTTPS Oriunde"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Versiune seturi de reguli pentru"
     },
     "about_title": {
         "message": "Despre HTTPS Oriunde"
@@ -18,10 +18,13 @@
         "message": "Versiune"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Oriunde a observat c\u0103 ai navigat pe o pagin\u0103 f\u0103r\u0103 HTTPS, \u0219i \u00een schimb a \u00eencercat s\u0103 te trimit\u0103 la versiunea HTTPS. Versiunea HTTPS nu este disponibil\u0103. Cel mai probabil acest site nu suport\u0103 HTTPS, dar este posibil de asemenea ca un atacator s\u0103 blocheze versiunea HTTPS. Dac\u0103 dore\u0219ti sa vizitezi versiunea necriptat\u0103 a acestei pagini, o po\u0163i face prin dezactivarea op\u0163iunii 'Blocheaz\u0103 toate cererile necriptate' in extensia HTTPS Oriunde. Dezactivarea acestei op\u0163iuni \u00ee\u0163i poate face navigatorul vulnerabil \u00eempotriva atacurilor de degradare bazate pe re\u0163ea."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "Atacuri de degradare bazate pe re\u021bea"
+    },
+    "cancel_open_page": {
+        "message": "Deschide pagina nesecurizat\u0103"
     },
     "chrome_add_new_rule": {
         "message": "Adaug\u0103 o nou\u0103 regul\u0103 pentru acest site"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Numele regulii"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Pe m\u0103sur\u0103 ce r\u0103sfoi\u021bi diferite site-uri web, pute\u021bi modifica preferin\u021bele dvs. pentru fiecare site web"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Set\u0103ri pentru acest site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Schimba\u021bi preferin\u021bele pentru conexiunile criptate"
+    },
     "chrome_show_advanced": {
         "message": "Arat\u0103 op\u021biuni avansate"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Renun\u021b\u0103"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Blocheaz\u0103 toate cererile necriptate"
-    },
     "menu_donate_eff_imperative": {
-        "message": "Doneaz\u0103 la EFF"
+        "message": "Doneaz\u0103 c\u0103tre EFF"
+    },
+    "menu_encryptAllSitesEligible": {
+        "message": "Cripteaz\u0103 toate site-urile eligibile este activat"
     },
     "menu_globalEnable": {
-        "message": "Activeaz\u0103 HTTPS Oriunde"
+        "message": "HTTPS Oriunde este dezactivat"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Solicit\u0103rile necriptate sunt blocate \u00een prezent"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Acest mod blocheaz\u0103 con\u021binutul \u0219i solicit\u0103rile necriptate"
     },
     "menu_observatory": {
         "message": "Preferin\u021bele pentru Observatorul SSL"
+    },
+    "menu_seeMore": {
+        "message": "Vezi mai mult"
     },
     "menu_showCounter": {
         "message": "Afi\u0219eaz\u0103 contorul"
@@ -99,10 +120,10 @@
         "message": "Actualizeaz\u0103 automat seturile de reguli"
     },
     "options_delete": {
-        "message": "Delete"
+        "message": "\u0218terge"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "Site-uri HTTPS Oriunde Dezactivate"
     },
     "options_enableMixedRulesets": {
         "message": "Permite seturi de reguli pentru con\u021binut mixt"
@@ -114,7 +135,7 @@
         "message": "Set\u0103ri Generale"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Afi\u0219eaz\u0103 tab-ul Devtools"
     },
     "options_storedRulesetsVersion": {
         "message": "Versiunea seturilor de reguli stocate:"
@@ -135,7 +156,7 @@
         "message": "niciodat\u0103"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Reguli Utilizator HTTPS Oriunde"
     },
     "prefs_export_settings": {
         "message": "Export\u0103 Set\u0103ri"

@@ -18,10 +18,13 @@
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere hat festgestellt, dass Sie auf eine nicht-HTTPS-Seite navigieren m\u00f6chten, und hat versucht, Ihnen stattdessen die HTTPS-Version zu senden. Die HTTPS-Version ist nicht verf\u00fcgbar. Wahrscheinlich unterst\u00fctzt diese Seite kein HTTPS, es ist aber auch m\u00f6glich, dass ein Angreifer die HTTPS-Version blockiert. Falls Sie die nicht verschl\u00fcsselte Version dieser Seite ansehen m\u00f6chten, k\u00f6nnen Sie dass immer noch tun, indem Sie die Option &quot;Alle unverschl\u00fcsselten Anforderungen blockieren&quot; in Ihrer HTTPS Everywhere Extension deaktivieren. Nehmen Sie bitte zur Kenntnis, dass die Deaktivierung dieser Option Ihren Browser f\u00fcr Netzwerk-basierende Downgrade Attacks auf von Ihnen besuchten Internetseiten angreifbar macht."
+        "message": "HTTPS Everywhere bemerkte, dass du zu einer Nicht-HTTPS-Seite navigierst, und versuchte, dich stattdessen an die HTTPS-Version zu schicken. Die HTTPS-Version ist nicht verf\u00fcgbar. Wahrscheinlich unterst\u00fctzt diese Seite kein HTTPS, aber es ist auch m\u00f6glich, dass ein Angreifer die HTTPS-Version blockiert. Wenn du die unverschl\u00fcsselte Version dieser Seite anzeigen m\u00f6chtest, kannst du dies trotzdem tun, indem du die Option 'Alle zul\u00e4ssigen Seiten verschl\u00fcsseln' (EASE) in deiner HTTPS Everywhere Erweiterung deaktivierst. Beachte, dass das Deaktivieren dieser Option deinen Browser anf\u00e4llig f\u00fcr netzwerkbasierte Downgrade-Angriffe auf von dir besuchte Websites machen kann."
     },
     "cancel_he_blocking_network": {
         "message": "Netzwerk-basierende Downgrade Attacks"
+    },
+    "cancel_open_page": {
+        "message": "Unsichere Seite \u00f6ffnen"
     },
     "chrome_add_new_rule": {
         "message": "Erstelle eine neue Regel f\u00fcr diese Seite"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Regelname"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Wenn du verschiedene Webseiten durchst\u00f6berst, kannst du deine Einstellungen f\u00fcr jede Webseite \u00e4ndern."
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Einstellungen f\u00fcr diese Seite"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "\u00c4ndere deine Einstellungen f\u00fcr verschl\u00fcsselte Verbindungen."
+    },
     "chrome_show_advanced": {
         "message": "Erweiterte Optionen anzeigen"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Abbrechen"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Alle unverschl\u00fcsselten Anforderungen blockieren"
-    },
     "menu_donate_eff_imperative": {
         "message": "Spende an EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Verschl\u00fcsseln aller Standorte, die f\u00fcr die Verschl\u00fcsselung in Frage kommen, ist AN."
+    },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere aktivieren"
+        "message": "HTTPS Everywhere ist AUS"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unverschl\u00fcsselte Anfragen sind derzeit blockiert."
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Dieser Modus blockiert unverschl\u00fcsselte Inhalte und Anfragen."
     },
     "menu_observatory": {
         "message": "SSL-Observatory-Einstellungen"
+    },
+    "menu_seeMore": {
+        "message": "Weitere Informationen"
     },
     "menu_showCounter": {
         "message": "Z\u00e4hler anzeigen"

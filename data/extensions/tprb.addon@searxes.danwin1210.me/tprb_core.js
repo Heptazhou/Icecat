@@ -183,12 +183,12 @@ function rqbl_loadcfg() {
 				}
 			}
 		}
-		tprq_allowcss = (w.myset_rqblcsslover == 'y') ? 1 : 0;
-		tprq_allowsubdom = (w.myset_rqblsubdomok == 'y') ? 1 : 0;
+		tprq_allowcss = (w.myset_rqblcsslover != 'n') ? 1 : 0;
+		tprq_allowsubdom = (w.myset_rqblsubdomok != 'n') ? 1 : 0;
 		tprq_allowwidedm = (w.myset_rqblallok_wuz == 'y') ? 1 : 0;
-		tprq_allowcdnf = (w.myset_rqblaok_cdnf == 'y') ? 1 : 0;
-		tprq_allowcdnd = (w.myset_rqblaok_cdnd == 'y') ? 1 : 0;
-		tprq_alloweytb = (w.myset_rqblaok_ytb == 'y') ? 1 : 0;
+		tprq_allowcdnf = (w.myset_rqblaok_cdnf != 'n') ? 1 : 0;
+		tprq_allowcdnd = (w.myset_rqblaok_cdnd != 'n') ? 1 : 0;
+		tprq_alloweytb = (w.myset_rqblaok_ytb != 'n') ? 1 : 0;
 		tprq_separdark = (w.myset_rqblcleardark == 'y') ? 1 : 0;
 		tprq_mixignore = (w.myset_rqblmixokay == 'y') ? 1 : 0;
 		tprq_l2iignore = (w.myset_rqbll2iokay == 'y') ? 1 : 0;

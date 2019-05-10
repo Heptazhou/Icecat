@@ -16,15 +16,19 @@ var popupsend = function () {
 };
 
 var setproxy = function (callback) {
-  if (tor.id === "OFF") chrome.proxy.settings.set({"scope": "regular", "value": {"mode": "system"}}, callback);
+  if (tor.id === "OFF") chrome.proxy.settings.set({"scope": "regular", "value": {"proxyType":"system", "mode": "system"}}, callback);
   else chrome.proxy.settings.set({
     "scope": "regular",
     "value":  {
-      "mode": "fixed_servers",
-      "rules": {
-        "bypassList": tor.bypassList,
-        "singleProxy": {"scheme": "socks5", "host": "127.0.0.1", "port": 9050}
-      }
+      "proxyDNS":true,
+      "autoConfigUrl":"",
+      "socksVersion":5,
+      "passthrough":"",
+      "proxyType":"manual",
+      "ftp":"",
+      "ssl":"",
+      "http":"",
+      "socks":"127.0.0.1:9050"
     }
   }, callback);
 };
@@ -79,6 +83,7 @@ var tor = {
 };
 
 app.popup.receive("popup-data", function (e) {
+  if (e.name === "reload") app.tab.reload();
   if (e.name === "support") app.tab.open(app.homepage());
   if (e.name === "check") app.tab.open(config.addon.check);
   if (e.name === "install") app.tab.open(config.addon.github);

@@ -3,7 +3,7 @@
         "message": "Tambah Aturan Baru"
     },
     "about_ext_description": {
-        "message": "Enkripsi Web-nya! Secara otomatis menggunakan keamanan HTTPS pada banyak situs."
+        "message": "Enkripsi web-nya! Gunakan keamanan HTTPS secara otomatis di banyak situs."
     },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
@@ -18,10 +18,13 @@
         "message": "Versi"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere mendeteksi Anda membuka halaman non-HTTPS dan mengirimkan versi HTTPS-nya kepada Anda. Jika versi HTTPS tidak tersedia, kemungkinan situsnya tidak mendukung HTTPS. Jika Anda menginginkan versi halaman ini yang tanpa enkripsi., Anda bisa mendapatkannya dengan menonaktifkan opsi 'Block all unencrypted requests' di ekstensi tambahan HTTPS Everywhere. Perhatian karena mematikan posi ini membuat peramban Anda rentan dengan serangan downgrade berdasarkan-jaringan yang dilakukan situs web yang Anda kunjungi."
+        "message": "HTTPS Everywhere mendeteksi bila Anda pergi ke sebuah halaman non-HTTPS, dan mencoba mengirimkan Anda ke versi HTTPS sebagai gantinya. Versi HTTPS tidak tersedia. Kemungkinan besar situs ini tidak mendukung HTTPS, namun mungkin juga ada penyerang yang memblokir versi HTTPS. Jika Anda ingin melihat versi tanpa enkripsi dari halaman ini, Anda bisa melakukannya dengan menonaktifkan pilihan 'Encrypt All Sites Eligible' (EASE) pada ekstensi HTTPS Everywhere Anda. Waspadalah bahwa menonaktifkan pilihan ini dapat membuat peramban anda rentan terhadap serangan downgrade berbasis jaringan pada situs web yang Anda kunjungi."
     },
     "cancel_he_blocking_network": {
         "message": "serangan downgrade berdasarkan-jaringan"
+    },
+    "cancel_open_page": {
+        "message": "Buka halaman tidak aman"
     },
     "chrome_add_new_rule": {
         "message": "Tambahkan aturan baru untuk situs web ini"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nama aturan"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Tampilkan pengaturan lanjutan"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Batal"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Blokir semua permintaan tidak terenkripsi"
-    },
     "menu_donate_eff_imperative": {
         "message": "Donasi ke EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "Fungsikan HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "Preferensi SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Tampilkan Penghitung"
@@ -135,7 +156,7 @@
         "message": "Tidak pernah"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Aturan Pengguna HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Pengaturan Ekspor"

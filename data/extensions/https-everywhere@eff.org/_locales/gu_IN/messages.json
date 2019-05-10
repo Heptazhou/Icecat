@@ -71,11 +71,11 @@
     "chrome_status_cancel_button": {
         "message": "\u0ab0\u0aa6 \u0a95\u0ab0\u0acb"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Block all unencrypted requests"
-    },
     "menu_donate_eff_imperative": {
         "message": "Donate to EFF"
+    },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible (EASE)"
     },
     "menu_globalEnable": {
         "message": "Enable HTTPS Everywhere"

@@ -18,10 +18,13 @@
         "message": "Versi\u00f3"
     },
     "cancel_he_blocking_explainer": {
-        "message": "L'HTTPS Everywhere ha detectat que esteu navegant cap a una p\u00e0gina NO HTTPS i ha intentat redirigir-vos cap a la versi\u00f3 HTTPS. La versi\u00f3 HTTPS no est\u00e0 disponible. Segurament aquest lloc web no \u00e9s accessible via HTTPS, per\u00f2 tamb\u00e9 \u00e9s possible que hi hagi un atacant bloquejant la versi\u00f3 HTTPS. Si voleu veure la versi\u00f3 NO xifrada d'aquesta p\u00e0gina, podeu fer-ho desactivant l'opci\u00f3 \u00abBloqueja totes les peticions no xifrades\u00bb a l'extensi\u00f3 HTTPS Everywhere. Tingueu en compte que desactivar aquesta opci\u00f3 pot fer vulnerable el navegador a atacs de degradaci\u00f3 basats en xarxa als llocs web que visiteu."
+        "message": "HTTPS Everywhere ha notat que vost\u00e8 est\u00e0 navegant per una p\u00e0gina que no disposa del protocol HTTPS, s'ha intentat reencaminar al lloc amb aquest protocol. La versi\u00f3 d'aquest lloc web no disposa de protocol HTTPS. Probablement aquest lloc no suporta aquest protocol, per\u00f2 tamb\u00e9 \u00e9s possible que un attacant estigui bloquejant la versi\u00f3 HTTPS d'aquest lloc web. Si desitja veure la versi\u00f3 sense encriptaci\u00f3 d'aquest lloc web, pot fer-ho desactivant l'opci\u00f3 'Encripta tots els llocs' (EASE) en la seva extensi\u00f3 HTTPS Everywhere. Sigui conscient que desactivant aquesta opci\u00f3 podria fer el seu navegador vulnerable a atacs en xarxa en els llocs que visiti."
     },
     "cancel_he_blocking_network": {
         "message": "atacs de degradaci\u00f3 basats en xarxa"
+    },
+    "cancel_open_page": {
+        "message": "Obre la p\u00e0gina no segura"
     },
     "chrome_add_new_rule": {
         "message": "Afegeix una norma nova per a aquest lloc"
@@ -33,10 +36,10 @@
         "message": "Utilitza sempre https per a aquest host"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Desactivar HTTPS Everywhere per aquest lloc"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Activa HTTPS Everywhere per aquest lloc"
     },
     "chrome_experimental_rules": {
         "message": "Normes experimentals"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nom de la norma"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Mostra l'avan\u00e7at"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Cancel\u00b7la"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Bloca totes les peticions sense xifrar"
-    },
     "menu_donate_eff_imperative": {
         "message": "Donar a EEF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "Activa HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "Prefer\u00e8ncies de SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Mostra el comptador"
@@ -102,7 +123,7 @@
         "message": "Esborrar"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "HTTPS Everywhere per llocs web Desactivat"
     },
     "options_enableMixedRulesets": {
         "message": "Permet contingut amb conjunt de regles mixt"
@@ -135,7 +156,7 @@
         "message": "mai"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Regles d'Usuari per HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Configuraci\u00f3 d' exportaci\u00f3"

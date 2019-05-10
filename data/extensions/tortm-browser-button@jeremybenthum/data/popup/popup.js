@@ -32,15 +32,21 @@ var load = function () {
   window.removeEventListener("load", load, false);
 };
 
-window.addEventListener("load", load, false);
-
 background.receive("tor-data", function (e) {
-  document.getElementById("status").textContent = e.log;
-	document.getElementById("whitelist").value = e.whitelist;
+  var ON = document.getElementById("ON");
+  var OFF = document.getElementById("OFF");
+  var status = document.getElementById("status");
+  var whitelist = document.getElementById("whitelist");
+  /*  */
+  status.textContent = e.log;
+	whitelist.value = e.whitelist;
+  /*  */
   if (e.id === "CHECK") e.id = "ON";
   if (e.id === "ON" || e.id === "OFF") {
-    document.getElementById("ON").removeAttribute("type");
-    document.getElementById("OFF").removeAttribute("type");
+    ON.removeAttribute("type");
+    OFF.removeAttribute("type");
 	  document.getElementById(e.id).setAttribute("type", "active");
   }
 });
+
+window.addEventListener("load", load, false);

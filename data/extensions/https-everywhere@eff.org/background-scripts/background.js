@@ -33,26 +33,22 @@ async function initializeAllRules() {
  * Load preferences. Structure is:
  *  {
  *    httpNowhere: Boolean,
- *    showCounter: Boolean,
  *    isExtensionEnabled: Boolean
  *  }
  */
 var httpNowhereOn = false;
-var showCounter = true;
 var isExtensionEnabled = true;
 let disabledList = new Set();
 
-function initializeStoredGlobals(){
+function initializeStoredGlobals() {
   return new Promise(resolve => {
     store.get({
       httpNowhere: false,
-      showCounter: true,
       globalEnabled: true,
       enableMixedRulesets: false,
-      disabledList: [],
+      disabledList: []
     }, function(item) {
       httpNowhereOn = item.httpNowhere;
-      showCounter = item.showCounter;
       isExtensionEnabled = item.globalEnabled;
       for (let disabledSite of item.disabledList) {
         disabledList.add(disabledSite);
@@ -90,10 +86,6 @@ chrome.storage.onChanged.addListener(async function(changes, areaName) {
   if (areaName === 'sync' || areaName === 'local') {
     if ('httpNowhere' in changes) {
       httpNowhereOn = changes.httpNowhere.newValue;
-      updateState();
-    }
-    if ('showCounter' in changes) {
-      showCounter = changes.showCounter.newValue;
       updateState();
     }
     if ('globalEnabled' in changes) {
@@ -160,7 +152,6 @@ function updateState () {
     if (!tabs || tabs.length === 0) {
       return;
     }
-    const tabId = tabs[0].id;
     const tabUrl = new URL(tabs[0].url);
 
     if (disabledList.has(tabUrl.host) || iconState == "disabled") {
@@ -172,25 +163,12 @@ function updateState () {
         });
       }
     } else {
-
       if ('setIcon' in chrome.browserAction) {
         chrome.browserAction.setIcon({
           path: {
             38: 'images/icons/icon-' + iconState + '-38.png'
           }
         });
-      }
-
-      const activeCount = appliedRulesets.getActiveRulesetCount(tabId);
-
-      if ('setBadgeBackgroundColor' in chrome.browserAction) {
-        chrome.browserAction.setBadgeBackgroundColor({ color: '#666666', tabId });
-      }
-
-      const showBadge = activeCount > 0 && isExtensionEnabled && showCounter;
-
-      if ('setBadgeText' in chrome.browserAction) {
-        chrome.browserAction.setBadgeText({ text: showBadge ? String(activeCount) : '', tabId });
       }
     }
   });
@@ -200,7 +178,7 @@ function updateState () {
  * The following allows fennec to interact with the popup ui
  * */
 chrome.browserAction.onClicked.addListener(e => {
-  const url = chrome.extension.getURL("/pages/popup/index.html?tabId=" + e.id);
+  const url = chrome.runtime.getURL("/pages/popup/index.html?tabId=" + e.id);
   chrome.tabs.create({
     url
   });
@@ -299,13 +277,13 @@ var redirectCounter = new Map();
 // HTTP Nowhere redirect.
 let simpleHTTPNowhereRedirect = new Map();
 
-const cancelUrl = chrome.extension.getURL("/pages/cancel/index.html");
+const cancelUrl = chrome.runtime.getURL("/pages/cancel/index.html");
 
-function redirectOnCancel(shouldCancel, originURL){
+function redirectOnCancel(shouldCancel, originURL) {
   return shouldCancel ? {redirectUrl: newCancelUrl(originURL)} : {cancel: false};
 }
 
-function newCancelUrl(originURL){
+function newCancelUrl(originURL) {
   return cancelUrl + "?originURL=" + encodeURI(originURL);
 }
 
@@ -318,6 +296,14 @@ function onBeforeRequest(details) {
   // If HTTPSe has been disabled by the user, return immediately.
   if (!isExtensionEnabled) {
     return;
+  }
+
+  // Clear the content shown in the extension popup.
+  // This needed to be done before this listener returns,
+  // otherwise, the extension page might include rulesets
+  // from previous page.
+  if (details.type == "main_frame") {
+    appliedRulesets.removeTab(details.tabId);
   }
 
   let uri = new URL(details.url);
@@ -380,12 +366,6 @@ function onBeforeRequest(details) {
     return redirectOnCancel(shouldCancel, details.url);
   }
 
-  if (details.type == "main_frame") {
-    appliedRulesets.removeTab(details.tabId);
-  }
-
-  let potentiallyApplicable = all_rules.potentiallyApplicableRulesets(uri.hostname);
-
   if (redirectCounter.get(details.requestId) >= 8) {
     util.log(util.NOTE, "Redirect counter hit for " + uri.href);
     urlBlacklist.add(uri.href);
@@ -397,6 +377,8 @@ function onBeforeRequest(details) {
   // whether to use mozilla's upgradeToSecure BlockingResponse if available
   let upgradeToSecure = false;
   let newuristr = null;
+
+  let potentiallyApplicable = all_rules.potentiallyApplicableRulesets(uri.hostname);
 
   for (let ruleset of potentiallyApplicable) {
     if (details.url.match(ruleset.scope)) {
@@ -549,7 +531,9 @@ function sortSwitchPlanner(tab_id, rewritten) {
     var score = activeCount * 100 + passiveCount;
     asset_host_list.push([score, activeCount, passiveCount, asset_host]);
   }
-  asset_host_list.sort(function(a,b){return a[0]-b[0];});
+  asset_host_list.sort(function(a,b) {
+    return a[0]-b[0];
+  });
   return asset_host_list;
 }
 
@@ -645,8 +629,8 @@ function onErrorOccurred(details) {
       details.error.indexOf("net::ERR_CERT_") == 0 ||
       details.error.indexOf("net::ERR_CONNECTION_") == 0 ||
       details.error.indexOf("net::ERR_ABORTED") == 0 ||
+      details.error.indexOf("net::ERR_SSL_PROTOCOL_ERROR") == 0 ||
       details.error.indexOf("NS_ERROR_CONNECTION_REFUSED") == 0 ||
-      details.error.indexOf("NS_ERROR_UNKNOWN_HOST") == 0 ||
       details.error.indexOf("NS_ERROR_NET_TIMEOUT") == 0 ||
       details.error.indexOf("NS_ERROR_NET_ON_TLS_HANDSHAKE_ENDED") == 0 ||
       details.error.indexOf("NS_BINDING_ABORTED") == 0 ||
@@ -655,14 +639,14 @@ function onErrorOccurred(details) {
       details.error.indexOf("Unable to communicate securely with peer: requested domain name does not match the server’s certificate.") == 0 ||
       details.error.indexOf("Peer’s Certificate issuer is not recognized.") == 0 ||
       details.error.indexOf("Peer’s Certificate has been revoked.") == 0 ||
+      details.error.indexOf("Peer reports it experienced an internal error.") == 0 ||
       details.error.indexOf("The server uses key pinning (HPKP) but no trusted certificate chain could be constructed that matches the pinset. Key pinning violations cannot be overridden.") == 0 ||
       details.error.indexOf("SSL received a weak ephemeral Diffie-Hellman key in Server Key Exchange handshake message.") == 0 ||
       details.error.indexOf("The certificate was signed using a signature algorithm that is disabled because it is not secure.") == 0 ||
       details.error.indexOf("Unable to communicate securely with peer: requested domain name does not match the server’s certificate.") == 0 ||
       details.error.indexOf("Cannot communicate securely with peer: no common encryption algorithm(s).") == 0 ||
       details.error.indexOf("SSL peer has no certificate for the requested DNS name.") == 0
-    ))
-  {
+    )) {
     let url = new URL(details.url);
     if (url.protocol == "https:") {
       url.protocol = "http:";
@@ -685,10 +669,31 @@ function onErrorOccurred(details) {
  */
 function onHeadersReceived(details) {
   if (isExtensionEnabled && httpNowhereOn) {
-    // Do not upgrade the .onion requests in HTTP Nowhere Mode,
+    // Do not upgrade the .onion requests in EASE mode,
     // See https://github.com/EFForg/https-everywhere/pull/14600#discussion_r168072480
     const uri = new URL(details.url);
     if (uri.hostname.slice(-6) == '.onion') {
+      return {};
+    }
+
+    // Do not upgrade resources if the first-party domain disbled EASE mode
+    // This is needed for HTTPS sites serve mixed content and is broken
+    let firstPartyHost;
+    if (details.type == "main_frame") {
+      firstPartyHost = uri.host;
+    } else {
+      // In Firefox, documentUrl is preferable here, since it will always be the
+      // URL in the URL bar, but it was only introduced in FF 54.  We should get
+      // rid of `originUrl` at some point.
+      if ('documentUrl' in details) { // Firefox 54+
+        firstPartyHost = new URL(details.documentUrl).host;
+      } else if ('originUrl' in details) { // Firefox < 54
+        firstPartyHost = new URL(details.originUrl).host;
+      } else if('initiator' in details) { // Chrome
+        firstPartyHost = new URL(details.initiator).host;
+      }
+    }
+    if (disabledList.has(firstPartyHost)) {
       return {};
     }
 
@@ -778,7 +783,7 @@ function enableSwitchPlannerFor(tabId) {
 // Listen for connection from the DevTools panel so we can set up communication.
 chrome.runtime.onConnect.addListener(function (port) {
   if (port.name == "devtools-page") {
-    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+    chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
       var tabId = message.tabId;
 
       var disableOnCloseCallback = function() {
@@ -811,9 +816,9 @@ chrome.runtime.onConnect.addListener(function (port) {
 
 // This is necessary for communication with the popup in Firefox Private
 // Browsing Mode, see https://bugzilla.mozilla.org/show_bug.cgi?id=1329304
-chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
-  function get_update_channels_generic(update_channels){
+  function get_update_channels_generic(update_channels) {
     let last_updated_promises = [];
     for(let update_channel of update_channels) {
       last_updated_promises.push(new Promise(resolve => {
@@ -940,7 +945,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
           return obj;
         }, new Set());
 
-        if(update_channel_names.has(message.object)){
+        if(update_channel_names.has(message.object)) {
           return sendResponse(false);
         }
 
@@ -979,8 +984,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
       store.get({update_channels: []}, item => {
         let scope_changed = false;
         item.update_channels = item.update_channels.map(update_channel => {
-          if(update_channel.name == message.object.name){
-            if(update_channel.scope != message.object.scope){
+          if(update_channel.name == message.object.name) {
+            if(update_channel.scope != message.object.scope) {
               scope_changed = true;
             }
             update_channel = message.object;
@@ -996,7 +1001,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
           // necesssary to avoid a race condition, see #16673
           update.loadUpdateChannelsKeys().then(() => {
             update.resetTimer();
-            if(scope_changed){
+            if(scope_changed) {
               initializeAllRules();
             }
             sendResponse(true);
@@ -1022,6 +1027,20 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
     },
     check_if_site_disabled: () => {
       sendResponse(disabledList.has(message.object));
+      return true;
+    },
+    is_firefox: () => {
+      if(typeof(browser) != "undefined") {
+        browser.runtime.getBrowserInfo().then(function(info) {
+          if (info.name == "Firefox") {
+            sendResponse(true);
+          } else {
+            sendResponse(false);
+          }
+        });
+      } else {
+        sendResponse(false);
+      }
       return true;
     }
   };

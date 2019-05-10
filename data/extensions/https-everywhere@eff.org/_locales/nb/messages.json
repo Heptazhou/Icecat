@@ -18,10 +18,13 @@
         "message": "Versjon"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere har merket at du navigerte til en ikke-HTTPS-side, og pr\u00f8vde \u00e5 sende deg til HTTPS-versjonen i stedet. HTTPS-versjonen er utilgjengelig. Sannsynligvis st\u00f8tter dette nettstedet ikke HTTPS, men det er ogs\u00e5 mulig at en angriper blokkerer HTTPS-versjonen. Hvis du \u00f8nsker \u00e5 se den ukrypterte versjonen av denne siden, kan du fortsatt gj\u00f8re det ved \u00e5 deaktivere alternativet &quot;Blokker alle ukrypterte foresp\u00f8rsler&quot; i HTTPS overalt-utvidelsen. V\u00e6r oppmerksom p\u00e5 at deaktivering av dette alternativet kan gj\u00f8re nettleseren din s\u00e5rbar for nettverksbaserte nedgraderingsangrep p\u00e5 nettsteder du bes\u00f8ker."
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
         "message": "nettverksbaserte nedgraderingsangrep"
+    },
+    "cancel_open_page": {
+        "message": "Open insecure page"
     },
     "chrome_add_new_rule": {
         "message": "Legg til en ny regel for dette nettstedet"
@@ -33,10 +36,10 @@
         "message": "Bruk alltid https for denne verten"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Deaktiver HTTPS Everywhere p\u00e5 denne nettside"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Aktiver HTTPS Everywhere p\u00e5 denne nettside"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentelle regler"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Regelnavn"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Vis avanserte"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Avbryt"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Sperr alle ukrypterte foresp\u00f8rsler"
-    },
     "menu_donate_eff_imperative": {
         "message": "Doner til EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "Aktiver HTTPS-everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "SSL-observatoriums-innstillinger"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Vis teller"
@@ -102,7 +123,7 @@
         "message": "Slett"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "HTTPS Everywhere Nettsteder deaktivert"
     },
     "options_enableMixedRulesets": {
         "message": "Aktiver blandet innhold regelsett"
@@ -135,7 +156,7 @@
         "message": "aldri"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "HTTPS Everywhere Brukerregler"
     },
     "prefs_export_settings": {
         "message": "Eksporter innstillinger"

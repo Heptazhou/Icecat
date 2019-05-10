@@ -1,6 +1,6 @@
 {
     "about_add_new_rule": {
-        "message": "\uc0c8 \uaddc\uce59 \ucd94\uac00\ud558\uae30"
+        "message": "\uc0c8 \uaddc\uce59 \ucd94\uac00"
     },
     "about_ext_description": {
         "message": "\uc6f9\uc744 \uc554\ud638\ud654 \ud558\uc138\uc694! \uc790\ub3d9\uc73c\ub85c \uc5ec\ub7ec \uc0ac\uc774\ud2b8\uc5d0 HTTPS \ubcf4\uc548\uc744 \uc0ac\uc6a9\ud569\ub2c8\ub2e4."
@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "\uaddc\uce59 \ubc84\uc804\ub294 \ub2e4\uc74c\uc5d0 \uc0c1\uc751\ud569\ub2c8\ub2e4:"
+        "message": "\ud574\ub2f9 \ubc84\uc804\uc758 \uaddc\uce59:"
     },
     "about_title": {
         "message": "HTTPS Everywhere\uc5d0 \ub300\ud558\uc5ec"
@@ -18,19 +18,22 @@
         "message": "\ubc84\uc804"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "\ub124\ud2b8\uc6cc\ud06c \uae30\ubc18 \ub2e4\uc6b4\uadf8\ub808\uc774\ub4dc \uacf5\uaca9"
+    },
+    "cancel_open_page": {
+        "message": "Open insecure page"
     },
     "chrome_add_new_rule": {
-        "message": "\ud574\ub2f9 \uc0ac\uc774\ud2b8\uc5d0 \uc0c8 \uaddc\uce59 \ucd94\uac00"
+        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0 \uc0c8 \uaddc\uce59 \ucd94\uac00"
     },
     "chrome_add_rule": {
-        "message": "\ud574\ub2f9 \uc0ac\uc774\ud2b8\uc5d0 \uaddc\uce59 \ucd94\uac00"
+        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0 \uaddc\uce59 \ucd94\uac00"
     },
     "chrome_always_https_for_host": {
-        "message": "\ud574\ub2f9 \ud638\uc2a4\ud2b8\ub294 \ud56d\uc0c1 https \uc0ac\uc6a9"
+        "message": "\uc774 \ud638\uc2a4\ud2b8\uc5d0 \ud56d\uc0c1 https \uc0ac\uc6a9"
     },
     "chrome_disable_on_this_site": {
         "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c HTTPS Everywhere \uc0ac\uc6a9 \uc548 \ud558\uae30"
@@ -54,10 +57,19 @@
         "message": "\ub2e4\uc74c\uc73c\ub85c \ub9ac\ub2e4\uc774\ub809\ud2b8"
     },
     "chrome_regex": {
-        "message": "\ud574\ub2f9\ud558\ub294 regex"
+        "message": "\ud574\ub2f9 regex"
     },
     "chrome_rule_name": {
         "message": "\uaddc\uce59\uba85"
+    },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
     },
     "chrome_show_advanced": {
         "message": "\uace0\uae09 \ubcf4\uc774\uae30"
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "\ucde8\uc18c"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "\uc554\ud638\ud654\ub418\uc9c0 \uc54a\uc740 \ubaa8\ub4e0 \uc694\uccad \ucc28\ub2e8"
-    },
     "menu_donate_eff_imperative": {
-        "message": "EFF\uc5d0 \uae30\ubd80\ud558\uae30"
+        "message": "EFF\uc5d0 \uae30\ubd80"
+    },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
     },
     "menu_globalEnable": {
-        "message": "\ubaa8\ub4e0 \uacf3\uc5d0\uc11c HTTPS \uc0ac\uc6a9"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "SSL \uad00\uce21 \ud658\uacbd \uc124\uc815"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "\uce74\uc6b4\ud130 \ubcf4\uae30"
@@ -102,10 +123,10 @@
         "message": "\uc0ad\uc81c"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere \uc0ac\uc774\ud2b8\ub4e4\uc774 \ube44\ud65c\uc131\ud654"
+        "message": "HTTPS Everywhere \uc0ac\uc774\ud2b8 \ube44\ud65c\uc131\ud654"
     },
     "options_enableMixedRulesets": {
-        "message": "\ub0b4\uc6a9\uc744 \ud63c\uc131\uc758 \uaddc\uce59\uc774 \ud65c\uc131\ud654"
+        "message": "\ucee8\ud150\uce20 \ud63c\uc6a9 \uaddc\uce59 \ud65c\uc131\ud654"
     },
     "options_enterUpdateChannelName": {
         "message": "\uc5c5\ub370\uc774\ud2b8 \ucc44\ub110 \uc774\ub984\uc744 \uc785\ub825\ud558\uc138\uc694"
@@ -126,24 +147,24 @@
         "message": "\uc5c5\ub370\uc774\ud2b8 \ucc44\ub110"
     },
     "options_updateChannelsWarning": {
-        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+        "message": "\uacbd\uace0: \uc5c5\ub370\uc774\ud2b8 \ucc44\ub110\uc744 \ucd94\uac00\ud558\uba74 \uacf5\uaca9\uc790\uac00 \ube0c\ub77c\uc6b0\uc800\ub97c \uc81c\uc5b4\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \ubc18\ub4dc\uc2dc \ud544\uc694\ud55c \uacbd\uc6b0\uc5d0\ub9cc \uc774 \ubd80\ubd84\uc744 \ud3b8\uc9d1\ud558\uc2ed\uc2dc\uc624!"
     },
     "options_updatesLastChecked": {
         "message": "\ub9c8\uc9c0\ub9c9 \uc5c5\ub370\uc774\ud2b8 \ud655\uc778 \uc77c\uc790:"
     },
     "options_updatesLastCheckedNever": {
-        "message": "\uacb0\ub2e8\ucf54"
+        "message": "\ud655\uc778\ud558\uc9c0 \uc54a\uc74c"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere \uc0ac\uc6a9\uc790\uc758 \uaddc\uce59"
+        "message": "HTTPS Everywhere \uc0ac\uc6a9\uc790 \uaddc\uce59"
     },
     "prefs_export_settings": {
         "message": "\uc124\uc815 \ub0b4\ubcf4\ub0b4\uae30"
     },
     "prefs_reset_defaults": {
-        "message": "\uae30\ubcf8\uac12\uc73c\ub85c \ub2e4\uc2dc \uc124\uc815"
+        "message": "\uae30\ubcf8\uac12\uc73c\ub85c \ucd08\uae30\ud654"
     },
     "prefs_reset_defaults_message": {
-        "message": "\uaddc\uce59\uc774 \uae30\ubcf8\uac12\uc73c\ub85c \ucd08\uae30\ud654\ub429\ub2c8\ub2e4. \uacc4\uc18d\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c?"
+        "message": "\ubaa8\ub4e0 \uaddc\uce59\uc774 \uae30\ubcf8\uac12\uc73c\ub85c \ucd08\uae30\ud654\ub429\ub2c8\ub2e4. \uacc4\uc18d\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c?"
     }
 }

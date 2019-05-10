@@ -18,10 +18,13 @@
         "message": "Versie"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere heeft gemerkt dat u naar een niet-HTTPS-pagina bent genavigeerd, en heeft geprobeerd u in plaats daarvan naar de HTTPS-versie te sturen. De HTTPS-versie is niet beschikbaar. Waarschijnlijk ondersteunt deze website geen HTTPS, maar het is ook mogelijk dat een aanvaller de HTTPS-versie blokkeert. Als u de niet-versleutelde versie van deze pagina wilt bekijken, kunt u dat alsnog doen door de optie \u2018Alle niet-versleutelde aanvragen blokkeren\u2019 in uw HTTPS Everywhere-extensie uit te schakelen. Bedenk wel dat het uitschakelen van deze optie uw browser kwetsbaar kan maken voor op netwerk gebaseerde downgrade-aanvallen op websites die u bezoekt."
+        "message": "HTTPS Everywhere heeft gemerkt dat u naar een niet-HTTPS-pagina bent genavigeerd, en heeft geprobeerd u in plaats daarvan naar de HTTPS-versie te sturen. De HTTPS-versie is niet beschikbaar. Waarschijnlijk ondersteunt deze website geen HTTPS, maar het is ook mogelijk dat een aanvaller de HTTPS-versie blokkeert. Als u de niet-versleutelde versie van deze pagina wilt bekijken, kunt u dat alsnog doen door de optie \u2018Alle in aanmerking komende websites versleutelen (EASE)\u2019 in uw HTTPS Everywhere-extensie uit te schakelen. Bedenk wel dat het uitschakelen van deze optie uw browser kwetsbaar kan maken voor op netwerk gebaseerde downgrade-aanvallen op websites die u bezoekt."
     },
     "cancel_he_blocking_network": {
         "message": "op netwerk gebaseerde downgrade-aanvallen"
+    },
+    "cancel_open_page": {
+        "message": "Niet-beveiligde pagina openen"
     },
     "chrome_add_new_rule": {
         "message": "Nieuwe regel voor deze website toevoegen"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Regelnaam"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Als je navigeert tussen verschillende weblocaties, kun je je voorkeuren voor elke weblocatie onafhankelijk veranderen"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Instellingen voor deze weblocatie"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Verander je voorkeuren voor versleutelde verbindingen"
+    },
     "chrome_show_advanced": {
         "message": "Geavanceerd tonen"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Annuleren"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Alle niet-versleutelde aanvragen blokkeren"
-    },
     "menu_donate_eff_imperative": {
         "message": "Doneren aan EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Versleutel alle weblocaties welke in aanmerking komen (EASE) staat AAN"
+    },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere inschakelen"
+        "message": "HTTPS Everywhere staat UIT"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Onversleutelde verzoeken worden momenteel geblokkeerd"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Deze modus blokkeert onversleutelde inhoud en verzoeken"
     },
     "menu_observatory": {
         "message": "SSL-observatoriumvoorkeuren"
+    },
+    "menu_seeMore": {
+        "message": "Meer zien"
     },
     "menu_showCounter": {
         "message": "Teller tonen"
@@ -135,7 +156,7 @@
         "message": "nooit"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere gebruikersregels"
+        "message": "HTTPS Everywhere-gebruikersregels"
     },
     "prefs_export_settings": {
         "message": "Instellingen exporteren"

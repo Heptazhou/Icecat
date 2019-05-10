@@ -18,10 +18,13 @@
         "message": "\u00datg\u00e1fa"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS-allssta\u00f0ar t\u00f3k eftir a\u00f0 \u00fe\u00fa varst a\u00f0 fara \u00e1 s\u00ed\u00f0u sem ekki notar HTTPS, og reyndi \u00fev\u00ed a\u00f0 senda \u00feig \u00ed sta\u00f0inn \u00e1 HTTPS \u00fatg\u00e1fu s\u00ed\u00f0unnar. HTTPS \u00fatg\u00e1fan er ekki a\u00f0gengileg. L\u00edklega sty\u00f0ur \u00feetta vefsv\u00e6\u00f0i ekki HTTPS, en \u00fea\u00f0 er l\u00edka inni \u00ed myndinni a\u00f0 einhver \u00ferj\u00f3tur s\u00e9 a\u00f0 hindra a\u00f0ganginn a\u00f0 HTTPS \u00fatg\u00e1funni. Ef \u00fe\u00fa vilt samt sj\u00e1 \u00f3dulrita\u00f0a \u00fatg\u00e1fu s\u00ed\u00f0unnar, getur\u00f0u gert \u00fea\u00f0 me\u00f0 \u00fev\u00ed a\u00f0 velja 'Loka \u00e1 allar \u00f3dulrita\u00f0ar bei\u00f0nir' \u00ed HTTPS-allssta\u00f0ar vi\u00f0aukanum. Haf\u00f0u samt \u00ed huga a\u00f0 me\u00f0 \u00fev\u00ed a\u00f0 gera \u00feennan valkost \u00f3virkan g\u00e6ti vafrinn \u00feinn or\u00f0i\u00f0 a\u00f0gengilegur fyrir netkerfistengdar ni\u00f0urf\u00e6rslu\u00e1r\u00e1sir \u00e1 vefsv\u00e6\u00f0um sem \u00fe\u00fa sko\u00f0ar."
+        "message": "HTTPS-allssta\u00f0ar t\u00f3k eftir a\u00f0 \u00fe\u00fa varst a\u00f0 fara \u00e1 s\u00ed\u00f0u sem ekki notar HTTPS, og reyndi \u00fev\u00ed a\u00f0 senda \u00feig \u00ed sta\u00f0inn \u00e1 HTTPS \u00fatg\u00e1fu s\u00ed\u00f0unnar. HTTPS \u00fatg\u00e1fan er ekki a\u00f0gengileg. L\u00edklega sty\u00f0ur \u00feetta vefsv\u00e6\u00f0i ekki HTTPS, en \u00fea\u00f0 er l\u00edka inni \u00ed myndinni a\u00f0 einhver \u00ferj\u00f3tur s\u00e9 a\u00f0 hindra a\u00f0ganginn a\u00f0 HTTPS \u00fatg\u00e1funni. Ef \u00fe\u00fa vilt samt sj\u00e1 \u00f3dulrita\u00f0a \u00fatg\u00e1fu s\u00ed\u00f0unnar, getur\u00f0u gert \u00fea\u00f0 me\u00f0 \u00fev\u00ed a\u00f0 velja 'Loka \u00e1 allar \u00f3dulrita\u00f0ar bei\u00f0nir (EASE)' \u00ed HTTPS-allssta\u00f0ar vi\u00f0aukanum. Haf\u00f0u samt \u00ed huga a\u00f0 me\u00f0 \u00fev\u00ed a\u00f0 gera \u00feennan valkost \u00f3virkan g\u00e6ti vafrinn \u00feinn or\u00f0i\u00f0 a\u00f0gengilegur fyrir netkerfistengdar ni\u00f0urf\u00e6rslu\u00e1r\u00e1sir \u00e1 vefsv\u00e6\u00f0um sem \u00fe\u00fa sko\u00f0ar."
     },
     "cancel_he_blocking_network": {
         "message": "netkerfistengdar ni\u00f0urf\u00e6rslu\u00e1r\u00e1sir"
+    },
+    "cancel_open_page": {
+        "message": "Opna \u00f3\u00f6rugga s\u00ed\u00f0u"
     },
     "chrome_add_new_rule": {
         "message": "B\u00e6ta vi\u00f0 n\u00fdrri reglu fyrir \u00feetta vefsv\u00e6\u00f0i"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Heiti reglu"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "\u00c1 me\u00f0an \u00fe\u00fa vafrar \u00e1 mismunandi vefsv\u00e6\u00f0um, getur\u00f0u breytt kj\u00f6rstillingum \u00fe\u00ednum fyrir hvert vefsv\u00e6\u00f0i"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Stillingar fyrir \u00feetta vefsv\u00e6\u00f0i"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Breyttu kj\u00f6rstillingum \u00fe\u00ednum fyrir dulrita\u00f0ar tengingar"
+    },
     "chrome_show_advanced": {
         "message": "Birta \u00edtarlegt"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "H\u00e6tta vi\u00f0"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Hindra allar \u00f3dulrita\u00f0ar bei\u00f0nir"
-    },
     "menu_donate_eff_imperative": {
         "message": "Styrkja EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "KVEIKT er \u00e1 a\u00f0 dulrita \u00f6ll tilt\u00e6k vefsv\u00e6\u00f0i (EASE)"
+    },
     "menu_globalEnable": {
-        "message": "Virkja HTTPS-allssta\u00f0ar"
+        "message": "SL\u00d6KKT er \u00e1 HTTPS-allssta\u00f0ar"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Loka\u00f0 er \u00e1 \u00f3dulrita\u00f0ar bei\u00f0nir"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "\u00deessi hamur lokar \u00e1 allar \u00f3dulrita\u00f0ar bei\u00f0nir og efni"
     },
     "menu_observatory": {
         "message": "Kj\u00f6rstillingar SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "Sj\u00e1 meira"
     },
     "menu_showCounter": {
         "message": "Birta teljara"
@@ -135,7 +156,7 @@
         "message": "aldrei"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Notendareglur fyrir HTTPS-allssta\u00f0ar"
     },
     "prefs_export_settings": {
         "message": "Flytja \u00fat stillingar"

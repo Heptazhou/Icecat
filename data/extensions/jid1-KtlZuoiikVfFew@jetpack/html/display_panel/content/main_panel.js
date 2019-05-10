@@ -55,11 +55,28 @@ liTemplate.remove();
 
 document.querySelector("#info").addEventListener("click", e => {
 	let button = e.target;
+  if (button.tagName === "A") {
+    setTimeout(close, 100);
+    return;
+  }
+  if (button.tagName !== "BUTTON") button = button.closest("button");
+  if (button.matches(".toggle-source")) {
+    let parent = button.parentNode;
+    if (!parent.querySelector(".source").textContent) {
+      parent.querySelector("a").click();
+    } else {
+      parent.classList.toggle("visible");
+    }
+    return;
+  }
 	if (!button.matches(".buttons > button")) return;
+  let domain = button.querySelector(".domain");
+
 	let li = button.closest("li");
 	let entry = li && li._scriptEntry || [currentReport.url, "Page's site"];
 	let action = button.className;
-  let site = button.name === "*";
+  let site = domain ? domain.textContent : button.name === "*" ? currentReport.site : "";
+
   if (site) {
     ([action] = action.split("-"));
   }
@@ -81,13 +98,14 @@ document.querySelector("#open-options").onclick = e => {
   close();
 }
 
-document.querySelector("#reload").onclick = async e => {
+document.body.addEventListener("click", async e => {
+  if (!e.target.matches(".reload")) return;
   let {tabId} = currentReport;
   if (tabId) {
     await browser.tabs.reload(tabId);
     myPort.postMessage({"update": true, tabId});
   }
-};
+});
 
 /*
 *	Takes in the [[file_id, reason],...] array and the group name for one group
@@ -111,11 +129,21 @@ function createList(data, group){
    container.classList.add("empty");
  }
  // generate list
+ let viewSourceToHuman = /^view-source:(.*)#line(\d+)\(([^)]*)\)[^]*/;
  for (let entry of entries) {
    let [scriptId, reason] = entry;
 	 let li = liTemplate.cloneNode(true);
 	 let a = li.querySelector("a");
 	 a.href = scriptId.split("(")[0];
+   if (scriptId.startsWith("view-source:")) {
+     a.target ="LibreJS-ViewSource";
+     let source = scriptId.match(/\n([^]*)/);
+     if (source)  {
+       li.querySelector(".source").textContent = source[1];
+       li.querySelector(".toggle-source").style.display = "inline";
+     }
+     scriptId = scriptId.replace(viewSourceToHuman, "$3 at line $2 of $1");
+   }
    a.textContent = scriptId;
 	 li.querySelector(".reason").textContent = reason;
    let bySite = !!reason.match(/https?:\/\/[^/]+\/\*/);
@@ -146,8 +174,8 @@ function createList(data, group){
 */
 function refreshUI(report) {
   currentReport = report;
-
-  document.querySelector("#site").className = report.siteStatus || "";
+  let {siteStatus, listedSite} = report;
+  document.querySelector("#site").className = siteStatus || "";
   document.querySelector("#site h2").textContent =
     `This site ${report.site}`;
 
@@ -169,6 +197,20 @@ function refreshUI(report) {
      .whitelisted .whitelist, .blacklisted .blacklist`
    )) {
     b.disabled = true;
+  }
+
+  if (siteStatus && siteStatus !== "unknown") {
+    let siteContainer = document.querySelector("#site");
+    let statusLabel = siteStatus;
+    if (listedSite && listedSite !== report.site) {
+      statusLabel += ` via ${listedSite}`;
+      siteContainer.querySelector(".forget").disabled = true;
+    }
+    let status = siteContainer.querySelector(".status");
+    status.classList.add(siteStatus);
+    status.textContent = statusLabel;
+  } else {
+    document.querySelector("#site .status").textContent = "";
   }
 
   let noscript = scriptsCount === 0;

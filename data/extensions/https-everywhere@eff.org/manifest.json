@@ -50,7 +50,7 @@
         "*://*/*",
         "ftp://*/*"
     ],
-    "version": "2018.10.31",
+    "version": "2019.5.6.1",
     "web_accessible_resources": [
         "/pages/cancel/index.html"
     ]

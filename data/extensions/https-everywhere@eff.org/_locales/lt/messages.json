@@ -3,13 +3,13 @@
         "message": "Prid\u0117ti nauj\u0105 taisykl\u0119"
     },
     "about_ext_description": {
-        "message": "\u0160ifruokite \u017einiatinkl\u012f! Automati\u0161kai naudokite HTTPS apsaug\u0105 daugelyje svetaini\u0173."
+        "message": "\u0160ifruokite saityn\u0105! Automati\u0161kai naudokite HTTPS saugum\u0105 daugelyje svetaini\u0173."
     },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Taisykli\u0173 rinkinio versija"
     },
     "about_title": {
         "message": "Apie HTTPS Everywhere"
@@ -18,10 +18,13 @@
         "message": "Versija"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere pasteb\u0117jo, kad ketinote nar\u0161yti \u012f ne HTTPS puslap\u012f ir, vietoj to, band\u0117 jus nukreipti \u012f HTTPS versij\u0105. HTTPS versija yra neprieinama. Grei\u010diausiai, \u0161i svetain\u0117 nepalaiko HTTPS, ta\u010diau taip pat gali b\u016bti, kad u\u017epuolikas blokuoja HTTPS versij\u0105. Jeigu vis dar nor\u0117tum\u0117te matyti ne\u0161ifruot\u0105 \u0161io puslapio versij\u0105, galite tai atlikti, savo HTTPS Everywhere priede i\u0161jung\u0119 parametr\u0105 &quot;\u0160ifruoti visas galimas svetaines&quot; (EASE). Tur\u0117kite omenyje, kad \u0161io parametro i\u0161jungimas, svetain\u0117se, kuriose lankysit\u0117s gali padaryti j\u016bs\u0173 nar\u0161ykl\u0119 pa\u017eeid\u017eiam\u0105 tinklu pagr\u012fstoms sendinimo atakoms."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "tinklu pagr\u012fstos sendinimo atakos"
+    },
+    "cancel_open_page": {
+        "message": "Atverti nesaug\u0173 puslap\u012f"
     },
     "chrome_add_new_rule": {
         "message": "Prid\u0117ti \u0161iai svetainei nauj\u0105 taisykl\u0119"
@@ -33,10 +36,10 @@
         "message": "Visuomet \u0161iam serveriui naudoti https"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "I\u0161jungti HTTPS Everywhere \u0161ioje svetain\u0117je"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "\u012ejungti HTTPS Everywhere \u0161ioje svetain\u0117je"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentin\u0117s taisykl\u0117s"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Taisykl\u0117s pavadinimas"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Nar\u0161ydami \u012fvairiose svetain\u0117se, kiekvienai svetainei galite keisti savo nuostatas"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Nustatymai \u0161iai svetainei"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Keiskite savo \u0161ifruot\u0173 ry\u0161i\u0173 nuostatas"
+    },
     "chrome_show_advanced": {
         "message": "Rodyti i\u0161pl\u0117stinius"
     },
@@ -71,71 +83,80 @@
     "chrome_status_cancel_button": {
         "message": "Atsisakyti"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Blokuoti visas ne\u0161ifruotas u\u017eklausas"
-    },
     "menu_donate_eff_imperative": {
         "message": "Paaukoti EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "\u0160ifruoti visas galimas svetaines (EASE) yra \u012eJUNGTA"
+    },
     "menu_globalEnable": {
-        "message": "\u012egalinti HTTPS Everywhere"
+        "message": "HTTPS Everywhere yra I\u0160JUNGTA"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Ne\u0161ifruotos u\u017eklausos \u0161iuo metu yra u\u017eblokuotos"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "\u0160i veiksena u\u017eblokuoja ne\u0161ifruot\u0105 turin\u012f ir u\u017eklausas"
     },
     "menu_observatory": {
-        "message": "SSL Observatorijos nustatymai"
+        "message": "SSL observatorijos nuostatos"
+    },
+    "menu_seeMore": {
+        "message": "Rodyti daugiau"
     },
     "menu_showCounter": {
         "message": "Rodyti skaitikl\u012f"
     },
     "menu_viewAllRules": {
-        "message": "\u017di\u016br\u0117ti visas taisykles"
+        "message": "Rodyti visas taisykles"
     },
     "options_addUpdateChannel": {
-        "message": "Add Update Channel"
+        "message": "Prid\u0117ti atnaujinimo kanal\u0105"
     },
     "options_advancedSettings": {
         "message": "I\u0161pl\u0117stiniai nustatymai"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Automati\u0161kai atnaujinti taisykli\u0173 rinkinius"
     },
     "options_delete": {
         "message": "I\u0161trinti"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "HTTPS Everywhere svetain\u0117s i\u0161jungtos"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "\u012ejungti mi\u0161raus turinio taisykli\u0173 rinkinius"
     },
     "options_enterUpdateChannelName": {
-        "message": "Enter update channel name"
+        "message": "Prid\u0117ti atnaujinimo kanalo vard\u0105"
     },
     "options_generalSettings": {
         "message": "Bendri nustatymai"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Rodyti pl\u0117totojo \u012franki\u0173 kortel\u0119"
     },
     "options_storedRulesetsVersion": {
-        "message": "Stored rulesets version: "
+        "message": "I\u0161saugot\u0173 taisykli\u0173 rinkini\u0173 versija: "
     },
     "options_update": {
-        "message": "Update"
+        "message": "Atnaujinti"
     },
     "options_updateChannels": {
-        "message": "Update Channels"
+        "message": "Atnaujinimo kanalai"
     },
     "options_updateChannelsWarning": {
-        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+        "message": "\u012esp\u0117jimas: Prid\u0117jus atnaujinimo kanalus, u\u017epuolikai gali u\u017egrobti j\u016bs\u0173 nar\u0161ykl\u0119. Taisykite \u0161i\u0105 sekcij\u0105 tik tuo atveju, jeigu \u017einote k\u0105 darote!"
     },
     "options_updatesLastChecked": {
-        "message": "Updates last checked: "
+        "message": "Atnaujinimai paskutin\u012f kart\u0105 tikrinti"
     },
     "options_updatesLastCheckedNever": {
         "message": "niekada"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "HTTPS Everywhere naudotojo taisykl\u0117s"
     },
     "prefs_export_settings": {
         "message": "Eksportuoti nustatymus"
@@ -144,6 +165,6 @@
         "message": "Atstatyti numatytas"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Tai perkraus visus taisykli\u0173 rinkinius \u012f j\u0173 pirmin\u0119 b\u016bsen\u0105. T\u0119sti?"
     }
 }

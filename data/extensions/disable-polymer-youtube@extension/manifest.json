@@ -1,0 +1,10 @@
+{
+  "manifest_version": 2,
+  "name": "disable-polymer-youtube",
+  "version": "1.0",
+  "description": "Disables the use of polymer on YouTube",
+  "permissions": ["webRequest", "webRequestBlocking", "*://www.youtube.com/*"],
+  "background": {
+    "scripts": ["background.js"]
+  }
+}

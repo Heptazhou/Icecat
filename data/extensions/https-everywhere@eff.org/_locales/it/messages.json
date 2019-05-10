@@ -18,10 +18,13 @@
         "message": "Versione"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere ha notato che stavi navigando in una pagina non-HTTPS, che tentava invece di portarti alla versione HTTPS. La versione HTTPS non \u00e8 disponibile. Probabilmente questo sito non supporta HTTPS, ma \u00e8 anche possibile che un aggressore stia bloccando la versione HTTPS. Se vuoi visualizzare la versione non cifrata di questa pagina, puoi farlo disattivando l'opzione 'Blocca tutte le richieste in chiaro' nell'estensione HTTPS Everywhere. Fai attenzione che disattivando questa opzione potrebbe rendere il tuo browser vulnerabile ad attacchi di declassamento della rete nei siti che visiti."
+        "message": "HTTPS Everywhere ha notato che stavi per navigare in una pagina non-HTTPS e ha tentato di mandarti alla versione HTTPS. La versione HTTPS non \u00e8 disponibile. Probabilmente questo sito non supporta HTTPS, ma \u00e8 anche possibile che un aggressore stia bloccando la versione HTTPS. Se desideri visualizzare la versione non cifrata di questa pagina, puoi farlo disattivando l'opzione 'Cripta tutti i siti idonei' (EASE) nell'estensione HTTPS Everywhere. Tieni presente che disattivare questa opzione potrebbe rendere il tuo browser vulnerabile ad attacchi di declassamento della rete nei siti che visiti."
     },
     "cancel_he_blocking_network": {
         "message": "attacchi di declassamento della rete"
+    },
+    "cancel_open_page": {
+        "message": "Apri pagina non sicura"
     },
     "chrome_add_new_rule": {
         "message": "Aggiungi una nuova regola per questo sito"
@@ -59,11 +62,20 @@
     "chrome_rule_name": {
         "message": "Nome regola"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Navigando su siti web diversi, puoi cambiare le tue preferenze per ogni sito web."
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Impostazioni per questo sito."
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Cambia le tue preferenze per le connessioni criptate."
+    },
     "chrome_show_advanced": {
         "message": "Mostra avanzate"
     },
     "chrome_stable_rules": {
-        "message": "Regole stabil"
+        "message": "Regole stabili"
     },
     "chrome_stable_rules_description": {
         "message": "Forza connessione criptate a questi siti:"
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Annulla"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Blocca tutte le richieste in chiaro"
-    },
     "menu_donate_eff_imperative": {
         "message": "Dona alla EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible \u00e8 attivo."
+    },
     "menu_globalEnable": {
-        "message": "Abilita HTTPS Everywhere"
+        "message": "HTTPS Everywhere \u00e8 spento."
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Le richieste non criptate sono al momento bloccate."
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Questa modalit\u00e0 blocca i contenuti e le richieste non criptati."
     },
     "menu_observatory": {
         "message": "Preferenze Osservatorio SSL"
+    },
+    "menu_seeMore": {
+        "message": "Vedi di pi\u00f9."
     },
     "menu_showCounter": {
         "message": "Mostra contatore"

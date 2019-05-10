@@ -33,10 +33,10 @@
         "message": "V\u017edy pou\u017e\u00edva\u0165 https pre tohto hostite\u013ea."
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Vypn\u00fa\u0165 HTTPS Everywhere pre t\u00fato str\u00e1nku"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Zapn\u00fa\u0165 HTTPS Everywhere pre t\u00fato str\u00e1nku"
     },
     "chrome_experimental_rules": {
         "message": "Experiment\u00e1lne pravidl\u00e1"
@@ -71,11 +71,11 @@
     "chrome_status_cancel_button": {
         "message": "Zru\u0161i\u0165"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Blokova\u0165 v\u0161etky ne\u0161ifrovan\u00e9 po\u017eiadavky"
-    },
     "menu_donate_eff_imperative": {
         "message": "Darujte EFF"
+    },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible (EASE)"
     },
     "menu_globalEnable": {
         "message": "Zapn\u00fa\u0165 HTTPS Everywhere"
@@ -132,7 +132,7 @@
         "message": "Updates last checked: "
     },
     "options_updatesLastCheckedNever": {
-        "message": "never"
+        "message": "nikdy"
     },
     "options_userRulesListed": {
         "message": "HTTPS Everywhere User Rules"

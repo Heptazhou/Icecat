@@ -109,7 +109,7 @@ browser.runtime.sendMessage(['ison', location.hostname, location.protocol]).then
 					};
 					_qsa = null;
 				}
-				if (r.myset_rqbl_ah_rclk == 'y') {
+				if (r.myset_rqbl_ah_rclk != 'n') {
 					window.oncontextmenu = null;
 					document.oncontextmenu = null;
 					document.addEventListener('contextmenu', function (e) {
@@ -193,7 +193,7 @@ browser.runtime.sendMessage(['ison', location.hostname, location.protocol]).then
 						e.stopImmediatePropagation();
 					}, true);
 				}
-				if (r.myset_rqbl_ah_0wchr == 'y') {
+				if (r.myset_rqbl_ah_0wchr != 'n') {
 					remove0WidthChars();
 				}
 				if (r.myset_rqblcftagcanvas == 'y') {

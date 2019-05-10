@@ -29,7 +29,7 @@ const nullIterable = Object.create(null, {
 const scopes = new Map();
 
 /* Returns the scope object from the map for the given scope string */
-function getScope(scope){
+function getScope(scope) {
   if (!scopes.has(scope)) {
     scopes.set(scope, new RegExp(scope));
   }
@@ -174,7 +174,7 @@ RuleSet.prototype = {
     }
 
     if(this_rules_length > 0) {
-      for(let x = 0; x < this.rules.length; x++){
+      for(let x = 0; x < this.rules.length; x++) {
         if(this.rules[x].to != ruleset.rules[x].to) {
           return false;
         }
@@ -363,7 +363,7 @@ RuleSets.prototype = {
     if (src === 'options') {
       /**
        * FIXME: There is nothing we can do if the call comes from the
-       * option page because isEquivalentTo cannot work reliably. 
+       * option page because isEquivalentTo cannot work reliably.
        * Leave the heavy duties to background.js to call initializeAllRules
        */
     }
@@ -431,7 +431,7 @@ RuleSets.prototype = {
     }
   },
 
-  addStoredCustomRulesets: function(){
+  addStoredCustomRulesets: function() {
     return new Promise(resolve => {
       this.store.get({
         legacy_custom_rulesets: [],
@@ -445,17 +445,17 @@ RuleSets.prototype = {
   },
 
   // Load in the legacy custom rulesets, if any
-  loadCustomRulesets: function(legacy_custom_rulesets){
-    for(let legacy_custom_ruleset of legacy_custom_rulesets){
+  loadCustomRulesets: function(legacy_custom_rulesets) {
+    for(let legacy_custom_ruleset of legacy_custom_rulesets) {
       this.loadCustomRuleset(legacy_custom_ruleset);
     }
   },
 
-  loadCustomRuleset: function(ruleset_string){
+  loadCustomRuleset: function(ruleset_string) {
     this.addFromXml((new DOMParser()).parseFromString(ruleset_string, 'text/xml'));
   },
 
-  setRuleActiveState: async function(ruleset_name, active){
+  setRuleActiveState: async function(ruleset_name, active) {
     if (active == undefined) {
       delete this.ruleActiveStates[ruleset_name];
     } else {
@@ -562,22 +562,23 @@ RuleSets.prototype = {
       return nullIterable;
     }
 
-    // Replace each portion of the domain with a * in turn
+    // Replace www.example.com with www.example.*
+    // eat away from the right for once and only once
     let segmented = host.split(".");
-    for (let i = 0; i < segmented.length; i++) {
-      let tmp = segmented[i];
-      segmented[i] = "*";
+    if (segmented.length > 1) {
+      const tmp = segmented[segmented.length - 1];
+      segmented[segmented.length - 1] = "*";
 
       results = (this.targets.has(segmented.join(".")) ?
         new Set([...results, ...this.targets.get(segmented.join("."))]) :
         results);
 
-      segmented[i] = tmp;
+      segmented[segmented.length - 1] = tmp;
     }
 
     // now eat away from the left, with *, so that for x.y.z.google.com we
-    // check *.z.google.com and *.google.com (we did *.y.z.google.com above)
-    for (let i = 2; i <= segmented.length - 2; i++) {
+    // check *.y.z.google.com, *.z.google.com and *.google.com
+    for (let i = 1; i <= segmented.length - 2; i++) {
       let t = "*." + segmented.slice(i, segmented.length).join(".");
 
       results = (this.targets.has(t) ?
@@ -625,11 +626,10 @@ RuleSets.prototype = {
     }
 
     var potentiallyApplicable = this.potentiallyApplicableRulesets(hostname);
-    for (let ruleset of potentiallyApplicable) {
+    for (const ruleset of potentiallyApplicable) {
       if (ruleset.cookierules !== null && ruleset.active) {
-        for (let cookierules of ruleset.cookierules) {
-          var cr = cookierules;
-          if (cr.host_c.test(cookie.domain) && cr.name_c.test(cookie.name)) {
+        for (const cookierule of ruleset.cookierules) {
+          if (cookierule.host_c.test(cookie.domain) && cookierule.name_c.test(cookie.name)) {
             return ruleset;
           }
         }
@@ -682,10 +682,7 @@ RuleSets.prototype = {
     util.log(util.INFO, "Testing securecookie applicability with " + test_uri);
     var potentiallyApplicable = this.potentiallyApplicableRulesets(domain);
     for (let ruleset of potentiallyApplicable) {
-      if (!ruleset.active) {
-        continue;
-      }
-      if (ruleset.apply(test_uri)) {
+      if (ruleset.active && ruleset.apply(test_uri)) {
         util.log(util.INFO, "Cookie domain could be secured.");
         this.cookieHostCache.set(domain, true);
         return true;

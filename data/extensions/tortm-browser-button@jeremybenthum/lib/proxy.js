@@ -5,7 +5,7 @@ if (/Firefox/.test(navigator.userAgent)) {
       const mode = value.mode;
       const settings = {
         "autoLogin": value.noPrompt,
-        "proxyDNS": value.remoteDNS,
+        "proxyDNS": true,
         "autoConfigUrl": mode === 'pac_script' ? value.pacScript.url : '',
         "socksVersion": mode === 'fixed_servers' && value.rules.singleProxy.scheme === 'socks5' ? 5 : 4,
         "passthrough": mode === 'fixed_servers' && value.rules.bypassList && value.rules.bypassList.length ? value.rules.bypassList.join(', ') : '',

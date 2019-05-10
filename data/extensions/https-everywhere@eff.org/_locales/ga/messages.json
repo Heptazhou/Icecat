@@ -18,10 +18,13 @@
         "message": "Leagan"
     },
     "cancel_he_blocking_explainer": {
-        "message": "Thug HTTPS Everywhere faoi deara go raibh t\u00fa ag iarraidh cuairt a thabhairt ar leathanach gan HTTPS, agus rinne s\u00e9 iarracht an leagan HTTPS a sheoladh chugat ina \u00e1it, ach theip air toisc nach bhfuil an leagan HTTPS ar f\u00e1il. Is d\u00f3cha nach dtaca\u00edonn an su\u00edomh seo le HTTPS, ach d'fh\u00e9adfadh s\u00e9 gur chuir ionsaitheoir cosc ar an leagan HTTPS. M\u00e1s mian leat an leagan neamhchriptithe den leathanach seo a fh\u00e1il, is f\u00e9idir leat \u00e9 sin a dh\u00e9anamh tr\u00ed 'Cuir cosc ar gach iarratas neamhchriptithe' a mh\u00fachadh sa mbreise\u00e1n HTTPS Everywhere. M\u00e1 mh\u00fachann t\u00fa an rogha seo, b'fhurasta ionsa\u00ed \u00edosghr\u00e1daithe a dh\u00e9anamh ort ar na su\u00edmh Ghr\u00e9as\u00e1in a dtugann t\u00fa cuairt orthu."
+        "message": "Thug HTTPS Everywhere faoi deara go raibh t\u00fa ag iarraidh cuairt a thabhairt ar leathanach gan HTTPS, agus rinne s\u00e9 iarracht an leagan HTTPS a sheoladh chugat ina \u00e1it, ach theip air toisc nach bhfuil an leagan HTTPS ar f\u00e1il. Is d\u00f3cha nach dtaca\u00edonn an su\u00edomh seo le HTTPS, ach d'fh\u00e9adfadh s\u00e9 gur chuir ionsaitheoir cosc ar an leagan HTTPS. M\u00e1s mian leat an leagan neamhchriptithe den leathanach seo a fh\u00e1il, is f\u00e9idir leat \u00e9 sin a dh\u00e9anamh tr\u00ed 'Cripti\u00fa Nuair is F\u00e9idir (EASE)' a mh\u00fachadh sa mbreise\u00e1n HTTPS Everywhere. M\u00e1 mh\u00fachann t\u00fa an rogha seo, b'fhurasta ionsa\u00ed \u00edosghr\u00e1daithe a dh\u00e9anamh ort ar na su\u00edmh Ghr\u00e9as\u00e1in a dtugann t\u00fa cuairt orthu."
     },
     "cancel_he_blocking_network": {
         "message": "ionsaithe \u00edosghr\u00e1daithe ar an l\u00edonra"
+    },
+    "cancel_open_page": {
+        "message": "Oscail leathanach neamhshl\u00e1n"
     },
     "chrome_add_new_rule": {
         "message": "Cuir riail nua i bhfeidhm ar an su\u00edomh seo"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Ainm na rialach"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Taispe\u00e1in na hardroghanna"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Cuir ar ceal"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Cuir cosc ar gach iarratas neamhchriptithe"
-    },
     "menu_donate_eff_imperative": {
         "message": "Tabhair s\u00ednti\u00fas airgid don EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "Cumasaigh HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "Sainroghanna SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Taispe\u00e1in \u00c1iritheoir"
@@ -135,7 +156,7 @@
         "message": "n\u00ed lorga\u00edodh riamh"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Rialacha \u00das\u00e1ideora HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Easp\u00f3rt\u00e1il Socruithe"

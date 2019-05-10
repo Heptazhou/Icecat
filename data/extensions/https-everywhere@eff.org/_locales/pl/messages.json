@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Wersja zestaw reg\u00f3\u0142 dla "
     },
     "about_title": {
         "message": "O HTTPS Everywhere"
@@ -18,10 +18,13 @@
         "message": "Wersja"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere zauwa\u017cy\u0142, \u017ce przechodzisz do strony innej ni\u017c HTTPS i zamiast tego pr\u00f3bowa\u0142 wys\u0142a\u0107 ci\u0119 do wersji HTTPS. Wersja HTTPS jest niedost\u0119pna. Najprawdopodobniej ta witryna nie obs\u0142uguje protoko\u0142u HTTPS, ale mo\u017cliwe jest r\u00f3wnie\u017c, \u017ce osoba atakuj\u0105ca blokuje wersj\u0119 HTTPS. Je\u015bli chcesz wy\u015bwietli\u0107 niezaszyfrowan\u0105 wersj\u0119 tej strony, mo\u017cesz to zrobi\u0107, wy\u0142\u0105czaj\u0105c opcj\u0119 \u201eSzyfruj wszystkie uprawnione witryny\u201d (EASE) w rozszerzeniu HTTPS Everywhere. Nale\u017cy pami\u0119ta\u0107, \u017ce wy\u0142\u0105czenie tej opcji mo\u017ce spowodowa\u0107, \u017ce przegl\u0105darka b\u0119dzie nara\u017cona na ataki polegaj\u0105ce na obni\u017caniu wersji po\u0142\u0105czenia w odwiedzanych witrynach."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "sieciowe ataki downgrade"
+    },
+    "cancel_open_page": {
+        "message": "Otw\u00f3rz niezabezpieczon\u0105 stron\u0119"
     },
     "chrome_add_new_rule": {
         "message": "Dodaj now\u0105 regu\u0142\u0119 dla tej strony"
@@ -33,10 +36,10 @@
         "message": "Zawsze u\u017cywaj https dla tego hosta"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Wy\u0142\u0105cz HTTPS Everywhere na tej stronie"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "W\u0142\u0105cz HTTPS Everywhere na tej stronie"
     },
     "chrome_experimental_rules": {
         "message": "Regu\u0142y eksperymentalne"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nazwa regu\u0142y"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Podczas przegl\u0105dania r\u00f3\u017cnych stron internetowych mo\u017cesz zmieni\u0107 preferencje dla ka\u017cdej witryny"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Ustawienia dla tej witryny"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Zmie\u0144 swoje preferencje dla po\u0142\u0105cze\u0144 szyfrowanych"
+    },
     "chrome_show_advanced": {
         "message": "Poka\u017c zaawansowane"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Anuluj"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Blokuj wszystkie nieszyfrowane pr\u00f3by po\u0142\u0105czenia"
-    },
     "menu_donate_eff_imperative": {
         "message": "Wspom\u00f3\u017c finansowo EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Szyfruj wszystkie witryny kwalifikuj\u0105ce si\u0119 do w\u0142\u0105czenia"
+    },
     "menu_globalEnable": {
-        "message": "W\u0142\u0105cz HTTPS Everywhere"
+        "message": "HTTPS Wsz\u0119dzie jest WY\u0141\u0104CZONE"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Niezaszyfrowane \u017c\u0105dania s\u0105 obecnie zablokowane"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Ten tryb blokuje niezaszyfrowan\u0105 zawarto\u015b\u0107 i \u017c\u0105dania"
     },
     "menu_observatory": {
         "message": "Ustawienia SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "Zobacz wi\u0119cej"
     },
     "menu_showCounter": {
         "message": "Poka\u017c Licznik"
@@ -90,52 +111,52 @@
         "message": "Wy\u015bwietl wszystkie regu\u0142y"
     },
     "options_addUpdateChannel": {
-        "message": "Add Update Channel"
+        "message": "Dodaj kana\u0142 aktualizacji"
     },
     "options_advancedSettings": {
         "message": "Ustawienia zaawansowane"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Automatycznie aktualizuj zestawy regu\u0142"
     },
     "options_delete": {
         "message": "Usu\u0144"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "Strony wy\u0142\u0105czone w HTTPS Everywhere"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "W\u0142\u0105cz zestawy reg\u00f3\u0142 o ro\u017cnorodnych zawarto\u015bciach"
     },
     "options_enterUpdateChannelName": {
-        "message": "Enter update channel name"
+        "message": "Wpisz nazw\u0119 kana\u0142u aktualizacji"
     },
     "options_generalSettings": {
         "message": "Ustawienia G\u0142\u00f3wne"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Poka\u017c zak\u0142adk\u0119 Devtools"
     },
     "options_storedRulesetsVersion": {
-        "message": "Stored rulesets version: "
+        "message": "Zapisane wersje zestaw\u00f3w regu\u0142"
     },
     "options_update": {
         "message": "Aktualizacja"
     },
     "options_updateChannels": {
-        "message": "Update Channels"
+        "message": "Zaktualizuj kana\u0142y"
     },
     "options_updateChannelsWarning": {
-        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+        "message": "Ostrze\u017cenie: Dodawanie &quot;update channels&quot; mo\u017ce umo\u017cliwi\u0107 atak przej\u0119cia kontroli nad twoj\u0105 przegl\u0105dark\u0105. Edytuj t\u0119 sekcj\u0119 jedynie je\u015bli wiesz co robisz!"
     },
     "options_updatesLastChecked": {
-        "message": "Updates last checked: "
+        "message": "Ostatnio sprawdzono aktualizacje:"
     },
     "options_updatesLastCheckedNever": {
         "message": "nigdy"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Zasady u\u017cytkownik\u00f3w HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Eksportuj ustawienia"
@@ -144,6 +165,6 @@
         "message": "Przywr\u00f3\u0107 ustawienia fabryczne"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "To zresetuje ka\u017cdy zestaw regu\u0142 do jego domy\u015blnego stanu. Kontynuowa\u0107?"
     }
 }

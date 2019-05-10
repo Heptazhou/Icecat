@@ -18,10 +18,13 @@
         "message": "Vers\u00e3o"
     },
     "cancel_he_blocking_explainer": {
-        "message": "O HTTPS Everywhere percebeu que voc\u00ea estava navegando para uma p\u00e1gina n\u00e3o HTTPS e tentou enviar voc\u00ea para a vers\u00e3o HTTPS. A vers\u00e3o HTTPS n\u00e3o est\u00e1 dispon\u00edvel. O mais prov\u00e1vel \u00e9 que este site n\u00e3o suporte HTTPS, mas tamb\u00e9m \u00e9 poss\u00edvel que um invasor esteja bloqueando a vers\u00e3o HTTPS. Se voc\u00ea desejar visualizar a vers\u00e3o n\u00e3o criptografada desta p\u00e1gina, ainda poder\u00e1 desativ\u00e1-la desativando a op\u00e7\u00e3o &quot;Bloquear todas as solicita\u00e7\u00f5es n\u00e3o criptografadas&quot; na sua extens\u00e3o HTTPS Everywhere. Esteja ciente de que desativar essa op\u00e7\u00e3o pode deixar seu navegador vulner\u00e1vel a ataques de downgrade com base na rede nos sites que voc\u00ea visita."
+        "message": "O HTTPS Everywhere percebeu que voc\u00ea estava navegando para uma p\u00e1gina n\u00e3o HTTPS e tentou enviar voc\u00ea para a vers\u00e3o HTTPS. A vers\u00e3o HTTPS n\u00e3o est\u00e1 dispon\u00edvel. O mais prov\u00e1vel \u00e9 que este site n\u00e3o suporte HTTPS, mas tamb\u00e9m \u00e9 poss\u00edvel que um invasor esteja bloqueando a vers\u00e3o HTTPS. Se voc\u00ea desejar visualizar a vers\u00e3o n\u00e3o criptografada desta p\u00e1gina, ainda poder\u00e1 desativ\u00e1-la desativando a op\u00e7\u00e3o &quot;Criptografar todos os sites qualificados&quot; (EASE) na sua extens\u00e3o HTTPS Everywhere. Esteja ciente de que desabilitar essa op\u00e7\u00e3o pode deixar seu navegador vulner\u00e1vel a ataques de downgrade com base na rede nos sites que voc\u00ea visita."
     },
     "cancel_he_blocking_network": {
         "message": "Ataques inferiores e b\u00e1sico de rede"
+    },
+    "cancel_open_page": {
+        "message": "Abrir p\u00e1gina insegura"
     },
     "chrome_add_new_rule": {
         "message": "Adicione uma nova regra para esse site"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nome da regra"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "\u00c0 medida que navega em websites diferentes, pode alterar as suas prefer\u00eancias para cada website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Configura\u00e7\u00f5es para este site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Mude suas prefer\u00eancias para conex\u00f5es criptografadas"
+    },
     "chrome_show_advanced": {
         "message": "Mostrar op\u00e7\u00f5es avan\u00e7adas"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Cancelar"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Bloquear todos os pedidos n\u00e3o criptografados"
-    },
     "menu_donate_eff_imperative": {
         "message": "Doar para EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encriptar todos sites eleg\u00edveis est\u00e1 ligado"
+    },
     "menu_globalEnable": {
-        "message": "Habilitar HTTPS Everywhere"
+        "message": "HTTPS Everywhere est\u00e1 ligado"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Pedidos n\u00e3o criptografados est\u00e3o atualmente bloqueados"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Este modo bloqueia conte\u00fado n\u00e3o criptografado e solicita\u00e7\u00f5es"
     },
     "menu_observatory": {
         "message": "Prefer\u00eancias do Observat\u00f3rio SSL"
+    },
+    "menu_seeMore": {
+        "message": "Ver mais"
     },
     "menu_showCounter": {
         "message": "Mostrar o contador"

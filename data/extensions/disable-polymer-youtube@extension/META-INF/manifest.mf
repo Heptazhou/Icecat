@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+
+Name: background.js
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: v3PrhVobQp8GUtmVlfwWfA==
+SHA1-Digest: KDiMigjJDsPrLqhcNGv24kc2XvM=
+SHA256-Digest: RD7XQiAlgTG3hYcuf6FT3V6WE8ujGXoGq9D1wh++qmo=
+
+Name: manifest.json
+Digest-Algorithms: MD5 SHA1 SHA256
+MD5-Digest: clwq7il+RMOmuo6P1NjGfg==
+SHA1-Digest: RY+DtSGXE+TNS7H/xonBQgnMSds=
+SHA256-Digest: JFKHTfLkmC7kMeU58sx7qolTziKHbegKrGHsWZRDlQw=
+

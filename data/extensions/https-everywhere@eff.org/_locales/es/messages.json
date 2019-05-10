@@ -18,10 +18,13 @@
         "message": "Versi\u00f3n"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere (HTTPS en todos lados) ha detectado que estabas navegando en un sitio que no admite HTTPS y ha intentado enviarte a la versi\u00f3n HTTPS en su lugar. La versi\u00f3n HTTPS no se encuentra disponible. Es probable que este sitio no soporte HTTPS. Tambi\u00e9n es posible que un atacante este bloqueando la versi\u00f3n HTTPS. Si deseas ver la versi\u00f3n sin encriptar de esta p\u00e1gina, puedes hacerlo deshabilitando la opci\u00f3n &quot;Bloquear todas las peticiones no cifradas&quot; en la extensi\u00f3n HTTPS Everywhere. Recuerda que deshabilitar esto podr\u00eda hacer que tu navegador sea vulnerable a ataques de red en p\u00e1ginas que visites."
+        "message": "HTTPS Everywhere ha detectado que estabas yendo hacia una p\u00e1gina que no era HTTTPS, y ha intentado enviarte, en su lugar, a la versi\u00f3n HTTPS. No est\u00e1 disponible dicha versi\u00f3n HTTPS. Lo m\u00e1s probable es que este sitio no soporte HTTPS, pero tambi\u00e9n es posible que un atacante est\u00e9 bloqueando la versi\u00f3n HTTPS. Si deseas ver la versi\u00f3n no cifrada de esta p\u00e1gina, puedes hacerlo desactivando la opci\u00f3n'Encrypt All Sites Eligible' (EASE) en tu extensi\u00f3n HTTPS Everywhere. Ten en cuenta que deshabilitar esta opci\u00f3n puede hacer que tu navegador sea vulnerable a los ataques de baja intensidad de los sitios web que visites."
     },
     "cancel_he_blocking_network": {
         "message": "ataques de baja intensidad basados en la red"
+    },
+    "cancel_open_page": {
+        "message": "Abrir una p\u00e1gina insegura"
     },
     "chrome_add_new_rule": {
         "message": "A\u00f1adir una nueva regla para este sitio"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nombre de la regla"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "A medida que navegas por diferentes sitios web, puedes cambiar tus preferencias para cada sitio web"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Configuraciones para este sitio"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Cambia tus preferencias para conexiones cifradas"
+    },
     "chrome_show_advanced": {
         "message": "Mostrar avanzadas"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Cancelar"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Bloquear todas las peticiones no cifradas"
-    },
     "menu_donate_eff_imperative": {
         "message": "Donar a EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible est\u00e1 encendido ON"
+    },
     "menu_globalEnable": {
-        "message": "Activar HTTPS Everywhere"
+        "message": "HTTPS Everywhere est\u00e1 apagado OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Las solicitudes sin cifrar est\u00e1n bloqueadas actualmente"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Este modo bloquea el contenido y las solicitudes sin cifrar."
     },
     "menu_observatory": {
         "message": "Opciones del Observatorio SSL"
+    },
+    "menu_seeMore": {
+        "message": "Ver m\u00e1s"
     },
     "menu_showCounter": {
         "message": "Mostrar contador"

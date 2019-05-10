@@ -71,11 +71,11 @@
     "chrome_status_cancel_button": {
         "message": "Ofbriechen"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Block all unencrypted requests"
-    },
     "menu_donate_eff_imperative": {
         "message": "Un d'EFF spenden"
+    },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible (EASE)"
     },
     "menu_globalEnable": {
         "message": "HTTPS Everywhere aktiv\u00e9ieren"

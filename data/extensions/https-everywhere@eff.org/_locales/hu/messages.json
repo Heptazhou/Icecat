@@ -18,10 +18,13 @@
         "message": "Verzi\u00f3"
     },
     "cancel_he_blocking_explainer": {
-        "message": "A HTTPS Everywhere \u00fagy \u00e9szlelte, hogy egy nem-HTTPS oldalra navig\u00e1lt, \u00e9s megpr\u00f3b\u00e1lta elk\u00fcldeni a HTTPS verzi\u00f3t ink\u00e1bb helyette. A HTTPS verzi\u00f3 nem el\u00e9rhet\u0151. Legink\u00e1bb \u00fagy t\u0171nik, hogy ez az oldal nem t\u00e1mogatja a HTTPS-t, de az is elk\u00e9pzelhet\u0151, hogy egy t\u00e1mad\u00f3 blokkolja a HTTPS verzi\u00f3 el\u00e9r\u00e9s\u00e9t. Ha szeretn\u00e9 megn\u00e9zni a titkos\u00edtatlan verzi\u00f3j\u00e1t az oldalnak, tov\u00e1bbra is megteheti a 'Minden titkos\u00edtatlan k\u00e9r\u00e9s blokkol\u00e1sa' opci\u00f3 kikapcsol\u00e1s\u00e1val a HTTPS Everywhere b\u0151v\u00edtm\u00e9nyben. Figyeljen arra, hogy ennek az opci\u00f3nak a kikapcsol\u00e1s\u00e1val a b\u00f6ng\u00e9sz\u0151t s\u00e9r\u00fcl\u00e9kenny\u00e9 teszi a h\u00e1l\u00f3zati b\u00e1zis\u00fa lefokoz\u00f3 t\u00e1mad\u00e1sokkal szemben a weboldalakon, amit l\u00e1togat."
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
         "message": "h\u00e1l\u00f3zati b\u00e1zis\u00fa lefokoz\u00f3 t\u00e1mad\u00e1s"
+    },
+    "cancel_open_page": {
+        "message": "Nem biztons\u00e1gos oldalak megnyit\u00e1sa"
     },
     "chrome_add_new_rule": {
         "message": "\u00daj szab\u00e1ly az oldalhoz"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Szab\u00e1ly neve"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Speci\u00e1lis be\u00e1ll\u00edt\u00e1sok megjelen\u00edt\u00e9se"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "M\u00e9gsem"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Minden titkos\u00edtatlan k\u00e9r\u00e9s tilt\u00e1sa"
-    },
     "menu_donate_eff_imperative": {
         "message": "T\u00e1mogat\u00e1s az EFF-nek"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere bekapcsol\u00e1sa"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "SSL Observatory Preferenci\u00e1k"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Mutassa a sz\u00e1ml\u00e1l\u00f3t"

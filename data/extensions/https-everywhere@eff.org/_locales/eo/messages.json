@@ -18,10 +18,13 @@
         "message": "Versio"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS-\u0108ie rimarkis, ke vi vizitis retpa\u011don sen HTTPS kaj provis sendi vin al retpa\u011do kun HTTPS, sed la versio kun HTTPS estas nedisponebla. Probable tiu \u0109i retejo ne subtenas HTTPS, tamen anka\u016d eblas, ke iu atakanto blokas aliron al HTTPS. Por viziti ne\u0109ifritan version de tiu \u0109i retpa\u011do, malaktivigu la agordon \u201cbloki \u0109iujn ne\u0109ifritajn petojn\u201d de etenda\u0135o HTTPS-\u0108ie. Estu singarda, \u0109ar malaktivigo de tiu \u0109i agordo igas vian retumilon atakebla al \u201cret-bazaj malpromociaj atakoj\u201d (\u00abdowngrade attack\u00bb) \u0109e vizitataj retejoj."
+        "message": "HTTPS-\u0108ie rimarkis, ke vi vizitis retpa\u011don sen HTTPS kaj provis sendi vin al retpa\u011do kun HTTPS, sed la versio kun HTTPS estas nedisponebla. Probable tiu \u0109i retejo ne subtenas HTTPS, tamen anka\u016d eblas, ke iu atakanto blokas aliron al HTTPS. Por viziti ne\u0109ifritan version de tiu \u0109i retpa\u011do, malaktivigu la agordon \u201c\u0109ifri \u0109iujn eblajn retejojn\u201d de etenda\u0135o HTTPS-\u0108ie. Estu singarda, \u0109ar malaktivigo de tiu \u0109i agordo igas vian retumilon atakebla al \u201cret-bazaj malpromociaj atakoj\u201d (\u00abdowngrade attack\u00bb) \u0109e vizitataj retejoj."
     },
     "cancel_he_blocking_network": {
         "message": "ret-bazaj malpromociaj atakoj"
+    },
+    "cancel_open_page": {
+        "message": "Malfermi nesekuran retpa\u011don"
     },
     "chrome_add_new_rule": {
         "message": "Aldoni novan regulon por tiu \u0109i retejo"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nomo de regulo"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Dum retumi diversajn retejojn, eblas \u015dan\u011di preferojn por \u0109iu retejo aparte"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Agordoj por tiu \u0109i retejo"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "\u015can\u011di agordojn de \u0109ifirtaj konektoj"
+    },
     "chrome_show_advanced": {
         "message": "Montri altnivelajn"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Rezigni"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Bloki \u0109iujn ne\u0109ifritajn petojn"
-    },
     "menu_donate_eff_imperative": {
         "message": "Donaci al EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "\u0108ifri \u03c8iujn eblajn retejojn \u015daltita"
+    },
     "menu_globalEnable": {
-        "message": "En\u015dalti HTTPS-\u0108ie"
+        "message": "HTTPS\u2011\u0108ie mal\u015daltita"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Ne\u0109ifritaj petoj estas nuntempe blokitaj"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Tiu \u0109i re\u011dimo blokas \u0109iujn ne\u0109ifritan petojn enhavon"
     },
     "menu_observatory": {
         "message": "Agordoj de SSL-Observejo"
+    },
+    "menu_seeMore": {
+        "message": "Pliaj informoj"
     },
     "menu_showCounter": {
         "message": "Montri nombrilon"

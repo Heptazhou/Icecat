@@ -18,10 +18,13 @@
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere bem\u00e6rkede at du navigerede til en side som ikke bruger HTTPS, og pr\u00f8vede i stedet at sende dig til HTTPS-versionen. HTTPS-versionen er ikke tilg\u00e6ngelig. Stedet underst\u00f8tter h\u00f8jst sandsynligt ikke HTTPS, men der er ogs\u00e5 mulighed for at en angriber blokerer HTTPS-versionen. Hvis du \u00f8nsker at vise den ukrypterede version af siden, s\u00e5 kan du stadig g\u00f8re det ved at deaktivere 'Bloker alle ukrypterede foresp\u00f8rgsler'-valgmuligheden i din HTTPS Everywhere-udvidelse. V\u00e6r opm\u00e6rksom p\u00e5 at deaktivering af valgmuligheden kan g\u00f8re din browser s\u00e5rbar overfor netv\u00e6rksbaserede nedgraderingsangreb p\u00e5 de websteder du bes\u00f8ger."
+        "message": "HTTPS Everywhere bem\u00e6rkede at du navigerede til en side som ikke bruger HTTPS, og pr\u00f8vede i stedet at sende dig til HTTPS-versionen. HTTPS-versionen er ikke tilg\u00e6ngelig. Stedet underst\u00f8tter h\u00f8jst sandsynligt ikke HTTPS, men der er ogs\u00e5 mulighed for at en angriber blokerer HTTPS-versionen. Hvis du \u00f8nsker at vise den ukrypterede version af siden, s\u00e5 kan du stadig g\u00f8re det ved at deaktivere 'Krypt\u00e9r alle steder kvalificeret (EASE)'-valgmuligheden i din HTTPS Everywhere-udvidelse. V\u00e6r opm\u00e6rksom p\u00e5 at deaktivering af valgmuligheden kan g\u00f8re din browser s\u00e5rbar overfor netv\u00e6rksbaserede nedgraderingsangreb p\u00e5 de websteder du bes\u00f8ger."
     },
     "cancel_he_blocking_network": {
         "message": "netv\u00e6rksbaserede nedgraderingsangreb"
+    },
+    "cancel_open_page": {
+        "message": "\u00c5bn usikker side"
     },
     "chrome_add_new_rule": {
         "message": "Tilf\u00f8j en ny regel til webstedet"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Regelnavn"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Vis avancerede indstillinger"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Annuller"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Bloker alle ukrypterede foresp\u00f8rgsler"
-    },
     "menu_donate_eff_imperative": {
         "message": "Don\u00e9r til EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
     "menu_globalEnable": {
-        "message": "Aktiv\u00e9r HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "Pr\u00e6ferencer for SSL-observatoriet"
+    },
+    "menu_seeMore": {
+        "message": "Se mere"
     },
     "menu_showCounter": {
         "message": "Vis t\u00e6ller"

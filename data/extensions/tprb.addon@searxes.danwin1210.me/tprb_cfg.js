@@ -1344,12 +1344,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				if (document.getElementById('myset_autocln_vy').value < 3 || document.getElementById('myset_autocln_vy').value > 1440) {
 					document.getElementById('myset_autocln_vy').value = 3;
 				}
-				document.getElementById('myset_rqblcsslover').checked = (r.myset_rqblcsslover == 'y') ? true : false;
-				document.getElementById('myset_rqblsubdomok').checked = (r.myset_rqblsubdomok == 'y') ? true : false;
+				document.getElementById('myset_rqblcsslover').checked = (r.myset_rqblcsslover != 'n') ? true : false;
+				document.getElementById('myset_rqblsubdomok').checked = (r.myset_rqblsubdomok != 'n') ? true : false;
 				document.getElementById('myset_rqblallok_wuz').checked = (r.myset_rqblallok_wuz == 'y') ? true : false;
-				document.getElementById('myset_rqblaok_cdnf').checked = (r.myset_rqblaok_cdnf == 'y') ? true : false;
-				document.getElementById('myset_rqblaok_cdnd').checked = (r.myset_rqblaok_cdnd == 'y') ? true : false;
-				document.getElementById('myset_rqblaok_ytb').checked = (r.myset_rqblaok_ytb == 'y') ? true : false;
+				document.getElementById('myset_rqblaok_cdnf').checked = (r.myset_rqblaok_cdnf != 'n') ? true : false;
+				document.getElementById('myset_rqblaok_cdnd').checked = (r.myset_rqblaok_cdnd != 'n') ? true : false;
+				document.getElementById('myset_rqblaok_ytb').checked = (r.myset_rqblaok_ytb != 'n') ? true : false;
 				document.getElementById('myset_rqblcleardark').checked = (r.myset_rqblcleardark == 'y') ? true : false;
 				document.getElementById('myset_rqblmixokay').checked = (r.myset_rqblmixokay == 'y') ? true : false;
 				document.getElementById('myset_rqbll2iokay').checked = (r.myset_rqbll2iokay == 'y') ? true : false;
@@ -1357,12 +1357,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				document.getElementById('showusrcssqslr').style.display = (r.myset_rqbl_csmadqs == 'y') ? 'inline' : 'none';
 				document.getElementById('myset_rqbldieframe').checked = (r.myset_rqbldieframe == 'y') ? true : false;
 				document.getElementById('myset_rqblcftagcanvas').checked = (r.myset_rqblcftagcanvas == 'y') ? true : false;
-				document.getElementById('myset_rqbl_ah_rclk').checked = (r.myset_rqbl_ah_rclk == 'y') ? true : false;
+				document.getElementById('myset_rqbl_ah_rclk').checked = (r.myset_rqbl_ah_rclk != 'n') ? true : false;
 				document.getElementById('myset_rqbl_ah_keys').checked = (r.myset_rqbl_ah_keys == 'y') ? true : false;
 				document.getElementById('myset_rqbl_ah_scrl').checked = (r.myset_rqbl_ah_scrl == 'y') ? true : false;
 				document.getElementById('myset_rqbl_ah_mmove').checked = (r.myset_rqbl_ah_mmove == 'y') ? true : false;
 				document.getElementById('myset_rqbl_ah_touch').checked = (r.myset_rqbl_ah_touch == 'y') ? true : false;
-				document.getElementById('myset_rqbl_ah_0wchr').checked = (r.myset_rqbl_ah_0wchr == 'y') ? true : false;
+				document.getElementById('myset_rqbl_ah_0wchr').checked = (r.myset_rqbl_ah_0wchr != 'n') ? true : false;
 				document.getElementById('myset_rqblsettemp').checked = (r.myset_rqblsettemp == 'y') ? true : false;
 				document.getElementById('myset_rqblfmtdsturl').checked = (r.myset_rqblfmtdsturl == 'y') ? true : false;
 				document.getElementById('showdsturlfmt').style.display = (r.myset_rqblfmtdsturl == 'y') ? 'inline' : 'none';

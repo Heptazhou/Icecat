@@ -71,11 +71,11 @@
     "chrome_status_cancel_button": {
         "message": "I-kansela"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Block all unencrypted requests"
-    },
     "menu_donate_eff_imperative": {
         "message": "Donate to EFF"
+    },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible (EASE)"
     },
     "menu_globalEnable": {
         "message": "I-enable ang HTTPS Everywhere"

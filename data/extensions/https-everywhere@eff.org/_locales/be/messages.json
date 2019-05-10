@@ -1,15 +1,15 @@
 {
     "about_add_new_rule": {
-        "message": "Add New Rule"
+        "message": "\u0414\u0430\u0434\u0430\u0446\u044c \u043d\u043e\u0432\u0430\u0435 \u043f\u0440\u0430\u0432\u0456\u043b\u0430"
     },
     "about_ext_description": {
-        "message": "\u0428\u044b\u0444\u0440\u0430\u0432\u0430\u043d\u043d\u0435 \u0421\u0435\u0446\u0456\u0432\u0430! \u0410\u045e\u0442\u0430\u043c\u0430\u0442\u044b\u0447\u043d\u0430\u0435 \u0432\u044b\u043a\u0430\u0440\u044b\u0441\u0442\u0430\u043d\u043d\u0435 \u0431\u044f\u0441\u043f\u0435\u043a\u0456 HTTPS \u043d\u0430 \u0440\u043e\u0437\u043d\u044b\u0445 \u0441\u0430\u0439\u0442\u0430\u0445"
+        "message": "\u0417\u0430\u0448\u044b\u0444\u0440\u0443\u0439\u0446\u0435 I\u043d\u0442\u044d\u0440\u043d\u044d\u0442! \u0410\u045e\u0442\u0430\u043c\u0430\u0442\u044b\u0447\u043d\u0430\u0435 \u0432\u044b\u043a\u0430\u0440\u044b\u0441\u0442\u0430\u043d\u043d\u0435 \u0431\u044f\u0441\u043f\u0435\u043a\u0456 HTTPS \u043d\u0430 \u0440\u043e\u0437\u043d\u044b\u0445 \u0441\u0430\u0439\u0442\u0430\u0445"
     },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "\u0412\u0435\u0440\u0441\u0456\u044f \u043d\u0430\u0431\u043e\u0440\u0430\u045e \u043f\u0440\u0430\u0432\u0456\u043b\u0430\u045e \u0434\u043b\u044f "
     },
     "about_title": {
         "message": "\u041f\u0440\u0430 HTTPS Everywhere"
@@ -18,70 +18,91 @@
         "message": "\u0412\u0435\u0440\u0441\u0456\u044f"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "\u0441\u0435\u0442\u043a\u0430\u0432\u044b\u044f \u0430\u0442\u0430\u043a\u0456 \u043f\u0430\u043d\u0456\u0436\u044d\u043d\u043d\u044f"
+    },
+    "cancel_open_page": {
+        "message": "Open insecure page"
     },
     "chrome_add_new_rule": {
-        "message": "Add a new rule for this site"
+        "message": "\u0414\u0430\u0434\u0430\u0446\u044c \u043d\u043e\u0432\u0430\u0435 \u043f\u0440\u0430\u0432\u0456\u043b\u0430 \u0434\u043b\u044f \u0433\u044d\u0442\u0430\u0433\u0430 \u0441\u0430\u0439\u0442\u0443"
     },
     "chrome_add_rule": {
-        "message": "Add a rule for this site"
+        "message": "\u0414\u0430\u0434\u0430\u0446\u044c \u043f\u0440\u0430\u0432\u0456\u043b\u0430 \u0434\u043b\u044f \u0433\u044d\u0442\u0430\u0433\u0430 \u0441\u0430\u0439\u0442\u0443"
     },
     "chrome_always_https_for_host": {
-        "message": "Always use https for this host"
+        "message": "\u0417\u0430\u045e\u0441\u0451\u0434\u044b \u0432\u044b\u043a\u0430\u0440\u044b\u0441\u0442\u043e\u045e\u0432\u0430\u0446\u044c https \u0434\u043b\u044f \u0433\u044d\u0442\u0430\u0433\u0430 \u0445\u043e\u0441\u0442\u0443"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "\u0410\u0434\u043a\u043b\u044e\u0447\u044b\u0446\u044c HTTPS Everywhere \u043d\u0430 \u0433\u044d\u0442\u044b\u043c \u0441\u0430\u0439\u0446\u0435"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "\u0423\u043a\u043b\u044e\u0447\u044b\u0446\u044c HTTPS Everywhere \u043d\u0430 \u0433\u044d\u0442\u044b\u043c \u0441\u0430\u0439\u0446\u0435"
     },
     "chrome_experimental_rules": {
-        "message": "Experimental rules"
+        "message": "\u042d\u043a\u0441\u043f\u0435\u0440\u044b\u043c\u0435\u043d\u0442\u0430\u043b\u044c\u043d\u044b\u044f \u043f\u0440\u0430\u0432\u0456\u043b\u044b"
     },
     "chrome_experimental_rules_description": {
-        "message": "May cause warnings or breakage. Disabled by default."
+        "message": "\u041c\u043e\u0436\u0430 \u0432\u044b\u043a\u043b\u0456\u043a\u0430\u0446\u044c \u043f\u0430\u043f\u044f\u0440\u044d\u0434\u0436\u0430\u043d\u043d\u0456 \u0430\u0431\u043e \u043f\u0440\u044b\u0432\u0435\u0441\u0446\u0456 \u0434\u0430 \u043f\u0430\u043b\u043e\u043c\u043a\u0456. \u041f\u0430 \u0437\u043c\u043e\u045e\u0447\u0430\u043d\u043d\u0456 \u0430\u0434\u043a\u043b\u044e\u0447\u0430\u043d\u0430\u0435. "
     },
     "chrome_hide_advanced": {
-        "message": "Hide advanced"
+        "message": "\u0421\u0445\u0430\u0432\u0430\u0446\u044c \u043f\u0430\u0448\u044b\u0440\u0430\u043d\u044b\u044f"
     },
     "chrome_host": {
-        "message": "Host:"
+        "message": "\u0425\u043e\u0441\u0442:"
     },
     "chrome_redirect_to": {
-        "message": "Redirect to"
+        "message": "\u041f\u0435\u0440\u0430\u043d\u0430\u043a\u0456\u0440\u0430\u0432\u0430\u043d\u043d\u0435 \u043d\u0430"
     },
     "chrome_regex": {
-        "message": "Matching regex"
+        "message": "\u0410\u0434\u043f\u0430\u0432\u0435\u0434\u043d\u0430\u0441\u0446\u044c regex"
     },
     "chrome_rule_name": {
-        "message": "Rule name"
+        "message": "\u0406\u043c\u044f \u043f\u0440\u0430\u0432\u0456\u043b\u0430"
+    },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change you preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
     },
     "chrome_show_advanced": {
-        "message": "Show advanced"
+        "message": "\u041f\u0430\u043a\u0430\u0437\u0430\u0446\u044c \u043f\u0430\u0448\u044b\u0440\u0430\u043d\u044b\u044f"
     },
     "chrome_stable_rules": {
-        "message": "Stable rules"
+        "message": "\u0421\u0442\u0430\u0431\u0456\u043b\u044c\u043d\u044b\u044f \u043f\u0440\u0430\u0432\u0456\u043b\u044b"
     },
     "chrome_stable_rules_description": {
-        "message": "Force encrypted connections to these websites:"
+        "message": "\u041f\u0440\u044b\u043c\u0443\u0441\u043e\u0432\u0430\u0435 \u0448\u044b\u0444\u0440\u0430\u0432\u0430\u043d\u043d\u0435 \u0434\u043b\u044f \u0433\u044d\u0442\u044b\u0445 \u0441\u0430\u0439\u0442\u0430\u045e:"
     },
     "chrome_status_cancel_button": {
         "message": "\u0421\u043a\u0430\u0441\u0430\u0432\u0430\u0446\u044c"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Block all unencrypted requests"
-    },
     "menu_donate_eff_imperative": {
-        "message": "Donate to EFF"
+        "message": "\u041f\u0430\u0434\u0442\u0440\u044b\u043c\u0430\u0446\u044c EFF"
+    },
+    "menu_encryptAllSitesEligible": {
+        "message": "Encrypt All Sites Eligible is ON"
     },
     "menu_globalEnable": {
-        "message": "\u0423\u043a\u043b\u044e\u0447\u044b\u0446\u044c HTTPS Everywhere"
+        "message": "HTTPS Everywhere is OFF"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
-        "message": "\u041d\u0430\u0441\u0442\u00e1\u045e\u043b\u0435\u043d\u043d\u0456 SSL Observatory"
+        "message": "\u041d\u0430\u0441\u0442\u0430\u045e\u043b\u0435\u043d\u043d\u0456 SSL Observatory"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "\u041f\u0430\u043a\u0430\u0437\u0430\u0446\u044c \u043b\u0456\u0447\u044b\u043b\u044c\u043d\u0456\u043a"
@@ -90,52 +111,52 @@
         "message": "\u041f\u0440\u0430\u0433\u043b\u044f\u0434\u0437\u0435\u0446\u044c \u0443\u0441\u0435 \u043f\u0440\u0430\u0432\u0456\u043b\u044b"
     },
     "options_addUpdateChannel": {
-        "message": "Add Update Channel"
+        "message": "\u0414\u0430\u0434\u0430\u0446\u044c \u043a\u0430\u043d\u0430\u043b \u0430\u0431\u043d\u0430\u045e\u043b\u0435\u043d\u043d\u044f "
     },
     "options_advancedSettings": {
-        "message": "Advanced Settings"
+        "message": "\u0414\u0430\u0434\u0430\u0442\u043a\u043e\u0432\u044b\u044f \u043d\u0430\u043b\u0430\u0434\u044b"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "\u0410\u045e\u0442\u0430\u043c\u0430\u0442\u044b\u0447\u043d\u0430\u0435 \u0430\u0431\u043d\u0430\u045e\u043b\u0435\u043d\u043d\u0435 \u043d\u0430\u0431\u043e\u0440\u0430\u045e \u043f\u0440\u0430\u0432\u0456\u043b\u0430\u045e"
     },
     "options_delete": {
         "message": "Delete"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "\u0421\u0430\u0439\u0442\u044b \u0437 \u0430\u0434\u043a\u043b\u044e\u0447\u0430\u043d\u043d\u044b\u043c HTTPS Everywhere"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "\u0423\u043a\u043b\u044e\u0447\u044b\u0446\u044c \u043d\u0430\u0431\u043e\u0440\u044b \u043f\u0440\u0430\u0432\u0456\u043b\u0430\u045e \u0434\u043b\u044f \u0437\u043c\u044f\u0448\u0430\u043d\u0430\u0433\u0430 \u043a\u0430\u043d\u0442\u044d\u043d\u0442\u0443"
     },
     "options_enterUpdateChannelName": {
-        "message": "Enter update channel name"
+        "message": "\u0423\u0432\u044f\u0434\u0437\u0456\u0446\u0435 \u0456\u043c\u044f \u043a\u0430\u043d\u0430\u043b\u0430 \u0430\u0431\u043d\u0430\u045e\u043b\u0435\u043d\u043d\u044f "
     },
     "options_generalSettings": {
-        "message": "General Settings"
+        "message": "\u0410\u0433\u0443\u043b\u044c\u043d\u044b\u044f \u043d\u0430\u043b\u0430\u0434\u044b"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "\u041f\u0430\u043a\u0430\u0437\u0430\u0446\u044c \u0443\u043a\u043b\u0430\u0434\u043a\u0443 \u0456\u043d\u0441\u0442\u0440\u0443\u043c\u0435\u043d\u0442\u0430\u045e \u0440\u0430\u0441\u043f\u0440\u0430\u0446\u043e\u045e\u0448\u0447\u044b\u043a\u0430"
     },
     "options_storedRulesetsVersion": {
-        "message": "Stored rulesets version: "
+        "message": "\u0417\u0430\u0445\u0430\u0432\u0430\u043d\u0430\u044f \u0432\u0435\u0440\u0441\u0456\u044f \u043d\u0430\u0431\u043e\u0440\u0430 \u043f\u0440\u0430\u0432\u0456\u043b\u0430\u045e: "
     },
     "options_update": {
         "message": "\u0410\u0431\u043d\u0430\u045e\u043b\u0435\u043d\u043d\u0435"
     },
     "options_updateChannels": {
-        "message": "Update Channels"
+        "message": "\u041a\u0430\u043d\u0430\u043b\u044b \u0430\u0431\u043d\u0430\u045e\u043b\u0435\u043d\u043d\u044f\u045e"
     },
     "options_updateChannelsWarning": {
-        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+        "message": "\u041f\u0430\u043f\u044f\u0440\u044d\u0434\u0436\u0430\u043d\u043d\u0435: \u0434\u0430\u0434\u0430\u043d\u043d\u0435 \u043a\u0430\u043d\u0430\u043b\u0430\u045e \u0430\u0431\u043d\u0430\u045e\u043b\u0435\u043d\u043d\u044f \u043c\u043e\u0436\u0430 \u0441\u043f\u0440\u044b\u0447\u044b\u043d\u0456\u0446\u044c \u0430\u0442\u0430\u043a\u0456 \u0437\u043b\u043e\u045e\u043c\u044b\u0441\u043d\u0456\u043a\u0430\u045e \u043d\u0430 \u0432\u0430\u0448 \u0431\u0440\u0430\u045e\u0437\u044d\u0440. \u0420\u044d\u0434\u0430\u0433\u0443\u0439\u0446\u0435 \u0433\u044d\u0442\u044b \u043f\u0430\u0434\u0437\u0435\u043b, \u0442\u043e\u043b\u044c\u043a\u0456 \u043a\u0430\u043b\u0456 \u0432\u0435\u0434\u0430\u0435\u0446\u0435, \u0448\u0442\u043e \u0440\u043e\u0431\u0456\u0446\u0435!"
     },
     "options_updatesLastChecked": {
-        "message": "Updates last checked: "
+        "message": "\u0410\u043f\u043e\u0448\u043d\u044f\u044f \u043f\u0440\u0430\u0432\u0435\u0440\u043a\u0430 \u0430\u0431\u043d\u0430\u045e\u043b\u0435\u043d\u043d\u044f\u045e:"
     },
     "options_updatesLastCheckedNever": {
-        "message": "never"
+        "message": "\u043d\u0456\u043a\u043e\u043b\u0456"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "\u041a\u0430\u0440\u044b\u0441\u0442\u0430\u043b\u044c\u043d\u0456\u0446\u043a\u0456\u044f \u043f\u0440\u0430\u0432\u0456\u043b\u044b HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "\u042d\u043a\u0441\u043f\u0430\u0440\u0442 \u043d\u0430\u043b\u0430\u0434\u0430\u045e"
@@ -144,6 +165,6 @@
         "message": "\u0421\u043a\u0456\u043d\u0443\u0446\u044c \u0434\u0430 \u0441\u0442\u0430\u043d\u0434\u0430\u0440\u0442\u043d\u044b\u0445"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "\u0422\u0430\u043a \u0432\u044b \u0441\u043a\u0456\u043d\u0456\u0446\u0435 \u043a\u043e\u0436\u043d\u044b \u043d\u0430\u0431\u043e\u0440 \u043f\u0440\u0430\u0432\u0456\u043b\u0430\u045e \u0434\u0430 \u0441\u0442\u0430\u043d\u0443 \u00ab\u043f\u0430 \u0437\u043c\u043e\u045e\u0447\u0430\u043d\u043d\u0456\u00bb. \u041f\u0440\u0430\u0446\u044f\u0433\u043d\u0443\u0446\u044c?"
     }
 }

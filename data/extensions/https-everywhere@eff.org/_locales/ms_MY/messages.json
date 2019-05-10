@@ -18,10 +18,13 @@
         "message": "Versi"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere mendapati anda telah melayari masuk ke halaman bukan-HTTPS, dan cuba mengalih anda ke versi HTTPS sebagai ganti. Malangnya versi HTTPS tidak tersedia. Berkemungkinan laman ini tidak menyokong HTTPS, tetapi ia mungkin ada penyerang yang menyekat versi HTTPS. Jika anda masih ingin melihat versi tidak sulit halaman ini, anda boleh membuatnya dengan melumpuhkan pilihan 'Sulitkan Semua Laman Yang Layak' (EASE) di dalam sambungan HTTPS Everywhere anda. Perlu ingat, dengan melumpuhkan pilihan ini akan menyebabkan pelayar anda terdedah dengan serangan nyahtatar berasaskan-rangkaian pada laman sesawng yang anda dilawati."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "serangan nyahtatar berasaskan-rangkaian"
+    },
+    "cancel_open_page": {
+        "message": "Buka halaman tidak selamat"
     },
     "chrome_add_new_rule": {
         "message": "Tambah satu peraturan baharu untuk laman ini"
@@ -33,10 +36,10 @@
         "message": "Sentiasa guna https untuk hos ini"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Lumpuhkan HTTPS Everywhere pada laman ini"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Benarkan HTTPS Everywhere pada laman ini"
     },
     "chrome_experimental_rules": {
         "message": "Peraturan ujikaji"
@@ -59,6 +62,15 @@
     "chrome_rule_name": {
         "message": "Nama peraturan"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "Jika anda melayari laman sesawang berlainan, anda boleh mengubah keutamaan bagi setiap laman sesawang tersebut"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Tetapan untuk laman ini"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Ubah keutamaan anda bagi sambungan tersulit"
+    },
     "chrome_show_advanced": {
         "message": "Tunjuk lanjutan"
     },
@@ -71,17 +83,26 @@
     "chrome_status_cancel_button": {
         "message": "Batal"
     },
-    "menu_blockUnencryptedRequests": {
-        "message": "Sekat semua permintaan tidak disulitkan"
-    },
     "menu_donate_eff_imperative": {
         "message": "Derma kepada EFF"
     },
+    "menu_encryptAllSitesEligible": {
+        "message": "Sulitkan Semua Laman Yang Layak HIDUP"
+    },
     "menu_globalEnable": {
-        "message": "Benarkan HTTPS Everywhere"
+        "message": "HTTPS Everywhere MATI"
+    },
+    "menu_httpNoWhereExplained": {
+        "message": "Permintaan tidak tersulit buat masa ini disekat"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "Mod ini menyekat kandungan dan permintaan tidak tersulit"
     },
     "menu_observatory": {
         "message": "Keutamaan Pencerap SSL"
+    },
+    "menu_seeMore": {
+        "message": "Lihat lagi"
     },
     "menu_showCounter": {
         "message": "Tunjukkan Kaunter"
@@ -90,7 +111,7 @@
         "message": "Lihat Semua Peraturan"
     },
     "options_addUpdateChannel": {
-        "message": "Add Update Channel"
+        "message": "Tambah Saluran Kemaskini"
     },
     "options_advancedSettings": {
         "message": "Tetapan Lanjutan"
@@ -99,16 +120,16 @@
         "message": "Auto-kemaskini set peraturan"
     },
     "options_delete": {
-        "message": "Delete"
+        "message": "Padam"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "Laman HTTPS Everywhere Dilumpuhkan"
     },
     "options_enableMixedRulesets": {
         "message": "Benarkan set peraturan kandungan bercampur"
     },
     "options_enterUpdateChannelName": {
-        "message": "Enter update channel name"
+        "message": "Masukkan nama saluran kemaskini"
     },
     "options_generalSettings": {
         "message": "Tetapan Umum"
@@ -117,25 +138,25 @@
         "message": "Tunjuk tab Devtools"
     },
     "options_storedRulesetsVersion": {
-        "message": "Stored rulesets version: "
+        "message": "Versi set peraturan tersimpan:"
     },
     "options_update": {
-        "message": "Update"
+        "message": "Kemaskini"
     },
     "options_updateChannels": {
-        "message": "Update Channels"
+        "message": "Kemaskini Saluran"
     },
     "options_updateChannelsWarning": {
-        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+        "message": "Amaran: Menambah saluran kemaskini boleh memudahkan penyerang menggodam pelayar anda. Hanya sunting seksyen ini sekiranya anda tahu apa yang anda buat!"
     },
     "options_updatesLastChecked": {
-        "message": "Updates last checked: "
+        "message": "Kali terakhir kemaskini disemak:"
     },
     "options_updatesLastCheckedNever": {
-        "message": "never"
+        "message": "tidak sesekali"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Peraturan Pengguna HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Eksport Tetapan"
