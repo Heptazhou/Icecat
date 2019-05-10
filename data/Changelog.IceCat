@@ -1,3 +1,26 @@
+2019-05-10 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v60.6.3ESR
+	* Added extra build failsafes
+	* Do not include the debian package specifics
+	* Corrected description for "tracking protection" on onboarding page
+	* Updated extensions bundle:
+		Added ViewTube 2019.5.1 and disable-polymer-youtube 1.0, to provide YouTube support
+		"HTTPS Everywhere" updated to  2019.5.6.1
+		"LibreJS" updated to 7.20.1
+		"TorButton" updated to 0.1.7, with customizations for IceCat
+
+2019-02-13 Ruben Rodriguez <ruben@gnu.org>
+	* Updated to v60.5.0ESR
+	* Hardened privacy settings: spoof referers by default, isolate requests to first party origin, and disable sending the origin header to the HTTP server. 
+	* Extensions:
+		"LibreJS" updated to 7.19rc3, Now with Android support!
+		Added "ViewTube" + "disable-polymer-youtube" extensions, which allow to browse and play Youtube videos without JavaScript
+		"TorButton" updated to 0.1.
+		"HTTPS Everywhere" updated to 2019.1.31
+		Improved interface for "Reveal hidden HTML"
+		"Third Party Request Blocker" configured to allow requests to subdomains of the same site, known CDN servers (this is fine since we don't send referrers or origin headers), css files, and Youtube resource servers.
+		"Third Party Request Blocker" configured to prevent scripts from capturing mouse and keyboard events, as well as zero-width-character tracking mechanisms.
+
 2018-11-07 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v60.3.0ESR
 	* New about:home allows to tune the privacy settings and enable key extensions.
@@ -24,19 +47,19 @@
 2018-02-25 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v52.6.0ESR
 	* Extensions:
-          - HTTPS Everywhere updated to 2018.1.11
+	  - HTTPS Everywhere updated to 2018.1.11
 	  - "goteo.org payments with free JS" updated to 1.1
 	  - "LibreJS compatible Pay.gov" updated to 1.3
 	  - "Reveal hidden HTML" updated to 1.6
-          - Enabled WebRTC, but prevent leaking the LAN ip.
+	  - Enabled WebRTC, but prevent leaking the LAN ip.
 
 2017-09-01 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v52.3.0ESR
 	* Added extension collection https://addons.mozilla.org/en-US/firefox/collections/NateN1222/librejs-compatibility-add-ons/
 	* SpyBlock updated to 2.9.1
 	* HTTPS Everywhere updated to 5.2.21
-        * Removed Youtube player extension, as Youtube is no longer browsable without javascript
-        * Fixed OCSP check settings that were impeding captive portal usage
+	* Removed Youtube player extension, as Youtube is no longer browsable without javascript
+	* Fixed OCSP check settings that were impeding captive portal usage
 
 2017-05-19 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v52.1.2ESR
@@ -72,10 +95,10 @@
 	* HTTPS Everywhere updated to 5.2.14
 
 2017-03-04 Ruben Rodriguez <ruben@gnu.org>
-        * Updated to v45.7.0ESR
+	* Updated to v45.7.0ESR
 
 2016-12-01 Ruben Rodriguez <ruben@gnu.org>
-        * Updated to v45.5.1ESR
+	* Updated to v45.5.1ESR
 
 2016-11-21 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v45.5.0ESR
@@ -96,7 +119,7 @@
 	* Do not spoof user-agent on android
 
 2016-04-07 Ruben Rodriguez <ruben@gnu.org>
-        * Updated to v38.7.1ESR
+	* Updated to v38.7.1ESR
 
 2016-02-03 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v38.6.0ESR
@@ -144,7 +167,7 @@
 
 2015-06-05 Ruben Rodriguez <ruben@gnu.org>
 	* Updated to v31.7.0ESR
-        * Fix build system for translation packages
+	* Fix build system for translation packages
 	* Remove tor-proxy from debian recommends field
 
 2015-04-03 Ruben Rodriguez <ruben@gnu.org>
@@ -186,7 +209,7 @@
 	* Generation script is now fully distro independent
 	* Updated https-everywhere to 4.0.2
 	* Support links moved to http://libreplanet.org/wiki/Group:IceCat
-        * Fixed poodle attack
+	* Fixed poodle attack
 	* Move documentation links to libreplanet
 	* Changed useragent to match Torbrowser 4
 	* Disabled welcome url
@@ -481,7 +504,7 @@
 2010-12-07  Giuseppe Scrivano  <gscrivano@gnu.org>
 
 	* canvas_notify.patch: New file.
- 	* make.icecat: Apply canvas_notify.patch.
+	* make.icecat: Apply canvas_notify.patch.
 
 2010-11-25  Giuseppe Scrivano  <gscrivano@gnu.org>
 
