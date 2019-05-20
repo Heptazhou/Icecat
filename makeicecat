@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-#    Copyright (C) 2014-2018  Ruben Rodriguez <ruben@gnu.org>
+#    Copyright (C) 2014-2019  Ruben Rodriguez <ruben@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ set -euxo pipefail
 FFMAJOR=60
 FFMINOR=6
 FFSUB=3
-GNUVERSION=1
+GNUVERSION=2
 FFVERSION=$FFMAJOR.$FFMINOR.$FFSUB
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
@@ -88,7 +88,7 @@ cd $SOURCEDIR
 #done
 
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
-cp $DATA/Changelog.IceCat $DATA/README.IceCat
+cp $DATA/Changelog.IceCat $DATA/README.IceCat .
 
 ###############################################################################
 # Functions
