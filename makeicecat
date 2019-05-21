@@ -88,7 +88,6 @@ cd $SOURCEDIR
 #done
 
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
-cp $DATA/Changelog.IceCat $DATA/README.IceCat .
 
 ###############################################################################
 # Functions
