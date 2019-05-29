@@ -20,15 +20,12 @@
 set -euxo pipefail
 
 FFMAJOR=60
-FFMINOR=6
-FFSUB=3
-GNUVERSION=2
+FFMINOR=7
+FFSUB=0
+GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.$FFSUB
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
 SOURCEDIR=icecat-$FFVERSION
-
-export DEBEMAIL=ruben@gnu.org
-export DEBFULLNAME="Ruben Rodriguez"
 
 DATA="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/data
 
@@ -45,7 +42,7 @@ wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr
 wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz.asc
 gpg --recv-keys --keyserver keyserver.ubuntu.com 24C6F355
 gpg --verify firefox-${FFVERSION}esr.source.tar.xz.asc
-echo -n eebf34968c64cf8c007dd0da98124edf55cdda141f8b4c653e8e00b22650833e firefox-${FFVERSION}esr.source.tar.xz |sha256sum -c -
+echo -n 0a5f0c1d8d1e9443d85083d37fec32e5cc15c1001ea992d49745490065b4a023 firefox-${FFVERSION}esr.source.tar.xz |sha256sum -c -
 
 echo Extracting Firefox tarball
 tar -xf firefox-${FFVERSION}esr.source.tar.xz
