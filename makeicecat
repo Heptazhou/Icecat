@@ -1,6 +1,7 @@
 #!/bin/bash
 #
 #    Copyright (C) 2014-2019  Ruben Rodriguez <ruben@gnu.org>
+#    Copyright (C) 2019  Amin Bandali <bandali@gnu.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -160,6 +161,9 @@ LISTURL="lists.gnu.org/mailman/listinfo/bug-gnuzilla"
 echo "ac_add_options --disable-eme" >> build/mozconfig.common.override
 echo "ac_add_options --disable-eme" >> build/mozconfig.common
 
+# Correct build error
+echo "ac_add_options --enable-stdcxx-compat" >> build/mozconfig.common.override
+
 # Disable healthreport
 sed '/mozilla.org\/legal/d' -i toolkit/components/telemetry/healthreport-prefs.js
 cat << EOF >> toolkit/components/telemetry/healthreport-prefs.js
@@ -183,23 +187,19 @@ done
 
 # Disable activity-stream antifeatures.
 # These are not condensed into a single sed script to make it fail on individual commands that didn't change the source
-sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/\["showSponsored/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/\["disableSnippets/,/value/s/value: false/value: true/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/\["telemetry"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/\["section.highlights.includePocket"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/\["telemetry.ping.endpoint"/,/value/s/value: .*/value: ""/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/\["tippyTop.service.endpoint"/,/value/s/value: .*/value: ""/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed 's/\(read_more_endpoint:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed 's/\(stories_endpoint:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed 's/\(privacy_notice_link:\) .http.*/\1 "https:\/\/trisquel.info\/legal",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed 's/\(disclaimer_link:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/name: "snippets"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-sed '/name: "section.topstories"/,/return/s/return.*/return false;/' -i browser/extensions/activity-stream/lib/ActivityStream.jsm
-
+ActivityStream=browser/components/newtab/lib/ActivityStream.jsm
+sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i $ActivityStream
+sed '/\["showSponsored/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/\["telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/\["section.highlights.includePocket"/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/\["telemetry.ping.endpoint"/,/value/s/value: .*/value: ""/' -i $ActivityStream
+sed 's/\(read_more_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
+sed 's/\(stories_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
+sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i $ActivityStream
+sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
+sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/name: "section.topstories"/,/return/s/return.*/return false;/' -i $ActivityStream
+sed 's/.Ubuntu., //' -i browser/components/newtab/css/activity-stream*.css
 
 ###############################################################################
 # Branding
@@ -225,17 +225,20 @@ cp $DATA/bookmarks.html.in browser/locales/generic/profile/bookmarks.html.in
 
 find -wholename '*/brand.dtd' |xargs /bin/sed 's/trademarkInfo.part1.*/trademarkInfo.part1 "">/' -i
 
-for STRING in community.end3 community.exp.end community.start2 community.mozillaLink community.middle2 community.creditsLink community.end2 contribute.start contribute.getInvolvedLink contribute.end channel.description.start channel.description.end
-do
- find -name aboutDialog.dtd | xargs sed -i "s/ENTITY $STRING.*/ENTITY $STRING \"\">/"
-done
-
 for STRING in rights.intro-point3-unbranded rights.intro-point4a-unbranded rights.intro-point4b-unbranded rights.intro-point4c-unbranded
 do
  find -name aboutRights.dtd | xargs sed -i "s/ENTITY $STRING.*/ENTITY $STRING \"\">/"
 done
 
-sed '/helpus.start/d' -i browser/base/content/aboutDialog.xul
+for STRING in rights-intro-point-2 rights-intro-point-3 rights-intro-point-4 rights-intro-point-5 rights-intro-point-6 rights-webservices rights-safebrowsing
+do
+ find -name aboutRights.ftl | xargs sed -i "s/^$STRING.*/$STRING = /"
+done
+
+for STRING in helpus community-2 community-exp
+do
+ find -name aboutDialog.ftl | xargs sed -i "s/^$STRING.*/$STRING = /"
+done
 
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights.xhtml
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights-unbranded.xhtml
@@ -253,7 +256,8 @@ echo "#plugindeprecation-notice {  display: none !important; }" >> toolkit/mozap
 # Hide warnings on unsigned extensions
 echo ".warning{display: none!important; } .addon[notification=warning]{background-image: none!important;}" >> toolkit/mozapps/extensions/content/extensions.css
 # Hide extra links in about box
-sed '/releaseNotes.link/d; /helpus/d' -i ./browser/base/content/aboutDialog.xul
+sed '/releaseNotes.link/d' -i ./browser/base/content/aboutDialog.xul
+sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog.xul
 
 ###############################################################################
 # Batch rebranding
@@ -572,15 +576,13 @@ find extensions/gnu/ | sed s=extensions/gnu=browser/extensions= >> ./browser/ins
 find extensions/gnu/ | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
 
 # Onboarding
-
-sed 's/.Ubuntu., //' -i browser/extensions/activity-stream/css/activity-stream*.css
-cp $DATA/onboarding/bootstrap.js browser/extensions/onboarding
-cp $DATA/onboarding/onboarding.js browser/extensions/onboarding/content
-cp $DATA/onboarding/onboarding.properties browser/extensions/onboarding/locales/en-US
-for locale in $(ls -1 $DATA/onboarding/locales/); do
-    mkdir -p l10n/$locale/browser/extensions/onboarding || true
-    cp $DATA/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
-done
+#cp $DATA/onboarding/bootstrap.js browser/extensions/onboarding
+#cp $DATA/onboarding/onboarding.js browser/extensions/onboarding/content
+#cp $DATA/onboarding/onboarding.properties browser/extensions/onboarding/locales/en-US
+#for locale in $(ls -1 $DATA/onboarding/locales/); do
+#    mkdir -p l10n/$locale/browser/extensions/onboarding || true
+#    cp $DATA/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
+#done
 
 # Fix CVE-2009-4029
 sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in

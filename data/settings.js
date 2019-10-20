@@ -109,6 +109,8 @@ pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 pref("browser.safebrowsing.enabled", false);
 pref("browser.safebrowsing.downloads.remote.enabled", false);
 pref("browser.safebrowsing.malware.enabled", false);
+pref("browser.safebrowsing.provider.mozilla.gethashURL", "");
+pref("browser.safebrowsing.provider.mozilla.updateURL", "");
 pref("services.sync.privacyURL", "https://www.gnu.org/software/gnuzilla/");
 pref("social.enabled", false);
 pref("social.remote-install.enabled", false);
@@ -162,10 +164,12 @@ pref("browser.newtabpage.introShown", true);
 pref("browser.aboutHomeSnippets.updateUrl", "");
 // Always ask before restoring the browsing session
 pref("browser.sessionstore.max_resumed_crashes", 0);
-// Disable tracking protection by default, as it makes automated connections to fetch lists
-pref("browser.safebrowsing.provider.mozilla.updateURL", "");
-pref("privacy.trackingprotection.enabled", false);
-pref("privacy.trackingprotection.pbmode.enabled", false);
+// Disable tracking protection by default, as it makes automated connections to fetch lists (not doing this until the newtab privacy block is reimplemented)
+//pref("browser.safebrowsing.provider.mozilla.updateURL", "");
+pref("privacy.trackingprotection.enabled", true);
+pref("privacy.trackingprotection.pbmode.enabled", true);
+pref("urlclassifier.trackingTable", "test-track-simple,base-track-digest256,content-track-digest256");
+pref("browser.privacy.trackingprotection.menu", "always");
 pref("privacy.trackingprotection.introURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/tracking-protection/start/");
 // Disable geolocation
 pref("geo.enabled", false);
@@ -181,6 +185,8 @@ pref("privacy.resistFingerprinting", true);
 pref("webgl.disabled", true);
 // Don't reveal your internal IP when WebRTC is enabled
 pref("media.peerconnection.ice.no_host", true);
+pref("privacy.trackingprotection.cryptomining.enabled", true);
+pref("privacy.trackingprotection.fingerprinting.enabled", true);
 
 // Services
 pref("gecko.handlerService.schemes.mailto.0.name", "");
@@ -329,6 +335,7 @@ pref("security.ssl3.dhe_rsa_aes_128_sha", false);
 pref("security.ssl3.dhe_rsa_aes_256_sha", false);
 pref("security.ssl3.dhe_dss_aes_128_sha", false);
 pref("security.ssl3.dhe_rsa_des_ede3_sha", false);
+pref("security.ssl3.rsa_des_ede3_sha", false);
 
 // Disable Pocket integration
 pref("browser.pocket.enabled", false);
@@ -336,6 +343,8 @@ pref("extensions.pocket.enabled", false);
 
 // Do not require xpi extensions to be signed by Mozilla
 pref("xpinstall.signatures.required", false);
+// enable extensions by default in private mode
+pref("extensions.allowPrivateBrowsingByDefault", true);
 
 // Do not show unicode urls https://www.xudongz.com/blog/2017/idn-phishing/
 pref("network.IDN_show_punycode", true);
@@ -362,3 +371,8 @@ pref("gfx.xrender.enabled",true);
 pref("dom.webnotifications.enabled",false); 
 pref("dom.webnotifications.serviceworker.enabled",false); 
 pref("dom.push.enabled",false); 
+
+// Disable recommended extensions
+pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);
+pref("extensions.htmlaboutaddons.discover.enabled", false);
+pref("extensions.htmlaboutaddons.recommendations.enabled", false);
