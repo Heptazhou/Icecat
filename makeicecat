@@ -576,14 +576,14 @@ find extensions/gnu/ | sed s=extensions/gnu=browser/extensions= >> ./browser/ins
 find extensions/gnu/ | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
 
 # Onboarding
-mkdir -p browser/extensions/onboarding browser/extensions/onboarding/content browser/extensions/onboarding/locales/en-US
-cp $DATA/onboarding/bootstrap.js browser/extensions/onboarding
-cp $DATA/onboarding/onboarding.js browser/extensions/onboarding/content
-cp $DATA/onboarding/onboarding.properties browser/extensions/onboarding/locales/en-US
-for locale in $(ls -1 $DATA/onboarding/locales/); do
-    mkdir -p l10n/$locale/browser/extensions/onboarding || true
-    cp $DATA/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
-done
+#mkdir -p browser/extensions/onboarding browser/extensions/onboarding/content browser/extensions/onboarding/locales/en-US
+#cp $DATA/onboarding/bootstrap.js browser/extensions/onboarding
+#cp $DATA/onboarding/onboarding.js browser/extensions/onboarding/content
+#cp $DATA/onboarding/onboarding.properties browser/extensions/onboarding/locales/en-US
+#for locale in $(ls -1 $DATA/onboarding/locales/); do
+#    mkdir -p l10n/$locale/browser/extensions/onboarding || true
+#    cp $DATA/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
+#done
 
 # Fix CVE-2009-4029
 sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
