@@ -554,8 +554,9 @@ cp $DATA/extensions/ extensions/gnu -a
 
 cat << EOF >> browser/app/Makefile.in
 libs::
-	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/bin/browser/extensions
-	mkdir -p \$(DIST)/icecat/browser/extensions/ 
+	mkdir -p \$(DIST)/bin/browser/extensions
+	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/bin/browser/extensions/
+	mkdir -p \$(DIST)/icecat/browser/extensions
 	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/icecat/browser/extensions/
 EOF
 
@@ -563,7 +564,7 @@ EOF
 cat << EOF >> mobile/android/app/Makefile.in
 libs::
 	mkdir -p \$(DIST)/bin/distribution
-	cp -a \$(topsrcdir)/extensions/gnu/ \$(DIST)/bin/distribution/extensions
+	cp -a \$(topsrcdir)/extensions/gnu/ \$(DIST)/bin/distribution/extensions/
 EOF
 
 #sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk
