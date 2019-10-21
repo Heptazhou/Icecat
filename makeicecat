@@ -208,6 +208,7 @@ sed 's/.Ubuntu., //' -i browser/components/newtab/css/activity-stream*.css
 # Branding files
 rm browser/branding/{official,unofficial,aurora,nightly} mobile/android/branding/* -rf
 cp -a $DATA/branding/icecat/ browser/branding/official
+cp -a $DATA/branding/icecat/ browser/branding/unofficial
 cp -a $DATA/branding/icecat/ browser/branding/nightly
 cp -a $DATA/branding/icecatmobile/ mobile/android/branding/official
 cp -a $DATA/branding/icecatmobile/ mobile/android/branding/unofficial
