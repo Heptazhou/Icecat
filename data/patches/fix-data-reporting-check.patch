@@ -1,0 +1,22 @@
+--- a/old-configure.in.orig	1980-01-01 18:59:51.000000000 -0500
++++ b/old-configure.in	2019-10-28 04:13:17.343606008 -0400
+@@ -3116,7 +3116,7 @@
+ dnl If we have any service that uploads data (and requires data submission
+ dnl policy alert), set MOZ_DATA_REPORTING.
+ dnl We need SUBST for build system and DEFINE for xul preprocessor.
+-if test -n "$MOZ_TELEMETRY_REPORTING" || test -n "$MOZ_SERVICES_HEALTHREPORT" || test -n "$MOZ_CRASHREPORTER"; then
++if test "$MOZ_TELEMETRY_REPORTING" = 1 || test "$MOZ_SERVICES_HEALTHREPORT" = 1 || test "$MOZ_CRASHREPORTER" = 1; then
+   MOZ_DATA_REPORTING=1
+   AC_DEFINE(MOZ_DATA_REPORTING)
+   AC_SUBST(MOZ_DATA_REPORTING)
+--- a/old-configure.orig	1980-01-01 18:59:51.000000000 -0500
++++ b/old-configure	2019-10-28 04:15:41.772322191 -0400
+@@ -12150,7 +12150,7 @@
+ 
+ 
+ 
+-if test -n "$MOZ_TELEMETRY_REPORTING" || test -n "$MOZ_SERVICES_HEALTHREPORT" || test -n "$MOZ_CRASHREPORTER"; then
++if test "$MOZ_TELEMETRY_REPORTING" = 1 || test "$MOZ_SERVICES_HEALTHREPORT" = 1 || test "$MOZ_CRASHREPORTER" = 1; then
+   MOZ_DATA_REPORTING=1
+   cat >> confdefs.pytmp <<\EOF
+     (''' MOZ_DATA_REPORTING ''', ' 1 ')

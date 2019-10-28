@@ -1,8 +1,11 @@
 --- a/browser/moz.configure.orig	1980-01-01 18:59:51.000000000 -0500
-+++ b/browser/moz.configure	2019-10-26 21:58:37.719617701 -0400
-@@ -7,7 +7,7 @@
++++ b/browser/moz.configure	2019-10-28 01:36:13.132873871 -0400
+@@ -5,9 +5,9 @@
+ # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ 
  imply_option('MOZ_PLACES', True)
- imply_option('MOZ_SERVICES_HEALTHREPORT', True)
+-imply_option('MOZ_SERVICES_HEALTHREPORT', True)
++imply_option('MOZ_SERVICES_HEALTHREPORT', False)
  imply_option('MOZ_SERVICES_SYNC', True)
 -imply_option('MOZ_DEDICATED_PROFILES', True)
 +imply_option('MOZ_DEDICATED_PROFILES', False)
