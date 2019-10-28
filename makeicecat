@@ -80,10 +80,12 @@ mv compare-locales $SOURCEDIR/l10n
 
 cd $SOURCEDIR
 
-#for patch in $DATA/patches/*; do
-#    echo Patching with file: $patch
-#    patch -p1 < $patch
-#done
+shopt -s nullglob
+for patch in $DATA/patches/*.patch; do
+    echo Patching with file: $patch
+    patch -p1 --force --no-backup-if-mismatch --input $patch
+done
+shopt -u nullglob
 
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
 
