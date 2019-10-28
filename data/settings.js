@@ -211,6 +211,9 @@ pref("toolkit.telemetry.enabled", false);
 pref("media.eme.enabled", false);
 pref("media.eme.apiVisible", false);
 
+// Firefox Accounts
+pref("identity.fxaccounts.enabled", false);
+
 // WebRTC
 pref("media.peerconnection.enabled", true);
 // Don't reveal your internal IP when WebRTC is enabled
