@@ -87,6 +87,19 @@ for patch in $DATA/patches/*.patch; do
 done
 shopt -u nullglob
 
+for file_to_append in $(cd $DATA/files-to-append; find . -type f -print); do
+    echo Appending new data to the end of file: $file_to_append
+    cat $DATA/files-to-append/$file_to_append >> $file_to_append
+done
+
+for dir in l10n/*; do
+    if [[ $dir != l10n/compare-locales ]]; then
+        if [[ ! -e $DATA/files-to-append/$dir/browser/browser/preferences/preferences.ftl ]]; then
+            cat $DATA/files-to-append/browser/locales/en-US/browser/preferences/preferences.ftl >> $dir/browser/browser/preferences/preferences.ftl
+        fi
+    fi
+done
+
 cp $DATA/Changelog.IceCat $DATA/README.IceCat .
 
 ###############################################################################
