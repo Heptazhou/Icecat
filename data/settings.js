@@ -322,8 +322,6 @@ pref("security.ssl3.rsa_des_ede3_sha", false);
 pref("browser.pocket.enabled", false);
 pref("extensions.pocket.enabled", false);
 
-// Do not require xpi extensions to be signed by Mozilla
-pref("xpinstall.signatures.required", false);
 // enable extensions by default in private mode
 pref("extensions.allowPrivateBrowsingByDefault", true);
 
