@@ -2,6 +2,7 @@
 #
 #    Copyright (C) 2014-2019  Ruben Rodriguez <ruben@gnu.org>
 #    Copyright (C) 2019  Amin Bandali <bandali@gnu.org>
+#    Copyright (C) 2019  Mark H Weaver <mhw@netris.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -188,9 +189,6 @@ EOF
 # Custom privacy statement link
 sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
 
-# Copy custom ddg search plugin
-find |grep -e ddg.xml -e duckduckgo.*.xml | xargs -i cp $DATA/searchplugins/duckduckgo.xml {}
-
 # Sanitize lists
 for file in $(find |grep searchplugins/list.txt)
 do
@@ -281,12 +279,8 @@ sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog
 ###############################################################################
 
 # Replace Firefox branding
-find -type d | grep fennec | xargs prename s/fennec/icecatmobile/
-find -type f | grep fennec | xargs prename s/fennec/icecatmobile/
-find -type f | grep Fennec | xargs prename s/Fennec/IceCatMobile/
-find -type d | grep firefox | xargs prename -f s/firefox/icecat/
-find -type f | grep firefox | xargs prename -f s/firefox/icecat/
-find -type f | grep Firefox | xargs prename -f s/Firefox/IceCat/
+find . | tac | grep -i fennec  | prename --nofullpath -E 's/fennec/icecatmobile/;' -E 's/Fennec/IceCatMobile/;'
+find . | tac | grep -i firefox | prename --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
 
 echo "Running batch rebranding"
 SEDSCRIPT="
@@ -348,7 +342,7 @@ sed 's/which are both/which are/; s/free<\/a> and/Free Software<\/a>./; />open s
 
 sed 's/mozilla-bin/icecat-bin/' -i build/unix/run-mozilla.sh
 
-find -type f | grep run-mozilla | xargs prename s/mozilla/icecat/
+find . | tac | grep run-mozilla | prename --nofullpath -E 's/mozilla/icecat/;'
 
 # do not alter useragent/platform/oscpu/etc with fingerprinting countermeasure, it makes things worse
 sed '/ShouldResistFingerprinting/,/}/s/^/\/\//' -i ./netwerk/protocol/http/nsHttpHandler.cpp
@@ -590,8 +584,8 @@ cat << EOF >> ./browser/installer/allowed-dupes.mn
 # IceCat extras
 browser/chrome/browser/content/browser/aboutaccounts/images/fox.png
 EOF
-find extensions/gnu/ | sed s=extensions/gnu=browser/extensions= >> ./browser/installer/allowed-dupes.mn
-find extensions/gnu/ | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
+find extensions/gnu/ | sort | sed s=extensions/gnu=browser/extensions= >> ./browser/installer/allowed-dupes.mn
+find extensions/gnu/ | sort | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
 
 # Onboarding
 #mkdir -p browser/extensions/onboarding browser/extensions/onboarding/content browser/extensions/onboarding/locales/en-US
