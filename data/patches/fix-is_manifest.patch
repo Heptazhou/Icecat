@@ -1,0 +1,9 @@
+--- a/python/mozbuild/mozpack/chrome/manifest.py.orig	1980-01-01 18:59:51.000000000 -0500
++++ b/python/mozbuild/mozpack/chrome/manifest.py	2019-11-16 22:14:47.497320339 -0500
+@@ -368,4 +368,5 @@
+     Return whether the given path is that of a manifest file.
+     '''
+     return path.endswith('.manifest') and not path.endswith('.CRT.manifest') \
+-        and not path.endswith('.exe.manifest')
++        and not path.endswith('.exe.manifest') and not path.endswith('cose.manifest')
++
