@@ -282,6 +282,9 @@ sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog
 find . | tac | grep -i fennec  | prename --nofullpath -E 's/fennec/icecatmobile/;' -E 's/Fennec/IceCatMobile/;'
 find . | tac | grep -i firefox | prename --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
 
+rm browser/components/newtab/data/content/assets/icecat-wordmark.svg
+cp $DATA/branding/icecat-wordmark.svg browser/components/newtab/data/content/assets/
+
 echo "Running batch rebranding"
 SEDSCRIPT="
 s|marketplace.firefox.com|f-droid.org/repository/browse|g;
