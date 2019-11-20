@@ -240,11 +240,6 @@ cp $DATA/bookmarks.html.in browser/locales/generic/profile/bookmarks.html.in
 find l10n -wholename '*/brand.dtd' |xargs /bin/sed 's/trademarkInfo.part1.*/trademarkInfo.part1 "The IceCat logo is Copyright 2008-2015 Free Software Foundation, released under the terms of the GNU Lesser General Public License, version 3 or any later version.">/' -i
 find l10n -wholename '*/brand.ftl' |xargs /bin/sed 's/^trademarkInfo = .*/trademarkInfo = The IceCat logo is Copyright 2008-2015 Free Software Foundation, released under the terms of the GNU Lesser General Public License, version 3 or any later version./' -i
 
-for STRING in rights.intro-point3-unbranded rights.intro-point4a-unbranded rights.intro-point4b-unbranded rights.intro-point4c-unbranded
-do
- find -name aboutRights.dtd | xargs sed -i "s/ENTITY $STRING.*/ENTITY $STRING \"\">/"
-done
-
 for STRING in rights-intro-point-2 rights-intro-point-3 rights-intro-point-4 rights-intro-point-5 rights-intro-point-6 rights-webservices rights-safebrowsing
 do
  find -name aboutRights.ftl | xargs sed -i "s/^$STRING.*/$STRING = /"
@@ -337,7 +332,7 @@ s/opensource/Free Software/g;
 s/OpenSource/Free Software/g;
 "
 
-for extension in dtd inc properties; do
+for extension in dtd ftl inc properties; do
     find . -type f -name "*$extension" -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
 done
 

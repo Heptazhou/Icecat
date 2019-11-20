@@ -2,10 +2,6 @@
 <!DOCTYPE html [
   <!ENTITY % htmlDTD PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
   %htmlDTD;
-  <!ENTITY % brandDTD SYSTEM "chrome://branding/locale/brand.dtd">
-  %brandDTD;
-  <!ENTITY % aboutRightsDTD SYSTEM "chrome://global/locale/aboutRights.dtd">
-  %aboutRightsDTD;
 ]>
 
 <!-- This Source Code Form is subject to the terms of the Mozilla Public
@@ -15,19 +11,28 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-  <title>&rights.pagetitle;</title>
-  <link rel="stylesheet" href="chrome://global/skin/about.css" type="text/css"/>
+  <meta http-equiv="Content-Security-Policy" content="default-src chrome:" />
+  <title data-l10n-id="rights-title"></title>
+  <link rel="stylesheet" href="chrome://global/skin/in-content/info-pages.css" type="text/css"/>
+  <link rel="stylesheet" href="chrome://global/skin/aboutRights.css" type="text/css"/>
+  <link rel="localization" href="branding/brand.ftl"/>
+  <link rel="localization" href="toolkit/about/aboutRights.ftl"/>
 </head>
 
-<body id="your-rights" dir="&rights.locale-direction;" class="aboutPageWideContainer">
+<body id="your-rights">
+<div class="container">
+  <div class="rights-header">
+    <div>
+      <h1 data-l10n-id="rights-title"></h1>
 
-<h1>&rights.intro-header;</h1>
+      <p data-l10n-id="rights-intro"></p>
+    </div>
+  </div>
 
-<p>&rights.intro;</p>
-
-<ul>
-  <li>&rights.intro-point1a;<a href="http://www.mozilla.org/MPL/">&rights.intro-point1b;</a>&rights.intro-point1c;</li>
-</ul>
+  <ul>
+    <li data-l10n-id="rights-intro-point-1"><a href="http://www.mozilla.org/MPL/" data-l10n-name="mozilla-public-license-link"></a></li>
+  </ul>
+</div>
 
 </body>
 </html>
