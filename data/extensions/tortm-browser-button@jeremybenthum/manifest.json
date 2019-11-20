@@ -1,4 +1,5 @@
 {
+  "applications": { "gecko": { "id": "tortm-browser-button@jeremybenthum" } },
   "version": "0.1.7",
   "manifest_version": 2,
   "short_name": "onion-button",
