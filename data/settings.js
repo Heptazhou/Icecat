@@ -3,17 +3,6 @@ pref ("distribution.about", "GNU IceCat");
 pref ("distribution.id", "gnu");
 pref ("distribution.version", "1.0");
 
-// I'm feeling Ducky.
-pref("keyword.URL", "https://duckduckgo.com/?t=trisquel&q=!+");
-pref("browser.search.defaultenginename", "DuckDuckGo");
-pref("browser.search.order.1", "DuckDuckGo");
-pref("browser.search.defaultenginename", "DuckDuckGo");
-pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
-pref("browser.search.showOneOffButtons", false);
-pref("browser.search.suggest.enabled",false);
-// Disable preconnecting to search engine when clicking on the search bar
-pref("network.http.speculative-parallel-limit", 0);
-
 // Release notes and vendor URLs
 pref("app.releaseNotesURL", "https://savannah.gnu.org/news/?group=gnuzilla");
 pref("app.vendorURL", "https://www.gnu.org/software/gnuzilla/");
@@ -266,17 +255,6 @@ pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.ph
 // Geolocation depends on third party services
 pref("geo.enabled", false);
 pref("geo.wifi.uri", "");
-
-// I'm feeling Ducky.
-pref("keyword.URL", "https://duckduckgo.com/html?t=gnu&q=!+");
-pref("browser.search.defaultenginename", "DuckDuckGo");
-pref("browser.search.order.extra.duckduckgo", "DuckDuckGo");
-pref("browser.search.showOneOffButtons", false);
-// US specific default (used as a fallback if the geoSpecificDefaults request fails).
-pref("browser.search.defaultenginename.US",      "data:text/plain,browser.search.defaultenginename.US=DuckDuckGo");
-pref("browser.search.order.US.1",                "data:text/plain,browser.search.order.US.1=DuckDuckGo");
-pref("browser.search.order.US.2",                "data:text/plain,browser.search.order.US.2=Google");
-pref("browser.search.order.US.3",                "data:text/plain,browser.search.order.US.3=Yahoo");
 
 // Disable Gecko media plugins: https://wiki.mozilla.org/GeckoMediaPlugins
 pref("media.gmp-manager.url", "http://127.0.0.1/");
