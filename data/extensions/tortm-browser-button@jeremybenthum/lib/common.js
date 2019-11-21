@@ -16,19 +16,15 @@ var popupsend = function () {
 };
 
 var setproxy = function (callback) {
-  if (tor.id === "OFF") chrome.proxy.settings.set({"scope": "regular", "value": {"proxyType":"system", "mode": "system"}}, callback);
+  if (tor.id === "OFF") chrome.proxy.settings.set({"scope": "regular", "value": {"mode": "system"}}, callback);
   else chrome.proxy.settings.set({
     "scope": "regular",
     "value":  {
-      "proxyDNS":true,
-      "autoConfigUrl":"",
-      "socksVersion":5,
-      "passthrough":"",
-      "proxyType":"manual",
-      "ftp":"",
-      "ssl":"",
-      "http":"",
-      "socks":"127.0.0.1:9050"
+      "mode": "fixed_servers",
+      "rules": {
+        "bypassList": tor.bypassList,
+        "singleProxy": {"scheme": "socks5", "host": "127.0.0.1", "port": 9050}
+      }
     }
   }, callback);
 };
