@@ -2,7 +2,7 @@
 
 set -e
 
-for extension in librejs https-everywhere librejs-usps-compatibility free-js-for-rsf-org-petitions librejs-compatible-sumofus-org librejs-compatible-pay-gov submit-me rock-and-roll-mcdonald-s goteo-org-payments-w-free-js use-google-drive-with-librejs librifyjs-libgen-me tortm-browser-button viewtube disable-polymer-youtube; do
+for extension in librejs https-everywhere librejs-usps-compatibility submit-me librifyjs-libgen-me tortm-browser-button viewtube disable-polymer-youtube; do
 
   rm -rf /tmp/update-extension
   mkdir /tmp/update-extension
