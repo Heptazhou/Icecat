@@ -5,13 +5,13 @@
     "author": "Nathan Nichols",
     "description": "A collection of work-around scripts for a few different websites that are impossible to use without non-free JavaScript.",
     "icons": {
-	"16": "icons/L4Libre.png",
-	"48": "icons/L4Libre48.png",
-	"128": "icons/L4Libre128.png"
+	    "16": "icons/L4Libre.png",
+	    "48": "icons/L4Libre48.png",
+	    "128": "icons/L4Libre128.png"
     },
     "browser_action": {
-	"default_icon": "icons/test.png",
-	"default_title": "Launch USPS tools"
+	    "default_icon": "icons/test.png",
+	    "default_title": "Launch USPS tools"
     },
     "applications": {
 	"gecko": {
@@ -20,44 +20,45 @@
 	}
     },
     "background":{
-	"scripts": ["background.js"]
+	    "scripts": ["background.js"]
     },
     "content_scripts": [
-	{
-	    "matches": ["*://*.wayport.net/*",
-			"https://www.sumofus.org/*",
-			"https://www.sumofus.org/campaigns/*",
-			"*://*.actions.sumofus.org/a/*",
-			"*://*.actions.sumofus.org/api/pages/*/actions",
-			"*://*.actions.sumofus.org/*",
-			"https://*.pay.gov/*",
-			"https://dmca.copyright.gov/*",
-			"*://rsf.org/*",
-			"*://rsf.secure.force.com/*",
-			"*://docs.google.com/*",
-			"*://login-mcd-cluster.prd.snantx.attwifi.com/guest/*",
-			"https://pgw.ceca.es/cgi-bin/tpv",
-			"https://pgw.ceca.es/tpvweb/tpv/compra.action",
-			"*://*.goteo.org/*",
-			"*://*.sermepa.es/*"
-		       ],
-	    "js": ["jquery-3.4.1.min.js",
-		   "workaround/mcdonalds_wifi.js",
-		   "workaround/sumofus_main.js",
-		   "workaround/paygov_main.js",
-		   "workaround/rsf_main.js",
-		   "workaround/googledocs_main.js",
-		   "workaround/goteo_main.js"
-		  ]
-	}
+	    {
+	        "matches": [
+                "*://*.wayport.net/*",
+			    "https://www.sumofus.org/*",
+			    "https://www.sumofus.org/campaigns/*",
+			    "*://*.actions.sumofus.org/a/*",
+			    "*://*.actions.sumofus.org/api/pages/*/actions",
+			    "*://*.actions.sumofus.org/*",
+			    "https://*.pay.gov/*",
+			    "https://dmca.copyright.gov/*",
+			    "*://rsf.org/*",
+			    "*://rsf.secure.force.com/*",
+			    "*://docs.google.com/*",
+			    "*://login-mcd-cluster.prd.snantx.attwifi.com/guest/*",
+			    "https://pgw.ceca.es/cgi-bin/tpv",
+			    "https://pgw.ceca.es/tpvweb/tpv/compra.action",
+			    "*://*.goteo.org/*",
+			    "*://*.sermepa.es/*"
+		    ],
+	        "js": [
+		        "workaround/mcdonalds_wifi.js",
+		        "workaround/sumofus_main.js",
+		        "workaround/paygov_main.js",
+		        "workaround/rsf_main.js",
+		        "workaround/googledocs_main.js",
+		        "workaround/goteo_main.js"
+		    ]
+	    }
     ],
     "permissions":[
-	"*://reg.usps.com/*",
-	"*://production.shippingapis.com/*",
-	"webRequestBlocking",
-	"*://*.sumofus.org/*",
-	"*://*.actions.sumofus.org/*",
-	"webRequest",
-	"*://*.pay.gov/*"
+	    "*://reg.usps.com/*",
+	    "*://production.shippingapis.com/*",
+	    "webRequestBlocking",
+	    "*://*.sumofus.org/*",
+	    "*://*.actions.sumofus.org/*",
+	    "webRequest",
+	    "*://*.pay.gov/*"
     ]
 }
