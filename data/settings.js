@@ -149,8 +149,6 @@ pref("extensions.shield-recipe-client.enabled", false);
 pref("browser.newtabpage.directory.source", "");
 pref("browser.newtabpage.directory.ping", "");
 pref("browser.newtabpage.introShown", true);
-// Disable home snippets
-pref("browser.aboutHomeSnippets.updateUrl", "");
 // Always ask before restoring the browsing session
 pref("browser.sessionstore.max_resumed_crashes", 0);
 // Disable tracking protection by default, as it makes automated connections to fetch lists (not doing this until the newtab privacy block is reimplemented)
@@ -162,6 +160,7 @@ pref("browser.privacy.trackingprotection.menu", "always");
 pref("privacy.trackingprotection.introURL", "https://www.mozilla.org/%LOCALE%/firefox/%VERSION%/tracking-protection/start/");
 // Disable geolocation
 pref("geo.enabled", false);
+pref("geo.wifi.uri", "");
 pref("browser.search.geoip.url", "");
 // Disable captive portal detection
 pref("captivedetect.canonicalURL", "");
@@ -194,7 +193,6 @@ pref("gecko.handlerService.schemes.irc.0.uriTemplate", "");
 // Disable channel updates
 pref("app.update.enabled", false);
 pref("app.update.auto", false);
-pref("toolkit.telemetry.enabled", false);
 
 // EME
 pref("media.eme.enabled", false);
@@ -252,12 +250,7 @@ pref("app.faqURL", "http://libreplanet.org/wiki/Group:IceCat/FAQ");
 pref("pfs.datasource.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
 pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.php?mimetype=%PLUGIN_MIMETYPE%");
 
-// Geolocation depends on third party services
-pref("geo.enabled", false);
-pref("geo.wifi.uri", "");
-
 // Disable Gecko media plugins: https://wiki.mozilla.org/GeckoMediaPlugins
-pref("media.gmp-manager.url", "http://127.0.0.1/");
 pref("media.gmp-manager.url.override", "data:text/plain,");
 pref("media.gmp-manager.url", "");
 pref("media.gmp-provider.enabled", false);
