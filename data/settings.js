@@ -98,6 +98,10 @@ pref("dom.ipc.plugins.flash.subprocess.crashreporter.enabled", false);
 pref("browser.safebrowsing.enabled", false);
 pref("browser.safebrowsing.downloads.remote.enabled", false);
 pref("browser.safebrowsing.malware.enabled", false);
+pref("browser.safebrowsing.provider.google.updateURL", "");
+pref("browser.safebrowsing.provider.google.gethashURL", "");
+pref("browser.safebrowsing.provider.google4.updateURL", "");
+pref("browser.safebrowsing.provider.google4.gethashURL", "");
 pref("browser.safebrowsing.provider.mozilla.gethashURL", "");
 pref("browser.safebrowsing.provider.mozilla.updateURL", "");
 pref("services.sync.privacyURL", "https://www.gnu.org/software/gnuzilla/");
@@ -126,6 +130,8 @@ pref("toolkit.telemetry.enabled", false);
 pref("toolkit.telemetry.server", "");
 pref("experiments.manifest.uri", ""); 
 pref("toolkit.telemetry.unified", false);
+// Make sure updater telemetry is disabled; see <https://trac.torproject.org/25909>.
+pref("toolkit.telemetry.updatePing.enabled", false);
 // Do not tell what plugins do we have enabled: https://mail.mozilla.org/pipermail/firefox-dev/2013-November/001186.html
 pref("plugins.enumerable_names", "");
 pref("plugin.state.flash", 0);
@@ -143,6 +149,8 @@ pref("browser.urlbar.userMadeSearchSuggestionsChoice", true);
 pref("browser.search.suggest.enabled", false);
 // Always ask before restoring the browsing session
 pref("browser.sessionstore.max_resumed_crashes", 0);
+// Don't ping Mozilla for MitM detection, see <https://bugs.torproject.org/32321>
+pref("security.certerrors.mitm.priming.enabled", false);
 // Disable shield/heartbeat
 pref("extensions.shield-recipe-client.enabled", false);
 // Don't download ads for the newtab page
@@ -207,6 +215,10 @@ pref("media.peerconnection.enabled", true);
 pref("media.peerconnection.ice.no_host", true);
 pref("media.peerconnection.ice.default_address_only", true);
 
+// Use the proxy server to do DNS lookups when using SOCKS
+// <http://kb.mozillazine.org/Network.proxy.socks_remote_dns>
+pref("network.proxy.socks_remote_dns", true);
+
 // Services
 pref("gecko.handlerService.schemes.mailto.0.name", "");
 pref("gecko.handlerService.schemes.mailto.1.name", "");
@@ -253,6 +265,7 @@ pref("pfs.filehint.url", "http://gnuzilla.gnu.org/plugins/PluginFinderService.ph
 // Disable Gecko media plugins: https://wiki.mozilla.org/GeckoMediaPlugins
 pref("media.gmp-manager.url.override", "data:text/plain,");
 pref("media.gmp-manager.url", "");
+pref("media.gmp-manager.updateEnabled", false);
 pref("media.gmp-provider.enabled", false);
 // Don't install openh264 codec
 pref("media.gmp-gmpopenh264.enabled", false);
@@ -291,6 +304,9 @@ pref("browser.casting.enabled", false);
 
 //Disable directory service
 pref("social.directories", "");
+
+// Don't report TLS errors to Mozilla
+pref("security.ssl.errorReporting.enabled", false);
 
 // Crypto hardening
 // https://gist.github.com/haasn/69e19fc2fe0e25f3cff5
