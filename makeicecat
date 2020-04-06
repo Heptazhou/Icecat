@@ -2,7 +2,7 @@
 #
 #    Copyright (C) 2014-2019  Ruben Rodriguez <ruben@gnu.org>
 #    Copyright (C) 2019  Amin Bandali <bandali@gnu.org>
-#    Copyright (C) 2020  Mark H Weaver <mhw@netris.org>
+#    Copyright (C) 2019-2020  Mark H Weaver <mhw@netris.org>
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
 set -euxo pipefail
 
 FFMAJOR=68
-FFMINOR=6
-FFSUB=1
+FFMINOR=7
+FFSUB=0
 GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.$FFSUB
 ICECATVERSION=$FFVERSION-gnu$GNUVERSION
@@ -44,7 +44,7 @@ wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr
 wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz.asc
 gpg --recv-keys --keyserver keyserver.ubuntu.com 14F26682D0916CDD81E37B6D61B7B526D98F0353
 gpg --verify firefox-${FFVERSION}esr.source.tar.xz.asc
-echo -n a9d8aef9547ac3d88d2fafa3ef61734bf37f343cde36efc53d67d9716acec9f8 firefox-${FFVERSION}esr.source.tar.xz |sha256sum -c -
+echo -n ad3ea069c3d23aab360ad04ff4d0f5e556d3538f7dd4eae0690c4e9241537570 firefox-${FFVERSION}esr.source.tar.xz |sha256sum -c -
 
 echo Extracting Firefox tarball
 tar -xf firefox-${FFVERSION}esr.source.tar.xz
