@@ -16,7 +16,7 @@ chrome.runtime.onInstalled.addListener(function (e) {
     var doupdate = previous && parseInt((Date.now() - config.welcome.lastupdate) / (24 * 3600 * 1000)) > 45;
     if (e.reason === "install" || (e.reason === "update" && doupdate)) {
       var parameter = (e.previousVersion ? "&p=" + e.previousVersion : '') + "&type=" + e.reason;
-      app.tab.open(app.homepage() + "?v=" + app.version() + parameter);
+//      app.tab.open(app.homepage() + "?v=" + app.version() + parameter);
       config.welcome.lastupdate = Date.now();
     }
   }, 3000);

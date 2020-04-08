@@ -27,7 +27,7 @@ for extension in librejs https-everywhere librejs-usps-compatibility submit-me l
 
 done
 
-sed '/type=install/s=^=//=' -i extensions/tortm-browser-button@jeremybenthum/lib/common.js
+sed '/app\.tab\.open.*parameter.*/s=^=//=' -i extensions/tortm-browser-button@jeremybenthum/lib/chrome/chrome.js
 sed '/autoUpdateRulesets/s/true/false/' -i extensions/https-everywhere@eff.org/pages/options/ux.js extensions/https-everywhere@eff.org/background-scripts/update.js
 
 for ID in viewtube@extension disable-polymer-youtube@extension tortm-browser-button@jeremybenthum; do
