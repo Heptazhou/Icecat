@@ -42,13 +42,13 @@
 #explore .explore {
   right: 0;
   margin: 0;
-  padding: 0 7px;
-  font-size: 14px;
+  padding: 0 3px;
+  font-size: 12px;
   cursor: pointer;
   z-index: 1000000;
   line-height: 17px;
   position: absolute;
-  color: rgba(0,0,0,0.6);
+  color: rgba(0,0,0,0.5);
 }
 
 #explore .close {
@@ -94,6 +94,7 @@
 
 #explore .name {
   padding: 0;
+  font-size: 12px;
   overflow: hidden;
   margin: 0 0 0 5px;
   font-weight: normal;

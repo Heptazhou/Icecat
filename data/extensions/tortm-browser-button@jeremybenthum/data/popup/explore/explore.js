@@ -74,8 +74,7 @@
     table.appendChild(tr);
     root.appendChild(table);
     /*  */
-    const n = Math.floor(parseInt(window.getComputedStyle(document.body).width) / 151) || 3;
-    json.slice(0, (n > 5 ? 5 : n)).forEach(({id, title}, index) => {
+    json.slice(0, 4).forEach(({id, title}, index) => {
       if (id && title) {
         const a = document.createElement('a');
         const td = document.createElement('td');

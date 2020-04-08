@@ -2,7 +2,19 @@
   {"id": "smart-https", "title": "Smart HTTPS"},
   {"id": "cache-cleaner", "title": "Cache Cleaner"},
   {"id": "webrtc-control", "title": "WebRTC Control"},
+  {"id": "webapi-blocker", "title": "WebAPI Blocker"},
+  {"id": "cookie-switch", "title": "Cookie Switch ON|OFF"},
   {"id": "policy-control-wext", "title": "Policy Control"},
+  {"id": "popup-blocking", "title": "Popup Blocker (Lite)"},
   {"id": "privacy-guard", "title": "Privacy Guard & Manager"},
-  {"id": "block-miners", "title": "NoMiner - Block Coin Miners"}
+  {"id": "restrict-to-domain", "title": "Restrict to Domain"},
+  {"id": "font-defender", "title": "Font Fingerprint Defender"},
+  {"id": "block-miners", "title": "NoMiner - Block Coin Miners"},
+  {"id": "webgl-defender", "title": "WebGL Fingerprint Defender"},
+  {"id": "canvas-defender", "title": "Canvas Fingerprint Defender"},
+  {"id": "change-timezone", "title": "Change Timezone (Time Shift)"},
+  {"id": "custom-useragent-string", "title": "Custom UserAgent String"},
+  {"id": "change-geolocation", "title": "Change Geolocation (Location Guard)"},
+  {"id": "audiocontext-defender", "title": "AudioContext Fingerprint Defender"},
+  {"id": "access-control-allow-origin", "title": "Allow CORS: Access-Control-Allow-Origin"}
 ]

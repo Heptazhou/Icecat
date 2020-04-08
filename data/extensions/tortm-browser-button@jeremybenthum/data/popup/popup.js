@@ -1,31 +1,31 @@
 var background = (function () {
-  var _tmp = {};
+  var tmp = {};
   chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-    for (var id in _tmp) {
-      if (_tmp[id] && (typeof _tmp[id] === "function")) {
+    for (var id in tmp) {
+      if (tmp[id] && (typeof tmp[id] === "function")) {
         if (request.path == 'background-to-popup') {
-          if (request.method === id) _tmp[id](request.data);
+          if (request.method === id) tmp[id](request.data);
         }
       }
     }
   });
   /*  */
   return {
-    "receive": function (id, callback) {_tmp[id] = callback},
+    "receive": function (id, callback) {tmp[id] = callback},
     "send": function (id, data) {chrome.runtime.sendMessage({"path": 'popup-to-background', "method": id, "data": data})}
   }
 })();
 
 var load = function () {
   var whitelist = document.getElementById("whitelist");
-  document.addEventListener("click", function (e) {
-    var id = e.target ? e.target.getAttribute("id") : null;
-    if (id && id !== "whitelist") background.send("popup-data", {"name": id});
-  });
-	/*  */
   whitelist.addEventListener("change", function (e) {
     var value = e.target ? e.target.value : '';
     background.send("popup-data", {"name": "bypassList", "whitelist": value});
+  });
+  /*  */
+  document.addEventListener("click", function (e) {
+    var id = e.target ? e.target.getAttribute("id") : null;
+    if (id && id !== "whitelist") background.send("popup-data", {"name": id});
   });
   /*  */
   background.send("load");

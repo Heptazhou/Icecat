@@ -1,16 +1,20 @@
 var config = {};
 
+config.url = {
+  "tor": "https://check.torproject.org/",
+  "ip": "https://webbrowsertools.com/ip-address/",
+  "github": "https://github.com/jeremy-jr-benthum/tor-button/releases",
+};
+
 config.welcome = {
-  get version () {return app.storage.read("version")},
-  set version (val) {app.storage.write("version", val)}
+  set lastupdate (val) {app.storage.write("lastupdate", val)},
+  get lastupdate () {return app.storage.read("lastupdate") !== undefined ? app.storage.read("lastupdate") : 0}
 };
 
 config.addon = {
-  "check": "https://check.torproject.org/",
   set state (val) {app.storage.write("state", val)},
   set whitelist (val) {app.storage.write("whitelist", val)},
   get whitelist () {return app.storage.read("whitelist") || ''},
-  "github": "https://github.com/jeremy-jr-benthum/tor-button/releases",
   get state () {return app.storage.read("state") !== undefined ? app.storage.read("state") : "OFF"}
 };
 
@@ -26,20 +30,19 @@ config.request = function (url, callback) {
 };
 
 config.notifications = (function () {
-  chrome.notifications.onClosed.addListener(function () {config.notifications.id = ''});
-  chrome.notifications.onClicked.addListener(function (id) {if (id === config.notifications.id) app.tab.open(app.homepage() + "#faq")});
+  chrome.notifications.onClicked.addListener(function (id) {
+    if (id === config.notifications.id) app.tab.open(app.homepage() + "#faq");
+  });
   /*  */
   return {
-    "id": '',
+    "id": "onion-button-notifications-id",
     "create": function (message) {
-      var iconUrl = /Firefox/.test(navigator.userAgent) ? "data/icons/64.png" : chrome.runtime.getURL("data/icons/64.png");
-      var o = {"message": message, "type": "basic", "title": "Onion Browser Button", "iconUrl": iconUrl};
-      if (config.notifications.id) {
-        if (chrome.notifications.update) {
-          return chrome.notifications.update(config.notifications.id, o, function () {});
-        }
-      }
-      return chrome.notifications.create(o, function (id) {config.notifications.id = id});
+      chrome.notifications.create(config.notifications.id, {
+        "type": "basic",
+        "message": message,
+        "title": "Onion Browser Button",
+        "iconUrl": /Firefox/.test(navigator.userAgent) ? "data/icons/64.png" : chrome.runtime.getURL("data/icons/64.png")
+      }, function () {});
     }
   }
 })();

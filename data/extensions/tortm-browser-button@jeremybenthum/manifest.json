@@ -1,11 +1,11 @@
 {
   "applications": { "gecko": { "id": "tortm-browser-button@jeremybenthum" } },
-  "version": "0.1.7",
+  "version": "0.1.8",
   "manifest_version": 2,
   "short_name": "onion-button",
   "name": "Onion Browser Button",
   "background": {"page": "lib/chrome/background.html"},
-  "homepage_url": "http://mybrowseraddon.com/tor-button.html",
+  "homepage_url": "https://mybrowseraddon.com/tor-button.html",
   "description": "Easily browse the internet using TOR proxy with just one click!",
   "permissions": ["proxy", "storage", "notifications", "https://check.torproject.org/*"],
   "browser_action": {
