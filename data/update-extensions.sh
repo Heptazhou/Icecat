@@ -2,7 +2,7 @@
 
 set -e
 
-for extension in librejs https-everywhere librejs-usps-compatibility submit-me librifyjs-libgen-me tortm-browser-button viewtube disable-polymer-youtube; do
+for extension in librejs https-everywhere librejs-usps-compatibility submit-me tortm-browser-button viewtube disable-polymer-youtube; do
 
   rm -rf /tmp/update-extension
   mkdir /tmp/update-extension
