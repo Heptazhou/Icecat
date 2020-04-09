@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 
 Name: manifest.json
 Digest-Algorithms: SHA1 SHA256
-SHA1-Digest: s9vgEUmY5zS8lSA8+G9Y4bmaFB4=
-SHA256-Digest: ySAZVRxqv2aNGtFv40Sl+G4Fn6Oaqi7k4Wtwf1MPIP8=
+SHA1-Digest: 0kP+fWSFdvsnRRbixd3LFyEoqJc=
+SHA256-Digest: aN7FcQz8Jr9qeAPM9OTD6JUUk+xu/NVaH0q43qcIr6U=
 
 Name: viewtube.user.js
 Digest-Algorithms: SHA1 SHA256
-SHA1-Digest: cowkH96yob1wUoRBxJJrFA15jD4=
-SHA256-Digest: DIv/XzXvVhDvGANOBsevsbMi5A36xsgI73x+vo+sFhw=
+SHA1-Digest: 9mVS5d5w62q/yA5PdmtH1+14kqI=
+SHA256-Digest: ueYJ5nYVrwtBYIlozyOhMqq8o5sCHasUQ2huOZVCqb0=
 
 Name: icons/128.png
 Digest-Algorithms: SHA1 SHA256
@@ -42,11 +42,11 @@ SHA256-Digest: R5KHlJkwcK345KJk+iqdOJ3Pn6p7LDPZkme+bFbARXc=
 
 Name: META-INF/cose.manifest
 Digest-Algorithms: SHA1 SHA256
-SHA1-Digest: SpvZNL+LF1yrLVJAIINjaXqgjWQ=
-SHA256-Digest: YtFLuVgBD26P9H1y1rtKQ1NcQrCkupkj2hdOG4MgVE4=
+SHA1-Digest: WMA9zfXP0lklA7T6TGgpph1dfDA=
+SHA256-Digest: xA3Bu3DSv5Kqe2VA5zbcicoyGcpiGmB9nkO+rM2WWuo=
 
 Name: META-INF/cose.sig
 Digest-Algorithms: SHA1 SHA256
-SHA1-Digest: BIUx6BOf2n34j36/Gl2w17HFgJQ=
-SHA256-Digest: dxQ5H026a/IdnDxdAdmwftgKKbkqgWOygOE8PvQHa1Q=
+SHA1-Digest: qo4wVFFyP+zaJQ1gCs64xpCxh58=
+SHA256-Digest: tmKmvtoYijudY25QE57M2Q0GvdN5Dvs/x1A8RSX14Pk=
 
