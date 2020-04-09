@@ -10,8 +10,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 
-var bad = [];
-
 function escapeHTML (unsafe_str) {
     return unsafe_str
       .replace(/&/g, '&amp;')
@@ -22,14 +20,9 @@ function escapeHTML (unsafe_str) {
       .replace(/\//g, '&#x2F;')
 }
 
-function dounhide(){
-        for(var i = 0; i < bad.length; i++){
-                        bad[i].remove();
-                }
-}
-
 console.log("passive_improve_css.js");
 function reveal_css(){
+	var bad = [];
 
 	var elements = document.getElementsByTagName("style");
 	for(var i = 0; i < elements.length; i++){
@@ -48,19 +41,15 @@ function reveal_css(){
 
 		}
 	}
-	if(bad.length > 0){
-		const insertedDiv = document.createElement('div');
-		insertedDiv.innerHTML= '<p id="unhide" class="button white" style="text-decoration:none!important; color:#000!important;  font-size:1em !important; font-family:\'sans-serif\'!important; font-weight:normal !important; background-color:transparent!important; margin:0!important; padding:0!important; font-size:10px!important; line-height:1!important"' +
-			'alt="Click to reveal hidden elements in this page">' +
-	                '<span>Reveal hidden elements</span>' +
-			'</a>';
-		insertedDiv.style="position:fixed; bottom:1em; right:1em; opacity:0.8; z-index: 2147483647 !important; border-radius: 3px !important; background-color: #fff !important; padding: 0.5em !important;   box-shadow: 0 0 3px grey !important; font-color:#bbb!important; cursor: pointer!important;";
-		insertedDiv.addEventListener("click", dounhide, false);
-		document.body.insertBefore(insertedDiv, document.body.firstChild);
+	if(bad.length > 0 && window.confirm("Hidden HTML detected, would you like to reveal it?")){
+		for(var i = 0; i < bad.length; i++){
+			bad[i].remove();
+		}
 	}
 }
 
 reveal_css();
+
 
 /*
 var a = document.getElementsByTagName("style")[2];
