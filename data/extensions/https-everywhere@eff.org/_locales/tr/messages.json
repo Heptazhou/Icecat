@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "a\u011f temelli d\u00fc\u015f\u00fcrme sald\u0131r\u0131lar\u0131"
     },
+    "cancel_http_once": {
+        "message": "G\u00fcvenli olmayan sayfay\u0131 yaln\u0131z bu oturum i\u00e7in a\u00e7"
+    },
     "cancel_open_page": {
         "message": "G\u00fcvenli olmayan sayfay\u0131 a\u00e7"
     },
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "EFF Projesine Ba\u011f\u0131\u015f Yap\u0131n"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Olabilecek T\u00fcm Siteler \u015eifrelensin Kapal\u0131"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Olabilecek T\u00fcm Siteler \u015eifrelensin A\u00e7\u0131k"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "HTTPS Everywhere Kapal\u0131"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere A\u00e7\u0131k"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "\u015eifrelenmemi\u015f isteklere \u015fu anda izin veriliyor"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "\u015eifrelenmemi\u015f istekler \u015fu anda engelleniyor"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "SSL G\u00f6zlemcisi Ayarlar\u0131"
+    },
+    "menu_seeLess": {
+        "message": "Ayr\u0131nt\u0131lar\u0131 gizle"
     },
     "menu_seeMore": {
         "message": "Ayr\u0131nt\u0131lar\u0131 g\u00f6r\u00fcnt\u00fcle"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "T\u00fcm Kurallar\u0131 G\u00f6r\u00fcnt\u00fcle"
     },
+    "onboarding_details_one": {
+        "message": "EASE Kipi \u0130yile\u015ftirildi"
+    },
+    "onboarding_details_two": {
+        "message": "Art\u0131k HTTPS Everywhere kullanmamak \u00fczere siteleri beyaz listeye alabilirsiniz"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere bir EFF projesidir"
+    },
+    "onboarding_header": {
+        "message": "3.9.2020 s\u00fcr\u00fcm de\u011fi\u015fiklikleri"
+    },
+    "onboarding_intro": {
+        "message": "Web ileti\u015fiminizi \u015fifreleyin! Bir\u00e7ok sitede otomatik olarak HTTPS g\u00fcvenli\u011fini kullan\u0131n."
+    },
+    "options_addDisabledSite": {
+        "message": "Devre D\u0131\u015f\u0131 B\u0131rak\u0131lm\u0131\u015f Site Ekle"
+    },
     "options_addUpdateChannel": {
         "message": "G\u00fcncelleme Kanal\u0131 Ekle"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Kural K\u00fcmeleri Otomatik G\u00fcncellensin"
+    },
+    "options_debuggingRulesets": {
+        "message": "Kural K\u00fcmeleri Hata Ay\u0131klama (geli\u015fmi\u015f)"
     },
     "options_delete": {
         "message": "Sil"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Karma \u0130\u00e7erik Kural K\u00fcmeleri Kullan\u0131labilsin"
     },
+    "options_enterDisabledSite": {
+        "message": "Devre d\u0131\u015f\u0131 b\u0131rak\u0131lm\u0131\u015f siteyi yaz\u0131n"
+    },
     "options_enterUpdateChannelName": {
         "message": "G\u00fcncelleme kanal\u0131n\u0131n ad\u0131n\u0131 yaz\u0131n"
     },
     "options_generalSettings": {
         "message": "Genel Ayarlar"
+    },
+    "options_settings": {
+        "message": "Ayarlar"
     },
     "options_showDevtoolsTab": {
         "message": "Geli\u015ftirici Ara\u00e7lar\u0131 Sekmesi G\u00f6r\u00fcnt\u00fclensin"

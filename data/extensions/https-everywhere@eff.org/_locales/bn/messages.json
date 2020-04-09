@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "\u09a8\u09c7\u099f\u0993\u09af\u09bc\u09be\u09b0\u09cd\u0995-\u09ad\u09bf\u09a4\u09cd\u09a4\u09bf\u0995 \u09a1\u09be\u0989\u09a8\u0997\u09cd\u09b0\u09c7\u09a1 \u09b9\u09be\u09ae\u09b2\u09be"
     },
+    "cancel_http_once": {
+        "message": "\u0995\u09c7\u09ac\u09b2  \u098f\u0987 \u09b8\u09c7\u09b6\u09a8\u09c7\u09b0 \u099c\u09a8\u09cd\u09af \u0985\u09a8\u09bf\u09b0\u09be\u09aa\u09a6 \u09aa\u09c3\u09b7\u09cd\u09a0\u09be\u099f\u09bf \u0996\u09c1\u09b2\u09c1\u09a8"
+    },
     "cancel_open_page": {
         "message": "\u0985\u09a8\u09bf\u09b0\u09be\u09aa\u09a6 \u09aa\u09c3\u09b7\u09cd\u09a0\u09be \u0996\u09c1\u09b2\u09c1\u09a8"
     },
@@ -63,13 +66,13 @@
         "message": "\u09a8\u09bf\u09af\u09bc\u09ae\u09c7\u09b0 \u09a8\u09be\u09ae"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "\u0986\u09aa\u09a8\u09bf \u09ac\u09bf\u09ad\u09bf\u09a8\u09cd\u09a8 \u0993\u09af\u09bc\u09c7\u09ac\u09b8\u09be\u0987\u099f \u09ac\u09cd\u09b0\u09be\u0989\u099c \u0995\u09b0\u09be\u09b0 \u09b8\u09ae\u09af\u09bc, \u0986\u09aa\u09a8\u09bf \u09aa\u09cd\u09b0\u09a4\u09bf\u099f\u09bf \u0993\u09af\u09bc\u09c7\u09ac\u09b8\u09be\u0987\u099f\u09c7\u09b0 \u099c\u09a8\u09cd\u09af \u0986\u09aa\u09a8\u09be\u09b0 \u09aa\u099b\u09a8\u09cd\u09a6 \u09aa\u09b0\u09bf\u09ac\u09b0\u09cd\u09a4\u09a8 \u0995\u09b0\u09a4\u09c7 \u09aa\u09be\u09b0\u09c7\u09a8"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "\u098f\u0987 \u09b8\u09be\u0987\u099f\u09c7\u09b0 \u099c\u09a8\u09cd\u09af \u09b8\u09c7\u099f\u09bf\u0982\u09b8"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "\u098f\u09a8\u0995\u09cd\u09b0\u09bf\u09aa\u09cd\u099f \u09b8\u0982\u09af\u09cb\u0997\u09c7\u09b0 \u099c\u09a8\u09cd\u09af \u0986\u09aa\u09a8\u09be\u09b0 \u09aa\u099b\u09a8\u09cd\u09a6 \u09aa\u09b0\u09bf\u09ac\u09b0\u09cd\u09a4\u09a8 \u0995\u09b0\u09c1\u09a8"
     },
     "chrome_show_advanced": {
         "message": "\u0989\u09a8\u09cd\u09a8\u09a4 \u09a6\u09c7\u0996\u09be\u09a8"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "\u0987\u098f\u09ab\u098f\u09ab\u0995\u09c7 \u09a6\u09be\u09a8 \u0995\u09b0\u09c1\u09a8"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u098f\u09a8\u0995\u09cd\u09b0\u09bf\u09aa\u09cd\u099f \u0995\u09b0\u09c1\u09a8 \u09b8\u0995\u09b2 \u09b8\u09be\u0987\u099f \u09af\u09cb\u0997\u09cd\u09af \u09ac\u09a8\u09cd\u09a7 \u0986\u099b\u09c7"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u098f\u09a8\u0995\u09cd\u09b0\u09bf\u09aa\u09cd\u099f \u0995\u09b0\u09c1\u09a8 \u09b8\u0995\u09b2 \u09b8\u09be\u0987\u099f \u09af\u09cb\u0997\u09cd\u09af \u099a\u09be\u09b2\u09c1 \u0986\u099b\u09c7"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere \u09ac\u09a8\u09cd\u09a7 "
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS HTTPS \u099a\u09be\u09b2\u09c1"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "\u098f\u09a8\u0995\u09cd\u09b0\u09bf\u09aa\u09cd\u099f \u0995\u09b0\u09be \u0985\u09a8\u09c1\u09b0\u09cb\u09a7 \u09ac\u09b0\u09cd\u09a4\u09ae\u09be\u09a8\u09c7 \u0985\u09a8\u09c1\u09ae\u09cb\u09a6\u09bf\u09a4"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "\u098f\u09a8\u0995\u09cd\u09b0\u09bf\u09aa\u09b6\u09a8\u09ac\u09bf\u09b9\u09c0\u09a8 \u0985\u09a8\u09c1\u09b0\u09cb\u09a7 \u09ac\u09b0\u09cd\u09a4\u09ae\u09be\u09a8\u09c7 \u0985\u09ac\u09b0\u09cb\u09a7 \u0995\u09b0\u09be \u09b9\u09af\u09bc\u09c7\u099b\u09c7"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "\u098f\u0987 \u09ae\u09cb\u09a1\u099f\u09bf \u098f\u09a8\u0995\u09cd\u09b0\u09bf\u09aa\u09cd\u099f \u09a8\u09be \u0995\u09b0\u09be \u0995\u09a8\u09cd\u099f\u09c7\u09a8\u09cd\u099f \u098f\u09ac\u0982 \u0985\u09a8\u09c1\u09b0\u09cb\u09a7 \u09ac\u09cd\u09b2\u0995 \u0995\u09b0\u09c7"
     },
     "menu_observatory": {
         "message": "SSL \u09aa\u09b0\u09cd\u09af\u09ac\u09c7\u0995\u09cd\u09b7\u0995 \u09aa\u099b\u09a8\u09cd\u09a6\u0997\u09c1\u09b2\u09bf"
     },
+    "menu_seeLess": {
+        "message": "\u0995\u09ae \u09a6\u09c7\u0996\u09c1\u09a8"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "\u0986\u09b0\u09cb \u09a6\u09c7\u0996\u09c1\u09a8"
     },
     "menu_showCounter": {
         "message": "\u0995\u09be\u0989\u09a8\u09cd\u099f\u09be\u09b0 \u09a6\u09c7\u0996\u09c1\u09a8"
     },
     "menu_viewAllRules": {
         "message": "\u09b8\u09ae\u09b8\u09cd\u09a4 \u09a8\u09bf\u09af\u09bc\u09ae \u09a6\u09c7\u0996\u09c1\u09a8"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0993\u09af\u09bc\u09c7\u09ac \u098f\u09a8\u0995\u09cd\u09b0\u09bf\u09aa\u09cd\u099f! \u0985\u09a8\u09c7\u0995 \u09b8\u09be\u0987\u099f\u0997\u09c1\u09b2\u09bf\u09a4\u09c7 \u09b8\u09cd\u09ac\u09af\u09bc\u0982\u0995\u09cd\u09b0\u09bf\u09af\u09bc\u09ad\u09be\u09ac\u09c7 HTTPS \u09a8\u09bf\u09b0\u09be\u09aa\u09a4\u09cd\u09a4\u09be \u09ac\u09cd\u09af\u09ac\u09b9\u09be\u09b0 \u0995\u09b0\u09c1\u09a8"
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "\u09b9\u09be\u09b2\u09a8\u09be\u0997\u09be\u09a6 \u099a\u09cd\u09af\u09be\u09a8\u09c7\u09b2 \u099c\u09c1\u09a1\u09bc\u09c1\u09a8"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "\u09b8\u09cd\u09ac\u09af\u09bc\u0982\u0995\u09cd\u09b0\u09bf\u09af\u09bc \u0986\u09aa\u09a1\u09c7\u099f \u09a8\u09bf\u09af\u09bc\u09ae\u09be\u09ac\u09b2\u09c0"
     },
+    "options_debuggingRulesets": {
+        "message": "\u09a1\u09bf\u09ac\u09be\u0997\u09bf\u0982 \u09b0\u09c1\u09b2\u09b8\u09c7\u099f\u09b8 (\u0989\u09a8\u09cd\u09a8\u09a4)"
+    },
     "options_delete": {
         "message": "\u09ae\u09c1\u099b\u09c1\u09a8"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "\u09ae\u09bf\u09b6\u09cd\u09b0 \u0995\u09a8\u09cd\u099f\u09c7\u09a8\u09cd\u099f/\u09ac\u09bf\u09b7\u09af\u09bc\u09ac\u09b8\u09cd\u09a4\u09c1 \u09a8\u09bf\u09af\u09bc\u09ae\u09be\u09ac\u09b2\u09c0 \u09b8\u0995\u09cd\u09b7\u09ae \u0995\u09b0\u09c1\u09a8"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "\u09b9\u09be\u09b2\u09a8\u09be\u0997\u09be\u09a6 \u099a\u09cd\u09af\u09be\u09a8\u09c7\u09b2 \u09a8\u09be\u09ae \u09aa\u09cd\u09b0\u09ac\u09c7\u09b6 \u0995\u09b0\u09be\u09a8"
     },
     "options_generalSettings": {
         "message": "\u09b8\u09be\u09a7\u09be\u09b0\u09a3 \u09b8\u09c7\u099f\u09bf\u0982\u09b8"
+    },
+    "options_settings": {
+        "message": "\u09b8\u09c7\u099f\u09bf\u0982\u09b8"
     },
     "options_showDevtoolsTab": {
         "message": "Devtools \u099f\u09cd\u09af\u09be\u09ac \u09a6\u09c7\u0996\u09be\u09a8"

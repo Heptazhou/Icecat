@@ -1,6 +1,6 @@
 {
     "about_add_new_rule": {
-        "message": "Dodaj Now\u0105 Regu\u0142\u0119"
+        "message": "Dodaj now\u0105 regu\u0142\u0119"
     },
     "about_ext_description": {
         "message": "Szyfruj sie\u0107! Automatycznie u\u017cywaj zabezpiecze\u0144 HTTPS na wielu stronach."
@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Wersja zestaw reg\u00f3\u0142 dla "
+        "message": "Wersja zestawu regu\u0142 dla "
     },
     "about_title": {
         "message": "O HTTPS Everywhere"
@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "sieciowe ataki downgrade"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
         "message": "Otw\u00f3rz niezabezpieczon\u0105 stron\u0119"
     },
@@ -30,7 +33,7 @@
         "message": "Dodaj now\u0105 regu\u0142\u0119 dla tej strony"
     },
     "chrome_add_rule": {
-        "message": "Dodaj now\u0105 regu\u0142\u0119 dla tej strony"
+        "message": "Dodaj regu\u0142\u0119 dla tej strony"
     },
     "chrome_always_https_for_host": {
         "message": "Zawsze u\u017cywaj https dla tego hosta"
@@ -63,7 +66,7 @@
         "message": "Nazwa regu\u0142y"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "Podczas przegl\u0105dania r\u00f3\u017cnych stron internetowych mo\u017cesz zmieni\u0107 preferencje dla ka\u017cdej witryny"
+        "message": "Podczas przegl\u0105dania r\u00f3\u017cnych stron internetowych mo\u017cesz zmieni\u0107 swoje preferencje dla ka\u017cdej witryny"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Ustawienia dla tej witryny"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Wspom\u00f3\u017c finansowo EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Szyfruj wszystkie witryny kwalifikuj\u0105ce si\u0119 do w\u0142\u0105czenia"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Szyfruj wszystkie mo\u017cliwe witryny jest WY\u0141\u0104CZONE"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Szyfruj wszystkie mo\u017cliwe witryny jest W\u0141\u0104CZONE"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere jest WY\u0141\u0104CZONE"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Wsz\u0119dzie jest WY\u0141\u0104CZONE"
+        "message": "HTTPS Everywhere jest W\u0141\u0104CZONE"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Niezaszyfrowane \u017c\u0105dania s\u0105 obecnie dozwolone"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Niezaszyfrowane \u017c\u0105dania s\u0105 obecnie zablokowane"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "Ustawienia SSL Observatory"
+    },
+    "menu_seeLess": {
+        "message": "Zobacz mniej"
     },
     "menu_seeMore": {
         "message": "Zobacz wi\u0119cej"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "Wy\u015bwietl wszystkie regu\u0142y"
     },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Szyfruj sie\u0107! Automatycznie u\u017cywaj zabezpiecze\u0144 HTTPS na wielu stronach."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
+    },
     "options_addUpdateChannel": {
         "message": "Dodaj kana\u0142 aktualizacji"
     },
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Automatycznie aktualizuj zestawy regu\u0142"
     },
+    "options_debuggingRulesets": {
+        "message": "Zestaw regu\u0142 debugowania (zaawansowane)"
+    },
     "options_delete": {
         "message": "Usu\u0144"
     },
@@ -126,19 +162,25 @@
         "message": "Strony wy\u0142\u0105czone w HTTPS Everywhere"
     },
     "options_enableMixedRulesets": {
-        "message": "W\u0142\u0105cz zestawy reg\u00f3\u0142 o ro\u017cnorodnych zawarto\u015bciach"
+        "message": "W\u0142\u0105cz zestawy regu\u0142 o r\u00f3\u017cnorodnych zawarto\u015bciach"
+    },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
     },
     "options_enterUpdateChannelName": {
         "message": "Wpisz nazw\u0119 kana\u0142u aktualizacji"
     },
     "options_generalSettings": {
-        "message": "Ustawienia G\u0142\u00f3wne"
+        "message": "Ustawienia g\u0142\u00f3wne"
+    },
+    "options_settings": {
+        "message": "Ustawienia"
     },
     "options_showDevtoolsTab": {
         "message": "Poka\u017c zak\u0142adk\u0119 Devtools"
     },
     "options_storedRulesetsVersion": {
-        "message": "Zapisane wersje zestaw\u00f3w regu\u0142"
+        "message": "Zapisane wersje zestaw\u00f3w regu\u0142:"
     },
     "options_update": {
         "message": "Aktualizacja"
@@ -147,7 +189,7 @@
         "message": "Zaktualizuj kana\u0142y"
     },
     "options_updateChannelsWarning": {
-        "message": "Ostrze\u017cenie: Dodawanie &quot;update channels&quot; mo\u017ce umo\u017cliwi\u0107 atak przej\u0119cia kontroli nad twoj\u0105 przegl\u0105dark\u0105. Edytuj t\u0119 sekcj\u0119 jedynie je\u015bli wiesz co robisz!"
+        "message": "Ostrze\u017cenie: Dodawanie aktualizacji kana\u0142\u00f3w mo\u017ce umo\u017cliwi\u0107 atak przej\u0119cia kontroli nad twoj\u0105 przegl\u0105dark\u0105. Edytuj t\u0119 sekcj\u0119 jedynie, je\u015bli wiesz co robisz!"
     },
     "options_updatesLastChecked": {
         "message": "Ostatnio sprawdzono aktualizacje:"
@@ -165,6 +207,6 @@
         "message": "Przywr\u00f3\u0107 ustawienia fabryczne"
     },
     "prefs_reset_defaults_message": {
-        "message": "To zresetuje ka\u017cdy zestaw regu\u0142 do jego domy\u015blnego stanu. Kontynuowa\u0107?"
+        "message": "To przywr\u00f3ci ka\u017cdy zestaw regu\u0142 do jego domy\u015blnego stanu. Czy kontynuowa\u0107?"
     }
 }

@@ -9,12 +9,15 @@
         "scripts": [
             "background-scripts/bootstrap.js",
             "background-scripts/util.js",
+            "wasm/https_everywhere_lib_wasm.js",
+            "background-scripts/wasm.js",
             "background-scripts/update_channels.js",
             "background-scripts/update.js",
             "background-scripts/rules.js",
             "background-scripts/store.js",
             "external/pako-1.0.5/pako_inflate.min.js",
             "background-scripts/incognito.js",
+            "background-scripts/ip_utils.js",
             "background-scripts/background.js"
         ]
     },
@@ -25,9 +28,9 @@
         "default_popup": "pages/popup/index.html",
         "default_title": "__MSG_about_ext_name__"
     },
+    "content_security_policy": "script-src 'self' 'wasm-eval'; object-src 'self'",
     "default_locale": "en",
     "description": "__MSG_about_ext_description__",
-    "devtools_page": "pages/devtools/index.html",
     "homepage_url": "https://www.eff.org/https-everywhere",
     "icons": {
         "128": "images/icons/icon-active-128.png",
@@ -50,7 +53,7 @@
         "*://*/*",
         "ftp://*/*"
     ],
-    "version": "2019.5.6.1",
+    "version": "2020.3.16",
     "web_accessible_resources": [
         "/pages/cancel/index.html"
     ]

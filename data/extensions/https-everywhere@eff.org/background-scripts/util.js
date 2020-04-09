@@ -61,6 +61,73 @@ function loadExtensionFile(url, returnType) {
 }
 
 /**
+ * Remove tailing dots from hostname, e.g. "www.example.com."
+ */
+function getNormalisedHostname(hostname) {
+  while (hostname && hostname[hostname.length - 1] === '.' && hostname !== '.') {
+    hostname = hostname.slice(0, -1);
+  }
+  return hostname;
+}
+
+// Empty iterable singleton to reduce memory usage
+const nullIterable = Object.create(null, {
+  [Symbol.iterator]: {
+    value: function* () {
+      // do nothing
+    }
+  },
+
+  size: {
+    value: 0
+  },
+});
+
+/**
+ * Return true if host is well-formed (RFC 1035)
+ */
+function isValidHostname(host) {
+  if (host && host.length > 0 && host.length <= 255 && host.indexOf("..") === -1) {
+    return true;
+  }
+  return false;
+}
+
+/**
+ * Return a list of wildcard expressions which support
+ * the host under HTTPS Everywhere's implementation
+ */
+function getWildcardExpressions(host) {
+  // Ensure host is well-formed (RFC 1035)
+  if (!isValidHostname(host)) {
+    return nullIterable;
+  }
+
+  // Ensure host does not contain a wildcard itself
+  if (host.indexOf("*") != -1) {
+    return nullIterable;
+  }
+
+  let results = [];
+
+  // Replace www.example.com with www.example.*
+  // eat away from the right for once and only once
+  let segmented = host.split(".");
+  if (segmented.length > 1) {
+    const tmp = [...segmented.slice(0, segmented.length - 1), "*"].join(".");
+    results.push(tmp);
+  }
+
+  // now eat away from the left, with *, so that for x.y.z.google.com we
+  // check *.y.z.google.com, *.z.google.com and *.google.com
+  for (let i = 1; i < segmented.length - 1; i++) {
+    const tmp = ["*", ...segmented.slice(i, segmented.length)].join(".");
+    results.push(tmp);
+  }
+  return results;
+}
+
+/**
  * Convert an ArrayBuffer to string
  *
  * @param array: an ArrayBuffer to convert
@@ -84,6 +151,10 @@ Object.assign(exports, {
   NOTE,
   WARN,
   log,
+  nullIterable,
+  isValidHostname,
+  getNormalisedHostname,
+  getWildcardExpressions,
   setDefaultLogLevel,
   getDefaultLogLevel,
   loadExtensionFile,

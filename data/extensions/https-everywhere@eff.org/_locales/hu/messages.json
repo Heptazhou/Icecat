@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "h\u00e1l\u00f3zati b\u00e1zis\u00fa lefokoz\u00f3 t\u00e1mad\u00e1s"
     },
+    "cancel_http_once": {
+        "message": "Nem biztons\u00e1gos oldal megnyit\u00e1sa csak ezen munkafoly. k\u00f6zben"
+    },
     "cancel_open_page": {
         "message": "Nem biztons\u00e1gos oldalak megnyit\u00e1sa"
     },
@@ -63,10 +66,10 @@
         "message": "Szab\u00e1ly neve"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "As you browse different websites, you can change your preferences for each website"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Ezen oldal be\u00e1ll\u00edt\u00e1sai"
     },
     "chrome_settings_for_this_site_subheader": {
         "message": "Change your preferences for encrypted connections"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "T\u00e1mogat\u00e1s az EFF-nek"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Minden oldal titkos\u00edt\u00e1sa kikapcsolva"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Minden oldal titkos\u00edt\u00e1sa BEKAPCSOLVA"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere kikapcsolva"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTP Everywhere BEKAPCSOLVA"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unencrypted requests are currently allowed"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Unencrypted requests are currently blocked"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Ez a m\u00f3d blokkolja a titkos\u00edtatlan tartalmakat \u00e9s k\u00e9relmeket"
     },
     "menu_observatory": {
         "message": "SSL Observatory Preferenci\u00e1k"
     },
+    "menu_seeLess": {
+        "message": "Kevesebb info"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "T\u00f6bb info"
     },
     "menu_showCounter": {
         "message": "Mutassa a sz\u00e1ml\u00e1l\u00f3t"
     },
     "menu_viewAllRules": {
         "message": "\u00d6sszes szab\u00e1ly megtekint\u00e9se"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Titkos\u00edtsa a Web-et! Automatikusan haszn\u00e1lja a HTTPS titkos\u00edt\u00e1st a legt\u00f6bb oldalon."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Friss\u00edt\u0151 csatorna hozz\u00e1ad\u00e1sa"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Automata friss\u00edt\u00e9s szab\u00e1lyok"
     },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
+    },
     "options_delete": {
         "message": "T\u00f6rl\u00e9s"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Kevert tartalom be\u00e1ll\u00edt\u00e1sszab\u00e1lyok enged\u00e9lyez\u00e9se"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Adja meg a Friss\u00edt\u0151 csatorna nev\u00e9t"
     },
     "options_generalSettings": {
         "message": "\u00c1ltal\u00e1nos be\u00e1ll\u00edt\u00e1sok"
+    },
+    "options_settings": {
+        "message": "Be\u00e1ll\u00edt\u00e1sok"
     },
     "options_showDevtoolsTab": {
         "message": "Fejleszt\u0151eszk\u00f6z\u00fck f\u00fcl megjelen\u00edt\u00e9se"

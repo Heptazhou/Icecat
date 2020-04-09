@@ -18,10 +18,13 @@
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere m\u00e4rkte att du navigerade till en icke-HTTPS-sida och f\u00f6rs\u00f6kte skicka dig till HTTPS-versionen ist\u00e4llet. HTTPS-versionen \u00e4r inte tillg\u00e4nglig. Troligtvis st\u00f6der den h\u00e4r webbplatsen inte HTTPS, men det \u00e4r ocks\u00e5 m\u00f6jligt att en angripare blockerar HTTPS-versionen. Om du vill visa den okrypterade versionen av den h\u00e4r sidan kan du fortfarande g\u00f6ra det genom att inaktivera alternativet &quot;Kryptera alla l\u00e4mpliga webbplatser&quot; i ditt HTTPS Everywhere-till\u00e4gg. T\u00e4nk p\u00e5 att inaktivering det h\u00e4r alternativet kan g\u00f6ra din webbl\u00e4sare s\u00e5rbar f\u00f6r n\u00e4tverksbaserade nedgraderingsattacker p\u00e5 webbplatser du bes\u00f6ker."
+        "message": "HTTPS Everywhere m\u00e4rkte att du navigerade till en icke-HTTPS-sida och f\u00f6rs\u00f6kte skicka dig till HTTPS-versionen ist\u00e4llet. HTTPS-versionen \u00e4r inte tillg\u00e4nglig. Troligtvis st\u00f6der den h\u00e4r webbplatsen inte HTTPS, men det \u00e4r ocks\u00e5 m\u00f6jligt att en angripare blockerar HTTPS-versionen. Om du vill visa den okrypterade versionen av den h\u00e4r sidan kan du fortfarande g\u00f6ra det genom att inaktivera alternativet &quot;Kryptera alla kvalificerade webbplatser&quot; i ditt HTTPS Everywhere-till\u00e4gg. T\u00e4nk p\u00e5 att inaktivering det h\u00e4r alternativet kan g\u00f6ra din webbl\u00e4sare s\u00e5rbar f\u00f6r n\u00e4tverksbaserade nedgraderingsattacker p\u00e5 webbplatser du bes\u00f6ker."
     },
     "cancel_he_blocking_network": {
         "message": "n\u00e4tverksbaserade nedgraderingsattacker"
+    },
+    "cancel_http_once": {
+        "message": "\u00d6ppna endast os\u00e4ker sida f\u00f6r den h\u00e4r sessionen"
     },
     "cancel_open_page": {
         "message": "\u00d6ppna os\u00e4ker sida"
@@ -63,13 +66,13 @@
         "message": "Regelnamn"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "N\u00e4r du surfar p\u00e5 olika webbplatser kan du \u00e4ndra dina inst\u00e4llningar f\u00f6r varje webbplats"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Inst\u00e4llningar f\u00f6r denna webbplats"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "\u00c4ndra dina inst\u00e4llningar f\u00f6r krypterade anslutningar"
     },
     "chrome_show_advanced": {
         "message": "Visa avancerad"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Donera till EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Kryptera alla kvalificerade webbplatser \u00e4r AV"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Kryptera alla kvalificerade webbplatser \u00e4r P\u00c5"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere \u00e4r AV"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere \u00e4r P\u00c5"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Okrypterade f\u00f6rfr\u00e5gningar \u00e4r f\u00f6r n\u00e4rvarande till\u00e5tna"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Okrypterade f\u00f6rfr\u00e5gningar blockeras f\u00f6r n\u00e4rvarande"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Detta l\u00e4ge blockerar okrypterat inneh\u00e5ll och f\u00f6rfr\u00e5gningar"
     },
     "menu_observatory": {
         "message": "Inst\u00e4llningar f\u00f6r SSL Observatoriet"
     },
+    "menu_seeLess": {
+        "message": "Se mindre"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Se mer"
     },
     "menu_showCounter": {
         "message": "Visa r\u00e4knare"
     },
     "menu_viewAllRules": {
         "message": "Visa alla regler"
+    },
+    "onboarding_details_one": {
+        "message": "EASE-l\u00e4get optimerat"
+    },
+    "onboarding_details_two": {
+        "message": "Du kan nu vitlista webbplatser f\u00f6r att inaktivera i HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere \u00e4r ett EFF-projekt"
+    },
+    "onboarding_header": {
+        "message": "\u00c4ndringar med version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Kryptera webben! Anv\u00e4nd HTTPS automatiskt p\u00e5 m\u00e5nga webbplatser."
+    },
+    "options_addDisabledSite": {
+        "message": "L\u00e4gg till inaktiverad webbplats"
     },
     "options_addUpdateChannel": {
         "message": "L\u00e4gg till uppdateringskanal"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Automatisk uppdatering av regler"
     },
+    "options_debuggingRulesets": {
+        "message": "Fels\u00f6ka regelupps\u00e4ttningar (avancerat)"
+    },
     "options_delete": {
         "message": "Radera"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Aktivera regler med blandade inneh\u00e5ll"
     },
+    "options_enterDisabledSite": {
+        "message": "Ange inaktiverad webbplats"
+    },
     "options_enterUpdateChannelName": {
         "message": "Ange namn p\u00e5 uppdateringskanal"
     },
     "options_generalSettings": {
         "message": "Allm\u00e4nna Inst\u00e4llningar"
+    },
+    "options_settings": {
+        "message": "Inst\u00e4llningar"
     },
     "options_showDevtoolsTab": {
         "message": "Visa fliken Devtools"

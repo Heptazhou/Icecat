@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "netv\u00e6rksbaserede nedgraderingsangreb"
     },
+    "cancel_http_once": {
+        "message": "\u00c5bn usikker side, kun i denne session"
+    },
     "cancel_open_page": {
         "message": "\u00c5bn usikker side"
     },
@@ -63,13 +66,13 @@
         "message": "Regelnavn"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Efterh\u00e5nden som du gennemser forskellige websteder, kan du skifte dine pr\u00e6ferencer for hvert websted"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Indstillinger til stedet"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Skift dine pr\u00e6ferencer for krypterede forbindelser"
     },
     "chrome_show_advanced": {
         "message": "Vis avancerede indstillinger"
@@ -86,20 +89,32 @@
     "menu_donate_eff_imperative": {
         "message": "Don\u00e9r til EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Krypt\u00e9r alle steder kvalificeret, er sl\u00e5et fra"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Krypt\u00e9r alle steder kvalificeret, er sl\u00e5et til"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere, er sl\u00e5et fra"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere, er sl\u00e5et til"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Ukrypterede anmodninger tillades i \u00f8jeblikket"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Ukrypterede anmodninger blokeres i \u00f8jeblikket"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Tilstanden blokerer ukrypteret indhold og anmodninger"
     },
     "menu_observatory": {
         "message": "Pr\u00e6ferencer for SSL-observatoriet"
+    },
+    "menu_seeLess": {
+        "message": "Se mindre"
     },
     "menu_seeMore": {
         "message": "Se mere"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "Vis alle regler"
     },
+    "onboarding_details_one": {
+        "message": "EASE-tilstand optimeret"
+    },
+    "onboarding_details_two": {
+        "message": "Du kan nu hvidliste steder for at deaktivere i HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere er et EFF-projekt"
+    },
+    "onboarding_header": {
+        "message": "\u00c6ndringer i 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Krypt\u00e9r webbet! Brug HTTPS-sikkerhed automatisk p\u00e5 mange websteder."
+    },
+    "options_addDisabledSite": {
+        "message": "Tilf\u00f8j deaktiveret sted"
+    },
     "options_addUpdateChannel": {
         "message": "Tilf\u00f8j opdateringskanal"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Automatisk opdatering af regels\u00e6t"
+    },
+    "options_debuggingRulesets": {
+        "message": "Fejlretningsregels\u00e6t (avanceret)"
     },
     "options_delete": {
         "message": "Delete"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Aktiv\u00e9r blandet indhold-regels\u00e6t"
     },
+    "options_enterDisabledSite": {
+        "message": "Indtast deaktiveret sted"
+    },
     "options_enterUpdateChannelName": {
         "message": "Indtast navn p\u00e5 opdateringskanal"
     },
     "options_generalSettings": {
         "message": "Generelle indstillinger"
+    },
+    "options_settings": {
+        "message": "Indstillinger"
     },
     "options_showDevtoolsTab": {
         "message": "Vis Devtools-faneblad"

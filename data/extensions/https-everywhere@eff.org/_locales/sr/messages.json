@@ -1,9 +1,9 @@
 {
     "about_add_new_rule": {
-        "message": "Dodaj Novo Pravilo"
+        "message": "Dodaj novo pravilo"
     },
     "about_ext_description": {
-        "message": "\u0160ifriraj Web! Automatski koristi HTTPS sigurnost na mnogim sajtovima."
+        "message": "\u0160ifriraj veb! Automatski koristi HTTPS bezbednosni protokol na velikom broju sajtova."
     },
     "about_ext_name": {
         "message": "HTTPS Svuda"
@@ -23,8 +23,11 @@
     "cancel_he_blocking_network": {
         "message": "network-based downgrade attacks"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
-        "message": "Open insecure page"
+        "message": "Otvori nebezbednu stranicu"
     },
     "chrome_add_new_rule": {
         "message": "Dodaj novo pravilo za ovaj sajt"
@@ -33,19 +36,19 @@
         "message": "Dodaj pravilo za ovaj sajt"
     },
     "chrome_always_https_for_host": {
-        "message": "Uvek koristi https za ovog host-a"
+        "message": "Uvek koristi HTTPS za ovog host-a"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Onemogu\u0107i HTTPS Svuda na ovom sajtu"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Omogu\u0107i HTTPS Svuda na ovom sajtu"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentalna pravila"
     },
     "chrome_experimental_rules_description": {
-        "message": "Mo\u017ee izazvati upozorenja ili kvar. Onemogu\u0107eno po difoltu."
+        "message": "Mo\u017ee izazvati upozorenja ili prekide. Podrazumevano je onemogu\u0107eno."
     },
     "chrome_hide_advanced": {
         "message": "Sakrij napredno"
@@ -54,7 +57,7 @@
         "message": "Host:"
     },
     "chrome_redirect_to": {
-        "message": "Redirektuj na"
+        "message": "Preusmeri na"
     },
     "chrome_regex": {
         "message": "Podudaraju\u0107i regex"
@@ -63,13 +66,13 @@
         "message": "Ime pravila"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Dok pregledate razli\u010dite veb lokacije mo\u017eete da promenite \u017eeljene postavke za svaku od njih"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Pode\u0161avanja za ovaj sajt"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Izmeni postavke za \u0161ifrovane veze"
     },
     "chrome_show_advanced": {
         "message": "Poka\u017ei napredno"
@@ -78,7 +81,7 @@
         "message": "Stabilna pravila"
     },
     "chrome_stable_rules_description": {
-        "message": "Forsiraj enkriptovane konekcije sa ovim veb sajtovima:"
+        "message": "Forsiraj \u0161ifrovane veze sa ovim veb sajtovima:"
     },
     "chrome_status_cancel_button": {
         "message": "Otka\u017ei"
@@ -86,23 +89,35 @@
     "menu_donate_eff_imperative": {
         "message": "Doniraj EFF-u"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u0160ifrovanje svih sajtova koji imaju tu mogu\u0107nost je isklju\u010dena"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u0160ifrovanje svih sajtova koji imaju tu mogu\u0107nost je uklju\u010dena"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS svuda je isklju\u010den"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS svuda je uklju\u010den"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Ne\u0161ifrovani zahtevi su trenutno dozvoljeni"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Ne\u0161ifrovani zahtevi su trenutno blokirani"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Ovaj re\u017eim blokira ne\u0161ifrovan sadr\u017eaj i zahteve"
     },
     "menu_observatory": {
         "message": "Postavke SSL Opservatorije"
     },
+    "menu_seeLess": {
+        "message": "Vidi manje"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Vidi vi\u0161e"
     },
     "menu_showCounter": {
         "message": "Prika\u017ei broja\u010d"
@@ -110,8 +125,26 @@
     "menu_viewAllRules": {
         "message": "Vidi Sva Pravila"
     },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0160ifriraj veb! Automatski koristi HTTPS bezbednosni protokol na velikom broju sajtova."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
+    },
     "options_addUpdateChannel": {
-        "message": "Dodaj Kanal za A\u017euriranje"
+        "message": "Dodaj kanal za a\u017euriranje"
     },
     "options_advancedSettings": {
         "message": "Napredna Pode\u0161avanja"
@@ -119,26 +152,35 @@
     "options_autoUpdateRulesets": {
         "message": "Automatski a\u017euriraj setove pravila"
     },
+    "options_debuggingRulesets": {
+        "message": "Pravila za pronala\u017eenje gre\u0161aka (napredno)"
+    },
     "options_delete": {
-        "message": "Bri\u0161i"
+        "message": "Obri\u0161i"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "Sajtovi gde je onemogu\u0107en HTTPS Svuda"
     },
     "options_enableMixedRulesets": {
         "message": "Omogu\u0107i setove pravila me\u0161ovitog sadr\u017eaja"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
-        "message": "Unesi Naziv Kanala za A\u017euriranje"
+        "message": "Unesi naziv kanala za a\u017euriranje"
     },
     "options_generalSettings": {
         "message": "Op\u0161ta Pode\u0161avanja"
     },
+    "options_settings": {
+        "message": "Pode\u0161avanja"
+    },
     "options_showDevtoolsTab": {
-        "message": "Poka\u017ei Dev-alatke tab"
+        "message": "Poka\u017ei karticu sa dev-alatkama"
     },
     "options_storedRulesetsVersion": {
-        "message": "Stored rulesets version: "
+        "message": "Uskladi\u0161tena verzija pravila:"
     },
     "options_update": {
         "message": "A\u017euriranje"
@@ -150,21 +192,21 @@
         "message": "Upozorenje: Dodavanje kanala za a\u017euriranje mo\u017ee prouzrokovati otimanje va\u0161eg pretra\u017eiva\u010da od strane napada\u010da.  Menjati ovaj odeljak samo u slu\u010daju da znate \u0161ta radite!"
     },
     "options_updatesLastChecked": {
-        "message": "Updates last checked: "
+        "message": "Posljednja provera a\u017euriranja:"
     },
     "options_updatesLastCheckedNever": {
         "message": "nikada"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "HTTPS Svuda korisni\u010dka pravila"
     },
     "prefs_export_settings": {
-        "message": "Izvoz pode\u0161avanja"
+        "message": "Pode\u0161avanje izvo\u017eenja"
     },
     "prefs_reset_defaults": {
-        "message": "Vrati na Uobi\u010dajeno"
+        "message": "Vrati na podrazumevano"
     },
     "prefs_reset_defaults_message": {
-        "message": "Ovo \u0107e resetovati svaki set pravila na njegovo uobi\u010dajeno stanje. Nastaviti?"
+        "message": "Ovo \u0107e resetovati svaki set pravila na njegovo podrazumevano stanje. \u017delite li da nastavite?"
     }
 }

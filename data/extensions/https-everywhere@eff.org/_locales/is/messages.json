@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "netkerfistengdar ni\u00f0urf\u00e6rslu\u00e1r\u00e1sir"
     },
+    "cancel_http_once": {
+        "message": "Opna \u00f3\u00f6rugga s\u00ed\u00f0u einungis \u00ed \u00feessari setu"
+    },
     "cancel_open_page": {
         "message": "Opna \u00f3\u00f6rugga s\u00ed\u00f0u"
     },
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Styrkja EFF"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "SL\u00d6KKT er \u00e1 a\u00f0 dulrita \u00f6ll tilt\u00e6k vefsv\u00e6\u00f0i (EASE)"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "KVEIKT er \u00e1 a\u00f0 dulrita \u00f6ll tilt\u00e6k vefsv\u00e6\u00f0i (EASE)"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "SL\u00d6KKT er \u00e1 HTTPS-allssta\u00f0ar"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "KVEIKT er \u00e1 HTTPS-allssta\u00f0ar"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Opi\u00f0 er \u00e1 \u00f3dulrita\u00f0ar bei\u00f0nir"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Loka\u00f0 er \u00e1 \u00f3dulrita\u00f0ar bei\u00f0nir"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "Kj\u00f6rstillingar SSL Observatory"
+    },
+    "menu_seeLess": {
+        "message": "Sj\u00e1 minna"
     },
     "menu_seeMore": {
         "message": "Sj\u00e1 meira"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "Sko\u00f0a allar reglur"
     },
+    "onboarding_details_one": {
+        "message": "Besta\u00f0ur EASE-hamur"
+    },
+    "onboarding_details_two": {
+        "message": "N\u00fa er h\u00e6gt a\u00f0 setja vefsv\u00e6\u00f0i \u00e1 leyf\u00f0an lista svo HTTPS-allssta\u00f0ar hafi ekki \u00e1hrif \u00e1 \u00feau"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS-allssta\u00f0ar er verkefni \u00e1 vegum EFF"
+    },
+    "onboarding_header": {
+        "message": "Breytingar me\u00f0 \u00fatg\u00e1fu 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Dulk\u00f3\u00f0a\u00f0u vefinn! Nota\u00f0u sj\u00e1lfkrafa HTTPS-\u00f6ryggi \u00e1 m\u00f6rgum vefsv\u00e6\u00f0um."
+    },
+    "options_addDisabledSite": {
+        "message": "B\u00e6ta vi\u00f0 \u00f3virkju\u00f0u vefsv\u00e6\u00f0i"
+    },
     "options_addUpdateChannel": {
         "message": "B\u00e6ta vi\u00f0 uppf\u00e6rslur\u00e1s"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Uppf\u00e6ra reglusett sj\u00e1lfvirkt"
+    },
+    "options_debuggingRulesets": {
+        "message": "Reglusett fyrir villuleit (\u00edtarlegt)"
     },
     "options_delete": {
         "message": "Ey\u00f0a"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Virkja reglusett fyrir blanda\u00f0 efni"
     },
+    "options_enterDisabledSite": {
+        "message": "Setja inn \u00f3virkja\u00f0 vefsv\u00e6\u00f0i"
+    },
     "options_enterUpdateChannelName": {
         "message": "Settu inn heiti \u00e1 uppf\u00e6rslur\u00e1s"
     },
     "options_generalSettings": {
         "message": "Almennar stillingar"
+    },
+    "options_settings": {
+        "message": "Stillingar"
     },
     "options_showDevtoolsTab": {
         "message": "Birta Devtools-flipa"

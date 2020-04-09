@@ -1,6 +1,6 @@
 {
     "about_add_new_rule": {
-        "message": "Adicionar Nova Regra"
+        "message": "Adicionar nova regra"
     },
     "about_ext_description": {
         "message": "Encripte a Web! Utilize automaticamente a seguran\u00e7a HTTPS em v\u00e1rios sites."
@@ -22,6 +22,9 @@
     },
     "cancel_he_blocking_network": {
         "message": "ataques de passar para uma vers\u00e3o anterior baseados em rede"
+    },
+    "cancel_http_once": {
+        "message": "Abrir p\u00e1gina insegura apenas para esta sess\u00e3o"
     },
     "cancel_open_page": {
         "message": "Abrir p\u00e1gina insegura"
@@ -66,7 +69,7 @@
         "message": "\u00c0 medida que navega por diferentes sites, pode alterar as suas prefer\u00eancias para cada um dos sites"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Configura\u00e7\u00f5es para este site"
+        "message": "Defini\u00e7\u00f5es para este site"
     },
     "chrome_settings_for_this_site_subheader": {
         "message": "Altere as suas prefer\u00eancias para conex\u00f5es encriptadas"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Doar \u00e0 EFF"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encriptar todos os sites eleg\u00edveis est\u00e1 desativado"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Encriptar todos os sites eleg\u00edveis est\u00e1 ativado"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "HTTPS Everywhere est\u00e1 desativado"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere est\u00e1 ativado"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Os pedidos n\u00e3o encriptados est\u00e3o atualmente autorizados"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Os pedidos n\u00e3o encriptados est\u00e3o atualmente bloqueados"
     },
     "menu_httpNoWhereMore": {
@@ -101,32 +113,59 @@
     "menu_observatory": {
         "message": "Prefer\u00eancias do Observat\u00f3rio de SSL"
     },
+    "menu_seeLess": {
+        "message": "Ver menos"
+    },
     "menu_seeMore": {
         "message": "Ver mais"
     },
     "menu_showCounter": {
-        "message": "Mostrar Contador"
+        "message": "Mostrar contador"
     },
     "menu_viewAllRules": {
-        "message": "Ver Todas as Regras"
+        "message": "Ver todas as regras"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Encripte a Web! Utilize automaticamente a seguran\u00e7a HTTPS em v\u00e1rios sites."
+    },
+    "options_addDisabledSite": {
+        "message": "Adicionar Website Desativado"
     },
     "options_addUpdateChannel": {
-        "message": "Adicionar Canais de Atualiza\u00e7\u00e3o"
+        "message": "Adicionar canais de atualiza\u00e7\u00e3o"
     },
     "options_advancedSettings": {
-        "message": "Configura\u00e7\u00f5es Avan\u00e7adas"
+        "message": "Defini\u00e7\u00f5es Avan\u00e7adas"
     },
     "options_autoUpdateRulesets": {
         "message": "Atualizar automaticamente os conjuntos de regras"
+    },
+    "options_debuggingRulesets": {
+        "message": "Depura\u00e7\u00e3o de conjuntos de regras (avan\u00e7ado)"
     },
     "options_delete": {
         "message": "Eliminar"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere - Sites Desativados"
+        "message": "HTTPS Everywhere - Sites desativados"
     },
     "options_enableMixedRulesets": {
         "message": "Ativar conjuntos de regras de conte\u00fado misto"
+    },
+    "options_enterDisabledSite": {
+        "message": "Adicione Website Desativado"
     },
     "options_enterUpdateChannelName": {
         "message": "Introduza o nome do canal de atualiza\u00e7\u00e3o"
@@ -134,8 +173,11 @@
     "options_generalSettings": {
         "message": "Configura\u00e7\u00f5es Gerais"
     },
+    "options_settings": {
+        "message": "Defini\u00e7\u00f5es"
+    },
     "options_showDevtoolsTab": {
-        "message": "Mostrar separador de Ferramentas de Desenvolvimento"
+        "message": "Mostrar separador de ferramentas de desenvolvimento"
     },
     "options_storedRulesetsVersion": {
         "message": "Vers\u00e3o dos conjuntos de regras armazenados:"
@@ -144,7 +186,7 @@
         "message": "Atualizar"
     },
     "options_updateChannels": {
-        "message": "Canais de Atualiza\u00e7\u00e3o"
+        "message": "Canais de atualiza\u00e7\u00e3o"
     },
     "options_updateChannelsWarning": {
         "message": "Aviso: adicionar canais de atualiza\u00e7\u00e3o pode fazer com que atacantes tomem conta do seu navegador de Internet. Edite esta sec\u00e7\u00e3o apenas se souber o que est\u00e1 a fazer!"
@@ -156,10 +198,10 @@
         "message": "nunca"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere - Regras do Utilizador"
+        "message": "HTTPS Everywhere - Regras do utilizador"
     },
     "prefs_export_settings": {
-        "message": "Exportar Configura\u00e7\u00f5es"
+        "message": "Exportar Defini\u00e7\u00f5es"
     },
     "prefs_reset_defaults": {
         "message": "Restaurar Predefini\u00e7\u00f5es"

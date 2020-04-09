@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "Atacuri de degradare bazate pe re\u021bea"
     },
+    "cancel_http_once": {
+        "message": "Deschide\u021bi pagina nesigur\u0103 doar pentru aceast\u0103 sesiune"
+    },
     "cancel_open_page": {
         "message": "Deschide pagina nesecurizat\u0103"
     },
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Doneaz\u0103 c\u0103tre EFF"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Cripteaz\u0103 toate site-urile eligibile este dezactivat"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Cripteaz\u0103 toate site-urile eligibile este activat"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "HTTPS Oriunde este dezactivat"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Oriunde este activat"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Sunt permise \u00een prezent solicit\u0103ri necriptate"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Solicit\u0103rile necriptate sunt blocate \u00een prezent"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "Preferin\u021bele pentru Observatorul SSL"
+    },
+    "menu_seeLess": {
+        "message": "Vede\u021bi mai pu\u021bin"
     },
     "menu_seeMore": {
         "message": "Vezi mai mult"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "Vezi toate regulile"
     },
+    "onboarding_details_one": {
+        "message": "Modul EASE optimizat"
+    },
+    "onboarding_details_two": {
+        "message": "Acum pute\u021bi ad\u0103uga site-urile pe lista alb\u0103 pentru a le dezactiva \u00een HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere este un proiect EFF"
+    },
+    "onboarding_header": {
+        "message": "Modific\u0103ri la versiunea 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Cripteaz\u0103 web-ul! Folose\u0219te automat securitatea HTTPS pe multe site-uri."
+    },
+    "options_addDisabledSite": {
+        "message": "Ad\u0103uga\u021bi site dezactivat"
+    },
     "options_addUpdateChannel": {
         "message": "Adaug\u0103 canal de actualizare"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Actualizeaz\u0103 automat seturile de reguli"
+    },
+    "options_debuggingRulesets": {
+        "message": "Seturi de reguli de depanare (avansat)"
     },
     "options_delete": {
         "message": "\u0218terge"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Permite seturi de reguli pentru con\u021binut mixt"
     },
+    "options_enterDisabledSite": {
+        "message": "Introduce\u021bi site-ul dezactivat"
+    },
     "options_enterUpdateChannelName": {
         "message": "Introdu numele canalului de actualizare"
     },
     "options_generalSettings": {
         "message": "Set\u0103ri Generale"
+    },
+    "options_settings": {
+        "message": "Set\u0103ri"
     },
     "options_showDevtoolsTab": {
         "message": "Afi\u0219eaz\u0103 tab-ul Devtools"

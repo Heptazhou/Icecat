@@ -1,48 +1,77 @@
-body{
+body {
   margin-top: 6em;
-  position: relative;
-  text-align: center;
-}
-
-.content{
-  width: 600px;
-  margin: auto;
-  text-align: left;
-}
-
-h1{
-  text-align: center;
-}
-
-form, button, p{
   font-size: 12pt;
   font-family: sans-serif;
   line-height: 150%;
 }
 
-form{
-  overflow: auto;
-  margin-bottom: 1em;
+.content {
+  margin: auto;
+  max-width: 600px;
 }
 
-form button{
-  padding: .5em 1em;
-  background-color: #aaa;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
+h1 {
+  display: block;
 }
 
-#url-value{
+h1 img {
+  width: 100%;
+  height: auto;
+}
+
+#url-paragraph {
   display: block;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-#open-url-button{
-  display: inline-block;
-  float: left;
+button {
   background-color: #ec1e1e;
+  border: 1px solid #ec1e1e;
+  border-radius: 4px;
+  color: #fff;
+  cursor: pointer;
+  padding: 0.5em 1em;
+  display: block;
+  float: none;
+  font-size: 12pt;
+  margin: 8px 0;
+  line-height: 150%;
+}
+
+button:hover {
+  background-color: #fff;
+  color: #ec1e1e;
+}
+
+button:last-child {
+  margin: 0;
+}
+
+@media screen and (max-width: 550px) {
+  button {
+    width: 100%;
+    margin: 8px 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #202023;
+    color: #f9f9fa;
+  }
+
+  a {
+    color: #45a1ff;
+  }
+
+  button {
+    color: #202023;
+  }
+
+  button:hover {
+    background-color: #202023;
+    border-color: #ec1e1e;
+  }
 }

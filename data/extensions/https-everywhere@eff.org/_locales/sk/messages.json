@@ -18,10 +18,13 @@
         "message": "Verzia"
     },
     "cancel_he_blocking_explainer": {
-        "message": "Roz\u0161\u00edrenie HTTPS Everywhere si v\u0161imlo, \u017ee ste sa pok\u00fasili dosta\u0165 na nezabezpe\u010den\u00fa verziu str\u00e1nky a pok\u00fasilo sa v\u00e1m poskytn\u00fa\u0165 jej zabezpe\u010den\u00fa verziu. T\u00e1to v\u0161ak nie je dostupn\u00e1. S najv\u00e4\u010d\u0161ou pravdepodobnos\u0165ou str\u00e1nka nepodporuje HTTPS, no je taktie\u017e mo\u017en\u00e9, \u017ee \u00fato\u010dn\u00edk blokuje jej zabezpe\u010den\u00fa verziu. Ak si chcete pozrie\u0165 nezabezpe\u010den\u00fa verziu str\u00e1nky, zru\u0161te za\u0161krtnutie mo\u017enosti \u201e\u0160ifrova\u0165 v\u0161etky str\u00e1nky, pri ktor\u00fdch je to mo\u017en\u00e9 (EASE)\u201c v mo\u017enostiach tohto roz\u0161\u00edrenia. Berte v\u0161ak na vedomie, \u017ee tak m\u00f4\u017eete svoj prehliada\u010d vystavi\u0165 riziku \u00fatoku."
+        "message": "Roz\u0161\u00edrenie HTTPS Everywhere zaznamenalo, \u017ee ste sa pok\u00fasili dosta\u0165 na nezabezpe\u010den\u00fa verziu str\u00e1nky a pok\u00fasilo sa v\u00e1m poskytn\u00fa\u0165 jej zabezpe\u010den\u00fa verziu. T\u00e1to v\u0161ak nie je dostupn\u00e1. S najv\u00e4\u010d\u0161ou pravdepodobnos\u0165ou str\u00e1nka nepodporuje HTTPS, no je taktie\u017e mo\u017en\u00e9, \u017ee \u00fato\u010dn\u00edk blokuje jej zabezpe\u010den\u00fa verziu. Ak si chcete pozrie\u0165 nezabezpe\u010den\u00fa verziu str\u00e1nky, zru\u0161te za\u0161krtnutie mo\u017enosti \u201e\u0160ifrova\u0165 v\u0161etky vhodn\u00e9 str\u00e1nky (EASE)\u201c v mo\u017enostiach tohto roz\u0161\u00edrenia. Berte v\u0161ak na vedomie, \u017ee tak m\u00f4\u017eete svoj prehliada\u010d vystavi\u0165 riziku \u00fatoku typu network-based downgrade."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "\u00fatok typu network-based downgrade"
+    },
+    "cancel_http_once": {
+        "message": "Otvori\u0165 nezabezpe\u010den\u00fa str\u00e1nku len pre t\u00fato rel\u00e1ciu"
     },
     "cancel_open_page": {
         "message": "Otvori\u0165 nezabezpe\u010den\u00fa str\u00e1nku"
@@ -63,13 +66,13 @@
         "message": "N\u00e1zov pravidla"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Po\u010das prehliadania r\u00f4znych web-str\u00e1nok, m\u00f4\u017eete zmeni\u0165 nastavenia pre ka\u017ed\u00fa web-str\u00e1nku zvl\u00e1\u0161\u0165"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Nastavenia pre t\u00fato str\u00e1nku"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Zmeni\u0165 nastavenia pre \u0161ifrovan\u00e9 spojenia"
     },
     "chrome_show_advanced": {
         "message": "Zobrazi\u0165 pokro\u010dil\u00e9"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Prispejte EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u0160ifrovanie v\u0161etk\u00fdch vhodn\u00fdch str\u00e1nok je VYPNUT\u00c9"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u0160ifrovanie v\u0161etk\u00fdch vhodn\u00fdch str\u00e1nok je ZAPNUT\u00c9"
+    },
+    "menu_globalDisable": {
+        "message": "Roz\u0161\u00edrenie HTTPS Everywhere je VYPNUT\u00c9"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "Roz\u0161\u00edrenie HTTPS Everywhere je ZAPNUT\u00c9"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Neza\u0161ifrovan\u00e9 po\u017eiadavky s\u00fa aktu\u00e1lne povolen\u00e9"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Neza\u0161ifrovan\u00e9 po\u017eiadavky s\u00fa aktu\u00e1lne blokovan\u00e9"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Tento m\u00f3d blokuje neza\u0161ifrovan\u00fd obsah a po\u017eiadavky"
     },
     "menu_observatory": {
         "message": "Nastavenia SSL Observatory"
     },
+    "menu_seeLess": {
+        "message": "Zobrazi\u0165 menej"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Zobrazi\u0165 viac"
     },
     "menu_showCounter": {
         "message": "Zobrazi\u0165 po\u010d\u00edtadlo"
     },
     "menu_viewAllRules": {
         "message": "Zobrazi\u0165 v\u0161etky pravidl\u00e1"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Za\u0161ifrujte web! Tento doplnok automatizuje pou\u017eitie HTTPS na mnoh\u00fdch str\u00e1nkach."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Prida\u0165 aktualiza\u010dn\u00fd kan\u00e1l"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Automaticky aktualizova\u0165 zoznamy pravidiel"
     },
+    "options_debuggingRulesets": {
+        "message": "Pravidl\u00e1 pre ladenie (pokro\u010dil\u00e9)"
+    },
     "options_delete": {
         "message": "Odstr\u00e1ni\u0165"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Povoli\u0165 zoznamy pravidiel so zmie\u0161an\u00fdm obsahom"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
-        "message": "Zadajte n\u00e1zov kan\u00e1la"
+        "message": "Zadajte n\u00e1zov aktualiza\u010dn\u00e9ho kan\u00e1la"
     },
     "options_generalSettings": {
         "message": "V\u0161eobecn\u00e9 nastavenia"
+    },
+    "options_settings": {
+        "message": "Nastavenia"
     },
     "options_showDevtoolsTab": {
         "message": "Zobrazova\u0165 kartu s n\u00e1strojmi pre v\u00fdvoj\u00e1rov"

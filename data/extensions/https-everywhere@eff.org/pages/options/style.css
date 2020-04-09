@@ -1,6 +1,35 @@
 body{
   min-width: 500px;
+  min-height: 250px;
   display: block;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #202023;
+    color: #f9f9fa;
+  }
+
+  .section-header-span, div#update-channels-warning {
+    color: #000;
+  }
+
+  textarea, input[type=text] {
+    background-color: #202023;
+    color: #f9f9fa;
+  }
+}
+
+a.settings{
+	background-color: #1c87c9;
+	border: none;
+	color: white;
+	padding: 20px 34px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 20px;
+	margin: 4px 2px;
 }
 
 .settings-wrapper{
@@ -135,13 +164,13 @@ div.update-channel-row-scope {
   border-radius: 7px;
 }
 
-button#add-update-channel{
+button#add-update-channel, button#add-disabled-site {
   float: right;
   margin: 0px 10px 10px 10px;
   border-radius: 7px;
 }
 
-input#update-channel-name{
+input#update-channel-name, input#disabled-site {
   float: right;
 }
 
@@ -191,4 +220,26 @@ div#update-channels-last-checked {
 
 #update-channels-wrapper{
   width: 500px;
+}
+
+@keyframes flash {
+  from {
+    background: #fc0;
+  }
+  to {
+    background: transparent;
+  }
+}
+
+#secretArea {
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.hidden {
+  display: none
+}
+
+.flash {
+  animation: flash 1s ease-out;
 }

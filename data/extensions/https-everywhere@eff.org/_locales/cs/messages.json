@@ -18,10 +18,13 @@
         "message": "Verze"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere si v\u0161imlo p\u0159echodu na str\u00e1nku bez HTTPS a pokusilo se zaslat nam\u00edsto toho HTTPS verzi. Verze s HTTPS je nedostupn\u00e1. Tato str\u00e1nka pravd\u011bpodobn\u011b HTTPS nepodporuje nebo je \u00fato\u010dn\u00edk blokuje HTTPS. Pokud chcete zobrazit ne\u0161ifrovanou verzi t\u00e9to str\u00e1nky, vypn\u011bte v nastaven\u00ed roz\u0161\u00ed\u0159en\u00ed HTTPS Everywhere volbu &quot;\u0160ifrovan\u00e9 p\u0159ipojen\u00ed ke v\u0161em server\u016fm, kde je dostupn\u00e9&quot;. M\u011bjte pros\u00edm na pam\u011bti, \u017ee vypnut\u00edm bude v\u00e1\u0161 prohl\u00ed\u017ee\u010d zraniteln\u00fd v\u016f\u010di s\u00ed\u0165ov\u00fdm degrada\u010dn\u00edm \u00fatok\u016fm na str\u00e1nk\u00e1ch, kter\u00e9 nav\u0161t\u00edv\u00edte."
+        "message": "HTTPS Everywhere si v\u0161imlo p\u0159echodu na str\u00e1nku bez HTTPS a pokusilo se zaslat nam\u00edsto toho HTTPS verzi. Verze s HTTPS je nedostupn\u00e1. Tato str\u00e1nka pravd\u011bpodobn\u011b HTTPS nepodporuje nebo verzi HTTPS blokuje \u00fato\u010dn\u00edk. Pokud chcete zobrazit ne\u0161ifrovanou verzi t\u00e9to str\u00e1nky, vypn\u011bte v nastaven\u00ed roz\u0161\u00ed\u0159en\u00ed HTTPS Everywhere volbu \u201e\u0160ifrovan\u00e9 p\u0159ipojen\u00ed ke v\u0161em server\u016fm, kde je dostupn\u00e9\u201c. M\u011bjte pros\u00edm na pam\u011bti, \u017ee vypnut\u00edm bude v\u00e1\u0161 prohl\u00ed\u017ee\u010d zraniteln\u00fd v\u016f\u010di s\u00ed\u0165ov\u00fdm degrada\u010dn\u00edm \u00fatok\u016fm na str\u00e1nk\u00e1ch, kter\u00e9 nav\u0161t\u00edv\u00edte."
     },
     "cancel_he_blocking_network": {
         "message": "s\u00ed\u0165ov\u00fd degrada\u010dn\u00ed \u00fatok"
+    },
+    "cancel_http_once": {
+        "message": "Otev\u0159\u00edt nezabezpe\u010denou str\u00e1nku (jen v t\u00e9to relaci)"
     },
     "cancel_open_page": {
         "message": "Otev\u00edrat nezabezpe\u010den\u00e9 str\u00e1nky"
@@ -33,7 +36,7 @@
         "message": "P\u0159idat pravidlo pro tuto str\u00e1nku"
     },
     "chrome_always_https_for_host": {
-        "message": "V\u017edy pou\u017e\u00edvat https pro tento server"
+        "message": "Pro tento server v\u017edy pou\u017e\u00edvat https"
     },
     "chrome_disable_on_this_site": {
         "message": "Vypnout HTTPS Everywhere pro tento server"
@@ -63,13 +66,13 @@
         "message": "N\u00e1zev pravidla"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "B\u011bhem prohl\u00ed\u017een\u00ed r\u016fzn\u00fdch webov\u00fdch str\u00e1nek m\u016f\u017eete m\u011bnit sv\u00e9 p\u0159edvolby pro ka\u017edou zvl\u00e1\u0161\u0165"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Nastaven\u00ed pro tuto str\u00e1nku"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Zm\u011bnit nastaven\u00ed pro \u0161ifrovan\u00e1 spojen\u00ed"
     },
     "chrome_show_advanced": {
         "message": "Zobrazit roz\u0161\u00ed\u0159en\u00e9"
@@ -86,23 +89,35 @@
     "menu_donate_eff_imperative": {
         "message": "P\u0159isp\u011bt EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u0160ifrovan\u00e9 p\u0159ipojen\u00ed pro v\u0161echny vhodn\u00e9 str\u00e1nky je vypnut\u00e9"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u0160ifrovan\u00e9 p\u0159ipojen\u00ed pro v\u0161echny vhodn\u00e9 str\u00e1nky je zapnut\u00e9"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere je vypnut\u00e9"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere je zapnut\u00e9"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Ne\u0161ifrovan\u00e9 po\u017eadavky jsou moment\u00e1ln\u011b povoleny"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Ne\u0161ifrovan\u00e9 po\u017eadavky jsou moment\u00e1ln\u011b blokov\u00e1ny"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Tento re\u017eim blokuje ne\u0161ifrovan\u00fd obsah a po\u017eadavky"
     },
     "menu_observatory": {
         "message": "Nastaven\u00ed SSL observato\u0159e"
     },
+    "menu_seeLess": {
+        "message": "Zobrazit m\u00e9n\u011b"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Zobrazit v\u00edce"
     },
     "menu_showCounter": {
         "message": "Zobrazit po\u010d\u00edtadlo"
@@ -110,14 +125,35 @@
     "menu_viewAllRules": {
         "message": "Zobrazit v\u0161echna pravidla"
     },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0160ifrujte! Pou\u017e\u00edvejte automaticky zabezpe\u010den\u00e9 HTTPS na mnoha str\u00e1nk\u00e1ch."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
+    },
     "options_addUpdateChannel": {
-        "message": "Aktualiza\u010dn\u00ed kan\u00e1l aplikace"
+        "message": "P\u0159idat aktualiza\u010dn\u00ed kan\u00e1l"
     },
     "options_advancedSettings": {
         "message": "Roz\u0161\u00ed\u0159en\u00e9 nastaven\u00ed"
     },
     "options_autoUpdateRulesets": {
         "message": "Automaticky aktualizovat sady pravidel"
+    },
+    "options_debuggingRulesets": {
+        "message": "Lad\u011bn\u00ed sad pravidel (pro pokro\u010dil\u00e9)"
     },
     "options_delete": {
         "message": "Smazat"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Povolit sady pravidel pro sm\u00ed\u0161en\u00fd obsah"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Zadejte n\u00e1zev aktualiza\u010dn\u00edho kan\u00e1lu"
     },
     "options_generalSettings": {
         "message": "Hlavn\u00ed nastaven\u00ed"
+    },
+    "options_settings": {
+        "message": "Nastaven\u00ed"
     },
     "options_showDevtoolsTab": {
         "message": "Zobrazit panel v n\u00e1stroj\u00edch pro v\u00fdvoj\u00e1\u0159e"
@@ -144,7 +186,7 @@
         "message": "Aktualizovat"
     },
     "options_updateChannels": {
-        "message": "Aktualizovat kan\u00e1ly"
+        "message": "Aktualiza\u010dn\u00ed kan\u00e1ly"
     },
     "options_updateChannelsWarning": {
         "message": "Varov\u00e1n\u00ed: P\u0159id\u00e1n\u00ed aktualiza\u010dn\u00edho kan\u00e1lu m\u016f\u017ee vystavit v\u00e1\u0161 po\u010d\u00edta\u010d riziku \u00fatoku. Nastaven\u00ed v t\u00e9to sekci upravujte jen pokud opravdu v\u00edte, co d\u011bl\u00e1te."

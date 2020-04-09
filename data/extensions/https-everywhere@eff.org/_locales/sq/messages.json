@@ -1,170 +1,212 @@
 {
     "about_add_new_rule": {
-        "message": "Shto nj\u00eb regull t\u00eb re"
+        "message": "Shtoni Rregull t\u00eb Ri"
     },
     "about_ext_description": {
-        "message": "Kryptoni Web-in! P\u00ebrdorni automatikisht sigurin\u00eb HTTPS n\u00eb shum\u00eb webfaqe."
+        "message": "Fsheht\u00ebzoni Web-in! P\u00ebrdorni automatikisht siguri HTTPS n\u00eb mjaft sajte."
     },
     "about_ext_name": {
-        "message": "HTTPS Kudo"
+        "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Version Grupi rregullash p\u00ebr"
     },
     "about_title": {
-        "message": "Rreth HTTPS Kudo"
+        "message": "Mbi HTTPS Everywhere"
     },
     "about_version": {
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere vuri re se po l\u00ebvizni te nj\u00eb faqe jo-HTTPS, dhe u p\u00ebrpoq t\u2019ju d\u00ebrgoj\u00eb te versioni HTTPS. Versioni HTTPS \u00ebsht\u00eb i pakapsh\u00ebm. Shumica e gjasave jan\u00eb q\u00eb ky sajt t\u00eb mos mbuloj\u00eb HTTPS-n\u00eb, por \u00ebsht\u00eb gjithashtu e mundur q\u00eb nj\u00eb agresor t\u00eb jet\u00eb duke bllokuar versionin HTTPS. N\u00ebse d\u00ebshironi t\u00eb shihni versionin e pafsheht\u00ebzuar t\u00eb k\u00ebsaj faqeje, mundeni prap\u00eb ta b\u00ebni k\u00ebt\u00eb duke \u00e7aktivizuar mund\u00ebsin\u00eb \u201cFsheht\u00ebzo Krejt Sajtet e Kualifikuesh\u00ebm\u201d (EASE) te zgjerimi juaj HTTPS Everywhere. Kini parasysh se \u00e7aktivizimi i k\u00ebsaj mund\u00ebsie mund ta b\u00ebj\u00eb shfletuesin tuaj t\u00eb cenuesh\u00ebm ndaj sulmesh \u201cdowngrade\u201d me baz\u00eb rrjetin, n\u00eb sajte q\u00eb vizitoni."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "sulme \u201cdowngrade\u201d me baz\u00eb rrjetin"
+    },
+    "cancel_http_once": {
+        "message": "Hap faqen e pasigurt vet\u00ebm p\u00ebr k\u00ebt\u00eb sesion"
     },
     "cancel_open_page": {
-        "message": "Open insecure page"
+        "message": "Hap faqen e pasigurt"
     },
     "chrome_add_new_rule": {
-        "message": "Shtoni nj\u00eb rregull t\u00eb ri p\u00ebr k\u00ebt\u00eb webfaqe"
+        "message": "Shtoni nj\u00eb rregull t\u00eb ri p\u00ebr k\u00ebt\u00eb sajt"
     },
     "chrome_add_rule": {
-        "message": "Shtoni nj\u00eb rregull p\u00ebr k\u00ebt\u00eb webfaqe"
+        "message": "Shtoni nj\u00eb rregull p\u00ebr k\u00ebt\u00eb sajt"
     },
     "chrome_always_https_for_host": {
-        "message": "P\u00ebrdorni gjithmon\u00eb https p\u00ebr k\u00ebt\u00eb prit\u00ebs"
+        "message": "P\u00ebrdor p\u00ebrher\u00eb https-n\u00eb p\u00ebr k\u00ebt\u00eb streh\u00eb"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "\u00c7aktivizo HTTPS Everywhere n\u00eb k\u00ebt\u00eb sajt"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Aktivizo HTTPS Everywhere n\u00eb k\u00ebt\u00eb sajt"
     },
     "chrome_experimental_rules": {
         "message": "Rregulla eksperimentale"
     },
     "chrome_experimental_rules_description": {
-        "message": "Mund t\u00eb shkaktoj\u00eb paralajm\u00ebrime apo thyerje. Paaft\u00ebsuar me parazgjedhje."
+        "message": "Mund t\u00eb sjell\u00eb sinjalizime ose d\u00ebmtime. T\u00eb \u00e7aktivizuara, si parazgjedhje."
     },
     "chrome_hide_advanced": {
-        "message": "Fshihini t\u00eb p\u00ebrparuarat"
+        "message": "Fshihi t\u00eb m\u00ebtejshmet"
     },
     "chrome_host": {
-        "message": "Prit\u00ebsi:"
+        "message": "Streh\u00eb:"
     },
     "chrome_redirect_to": {
-        "message": "E ridrejtuar tek"
+        "message": "Ridrejtoje te"
     },
     "chrome_regex": {
-        "message": "P\u00ebrputhshm\u00ebri me shprehjet e rregullta"
+        "message": "Shprehje e rregullt me p\u00ebrputhje"
     },
     "chrome_rule_name": {
-        "message": "Em\u00ebrtimi i rregullit"
+        "message": "Em\u00ebr rregulli"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Teksa shfletoni sajte t\u00eb ndrysh\u00ebm, mund t\u00eb ndryshoni parap\u00eblqimet p\u00ebr cilindo sajt"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Rregullime p\u00ebr k\u00ebt\u00eb sajt"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Ndryshoni parap\u00eblqimet tuaja p\u00ebr lidhje t\u00eb fsheht\u00ebzuara"
     },
     "chrome_show_advanced": {
-        "message": "Shfaqni t\u00eb p\u00ebrparuarat"
+        "message": "Shfaq t\u00eb m\u00ebtejshmet"
     },
     "chrome_stable_rules": {
         "message": "Rregulla t\u00eb q\u00ebndrueshme"
     },
     "chrome_stable_rules_description": {
-        "message": "Lidhje t\u00eb shifruara paraprakisht me k\u00ebto webfaqe:"
+        "message": "Zbato me detyrim lidhje t\u00eb fsheht\u00ebzuara te k\u00ebta sajte:"
     },
     "chrome_status_cancel_button": {
-        "message": "Hiqeni"
+        "message": "Anuloje"
     },
     "menu_donate_eff_imperative": {
-        "message": "Donatoni p\u00ebr EFF"
+        "message": "Dhuroni p\u00ebr EFF-n\u00eb"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u201cFsheht\u00ebzo Krejt Sajtet e Kualifikuesh\u00ebm\u201d \u00ebsht\u00eb OFF"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u201cFsheht\u00ebzo Krejt Sajtet e Kualifikuesh\u00ebm\u201d \u00ebsht\u00eb  ON"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere \u00ebsht\u00eb OFF"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere \u00ebsht\u00eb ON"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "K\u00ebrkesat e pafsheht\u00ebzuara lejohen"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "K\u00ebrkesat e pafsheht\u00ebzuara bllokohen"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Kjo m\u00ebnyr\u00eb bllokon l\u00ebnd\u00eb dhe k\u00ebrkesa t\u00eb pafsheht\u00ebzuara"
     },
     "menu_observatory": {
-        "message": "Parap\u00eblqimet p\u00ebr V\u00ebzhguesin SSL"
+        "message": "Parap\u00eblqime Observatori SSL"
+    },
+    "menu_seeLess": {
+        "message": "Shihni m\u00eb pak"
     },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Shihni m\u00eb tep\u00ebr"
     },
     "menu_showCounter": {
-        "message": "Shfaqeni Llogarit\u00ebsin"
+        "message": "Shfaq Num\u00ebrator"
     },
     "menu_viewAllRules": {
-        "message": "Shihini t\u00eb Gjitha Rregullat"
+        "message": "Shihni Krejt Rregullat"
+    },
+    "onboarding_details_one": {
+        "message": "U optimizua M\u00ebnyra EASE"
+    },
+    "onboarding_details_two": {
+        "message": "Tanim\u00eb mundeni t\u00eb vendosni sajte n\u00eb list\u00eb lejimesh p\u00ebr t\u00eb \u00e7aktivizuar HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere \u00ebsht\u00eb nj\u00eb projekt i EFF-s\u00eb"
+    },
+    "onboarding_header": {
+        "message": "Ndryshime n\u00eb versionin 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Fsheht\u00ebzoni Web-in! P\u00ebrdorni automatikisht siguri HTTPS n\u00eb mjaft sajte."
+    },
+    "options_addDisabledSite": {
+        "message": "Shtoni Sajte t\u00eb \u00c7aktivizuar"
     },
     "options_addUpdateChannel": {
-        "message": "Add Update Channel"
+        "message": "Shtoni Kanal P\u00ebrdit\u00ebsimi"
     },
     "options_advancedSettings": {
         "message": "Rregullime t\u00eb M\u00ebtejshme"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Vet\u00ebp\u00ebrdit\u00ebso grupe rregullash"
+    },
+    "options_debuggingRulesets": {
+        "message": "Diagnostikim Grupesh rregullash (e p\u00ebrparuar)"
     },
     "options_delete": {
         "message": "Fshije"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "Sajte HTTPS Everywhere t\u00eb \u00c7aktivizuar"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "Aktivizo grupe t\u00eb p\u00ebrzier\u00eb rregullash l\u00ebnde"
+    },
+    "options_enterDisabledSite": {
+        "message": "Jepni sajt t\u00eb \u00e7aktivizuar"
     },
     "options_enterUpdateChannelName": {
-        "message": "Enter update channel name"
+        "message": "Jepni em\u00ebr kanali p\u00ebrdit\u00ebsimi"
     },
     "options_generalSettings": {
-        "message": "General Settings"
+        "message": "Rregullime t\u00eb P\u00ebrgjithshme"
+    },
+    "options_settings": {
+        "message": "Rregullime"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Shfaq sked\u00eb Mjetesh Zhvilluesi"
     },
     "options_storedRulesetsVersion": {
-        "message": "Stored rulesets version: "
+        "message": "Version grupi rregullash i depozituar: "
     },
     "options_update": {
-        "message": "P\u00ebrdit\u00ebso"
+        "message": "P\u00ebrdit\u00ebsoje"
     },
     "options_updateChannels": {
-        "message": "Update Channels"
+        "message": "Kanale P\u00ebrdit\u00ebsimi"
     },
     "options_updateChannelsWarning": {
-        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+        "message": "Kujdes: Shtimi i kanaleve t\u00eb p\u00ebrdit\u00ebsimit mund t\u00eb sjell\u00eb q\u00eb agresor\u00ebt t\u00eb marrin n\u00eb zot\u00ebrim shfletuesin tuaj. P\u00ebrpunojeni k\u00ebt\u00eb ndarje vet\u00ebm n\u00ebse e dini se \u00e7\u2019b\u00ebni!"
     },
     "options_updatesLastChecked": {
-        "message": "Updates last checked: "
+        "message": "P\u00ebrdit\u00ebsime kontrolluar s\u00eb fundi m\u00eb: "
     },
     "options_updatesLastCheckedNever": {
         "message": "kurr\u00eb"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Rregulla P\u00ebrdoruesi HTTPS Everywhere"
     },
     "prefs_export_settings": {
-        "message": "Export Settings"
+        "message": "Eksporto Rregullime"
     },
     "prefs_reset_defaults": {
-        "message": "Rivendoseni n\u00eb Parazgjedhje"
+        "message": "Riktheji te Parazgjedhjet"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Kjo do t\u00eb kthej\u00eb \u00e7do grup rregullash te gjendja e vet parazgjedhje. T\u00eb vazhdohet?"
     }
 }

@@ -3,7 +3,7 @@
         "message": "Dodaj novo pravilo"
     },
     "about_ext_description": {
-        "message": "Enkriptiraj Web! Automatski koristi HTTPS na mnogim stranicama."
+        "message": "\u0160ifriraj web! Automatski koristi HTTPS sigurnost na mnogim stranicama."
     },
     "about_ext_name": {
         "message": "HTTPS Svuda"
@@ -18,13 +18,16 @@
         "message": "Verzija"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere je primijetio da ste se kretali do stranice koja nije HTTPS i poku\u0161ali ste umjesto toga poslati HTTPS verziju. HTTPS verzija nije dostupna. Najvjerojatnije ova web-lokacija ne podr\u017eava HTTPS, ali je mogu\u0107e da napada\u010d blokira HTTPS verziju. Ako \u017eelite pogledati ne\u0161ifriranu verziju ove stranice, to mo\u017eete u\u010diniti tako da onemogu\u0107ite opciju &quot;\u0160ifriranje svih prihvatljivih web-lokacija&quot; (EASE) u pro\u0161irenju HTTPS Everywhere. Imajte na umu da bi onemogu\u0107ivanje ove opcije va\u0161 preglednik mogao u\u010diniti ranjivim na mre\u017ene napade na unaprje\u0111enje web lokacija koje posje\u0107ujete."
     },
     "cancel_he_blocking_network": {
         "message": "napadi na mre\u017eu unaza\u0111enjem"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
-        "message": "Open insecure page"
+        "message": "Otvori nesigurnu stranicu"
     },
     "chrome_add_new_rule": {
         "message": "Dodaj novo pravilo za ovu stranicu"
@@ -63,13 +66,13 @@
         "message": "Naziv pravila"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Dok pregledavate razli\u010dite web-lokacije, mo\u017eete promijeniti svoje postavke za svaku web-lokaciju"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Postavke za ovu web-lokaciju"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Promijenite postavke za \u0161ifrirane veze"
     },
     "chrome_show_advanced": {
         "message": "Prika\u017ei napredno"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Doniraj EFF-u"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u0160ifriranje svih prihvatljivih web-lokacija je isklju\u010deno"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u0160ifriranje svih prihvatljivih web-lokacija je uklju\u010deno"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS svuda je isklju\u010den"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS svuda je uklju\u010den"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Ne\u0161ifrirani zahtjevi su trenutno dozvoljeni"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Ne\u0161ifrirani zahtjevi su trenutno blokirani"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Ovaj modus blokira ne\u0161ifrirani sadr\u017eaj i zahtjeve"
     },
     "menu_observatory": {
         "message": "Postavke SSL opservatorija"
     },
+    "menu_seeLess": {
+        "message": "Vidi manje"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Vidi vi\u0161e"
     },
     "menu_showCounter": {
         "message": "Prika\u017ei brojilo"
     },
     "menu_viewAllRules": {
         "message": "Pogledaj sva pravila"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0160ifriraj web! Automatski koristi HTTPS sigurnost na mnogim stranicama."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Dodaj kanal za a\u017euriranje"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Automatski a\u017euriraj rulesetove"
     },
+    "options_debuggingRulesets": {
+        "message": "Skupovi za ispravljanje pogre\u0161aka (napredno)"
+    },
     "options_delete": {
         "message": "Obri\u0161i"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Omogu\u0107i rulesetove mije\u0161anog sadr\u017eaja"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Unesite naziv kanala za a\u017euriranje"
     },
     "options_generalSettings": {
         "message": "Op\u0107e postavke"
+    },
+    "options_settings": {
+        "message": "Postavke"
     },
     "options_showDevtoolsTab": {
         "message": "Prika\u017ei Devtools karticu"

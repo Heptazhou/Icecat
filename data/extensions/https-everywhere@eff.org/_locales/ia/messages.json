@@ -18,10 +18,16 @@
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Block all unencrypted requests' option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
         "message": "network-based downgrade attacks"
+    },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
+    "cancel_open_page": {
+        "message": "Open insecure page"
     },
     "chrome_add_new_rule": {
         "message": "Add a new rule for this site"
@@ -59,6 +65,15 @@
     "chrome_rule_name": {
         "message": "Rule name"
     },
+    "chrome_settings_for_this_site_explained": {
+        "message": "As you browse different websites, you can change your preferences for each website"
+    },
+    "chrome_settings_for_this_site_header": {
+        "message": "Settings for this site"
+    },
+    "chrome_settings_for_this_site_subheader": {
+        "message": "Change your preferences for encrypted connections"
+    },
     "chrome_show_advanced": {
         "message": "Show advanced"
     },
@@ -74,20 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Donate to EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible (EASE)"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encrypt All Sites Eligible is OFF"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Encrypt All Sites Eligible is ON"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere is OFF"
     },
     "menu_globalEnable": {
-        "message": "Enable HTTPS Everywhere"
+        "message": "HTTPS Everywhere is ON"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unencrypted requests are currently allowed"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Unencrypted requests are currently blocked"
+    },
+    "menu_httpNoWhereMore": {
+        "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
         "message": "SSL Observatory Preferences"
+    },
+    "menu_seeLess": {
+        "message": "See less"
+    },
+    "menu_seeMore": {
+        "message": "See more"
     },
     "menu_showCounter": {
         "message": "Show Counter"
     },
     "menu_viewAllRules": {
         "message": "View All Rules"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Encrypt the Web! Automatically use HTTPS security on many sites."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Add Update Channel"
@@ -98,8 +152,11 @@
     "options_autoUpdateRulesets": {
         "message": "Auto-update rulesets"
     },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
+    },
     "options_delete": {
-        "message": "Delete"
+        "message": "Deler"
     },
     "options_disabledUrlsListed": {
         "message": "HTTPS Everywhere Sites Disabled"
@@ -107,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Enable mixed content rulesets"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Enter update channel name"
     },
     "options_generalSettings": {
         "message": "General Settings"
+    },
+    "options_settings": {
+        "message": "Configurationes"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"

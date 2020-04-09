@@ -13,8 +13,8 @@
 function toggleRuleLine(event) {
   getTab(activeTab => {
     const set_ruleset = {
-      active: event.target.parentNode.firstChild.checked,
-      name: event.target.innerText,
+      active: event.target.checked,
+      name: event.target.parentNode.innerText,
       tab_id: activeTab.id,
     };
 
@@ -47,10 +47,10 @@ function toggleSeeMore(event) {
 
   if(arrow.classList.contains('down')) {
     arrow.classList.replace('down', 'up');
-    text.innerText = 'See less';
+    text.innerText = chrome.i18n.getMessage("menu_seeLess");
   } else if (arrow.classList.contains('up')) {
     arrow.classList.replace('up', 'down');
-    text.innerText = 'See more';
+    text.innerText = chrome.i18n.getMessage("menu_seeMore");
   }
 
   if (content.classList.contains('hide')) {
@@ -69,9 +69,6 @@ function toggleSeeMore(event) {
  */
 function appendRulesToListDiv(rulesets, list_div, ruleType) {
   if (rulesets && rulesets.length) {
-    let counter = rulesets.length;
-    let counterElement = document.querySelector("#RuleManagement--counter");
-    counterElement.innerText = counter;
     // template parent block for each ruleset
     let templateLine = document.createElement("div");
     templateLine.className = "rule checkbox";
@@ -111,6 +108,9 @@ function appendRulesToListDiv(rulesets, list_div, ruleType) {
       checkbox.checked = ruleset.active;
       text.innerText = ruleset.name;
 
+      // Add listener to capture the toggle event
+      line.addEventListener("click", toggleRuleLine);
+
       if (ruleset.note && ruleset.note.length) {
         line.title = ruleset.note;
 
@@ -136,8 +136,11 @@ function showHttpNowhereUI() {
   getOption_('httpNowhere', false, function(item) {
     if (item.httpNowhere) {
       e('http-nowhere-checkbox').checked = true;
-      e('HttpNowhere__header').innerText = 'Encrypt All Sites Eligible is ON';
-      e('HttpNowhere__explained').innerText = 'Unencrypted requests are currently blocked';
+      e('HttpNowhere__header').innerText = chrome.i18n.getMessage("menu_encryptAllSitesEligibleOn");
+      e('HttpNowhere__explained').innerText = chrome.i18n.getMessage("menu_httpNoWhereExplainedBlocked");
+    } else {
+      e('HttpNowhere__header').innerText = chrome.i18n.getMessage("menu_encryptAllSitesEligibleOff");
+      e('HttpNowhere__explained').innerText = chrome.i18n.getMessage("menu_httpNoWhereExplainedAllowed");
     }
     e('HttpNowhere').style.visibility = "visible";
   });
@@ -151,10 +154,11 @@ function updateEnabledDisabledUI() {
     // Hide or show the rules sections
     if (item.globalEnabled) {
       document.body.className = ""
+      e('onoffswitch_label').innerText = chrome.i18n.getMessage("menu_globalEnable");
       showHttpNowhereUI();
     } else {
       document.body.className = "disabled";
-      e('onoffswitch_label').innerText = 'HTTPS Everywhere is OFF';
+      e('onoffswitch_label').innerText = chrome.i18n.getMessage("menu_globalDisable");
     }
   });
 }
@@ -180,16 +184,18 @@ function toggleEnabledDisabled() {
  * @param activeTab
  */
 function listRules(activeTab) {
-  sendMessage("get_active_rulesets", activeTab.id, function(rulesets) {
+  sendMessage("get_applied_rulesets", activeTab.id, function(rulesets) {
     if (rulesets) {
+      // show the number of potentially applicable rulesets
+      let counter = rulesets.length;
+      let counterElement = document.querySelector("#RuleManagement--counter");
+      counterElement.innerText = counter;
+
       const stableRules = rulesets.filter(ruleset => ruleset.default_state);
       const unstableRules = rulesets.filter(ruleset => !ruleset.default_state);
 
       appendRulesToListDiv(stableRules, e("StableRules"), 'stable');
       appendRulesToListDiv(unstableRules, e("UnstableRules"), 'unstable');
-
-      // Add listener to capture the toggle event
-      e("add-new-rule-button").addEventListener("click", toggleRuleLine);
     }
 
     // Only show the "Add a rule" section if we're on an HTTPS page
@@ -378,11 +384,11 @@ function toggleHttpNowhere() {
       setOption_('httpNowhere', enabled, () => {
         if (enabled) {
           chrome.tabs.reload(tab.id);
-          e('HttpNowhere__header').innerText = 'Encrypt All Sites Eligible is ON';
-          e('HttpNowhere__explained').innerText = 'Unencrypted requests are currently blocked';
+          e('HttpNowhere__header').innerText = chrome.i18n.getMessage("menu_encryptAllSitesEligibleOn");
+          e('HttpNowhere__explained').innerText = chrome.i18n.getMessage("menu_httpNoWhereExplainedBlocked");
         } else {
-          e('HttpNowhere__header').innerText = 'Encrypt All Sites Eligible is OFF';
-          e('HttpNowhere__explained').innerText = 'Unencrypted requests are currently allowed';
+          e('HttpNowhere__header').innerText = chrome.i18n.getMessage("menu_encryptAllSitesEligibleOff");
+          e('HttpNowhere__explained').innerText = chrome.i18n.getMessage("menu_httpNoWhereExplainedAllowed");
         }
       });
     });

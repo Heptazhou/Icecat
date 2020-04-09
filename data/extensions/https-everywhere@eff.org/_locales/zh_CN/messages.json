@@ -18,10 +18,13 @@
         "message": "\u7248\u672c"
     },
     "cancel_he_blocking_explainer": {
-        "message": "\u201cHTTPS Everywhere\u201d\u68c0\u6d4b\u5230\u60a8\u6253\u5f00\u4e86\u4e00\u4e2a\u975eHTTPS\u7684\u7f51\u9875\uff0c\u5e76\u8bd5\u56fe\u4ee5HTTPS\u8fde\u63a5\u66ff\u4ee3\u3002\u7136\u800c\uff0c\u8be5HTTPS\u8fde\u63a5\u6682\u65f6\u65e0\u6cd5\u8bbf\u95ee\u3002\u5f88\u53ef\u80fd\u8be5\u7f51\u9875\u5c1a\u4e0d\u652f\u6301HTTPS\u534f\u8bae\uff1b\u4f46\u4e5f\u53ef\u80fd\u662f\u6076\u610f\u653b\u51fb\u8005\u5c4f\u853d\u4e86HTTPS\u8fde\u63a5\u3002\u5982\u679c\u60a8\u60f3\u8bbf\u95ee\u672a\u52a0\u5bc6\u7684\u7f51\u9875\uff0c\u8bf7\u7981\u7528\u201cHTTPS Everywhere\u201d\u6269\u5c55\u91cc\u7684\u201c\u5f3a\u5236\u52a0\u5bc6\u6240\u6709\u7f51\u7ad9(EASE\u6a21\u5f0f)\u201d\u7684\u9009\u9879\u3002\u8bf7\u6ce8\u610f\uff0c\u7981\u7528\u6b64\u9009\u9879\u540e\uff0c\u60a8\u5728\u6d4f\u89c8\u7f51\u7ad9\u65f6\uff0c\u6d4f\u89c8\u5668\u6613\u53d7\u7f51\u7edc\u964d\u7ea7\u653b\u51fb\u3002 "
+        "message": "\u201cHTTPS Everywhere\u201d\u68c0\u6d4b\u5230\u60a8\u6253\u5f00\u4e86\u4e00\u4e2a\u975eHTTPS\u7684\u7f51\u9875\uff0c\u5e76\u8bd5\u56fe\u4ee5HTTPS\u8fde\u63a5\u66ff\u4ee3\u3002\u7136\u800c\uff0c\u8be5HTTPS\u8fde\u63a5\u6682\u65f6\u65e0\u6cd5\u8bbf\u95ee\u3002\u5f88\u53ef\u80fd\u8be5\u7f51\u9875\u5c1a\u4e0d\u652f\u6301HTTPS\u534f\u8bae\uff1b\u4f46\u4e5f\u53ef\u80fd\u662f\u6076\u610f\u653b\u51fb\u8005\u5c4f\u853d\u4e86HTTPS\u8fde\u63a5\u3002\u5982\u679c\u60a8\u60f3\u8bbf\u95ee\u672a\u52a0\u5bc6\u7684\u7f51\u9875\uff0c\u8bf7\u7981\u7528\u201cHTTPS Everywhere\u201d\u6269\u5c55\u91cc\u7684\u201c\u5f3a\u5236\u52a0\u5bc6\u6240\u6709\u7f51\u7ad9\uff08EASE\u6a21\u5f0f\uff09\u201d\u7684\u9009\u9879\u3002\u8bf7\u6ce8\u610f\uff0c\u7981\u7528\u6b64\u9009\u9879\u540e\uff0c\u60a8\u5728\u6d4f\u89c8\u7f51\u7ad9\u65f6\uff0c\u6d4f\u89c8\u5668\u6613\u53d7SSL\u964d\u7ea7\u653b\u51fb\u3002 "
     },
     "cancel_he_blocking_network": {
         "message": "\u7f51\u7edc\u964d\u7ea7\u653b\u51fb"
+    },
+    "cancel_http_once": {
+        "message": "\u4ec5\u6253\u5f00\u8be5\u4f1a\u8bdd\u7684\u4e0d\u5b89\u5168\u9875\u9762"
     },
     "cancel_open_page": {
         "message": "\u6253\u5f00\u4e0d\u5b89\u5168\u9875\u9762"
@@ -63,13 +66,13 @@
         "message": "\u89c4\u5219\u540d\u79f0"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "\u5f53\u60a8\u6d4f\u89c8\u4e0d\u540c\u7684\u7f51\u7ad9\u65f6\uff0c\u60a8\u53ef\u4ee5\u66f4\u6539\u6bcf\u4e2a\u7f51\u7ad9\u7684\u9996\u9009\u9879"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "\u6b64\u7ad9\u70b9\u7684\u8bbe\u7f6e"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "\u66f4\u6539\u60a8\u7684\u52a0\u5bc6\u8fde\u63a5\u9996\u9009\u9879"
     },
     "chrome_show_advanced": {
         "message": "\u663e\u793a\u9ad8\u7ea7\u9009\u9879"
@@ -84,31 +87,61 @@
         "message": "\u53d6\u6d88"
     },
     "menu_donate_eff_imperative": {
-        "message": "\u6350\u52a9\u7535\u5b50\u524d\u7ebf\u57fa\u91d1\u4f1a (EFF)"
+        "message": "\u6350\u52a9\u7535\u5b50\u524d\u7ebf\u57fa\u91d1\u4f1a\uff08EFF\uff09"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u5df2\u5173\u95ed\u5f3a\u5236HTTPS\u52a0\u5bc6\u6240\u6709\u7f51\u7ad9"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u5df2\u5f00\u542f\u5f3a\u5236HTTPS\u52a0\u5bc6\u6240\u6709\u7f51\u7ad9"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere \u5df2\u5173\u95ed"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere \u5df2\u5f00\u542f"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "\u5df2\u5141\u8bb8\u672a\u52a0\u5bc6\u7684\u8bf7\u6c42"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "\u5df2\u963b\u6b62\u672a\u52a0\u5bc6\u7684\u8bf7\u6c42"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "\u8be5\u6a21\u5f0f\u4f1a\u963b\u6b62\u672a\u52a0\u5bc6\u7684\u5185\u5bb9\u548c\u8bf7\u6c42"
     },
     "menu_observatory": {
         "message": "SSL Observatory \u9996\u9009\u9879"
     },
+    "menu_seeLess": {
+        "message": "\u6536\u8d77"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "\u67e5\u770b\u66f4\u591a"
     },
     "menu_showCounter": {
         "message": "\u663e\u793a\u8ba1\u6570\u5668"
     },
     "menu_viewAllRules": {
         "message": "\u67e5\u770b\u6240\u6709\u89c4\u5219"
+    },
+    "onboarding_details_one": {
+        "message": "\u4f18\u5316 EASE \u6a21\u5f0f"
+    },
+    "onboarding_details_two": {
+        "message": "\u4f60\u53ef\u4ee5\u5c06\u7ad9\u70b9\u52a0\u5165\u767d\u540d\u5355\uff0c\u4f7f\u5b83\u4eec\u4e0d\u4f7f\u7528 HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere \u662f\u4e00\u4e2a EFF \u7684\u9879\u76ee"
+    },
+    "onboarding_header": {
+        "message": "\u5728 3.9.2020 \u7248\u672c\u7684\u6539\u52a8"
+    },
+    "onboarding_intro": {
+        "message": "\u52a0\u5bc6\u7f51\u7edc\u6d4f\u89c8\uff0c\u81ea\u52a8\u4f7f\u7528 HTTPS \u8fde\u63a5\u8bbf\u95ee\u7ad9\u70b9\uff0c\u66f4\u52a0\u5b89\u5168\u3002"
+    },
+    "options_addDisabledSite": {
+        "message": "\u6dfb\u52a0\u7981\u7528\u7684\u7f51\u5740"
     },
     "options_addUpdateChannel": {
         "message": "\u6dfb\u52a0\u66f4\u65b0\u6e20\u9053"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "\u81ea\u52a8\u66f4\u65b0\u89c4\u5219\u96c6"
     },
+    "options_debuggingRulesets": {
+        "message": "\u8c03\u8bd5\u89c4\u5219\u96c6\uff08\u9ad8\u7ea7\uff09"
+    },
     "options_delete": {
         "message": "\u5220\u9664"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "\u542f\u7528\u6df7\u5408\u5185\u5bb9\u89c4\u5219\u96c6"
     },
+    "options_enterDisabledSite": {
+        "message": "\u8f93\u5165\u7981\u7528\u7684\u7f51\u7ad9"
+    },
     "options_enterUpdateChannelName": {
         "message": "\u8f93\u5165\u66f4\u65b0\u6e20\u9053\u540d\u5b57"
     },
     "options_generalSettings": {
         "message": "\u5e38\u89c4\u8bbe\u7f6e"
+    },
+    "options_settings": {
+        "message": "\u8bbe\u7f6e"
     },
     "options_showDevtoolsTab": {
         "message": "\u663e\u793a\u5f00\u53d1\u8005\u5de5\u5177\u680f"

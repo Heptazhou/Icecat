@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "network-based downgrade attacks"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
         "message": "Open insecure page"
     },
@@ -63,7 +66,7 @@
         "message": "Rule name"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "As you browse different websites, you can change your preferences for each website"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Settings for this site"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Donate to EFF"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encrypt All Sites Eligible is OFF"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Encrypt All Sites Eligible is ON"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "HTTPS Everywhere is OFF"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere is ON"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unencrypted requests are currently allowed"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Unencrypted requests are currently blocked"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "\u1785\u17c6\u178e\u17bc\u179b\u1785\u17b7\u178f\u17d2\u178f SSL Observatory"
+    },
+    "menu_seeLess": {
+        "message": "See less"
     },
     "menu_seeMore": {
         "message": "See more"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "View All Rules"
     },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u17a2\u17ca\u17b7\u1793\u1782\u17d2\u179a\u17b8\u1794\u200b\u178f\u17c6\u1794\u1793\u17cb\u200b\u1794\u178e\u17d2\u178a\u17b6\u1789! \u1794\u17d2\u179a\u17be\u200b\u179f\u17bb\u179c\u178f\u17d2\u1790\u17b7\u1797\u17b6\u1796 HTTPS \u1793\u17c5\u200b\u179b\u17be\u200b\u1794\u178e\u17d2\u178a\u17b6\u1789\u200b\u200b\u1787\u17b6\u200b\u1785\u17d2\u179a\u17be\u1793\u17d4"
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
+    },
     "options_addUpdateChannel": {
         "message": "Add Update Channel"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Auto-update rulesets"
+    },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
     },
     "options_delete": {
         "message": "\u179b\u17bb\u1794"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Enable mixed content rulesets"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Enter update channel name"
     },
     "options_generalSettings": {
         "message": "General Settings"
+    },
+    "options_settings": {
+        "message": "\u1780\u17b6\u179a\u1780\u17c6\u178e\u178f\u17cb"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"
@@ -141,7 +183,7 @@
         "message": "Stored rulesets version: "
     },
     "options_update": {
-        "message": "Update"
+        "message": "\u1794\u1785\u17d2\u1785\u17bb\u1794\u17d2\u1794\u1793\u17d2\u1793\u1797\u17b6\u1796"
     },
     "options_updateChannels": {
         "message": "Update Channels"
@@ -153,7 +195,7 @@
         "message": "Updates last checked: "
     },
     "options_updatesLastCheckedNever": {
-        "message": "never"
+        "message": "\u1798\u17b7\u1793\u178a\u17c2\u179b"
     },
     "options_userRulesListed": {
         "message": "HTTPS Everywhere User Rules"

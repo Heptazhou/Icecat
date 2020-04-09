@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "network-based downgrade attacks"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
         "message": "Open insecure page"
     },
@@ -63,7 +66,7 @@
         "message": "Rule name"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "As you browse different websites, you can change your preferences for each website"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Settings for this site"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Donate to EFF"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encrypt All Sites Eligible is OFF"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Encrypt All Sites Eligible is ON"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "HTTPS Everywhere is OFF"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere is ON"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unencrypted requests are currently allowed"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Unencrypted requests are currently blocked"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "SSL \u0db1\u0dd2\u0dbb\u0dd2\u0d9a\u0dca\u0dc2\u0dab\u0dcf\u0d9c\u0dcf\u0dbb \u0db8\u0db1\u0dcf\u0db4 "
+    },
+    "menu_seeLess": {
+        "message": "See less"
     },
     "menu_seeMore": {
         "message": "See more"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "View All Rules"
     },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0db6\u0ddc\u0dc4\u0ddd \u0dc0\u0dd9\u0db6\u0dca \u0d85\u0da9\u0dc0\u0dd2 \u0dc3\u0db3\u0dc4\u0dcf HTTPS \u0d86\u0dbb\u0d9a\u0dca\u0dc2\u0dcf\u0dc0 \u0dc3\u0dca\u0dc0\u0dba\u0d82\u0d9a\u0dca\u200d\u0dbb\u0dd3\u0dba\u0dc0 \u0db4\u0dcf\u0dc0\u0dd2\u0da0\u0dca\u0da0\u0dd2 \u0d9a\u0dbb\u0db1\u0dca\u0db1."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
+    },
     "options_addUpdateChannel": {
         "message": "Add Update Channel"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Auto-update rulesets"
+    },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
     },
     "options_delete": {
         "message": "\u0db8\u0d9a\u0dcf \u0daf\u0db8\u0db1\u0dca\u0db1 "
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Enable mixed content rulesets"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Enter update channel name"
     },
     "options_generalSettings": {
         "message": "\u0db4\u0dca\u200d\u0dbb\u0db0\u0dcf\u0db1 \u0dc3\u0dd2\u0da7\u0dd4\u0dc0\u0db8\u0dca "
+    },
+    "options_settings": {
+        "message": "\u0dc3\u0dd2\u0da7\u0dc0\u0dd4\u0db8\u0dca"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"

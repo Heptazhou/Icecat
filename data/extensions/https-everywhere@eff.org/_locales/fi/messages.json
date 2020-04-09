@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "verkkopohjaisia laadunalennushy\u00f6kk\u00e4yksi\u00e4"
     },
+    "cancel_http_once": {
+        "message": "Avaa turvaton sivu vain t\u00e4ss\u00e4 istunnossa"
+    },
     "cancel_open_page": {
         "message": "Avaa turvaton sivu"
     },
@@ -63,13 +66,13 @@
         "message": "S\u00e4\u00e4nn\u00f6n nimi"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Selatessasi sivustoja, voit muuttaa sivun asetuksiasi"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Asetukset t\u00e4lle sivustolle"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Muuta salattujen yhteyksien asetuksia"
     },
     "chrome_show_advanced": {
         "message": "N\u00e4yt\u00e4 lis\u00e4asetukset"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Lahjoita EFF:lle"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Salaa Kaikki Kelvolliset Sivustot on POIS P\u00c4\u00c4LT\u00c4"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Salaa Kaikki Kelvolliset Sivustot on P\u00c4\u00c4LL\u00c4"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere on POIS P\u00c4\u00c4LT\u00c4"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere on P\u00c4\u00c4LL\u00c4"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Salaamattomat pyynn\u00f6t on sallittu"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Salaamattomat pyynn\u00f6t on estetty"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "T\u00e4m\u00e4 tila est\u00e4\u00e4 salaamattoman sis\u00e4ll\u00f6n ja liikenteen"
     },
     "menu_observatory": {
         "message": "SSL Observatoryn asetukset"
     },
+    "menu_seeLess": {
+        "message": "N\u00e4yt\u00e4 v\u00e4hemm\u00e4n"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "N\u00e4yt\u00e4 enemm\u00e4n"
     },
     "menu_showCounter": {
         "message": "N\u00e4yt\u00e4 laskuri"
     },
     "menu_viewAllRules": {
         "message": "N\u00e4yt\u00e4 kaikki s\u00e4\u00e4nn\u00f6t"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Salaa verkko automaattisesti k\u00e4ytt\u00e4en HTTPS-suojausta monilla sivuilla!"
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Lis\u00e4\u00e4 p\u00e4ivityskanava"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "P\u00e4ivit\u00e4 s\u00e4\u00e4nt\u00f6joukot automaattisesti"
     },
+    "options_debuggingRulesets": {
+        "message": "Vianm\u00e4\u00e4rityss\u00e4\u00e4nn\u00f6t (edistyneet)"
+    },
     "options_delete": {
         "message": "Poista"
     },
@@ -128,8 +164,14 @@
     "options_enableMixedRulesets": {
         "message": "Salli sekalaisen sis\u00e4ll\u00f6n s\u00e4\u00e4nt\u00f6joukot"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_generalSettings": {
         "message": "Yleiset asetukset"
+    },
+    "options_settings": {
+        "message": "Asetukset"
     },
     "options_showDevtoolsTab": {
         "message": "N\u00e4yt\u00e4 kehitysty\u00f6kalut uudella v\u00e4lilehdell\u00e4"

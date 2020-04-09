@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "ionsaithe \u00edosghr\u00e1daithe ar an l\u00edonra"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
         "message": "Oscail leathanach neamhshl\u00e1n"
     },
@@ -63,10 +66,10 @@
         "message": "Ainm na rialach"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "As you browse different websites, you can change your preferences for each website"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Socruithe don su\u00edomh seo"
     },
     "chrome_settings_for_this_site_subheader": {
         "message": "Change your preferences for encrypted connections"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Tabhair s\u00ednti\u00fas airgid don EFF"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encrypt All Sites Eligible is OFF"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Encrypt All Sites Eligible is ON"
     },
-    "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere M\u00daCHTA"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere AR SI\u00daL"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unencrypted requests are currently allowed"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Unencrypted requests are currently blocked"
     },
     "menu_httpNoWhereMore": {
@@ -101,14 +113,35 @@
     "menu_observatory": {
         "message": "Sainroghanna SSL Observatory"
     },
+    "menu_seeLess": {
+        "message": "See less"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Tuilleadh"
     },
     "menu_showCounter": {
         "message": "Taispe\u00e1in \u00c1iritheoir"
     },
     "menu_viewAllRules": {
         "message": "Taispe\u00e1in Gach Riail"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Criptigh an Gr\u00e9as\u00e1n! Bain \u00fas\u00e1id as sl\u00e1nd\u00e1il HTTPS go huathoibr\u00edoch ar go leor su\u00edomh."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Cain\u00e9al Nuashonraithe Nua"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Nuashonraigh rialacha go huathoibr\u00edoch"
     },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
+    },
     "options_delete": {
         "message": "Scrios"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Cumasaigh rialacha d'\u00e1bhar measctha"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Cuir isteach ainm an chain\u00e9il nuashonraithe"
     },
     "options_generalSettings": {
         "message": "Socruithe Ginear\u00e1lta"
+    },
+    "options_settings": {
+        "message": "Socruithe"
     },
     "options_showDevtoolsTab": {
         "message": "Taispe\u00e1in cluais\u00edn na n-uirlis\u00ed forbartha"

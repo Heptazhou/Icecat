@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "network-based downgrade attacks"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
         "message": "Open insecure page"
     },
@@ -63,7 +66,7 @@
         "message": "Rule name"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "As you browse different websites, you can change your preferences for each website"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Settings for this site"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "EFF \u0b95\u0bcd\u0b95\u0bc1 \u0ba8\u0ba9\u0bcd\u0b95\u0bca\u0b9f\u0bc8\u0baf\u0bb3\u0bbf"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encrypt All Sites Eligible is OFF"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Encrypt All Sites Eligible is ON"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "HTTPS Everywhere is OFF"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere is ON"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unencrypted requests are currently allowed"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Unencrypted requests are currently blocked"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "SSL \u0b85\u0bb5\u0ba4\u0bbe\u0ba9 \u0bb5\u0bbf\u0bb0\u0bc1\u0baa\u0bcd\u0baa\u0b99\u0bcd\u0b95\u0bb3\u0bcd"
+    },
+    "menu_seeLess": {
+        "message": "See less"
     },
     "menu_seeMore": {
         "message": "See more"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "\u0b85\u0ba9\u0bc8\u0ba4\u0bcd\u0ba4\u0bc1 \u0bb5\u0bbf\u0ba4\u0bbf\u0b95\u0bb3\u0bcd \u0b95\u0bbe\u0ba3\u0bcd\u0b95\u0bb5\u0bc1\u0bae\u0bcd"
     },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0bb5\u0bb2\u0bc8 Encrypt! \u0ba4\u0bbe\u0ba9\u0bbe\u0b95\u0bb5\u0bc7 \u0baa\u0bb2 \u0ba4\u0bb3\u0b99\u0bcd\u0b95\u0bb3\u0bbf\u0bb2\u0bcd HTTPS \u0baa\u0bbe\u0ba4\u0bc1\u0b95\u0bbe\u0baa\u0bcd\u0baa\u0bc1 \u0baa\u0baf\u0ba9\u0bcd\u0baa\u0b9f\u0bc1\u0ba4\u0bcd\u0ba4."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
+    },
     "options_addUpdateChannel": {
         "message": "Add Update Channel"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Auto-update rulesets"
+    },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
     },
     "options_delete": {
         "message": "\u0ba8\u0bc0\u0b95\u0bcd\u0b95\u0bc1"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Enable mixed content rulesets"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Enter update channel name"
     },
     "options_generalSettings": {
         "message": "\u0baa\u0bca\u0ba4\u0bc1\u0bb5\u0bbe\u0ba9 \u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bcd"
+    },
+    "options_settings": {
+        "message": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bcd"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"

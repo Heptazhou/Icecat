@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Regelset Version f\u00fcr"
+        "message": "Regelsatz-Version f\u00fcr"
     },
     "about_title": {
         "message": "\u00dcber HTTPS Everywhere"
@@ -18,28 +18,31 @@
         "message": "Version"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere bemerkte, dass du zu einer Nicht-HTTPS-Seite navigierst, und versuchte, dich stattdessen an die HTTPS-Version zu schicken. Die HTTPS-Version ist nicht verf\u00fcgbar. Wahrscheinlich unterst\u00fctzt diese Seite kein HTTPS, aber es ist auch m\u00f6glich, dass ein Angreifer die HTTPS-Version blockiert. Wenn du die unverschl\u00fcsselte Version dieser Seite anzeigen m\u00f6chtest, kannst du dies trotzdem tun, indem du die Option 'Alle zul\u00e4ssigen Seiten verschl\u00fcsseln' (EASE) in deiner HTTPS Everywhere Erweiterung deaktivierst. Beachte, dass das Deaktivieren dieser Option deinen Browser anf\u00e4llig f\u00fcr netzwerkbasierte Downgrade-Angriffe auf von dir besuchte Websites machen kann."
+        "message": "HTTPS Everywhere hat bemerkt, dass du zu einer Nicht-HTTPS-Seite navigierst, und versuchte, dich stattdessen an die HTTPS-Version zu schicken. Die HTTPS-Version ist nicht verf\u00fcgbar. Wahrscheinlich unterst\u00fctzt diese Seite kein HTTPS, aber es ist auch m\u00f6glich, dass ein Angreifer die HTTPS-Version blockiert. Wenn du die unverschl\u00fcsselte Version dieser Seite anzeigen m\u00f6chtest, kannst du dies trotzdem tun, indem du die Option 'Alle geeigneten Seiten verschl\u00fcsseln' (EASE) in deiner HTTPS Everywhere Erweiterung deaktivierst. Beachte, dass das Deaktivieren dieser Option deinen Browser anf\u00e4llig f\u00fcr netzwerkbasierte Downgrade-Angriffe auf von dir besuchte Websites machen kann."
     },
     "cancel_he_blocking_network": {
-        "message": "Netzwerk-basierende Downgrade Attacks"
+        "message": "Netzwerk-basierte Herunterstufungsangriffe"
+    },
+    "cancel_http_once": {
+        "message": "Unsichere Seite nur f\u00fcr diese Sitzung \u00f6ffnen"
     },
     "cancel_open_page": {
         "message": "Unsichere Seite \u00f6ffnen"
     },
     "chrome_add_new_rule": {
-        "message": "Erstelle eine neue Regel f\u00fcr diese Seite"
+        "message": "Eine neue Regel f\u00fcr diese Seite hinzuf\u00fcgen"
     },
     "chrome_add_rule": {
-        "message": "Erstelle eine Regel f\u00fcr diese Seite"
+        "message": "Eine Regel f\u00fcr diese Seite hinzuf\u00fcgen"
     },
     "chrome_always_https_for_host": {
-        "message": "Benutze immer https f\u00fcr diesen host"
+        "message": "Immer https f\u00fcr diesen Host verwenden"
     },
     "chrome_disable_on_this_site": {
-        "message": "HTTPS Everywhere auf dieser Website deaktivieren"
+        "message": "HTTPS Everywhere auf dieser Seite deaktivieren"
     },
     "chrome_enable_on_this_site": {
-        "message": "HTTPS Everywhere auf dieser Website aktivieren"
+        "message": "HTTPS Everywhere auf dieser Seite aktivieren"
     },
     "chrome_experimental_rules": {
         "message": "Experimentelle Regeln"
@@ -57,13 +60,13 @@
         "message": "Weiterleiten nach"
     },
     "chrome_regex": {
-        "message": "\u00dcbereinstimmende regex"
+        "message": "\u00dcbereinstimmender regul\u00e4rer Ausdruck"
     },
     "chrome_rule_name": {
         "message": "Regelname"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "Wenn du verschiedene Webseiten durchst\u00f6berst, kannst du deine Einstellungen f\u00fcr jede Webseite \u00e4ndern."
+        "message": "Wenn du verschiedene Webseiten besuchst, kannst du deine Einstellungen f\u00fcr jede Webseite \u00e4ndern"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Einstellungen f\u00fcr diese Seite"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Spende an EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Verschl\u00fcsseln aller Standorte, die f\u00fcr die Verschl\u00fcsselung in Frage kommen, ist AN."
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Alle geeigneten Seiten verschl\u00fcsseln ist AUS"
     },
-    "menu_globalEnable": {
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Alle geeigneten Seiten verschl\u00fcsseln ist AN"
+    },
+    "menu_globalDisable": {
         "message": "HTTPS Everywhere ist AUS"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere ist AN"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unverschl\u00fcsselte Anfragen sind derzeit erlaubt"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Unverschl\u00fcsselte Anfragen sind derzeit blockiert."
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "SSL-Observatory-Einstellungen"
+    },
+    "menu_seeLess": {
+        "message": "Weniger anzeigen"
     },
     "menu_seeMore": {
         "message": "Weitere Informationen"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "Alle Regeln ansehen"
     },
+    "onboarding_details_one": {
+        "message": "EASE-Modus optimiert"
+    },
+    "onboarding_details_two": {
+        "message": "Du kannst jetzt in HTTPS Everywhere zu deaktivierende Websites auf die Whitelist setzen"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere ist ein EFF-Projekt"
+    },
+    "onboarding_header": {
+        "message": "\u00c4nderungen mit Version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Verschl\u00fcsselt das Internet! Nutzen Sie HTTPS-Sicherheit automatisch auf vielen Webseiten."
+    },
+    "options_addDisabledSite": {
+        "message": "Deaktivierte Seite hinzuf\u00fcgen"
+    },
     "options_addUpdateChannel": {
         "message": "Aktualisierungs-Quelle hinzuf\u00fcgen"
     },
@@ -119,8 +152,11 @@
     "options_autoUpdateRulesets": {
         "message": "Regels\u00e4tze automatisch aktualisieren"
     },
+    "options_debuggingRulesets": {
+        "message": "Fehlerdiagnose von Regels\u00e4tzen (erweitert)"
+    },
     "options_delete": {
-        "message": "Entf"
+        "message": "Entfernen"
     },
     "options_disabledUrlsListed": {
         "message": "HTTPS Everywhere deaktivierte Webseiten"
@@ -128,35 +164,41 @@
     "options_enableMixedRulesets": {
         "message": "Regels\u00e4tze f\u00fcr gemischte Inhalte aktivieren"
     },
+    "options_enterDisabledSite": {
+        "message": "Deaktivierte Seite eingeben"
+    },
     "options_enterUpdateChannelName": {
         "message": "Name der Aktualisierungs-Quelle eingeben"
     },
     "options_generalSettings": {
         "message": "Allgemeine Einstellungen"
     },
+    "options_settings": {
+        "message": "Einstellungen"
+    },
     "options_showDevtoolsTab": {
         "message": "Entwicklungswerkzeuge-Reiter anzeigen"
     },
     "options_storedRulesetsVersion": {
-        "message": "Regelsatz-Version:"
+        "message": "Gespeicherte Version der Regels\u00e4tze:"
     },
     "options_update": {
-        "message": "Speichern"
+        "message": "Aktualisieren"
     },
     "options_updateChannels": {
         "message": "Aktualisierungs-Quellen"
     },
     "options_updateChannelsWarning": {
-        "message": "Warnung: Neue Quellen hinzuzuf\u00fcgen k\u00f6nnte es Angreifern erlauben, den Browser zu \u00fcbernehmen. Dieser Bereich sollte nur bearbeitet werden, wenn Sie wissen, was Sie tun."
+        "message": "Warnung: Das Hinzuf\u00fcgen neuer Quellen k\u00f6nnte es Angreifern erlauben, den Browser zu \u00fcbernehmen. Dieser Bereich sollte nur bearbeitet werden, wenn Sie wissen, was Sie tun."
     },
     "options_updatesLastChecked": {
-        "message": "Letzte Aktualisierung:"
+        "message": "Aktualisierungen zuletzt gepr\u00fcft:"
     },
     "options_updatesLastCheckedNever": {
         "message": "nie"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere Benutzerregeln"
+        "message": "HTTPS-Everywhere-Benutzerregeln"
     },
     "prefs_export_settings": {
         "message": "Einstellungen exportieren"

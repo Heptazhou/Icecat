@@ -3,7 +3,7 @@
         "message": "Ajouter une nouvelle r\u00e8gle"
     },
     "about_ext_description": {
-        "message": "Chiffrez le Web\u2009! Utilisez automatiquement la s\u00e9curit\u00e9 HTTPS avec de nombreux sites."
+        "message": "Chiffrez la Toile\u2009! Utilisez automatiquement la s\u00e9curit\u00e9 HTTPS avec de nombreux sites."
     },
     "about_ext_name": {
         "message": "HTTPS\u00a0partout"
@@ -22,6 +22,9 @@
     },
     "cancel_he_blocking_network": {
         "message": "attaques de r\u00e9trograde r\u00e9seau"
+    },
+    "cancel_http_once": {
+        "message": "N\u2019ouvrir la page non s\u00e9curis\u00e9e que pour cette session"
     },
     "cancel_open_page": {
         "message": "Ouvrir la page non s\u00e9curis\u00e9e"
@@ -42,7 +45,7 @@
         "message": "Activer HTTPS\u00a0partout sur ce site"
     },
     "chrome_experimental_rules": {
-        "message": "R\u00e8gles exp\u00e9rimentales :"
+        "message": "R\u00e8gles exp\u00e9rimentales\u00a0:"
     },
     "chrome_experimental_rules_description": {
         "message": "Pourrait causer des avertissements ou des d\u00e9faillances. D\u00e9sactiv\u00e9 par d\u00e9faut."
@@ -51,7 +54,7 @@
         "message": "Cacher les options \u00e9volu\u00e9es"
     },
     "chrome_host": {
-        "message": "H\u00f4te :"
+        "message": "H\u00f4te\u00a0:"
     },
     "chrome_redirect_to": {
         "message": "Rediriger vers"
@@ -63,7 +66,7 @@
         "message": "Nom de la r\u00e8gle"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "Alors que vous parcourez diff\u00e9rents sites Web, vous pouvez changer vos pr\u00e9f\u00e9rences pour chaque site."
+        "message": "Alors que vous parcourez diff\u00e9rents sites Web, vous pouvez changer vos pr\u00e9f\u00e9rences pour chaque site Web"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Param\u00e8tres pour ce site"
@@ -78,7 +81,7 @@
         "message": "R\u00e8gles stables"
     },
     "chrome_stable_rules_description": {
-        "message": "Forcer des connexions chiffr\u00e9es vers ces sites Web :"
+        "message": "Forcer des connexions chiffr\u00e9es vers ces sites Web\u00a0:"
     },
     "chrome_status_cancel_button": {
         "message": "Annuler"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Faire un don \u00e0 la FF\u00c9"
     },
-    "menu_encryptAllSitesEligible": {
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Chiffrer tous les sites admissibles est d\u00e9sactiv\u00e9e"
+    },
+    "menu_encryptAllSitesEligibleOn": {
         "message": "Chiffrer tous les sites admissibles est activ\u00e9e"
     },
-    "menu_globalEnable": {
+    "menu_globalDisable": {
         "message": "HTTPS\u00a0partout est d\u00e9sactiv\u00e9e"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_globalEnable": {
+        "message": "HTTPS\u00a0partout est activ\u00e9e"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Les requ\u00eates non chiffr\u00e9es sont permises actuellement"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Les requ\u00eates non chiffr\u00e9es sont bloqu\u00e9es actuellement"
     },
     "menu_httpNoWhereMore": {
@@ -100,6 +112,9 @@
     },
     "menu_observatory": {
         "message": "Pr\u00e9f\u00e9rences de l\u2019observatoire SSL "
+    },
+    "menu_seeLess": {
+        "message": "Moins de pr\u00e9cisions"
     },
     "menu_seeMore": {
         "message": "Plus de pr\u00e9cisions"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "Visualiser toutes les r\u00e8gles"
     },
+    "onboarding_details_one": {
+        "message": "Optimisation du mode EASE"
+    },
+    "onboarding_details_two": {
+        "message": "Vous pouvez d\u00e9sormais mettre en liste blanche les sites \u00e0 d\u00e9sactiver dans HTTPS\u00a0partout"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS\u00a0partout est un projet de la FF\u00c9"
+    },
+    "onboarding_header": {
+        "message": "Changement de la version\u00a03.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Chiffrez la Toile\u2009! Utilisez automatiquement la s\u00e9curit\u00e9 HTTPS avec de nombreux sites."
+    },
+    "options_addDisabledSite": {
+        "message": "Ajouter un site d\u00e9sactiv\u00e9"
+    },
     "options_addUpdateChannel": {
         "message": "Ajouter un canal de mise \u00e0 jour"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Ensembles de r\u00e8gles de mise \u00e0 jour automatique"
+    },
+    "options_debuggingRulesets": {
+        "message": "D\u00e9bogage des ensemble de r\u00e8gles (expert) "
     },
     "options_delete": {
         "message": "Supprimer"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Activer les ensembles de r\u00e8gles pour le contenu mixte"
     },
+    "options_enterDisabledSite": {
+        "message": "Saisir un site d\u00e9sactiv\u00e9"
+    },
     "options_enterUpdateChannelName": {
         "message": "Saisir le nom du canal de mise \u00e0 jour"
     },
     "options_generalSettings": {
         "message": "Param\u00e8tres g\u00e9n\u00e9raux"
+    },
+    "options_settings": {
+        "message": "Param\u00e8tres"
     },
     "options_showDevtoolsTab": {
         "message": "Afficher l\u2019onglet des outils pour d\u00e9veloppeurs"

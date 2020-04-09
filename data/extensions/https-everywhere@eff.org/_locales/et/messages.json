@@ -18,10 +18,13 @@
         "message": "Versioon"
     },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS K\u00f5ikjal avastas sind navigeerimast HTTPSita lehele ning proovis sind saata selle HTTPSiga versioonile. HTTPS-versioon pole saadaval. T\u00f5en\u00e4oliselt see sait ei toeta HTTPSi, aga on ka v\u00f5imalus et r\u00fcndaja blokeerib HTTPSi versiooni. Kui soovid vaadata selle lehe kr\u00fcpteerimata versiooni, saad seda siiski teha, keelates valiku &quot;Kr\u00fcpteeri k\u00f5ik sobivad saidid (EASE)&quot; oma HTTPS K\u00f5ikjal laienduses. Pane t\u00e4hele, et selle valiku keelamine v\u00f5ib muuta sinu brauseri v\u00f5rgup\u00f5histele madaldusr\u00fcnnetele haavatavaks."
     },
     "cancel_he_blocking_network": {
         "message": "v\u00f5rgup\u00f5hised madaldusr\u00fcnded"
+    },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
     },
     "cancel_open_page": {
         "message": "Ava ebaturvaline leht"
@@ -63,13 +66,13 @@
         "message": "Reegli nimi"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Sirvides erinevaid veebilehti, saad sa muuta oma eelistusi iga veebilehe kohta"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Selle lehe seaded"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Muuda oma kr\u00fcpteeritud \u00fchenduste eelistusi"
     },
     "chrome_show_advanced": {
         "message": "Kuva t\u00e4iendavad"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Anneta EFFle"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Kr\u00fcpteeri k\u00f5ik sobivad saidid (EASE) on V\u00c4LJAS"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Kr\u00fcpteeri k\u00f5ik sobivad saidid (EASE) on SEES"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS K\u00f5ikjal on V\u00c4LJAS"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS K\u00f5ikjal on SEES"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Kr\u00fcpteerimata taotlused on hetkel lubatud"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Kr\u00fcpteerimata taotlused on hetkel blokeeritud"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "See re\u017eiim blokeerib kr\u00fcpteerimata sisu ja taotlused"
     },
     "menu_observatory": {
         "message": "SSL-Observatooriumi eelistused"
     },
+    "menu_seeLess": {
+        "message": "Kuva v\u00e4hem"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Kuva rohkem"
     },
     "menu_showCounter": {
         "message": "N\u00e4ita loendurit"
     },
     "menu_viewAllRules": {
         "message": "Vaata k\u00f5iki reegleid"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Kr\u00fcpteeri veeb! Kasuta HTTPS turvalaiendust automaatselt paljudel lehtedel."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Lisa uuenduskanal"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Uuenda reeglistikke automaatselt"
     },
+    "options_debuggingRulesets": {
+        "message": "Reeglistike silumine (edasij\u00f5udnutele)"
+    },
     "options_delete": {
         "message": "Kustuta"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Luba segatud sisuga reeglistikud"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Sisesta uuenduskanali nimi"
     },
     "options_generalSettings": {
         "message": "\u00dcldised seaded"
+    },
+    "options_settings": {
+        "message": "Seaded"
     },
     "options_showDevtoolsTab": {
         "message": "Kuva arendajate t\u00f6\u00f6riistade kaarti"

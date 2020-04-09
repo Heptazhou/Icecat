@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "attacchi di declassamento della rete"
     },
+    "cancel_http_once": {
+        "message": "Apri pagina insicura solo per questa sessione"
+    },
     "cancel_open_page": {
         "message": "Apri pagina non sicura"
     },
@@ -63,7 +66,7 @@
         "message": "Nome regola"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "Navigando su siti web diversi, puoi cambiare le tue preferenze per ogni sito web."
+        "message": "Mentre visiti altri siti web, puoi cambiare le tue preferenze per quello specifico sito."
     },
     "chrome_settings_for_this_site_header": {
         "message": "Impostazioni per questo sito."
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Dona alla EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible \u00e8 attivo."
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encrypt All Sites Eligible \u00e8 DISATTIVO"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Encrypt All Sites Eligible \u00e8 ATTIVO"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere \u00e8 DISATTIVATO"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere \u00e8 spento."
+        "message": "HTTPS Everywhere \u00e8 ATTIVO"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Le richieste non criptate sono al momento bloccate."
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Le richieste non criptate sono al momento consentite"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Le richieste non criptate sono al momento bloccate"
     },
     "menu_httpNoWhereMore": {
-        "message": "Questa modalit\u00e0 blocca i contenuti e le richieste non criptati."
+        "message": "Questa modalit\u00e0 blocca i contenuti e le richieste non criptati"
     },
     "menu_observatory": {
         "message": "Preferenze Osservatorio SSL"
     },
+    "menu_seeLess": {
+        "message": "Vedi di meno"
+    },
     "menu_seeMore": {
-        "message": "Vedi di pi\u00f9."
+        "message": "Vedi di pi\u00f9"
     },
     "menu_showCounter": {
         "message": "Mostra contatore"
     },
     "menu_viewAllRules": {
         "message": "Vedi tutte le regole"
+    },
+    "onboarding_details_one": {
+        "message": "Ottimizzata modalit\u00e0 EASE"
+    },
+    "onboarding_details_two": {
+        "message": "Ora puoi mettere in whitelist siti da disattivare in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere \u00e8 un progetto di EFF"
+    },
+    "onboarding_header": {
+        "message": "Modifiche nella versione 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Cripta il Web! Usa HTTPS automaticamente su numerosi siti."
+    },
+    "options_addDisabledSite": {
+        "message": "Aggiungi sito disattivato"
     },
     "options_addUpdateChannel": {
         "message": "Aggiungi canale di aggiornamento"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Aggiorna automaticamente regole"
     },
+    "options_debuggingRulesets": {
+        "message": "Debug delle regole (avanzato)"
+    },
     "options_delete": {
         "message": "Canc"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Attiva regole per contenuti misti"
     },
+    "options_enterDisabledSite": {
+        "message": "Inserisci sito disattivato"
+    },
     "options_enterUpdateChannelName": {
         "message": "Inserisci il nome del canale"
     },
     "options_generalSettings": {
         "message": "Impostazioni generali"
+    },
+    "options_settings": {
+        "message": "Impostazioni"
     },
     "options_showDevtoolsTab": {
         "message": "Mostra scheda Sviluppo"

@@ -21,7 +21,10 @@
         "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "sarean oinarritutako beheratze erasoak"
+    },
+    "cancel_http_once": {
+        "message": "Ireki orrialde ez segurua saio honetarako bakarrik"
     },
     "cancel_open_page": {
         "message": "Ireki orri ez seguruak"
@@ -63,13 +66,13 @@
         "message": "Arauaren izena"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "Webgune ezberdinak ikusten dituzun bitartean, gune bakoitzerako zure hobespenak alda ditzakezu"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Gune honetarako ezarpenak"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Aldatu zure enkriptatutako konexioetarako hobespenak"
     },
     "chrome_show_advanced": {
         "message": "Erakutsi aurreratuak"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "EFFri dohaintza eman"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Encrypt All Sites Eligible ITZALITA dago"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Encrypt All Sites Eligible PIZTUTA dago"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS Everywhere ITZALITA dago"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere PIZTUTA dago"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Enkriptatu gabeko eskaerak baimenduta daude"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Enkriptatu gabeko eskaerak blokeatuta daude"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Modu honek enkriptatu gabeko eduki eta eskaerak blokeatzen ditu"
     },
     "menu_observatory": {
         "message": "SSL Behatokiaren Hobespenak"
     },
+    "menu_seeLess": {
+        "message": "Gutxiago ikusi"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Gehiago ikusi"
     },
     "menu_showCounter": {
         "message": "Kopurua erakutsi"
     },
     "menu_viewAllRules": {
         "message": "Ikusi arau guztiak"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Weba enkriptatu! Automatikoki erabili HTTPS segurtasuna leku askotan."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "Eguneraketa kanala gehitu"
@@ -119,20 +152,29 @@
     "options_autoUpdateRulesets": {
         "message": "Auto-eguneratu arau-multzoak"
     },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
+    },
     "options_delete": {
         "message": "Delete"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "HTTPS Everywhere ezgaitutako guneak"
     },
     "options_enableMixedRulesets": {
         "message": "Gaitu nahasitako arau-multzoak"
+    },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
     },
     "options_enterUpdateChannelName": {
         "message": "Sartu eguneraketa kanalaren izena"
     },
     "options_generalSettings": {
         "message": "Ezarpen Orokorrak"
+    },
+    "options_settings": {
+        "message": "Ezarpenak"
     },
     "options_showDevtoolsTab": {
         "message": "Erakutsi Devtools fitxa"
@@ -156,7 +198,7 @@
         "message": "inoiz"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "HTTPS Everywhere erabiltzaile arauak"
     },
     "prefs_export_settings": {
         "message": "Esportatu Ezarpenak"

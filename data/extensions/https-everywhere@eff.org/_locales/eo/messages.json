@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "ret-bazaj malpromociaj atakoj"
     },
+    "cancel_http_once": {
+        "message": "Malfermi nesekuran retpa\u011don nur por tiu \u0109i seanco"
+    },
     "cancel_open_page": {
         "message": "Malfermi nesekuran retpa\u011don"
     },
@@ -78,7 +81,7 @@
         "message": "Stabilaj reguloj"
     },
     "chrome_stable_rules_description": {
-        "message": "Devigi \u0109ifritan konekton al tiuj retejoj"
+        "message": "Devigi \u0109ifritan konekton al tiuj retejoj:"
     },
     "chrome_status_cancel_button": {
         "message": "Rezigni"
@@ -86,13 +89,22 @@
     "menu_donate_eff_imperative": {
         "message": "Donaci al EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "\u0108ifri \u03c8iujn eblajn retejojn \u015daltita"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u0108ifri \u0109iujn eblajn retejojn: mal\u015daltita"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u0108ifri \u0109iujn eblajn retejojn: \u015daltita"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS\u2011\u0108ie: mal\u015daltita"
     },
     "menu_globalEnable": {
-        "message": "HTTPS\u2011\u0108ie mal\u015daltita"
+        "message": "HTTPS\u2011\u0108ie: \u015daltita"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Ne\u0109ifritaj petoj estas nuntempe permesataj"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Ne\u0109ifritaj petoj estas nuntempe blokitaj"
     },
     "menu_httpNoWhereMore": {
@@ -101,14 +113,35 @@
     "menu_observatory": {
         "message": "Agordoj de SSL-Observejo"
     },
+    "menu_seeLess": {
+        "message": "Malpli da informo"
+    },
     "menu_seeMore": {
-        "message": "Pliaj informoj"
+        "message": "Pli da informo"
     },
     "menu_showCounter": {
         "message": "Montri nombrilon"
     },
     "menu_viewAllRules": {
         "message": "Montri \u0109iujn regulojn"
+    },
+    "onboarding_details_one": {
+        "message": "plibonigoj al la re\u011dimo \u201c\u0109ifri \u0109iujn eblajn retejojn\u201d"
+    },
+    "onboarding_details_two": {
+        "message": "eblo ekskluzivi retejojn de HTTPS\u2011\u0108ie"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS\u2011\u0108ie estas projekto de EFF"
+    },
+    "onboarding_header": {
+        "message": "\u015can\u011doj en la versio 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0108ifrigu la reton! A\u016dtomate uzu HTTPS\u2010sekurecon \u0109e multaj retejoj."
+    },
+    "options_addDisabledSite": {
+        "message": "Aldoni retejon por escepti"
     },
     "options_addUpdateChannel": {
         "message": "Aldoni \u011disdatigan kanalon"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "A\u016dtomate \u011disdatigi regulojn"
     },
+    "options_debuggingRulesets": {
+        "message": "Senerarigaj reguloj (spertulaj)"
+    },
     "options_delete": {
         "message": "Forigi"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "En\u015dalti regulojn de miksita enhavo"
     },
+    "options_enterDisabledSite": {
+        "message": "Enigu retejon por escepti"
+    },
     "options_enterUpdateChannelName": {
-        "message": "Entajpu nomon por \u011disdatiga kanalo"
+        "message": "Enigu nomon por \u011disdatiga kanalo"
     },
     "options_generalSettings": {
         "message": "\u011ceneralaj agordoj"
+    },
+    "options_settings": {
+        "message": "Agordoj"
     },
     "options_showDevtoolsTab": {
         "message": "Montri langeton de programista ilaro"
@@ -150,7 +192,7 @@
         "message": "Averto: aldoni \u011disdatigajn kanalojn povas ebligi al atakantoj kontroli vian retumilon. Nur redaktu tiun \u0109i sekcion se vi scias, kion vi faras!"
     },
     "options_updatesLastChecked": {
-        "message": "Laste kontrolis pri \u011disdatigo je: "
+        "message": "Anta\u016de kontrolis pri \u011disdatigo je: "
     },
     "options_updatesLastCheckedNever": {
         "message": "neniam"

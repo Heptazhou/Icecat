@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "ataques remotos de degradaci\u00f3n de servicio"
     },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
+    },
     "cancel_open_page": {
         "message": "Abrir p\u00e1gina insegura"
     },
@@ -63,13 +66,13 @@
         "message": "Nombre de la Regla"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "A medida que naveg\u00e1s por diferentes sitios, pod\u00e9s cambiar tus preferencias para cada "
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Ajustes para este sitio"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Cambi\u00e1 tus preferencias para concecciones encriptadas"
     },
     "chrome_show_advanced": {
         "message": "Mostrar avanzado"
@@ -86,29 +89,59 @@
     "menu_donate_eff_imperative": {
         "message": "Donar a EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Cifrar todos los sitios elegibles est\u00e1 desactivado"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Cifrar todos los sitios elegibles est\u00e1 activado"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS en todas partes est\u00e1 apagado"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS en todas partes est\u00e1 activado"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Unencrypted requests are currently blocked"
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Las solicitudes no cifradas est\u00e1n permitidas actualmente"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Las solicitudes no cifradas est\u00e1n actualmente bloqueadas"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Este modo bloquea los contenidos y las solicitudes no encriptadas"
     },
     "menu_observatory": {
         "message": "Preferencias del Observatorio SSL"
     },
+    "menu_seeLess": {
+        "message": "Ver menos"
+    },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Ver m\u00e1s"
     },
     "menu_showCounter": {
         "message": "Mostrar contador"
     },
     "menu_viewAllRules": {
         "message": "Ver todas las Reglas"
+    },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u00a1Encriptar la Web! Usar seguridad HTTPS autom\u00e1ticamente en la mayor\u00eda de los sitios."
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
     },
     "options_addUpdateChannel": {
         "message": "A\u00f1adir canal de actualizaci\u00f3n"
@@ -119,6 +152,9 @@
     "options_autoUpdateRulesets": {
         "message": "Auto-actualizar conjuntos de reglas"
     },
+    "options_debuggingRulesets": {
+        "message": "Conjunto de reglas de depuraci\u00f3n (avanzado)"
+    },
     "options_delete": {
         "message": "Borrar"
     },
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Habilitar conjuntos de reglas para contenidos mezclados"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
         "message": "Ingresar nombre del canal de actualizaci\u00f3n"
     },
     "options_generalSettings": {
         "message": "Ajustes generales"
+    },
+    "options_settings": {
+        "message": "Configuraci\u00f3n"
     },
     "options_showDevtoolsTab": {
         "message": "Mostrar pesta\u00f1a Devtools"

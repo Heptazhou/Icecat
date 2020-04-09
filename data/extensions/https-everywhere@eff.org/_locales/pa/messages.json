@@ -3,28 +3,31 @@
         "message": "\u0a28\u0a35\u0a3e\u0a02 \u0a28\u0a3f\u0a2f\u0a2e \u0a1c\u0a4b\u0a5c\u0a4b"
     },
     "about_ext_description": {
-        "message": "Encrypt the Web! Automatically use HTTPS security on many sites."
+        "message": "\u0a35\u0a48\u0a71\u0a2c \u0a28\u0a42\u0a70 \u0a07\u0a70\u0a15\u0a4d\u0a30\u0a3f\u0a2a\u0a1f \u0a15\u0a30\u0a4b! \u0a15\u0a08 \u0a38\u0a3e\u0a08\u0a1f\u0a3e\u0a02 \u0a32\u0a08 \u0a06\u0a2a\u0a23\u0a47 \u0a06\u0a2a HTTPS \u0a38\u0a41\u0a30\u0a71\u0a16\u0a3f\u0a06 \u0a35\u0a30\u0a24\u0a4b\u0964"
     },
     "about_ext_name": {
-        "message": "\u0a10\u0a71\u0a1a.\u0a1f\u0a40.\u0a1f\u0a40.\u0a2a\u0a40.\u0a10\u0a71\u0a38. \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 "
+        "message": "HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30"
     },
     "about_rulesets_version": {
         "message": "\u0a28\u0a3f\u0a2f\u0a2e\u0a3e\u0a02 \u0a32\u0a08 \u0a35\u0a30\u0a1c\u0a28"
     },
     "about_title": {
-        "message": "\u0a10\u0a71\u0a1a.\u0a1f\u0a40.\u0a1f\u0a40.\u0a2a\u0a40.\u0a10\u0a71\u0a38. \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a2c\u0a3e\u0a30\u0a47 "
+        "message": "HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a2c\u0a3e\u0a30\u0a47"
     },
     "about_version": {
-        "message": "\u0a35\u0a30\u0a1c\u0a28"
+        "message": "\u0a35\u0a30\u0a1c\u0a3c\u0a28"
     },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "\u0a28\u0a48\u0a71\u0a1f\u0a35\u0a30\u0a15 \u0a05\u0a27\u0a3e\u0a30\u0a3f\u0a24 \u0a21\u0a3e\u0a0a\u0a28\u0a17\u0a30\u0a47\u0a21 \u0a39\u0a71\u0a32\u0a47"
+    },
+    "cancel_http_once": {
+        "message": "Open insecure page for this session only"
     },
     "cancel_open_page": {
-        "message": "Open insecure page"
+        "message": "\u0a05\u0a38\u0a41\u0a30\u0a71\u0a16\u0a3f\u0a05\u0a24 \u0a38\u0a2b\u0a3c\u0a3e \u0a16\u0a4b\u0a32\u0a4d\u0a39\u0a4b"
     },
     "chrome_add_new_rule": {
         "message": "\u0a07\u0a38 \u0a38\u0a3e\u0a08\u0a1f \u0a32\u0a08 \u0a28\u0a35\u0a3e\u0a02 \u0a28\u0a3f\u0a2f\u0a2e \u0a1c\u0a4b\u0a5c\u0a4b"
@@ -33,13 +36,13 @@
         "message": "\u0a07\u0a38 \u0a38\u0a3e\u0a08\u0a1f \u0a32\u0a08 \u0a07\u0a15 \u0a28\u0a3f\u0a2f\u0a2e \u0a1c\u0a4b\u0a5c\u0a4b"
     },
     "chrome_always_https_for_host": {
-        "message": "Always use https for this host"
+        "message": "\u0a07\u0a38 \u0a39\u0a4b\u0a38\u0a1f \u0a32\u0a08 \u0a39\u0a2e\u0a47\u0a38\u0a3c\u0a3e https \u0a35\u0a30\u0a24\u0a4b\u0a02"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "\u0a07\u0a38 \u0a38\u0a3e\u0a08\u0a1f \u0a32\u0a08 HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a05\u0a38\u0a2e\u0a30\u0a71\u0a25 \u0a15\u0a30\u0a4b"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "\u0a07\u0a38 \u0a38\u0a3e\u0a08\u0a1f \u0a32\u0a08 HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a28\u0a42\u0a70 \u0a1a\u0a3e\u0a32\u0a42 \u0a15\u0a30\u0a4b"
     },
     "chrome_experimental_rules": {
         "message": "\u0a2a\u0a4d\u0a30\u0a2f\u0a4b\u0a17\u0a3e\u0a24\u0a2e\u0a15 \u0a28\u0a3f\u0a2f\u0a2e"
@@ -48,7 +51,7 @@
         "message": "\u0a1a\u0a47\u0a24\u0a3e\u0a35\u0a28\u0a40 \u0a1c\u0a3e\u0a02 \u0a1f\u0a41\u0a71\u0a1f\u0a23 \u0a26\u0a47 \u0a15\u0a3e\u0a30\u0a28 \u0a39\u0a4b \u0a38\u0a15\u0a26\u0a3e \u0a39\u0a48. \u0a2e\u0a42\u0a32 \u0a30\u0a42\u0a2a \u0a35\u0a3f\u0a71\u0a1a \u0a06\u0a2f\u0a4b\u0a17."
     },
     "chrome_hide_advanced": {
-        "message": "\u0a09\u0a71\u0a28\u0a24 \u0a1b\u0a41\u0a2a\u0a3e\u0a13"
+        "message": "\u0a24\u0a15\u0a28\u0a40\u0a15\u0a40 \u0a1b\u0a41\u0a2a\u0a3e\u0a13"
     },
     "chrome_host": {
         "message": "\u0a39\u0a4b\u0a38\u0a1f:"
@@ -60,25 +63,25 @@
         "message": "\u0a2e\u0a47\u0a32\u0a23 \u0a30\u0a48\u0a1c\u0a48\u0a15\u0a38"
     },
     "chrome_rule_name": {
-        "message": "\u0a28\u0a3f\u0a2f\u0a2e \u0a26\u0a3e \u0a28\u0a3e\u0a2e"
+        "message": "\u0a28\u0a3f\u0a2f\u0a2e \u0a26\u0a3e \u0a28\u0a3e\u0a02"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change you preferences for each website"
+        "message": "\u0a1c\u0a3f\u0a35\u0a47\u0a02 \u0a24\u0a41\u0a38\u0a40\u0a02 \u0a35\u0a71\u0a16-\u0a35\u0a71\u0a16 \u0a35\u0a48\u0a2c\u0a71\u0a38\u0a3e\u0a08\u0a1f\u0a3e\u0a02 \u0a2c\u0a30\u0a3e\u0a0a\u0a1c\u0a3c \u0a15\u0a30\u0a26\u0a47 \u0a39\u0a4b, \u0a24\u0a41\u0a38\u0a40\u0a02 \u0a39\u0a30\u0a47\u0a15 \u0a35\u0a48\u0a71\u0a2c\u0a38\u0a3e\u0a08\u0a1f \u0a32\u0a08 \u0a06\u0a2a\u0a23\u0a40\u0a06\u0a02 \u0a2a\u0a38\u0a70\u0a26\u0a3e\u0a02 \u0a28\u0a42\u0a70 \u0a2c\u0a26\u0a32 \u0a38\u0a15\u0a26\u0a47 \u0a39\u0a4b"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "\u0a07\u0a38 \u0a38\u0a3e\u0a08\u0a1f \u0a32\u0a08 \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a3e\u0a02"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "\u0a07\u0a70\u0a15\u0a4d\u0a30\u0a3f\u0a2a\u0a1f \u0a15\u0a40\u0a24\u0a47 \u0a15\u0a28\u0a48\u0a15\u0a38\u0a3c\u0a23\u0a3e\u0a02 \u0a32\u0a08 \u0a06\u0a2a\u0a23\u0a40\u0a06\u0a02 \u0a2a\u0a38\u0a70\u0a26\u0a3e\u0a02 \u0a28\u0a42\u0a70 \u0a2c\u0a26\u0a32\u0a4b"
     },
     "chrome_show_advanced": {
-        "message": "\u0a09\u0a71\u0a28\u0a24 \u0a35\u0a3f\u0a16\u0a3e\u0a13 "
+        "message": "\u0a24\u0a15\u0a28\u0a40\u0a15\u0a40 \u0a35\u0a47\u0a16\u0a3e\u0a13"
     },
     "chrome_stable_rules": {
         "message": "\u0a38\u0a25\u0a3f\u0a30 \u0a28\u0a3f\u0a2f\u0a2e"
     },
     "chrome_stable_rules_description": {
-        "message": "Force encrypted connections to these websites:"
+        "message": "\u0a07\u0a39\u0a28\u0a3e\u0a02 \u0a35\u0a48\u0a71\u0a2c\u0a38\u0a3e\u0a08\u0a1f\u0a3e\u0a02 \u0a32\u0a08 \u0a07\u0a70\u0a15\u0a4d\u0a30\u0a3f\u0a2a\u0a1f \u0a15\u0a40\u0a24\u0a47 \u0a15\u0a28\u0a48\u0a15\u0a38\u0a3c\u0a28\u0a3e\u0a02 \u0a32\u0a08 \u0a2e\u0a1c\u0a3c\u0a2c\u0a42\u0a30 \u0a15\u0a30\u0a4b:"
     },
     "chrome_status_cancel_button": {
         "message": "\u0a30\u0a71\u0a26 \u0a15\u0a30\u0a4b"
@@ -86,23 +89,35 @@
     "menu_donate_eff_imperative": {
         "message": "\u0a08.\u0a10\u0a71\u0a2b.\u0a10\u0a71\u0a2b. \u0a28\u0a42\u0a70 \u0a26\u0a3e\u0a28 \u0a26\u0a3f\u0a13"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Encrypt All Sites Eligible is ON"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "\u0a38\u0a3e\u0a30\u0a40\u0a06\u0a02 \u0a2a\u0a3e\u0a24\u0a30 \u0a38\u0a3e\u0a08\u0a1f\u0a3e \u0a28\u0a42\u0a70 \u0a07\u0a70\u0a15\u0a4d\u0a30\u0a3f\u0a2a\u0a1f \u0a15\u0a30\u0a28\u0a3e \u0a2c\u0a70\u0a26 \u0a39\u0a48"
+    },
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "\u0a38\u0a3e\u0a30\u0a40\u0a06\u0a02 \u0a2a\u0a3e\u0a24\u0a30 \u0a38\u0a3e\u0a08\u0a1f\u0a3e \u0a28\u0a42\u0a70 \u0a07\u0a70\u0a15\u0a4d\u0a30\u0a3f\u0a2a\u0a1f \u0a15\u0a30\u0a28\u0a3e \u0a1a\u0a3e\u0a32\u0a42 \u0a39\u0a48"
+    },
+    "menu_globalDisable": {
+        "message": "HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a2c\u0a70\u0a26 \u0a39\u0a48"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a1a\u0a3e\u0a32\u0a42 \u0a39\u0a48"
     },
-    "menu_httpNoWhereExplained": {
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Unencrypted requests are currently allowed"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
         "message": "Unencrypted requests are currently blocked"
     },
     "menu_httpNoWhereMore": {
         "message": "This mode blocks unencrypted content and requests"
     },
     "menu_observatory": {
-        "message": "SSL Observatory Preferences"
+        "message": "SSL \u0a28\u0a3f\u0a30\u0a40\u0a16\u0a23\u0a36\u0a3e\u0a32\u0a3e \u0a2a\u0a38\u0a70\u0a26\u0a3e\u0a02"
+    },
+    "menu_seeLess": {
+        "message": "\u0a18\u0a71\u0a1f \u0a35\u0a47\u0a16\u0a4b"
     },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "\u0a39\u0a4b\u0a30 \u0a35\u0a47\u0a16\u0a4b"
     },
     "menu_showCounter": {
         "message": "\u0a15\u0a3e\u0a0a\u0a02\u0a1f\u0a30 \u0a35\u0a3f\u0a16\u0a3e\u0a13"
@@ -110,29 +125,56 @@
     "menu_viewAllRules": {
         "message": "\u0a38\u0a3e\u0a30\u0a47 \u0a28\u0a3f\u0a2f\u0a2e \u0a35\u0a3f\u0a16\u0a3e\u0a13 "
     },
+    "onboarding_details_one": {
+        "message": "EASE Mode Optimized"
+    },
+    "onboarding_details_two": {
+        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is an EFF project"
+    },
+    "onboarding_header": {
+        "message": "Changes with version 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "\u0a35\u0a48\u0a71\u0a2c \u0a28\u0a42\u0a70 \u0a07\u0a70\u0a15\u0a4d\u0a30\u0a3f\u0a2a\u0a1f \u0a15\u0a30\u0a4b! \u0a15\u0a08 \u0a38\u0a3e\u0a08\u0a1f\u0a3e\u0a02 \u0a32\u0a08 \u0a06\u0a2a\u0a23\u0a47 \u0a06\u0a2a HTTPS \u0a38\u0a41\u0a30\u0a71\u0a16\u0a3f\u0a06 \u0a35\u0a30\u0a24\u0a4b\u0964"
+    },
+    "options_addDisabledSite": {
+        "message": "Add Disabled Site"
+    },
     "options_addUpdateChannel": {
-        "message": "Add Update Channel"
+        "message": "\u0a05\u0a71\u0a2a\u0a21\u0a47\u0a1f \u0a1a\u0a48\u0a28\u0a32 \u0a1c\u0a4b\u0a5c\u0a4b"
     },
     "options_advancedSettings": {
-        "message": "\u0a24\u0a15\u0a28\u0a40\u0a15\u0a40 \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a1c\u0a3c"
+        "message": "\u0a24\u0a15\u0a28\u0a40\u0a15\u0a40 \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a3e\u0a02"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "\u0a30\u0a42\u0a32-\u0a38\u0a48\u0a71\u0a1f \u0a06\u0a2a\u0a23\u0a47-\u0a06\u0a2a \u0a05\u0a71\u0a2a\u0a21\u0a47\u0a1f \u0a15\u0a30\u0a4b"
+    },
+    "options_debuggingRulesets": {
+        "message": "Debugging Rulesets (advanced)"
     },
     "options_delete": {
-        "message": "Delete"
+        "message": "\u0a39\u0a1f\u0a3e\u0a13"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a38\u0a3e\u0a08\u0a1f\u0a3e\u0a02 \u0a05\u0a38\u0a2e\u0a30\u0a71\u0a25 \u0a39\u0a28"
     },
     "options_enableMixedRulesets": {
         "message": "\u0a2e\u0a3f\u0a38\u0a3c\u0a30\u0a24 \u0a38\u0a2e\u0a71\u0a17\u0a30\u0a40 \u0a28\u0a3f\u0a2f\u0a2e \u0a28\u0a42\u0a70 \u0a2f\u0a4b\u0a17 \u0a15\u0a30\u0a4b"
     },
+    "options_enterDisabledSite": {
+        "message": "Enter disabled site"
+    },
     "options_enterUpdateChannelName": {
-        "message": "Enter update channel name"
+        "message": "\u0a05\u0a71\u0a2a\u0a21\u0a47\u0a1f \u0a1a\u0a48\u0a28\u0a32 \u0a26\u0a3e \u0a28\u0a3e\u0a02 \u0a26\u0a3f\u0a13"
     },
     "options_generalSettings": {
-        "message": "\u0a06\u0a2e \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a1c\u0a3c"
+        "message": "\u0a06\u0a2e \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a3e\u0a02"
+    },
+    "options_settings": {
+        "message": "\u0a2a\u0a30\u0a3f\u0a38\u0a25\u0a3f\u0a24\u0a40"
     },
     "options_showDevtoolsTab": {
         "message": "Show Devtools tab"
@@ -141,10 +183,10 @@
         "message": "Stored rulesets version: "
     },
     "options_update": {
-        "message": "Update"
+        "message": "\u0a05\u0a71\u0a2a\u0a21\u0a47\u0a1f \u0a15\u0a30\u0a4b"
     },
     "options_updateChannels": {
-        "message": "Update Channels"
+        "message": "\u0a05\u0a71\u0a2a\u0a21\u0a47\u0a1f \u0a1a\u0a48\u0a28\u0a32"
     },
     "options_updateChannelsWarning": {
         "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
@@ -153,16 +195,16 @@
         "message": "Updates last checked: "
     },
     "options_updatesLastCheckedNever": {
-        "message": "never"
+        "message": "\u0a15\u0a26\u0a47 \u0a28\u0a39\u0a40\u0a02"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "HTTPS \u0a10\u0a35\u0a30\u0a40\u0a35\u0a47\u0a05\u0a30 \u0a35\u0a30\u0a24\u0a4b\u0a02\u0a15\u0a3e\u0a30 \u0a28\u0a3f\u0a2f\u0a2e"
     },
     "prefs_export_settings": {
-        "message": "\u0a28\u0a3f\u0a30\u0a2f\u0a3e\u0a24 \u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a1c\u0a3c"
+        "message": "\u0a38\u0a48\u0a1f\u0a3f\u0a70\u0a17\u0a3e\u0a02 \u0a28\u0a42\u0a70 \u0a28\u0a3f\u0a30\u0a2f\u0a3e\u0a24 \u0a15\u0a30\u0a4b"
     },
     "prefs_reset_defaults": {
-        "message": "\u0a2e\u0a42\u0a32 \u0a2e\u0a41\u0a5c-\u0a38\u0a1f\u0a4b\u0a30 \u0a15\u0a30\u0a4b"
+        "message": "\u0a2e\u0a42\u0a32 \u0a28\u0a42\u0a70 \u0a2c\u0a39\u0a3e\u0a32 \u0a15\u0a30\u0a4b"
     },
     "prefs_reset_defaults_message": {
         "message": "This will reset each ruleset to its default state. Continue?"

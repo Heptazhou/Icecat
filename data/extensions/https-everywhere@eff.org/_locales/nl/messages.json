@@ -23,6 +23,9 @@
     "cancel_he_blocking_network": {
         "message": "op netwerk gebaseerde downgrade-aanvallen"
     },
+    "cancel_http_once": {
+        "message": "Niet-beveiligde pagina alleen voor deze sessie openen"
+    },
     "cancel_open_page": {
         "message": "Niet-beveiligde pagina openen"
     },
@@ -63,13 +66,13 @@
         "message": "Regelnaam"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "Als je navigeert tussen verschillende weblocaties, kun je je voorkeuren voor elke weblocatie onafhankelijk veranderen"
+        "message": "Wanneer u diverse websites bezoekt, kunt u voor elke website uw voorkeuren wijzigen"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Instellingen voor deze weblocatie"
+        "message": "Instellingen voor deze website"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Verander je voorkeuren voor versleutelde verbindingen"
+        "message": "Uw voorkeuren voor versleutelde verbindingen wijzigen"
     },
     "chrome_show_advanced": {
         "message": "Geavanceerd tonen"
@@ -86,20 +89,32 @@
     "menu_donate_eff_imperative": {
         "message": "Doneren aan EFF"
     },
-    "menu_encryptAllSitesEligible": {
-        "message": "Versleutel alle weblocaties welke in aanmerking komen (EASE) staat AAN"
+    "menu_encryptAllSitesEligibleOff": {
+        "message": "Alle in aanmerking komende websites versleutelen staat UIT"
     },
-    "menu_globalEnable": {
+    "menu_encryptAllSitesEligibleOn": {
+        "message": "Alle in aanmerking komende websites versleutelen staat AAN"
+    },
+    "menu_globalDisable": {
         "message": "HTTPS Everywhere staat UIT"
     },
-    "menu_httpNoWhereExplained": {
-        "message": "Onversleutelde verzoeken worden momenteel geblokkeerd"
+    "menu_globalEnable": {
+        "message": "HTTPS Everywhere staat AAN"
+    },
+    "menu_httpNoWhereExplainedAllowed": {
+        "message": "Niet-versleutelde aanvragen worden momenteel toegestaan"
+    },
+    "menu_httpNoWhereExplainedBlocked": {
+        "message": "Niet-versleutelde aanvragen worden momenteel geblokkeerd"
     },
     "menu_httpNoWhereMore": {
-        "message": "Deze modus blokkeert onversleutelde inhoud en verzoeken"
+        "message": "Deze modus blokkeert niet-versleutelde inhoud en aanvragen"
     },
     "menu_observatory": {
         "message": "SSL-observatoriumvoorkeuren"
+    },
+    "menu_seeLess": {
+        "message": "Minder zien"
     },
     "menu_seeMore": {
         "message": "Meer zien"
@@ -110,6 +125,24 @@
     "menu_viewAllRules": {
         "message": "Alle regels bekijken"
     },
+    "onboarding_details_one": {
+        "message": "EASE-modus geoptimaliseerd"
+    },
+    "onboarding_details_two": {
+        "message": "U kunt nu websites whitelisten voor uitschakeling in HTTPS Everywhere"
+    },
+    "onboarding_footer": {
+        "message": "HTTPS Everywhere is een EFF-project"
+    },
+    "onboarding_header": {
+        "message": "Wijzigingen in versie 3.9.2020"
+    },
+    "onboarding_intro": {
+        "message": "Versleutel het web! Gebruik automatisch HTTPS-beveiliging op veel websites."
+    },
+    "options_addDisabledSite": {
+        "message": "Uitgeschakelde website toevoegen"
+    },
     "options_addUpdateChannel": {
         "message": "Updatekanaal toevoegen"
     },
@@ -118,6 +151,9 @@
     },
     "options_autoUpdateRulesets": {
         "message": "Regelsets automatisch bijwerken"
+    },
+    "options_debuggingRulesets": {
+        "message": "Debug-regelsets (geavanceerd)"
     },
     "options_delete": {
         "message": "Verwijderen"
@@ -128,11 +164,17 @@
     "options_enableMixedRulesets": {
         "message": "Regelsets voor gemengde inhoud inschakelen"
     },
+    "options_enterDisabledSite": {
+        "message": "Voer uitgeschakelde website in"
+    },
     "options_enterUpdateChannelName": {
         "message": "Voer kanaalnaam in"
     },
     "options_generalSettings": {
         "message": "Algemene instellingen"
+    },
+    "options_settings": {
+        "message": "Instellingen"
     },
     "options_showDevtoolsTab": {
         "message": "Devtools-tabblad tonen"
