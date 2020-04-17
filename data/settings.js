@@ -179,8 +179,6 @@ pref("extensions.shield-recipe-client.enabled", false);
 pref("privacy.resistFingerprinting", true);
 // Webgl can be used for fingerprinting
 pref("webgl.disabled", true);
-// Don't reveal your internal IP when WebRTC is enabled
-pref("media.peerconnection.ice.no_host", true);
 pref("privacy.trackingprotection.cryptomining.enabled", true);
 pref("privacy.trackingprotection.fingerprinting.enabled", true);
 
