@@ -2,7 +2,7 @@
 
 set -e
 
-for extension in librejs https-everywhere librejs-usps-compatibility submit-me tortm-browser-button viewtube disable-polymer-youtube; do
+for extension in librejs https-everywhere librejs-usps-compatibility submit-me viewtube disable-polymer-youtube; do
 
   rm -rf /tmp/update-extension
   mkdir /tmp/update-extension
@@ -18,7 +18,6 @@ for extension in librejs https-everywhere librejs-usps-compatibility submit-me t
     ID=$(grep '"id":' /tmp/update-extension/manifest.json |head -n1|cut -d \" -f 4)
   fi
 
-  [ $extension = "tortm-browser-button" ] && ID="tortm-browser-button@jeremybenthum"
   [ $extension = "use-google-drive-with-librejs" ] && ID="google_drive@0xbeef.coffee"
   [ -z $ID ] && ID=$extension"@extension"
 
@@ -27,10 +26,9 @@ for extension in librejs https-everywhere librejs-usps-compatibility submit-me t
 
 done
 
-sed '/app\.tab\.open.*parameter.*/s=^=//=' -i extensions/tortm-browser-button@jeremybenthum/lib/chrome/chrome.js
 sed '/autoUpdateRulesets/s/true/false/' -i extensions/https-everywhere@eff.org/pages/options/ux.js extensions/https-everywhere@eff.org/background-scripts/update.js
 
-for ID in viewtube@extension disable-polymer-youtube@extension tortm-browser-button@jeremybenthum; do
+for ID in viewtube@extension disable-polymer-youtube@extension; do
   sed 's/^{/{\n  "applications": { "gecko": { "id": "'$ID'" } },/' -i extensions/$ID/manifest.json
 done
 
