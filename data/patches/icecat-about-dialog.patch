@@ -1,5 +1,5 @@
---- a/browser/base/content/aboutDialog.xul.orig	2019-10-16 15:29:49.000000000 -0400
-+++ b/browser/base/content/aboutDialog.xul	2019-11-20 21:39:21.693714855 -0500
+--- a/browser/base/content/aboutDialog.xhtml
++++ b/browser/base/content/aboutDialog.xhtml
 @@ -147,7 +147,6 @@
        <hbox pack="center">
          <label is="text-link" class="bottom-link" useoriginprincipal="true" href="about:license" data-l10n-id="bottomLinks-license"></label>

@@ -67,6 +67,8 @@ pref ("app.support.baseURL", "http://libreplanet.org/wiki/Group:IceCat/");
 pref ("app.support.inputURL", "https://lists.gnu.org/mailman/listinfo/bug-gnuzilla");
 pref ("app.feedback.baseURL", "https://lists.gnu.org/mailman/listinfo/bug-gnuzilla");
 pref ("browser.uitour.url", "http://libreplanet.org/wiki/Group:IceCat/Tour");
+// FIXME: Find a better URL for this:
+pref ("browser.uitour.themeOrigin", "");
 pref ("plugins.update.url", "https://www.gnu.org/software/gnuzilla/");
 pref ("browser.customizemode.tip0.learnMoreUrl", "http://libreplanet.org/wiki/Group:IceCat/Tour");
 
@@ -151,6 +153,7 @@ pref("browser.search.suggest.enabled", false);
 pref("browser.sessionstore.max_resumed_crashes", 0);
 // Don't ping Mozilla for MitM detection, see <https://bugs.torproject.org/32321>
 pref("security.certerrors.mitm.priming.enabled", false);
+pref("security.certerrors.recordEventTelemetry", false);
 // Disable shield/heartbeat
 pref("extensions.shield-recipe-client.enabled", false);
 // Don't download ads for the newtab page
@@ -170,6 +173,9 @@ pref("privacy.trackingprotection.introURL", "https://www.mozilla.org/%LOCALE%/fi
 pref("geo.enabled", false);
 pref("geo.wifi.uri", "");
 pref("browser.search.geoip.url", "");
+pref("browser.search.geoSpecificDefaults", false);
+pref("browser.search.geoSpecificDefaults.url", "");
+pref("browser.search.modernConfig", false);
 // Disable captive portal detection
 pref("captivedetect.canonicalURL", "");
 pref("network.captive-portal-service.enabled", false);
@@ -241,6 +247,20 @@ pref("font.default.x-western", "sans-serif");
 // Preferences for the Get Add-ons panel
 pref ("extensions.webservice.discoverURL", "https://gnuzilla.gnu.org/extensions");
 pref ("extensions.getAddons.search.url", "https://gnuzilla.gnu.org/extensions");
+pref ("extensions.getAddons.search.browseURL", "https://gnuzilla.gnu.org/extensions");
+pref ("extensions.getAddons.get.url", "https://gnuzilla.gnu.org/extensions");
+pref ("extensions.getAddons.link.url", "https://gnuzilla.gnu.org/extensions");
+pref ("extensions.getAddons.discovery.api_url", "https://gnuzilla.gnu.org/extensions");
+
+pref ("extensions.systemAddon.update.url", "");
+pref ("extensions.systemAddon.update.enabled", false);
+
+// FIXME: find better URLs for these:
+pref ("extensions.getAddons.langpacks.url", "https://gnuzilla.gnu.org/extensions");
+pref ("lightweightThemes.getMoreURL", "https://gnuzilla.gnu.org/extensions");
+pref ("browser.geolocation.warning.infoURL", "");
+pref ("browser.xr.warning.infoURL", "");
+pref ("app.feedback.baseURL", "");
 
 // Mobile
 pref("privacy.announcements.enabled", false);

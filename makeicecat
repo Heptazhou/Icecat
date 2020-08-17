@@ -21,8 +21,8 @@
 
 set -euxo pipefail
 
-FFMAJOR=68
-FFMINOR=12
+FFMAJOR=78
+FFMINOR=2
 FFSUB=0
 GNUVERSION=1
 FFVERSION=$FFMAJOR.$FFMINOR.$FFSUB
@@ -44,7 +44,7 @@ wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr
 wget -N https://ftp.mozilla.org/pub/mozilla.org/firefox/releases/${FFVERSION}esr/source/firefox-${FFVERSION}esr.source.tar.xz.asc
 gpg --recv-keys --keyserver keyserver.ubuntu.com 14F26682D0916CDD81E37B6D61B7B526D98F0353
 gpg --verify firefox-${FFVERSION}esr.source.tar.xz.asc
-echo -n ae692bf2a15908cacbb9d4c7ccf78525a87410ff3f13befedc1926f849bc27cc firefox-${FFVERSION}esr.source.tar.xz |sha256sum -c -
+echo -n 965ccfcbb8c0aa97639911997c54be0fcf896fd388b03138952089af675ea918 firefox-${FFVERSION}esr.source.tar.xz |sha256sum -c -
 
 echo Extracting Firefox tarball
 tar -xf firefox-${FFVERSION}esr.source.tar.xz
@@ -70,9 +70,9 @@ cd ..
 
 mv l10n $SOURCEDIR
 
-hg clone http://hg.mozilla.org/l10n/compare-locales/
+hg clone https://hg.mozilla.org/l10n/compare-locales/
 cd compare-locales/
-hg checkout RELEASE_3_3_0
+hg checkout RELEASE_8_0_0
 cd ..
 rm compare-locales/.hg* compare-locales/.git* -rf
 mv compare-locales $SOURCEDIR/l10n
@@ -181,10 +181,8 @@ echo "ac_add_options --disable-eme" >> build/mozconfig.common
 echo "ac_add_options --enable-stdcxx-compat" >> build/mozconfig.common.override
 
 # Disable healthreport
-sed '/mozilla.org\/legal/d' -i toolkit/components/telemetry/healthreport-prefs.js
-cat << EOF >> toolkit/components/telemetry/healthreport-prefs.js
-pref("datareporting.healthreport.infoURL", "https://$INFOURL");
-EOF
+sed "/\"datareporting.healthreport.infoURL\"/s|http.*|https://$LEGALINFOURL\");|" -i modules/libpref/init/all.js
+sed '/"datareporting.healthreport.uploadEnabled"/s/true/false/' -i modules/libpref/init/all.js
 
 # Custom privacy statement link
 sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
@@ -202,16 +200,18 @@ done
 # These are not condensed into a single sed script to make it fail on individual commands that didn't change the source
 ActivityStream=browser/components/newtab/lib/ActivityStream.jsm
 sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i $ActivityStream
-sed '/\["showSponsored/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/\["telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/\["section.highlights.includePocket"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/\["telemetry.ping.endpoint"/,/value/s/value: .*/value: ""/' -i $ActivityStream
-sed 's/\(read_more_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
-sed 's/\(stories_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
+sed '/"showSponsored"/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/  "telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/"section.highlights.includePocket"/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/read_more_endpoint:/,/http/s/"http.*/"",/' -i $ActivityStream
+sed '/stories_endpoint: `/,/}`,/c stories_endpoint: "",' -i $ActivityStream
 sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i $ActivityStream
 sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
+sed '/"telemetry.structuredIngestion"/,/value/s/value: .*/value: false,/' -i $ActivityStream
+sed '/"telemetry.structuredIngestion.endpoint"/,/value/s/value: .*/value: "",/' -i $ActivityStream
+sed '/layout_endpoint:/,/http/s/"http.*/"",/' -i $ActivityStream
 sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/name: "section.topstories"/,/return/s/return.*/return false;/' -i $ActivityStream
+sed '/name: "system.topstories"/,/},/s/.*!!locales.*/false/' -i $ActivityStream
 sed 's/.Ubuntu., //' -i browser/components/newtab/css/activity-stream*.css
 
 ###############################################################################
@@ -247,7 +247,7 @@ done
 
 for STRING in helpus community-2 community-exp
 do
- find -name aboutDialog.ftl | xargs sed -i "s/^$STRING.*/$STRING = /"
+ find -wholename '*/browser/aboutDialog.ftl' | xargs sed -i "s/^$STRING.*/$STRING = /"
 done
 
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights.xhtml
@@ -259,15 +259,11 @@ sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ hr
 cp $DATA/branding/sync.png browser/themes/shared/fxa/logo.png
 
 # Hide mobile promo
-echo ".fxaMobilePromo {  display: none !important; }" >> browser/themes/shared/incontentprefs/preferences.inc.css
+echo ".fxaMobilePromo {  display: none !important; }" >> browser/themes/shared/preferences/preferences.inc.css
 
-# Hide plugindeprecation-notice
-echo "#plugindeprecation-notice {  display: none !important; }" >> toolkit/mozapps/extensions/content/extensions.css
-# Hide warnings on unsigned extensions
-echo ".warning{display: none!important; } .addon[notification=warning]{background-image: none!important;}" >> toolkit/mozapps/extensions/content/extensions.css
 # Hide extra links in about box
-sed '/releaseNotes.link/d' -i ./browser/base/content/aboutDialog.xul
-sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog.xul
+sed '/releaseNotes.link/d' -i ./browser/base/content/aboutDialog.xhtml
+sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog.xhtml
 
 ###############################################################################
 # Batch rebranding
@@ -276,9 +272,7 @@ sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog
 # Replace Firefox branding
 find . | tac | grep -i fennec  | prename --nofullpath -E 's/fennec/icecatmobile/;' -E 's/Fennec/IceCatMobile/;'
 find . | tac | grep -i firefox | prename --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
-
-rm browser/components/newtab/data/content/assets/icecat-wordmark.svg
-cp $DATA/branding/icecat-wordmark.svg browser/components/newtab/data/content/assets/
+find services/fxaccounts/rust-bridge | tac | prename --nofullpath -E 's/icecat-accounts/firefox-accounts/;' -E 's/IceCatAccounts/FirefoxAccounts/;'
 
 echo "Running batch rebranding"
 SEDSCRIPT="
@@ -309,10 +303,10 @@ s|PACKAGES/icecat|PACKAGES/firefox|g;
 s/GNU Public/Mozilla Public/g;
 s/GNU Foundation/Mozilla Foundation/g;
 s/GNU Corporation/Mozilla Corporation/g;
-s/icecat.com/firefox.com/g;
+s/icecat.com\\>/firefox.com/g;
 s/IceCat-Spdy/Firefox-Spdy/g;
 s/icecat-accounts/firefox-accounts/g;
-s/IceCatAccountsCommand/FirefoxAccountsCommand/g;
+s/IceCatAccounts/FirefoxAccounts/g;
 s|https://www.mozilla.org/icecat/?utm_source=synceol|https://www.mozilla.org/firefox/?utm_source=synceol|g;
 
 s|www.gnu.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
@@ -385,13 +379,12 @@ MOZ_SERVICES_HEALTHREPORTER=0
 MOZ_SERVICES_FXACCOUNTS=0
 MOZ_SERVICES_METRICS=0
 MOZ_DATA_REPORTING=0
+MOZ_NORMANDY=0
 MOZ_SERVICES_SYNC=0
 MOZ_DEVICES=0
 MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
 MOZ_ADDON_SIGNING=0
 EOF
-
-sed 's/mozilla-esr/gnu-esr/' -i browser/confvars.sh
 
 ###############################################################################
 # Icons
@@ -474,6 +467,7 @@ MOZ_SERVICES_HEALTHREPORTER=0
 MOZ_SERVICES_FXACCOUNTS=0
 MOZ_SERVICES_METRICS=0
 MOZ_DATA_REPORTING=0
+MOZ_NORMANDY=0
 MOZ_SERVICES_SYNC=0
 MOZ_DEVICES=0
 MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
@@ -493,18 +487,19 @@ browser.search.order.2=Google
 browser.search.order.3=Yahoo
 EOF
 
-cp $DATA/preferences_vendor.xml ./mobile/android/app/src/main/res/xml/preferences_vendor.xml
-
-sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' -i mobile/android/base/java/org/mozilla/gecko/DataReportingNotification.java
-
-cp -a $DATA/android-images/core/* mobile/android/themes/core/images/
-cp -a $DATA/android-images/resources mobile/android/base
-
-sed '/aboutDetails/,/div/d; /privacyURL/d' mobile/android/chrome/content/about.xhtml -i
-
-sed '/SENDERID/d' -i mobile/android/app/mobile.js
-
-cat $DATA/mobile.dupes  >> mobile/android/installer/allowed-dupes.mn
+## FIXME: TODO: adapt the following to ESR 78.x
+# cp $DATA/preferences_vendor.xml ./mobile/android/app/src/main/res/xml/preferences_vendor.xml
+# 
+# sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' -i mobile/android/base/java/org/mozilla/gecko/DataReportingNotification.java
+# 
+# cp -a $DATA/android-images/core/* mobile/android/themes/core/images/
+# cp -a $DATA/android-images/resources mobile/android/base
+# 
+# sed '/aboutDetails/,/div/d; /privacyURL/d' mobile/android/chrome/content/about.xhtml -i
+# 
+# sed '/SENDERID/d' -i mobile/android/app/mobile.js
+# 
+# cat $DATA/mobile.dupes  >> mobile/android/installer/allowed-dupes.mn
 
 ###############################################################################
 # Macos packaging
@@ -563,16 +558,16 @@ cp $DATA/extensions/ extensions/gnu -a
 cat << EOF >> browser/app/Makefile.in
 libs::
 	mkdir -p \$(DIST)/bin/browser/extensions
-	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/bin/browser/extensions/
+	cp -af \$(topsrcdir)/extensions/gnu/* \$(DIST)/bin/browser/extensions/
 	mkdir -p \$(DIST)/icecat/browser/extensions
-	cp -a \$(topsrcdir)/extensions/gnu/* \$(DIST)/icecat/browser/extensions/
+	cp -af \$(topsrcdir)/extensions/gnu/* \$(DIST)/icecat/browser/extensions/
 EOF
 
 
 cat << EOF >> mobile/android/app/Makefile.in
 libs::
 	mkdir -p \$(DIST)/bin/distribution
-	cp -a \$(topsrcdir)/extensions/gnu/ \$(DIST)/bin/distribution/extensions/
+	cp -af \$(topsrcdir)/extensions/gnu/ \$(DIST)/bin/distribution/extensions/
 EOF
 
 #sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk

@@ -1,5 +1,5 @@
---- a/browser/components/search/extensions/ddg/manifest.json.orig	1980-01-01 18:59:51.000000000 -0500
-+++ b/browser/components/search/extensions/ddg/manifest.json	2019-12-19 03:57:42.448131290 -0500
+--- a/browser/components/search/extensions/ddg/manifest.json
++++ b/browser/components/search/extensions/ddg/manifest.json
 @@ -18,43 +18,11 @@
    "chrome_settings_overrides": {
      "search_provider": {
