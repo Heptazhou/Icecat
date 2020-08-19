@@ -181,11 +181,11 @@ echo "ac_add_options --disable-eme" >> build/mozconfig.common
 echo "ac_add_options --enable-stdcxx-compat" >> build/mozconfig.common.override
 
 # Disable healthreport
-sed "/\"datareporting.healthreport.infoURL\"/s|http.*|https://$LEGALINFOURL\");|" -i modules/libpref/init/all.js
-sed '/"datareporting.healthreport.uploadEnabled"/s/true/false/' -i modules/libpref/init/all.js
+sed "/\"datareporting\\.healthreport\\.infoURL\"/s|http.*|https://$LEGALINFOURL\");|" -i modules/libpref/init/all.js
+sed '/"datareporting\.healthreport\.uploadEnabled"/s/true/false/' -i modules/libpref/init/all.js
 
 # Custom privacy statement link
-sed "s%https://www.mozilla.org/legal/privacy/%https://$LEGALINFOURL%" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
+sed "s|https://www\\.mozilla\\.org/legal/privacy/|https://$LEGALINFOURL|" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
 
 # Sanitize lists
 for file in $(find |grep searchplugins/list.txt)
@@ -202,16 +202,16 @@ ActivityStream=browser/components/newtab/lib/ActivityStream.jsm
 sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i $ActivityStream
 sed '/"showSponsored"/,/value/s/value: true/value: false/' -i $ActivityStream
 sed '/  "telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/"section.highlights.includePocket"/,/value/s/value: true/value: false/' -i $ActivityStream
+sed '/"section\.highlights\.includePocket"/,/value/s/value: true/value: false/' -i $ActivityStream
 sed '/read_more_endpoint:/,/http/s/"http.*/"",/' -i $ActivityStream
 sed '/stories_endpoint: `/,/}`,/c stories_endpoint: "",' -i $ActivityStream
 sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i $ActivityStream
 sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
-sed '/"telemetry.structuredIngestion"/,/value/s/value: .*/value: false,/' -i $ActivityStream
-sed '/"telemetry.structuredIngestion.endpoint"/,/value/s/value: .*/value: "",/' -i $ActivityStream
+sed '/"telemetry\.structuredIngestion"/,/value/s/value: .*/value: false,/' -i $ActivityStream
+sed '/"telemetry\.structuredIngestion\.endpoint"/,/value/s/value: .*/value: "",/' -i $ActivityStream
 sed '/layout_endpoint:/,/http/s/"http.*/"",/' -i $ActivityStream
 sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/name: "system.topstories"/,/},/s/.*!!locales.*/false/' -i $ActivityStream
+sed '/name: "system\.topstories"/,/},/s/.*!!locales.*/false/' -i $ActivityStream
 sed 's/.Ubuntu., //' -i browser/components/newtab/css/activity-stream*.css
 
 ###############################################################################
@@ -253,7 +253,7 @@ done
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights.xhtml
 cp $DATA/aboutRights.xhtml toolkit/content/aboutRights-unbranded.xhtml
 
-sed -i 's/<a\ href\=\"http\:\/\/www.mozilla.org\/\">Mozilla\ Project<\/a>/<a\ href\=\"http\:\/\/www.gnu.org\/\"\>GNU\ Project<\/a>/g' browser/base/content/overrides/app-license.html
+sed -i 's|<a href="http://www\.mozilla\.org/">Mozilla Project</a>|<a href="http://www.gnu.org/">GNU Project</a>|g' browser/base/content/overrides/app-license.html
 
 # Custom logo for about:preferences?entrypoint=menupanel#sync
 cp $DATA/branding/sync.png browser/themes/shared/fxa/logo.png
@@ -276,19 +276,19 @@ find services/fxaccounts/rust-bridge | tac | prename --nofullpath -E 's/icecat-a
 
 echo "Running batch rebranding"
 SEDSCRIPT="
-s|marketplace.firefox.com|f-droid.org/repository/browse|g;
-s/org.mozilla.firefox/org.gnu.icecat/g;
+s|marketplace\\.firefox\\.com|f-droid.org/repository/browse|g;
+s/org\\.mozilla\\.firefox/org.gnu.icecat/g;
 s/Adobe Flash/Flash/g;
-s|addons.mozilla.org.*/mobile|directory.fsf.org/wiki/GNU_IceCat|g;
-s|addons.mozilla.org.*/android|directory.fsf.org/wiki/GNU_IceCat|g;
-s|support.mozilla.org.*/mobile|libreplanet.org/wiki/Group:IceCat/icecat-help|g;
-s|fhr.cdn.mozilla.net.*mobile|127.0.0.1|g;
-s/run-mozilla.sh/run-icecat.sh/g;
+s|addons\\.mozilla\\.org.*/mobile|directory.fsf.org/wiki/GNU_IceCat|g;
+s|addons\\.mozilla\\.org.*/android|directory.fsf.org/wiki/GNU_IceCat|g;
+s|support\\.mozilla\\.org.*/mobile|libreplanet.org/wiki/Group:IceCat/icecat-help|g;
+s|fhr\\.cdn\\.mozilla\\.net.*mobile|127.0.0.1|g;
+s/run-mozilla\\.sh/run-icecat.sh/g;
 s/Firefox Marketplace/F-droid free software repository/g;
-s|mozilla.com/plugincheck|$ADDONSURL|g;
-s|www.mozilla.com/firefox/central|$INFOURL|g;
-s|www.mozilla.*/legal/privacy.*html|$LEGALINFOURL|g;
-s|www.mozilla.*/legal/privacy|$LEGALINFOURL|g;
+s|mozilla\\.com/plugincheck|$ADDONSURL|g;
+s|www\\.mozilla\\.com/firefox/central|$INFOURL|g;
+s|www\\.mozilla.*/legal/privacy.*html|$LEGALINFOURL|g;
+s|www\\.mozilla.*/legal/privacy|$LEGALINFOURL|g;
 
 s/Mozilla Firefox/GNU IceCat/g;
 s/firefox/icecat/g;
@@ -303,13 +303,13 @@ s|PACKAGES/icecat|PACKAGES/firefox|g;
 s/GNU Public/Mozilla Public/g;
 s/GNU Foundation/Mozilla Foundation/g;
 s/GNU Corporation/Mozilla Corporation/g;
-s/icecat.com\\>/firefox.com/g;
+s/icecat\\.com\\>/firefox.com/g;
 s/IceCat-Spdy/Firefox-Spdy/g;
 s/icecat-accounts/firefox-accounts/g;
 s/IceCatAccounts/FirefoxAccounts/g;
-s|https://www.mozilla.org/icecat/?utm_source=synceol|https://www.mozilla.org/firefox/?utm_source=synceol|g;
+s|https://www\\.mozilla\\.org/icecat/?utm_source=synceol|https://www.mozilla.org/firefox/?utm_source=synceol|g;
 
-s|www.gnu.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
+s|www\\.gnu\\.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
 "
 find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -not -iregex '.*third_party/rust.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
 
@@ -343,7 +343,7 @@ sed '/If fingerprinting resistance is on/,/}/s/^/\/\//' -i ./dom/base/Navigator.
 # Leave user agent as Firefox
 sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
 
-find . -name region.properties |xargs -i /bin/sed 's_https://www.mibbit.*__' -i {}
+find . -name region.properties |xargs -i /bin/sed 's_https://www\.mibbit.*__' -i {}
 
 # Set migrator scripts
 cp browser/components/migration/IceCatProfileMigrator.jsm browser/components/migration/FirefoxProfileMigrator.jsm
