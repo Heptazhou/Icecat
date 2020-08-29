@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 #
 #    Copyright (C) 2014-2019  Ruben Rodriguez <ruben@gnu.org>
 #    Copyright (C) 2019-2021  Amin Bandali <bandali@gnu.org>
@@ -18,9 +18,6 @@
 #    You should have received a copy of the GNU General Public License
 #    along with this program; if not, write to the Free Software
 #    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
-
-
-set -euxo pipefail
 
 
 # metadata
@@ -50,7 +47,7 @@ readonly L10N_DTD_FILE=${L10N_PREFS_DIR}/advanced-scripts.dtd
 readonly PREFS_IN_FILE=browser/locales/en-US/browser/preferences/preferences.ftl
 readonly PREFS_OUT_FILE=/browser/browser/preferences/preferences.ftl
 
-# build environment, workdir, and outputs
+# build environment, working directory, and outputs
 readonly MIN_RENAME_VER_MAJ=1
 readonly MIN_RENAME_VER_MIN=10
 readonly DATADIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/data
@@ -58,288 +55,385 @@ readonly ICECATVERSION=${FFVERSION}-gnu${GNUVERSION}
 readonly OUTPUT_SOURCEBALL=icecat-${ICECATVERSION}.tar.bz2
 readonly SOURCEDIR=icecat-${FFVERSION}
 
+# debug/shell options
+readonly DEVEL=0
+set -euo pipefail
+(( DEVEL )) && set -x
+
 
 ###############################################################################
-# Validate/prepare build environment
+# helper/auxiliary functions
 ###############################################################################
 
-# verify that GnuPG is available
-if ! which gpg &> /dev/null
-then
-  echo -e "\nERROR: This script requires GnuPG:
+sedhelper()
+{
+    local file="$1"
+    local expr="$2"
+    local md5=$(md5sum "${file}")
+
+    echo Running modification-aware sed: sed "${expr}" -i "${file}"
+    /bin/sed "${expr}" -i "${file}"
+    if [ "${md5}" = "$(md5sum "${file}")" ]; then
+        echo File "${file}" was not modified, stopping.
+        exit 1
+    fi
+}
+
+sed()
+{
+    if ! echo $@ | grep -qw '\-i'; then
+        echo Running fallback sed: /bin/sed "$@"
+        /bin/sed "$@"
+    else
+        [ 1"$1" = "1-i" ] && shift
+
+        local sedexpr="$1"
+        shift
+        for file in "$@"; do
+            [ 1"${file}" = "1-i" ] && continue
+
+            if [ -f "${file}" ]; then
+                sedhelper "${file}" "${sedexpr}"
+            else
+                echo File "${file}" does not exist, stopping.
+                exit 1
+            fi
+        done
+    fi
+}
+
+
+###############################################################################
+# main functions
+###############################################################################
+
+validate_env()
+{
+    # verify that GnuPG is available
+    if ! which gpg &> /dev/null
+    then
+        echo -e "\nERROR: This script requires GnuPG:
  e.g.: 'gpg' from the Guix 'gnupg' package
        'gpg' from the Parabola 'gnupg' package
        'gpg' from the Trisquel 'gnupg' package"
-  exit 1
-fi
+        return 1
+    fi
 
-# verify that Mercurial is available
-if ! which hg &> /dev/null
-then
-  echo -e "\nERROR: This script requires Mercurial:
+    # verify that Mercurial is available
+    if ! which hg &> /dev/null
+    then
+        echo -e "\nERROR: This script requires Mercurial:
  e.g.: 'hg' from the Guix 'mercurial' package
        'hg' from the Parabola 'mercurial' package
        'hg' from the Trisquel 'mercurial' package"
-  exit 1
-fi
+        return 1
+    fi
 
-# verify that Perl 'rename' is available and sufficent
-rename_cmds=(
-  # NOTE: order is important -- 'util-linux' provides a binary named 'rename'
-  # TODO: consider removing this dependency and using GNU find
-  'rename'      # guix
-  'perl-rename' # arch derivatives
-  'prename'     # debian derivatives
-)
-for rename_cmd in ${rename_cmds[@]}
-do which ${rename_cmd} &> /dev/null && RENAME_CMD=${rename_cmd}
-done
-readonly RENAME_CMD
-if [[ "$( ${RENAME_CMD} --version )" =~ 'File::Rename version '([0-9]+)\.([0-9]+)','? ]] &&
-  (( ${BASH_REMATCH[1]} >= MIN_RENAME_VER_MAJ )) &&
-  (( ${BASH_REMATCH[2]} >= MIN_RENAME_VER_MIN ))
-then
-  found_ver=${BASH_REMATCH[1]}.${BASH_REMATCH[2]}
-  echo "Found adequate Perl 'rename' program: ${RENAME_CMD} (v${found_ver})"
-else
-  required_ver=${MIN_RENAME_VER_MAJ}.${MIN_RENAME_VER_MIN}
-  echo -e "\nERROR: This script requires the Perl rename program (version >= ${required_ver})
+    # verify that Perl 'rename' is available and sufficent
+    local rename_cmds=(
+        # NOTE: order is important -- 'util-linux' provides a binary named 'rename'
+        # TODO: consider removing this dependency and using GNU find
+        'rename'      # guix
+        'perl-rename' # arch derivatives
+        'prename'     # debian derivatives
+    )
+    local rename_cmd
+    local required_ver
+    for rename_cmd in ${rename_cmds[@]}
+    do which ${rename_cmd} &> /dev/null && RENAME_CMD=${rename_cmd}
+    done
+    readonly RENAME_CMD
+    if ! ( [[ "$( ${RENAME_CMD} --version )" =~ 'File::Rename version '([0-9]+)\.([0-9]+) ]] &&
+               (( ${BASH_REMATCH[1]} >= MIN_RENAME_VER_MAJ )) &&
+               (( ${BASH_REMATCH[2]} >= MIN_RENAME_VER_MIN )) )
+    then
+        required_ver=${MIN_RENAME_VER_MAJ}.${MIN_RENAME_VER_MIN}
+        echo -e "\nERROR: This script requires the Perl rename program (version >= ${required_ver})
  e.g.: 'rename' from the Guix 'rename' package
        'perl-rename' from the Parabola 'perl-file-rename' package
        'prename' from the Trisquel 'rename' package"
-  exit 1
-fi
+        return 1
+    fi
 
-# verify that Wget is available
-if ! which wget &> /dev/null
-then
-  echo -e "\nERROR: This script requires Wget:
+    # verify that Wget is available
+    if ! which wget &> /dev/null
+    then
+        echo -e "\nERROR: This script requires Wget:
  e.g.: 'wget' from the Guix 'wget' package
        'wget' from the Parabola 'wget' package
        'wget' from the Trisquel 'wget' package"
-  exit 1
-fi
+        return 1
+    fi
+}
 
+prepare_env()
+{
+    mkdir -p output
+    mkdir -p output/l10n
 
-mkdir -p output
-cd output
+    # clean up existing working directory, if present
+    rm -rf output/firefox-${FFVERSION} &> /dev/null || true
+    rm -rf output/${SOURCEDIR} &> /dev/null || true
+}
 
-###############################################################################
-# Retrieve FF source code
-###############################################################################
+fetch_source()
+{
+    cd output
 
-rm mozilla-esr${FFMAJOR} ${SOURCEDIR} -rf
-
-echo Downloading Firefox tarball
-wget -N ${SOURCEBALL_URL}
-wget -N ${SOURCEBALL_URL}.asc
-gpg --recv-keys --keyserver keyserver.ubuntu.com ${SOURCEBALL_SIGNINGKEY}
-gpg --verify ${SOURCEBALL}.asc
-echo -n ${SOURCEBALL_CHECKSUM} ${SOURCEBALL} | sha256sum -c -
-
-echo Extracting Firefox tarball
-tar -xf ${SOURCEBALL}
-
-mv firefox-${FFVERSION} ${SOURCEDIR}
-
-###############################################################################
-# Retrieve l10n
-###############################################################################
-
-mkdir l10n
-cd l10n
-while read lang; do
-    lang=$(echo ${lang} |cut -d' ' -f1)
-    #[ ${lang} = "es-ES" ] || continue # To speed up testing
-    [ ${lang} = "en-US" ] && continue
-    hg clone ${L10N_URL}/${lang}
-    mkdir -p ${lang}/${L10N_PREFS_DIR}
-    touch ${lang}/${L10N_DTD_FILE}
-    rm -rf ${lang}/.hg*
-done < ../${SOURCEDIR}/browser/locales/shipped-locales
-cd ..
-mv l10n ${SOURCEDIR}
-
-hg clone ${L10N_CMP_URL}/
-cd compare-locales/
-hg checkout ${L10N_CMP_REV}
-cd ..
-rm compare-locales/.hg* compare-locales/.git* -rf
-mv compare-locales ${SOURCEDIR}/l10n
-
-#######################################################
-
-cd ${SOURCEDIR}
-
-shopt -s nullglob
-for patch in "${DATADIR}"/patches/*.patch; do
-    echo Patching with file: $patch
-    patch -p1 --force --no-backup-if-mismatch --input $patch
-done
-shopt -u nullglob
-
-for file_to_append in $(cd "${DATADIR}"/files-to-append; find . -type f -print); do
-    echo Appending new data to the end of file: $file_to_append
-    cat "${DATADIR}"/files-to-append/$file_to_append >> $file_to_append
-done
-
-for dir in l10n/*; do
-    if [[ $dir != l10n/compare-locales ]]; then
-        if [[ ! -e ${DATADIR}/files-to-append/${dir}/${PREFS_OUT_FILE} ]]; then
-            cat ${DATADIR}/files-to-append/${PREFS_IN_FILE} >> ${dir}/${PREFS_OUT_FILE}
+    if [[ -f ${SOURCEBALL} ]]
+    then
+        # validate existing source-ball
+        if echo -n ${SOURCEBALL_CHECKSUM} ${SOURCEBALL} | sha256sum -c -
+        then
+            echo Found existing Firefox tarball
+        else
+            echo Removing existing invalid Firefox tarball
+            rm -f ${SOURCEBALL}
         fi
     fi
-done
-
-cp "${DATADIR}"/Changelog.IceCat "${DATADIR}"/README.IceCat .
-
-###############################################################################
-# Functions
-###############################################################################
-
-sedhelper(){
-  FILE="$1"
-  EXPR="$2"
-
-  MD5=$(md5sum "$FILE")
-  echo Running modification-aware sed: sed "$EXPR" -i "$FILE"
-  /bin/sed "$EXPR" -i "$FILE"
-  if [ "$MD5" = "$(md5sum "$FILE")" ]; then
-    echo File "$FILE" was not modified, stopping.
-    exit 1
-  fi
+    if ! [[ -f ${SOURCEBALL} ]]
+    then
+        # source-ball missing, download it
+        echo Downloading Firefox tarball
+        wget -N ${SOURCEBALL_URL}
+        wget -N ${SOURCEBALL_URL}.asc
+    fi
 }
 
-sed (){
-if ! echo $@ | grep -qw '\-i'; then
-  echo Running fallback sed: /bin/sed "$@"
-  /bin/sed "$@"
-else
-
-[ 1"$1" = "1-i" ] && shift
-
-  SEDEXPR="$1"
-  shift
-  for FILE in "$@"; do
-  [ 1"$FILE" = "1-i" ] && continue
-  if [ -f "$FILE" ]; then
-    sedhelper "$FILE" "$SEDEXPR"
-  else
-    echo File "$FILE" does not exist, stopping.
-    exit 1
-  fi
-  done
-fi
+verify_sources()
+{
+    echo Verifying Firefox tarball
+    gpg --recv-keys --keyserver keyserver.ubuntu.com ${SOURCEBALL_SIGNINGKEY}
+    gpg --verify ${SOURCEBALL}.asc
+    echo -n ${SOURCEBALL_CHECKSUM} ${SOURCEBALL} | sha256sum -c -
 }
 
-###############################################################################
-# Custom settings and features
-###############################################################################
+extract_sources()
+{
+    echo Extracting Firefox tarball
+    tar -xf ${SOURCEBALL}
 
-# Disable EME
-echo "ac_add_options --disable-eme" >> build/mozconfig.common.override
-echo "ac_add_options --disable-eme" >> build/mozconfig.common
+    mv firefox-${FFVERSION} ${SOURCEDIR}
+}
 
-# Correct build error
-echo "ac_add_options --enable-stdcxx-compat" >> build/mozconfig.common.override
+fetch_l10n()
+{
+    cd l10n
 
-# Disable healthreport
-sed "/\"datareporting\\.healthreport\\.infoURL\"/s|http.*|https://${LEGALINFO_URL}\");|" -i modules/libpref/init/all.js
-sed '/"datareporting\.healthreport\.uploadEnabled"/s/true/false/' -i modules/libpref/init/all.js
+    while read lang; do
+        # download only one language-pack in devel mode
+        ! (( DEVEL )) || [[ "$(echo ${lang} | cut -d' ' -f1)" == "es-ES" ]] || continue
 
-# Custom privacy statement link
-sed "s|https://www\\.mozilla\\.org/legal/privacy/|https://${LEGALINFO_URL}|" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
+        lang=$(echo ${lang} | cut -d' ' -f1)
 
-# Sanitize lists
-for file in $(find |grep searchplugins/list.txt)
-do
-  /bin/sed /^$/d -i $file
-  sort -u $file > /tmp/sorttmp
-  cp /tmp/sorttmp $file
-  echo >> $file
-done
+        # download only language-packs which are not already in the working directory
+        if [[ -n "${lang}" && "${lang}" != 'en-US' && ! -f ${lang}/${L10N_DTD_FILE} ]]
+        then
+            echo "Cloning '${lang}' language repository"
+            hg clone ${L10N_URL}/${lang}
+            mkdir -p ${lang}/${L10N_PREFS_DIR}
+            touch ${lang}/${L10N_DTD_FILE}
+            rm -rf ${lang}/.hg*
+        fi
+    done < ../${SOURCEDIR}/browser/locales/shipped-locales
+    cd ..
+    cp -a l10n ${SOURCEDIR}/
 
-# Disable activity-stream antifeatures.
-# These are not condensed into a single sed script to make it fail on individual commands that didn't change the source
-ActivityStream=browser/components/newtab/lib/ActivityStream.jsm
-sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i $ActivityStream
-sed '/"showSponsored"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/  "telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/"section\.highlights\.includePocket"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/read_more_endpoint:/,/http/s/"http.*/"",/' -i $ActivityStream
-sed '/stories_endpoint: `/,/}`,/c stories_endpoint: "",' -i $ActivityStream
-sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i $ActivityStream
-sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i $ActivityStream
-sed '/"telemetry\.structuredIngestion"/,/value/s/value: .*/value: false,/' -i $ActivityStream
-sed '/"telemetry\.structuredIngestion\.endpoint"/,/value/s/value: .*/value: "",/' -i $ActivityStream
-sed '/layout_endpoint:/,/http/s/"http.*/"",/' -i $ActivityStream
-sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i $ActivityStream
-sed '/name: "system\.topstories"/,/},/s/.*!!locales.*/false/' -i $ActivityStream
-sed 's/.Ubuntu., //' -i browser/components/newtab/css/activity-stream*.css
+    if ! [[ -d compare-locales ]]
+    then
+        hg clone ${L10N_CMP_URL}/
+    fi
+    cd compare-locales/
+    hg checkout ${L10N_CMP_REV}
+    cd ..
+    cp -a compare-locales ${SOURCEDIR}/l10n/
+    rm -rf ${SOURCEDIR}/l10n/compare-locales/{.git,.hg}*
+}
 
-###############################################################################
-# Branding
-###############################################################################
+apply_patches()
+{
+    cd ${SOURCEDIR}
 
-# Branding files
-rm browser/branding/{official,unofficial,aurora,nightly} mobile/android/branding/* -rf
-cp -a "${DATADIR}"/branding/icecat/ browser/branding/official
-cp -a "${DATADIR}"/branding/icecat/ browser/branding/unofficial
-cp -a "${DATADIR}"/branding/icecat/ browser/branding/nightly
-cp -a "${DATADIR}"/branding/icecatmobile/ mobile/android/branding/official
-cp -a "${DATADIR}"/branding/icecatmobile/ mobile/android/branding/unofficial
-cp -a "${DATADIR}"/branding/icecatmobile/ mobile/android/branding/nightly
+    local patch
+    local file_to_append
+    local dir
 
-# Disable preprocessor
-sed 's/_PP//' -i browser/branding/branding-common.mozbuild
+    shopt -s nullglob
+    for patch in "${DATADIR}"/patches/*.patch; do
+        echo Patching with file: $patch
+        patch -p1 --force --no-backup-if-mismatch --input $patch
+    done
+    shopt -u nullglob
 
-# Delete stuff we don't use and that may contain trademaked logos
-rm -rf ./browser/metro ./addon-sdk/source/doc/static-files/media ./b2g
+    for file_to_append in $(cd "${DATADIR}"/files-to-append; find . -type f -print); do
+        echo Appending new data to the end of file: $file_to_append
+        cat "${DATADIR}"/files-to-append/$file_to_append >> $file_to_append
+    done
 
-# Custom bookmarks
-cp "${DATADIR}"/bookmarks.html.in browser/locales/generic/profile/bookmarks.html.in
+    for dir in l10n/*; do
+        if [[ $dir != l10n/compare-locales ]]; then
+            if [[ ! -e ${DATADIR}/files-to-append/${dir}/${PREFS_OUT_FILE} ]]; then
+                cat ${DATADIR}/files-to-append/${PREFS_IN_FILE} >> ${dir}/${PREFS_OUT_FILE}
+            fi
+        fi
+    done
 
-# Custom legal about pages
+    cp "${DATADIR}"/Changelog.IceCat "${DATADIR}"/README.IceCat .
+}
 
-find l10n -wholename '*/brand.dtd' |xargs /bin/sed 's/trademarkInfo.part1.*/trademarkInfo.part1 "The IceCat logo is Copyright 2008-2015 Free Software Foundation, released under the terms of the GNU Lesser General Public License, version 3 or any later version.">/' -i
-find l10n -wholename '*/brand.ftl' |xargs /bin/sed 's/^trademarkInfo = .*/trademarkInfo = The IceCat logo is Copyright 2008-2015 Free Software Foundation, released under the terms of the GNU Lesser General Public License, version 3 or any later version./' -i
+configure()
+{
+    # Disable EME
+    echo "ac_add_options --disable-eme" >> build/mozconfig.common.override
+    echo "ac_add_options --disable-eme" >> build/mozconfig.common
 
-for STRING in rights-intro-point-2 rights-intro-point-3 rights-intro-point-4 rights-intro-point-5 rights-intro-point-6 rights-webservices rights-safebrowsing
-do
- find -name aboutRights.ftl | xargs sed -i "s/^$STRING.*/$STRING = /"
-done
+    # Correct build error
+    echo "ac_add_options --enable-stdcxx-compat" >> build/mozconfig.common.override
 
-for STRING in helpus community-2 community-exp
-do
- find -wholename '*/browser/aboutDialog.ftl' | xargs sed -i "s/^$STRING.*/$STRING = /"
-done
+    # Disable healthreport
+    sed "/\"datareporting\\.healthreport\\.infoURL\"/s|http.*|https://${LEGALINFO_URL}\");|" -i modules/libpref/init/all.js
+    sed '/"datareporting\.healthreport\.uploadEnabled"/s/true/false/' -i modules/libpref/init/all.js
 
-cp "${DATADIR}"/aboutRights.xhtml toolkit/content/aboutRights.xhtml
-cp "${DATADIR}"/aboutRights.xhtml toolkit/content/aboutRights-unbranded.xhtml
+    # Custom privacy statement link
+    sed "s|https://www\\.mozilla\\.org/legal/privacy/|https://${LEGALINFO_URL}|" -i ./browser/app/profile/firefox.js ./toolkit/content/aboutRights.xhtml
 
-sed -i 's|<a href="http://www\.mozilla\.org/">Mozilla Project</a>|<a href="http://www.gnu.org/">GNU Project</a>|g' browser/base/content/overrides/app-license.html
+    # Sanitize lists
+    local plugin_file
+    local sort_tmpfile="$(mktemp -t makeicecat-XXXXXXXXXX)"
+    for plugin_file in $(find | grep searchplugins/list.txt)
+    do
+        /bin/sed /^$/d -i $plugin_file
+        sort -u $plugin_file > ${sort_tmpfile}
+        mv ${sort_tmpfile} $plugin_file
+        echo >> $plugin_file
+    done
 
-# Custom logo for about:preferences?entrypoint=menupanel#sync
-cp "${DATADIR}"/branding/sync.png browser/themes/shared/fxa/logo.png
+    # Disable activity-stream anti-features.
+    # These are not condensed into a single sed script so that it
+    # fails on individual commands that didn't change the source
+    local activity_stream=browser/components/newtab/lib/ActivityStream.jsm
+    sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i $activity_stream
+    sed '/"showSponsored"/,/value/s/value: true/value: false/' -i $activity_stream
+    sed '/  "telemetry"/,/value/s/value: true/value: false/' -i $activity_stream
+    sed '/"section\.highlights\.includePocket"/,/value/s/value: true/value: false/' -i $activity_stream
+    sed '/read_more_endpoint:/,/http/s/"http.*/"",/' -i $activity_stream
+    sed '/stories_endpoint: `/,/}`,/c stories_endpoint: "",' -i $activity_stream
+    sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i $activity_stream
+    sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i $activity_stream
+    sed '/"telemetry\.structuredIngestion"/,/value/s/value: .*/value: false,/' -i $activity_stream
+    sed '/"telemetry\.structuredIngestion\.endpoint"/,/value/s/value: .*/value: "",/' -i $activity_stream
+    sed '/layout_endpoint:/,/http/s/"http.*/"",/' -i $activity_stream
+    sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i $activity_stream
+    sed '/name: "system\.topstories"/,/},/s/.*!!locales.*/false/' -i $activity_stream
+    sed 's/.Ubuntu., //' -i browser/components/newtab/css/activity-stream*.css
+}
 
-# Hide mobile promo
-echo ".fxaMobilePromo {  display: none !important; }" >> browser/themes/shared/preferences/preferences.inc.css
+configure_mobile()
+{
+    echo "-dontwarn android.support.**" >> mobile/android/config/proguard/proguard.cfg
+    echo "-dontwarn android.support.**" >> mobile/android/config/proguard/strip-libs.cfg
 
-# Hide extra links in about box
-sed '/releaseNotes.link/d' -i ./browser/base/content/aboutDialog.xhtml
-sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog.xhtml
+    cat << EOF >> mobile/android/confvars.sh
+# IceCat settings
+MOZ_APP_VENDOR=GNU
+MOZ_APP_VERSION=${FFVERSION}
+MOZ_PAY=0
+MOZ_SERVICES_HEALTHREPORT=0
+MOZ_SERVICES_HEALTHREPORTER=0
+MOZ_SERVICES_FXACCOUNTS=0
+MOZ_SERVICES_METRICS=0
+MOZ_DATA_REPORTING=0
+MOZ_NORMANDY=0
+MOZ_SERVICES_SYNC=0
+MOZ_DEVICES=0
+MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
+MOZ_ADDON_SIGNING=0
+EOF
 
-###############################################################################
-# Batch rebranding
-###############################################################################
+    rm -R mobile/android/gradle/
+    sed -i '/gradle/d' mobile/android/base/Makefile.in
 
-# Replace Firefox branding
-find . | tac | grep -i fennec  | ${RENAME_CMD} --nofullpath -E 's/fennec/icecatmobile/;' -E 's/Fennec/IceCatMobile/;'
-find . | tac | grep -i firefox | ${RENAME_CMD} --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
-find services/fxaccounts/rust-bridge | tac | ${RENAME_CMD} --nofullpath -E 's/icecat-accounts/firefox-accounts/;' -E 's/IceCatAccounts/FirefoxAccounts/;'
+    cat "${DATADIR}"/settings.js >> mobile/android/app/mobile.js
+    cat "${DATADIR}"/settings-android.js >> mobile/android/app/mobile.js
 
-echo "Running batch rebranding"
-SEDSCRIPT="
+    cat << EOF > mobile/locales/en-US/chrome/region.properties
+browser.search.defaultenginename=DuckDuckGo
+browser.search.order.1=DuckDuckGo
+browser.search.order.2=Google
+browser.search.order.3=Yahoo
+EOF
+
+    return # FIXME: TODO: adapt the following to ESR 78.x
+
+    cp "${DATADIR}"/preferences_vendor.xml ./mobile/android/app/src/main/res/xml/preferences_vendor.xml
+
+    sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' -i mobile/android/base/java/org/mozilla/gecko/DataReportingNotification.java
+
+    cp -a "${DATADIR}"/android-images/core/* mobile/android/themes/core/images/
+    cp -a "${DATADIR}"/android-images/resources mobile/android/base
+
+    sed '/aboutDetails/,/div/d; /privacyURL/d' mobile/android/chrome/content/about.xhtml -i
+
+    sed '/SENDERID/d' -i mobile/android/app/mobile.js
+
+    cat "${DATADIR}"/mobile.dupes  >> mobile/android/installer/allowed-dupes.mn
+}
+
+apply_branding()
+{
+    # Branding files
+    rm browser/branding/{official,unofficial,aurora,nightly} mobile/android/branding/* -rf
+    cp -a "${DATADIR}"/branding/icecat/ browser/branding/official
+    cp -a "${DATADIR}"/branding/icecat/ browser/branding/unofficial
+    cp -a "${DATADIR}"/branding/icecat/ browser/branding/nightly
+    cp -a "${DATADIR}"/branding/icecatmobile/ mobile/android/branding/official
+    cp -a "${DATADIR}"/branding/icecatmobile/ mobile/android/branding/unofficial
+    cp -a "${DATADIR}"/branding/icecatmobile/ mobile/android/branding/nightly
+
+    # Disable preprocessor
+    sed 's/_PP//' -i browser/branding/branding-common.mozbuild
+
+    # Delete stuff we don't use and that may contain trademarked logos
+    rm -rf ./browser/metro ./addon-sdk/source/doc/static-files/media ./b2g
+
+    # Custom bookmarks
+    cp "${DATADIR}"/bookmarks.html.in browser/locales/generic/profile/bookmarks.html.in
+
+    # Custom legal about pages
+    find l10n -wholename '*/brand.dtd' | xargs /bin/sed 's/trademarkInfo.part1.*/trademarkInfo.part1 "The IceCat logo is Copyright 2008-2015 Free Software Foundation, released under the terms of the GNU Lesser General Public License, version 3 or any later version.">/' -i
+    find l10n -wholename '*/brand.ftl' | xargs /bin/sed 's/^trademarkInfo = .*/trademarkInfo = The IceCat logo is Copyright 2008-2015 Free Software Foundation, released under the terms of the GNU Lesser General Public License, version 3 or any later version./' -i
+    local string
+    for string in rights-intro-point-2 rights-intro-point-3 rights-intro-point-4 rights-intro-point-5 rights-intro-point-6 rights-webservices rights-safebrowsing
+    do
+        find -name aboutRights.ftl | xargs sed -i "s/^${string}.*/${string} = /"
+    done
+    for string in helpus community-2 community-exp
+    do
+        find -wholename '*/browser/aboutDialog.ftl' | xargs sed -i "s/^${string}.*/${string} = /"
+    done
+    cp "${DATADIR}"/aboutRights.xhtml toolkit/content/aboutRights.xhtml
+    cp "${DATADIR}"/aboutRights.xhtml toolkit/content/aboutRights-unbranded.xhtml
+    sed -i 's|<a href="http://www\.mozilla\.org/">Mozilla Project</a>|<a href="http://www.gnu.org/">GNU Project</a>|g' browser/base/content/overrides/app-license.html
+
+    # Custom logo for about:preferences?entrypoint=menupanel#sync
+    cp "${DATADIR}"/branding/sync.png browser/themes/shared/fxa/logo.png
+
+    # Hide mobile promo
+    echo ".fxaMobilePromo {  display: none !important; }" >> browser/themes/shared/preferences/preferences.inc.css
+
+    # Hide extra links in about box
+    sed '/releaseNotes.link/d' -i ./browser/base/content/aboutDialog.xhtml
+    sed '/description.*helpus/,/description/d' -i ./browser/base/content/aboutDialog.xhtml
+}
+
+apply_batch_branding()
+{
+    find . | tac | grep -i fennec  | ${RENAME_CMD} --nofullpath -E 's/fennec/icecatmobile/;' -E 's/Fennec/IceCatMobile/;'
+    find . | tac | grep -i firefox | ${RENAME_CMD} --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
+    find services/fxaccounts/rust-bridge | tac | ${RENAME_CMD} --nofullpath -E 's/icecat-accounts/firefox-accounts/;' -E 's/IceCatAccounts/FirefoxAccounts/;'
+
+    echo "Running batch rebranding"
+    local sed_script="
 s|marketplace\\.firefox\\.com|f-droid.org/repository/browse|g;
 s/org\\.mozilla\\.firefox/org.gnu.icecat/g;
 s/Adobe Flash/Flash/g;
@@ -375,12 +469,11 @@ s|https://www\\.mozilla\\.org/icecat/?utm_source=synceol|https://www.mozilla.org
 
 s|www\\.gnu\\.org/software/gnuzilla/icecat-help|libreplanet.org/wiki/Group:IceCat/Help|g;
 "
-find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -not -iregex '.*third_party/rust.*' -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
+    find . -type f -not -iregex '.*changelog.*' -not -iregex '.*copyright.*' -not -iregex '.*third_party/rust.*' -execdir /bin/sed --follow-symlinks -i "${sed_script}" '{}' ';'
 
+    find l10n -type f -execdir /bin/sed --follow-symlinks -i "s/from GNU/from Mozilla/g" '{}' ';'
 
-find l10n -type f -execdir /bin/sed --follow-symlinks -i "s/from GNU/from Mozilla/g" '{}' ';'
-
-SEDSCRIPT="
+    sed_script="
 s/free and open source software/Free Software/g;
 s/free and open source/Free Software/g;
 s/Open Source/Free Software/g;
@@ -390,40 +483,41 @@ s/opensource/Free Software/g;
 s/OpenSource/Free Software/g;
 "
 
-for extension in dtd ftl inc properties; do
-    find . -type f -name "*$extension" -execdir /bin/sed --follow-symlinks -i "$SEDSCRIPT" '{}' ';'
-done
+    local extension
+    for extension in dtd ftl inc properties; do
+        find . -type f -name "*$extension" -execdir /bin/sed --follow-symlinks -i "${sed_script}" '{}' ';'
+    done
 
-sed 's/which are both/which are/; s/free<\/a> and/Free Software<\/a>./; />open source</d; s/free and open source licenses/Free Software licenses/ ' -i toolkit/content/license.html
+    sed 's/which are both/which are/; s/free<\/a> and/Free Software<\/a>./; />open source</d; s/free and open source licenses/Free Software licenses/ ' -i toolkit/content/license.html
 
-sed 's/mozilla-bin/icecat-bin/' -i build/unix/run-mozilla.sh
+    sed 's/mozilla-bin/icecat-bin/' -i build/unix/run-mozilla.sh
 
-find . | tac | grep run-mozilla | $RENAME_CMD --nofullpath -E 's/mozilla/icecat/;'
+    find . | tac | grep run-mozilla | ${RENAME_CMD} --nofullpath -E 's/mozilla/icecat/;'
 
-# do not alter useragent/platform/oscpu/etc with fingerprinting countermeasure, it makes things worse
-sed '/ShouldResistFingerprinting/,/}/s/^/\/\//' -i ./netwerk/protocol/http/nsHttpHandler.cpp
-sed '/If fingerprinting resistance is on/,/}/s/^/\/\//' -i ./dom/base/Navigator.cpp
+    # do not alter useragent/platform/oscpu/etc with fingerprinting countermeasure, it makes things worse
+    sed '/ShouldResistFingerprinting/,/}/s/^/\/\//' -i ./netwerk/protocol/http/nsHttpHandler.cpp
+    sed '/If fingerprinting resistance is on/,/}/s/^/\/\//' -i ./dom/base/Navigator.cpp
 
-# Leave user agent as Firefox
-sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
+    # Leave user agent as Firefox
+    sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
 
-find . -name region.properties |xargs -i /bin/sed 's_https://www\.mibbit.*__' -i {}
+    find . -name region.properties | xargs -i /bin/sed 's_https://www\.mibbit.*__' -i {}
 
-# Set migrator scripts
-cp browser/components/migration/IceCatProfileMigrator.jsm browser/components/migration/FirefoxProfileMigrator.jsm
-sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/FirefoxProfileMigrator.jsm
+    # Set migrator scripts
+    cp browser/components/migration/IceCatProfileMigrator.jsm browser/components/migration/FirefoxProfileMigrator.jsm
+    sed 's/IceCat/Firefox/g; s/icecat/firefox/g' -i browser/components/migration/FirefoxProfileMigrator.jsm
 
-# Copy js settings
-cat "${DATADIR}"/settings.js >> browser/app/profile/icecat.js
+    # Copy js settings
+    cat "${DATADIR}"/settings.js >> browser/app/profile/icecat.js
 
-# Set spoofed useragent on the desktop version
-cat << EOF >> browser/app/profile/icecat.js
+    # Set spoofed useragent on the desktop version
+    cat << EOF >> browser/app/profile/icecat.js
 // Set useragent to Firefox compatible
-//pref("general.useragent.compatMode.firefox",true);
+// pref("general.useragent.compatMode.firefox",true);
 // Spoof the useragent to a generic one
-//pref("general.useragent.compatMode.icecat",true);
+// pref("general.useragent.compatMode.icecat",true);
 // Spoof the useragent to a generic one
-//pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:${FFMAJOR}.0) Gecko/20100101 Firefox/${FFMAJOR}.0");
+// pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:${FFMAJOR}.0) Gecko/20100101 Firefox/${FFMAJOR}.0");
 pref("general.appname.override", "Netscape");
 pref("general.appversion.override", "${FFMAJOR}.0");
 pref("general.buildID.override", "Gecko/20100101");
@@ -431,7 +525,7 @@ pref("general.oscpu.override", "Windows NT 6.1");
 pref("general.platform.override", "Win32");
 EOF
 
-cat << EOF >> browser/confvars.sh
+    cat << EOF >> browser/confvars.sh
 # IceCat settings
 MOZ_APP_UA_NAME=IceCat
 MOZ_APP_VENDOR=GNU
@@ -449,128 +543,75 @@ MOZ_DEVICES=0
 MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
 MOZ_ADDON_SIGNING=0
 EOF
+}
 
-###############################################################################
-# Icons
-###############################################################################
+apply_icons_branding()
+{
+    local favicon="${DATADIR}"/branding/icecat/icecat.ico
+    local jpglogo="${DATADIR}"/../artwork/icecat.jpg
 
-favicon="${DATADIR}"/branding/icecat/icecat.ico
-jpglogo="${DATADIR}"/../artwork/icecat.jpg
+    # Firefox logo
+    local ff256="${DATADIR}"/branding/icecat/default256.png
+    local ff128="${DATADIR}"/branding/icecat/mozicon128.png
+    local ff64="${DATADIR}"/branding/icecat/content/icon64.png
+    local ff48="${DATADIR}"/branding/icecat/default48.png
+    local ff32="${DATADIR}"/branding/icecat/default32.png
+    local ff24="${DATADIR}"/branding/icecat/default24.png
+    local ff22="${DATADIR}"/branding/icecat/default22.png
+    local ff16="${DATADIR}"/branding/icecat/default16.png
 
-#Firefox logo
-ff256="${DATADIR}"/branding/icecat/default256.png
-ff128="${DATADIR}"/branding/icecat/mozicon128.png
-ff64="${DATADIR}"/branding/icecat/content/icon64.png
-ff48="${DATADIR}"/branding/icecat/default48.png
-ff32="${DATADIR}"/branding/icecat/default32.png
-ff24="${DATADIR}"/branding/icecat/default24.png
-ff22="${DATADIR}"/branding/icecat/default22.png
-ff16="${DATADIR}"/branding/icecat/default16.png
+    # Grey flat logo
+    local gf300="${DATADIR}"/android-images/resources/drawable-xhdpi/icon_home_empty_icecat.png
+    local gf225="${DATADIR}"/android-images/resources/drawable-hdpi/icon_home_empty_icecat.png
+    local gf150="${DATADIR}"/android-images/resources/drawable-mdpi/icon_home_empty_icecat.png
+    local gf32="${DATADIR}"/android-images/resources/drawable-xhdpi/ic_status_logo.png
+    local gf24="${DATADIR}"/android-images/resources/drawable-hdpi/ic_status_logo.png
+    local gf16="${DATADIR}"/android-images/resources/drawable-mdpi/ic_status_logo.png
 
-#Grey flat logo
-gf300="${DATADIR}"/android-images/resources/drawable-xhdpi/icon_home_empty_icecat.png
-gf225="${DATADIR}"/android-images/resources/drawable-hdpi/icon_home_empty_icecat.png
-gf150="${DATADIR}"/android-images/resources/drawable-mdpi/icon_home_empty_icecat.png
-gf32="${DATADIR}"/android-images/resources/drawable-xhdpi/ic_status_logo.png
-gf24="${DATADIR}"/android-images/resources/drawable-hdpi/ic_status_logo.png
-gf16="${DATADIR}"/android-images/resources/drawable-mdpi/ic_status_logo.png
+    # White flat
+    local wf24="${DATADIR}"/android-images/resources/drawable-mdpi-v11/ic_status_logo.png
+    local wf48="${DATADIR}"/android-images/resources/drawable-xhdpi-v11/ic_status_logo.png
+    local wf36="${DATADIR}"/android-images/resources/drawable-hdpi-v11/ic_status_logo.png
 
-# White flat
-wf24="${DATADIR}"/android-images/resources/drawable-mdpi-v11/ic_status_logo.png
-wf48="${DATADIR}"/android-images/resources/drawable-xhdpi-v11/ic_status_logo.png
-wf36="${DATADIR}"/android-images/resources/drawable-hdpi-v11/ic_status_logo.png
+    # Market logo
+    local ma50="${DATADIR}"/android-images/core/marketplace-logo.png
+    local ma128="${DATADIR}"/android-images/resources/drawable-mdpi/marketplace.png
 
-#Market logo
-ma50="${DATADIR}"/android-images/core/marketplace-logo.png
-ma128="${DATADIR}"/android-images/resources/drawable-mdpi/marketplace.png
+    cp $ff16 dom/canvas/test/crossorigin/image.png
+    cp $ff16 image/test/unit/image1.png
+    cp $jpglogo image/test/unit/image1png16x16.jpg
+    cp $jpglogo image/test/unit/image1png64x64.jpg
+    cp $ff16 image/test/unit/image2jpg16x16.png
+    cp $ff16 image/test/unit/image2jpg16x16-win.png
+    cp $ff32 image/test/unit/image2jpg32x32.png
+    cp $ff32 image/test/unit/image2jpg32x32-win.png
+    cp $ff16 dom/canvas/test/crossorigin/image-allow-credentials.png
+    cp $ff16 dom/html/test/image-allow-credentials.png
+    cp $ff16 dom/canvas/test/crossorigin/image-allow-star.png
+    cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big32.jpg.png
+    cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big64.png.png
+    cp $jpglogo toolkit/components/places/tests/favicons/favicon-big32.jpg
+    cp $ff64 toolkit/components/places/tests/favicons/favicon-big64.png
+    cp $favicon image/test/unit/image4gif16x16bmp24bpp.ico
+    cp $favicon image/test/unit/image4gif16x16bmp32bpp.ico
+    cp $favicon image/test/unit/image4gif32x32bmp24bpp.ico
+    cp $favicon image/test/unit/image4gif32x32bmp32bpp.ico
+    cp $jpglogo image/test/unit/image1png16x16.jpg
+    cp $jpglogo image/test/unit/image2.jpg
+    cp $jpglogo image/test/unit/image2jpg16x16cropped.jpg
+    cp $jpglogo image/test/unit/image2jpg16x16cropped2.jpg
+    cp $jpglogo image/test/unit/image2jpg16x32cropped3.jpg
+    cp $jpglogo image/test/unit/image2jpg16x32scaled.jpg
+    cp $jpglogo image/test/unit/image2jpg32x16cropped4.jpg
+    cp $jpglogo image/test/unit/image2jpg32x16scaled.jpg
+    cp $jpglogo image/test/unit/image2jpg32x32.jpg
+    cp $ff32 image/test/unit/image2jpg32x32.png
+    cp $ff32 image/test/unit/image2jpg32x32-win.png
+}
 
-cp $ff16 dom/canvas/test/crossorigin/image.png
-cp $ff16 image/test/unit/image1.png
-cp $jpglogo  image/test/unit/image1png16x16.jpg
-cp $jpglogo  image/test/unit/image1png64x64.jpg
-cp $ff16 image/test/unit/image2jpg16x16.png
-cp $ff16 image/test/unit/image2jpg16x16-win.png
-cp $ff32 image/test/unit/image2jpg32x32.png
-cp $ff32 image/test/unit/image2jpg32x32-win.png
-cp $ff16 dom/canvas/test/crossorigin/image-allow-credentials.png
-cp $ff16 dom/html/test/image-allow-credentials.png
-cp $ff16 dom/canvas/test/crossorigin/image-allow-star.png
-cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big32.jpg.png
-cp $ff16 toolkit/components/places/tests/favicons/expected-favicon-big64.png.png
-cp $jpglogo  toolkit/components/places/tests/favicons/favicon-big32.jpg
-cp $ff64 toolkit/components/places/tests/favicons/favicon-big64.png
-cp $favicon image/test/unit/image4gif16x16bmp24bpp.ico
-cp $favicon image/test/unit/image4gif16x16bmp32bpp.ico
-cp $favicon image/test/unit/image4gif32x32bmp24bpp.ico
-cp $favicon image/test/unit/image4gif32x32bmp32bpp.ico
-cp $jpglogo image/test/unit/image1png16x16.jpg
-cp $jpglogo image/test/unit/image2.jpg
-cp $jpglogo image/test/unit/image2jpg16x16cropped.jpg
-cp $jpglogo image/test/unit/image2jpg16x16cropped2.jpg
-cp $jpglogo image/test/unit/image2jpg16x32cropped3.jpg
-cp $jpglogo image/test/unit/image2jpg16x32scaled.jpg
-cp $jpglogo image/test/unit/image2jpg32x16cropped4.jpg
-cp $jpglogo image/test/unit/image2jpg32x16scaled.jpg
-cp $jpglogo image/test/unit/image2jpg32x32.jpg
-cp $ff32 image/test/unit/image2jpg32x32.png
-cp $ff32 image/test/unit/image2jpg32x32-win.png
-
-###############################################################################
-# Mobile
-###############################################################################
-
-echo "-dontwarn android.support.**" >> mobile/android/config/proguard/proguard.cfg
-echo "-dontwarn android.support.**" >> mobile/android/config/proguard/strip-libs.cfg
-
-cat << EOF >> mobile/android/confvars.sh
-# IceCat settings
-MOZ_APP_VENDOR=GNU
-MOZ_APP_VERSION=${FFVERSION}
-MOZ_PAY=0
-MOZ_SERVICES_HEALTHREPORT=0
-MOZ_SERVICES_HEALTHREPORTER=0
-MOZ_SERVICES_FXACCOUNTS=0
-MOZ_SERVICES_METRICS=0
-MOZ_DATA_REPORTING=0
-MOZ_NORMANDY=0
-MOZ_SERVICES_SYNC=0
-MOZ_DEVICES=0
-MOZ_ANDROID_GOOGLE_PLAY_SERVICES=0
-MOZ_ADDON_SIGNING=0
-EOF
-
-rm -R mobile/android/gradle/
-sed -i '/gradle/d' mobile/android/base/Makefile.in
-
-cat "${DATADIR}"/settings.js >> mobile/android/app/mobile.js
-cat "${DATADIR}"/settings-android.js >> mobile/android/app/mobile.js
-
-cat << EOF > mobile/locales/en-US/chrome/region.properties
-browser.search.defaultenginename=DuckDuckGo
-browser.search.order.1=DuckDuckGo
-browser.search.order.2=Google
-browser.search.order.3=Yahoo
-EOF
-
-## FIXME: TODO: adapt the following to ESR 78.x
-# cp "${DATADIR}"/preferences_vendor.xml ./mobile/android/app/src/main/res/xml/preferences_vendor.xml
-# 
-# sed '/public static void checkAndNotifyPolicy/ s/{/{ if(true) return;/; /private static void notifyDataPolicy/ s/{/{ if(true) return;/ ' -i mobile/android/base/java/org/mozilla/gecko/DataReportingNotification.java
-# 
-# cp -a "${DATADIR}"/android-images/core/* mobile/android/themes/core/images/
-# cp -a "${DATADIR}"/android-images/resources mobile/android/base
-# 
-# sed '/aboutDetails/,/div/d; /privacyURL/d' mobile/android/chrome/content/about.xhtml -i
-# 
-# sed '/SENDERID/d' -i mobile/android/app/mobile.js
-# 
-# cat "${DATADIR}"/mobile.dupes  >> mobile/android/installer/allowed-dupes.mn
-
-###############################################################################
-# Macos packaging
-###############################################################################
-
-cat << EOF > ./build/package/mac_osx/pkg-dmg
+prepare_macos_packaging()
+{
+    cat << EOF > ./build/package/mac_osx/pkg-dmg
 #!/bin/sh
 set -e
 export LC_ALL=C
@@ -589,7 +630,6 @@ find . -type l | sed -e 's/^\.\///' | sort | xargs -i echo "{}={}" >> /tmp/filel
 
 mkisofs -D -V "\$6" -no-pad -R -apple -o /tmp/icecat-uncompressed.dmg -path-list /tmp/filelist.txt -graft-points -gid 20 -dir-mode 0750 -new-dir-mode 0750
 
-
 dmg dmg /tmp/icecat-uncompressed.dmg \$4
 rm /tmp/icecat-uncompressed.dmg
 
@@ -597,30 +637,30 @@ find . -executable -exec chmod 755 {} \;
 find . ! -executable -exec chmod 644 {} \;
 find . -type d -exec chmod 755 {} \;
 EOF
+}
 
-###############################################################################
-# Extensions
-###############################################################################
-
-# Disable search field at extensions panel
-#sed  '/header-search/d; /search.placeholder/d' -i toolkit/mozapps/extensions/content/extensions.xul
-cat << EOF >> toolkit/mozapps/extensions/content/extensions.css
+configure_extensions()
+{
+    # Disable search field at extensions panel
+    #sed  '/header-search/d; /search.placeholder/d' -i toolkit/mozapps/extensions/content/extensions.xul
+    cat << EOF >> toolkit/mozapps/extensions/content/extensions.css
 #header-search {
   display:none;
 }
 EOF
 
-# Add extensions to manifest
-for EXTENSION in $(ls "${DATADIR}"/extensions/); do
-sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/$EXTENSION/*%" -i browser/installer/package-manifest.in
-sed "/Browser Chrome Files/s%$%\n@BINPATH@/extensions/$EXTENSION/*%" -i mobile/android/installer/package-manifest.in
-#echo "DIRS += ['$EXTENSION']" >> browser/app/profile/extensions/moz.build
-#touch browser/app/profile/extensions/$EXTENSION/moz.build
-done
+    # Add extensions to manifest
+    local extension
+    for extension in $(ls "${DATADIR}"/extensions/); do
+        sed "/Browser Chrome Files/s%$%\n@BINPATH@/browser/extensions/${extension}/*%" -i browser/installer/package-manifest.in
+        sed "/Browser Chrome Files/s%$%\n@BINPATH@/extensions/${extension}/*%" -i mobile/android/installer/package-manifest.in
+        #echo "DIRS += ['${extension}']" >> browser/app/profile/extensions/moz.build
+        #touch browser/app/profile/extensions/${extension}/moz.build
+    done
 
-cp "${DATADIR}"/extensions/ extensions/gnu -a
+    cp "${DATADIR}"/extensions/ extensions/gnu -a
 
-cat << EOF >> browser/app/Makefile.in
+    cat << EOF >> browser/app/Makefile.in
 libs::
 	mkdir -p \$(DIST)/bin/browser/extensions
 	cp -af \$(topsrcdir)/extensions/gnu/* \$(DIST)/bin/browser/extensions/
@@ -628,41 +668,74 @@ libs::
 	cp -af \$(topsrcdir)/extensions/gnu/* \$(DIST)/icecat/browser/extensions/
 EOF
 
-
-cat << EOF >> mobile/android/app/Makefile.in
+    cat << EOF >> mobile/android/app/Makefile.in
 libs::
 	mkdir -p \$(DIST)/bin/distribution
 	cp -af \$(topsrcdir)/extensions/gnu/ \$(DIST)/bin/distribution/extensions/
 EOF
 
-#sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk
+    #sed '/^make-package-internal:/ s%$%\n\tcp $(topsrcdir)/extensions.gnu/* $(DIST)/icecat/browser/extensions -a%' -i toolkit/mozapps/installer/packager.mk
 
-# Add extensions to allowed-dupes.mn
-cat << EOF >> ./browser/installer/allowed-dupes.mn
+    # Add extensions to allowed-dupes.mn
+    cat << EOF >> ./browser/installer/allowed-dupes.mn
 # IceCat extras
 browser/chrome/browser/content/browser/aboutaccounts/images/fox.png
 EOF
-find extensions/gnu/ | sort | sed s=extensions/gnu=browser/extensions= >> ./browser/installer/allowed-dupes.mn
-find extensions/gnu/ | sort | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
+    find extensions/gnu/ | sort | sed s=extensions/gnu=browser/extensions= >> ./browser/installer/allowed-dupes.mn
+    find extensions/gnu/ | sort | sed s=extensions/gnu=distribution/extensions= >> mobile/android/installer/allowed-dupes.mn
+}
 
-# Onboarding
-#mkdir -p browser/extensions/onboarding browser/extensions/onboarding/content browser/extensions/onboarding/locales/en-US
-#cp "${DATADIR}"/onboarding/bootstrap.js browser/extensions/onboarding
-#cp "${DATADIR}"/onboarding/onboarding.js browser/extensions/onboarding/content
-#cp "${DATADIR}"/onboarding/onboarding.properties browser/extensions/onboarding/locales/en-US
-#for locale in $(ls -1 "${DATADIR}"/onboarding/locales/); do
-#    mkdir -p l10n/$locale/browser/extensions/onboarding || true
-#    cp "${DATADIR}"/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
-#done
+configure_onboarding()
+{
+    return # FIXME: TODO: adapt the following to ESR 78.x
 
-# Fix CVE-2009-4029
-sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
-#(cd toolkit/crashreporter/google-breakpad; aclocal)
-#(cd toolkit/crashreporter/google-breakpad; automake)
+    mkdir -p browser/extensions/onboarding browser/extensions/onboarding/content browser/extensions/onboarding/locales/en-US
+    cp "${DATADIR}"/onboarding/bootstrap.js browser/extensions/onboarding
+    cp "${DATADIR}"/onboarding/onboarding.js browser/extensions/onboarding/content
+    cp "${DATADIR}"/onboarding/onboarding.properties browser/extensions/onboarding/locales/en-US
+    for locale in $(ls -1 "${DATADIR}"/onboarding/locales/); do
+        mkdir -p l10n/$locale/browser/extensions/onboarding || true
+        cp "${DATADIR}"/onboarding/locales/$locale/onboarding.properties l10n/$locale/browser/extensions/onboarding
+    done
+}
 
-# Fix CVE-2012-3386
-/bin/sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/crashreporter/google-breakpad/Makefile.in ./toolkit/crashreporter/google-breakpad/src/third_party/glog/Makefile.in || true
+apply_bugfixes()
+{
+    # Fix CVE-2009-4029
+    sed 's/777/755/;' -i toolkit/crashreporter/google-breakpad/Makefile.in
+    #(cd toolkit/crashreporter/google-breakpad; aclocal)
+    #(cd toolkit/crashreporter/google-breakpad; automake)
 
-cd ..
-echo Packaging tarball
-tar cfj ${OUTPUT_SOURCEBALL} ${SOURCEDIR}
+    # Fix CVE-2012-3386
+    /bin/sed 's/chmod a+w/chmod u+w/' -i ./js/src/ctypes/libffi/Makefile.in ./toolkit/crashreporter/google-breakpad/Makefile.in ./toolkit/crashreporter/google-breakpad/src/third_party/glog/Makefile.in || true
+}
+
+finalize_sourceball()
+{
+    cd ..
+    echo Packaging tarball
+    tar cfj ${OUTPUT_SOURCEBALL} ${SOURCEDIR}
+}
+
+
+###############################################################################
+# entry point
+###############################################################################
+
+validate_env || exit 1
+prepare_env
+fetch_source
+verify_sources
+extract_sources
+fetch_l10n
+apply_patches
+configure
+configure_mobile
+apply_branding
+apply_batch_branding
+apply_icons_branding
+prepare_macos_packaging
+configure_extensions
+configure_onboarding
+apply_bugfixes
+finalize_sourceball
