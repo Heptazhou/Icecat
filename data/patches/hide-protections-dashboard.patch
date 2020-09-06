@@ -1,0 +1,31 @@
+--- a/browser/components/customizableui/content/panelUI.inc.xhtml
++++ b/browser/components/customizableui/content/panelUI.inc.xhtml
+@@ -242,7 +242,7 @@
+                         oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
+         </toolbaritem>
+         <toolbarseparator class="sync-ui-item"/>
+-        <toolbaritem>
++        <toolbaritem hidden="true">
+           <toolbarbutton id="appMenu-protection-report-button"
+                class="subviewbutton subviewbutton-iconic"
+                oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
+@@ -253,7 +253,7 @@
+             </label>
+           </toolbarbutton>
+         </toolbaritem>
+-        <toolbarseparator id="appMenu-tp-separator"/>
++        <toolbarseparator id="appMenu-tp-separator" hidden="true"/>
+         <toolbarbutton id="appMenu-new-window-button"
+                        class="subviewbutton subviewbutton-iconic"
+                        label="&newNavigatorCmd.label;"
+--- a/browser/base/content/browser-siteProtections.js
++++ b/browser/base/content/browser-siteProtections.js
+@@ -1634,7 +1634,7 @@
+       this._trackingProtectionIconContainer.hidden = true;
+       return;
+     }
+-    this._trackingProtectionIconContainer.hidden = false;
++    this._trackingProtectionIconContainer.hidden = true;
+ 
+     // Check whether the user has added an exception for this site.
+     let hasException = ContentBlockingAllowList.includes(
