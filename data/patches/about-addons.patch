@@ -1,0 +1,22 @@
+--- a/toolkit/mozapps/extensions/content/aboutaddons.html
++++ b/toolkit/mozapps/extensions/content/aboutaddons.html
+@@ -65,8 +65,8 @@
+     <template name="addon-page-header">
+       <div class="sticky-container">
+         <div class="main-search">
+-          <label for="search-addons" class="search-label" data-l10n-id="default-heading-search-label"></label>
+-          <search-addons data-l10n-id="search-header-shortcut" data-l10n-attrs="key"></search-addons>
++          <label hidden="true" for="search-addons" class="search-label" data-l10n-id="default-heading-search-label"></label>
++          <search-addons hidden="true" data-l10n-id="search-header-shortcut" data-l10n-attrs="key"></search-addons>
+         </div>
+         <div class="main-heading">
+           <button class="back-button" action="go-back" data-l10n-id="header-back-button" hidden></button>
+@@ -306,7 +306,7 @@
+         <button class="primary" action="open-amo" data-l10n-id="find-more-addons"></button>
+       </div>
+       <div class="view-footer-item">
+-        <a class="privacy-policy-link" data-l10n-id="privacy-policy" target="_blank"></a>
++        <a hidden="true" class="privacy-policy-link" data-l10n-id="privacy-policy" target="_blank"></a>
+       </div>
+     </template>
+ 
