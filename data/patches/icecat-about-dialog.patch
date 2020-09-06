@@ -8,3 +8,17 @@
        </hbox>
        <description id="trademark" data-l10n-id="trademarkInfo"></description>
      </vbox>
+--- a/browser/base/content/aboutDialog.css
++++ b/browser/base/content/aboutDialog.css
+@@ -14,10 +14,9 @@
+ #rightBox {
+   background-image: url("chrome://branding/content/about-wordmark.svg");
+   background-repeat: no-repeat;
+-  background-size: 288px auto;
+   /* padding-top creates room for the wordmark */
+   padding-top: 38px;
+-  margin-top: 20px;
++  margin-top: 60px;
+ }
+ 
+ #rightBox:-moz-locale-dir(rtl) {
