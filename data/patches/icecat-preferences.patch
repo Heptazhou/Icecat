@@ -1,0 +1,167 @@
+--- a/browser/components/preferences/privacy.inc.xhtml.orig	2020-09-06 22:53:37.160379447 -0400
++++ b/browser/components/preferences/privacy.inc.xhtml	2020-09-06 22:45:17.436948014 -0400
+@@ -602,6 +602,70 @@
+          data-l10n-id="addressbar-suggestions-settings"/>
+ </groupbox>
+ 
++<!-- IceCat-specific privacy group -->
++<groupbox id="iceCatPrivacyGroup"
++          data-category="panePrivacy"
++          hidden="true">
++  <label><html:h2 data-l10n-id="icecat-privacy-group-header"/></label>
++  <vbox>
++    <checkbox id="disableJavaScript" data-l10n-id="disable-javascript-option"
++              preference="javascript.enabled"/>
++    <vbox class="indent">
++      <label data-l10n-id="disable-javascript-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
++    <checkbox id="disableCustomFonts" data-l10n-id="disable-custom-fonts-option"
++              preference="browser.display.use_document_fonts"/>
++    <vbox class="indent">
++      <label data-l10n-id="disable-custom-fonts-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
++    <checkbox id="isolateRequestFirstParty" data-l10n-id="isolate-request-first-party-option"
++              preference="privacy.firstparty.isolate"/>
++    <vbox class="indent">
++      <label data-l10n-id="isolate-request-first-party-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
++    <checkbox id="autoUpdateExtensions" data-l10n-id="auto-update-extensions-option"
++              preference="extensions.update.enabled"/>
++    <vbox class="indent">
++      <label data-l10n-id="auto-update-extensions-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
++    <checkbox id="spoofReferrers" data-l10n-id="spoof-referers-option"
++              preference="network.http.referer.spoofSource"/>
++    <vbox class="indent">
++      <label data-l10n-id="spoof-referers-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
++    <checkbox id="detectCaptivePortal" data-l10n-id="detect-captive-portal-option"
++              preference="captivedetect.canonicalURL"/>
++    <vbox class="indent">
++      <label data-l10n-id="detect-captive-portal-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
++    <checkbox id="geolocation" data-l10n-id="geolocation-option"
++              preference="browser.search.geoip.url"/>
++    <vbox class="indent">
++      <label data-l10n-id="geolocation-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
++    <checkbox id="webgl" data-l10n-id="webgl-option"
++              preference="webgl.disabled"/>
++    <vbox class="indent">
++      <label data-l10n-id="webgl-description"/>
++    </vbox>
++  </vbox>
++</groupbox>
++
++
+ <hbox id="permissionsCategory"
+       class="subcategory"
+       hidden="true"
+--- a/browser/components/preferences/privacy.js.orig	2020-09-06 22:53:44.008371642 -0400
++++ b/browser/components/preferences/privacy.js	2020-09-06 23:09:21.419302924 -0400
+@@ -127,6 +127,15 @@
+   { id: "browser.urlbar.suggest.openpage", type: "bool" },
+   { id: "browser.urlbar.suggest.topsites", type: "bool" },
+ 
++  // IceCat-specific
++  { id: "javascript.enabled", type: "bool" },
++  { id: "browser.display.use_document_fonts", type: "int" },
++  { id: "extensions.update.enabled", type: "bool" },
++  { id: "network.http.referer.spoofSource", type: "bool" },
++  { id: "webgl.disabled", type: "bool" },
++  { id: "captivedetect.canonicalURL", type: "string" },
++  { id: "browser.search.geoip.url", type: "string" },
++
+   // History
+   { id: "places.history.enabled", type: "bool" },
+   { id: "browser.formfill.enable", type: "bool" },
+@@ -615,6 +624,21 @@
+     setSyncFromPrefListener("enableOCSP", () => this.readEnableOCSP());
+     setSyncToPrefListener("enableOCSP", () => this.writeEnableOCSP());
+ 
++    setSyncFromPrefListener("disableJavaScript", () => this.readDisableJavaScript());
++    setSyncToPrefListener("disableJavaScript", () => this.writeDisableJavaScript());
++
++    setSyncFromPrefListener("disableCustomFonts", () => this.readDisableCustomFonts());
++    setSyncToPrefListener("disableCustomFonts", () => this.writeDisableCustomFonts());
++
++    setSyncFromPrefListener("detectCaptivePortal", () => this.readDetectCaptive());
++    setSyncToPrefListener("detectCaptivePortal", () => this.writeDetectCaptive());
++
++    setSyncFromPrefListener("geolocation", () => this.readGeolocation());
++    setSyncToPrefListener("geolocation", () => this.writeGeolocation());
++
++    setSyncFromPrefListener("webgl", () => this.readWebGL());
++    setSyncToPrefListener("webgl", () => this.writeWebGL());
++
+     if (AlertsServiceDND) {
+       let notificationsDoNotDisturbBox = document.getElementById(
+         "notificationsDoNotDisturbBox"
+@@ -704,6 +728,53 @@
+     SiteDataManager.updateSites();
+   },
+ 
++  // ICECAT PREFERENCES
++
++  readDisableJavaScript() {
++    let pref = Preferences.get("javascript.enabled");
++    return !pref.value;
++  },
++  writeDisableJavaScript() {
++    let checkbox = document.getElementById("disableJavaScript");
++    return !checkbox.checked;
++  },
++
++  readDisableCustomFonts() {
++    let pref = Preferences.get("browser.display.use_document_fonts");
++    return pref.value == 0;
++  },
++  writeDisableCustomFonts() {
++    let checkbox = document.getElementById("disableCustomFonts");
++    return checkbox.checked ? 0 : 1;
++  },
++
++  readDetectCaptive() {
++    let pref = Preferences.get("captivedetect.canonicalURL");
++    return pref.value !== "";
++  },
++  writeDetectCaptive() {
++    let checkbox = document.getElementById("detectCaptivePortal");
++    return checkbox.checked ? "http://detectportal.firefox.com/success.txt" : "";
++  },
++
++  readGeolocation() {
++    let pref = Preferences.get("browser.search.geoip.url");
++    return pref.value !== "";
++  },
++  writeGeolocation() {
++    let checkbox = document.getElementById("geolocation");
++    return checkbox.checked ? "https://location.services.mozilla.com/v1/country?key=%MOZILLA_API_KEY%" : "";
++  },
++
++  readWebGL() {
++    let pref = Preferences.get("webgl.disabled");
++    return !pref.value;
++  },
++  writeWebGL() {
++    let checkbox = document.getElementById("webgl");
++    return !checkbox.checked;
++  },
++
+   // CONTENT BLOCKING
+ 
+   /**
