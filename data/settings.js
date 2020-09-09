@@ -382,3 +382,6 @@ pref("dom.push.enabled",false);
 pref("browser.newtabpage.activity-stream.asrouter.userprefs.cfr", false);
 pref("extensions.htmlaboutaddons.discover.enabled", false);
 pref("extensions.htmlaboutaddons.recommendations.enabled", false);
+
+// Disable the settings server
+pref("services.settings.server", "");
