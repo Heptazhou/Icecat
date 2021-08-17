@@ -385,3 +385,7 @@ pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 
 // Disable the settings server
 pref("services.settings.server", "");
+
+// Disable use of WiFi region/location information
+pref("browser.region.network.scan", false);
+pref("browser.region.network.url", "");
