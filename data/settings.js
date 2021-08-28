@@ -74,7 +74,7 @@ pref ("browser.customizemode.tip0.learnMoreUrl", "http://libreplanet.org/wiki/Gr
 
 // Dictionary download preference
 pref("browser.dictionaries.download.url", "http://dictionaries.mozdev.org/");
-pref("browser.search.searchEnginesURL", "http://mycroft.mozdev.org/");
+pref("browser.search.searchEnginesURL", "https://mycroftproject.com/");
 // Enable Spell Checking In All Text Fields
 pref("layout.spellcheckDefault", 2);
 
