@@ -432,7 +432,7 @@ apply_batch_branding()
     find . | tac | grep -i firefox | ${RENAME_CMD} --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
     find services/fxaccounts/rust-bridge | tac | ${RENAME_CMD} --nofullpath -E 's/icecat-accounts/firefox-accounts/;' -E 's/IceCatAccounts/FirefoxAccounts/;'
 
-    echo "Running batch rebranding"
+    echo "Running batch rebranding (this will take a while)"
     local sed_script="
 s|marketplace\\.firefox\\.com|f-droid.org/repository/browse|g;
 s/org\\.mozilla\\.firefox/org.gnu.icecat/g;
