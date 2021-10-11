@@ -1,13 +1,16 @@
---- a/services/settings/Utils.jsm
-+++ b/services/settings/Utils.jsm
-@@ -59,9 +59,7 @@
-       Ci.nsIEnvironment
+--- a/services/settings/Utils.jsm.orig	2021-08-17 16:32:27.475448626 -0400
++++ b/services/settings/Utils.jsm	2021-08-17 16:32:40.859457980 -0400
+@@ -60,12 +60,7 @@
      );
      const isXpcshell = env.exists("XPCSHELL_TEST_PROFILE_DIR");
--    return AppConstants.RELEASE_OR_BETA && !Cu.isInAutomation && !isXpcshell
+     const isNotThunderbird = AppConstants.MOZ_APP_NAME != "thunderbird";
+-    return AppConstants.RELEASE_OR_BETA &&
+-      !Cu.isInAutomation &&
+-      !isXpcshell &&
+-      isNotThunderbird
 -      ? "https://firefox.settings.services.mozilla.com/v1"
 -      : gServerURL;
 +    return gServerURL;
    },
  
-   CHANGES_PATH: "/buckets/monitor/collections/changes/records",
+   CHANGES_PATH: "/buckets/monitor/collections/changes/changeset",

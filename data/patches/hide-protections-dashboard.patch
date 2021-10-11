@@ -1,26 +1,26 @@
---- a/browser/components/customizableui/content/panelUI.inc.xhtml
-+++ b/browser/components/customizableui/content/panelUI.inc.xhtml
-@@ -242,7 +242,7 @@
-                         oncommand="gSync.toggleAccountPanel('PanelUI-fxa', this, event)"/>
-         </toolbaritem>
-         <toolbarseparator class="sync-ui-item"/>
--        <toolbaritem>
-+        <toolbaritem hidden="true">
-           <toolbarbutton id="appMenu-protection-report-button"
-                class="subviewbutton subviewbutton-iconic"
-                oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
-@@ -253,7 +253,7 @@
-             </label>
-           </toolbarbutton>
-         </toolbaritem>
--        <toolbarseparator id="appMenu-tp-separator"/>
-+        <toolbarseparator id="appMenu-tp-separator" hidden="true"/>
-         <toolbarbutton id="appMenu-new-window-button"
-                        class="subviewbutton subviewbutton-iconic"
-                        label="&newNavigatorCmd.label;"
---- a/browser/base/content/browser-siteProtections.js
-+++ b/browser/base/content/browser-siteProtections.js
-@@ -1634,7 +1634,7 @@
+--- a/browser/base/content/appmenu-viewcache.inc.xhtml.orig	2021-08-17 16:54:44.323100518 -0400
++++ b/browser/base/content/appmenu-viewcache.inc.xhtml	2021-08-17 16:55:42.131053772 -0400
+@@ -24,7 +24,7 @@
+                       oncommand="gSync.toggleAccountPanel(this, event)"/>
+       </toolbaritem>
+       <toolbarseparator class="sync-ui-item"/>
+-      <toolbaritem>
++      <toolbaritem hidden="true">
+         <toolbarbutton id="appMenu-protection-report-button"
+              class="subviewbutton subviewbutton-iconic"
+              oncommand="gProtectionsHandler.openProtections(); gProtectionsHandler.recordClick('open_full_report', null, 'app_menu');">
+@@ -35,7 +35,7 @@
+           </label>
+         </toolbarbutton>
+       </toolbaritem>
+-      <toolbarseparator id="appMenu-tp-separator"/>
++      <toolbarseparator id="appMenu-tp-separator" hidden="true"/>
+       <toolbarbutton id="appMenu-new-window-button"
+                      class="subviewbutton subviewbutton-iconic"
+                      data-l10n-id="appmenuitem-new-window"
+--- a/browser/base/content/browser-siteProtections.js.orig	2021-08-17 16:52:32.107227395 -0400
++++ b/browser/base/content/browser-siteProtections.js	2021-08-17 16:52:39.303219686 -0400
+@@ -1558,7 +1558,7 @@
        this._trackingProtectionIconContainer.hidden = true;
        return;
      }
@@ -28,4 +28,4 @@
 +    this._trackingProtectionIconContainer.hidden = true;
  
      // Check whether the user has added an exception for this site.
-     let hasException = ContentBlockingAllowList.includes(
+     this.hasException = ContentBlockingAllowList.includes(

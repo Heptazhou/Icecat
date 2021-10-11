@@ -21,11 +21,11 @@
 
 
 # metadata
-readonly FFMAJOR=78
-readonly FFMINOR=15
+readonly FFMAJOR=91
+readonly FFMINOR=2
 readonly FFSUB=0
 readonly GNUVERSION=1
-readonly SOURCEBALL_CHECKSUM='a4438d84d95171a6d4fea9c9f02c2edbf0475a9c614d968ebe2eedc25a672151'
+readonly SOURCEBALL_CHECKSUM='3ef3cfd321d0c2c80ee1b41b8baf7a1ea4daf93c29e1377274933440ff5e42c3'
 readonly SOURCEBALL_SIGNINGKEY='14F26682D0916CDD81E37B6D61B7B526D98F0353'
 readonly FFVERSION=${FFMAJOR}.${FFMINOR}.${FFSUB}
 readonly SOURCEBALL=firefox-${FFVERSION}esr.source.tar.xz
@@ -41,7 +41,7 @@ readonly LIST_URL=lists.gnu.org/mailman/listinfo/bug-gnuzilla
 # l10n
 readonly L10N_URL=https://hg.mozilla.org/l10n-central
 readonly L10N_CMP_URL=https://hg.mozilla.org/l10n/compare-locales
-readonly L10N_CMP_REV=RELEASE_8_0_0
+readonly L10N_CMP_REV=RELEASE_8_1_0
 readonly L10N_PREFS_DIR=browser/chrome/browser/preferences
 readonly L10N_DTD_FILE=${L10N_PREFS_DIR}/advanced-scripts.dtd
 readonly PREFS_IN_FILE=browser/locales/en-US/browser/preferences/preferences.ftl
@@ -162,6 +162,26 @@ validate_env()
  e.g.: 'wget' from the Guix 'wget' package
        'wget' from the Parabola 'wget' package
        'wget' from the Trisquel 'wget' package"
+        return 1
+    fi
+
+    # verify that Python 3 is available
+    if ! which python3 &> /dev/null
+    then
+        echo -e "\nERROR: This script requires Python 3:
+ e.g.: 'python3' from the Guix 'python' package
+       'python3' from the Parabola 'python' package
+       'python3' from the Trisquel 'python3' package"
+        return 1
+    fi
+
+    # verify that Python 3 jsonschema is available
+    if ! python3 -c 'import jsonschema' &> /dev/null
+    then
+        echo -e "\nERROR: This script requires Python 3 jsonschema:
+ e.g.: 'jsonschema' from the Guix 'python-jsonschema' package
+       'jsonschema' from the Parabola 'python-jsonschema' package
+       'jsonschema' from the Trisquel 'python3-jsonschema' package"
         return 1
     fi
 }
@@ -312,7 +332,7 @@ configure()
     # These are not condensed into a single sed script so that it
     # fails on individual commands that didn't change the source
     local activity_stream=browser/components/newtab/lib/ActivityStream.jsm
-    sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i $activity_stream
+    sed '/^const DEFAULT_SITES/,/^])\;/c const DEFAULT_SITES = new Map\([[""]]\);' -i browser/components/newtab/lib/DefaultSites.jsm
     sed '/"showSponsored"/,/value/s/value: true/value: false/' -i $activity_stream
     sed '/  "telemetry"/,/value/s/value: true/value: false/' -i $activity_stream
     sed '/"section\.highlights\.includePocket"/,/value/s/value: true/value: false/' -i $activity_stream
@@ -320,12 +340,126 @@ configure()
     sed '/stories_endpoint: `/,/}`,/c stories_endpoint: "",' -i $activity_stream
     sed 's/\(stories_referrer:\) .http.*/\1 "",/' -i $activity_stream
     sed 's/\(topics_endpoint:\) .http.*/\1 "",/' -i $activity_stream
-    sed '/"telemetry\.structuredIngestion"/,/value/s/value: .*/value: false,/' -i $activity_stream
     sed '/"telemetry\.structuredIngestion\.endpoint"/,/value/s/value: .*/value: "",/' -i $activity_stream
     sed '/layout_endpoint:/,/http/s/"http.*/"",/' -i $activity_stream
     sed '/name: "telemetry"/,/value/s/value: true/value: false/' -i $activity_stream
     sed '/name: "system\.topstories"/,/},/s/.*!!locales.*/false/' -i $activity_stream
     sed 's/.Ubuntu., //' -i browser/components/newtab/css/activity-stream*.css
+
+    sed '/^]$/d' -i browser/components/newtab/data/content/tippytop/top_sites.json
+    sed 's/}$/},/' -i browser/components/newtab/data/content/tippytop/top_sites.json
+    cat << EOF >> browser/components/newtab/data/content/tippytop/top_sites.json
+{
+  "domains": ["gnu.org"],
+  "image_url": "images/gnu.png",
+  "favicon_url": "favicons/gnu.ico"
+},
+{
+  "domains": ["fsf.org"],
+  "image_url": "images/fsf.png",
+  "favicon_url": "favicons/fsf.ico"
+},
+{
+  "domains": ["directory.fsf.org"],
+  "image_url": "images/directory.png",
+  "favicon_url": "favicons/fsf.ico"
+},
+{
+  "domains": ["libreplanet.org"],
+  "image_url": "images/libreplanet.png",
+  "favicon_url": "favicons/libreplanet.ico"
+},
+{
+  "domains": ["trisquel.info"],
+  "image_url": "images/trisquel.png",
+  "favicon_url": "favicons/trisquel.ico"
+},
+{
+  "domains": ["wikipedia.org"],
+  "image_url": "images/wikipedia.png",
+  "favicon_url": "favicons/wikipedia.ico"
+},
+{
+  "domains": ["wikinews.org"],
+  "image_url": "images/wikinews.png",
+  "favicon_url": "favicons/wikinews.ico"
+}
+]
+EOF
+
+    cat << EOF > services/settings/dumps/main/top-sites.json
+{
+  "data": [
+    {
+      "url": "https://www.gnu.org/",
+      "order": 0,
+      "title": "GNU",
+      "id": "2a833806-e5c1-58e9-8b7c-69d9417a1253",
+      "last_modified": 1633983928584
+    },
+    {
+      "url": "https://www.fsf.org/",
+      "order": 1,
+      "title": "FSF",
+      "id": "d4e3e7e2-64d3-5bac-9c59-3c5c8e1efd8c",
+      "last_modified": 1633983928585
+    },
+    {
+      "url": "https://directory.fsf.org/",
+      "order": 2,
+      "title": "Free Software Directory",
+      "id": "dbff6206-2ada-57ad-8091-8a62ac37be4c",
+      "last_modified": 1633983928586
+    },
+    {
+      "url": "https://libreplanet.org/",
+      "order": 3,
+      "title": "LibrePlanet",
+      "id": "6f586839-4063-58b8-95ed-62e034e1915e",
+      "last_modified": 1633983928587
+    },
+    {
+      "url": "https://trisquel.info",
+      "order": 4,
+      "title": "Trisquel",
+      "id": "17aeb24c-da88-53bc-8915-c3e3d458070d",
+      "last_modified": 1633983928588
+    },
+    {
+      "url": "https://www.wikipedia.org/",
+      "order": 5,
+      "title": "Wikipedia",
+      "id": "5a18acd7-0440-5512-b3a4-20a35bdc9a1d",
+      "last_modified": 1633983928589
+    },
+    {
+      "url": "https://www.wikinews.org/",
+      "order": 6,
+      "title": "Wikinews",
+      "id": "3bb633ba-0823-4501-b3b5-bc1b8670e3e1",
+      "last_modified": 1633983928590
+    }
+  ]
+}
+EOF
+
+    cp "${DATADIR}"/newtab/*.ico browser/components/newtab/data/content/tippytop/favicons/
+    cp "${DATADIR}"/newtab/*.png browser/components/newtab/data/content/tippytop/images/
+}
+
+configure_search()
+{
+    # Leak less info to DuckDuckGo.
+    sed '/"params"/,/],/d' -i browser/components/search/extensions/ddg/manifest.json
+
+    # Add a DDG HTML search.
+    cp -a browser/components/search/extensions/ddg browser/components/search/extensions/ddg-html
+    sed 's|/duckduckgo.com/|/html.duckduckgo.com/html/|' -i browser/components/search/extensions/ddg-html/manifest.json
+    sed 's|DuckDuckGo|DuckDuckGo (HTML)|' -i browser/components/search/extensions/ddg-html/manifest.json
+    sed 's|ddg@|ddg-html@|' -i browser/components/search/extensions/ddg-html/manifest.json
+
+    # Process various JSON pre-configuration dumps.
+    python3 ../../tools/process-json-files.py . browser/components/extensions/schemas/
 }
 
 configure_mobile()
@@ -430,7 +564,6 @@ apply_batch_branding()
 {
     find . | tac | grep -i fennec  | ${RENAME_CMD} --nofullpath -E 's/fennec/icecatmobile/;' -E 's/Fennec/IceCatMobile/;'
     find . | tac | grep -i firefox | ${RENAME_CMD} --nofullpath -E 's/firefox/icecat/;' -E 's/Firefox/IceCat/;'
-    find services/fxaccounts/rust-bridge | tac | ${RENAME_CMD} --nofullpath -E 's/icecat-accounts/firefox-accounts/;' -E 's/IceCatAccounts/FirefoxAccounts/;'
 
     echo "Running batch rebranding (this will take a while)"
     local sed_script="
@@ -730,7 +863,8 @@ extract_sources
 fetch_l10n
 apply_patches
 configure
-configure_mobile
+configure_search
+# configure_mobile
 apply_branding
 apply_batch_branding
 apply_icons_branding

@@ -363,7 +363,7 @@ pref("browser.onboarding.updatetour", "performance,library,singlesearch,customiz
 pref("browser.onboarding.enabled", false);
 
 // New tab settings
-pref("browser.newtabpage.activity-stream.default.sites", "https://www.trisquel.info/,https://www.gnu.org/,https://www.fsf.org/,https://libreplanet.org/,https://www.wikipedia.org/,https://www.wikinews.org/");
+pref("browser.newtabpage.activity-stream.default.sites", "https://www.gnu.org/,https://www.fsf.org/,https://directory.fsf.org/,https://libreplanet.org/,https://trisquel.info/,https://www.wikipedia.org/,https://www.wikinews.org/");
 pref("browser.newtabpage.activity-stream.showTopSites",true);
 pref("browser.newtabpage.activity-stream.feeds.section.topstories",false);
 pref("browser.newtabpage.activity-stream.feeds.snippets",false);
@@ -389,3 +389,15 @@ pref("services.settings.server", "");
 // Disable use of WiFi region/location information
 pref("browser.region.network.scan", false);
 pref("browser.region.network.url", "");
+
+// Disable VPN/mobile promos
+pref("browser.contentblocking.report.hide_vpn_banner", true);
+pref("browser.contentblocking.report.mobile-ios.url", "");
+pref("browser.contentblocking.report.mobile-android.url", "");
+pref("browser.contentblocking.report.show_mobile_app", false);
+pref("browser.contentblocking.report.vpn.enabled", false);
+pref("browser.contentblocking.report.vpn.url", "");
+pref("browser.contentblocking.report.vpn-promo.url", "");
+pref("browser.contentblocking.report.vpn-android.url", "");
+pref("browser.contentblocking.report.vpn-ios.url", "");
+pref("browser.privatebrowsing.promoEnabled", false);
