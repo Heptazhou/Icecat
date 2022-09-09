@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-#    Copyright (C) 2014-2019  Ruben Rodriguez <ruben@gnu.org>
+#    Copyright (C) 2014-2022  Ruben Rodriguez <ruben@gnu.org>
 #    Copyright (C) 2019-2021  Amin Bandali <bandali@gnu.org>
 #    Copyright (C) 2019-2022  Mark H Weaver <mhw@netris.org>
 #    Copyright (C) 2020  bill-auger <bill-auger@programmer.net>
@@ -21,11 +21,11 @@
 
 
 # metadata
-readonly FFMAJOR=91
-readonly FFMINOR=13
+readonly FFMAJOR=102
+readonly FFMINOR=2
 readonly FFSUB=0
 readonly GNUVERSION=1
-readonly SOURCEBALL_CHECKSUM='53be2bcde0b5ee3ec106bd8ba06b8ae95e7d489c484e881dfbe5360e4c920762'
+readonly SOURCEBALL_CHECKSUM='014d91d14ab4f53e93728273b45ac6022813d5ade35f842e722bf87b747c97ff'
 readonly SOURCEBALL_SIGNINGKEY='14F26682D0916CDD81E37B6D61B7B526D98F0353'
 readonly FFVERSION=${FFMAJOR}.${FFMINOR}.${FFSUB}
 readonly SOURCEBALL=firefox-${FFVERSION}esr.source.tar.xz
