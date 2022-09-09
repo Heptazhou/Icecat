@@ -309,6 +309,7 @@ pref("browser.preferences.inContent",false);
 pref("browser.newtabpage.directory.source", "");
 pref("browser.newtabpage.directory.ping", "");
 pref("browser.newtabpage.introShown", true);
+pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 
 // Disable home snippets
 pref("browser.aboutHomeSnippets.updateUrl", "data:text/html");
