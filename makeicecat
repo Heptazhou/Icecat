@@ -449,6 +449,12 @@ EOF
 
     # IceCat menu l10n
     /bin/sed '/appmenuitem-settings/,+1s/\(.*.label = \)\(.*\)/\1\2\nappmenuitem-icecat-settings =\n\1IceCat \2/' -i ./l10n/*/browser/browser/appmenu.ftl ./browser/locales/en-US/browser/appmenu.ftl
+
+    # Disable remote settings server
+    sed '/REMOTE_SETTINGS_SERVER_URL/,/^$/s/http.*"/"/' -i toolkit/modules/AppConstants.jsm
+
+    # Build on trisquel
+    sed '/^DEBIAN_DISTROS/s/$/\n    "trisquel",/' -i ./python/mozboot/mozboot/bootstrap.py
 }
 
 configure_search()
@@ -636,7 +642,7 @@ s/OpenSource/Free Software/g;
     sed '/If fingerprinting resistance is on/,/}/s/^/\/\//' -i ./dom/base/Navigator.cpp
 
     # Leave user agent as Firefox
-    sed "/MOZILLA_UAVERSION/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
+    sed "/mCompatIceCat.AssignLiteral/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
 
     find . -name region.properties | xargs -i /bin/sed 's_https://www\.mibbit.*__' -i {}
 
