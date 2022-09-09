@@ -6,7 +6,7 @@
  
 +<!-- IceCat-specific privacy group -->
 +<groupbox id="iceCatPrivacyGroup"
-+          data-category="panePrivacy"
++          data-category="panePrivacy" data-subcategory="icecatPreferences"
 +          hidden="true">
 +  <label><html:h2 data-l10n-id="icecat-privacy-group-header"/></label>
 +  <vbox>
@@ -184,3 +184,30 @@
    // CONTENT BLOCKING
  
    /**
+diff -ru icecat-91.13.0/browser/base/content/appmenu-viewcache.inc.xhtml icecat-91.13.0.orig/browser/base/content/appmenu-viewcache.inc.xhtml
+--- icecat-91.13.0/browser/base/content/appmenu-viewcache.inc.xhtml	2022-08-30 20:57:37.511721105 -0400
++++ icecat-91.13.0.orig/browser/base/content/appmenu-viewcache.inc.xhtml	2022-08-30 20:52:39.076545425 -0400
+@@ -336,6 +336,10 @@
+                      key="key_preferencesCmdMac"
+ #endif
+                      oncommand="openPreferences()"/>
++      <toolbarbutton id="appMenu-icecatsettings-button"
++                     class="subviewbutton"
++                     data-l10n-id="appmenuitem-icecat-settings"
++                     oncommand="switchToTabHavingURI('about:preferences#privacy-icecatPreferences', true)"/>
+       <toolbarbutton id="appMenu-more-button2"
+                      class="subviewbutton subviewbutton-nav"
+                      data-l10n-id="appmenuitem-more-tools"
+diff -ru icecat-91.13.0.orig/browser/base/content/browser-menubar.inc icecat-91.13.0/browser/base/content/browser-menubar.inc
+--- icecat-91.13.0.orig/browser/base/content/browser-menubar.inc	2022-08-30 21:06:25.143226477 -0400
++++ icecat-91.13.0/browser/base/content/browser-menubar.inc	2022-08-30 21:06:10.103469430 -0400
+@@ -139,6 +139,9 @@
+                           />
+ #endif
+ #endif
++              <menuitem id="menu_icecat_preferences"
++	          oncommand="switchToTabHavingURI('about:preferences#privacy-icecatPreferences', true)"
++	          data-l10n-id="appmenuitem-icecat-settings"/>
+               </menupopup>
+             </menu>
+ 

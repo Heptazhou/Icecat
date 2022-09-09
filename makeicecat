@@ -445,6 +445,9 @@ EOF
 
     cp "${DATADIR}"/newtab/*.ico browser/components/newtab/data/content/tippytop/favicons/
     cp "${DATADIR}"/newtab/*.png browser/components/newtab/data/content/tippytop/images/
+
+    # IceCat menu l10n
+    /bin/sed '/appmenuitem-settings/,+1s/\(.*.label = \)\(.*\)/\1\2\nappmenuitem-icecat-settings =\n\1IceCat \2/' -i ./l10n/*/browser/browser/appmenu.ftl ./browser/locales/en-US/browser/appmenu.ftl
 }
 
 configure_search()
