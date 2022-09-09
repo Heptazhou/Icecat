@@ -462,11 +462,15 @@ configure_search()
     # Leak less info to DuckDuckGo.
     sed '/"params"/,/],/d' -i browser/components/search/extensions/ddg/manifest.json
 
-    # Add a DDG HTML search.
-    cp -a browser/components/search/extensions/ddg browser/components/search/extensions/ddg-html
-    sed 's|/duckduckgo.com/|/html.duckduckgo.com/html/|' -i browser/components/search/extensions/ddg-html/manifest.json
-    sed 's|DuckDuckGo|DuckDuckGo (HTML)|' -i browser/components/search/extensions/ddg-html/manifest.json
-    sed 's|ddg@|ddg-html@|' -i browser/components/search/extensions/ddg-html/manifest.json
+    # Default DDG to HTML search.
+    cp -a browser/components/search/extensions/ddg browser/components/search/extensions/ddg-js
+    sed 's|/duckduckgo.com/|/html.duckduckgo.com/html/|' -i browser/components/search/extensions/ddg/manifest.json
+    sed 's|DuckDuckGo|DuckDuckGo (JavaScript)|' -i browser/components/search/extensions/ddg-js/manifest.json
+    sed 's|ddg@|ddg-js@|' -i browser/components/search/extensions/ddg-js/manifest.json
+    sed 's|@ddg|@ddgjs|; s|@duckduckgo|@duckduckgojs|' -i browser/components/search/extensions/ddg-js/manifest.json
+    # Disable redirect through ddg servers, as we spoof referers
+    sed 's/q=/kd=-1\&q=/' -i browser/components/search/extensions/ddg-js/manifest.json browser/components/search/extensions/ddg/manifest.json
+
 
     # Process various JSON pre-configuration dumps.
     python3 ../../tools/process-json-files.py . browser/components/extensions/schemas/
@@ -503,8 +507,7 @@ EOF
     cat << EOF > mobile/locales/en-US/chrome/region.properties
 browser.search.defaultenginename=DuckDuckGo
 browser.search.order.1=DuckDuckGo
-browser.search.order.2=Google
-browser.search.order.3=Yahoo
+browser.search.order.2=Wikipedia
 EOF
 
     return # FIXME: TODO: adapt the following to ESR 78.x
