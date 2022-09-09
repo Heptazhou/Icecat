@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versi\u00f3n"
     },
+    "cancel_copied_url": {
+        "message": "Copiado al Portapapeles"
+    },
+    "cancel_copy_url": {
+        "message": "Copiar URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere not\u00f3 que estabas navegando hacia una p\u00e1gina no-HTTPS, y trat\u00f3 en vez de enviarte hacia la versi\u00f3n HTTPS. La versi\u00f3n HTTPS no est\u00e1 disponible. Muy probablemente este sitio no soporta HTTPS, pero tambi\u00e9n es posible que un atacante est\u00e9 bloqueando la versi\u00f3n HTTPS. Si dese\u00e1s ver la versi\u00f3n no encriptada de \u00e9sta p\u00e1gina, a\u00fan pod\u00e9s hacerlo deshabilitando la opci\u00f3n 'Encriptar Todos los Sitios Elegibles' (EASE) en tu extensi\u00f3n HTTPS Everywhere. Ten\u00e9 en cuenta que el deshabilitar \u00e9sta opci\u00f3n podr\u00eda hacer a tu navegador vulnerable a ataques de degradaci\u00f3n basados en red en los sitios web que visites."
     },
@@ -24,10 +30,10 @@
         "message": "ataques remotos de degradaci\u00f3n de servicio"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "Proceder de cualquier manera (inseguro)"
     },
     "cancel_open_page": {
-        "message": "Abrir p\u00e1gina insegura"
+        "message": "Deshabilitar en este sitio"
     },
     "chrome_add_new_rule": {
         "message": "Agregar una nueva regla para este sitio"
@@ -39,10 +45,10 @@
         "message": "Siempre usar https para este sitio"
     },
     "chrome_disable_on_this_site": {
-        "message": "Deshabilitar HTTPS Everywhere en este sitio"
+        "message": "Deshabilitar en este sitio"
     },
     "chrome_enable_on_this_site": {
-        "message": "Habilitar HTTPS Everywhere en este sitio"
+        "message": "Habilitar en este sitio"
     },
     "chrome_experimental_rules": {
         "message": "Reglas experimentales"
@@ -66,13 +72,13 @@
         "message": "Nombre de la Regla"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "A medida que naveg\u00e1s por diferentes sitios, pod\u00e9s cambiar tus preferencias para cada "
+        "message": "A medida que naveg\u00e1s por diferentes sitios, pod\u00e9s cambiar tus preferencias para cada sitio web"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Ajustes para este sitio"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Cambi\u00e1 tus preferencias para concecciones encriptadas"
+        "message": "Cambi\u00e1 tus preferencias para conexiones encriptadas"
     },
     "chrome_show_advanced": {
         "message": "Mostrar avanzado"
@@ -90,22 +96,22 @@
         "message": "Donar a EFF"
     },
     "menu_encryptAllSitesEligibleOff": {
-        "message": "Cifrar todos los sitios elegibles est\u00e1 desactivado"
+        "message": "Encriptar Todos los Sitios Elegibles est\u00e1 desactivado"
     },
     "menu_encryptAllSitesEligibleOn": {
-        "message": "Cifrar todos los sitios elegibles est\u00e1 activado"
+        "message": "Encriptar Todos los Sitios Elegibles est\u00e1 activado"
     },
     "menu_globalDisable": {
-        "message": "HTTPS en todas partes est\u00e1 apagado"
+        "message": "HTTPS Everywhere est\u00e1 pagado"
     },
     "menu_globalEnable": {
-        "message": "HTTPS en todas partes est\u00e1 activado"
+        "message": "HTTPS Everywhere est\u00e1 activado"
     },
     "menu_httpNoWhereExplainedAllowed": {
-        "message": "Las solicitudes no cifradas est\u00e1n permitidas actualmente"
+        "message": "Las solicitudes no encriptadas est\u00e1n permitidas actualmente"
     },
     "menu_httpNoWhereExplainedBlocked": {
-        "message": "Las solicitudes no cifradas est\u00e1n actualmente bloqueadas"
+        "message": "Las solicitudes no encriptadas est\u00e1n actualmente bloqueadas"
     },
     "menu_httpNoWhereMore": {
         "message": "Este modo bloquea los contenidos y las solicitudes no encriptadas"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "Ver todas las Reglas"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere es un proyecto EFF"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "\u00a1HTTPS Everywhere ha sido actualizado!"
     },
     "onboarding_intro": {
         "message": "\u00a1Encriptar la Web! Usar seguridad HTTPS autom\u00e1ticamente en la mayor\u00eda de los sitios."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Agregar sitio deshabilitado"
     },
     "options_addUpdateChannel": {
         "message": "A\u00f1adir canal de actualizaci\u00f3n"
@@ -165,13 +165,16 @@
         "message": "Habilitar conjuntos de reglas para contenidos mezclados"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Ingresar sitio deshabilitado"
     },
     "options_enterUpdateChannelName": {
         "message": "Ingresar nombre del canal de actualizaci\u00f3n"
     },
     "options_generalSettings": {
         "message": "Ajustes generales"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Este equipo no pudo ser agregado porque no estaba formateado correctamente. Por favor comprobalo e intent\u00e1 de nuevo."
     },
     "options_settings": {
         "message": "Configuraci\u00f3n"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Esto restablecer\u00e1 cada conjunto de reglas a su estado por defecto. \u00bfContinuar?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Servidor proxy corriendo en"
+    },
+    "standalone_transparent_false": {
+        "message": "Ten\u00e9s que configurar tus aplicaciones para usar un proxy HTTP en el equipo y puerto especificados."
+    },
+    "standalone_transparent_true": {
+        "message": "Ten\u00e9s que configurar las reglas de tu cortafuego para redirigir paquetes hacia el equipo y puerto especificados."
     }
 }

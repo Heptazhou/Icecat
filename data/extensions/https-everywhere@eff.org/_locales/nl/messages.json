@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versie"
     },
+    "cancel_copied_url": {
+        "message": "Gekopieerd naar klembord"
+    },
+    "cancel_copy_url": {
+        "message": "URL kopi\u00ebren"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere heeft gemerkt dat u naar een niet-HTTPS-pagina bent genavigeerd, en heeft geprobeerd u in plaats daarvan naar de HTTPS-versie te sturen. De HTTPS-versie is niet beschikbaar. Waarschijnlijk ondersteunt deze website geen HTTPS, maar het is ook mogelijk dat een aanvaller de HTTPS-versie blokkeert. Als u de niet-versleutelde versie van deze pagina wilt bekijken, kunt u dat alsnog doen door de optie \u2018Alle in aanmerking komende websites versleutelen (EASE)\u2019 in uw HTTPS Everywhere-extensie uit te schakelen. Bedenk wel dat het uitschakelen van deze optie uw browser kwetsbaar kan maken voor op netwerk gebaseerde downgrade-aanvallen op websites die u bezoekt."
     },
@@ -24,10 +30,10 @@
         "message": "op netwerk gebaseerde downgrade-aanvallen"
     },
     "cancel_http_once": {
-        "message": "Niet-beveiligde pagina alleen voor deze sessie openen"
+        "message": "Toch doorgaan (onveilig)"
     },
     "cancel_open_page": {
-        "message": "Niet-beveiligde pagina openen"
+        "message": "Uitschakelen op deze website"
     },
     "chrome_add_new_rule": {
         "message": "Nieuwe regel voor deze website toevoegen"
@@ -39,10 +45,10 @@
         "message": "Altijd https voor deze host gebruiken"
     },
     "chrome_disable_on_this_site": {
-        "message": "HTTPS Everywhere op deze website uitschakelen"
+        "message": "Uitschakelen op deze website"
     },
     "chrome_enable_on_this_site": {
-        "message": "HTTPS Everywhere op deze website inschakelen"
+        "message": "Inschakelen op deze website"
     },
     "chrome_experimental_rules": {
         "message": "Experimentele regels"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Alle regels bekijken"
     },
-    "onboarding_details_one": {
-        "message": "EASE-modus geoptimaliseerd"
-    },
-    "onboarding_details_two": {
-        "message": "U kunt nu websites whitelisten voor uitschakeling in HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere is een EFF-project"
     },
     "onboarding_header": {
-        "message": "Wijzigingen in versie 3.9.2020"
+        "message": "HTTPS Everywhere is bijgewerkt!"
     },
     "onboarding_intro": {
         "message": "Versleutel het web! Gebruik automatisch HTTPS-beveiliging op veel websites."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Algemene instellingen"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Deze host kon niet worden toegevoegd, omdat de notatie van de naam onjuist is. Controleer deze en probeer het opnieuw."
+    },
     "options_settings": {
         "message": "Instellingen"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Dit zet alle regelsets terug naar hun standaardstatus. Doorgaan?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxyserver actief op"
+    },
+    "standalone_transparent_false": {
+        "message": "U moet uw toepassingen configureren voor het gebruik van een HTTP-proxy op de opgegeven host en poort."
+    },
+    "standalone_transparent_true": {
+        "message": "U moet uw firewallregels zo instellen dat pakketten naar de opgegeven host en poort worden doorgestuurd."
     }
 }

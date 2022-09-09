@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versi\u00f3n"
     },
+    "cancel_copied_url": {
+        "message": "Copiado al Portapapeles"
+    },
+    "cancel_copy_url": {
+        "message": "Copiar URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere ha detectado que estabas yendo hacia una p\u00e1gina que no era HTTTPS, y ha intentado enviarte, en su lugar, a la versi\u00f3n HTTPS. No est\u00e1 disponible dicha versi\u00f3n HTTPS. Lo m\u00e1s probable es que este sitio no soporte HTTPS, pero tambi\u00e9n es posible que un atacante est\u00e9 bloqueando la versi\u00f3n HTTPS. Si deseas ver la versi\u00f3n no cifrada de esta p\u00e1gina, puedes hacerlo desactivando la opci\u00f3n'Encrypt All Sites Eligible' (EASE) en tu extensi\u00f3n HTTPS Everywhere. Ten en cuenta que deshabilitar esta opci\u00f3n puede hacer que tu navegador sea vulnerable a los ataques de baja intensidad de los sitios web que visites."
     },
@@ -24,10 +30,10 @@
         "message": "ataques de baja intensidad basados en la red"
     },
     "cancel_http_once": {
-        "message": "Abrir una p\u00e1gina insegura s\u00f3lo por esta sesi\u00f3n"
+        "message": "Proceder de todos modos (inseguro)"
     },
     "cancel_open_page": {
-        "message": "Abrir una p\u00e1gina insegura"
+        "message": "Desactivar en este sitio"
     },
     "chrome_add_new_rule": {
         "message": "A\u00f1adir una nueva regla para este sitio"
@@ -39,10 +45,10 @@
         "message": "Usar siempre https para este servidor"
     },
     "chrome_disable_on_this_site": {
-        "message": "Deshabilitar HTTPS Everywhere en este sitio"
+        "message": "Desactivar en este sitio"
     },
     "chrome_enable_on_this_site": {
-        "message": "Habilitar HTTPS Everywhere en este sitio"
+        "message": "Activar en este sitio"
     },
     "chrome_experimental_rules": {
         "message": "Reglas estables"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Ver todas las reglas"
     },
-    "onboarding_details_one": {
-        "message": "Modo EASE optimizado"
-    },
-    "onboarding_details_two": {
-        "message": "Ahora puedes incluir en la lista blanca sitios para deshabilitar en HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere es un proyecto de EFF"
     },
     "onboarding_header": {
-        "message": "Cambios con la versi\u00f3n 3.9.2020"
+        "message": "\u00a1HTTPS Everywhere ha sido actualizado!"
     },
     "onboarding_intro": {
         "message": "\u00a1Cifre la Web! Utilice autom\u00e1ticamente la seguridad HTTPS en muchos sitios."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Configuraci\u00f3n general"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "No se ha podido a\u00f1adir este host porque no estaba formateado correctamente. Por favor, compru\u00e9balo e int\u00e9ntalo de nuevo."
+    },
     "options_settings": {
         "message": "Configuraci\u00f3n"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Esto resetear\u00e1 cada conjunto de reglas a su estado predeterminado. \u00bfContinuar? "
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "El servidor proxy funciona en"
+    },
+    "standalone_transparent_false": {
+        "message": "Debes configurar tus aplicaciones para utilizar un proxy HTTP en el host y puerto especificados."
+    },
+    "standalone_transparent_true": {
+        "message": "Debes configurar las reglas de tu cortafuegos para reenviar los paquetes al host y al puerto especificados."
     }
 }

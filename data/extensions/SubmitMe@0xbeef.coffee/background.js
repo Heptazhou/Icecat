@@ -1,5 +1,6 @@
 /*
 Copyright (C) 2017 Nathan Nichols
+Copyright (C) 2022 Ruben Rodriguez <ruben@gnu.org>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
@@ -32,6 +33,11 @@ function display_single_form(){
 };
 
 browser.contextMenus.create({
+  id: "passive-submit-me-css",
+  title: "Reveal hidden elements",
+  contexts: ["all"]
+});
+browser.contextMenus.create({
   id: "submit-me",
   title: "Force submit a form",
   contexts: ["all"]
@@ -41,7 +47,6 @@ browser.contextMenus.create({
   title: "Manually choose a form to submit",
   contexts: ["all"]
 });
-
 browser.contextMenus.create({
   id: "submit-me-css",
   title: "Remove all CSS (Try this if the website is scrambled)",
@@ -51,7 +56,7 @@ browser.contextMenus.create({
 function display_manual_dialog(){
 	function onExecuted(result) {
 		console.log("manual.js executed.");
-		not_executing = true;	
+		not_executing = true;
 	}
 
 	function onError(error) {
@@ -68,7 +73,7 @@ function display_manual_dialog(){
 function passive_fix_css(){
 	function onExecuted(result) {
 		console.log("passive_improve_css.js executed.");
-		//not_executing = true;	
+		not_executing = true;
 	}
 
 	function onError(error) {
@@ -120,14 +125,6 @@ function input(message){
 
 browser.runtime.onMessage.addListener(input);
 var show = false;
-browser.pageAction.onClicked.addListener(function(info, tab) {
-	show = !show;
-	if(show){		
-	} else{
-		browser.pageAction.hide(tab.id);		
-		browser.pageAction.show(tab.id);
-	}
-});
 
 browser.contextMenus.onClicked.addListener(function(info, tab) {
 	console.log(info);
@@ -140,9 +137,12 @@ browser.contextMenus.onClicked.addListener(function(info, tab) {
 		not_executing = false;
 		fix_css();
 	}
+	if(info.menuItemId == "passive-submit-me-css" && not_executing){
+		not_executing = false;
+		passive_fix_css();
+	}
 	if (info.menuItemId == "submit-me") {
 		console.log("Context menu button clicked");
-		browser.pageAction.show(tab.id);
 
 		function onExecuted(result) {
 		  console.log("Main.js executed.");

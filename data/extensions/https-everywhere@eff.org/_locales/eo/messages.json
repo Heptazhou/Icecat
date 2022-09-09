@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versio"
     },
+    "cancel_copied_url": {
+        "message": "Kopiita al tondujo"
+    },
+    "cancel_copy_url": {
+        "message": "Kopii ligilon"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS-\u0108ie rimarkis, ke vi vizitis retpa\u011don sen HTTPS kaj provis sendi vin al retpa\u011do kun HTTPS, sed la versio kun HTTPS estas nedisponebla. Probable tiu \u0109i retejo ne subtenas HTTPS, tamen anka\u016d eblas, ke iu atakanto blokas aliron al HTTPS. Por viziti ne\u0109ifritan version de tiu \u0109i retpa\u011do, malaktivigu la agordon \u201c\u0109ifri \u0109iujn eblajn retejojn\u201d de etenda\u0135o HTTPS-\u0108ie. Estu singarda, \u0109ar malaktivigo de tiu \u0109i agordo igas vian retumilon atakebla al \u201cret-bazaj malpromociaj atakoj\u201d (\u00abdowngrade attack\u00bb) \u0109e vizitataj retejoj."
     },
@@ -24,10 +30,10 @@
         "message": "ret-bazaj malpromociaj atakoj"
     },
     "cancel_http_once": {
-        "message": "Malfermi nesekuran retpa\u011don nur por tiu \u0109i seanco"
+        "message": "Pluigi malgra\u016d tio (dan\u011dere)"
     },
     "cancel_open_page": {
-        "message": "Malfermi nesekuran retpa\u011don"
+        "message": "Malaktivigi por tiu \u0109i retejo"
     },
     "chrome_add_new_rule": {
         "message": "Aldoni novan regulon por tiu \u0109i retejo"
@@ -39,10 +45,10 @@
         "message": "\u0108iam uzi https por tiu \u0109i retejo"
     },
     "chrome_disable_on_this_site": {
-        "message": "Malaktivigi HTTPS-\u0108ie por tiu \u0109i retejo"
+        "message": "Malaktivigi por tiu \u0109i retejo"
     },
     "chrome_enable_on_this_site": {
-        "message": "Aktivigi HTTPS-\u0108ie por tiu \u0109i retejo"
+        "message": "Aktivigi por tiu \u0109i retejo"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentaj reguloj"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Montri \u0109iujn regulojn"
     },
-    "onboarding_details_one": {
-        "message": "plibonigoj al la re\u011dimo \u201c\u0109ifri \u0109iujn eblajn retejojn\u201d"
-    },
-    "onboarding_details_two": {
-        "message": "eblo ekskluzivi retejojn de HTTPS\u2011\u0108ie"
-    },
     "onboarding_footer": {
         "message": "HTTPS\u2011\u0108ie estas projekto de EFF"
     },
     "onboarding_header": {
-        "message": "\u015can\u011doj en la versio 3.9.2020"
+        "message": "HTTPS\u2011\u0108ie estas \u011disdatigita!"
     },
     "onboarding_intro": {
         "message": "\u0108ifrigu la reton! A\u016dtomate uzu HTTPS\u2010sekurecon \u0109e multaj retejoj."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "\u011ceneralaj agordoj"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Ne povis aldoni tiun \u0109i retejon, \u0109ar \u011di ne estas \u011duste enigita. Kontrolu \u011dian \u011dustecon kaj reprovu."
+    },
     "options_settings": {
         "message": "Agordoj"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Tio \u0109i agordos \u0109iun regulon al implicita stato. \u0108u pluigi?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Retperanta servilo funkcianta \u0109e"
+    },
+    "standalone_transparent_false": {
+        "message": "Vi devas agordi viajn programojn por uzi HTTP-retperanton \u0109e la difinita komputilo kaj pordo."
+    },
+    "standalone_transparent_true": {
+        "message": "Vi devas agordi regulojn de via fajro\u015dirmilo por enkursigi paketojn al la difinita komputilo kaj pordo."
     }
 }

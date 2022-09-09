@@ -1,0 +1,45 @@
+{
+    "manifest_version": 2,
+    "name": "Tor Proxy Toggle",
+    "version": "1.2.1",
+    "description": "Toggle between direct connection and using Tor routing from a local daemon (requires a Tor service installed an running, separately of IceCat). Based on 'Proxy toggle' extension",
+    "icons": {
+        "48": "icons/p1.svg",
+        "96": "icons/p1.svg"
+    },
+    "permissions": [
+        "storage",
+        "proxy",
+        "<all_urls>",
+        "webRequest",
+        "webRequestBlocking"
+    ],
+    "browser_action": {
+        "browser_style": true,
+        "default_icon": "icons/p1.svg",
+        "default_title": "Tor Proxy Toggle"
+    },
+    "commands": {
+        "_execute_browser_action": {
+            "suggested_key": {
+                "default": "Ctrl+Shift+Y"
+            },
+            "description": "Toggle Tor proxy on/off"
+        }
+    },
+    "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "options_ui": {
+        "page": "settings.html",
+        "browser_style": true
+    },
+    "applications": {
+        "gecko": {
+            "strict_min_version": "60.0",
+	    "id": "torproxy@icecat.gnu"
+        }
+    }
+}

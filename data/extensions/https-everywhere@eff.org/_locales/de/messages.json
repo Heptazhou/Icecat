@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Version"
     },
+    "cancel_copied_url": {
+        "message": "In die Zwischenablage kopiert"
+    },
+    "cancel_copy_url": {
+        "message": "URL kopieren"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere hat bemerkt, dass du zu einer Nicht-HTTPS-Seite navigierst, und versuchte, dich stattdessen an die HTTPS-Version zu schicken. Die HTTPS-Version ist nicht verf\u00fcgbar. Wahrscheinlich unterst\u00fctzt diese Seite kein HTTPS, aber es ist auch m\u00f6glich, dass ein Angreifer die HTTPS-Version blockiert. Wenn du die unverschl\u00fcsselte Version dieser Seite anzeigen m\u00f6chtest, kannst du dies trotzdem tun, indem du die Option 'Alle geeigneten Seiten verschl\u00fcsseln' (EASE) in deiner HTTPS Everywhere Erweiterung deaktivierst. Beachte, dass das Deaktivieren dieser Option deinen Browser anf\u00e4llig f\u00fcr netzwerkbasierte Downgrade-Angriffe auf von dir besuchte Websites machen kann."
     },
@@ -24,10 +30,10 @@
         "message": "Netzwerk-basierte Herunterstufungsangriffe"
     },
     "cancel_http_once": {
-        "message": "Unsichere Seite nur f\u00fcr diese Sitzung \u00f6ffnen"
+        "message": "Trotzdem weiterfahren (unsicher)"
     },
     "cancel_open_page": {
-        "message": "Unsichere Seite \u00f6ffnen"
+        "message": "Auf dieser Seite deaktivieren"
     },
     "chrome_add_new_rule": {
         "message": "Eine neue Regel f\u00fcr diese Seite hinzuf\u00fcgen"
@@ -39,10 +45,10 @@
         "message": "Immer https f\u00fcr diesen Host verwenden"
     },
     "chrome_disable_on_this_site": {
-        "message": "HTTPS Everywhere auf dieser Seite deaktivieren"
+        "message": "Auf dieser Seite deaktivieren"
     },
     "chrome_enable_on_this_site": {
-        "message": "HTTPS Everywhere auf dieser Seite aktivieren"
+        "message": "Auf dieser Seite aktivieren"
     },
     "chrome_experimental_rules": {
         "message": "Experimentelle Regeln"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Alle Regeln ansehen"
     },
-    "onboarding_details_one": {
-        "message": "EASE-Modus optimiert"
-    },
-    "onboarding_details_two": {
-        "message": "Du kannst jetzt in HTTPS Everywhere zu deaktivierende Websites auf die Whitelist setzen"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere ist ein EFF-Projekt"
     },
     "onboarding_header": {
-        "message": "\u00c4nderungen mit Version 3.9.2020"
+        "message": "HTTPS Everywhere wurde aktualisiert!"
     },
     "onboarding_intro": {
         "message": "Verschl\u00fcsselt das Internet! Nutzen Sie HTTPS-Sicherheit automatisch auf vielen Webseiten."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Allgemeine Einstellungen"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Dieser Host konnte nicht hinzugef\u00fcgt werden, da er nicht richtig formatiert wurde. Bitte \u00fcberpr\u00fcfen und erneut versuchen."
+    },
     "options_settings": {
         "message": "Einstellungen"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Dies wird jeden Regelsatz auf seinen Standardzustand zur\u00fccksetzen. Fortfahren?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy-Server l\u00e4uft auf"
+    },
+    "standalone_transparent_false": {
+        "message": "Du musst deine Anwendungen so konfigurieren, dass sie einen HTTP-Proxy auf dem angegebenen Host und Anschluss verwenden."
+    },
+    "standalone_transparent_true": {
+        "message": "Du musst deine Firewall-Regeln so einrichten, dass Pakete an den angegebenen Host und Anschluss weitergeleitet werden."
     }
 }

@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versiune"
     },
+    "cancel_copied_url": {
+        "message": "Copiat \u00een Clipboard"
+    },
+    "cancel_copy_url": {
+        "message": "Copiere URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Oriunde a observat c\u0103 ai navigat pe o pagin\u0103 f\u0103r\u0103 HTTPS, \u0219i \u00een schimb a \u00eencercat s\u0103 te trimit\u0103 la versiunea HTTPS. Versiunea HTTPS nu este disponibil\u0103. Cel mai probabil acest site nu suport\u0103 HTTPS, dar este posibil de asemenea ca un atacator s\u0103 blocheze versiunea HTTPS. Dac\u0103 dore\u0219ti sa vizitezi versiunea necriptat\u0103 a acestei pagini, o po\u0163i face prin dezactivarea op\u0163iunii 'Blocheaz\u0103 toate cererile necriptate' in extensia HTTPS Oriunde. Dezactivarea acestei op\u0163iuni \u00ee\u0163i poate face navigatorul vulnerabil \u00eempotriva atacurilor de degradare bazate pe re\u0163ea."
     },
@@ -24,10 +30,10 @@
         "message": "Atacuri de degradare bazate pe re\u021bea"
     },
     "cancel_http_once": {
-        "message": "Deschide\u021bi pagina nesigur\u0103 doar pentru aceast\u0103 sesiune"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "Deschide pagina nesecurizat\u0103"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "Adaug\u0103 o nou\u0103 regul\u0103 pentru acest site"
@@ -39,10 +45,10 @@
         "message": "Folose\u0219te mereu https pentru aceast\u0103 gazd\u0103"
     },
     "chrome_disable_on_this_site": {
-        "message": "Dezactiveaz\u0103 HTTPS Oriunde pentru acest site"
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Activeaz\u0103 HTTPS Oriunde pentru acest site"
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "Reguli experimentale"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Vezi toate regulile"
     },
-    "onboarding_details_one": {
-        "message": "Modul EASE optimizat"
-    },
-    "onboarding_details_two": {
-        "message": "Acum pute\u021bi ad\u0103uga site-urile pe lista alb\u0103 pentru a le dezactiva \u00een HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere este un proiect EFF"
     },
     "onboarding_header": {
-        "message": "Modific\u0103ri la versiunea 3.9.2020"
+        "message": "HTTPS Everywhere a fost actualizat!"
     },
     "onboarding_intro": {
         "message": "Cripteaz\u0103 web-ul! Folose\u0219te automat securitatea HTTPS pe multe site-uri."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Set\u0103ri Generale"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Aceast\u0103 gazd\u0103 nu a putut fi ad\u0103ugat\u0103 deoarece nu a fost formatat\u0103 corect. Verifica\u021bi \u0219i \u00eencerca\u021bi din nou."
+    },
     "options_settings": {
         "message": "Set\u0103ri"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Toate seturile de reguli vor fi aduse la starea ini\u021bial\u0103. Continua\u021bi?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Server proxy pornit"
+    },
+    "standalone_transparent_false": {
+        "message": "Trebuie s\u0103 configura\u021bi aplica\u021biile pentru a utiliza un proxy HTTP pe gazda \u0219i portul specificate."
+    },
+    "standalone_transparent_true": {
+        "message": "Trebuie configurate regulile firewall-ului pentru a redirec\u021biona pachetele c\u0103tre gazda \u0219i portul specificate."
     }
 }

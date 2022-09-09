@@ -3,7 +3,7 @@
         "message": "Shtoni Rregull t\u00eb Ri"
     },
     "about_ext_description": {
-        "message": "Fsheht\u00ebzoni Web-in! P\u00ebrdorni automatikisht siguri HTTPS n\u00eb mjaft sajte."
+        "message": "Fsheht\u00ebzoni Web-in! P\u00ebrdorni automatikisht n\u00eb mjaft sajte siguri HTTPS."
     },
     "about_ext_name": {
         "message": "HTTPS Everywhere"
@@ -17,17 +17,23 @@
     "about_version": {
         "message": "Version"
     },
+    "cancel_copied_url": {
+        "message": "U kopjua n\u00eb t\u00eb Papast\u00ebr"
+    },
+    "cancel_copy_url": {
+        "message": "Kopjoje URL-n\u00eb"
+    },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere vuri re se po l\u00ebvizni te nj\u00eb faqe jo-HTTPS, dhe u p\u00ebrpoq t\u2019ju d\u00ebrgoj\u00eb te versioni HTTPS. Versioni HTTPS \u00ebsht\u00eb i pakapsh\u00ebm. Shumica e gjasave jan\u00eb q\u00eb ky sajt t\u00eb mos mbuloj\u00eb HTTPS-n\u00eb, por \u00ebsht\u00eb gjithashtu e mundur q\u00eb nj\u00eb agresor t\u00eb jet\u00eb duke bllokuar versionin HTTPS. N\u00ebse d\u00ebshironi t\u00eb shihni versionin e pafsheht\u00ebzuar t\u00eb k\u00ebsaj faqeje, mundeni prap\u00eb ta b\u00ebni k\u00ebt\u00eb duke \u00e7aktivizuar mund\u00ebsin\u00eb \u201cFsheht\u00ebzo Krejt Sajtet e Kualifikuesh\u00ebm\u201d (EASE) te zgjerimi juaj HTTPS Everywhere. Kini parasysh se \u00e7aktivizimi i k\u00ebsaj mund\u00ebsie mund ta b\u00ebj\u00eb shfletuesin tuaj t\u00eb cenuesh\u00ebm ndaj sulmesh \u201cdowngrade\u201d me baz\u00eb rrjetin, n\u00eb sajte q\u00eb vizitoni."
+        "message": "HTTPS Everywhere vuri re se po l\u00ebvizni te nj\u00eb faqe jo-HTTPS, dhe u p\u00ebrpoq t\u2019ju d\u00ebrgoj\u00eb te versioni HTTPS. Versioni HTTPS \u00ebsht\u00eb i pakapsh\u00ebm. Shumica e gjasave jan\u00eb q\u00eb ky sajt t\u00eb mos mbuloj\u00eb HTTPS-n\u00eb, por \u00ebsht\u00eb gjithashtu e mundur q\u00eb nj\u00eb agresor t\u00eb jet\u00eb duke bllokuar versionin HTTPS. N\u00ebse d\u00ebshironi t\u00eb shihni versionin e pafsheht\u00ebzuar t\u00eb k\u00ebsaj faqeje, mundeni prap\u00ebseprap\u00eb ta b\u00ebni k\u00ebt\u00eb duke \u00e7aktivizuar mund\u00ebsin\u00eb \u201cFsheht\u00ebzo Krejt Sajtet e Kualifikuesh\u00ebm\u201d (EASE) te zgjerimi juaj HTTPS Everywhere. Kini parasysh se \u00e7aktivizimi i k\u00ebsaj mund\u00ebsie mund ta b\u00ebj\u00eb shfletuesin tuaj t\u00eb cenuesh\u00ebm ndaj sulmesh \u201cdowngrade\u201d me baz\u00eb rrjetin, n\u00eb sajte q\u00eb vizitoni."
     },
     "cancel_he_blocking_network": {
         "message": "sulme \u201cdowngrade\u201d me baz\u00eb rrjetin"
     },
     "cancel_http_once": {
-        "message": "Hap faqen e pasigurt vet\u00ebm p\u00ebr k\u00ebt\u00eb sesion"
+        "message": "Vazhdo sido qoft\u00eb (jo e parrezik)"
     },
     "cancel_open_page": {
-        "message": "Hap faqen e pasigurt"
+        "message": "\u00c7aktivizoje n\u00eb k\u00ebt\u00eb sajt"
     },
     "chrome_add_new_rule": {
         "message": "Shtoni nj\u00eb rregull t\u00eb ri p\u00ebr k\u00ebt\u00eb sajt"
@@ -39,16 +45,16 @@
         "message": "P\u00ebrdor p\u00ebrher\u00eb https-n\u00eb p\u00ebr k\u00ebt\u00eb streh\u00eb"
     },
     "chrome_disable_on_this_site": {
-        "message": "\u00c7aktivizo HTTPS Everywhere n\u00eb k\u00ebt\u00eb sajt"
+        "message": "\u00c7aktivizoje n\u00eb k\u00ebt\u00eb sajt"
     },
     "chrome_enable_on_this_site": {
-        "message": "Aktivizo HTTPS Everywhere n\u00eb k\u00ebt\u00eb sajt"
+        "message": "Aktivizoje n\u00eb k\u00ebt\u00eb sajt"
     },
     "chrome_experimental_rules": {
         "message": "Rregulla eksperimentale"
     },
     "chrome_experimental_rules_description": {
-        "message": "Mund t\u00eb sjell\u00eb sinjalizime ose d\u00ebmtime. T\u00eb \u00e7aktivizuara, si parazgjedhje."
+        "message": "Mund t\u00eb sjell\u00eb sinjalizime ose d\u00ebmtim. T\u00eb \u00e7aktivizuara, si parazgjedhje."
     },
     "chrome_hide_advanced": {
         "message": "Fshihi t\u00eb m\u00ebtejshmet"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Shihni Krejt Rregullat"
     },
-    "onboarding_details_one": {
-        "message": "U optimizua M\u00ebnyra EASE"
-    },
-    "onboarding_details_two": {
-        "message": "Tanim\u00eb mundeni t\u00eb vendosni sajte n\u00eb list\u00eb lejimesh p\u00ebr t\u00eb \u00e7aktivizuar HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere \u00ebsht\u00eb nj\u00eb projekt i EFF-s\u00eb"
     },
     "onboarding_header": {
-        "message": "Ndryshime n\u00eb versionin 3.9.2020"
+        "message": "HTTPS Everywhere \u00ebsht\u00eb p\u00ebrdit\u00ebsuar!"
     },
     "onboarding_intro": {
         "message": "Fsheht\u00ebzoni Web-in! P\u00ebrdorni automatikisht siguri HTTPS n\u00eb mjaft sajte."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Rregullime t\u00eb P\u00ebrgjithshme"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Kjo streh\u00eb s\u2019u shtua dot, ngaq\u00eb s\u2019\u00ebsht\u00eb formatuar sakt\u00eb. Ju lutemi, kontrollojeni dhe riprovoni."
+    },
     "options_settings": {
         "message": "Rregullime"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Kjo do t\u00eb kthej\u00eb \u00e7do grup rregullash te gjendja e vet parazgjedhje. T\u00eb vazhdohet?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Sh\u00ebrbyesi nd\u00ebrmjet\u00ebs po punon"
+    },
+    "standalone_transparent_false": {
+        "message": "Duhet t\u2019i form\u00ebsoni aplikacionet tuaja t\u00eb p\u00ebrdorin nj\u00eb nd\u00ebrmjet\u00ebs HTTP te streha dhe porta e specifikuar."
+    },
+    "standalone_transparent_true": {
+        "message": "Duhet t\u00eb ujdisni rregulla firewall-i q\u00eb paketat t\u2019i p\u00ebrcillen streh\u00ebs dhe port\u00ebs s\u00eb specifikuar."
     }
 }

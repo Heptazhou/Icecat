@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versija"
     },
+    "cancel_copied_url": {
+        "message": "Nukopijuota \u012f i\u0161karpin\u0119"
+    },
+    "cancel_copy_url": {
+        "message": "Kopijuoti URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere pasteb\u0117jo, kad ketinote nar\u0161yti \u012f ne HTTPS puslap\u012f ir, vietoj to, band\u0117 jus nukreipti \u012f HTTPS versij\u0105. HTTPS versija yra neprieinama. Grei\u010diausiai, \u0161i svetain\u0117 nepalaiko HTTPS, ta\u010diau taip pat gali b\u016bti, kad u\u017epuolikas blokuoja HTTPS versij\u0105. Jeigu vis dar nor\u0117tum\u0117te matyti ne\u0161ifruot\u0105 \u0161io puslapio versij\u0105, galite tai atlikti, savo HTTPS Everywhere priede i\u0161jung\u0119 parametr\u0105 &quot;\u0160ifruoti visas galimas svetaines&quot; (EASE). Tur\u0117kite omenyje, kad \u0161io parametro i\u0161jungimas, svetain\u0117se, kuriose lankysit\u0117s gali padaryti j\u016bs\u0173 nar\u0161ykl\u0119 pa\u017eeid\u017eiam\u0105 tinklu pagr\u012fstoms sendinimo atakoms."
     },
@@ -24,10 +30,10 @@
         "message": "tinklu pagr\u012fstos sendinimo atakos"
     },
     "cancel_http_once": {
-        "message": "Atverti nesaug\u0173 puslap\u012f tik \u0161iam seansui"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "Atverti nesaug\u0173 puslap\u012f"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "Prid\u0117ti \u0161iai svetainei nauj\u0105 taisykl\u0119"
@@ -39,10 +45,10 @@
         "message": "Visuomet \u0161iam serveriui naudoti https"
     },
     "chrome_disable_on_this_site": {
-        "message": "I\u0161jungti HTTPS Everywhere \u0161ioje svetain\u0117je"
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "\u012ejungti HTTPS Everywhere \u0161ioje svetain\u0117je"
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentin\u0117s taisykl\u0117s"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Rodyti visas taisykles"
     },
-    "onboarding_details_one": {
-        "message": "Optimizuota EASE veiksena"
-    },
-    "onboarding_details_two": {
-        "message": "Dabar, galite \u012ftraukti internetines svetaines \u012f balt\u0105j\u012f s\u0105ra\u0161\u0105, kad jos b\u016bt\u0173 i\u0161jungtos HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere yra EFF projektas"
     },
     "onboarding_header": {
-        "message": "Pakeitimai versijoje 3.9.2020"
+        "message": "HTTPS Everywhere atnaujinta!"
     },
     "onboarding_intro": {
         "message": "\u0160ifruokite saityn\u0105! Automati\u0161kai naudokite HTTPS saugum\u0105 daugelyje svetaini\u0173."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Bendri nustatymai"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Nepavyko prid\u0117ti \u0161io serverio, nes jis nebuvo teisingai suformuotas. Patikrinkite j\u012f ir bandykite dar kart\u0105."
+    },
     "options_settings": {
         "message": "Nustatymai"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Tai atstatys kiekvien\u0105 taisykli\u0173 rinkin\u012f \u012f jo pirmin\u0119 b\u016bsen\u0105. T\u0119sti?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy server running on"
+    },
+    "standalone_transparent_false": {
+        "message": "You must configure your applications to use an HTTP proxy on the specified host and port."
+    },
+    "standalone_transparent_true": {
+        "message": "You must set up your firewall rules to forward packets to the specified host and port."
     }
 }

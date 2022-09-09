@@ -2,13 +2,13 @@
 
 set -e
 
-for extension in librejs https-everywhere librejs-usps-compatibility submit-me viewtube disable-polymer-youtube; do
+for extension in librejs https-everywhere librejs-usps-compatibility submit-me disable-polymer-youtube privacy-redirect javascript-restrictor librifyjs-libgen-me-repack; do
 
   rm -rf /tmp/update-extension
   mkdir /tmp/update-extension
   (cd /tmp/update-extension
-   wget -O extension.xpi  https://addons.mozilla.org/firefox/downloads/latest/$extension/addon-$extension-latest.xpi
-   unzip extension.xpi
+   wget -q -O extension.xpi  https://addons.mozilla.org/firefox/downloads/latest/$extension/addon-$extension-latest.xpi
+   unzip -q extension.xpi
    rm extension.xpi)
 
   if [ -f /tmp/update-extension/install.rdf ]; then
@@ -24,6 +24,7 @@ for extension in librejs https-everywhere librejs-usps-compatibility submit-me v
   rm -rf extensions/$ID
   mv /tmp/update-extension extensions/$ID
 
+  echo updated $extension
 done
 
 sed '/autoUpdateRulesets/s/true/false/' -i extensions/https-everywhere@eff.org/pages/options/ux.js extensions/https-everywhere@eff.org/background-scripts/update.js

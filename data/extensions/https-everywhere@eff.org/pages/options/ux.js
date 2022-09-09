@@ -1,47 +1,33 @@
 /* global sendMessage */
 /* global getOption_ */
 /* global e */
-/* global hide */
+/* global show, hide */
 
 "use strict";
 
-if (navigator.userAgent.includes("Android")) {
-  const url = new URL(window.location.href);
-  if (!url.searchParams.get('redirected')) {
-    url.searchParams.set('redirected', true);
-    document.body.innerText = "";
-    let link = document.createElement("a");
-    link.href = url.href;
-    link.target = "_blank";
-    link.className = "settings";
-    link.innerText = chrome.i18n.getMessage("options_settings");
-    document.body.appendChild(link);
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
-  const secretArea = document.getElementById('secretArea')
+  const secretArea = document.getElementById('secretArea');
 
   const onKeyDownHandler = evt => {
     if (evt.ctrlKey && evt.key === 'z') {
-      secretArea.classList.remove('hidden')
-      secretArea.classList.add('flash')
+      secretArea.classList.remove('hidden');
+      secretArea.classList.add('flash');
 
-      sendMessage('set_option', { developerMode: true })
+      sendMessage('set_option', { developerMode: true });
 
-      document.removeEventListener('keydown', onKeyDownHandler)
+      document.removeEventListener('keydown', onKeyDownHandler);
 
-      evt.preventDefault()
+      evt.preventDefault();
     }
-  }
+  };
 
   sendMessage('get_option', { developerMode: false }, item => {
     if (item.developerMode) {
-      secretArea.classList.remove('hidden')
+      secretArea.classList.remove('hidden');
     } else {
-      document.addEventListener('keydown', onKeyDownHandler)
+      document.addEventListener('keydown', onKeyDownHandler);
     }
-  })
+  });
 
   const autoUpdateRulesets = document.getElementById("autoUpdateRulesets");
   const enableMixedRulesets = document.getElementById("enableMixedRulesets");
@@ -91,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  function create_update_channel_element(update_channel, last_updated, pinned) {
+  function create_update_channel_element(update_channel, last_updated, locked) {
     let ruleset_version_string;
 
     if(last_updated) {
@@ -113,6 +99,33 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channel_last_updated.innerText = chrome.i18n.getMessage("options_storedRulesetsVersion") + ruleset_version_string;
     update_channel_name.appendChild(update_channel_last_updated);
 
+    const update_channel_row_format = document.createElement('div');
+    update_channel_row_format.className = "update-channel-row-format";
+    update_channel_div.appendChild(update_channel_row_format);
+    const update_channel_format_column_left = document.createElement('div');
+    update_channel_format_column_left.className = "update-channel-column-left";
+    update_channel_format_column_left.innerText = "Format:";
+    update_channel_row_format.appendChild(update_channel_format_column_left);
+    const update_channel_format_column_right = document.createElement('div');
+    update_channel_format_column_right.className = "update-channel-column-right";
+    update_channel_row_format.appendChild(update_channel_format_column_right);
+    const update_channel_format = document.createElement('select');
+    update_channel_format.className = "update-channel-format";
+    update_channel_format.setAttribute("data-name", update_channel.name);
+    update_channel_format.disabled = locked;
+    update_channel_format_column_right.appendChild(update_channel_format);
+    const update_channel_format_option_ruleset = document.createElement('option');
+    update_channel_format_option_ruleset.value = "ruleset";
+    update_channel_format_option_ruleset.innerText = "ruleset";
+    update_channel_format_option_ruleset.defaultSelected = true;
+    update_channel_format_option_ruleset.selected = (update_channel.format == "ruleset");
+    update_channel_format.appendChild(update_channel_format_option_ruleset);
+    const update_channel_format_option_bloom = document.createElement('option');
+    update_channel_format_option_bloom.value = "bloom";
+    update_channel_format_option_bloom.innerText = "bloom";
+    update_channel_format_option_bloom.selected = (update_channel.format == "bloom");
+    update_channel_format.appendChild(update_channel_format_option_bloom);
+
     const update_channel_row_jwk = document.createElement('div');
     update_channel_row_jwk.className = "update-channel-row-jwk";
     update_channel_div.appendChild(update_channel_row_jwk);
@@ -126,7 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const update_channel_jwk = document.createElement('textarea');
     update_channel_jwk.className = "update-channel-jwk";
     update_channel_jwk.setAttribute("data-name", update_channel.name);
-    update_channel_jwk.disabled = pinned;
+    update_channel_jwk.disabled = locked;
     update_channel_jwk.innerText = JSON.stringify(update_channel.jwk);
     update_channel_jwk_column_right.appendChild(update_channel_jwk);
 
@@ -144,7 +157,7 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channel_path_prefix.setAttribute("type", "text");
     update_channel_path_prefix.className = "update-channel-path-prefix";
     update_channel_path_prefix.setAttribute("data-name", update_channel.name);
-    update_channel_path_prefix.disabled = pinned;
+    update_channel_path_prefix.disabled = locked;
     update_channel_path_prefix.value = update_channel.update_path_prefix;
     update_channel_path_prefix_column_right.appendChild(update_channel_path_prefix);
 
@@ -153,6 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channel_div.appendChild(clearer);
 
     const update_channel_row_scope = document.createElement('div');
+    if(update_channel.format == "bloom") {
+      update_channel_row_scope.style.display = "none";
+    }
     update_channel_row_scope.className = "update-channel-row-scope";
     update_channel_div.appendChild(update_channel_row_scope);
     const update_channel_scope_column_left = document.createElement('div');
@@ -166,7 +182,7 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channel_scope.setAttribute("type", "text");
     update_channel_scope.className = "update-channel-scope";
     update_channel_scope.setAttribute("data-name", update_channel.name);
-    update_channel_scope.disabled = pinned;
+    update_channel_scope.disabled = locked;
     update_channel_scope.value = update_channel.scope;
     update_channel_scope_column_right.appendChild(update_channel_scope);
 
@@ -183,13 +199,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const update_channel_update = document.createElement('button');
     update_channel_update.className = "update-channel-update";
     update_channel_update.setAttribute("data-name", update_channel.name);
-    update_channel_update.disabled = pinned;
+    update_channel_update.disabled = locked;
     update_channel_update.innerText = chrome.i18n.getMessage("options_update");
     update_channel_controls_column_right.appendChild(update_channel_update);
     const update_channel_delete = document.createElement('button');
     update_channel_delete.className = "update-channel-update";
     update_channel_delete.setAttribute("data-name", update_channel.name);
-    update_channel_delete.disabled = pinned;
+    update_channel_delete.disabled = locked;
     update_channel_delete.innerText = chrome.i18n.getMessage("options_delete");
     update_channel_controls_column_right.appendChild(update_channel_delete);
 
@@ -197,6 +213,13 @@ document.addEventListener("DOMContentLoaded", () => {
     clearer.className = "clearer";
     update_channel_div.appendChild(clearer);
 
+    update_channel_format.addEventListener("change", () => {
+      if(update_channel_format.value == "bloom") {
+        update_channel_row_scope.style.display = "none";
+      } else {
+        update_channel_row_scope.style.display = "block";
+      }
+    });
     update_channel_delete.addEventListener("click", () => {
       sendMessage("delete_update_channel", update_channel.name, () => {
         render_update_channels();
@@ -206,6 +229,7 @@ document.addEventListener("DOMContentLoaded", () => {
     update_channel_update.addEventListener("click", () => {
       sendMessage("update_update_channel", {
         name: update_channel.name,
+        format: update_channel_format.value,
         jwk: JSON.parse(update_channel_jwk.value),
         update_path_prefix: update_channel_path_prefix.value,
         scope: update_channel_scope.value
@@ -229,7 +253,7 @@ document.addEventListener("DOMContentLoaded", () => {
           create_update_channel_element(
             update_channel,
             item.last_updated[update_channel.name],
-            true
+            true,
           )
         );
 
@@ -242,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
           create_update_channel_element(
             update_channel,
             item.last_updated[update_channel.name],
-            false
+            update_channel.locked === true,
           )
         );
       }
@@ -295,7 +319,7 @@ document.addEventListener("DOMContentLoaded", () => {
         sendMessage("remove_rule", { ruleset: userRule, src: 'options' });
       });
     }
-  })
+  });
 
   // HTTPS Everywhere Sites Disabled section in General Settings module
   getOption_("disabledList", [], function(item) {
@@ -329,14 +353,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const add_disabled_site = document.getElementById("add-disabled-site");
   const disabled_site_input = document.getElementById("disabled-site");
+  const add_disabled_site_invalid_host = document.getElementById('add-disabled-site-invalid-host');
   disabled_site_input.setAttribute("placeholder", chrome.i18n.getMessage("options_enterDisabledSite"));
-
+  function isValidHost(host) {
+    try {
+      new URL(`http://${host}/`);
+      return true;
+    } catch {
+      return false;
+    }
+  }
   add_disabled_site.addEventListener("click", function() {
-    sendMessage("disable_on_site", disabled_site_input.value, okay => {
-      if (okay) {
-        chrome.tabs.reload();
-      }
-    });
+    const host = disabled_site_input.value;
+
+    if (isValidHost(host)) {
+      hide(add_disabled_site_invalid_host);
+      sendMessage("disable_on_site", disabled_site_input.value, okay => {
+        if (okay) {
+          chrome.tabs.reload();
+        }
+      });
+    } else {
+      show(add_disabled_site_invalid_host);
+    }
   });
 
   add_update_channel.addEventListener("click", () => {

@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Vers\u00e3o"
     },
+    "cancel_copied_url": {
+        "message": "Copiado para a \u00c1rea de Transfer\u00eancia"
+    },
+    "cancel_copy_url": {
+        "message": "Copiar URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "O HTTPS Everywhere notou que estava a navegar para uma p\u00e1gina n\u00e3o-HTTPS e tentou envi\u00e1-lo para a vers\u00e3o HTTPS. A vers\u00e3o HTTPS n\u00e3o est\u00e1 dispon\u00edvel. O mais prov\u00e1vel \u00e9 que este site n\u00e3o suporte HTTPS, mas tamb\u00e9m \u00e9 poss\u00edvel que um atacante esteja a bloquear a vers\u00e3o HTTPS. Se desejar visualizar a vers\u00e3o n\u00e3o encriptada desta p\u00e1gina, ainda poder\u00e1 desativ\u00e1-la, desativando a op\u00e7\u00e3o 'Encriptar Todos os Sites Eleg\u00edveis (EASE)' na sua extens\u00e3o HTTPS Everywhere. Esteja ciente de que desativar esta op\u00e7\u00e3o pode tornar o seu navegador vulner\u00e1vel a ataques nos sites da Web que visita."
     },
@@ -24,10 +30,10 @@
         "message": "ataques de passar para uma vers\u00e3o anterior baseados em rede"
     },
     "cancel_http_once": {
-        "message": "Abrir p\u00e1gina insegura apenas para esta sess\u00e3o"
+        "message": "Continuar (n\u00e3o seguro)"
     },
     "cancel_open_page": {
-        "message": "Abrir p\u00e1gina insegura"
+        "message": "Desativar neste site"
     },
     "chrome_add_new_rule": {
         "message": "Adicionar uma nova regra para este site"
@@ -39,10 +45,10 @@
         "message": "Utilizar HTTPS sempre para este hospedeiro"
     },
     "chrome_disable_on_this_site": {
-        "message": "Desativar HTTPS Everywhere neste site"
+        "message": "Desativar neste site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Ativar HTTPS Everywhere neste site"
+        "message": "Ativar neste site"
     },
     "chrome_experimental_rules": {
         "message": "Regras experimentais"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Ver todas as regras"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere \u00e9 um projeto EFF "
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "O HTTPS Everywhere foi atualizado!"
     },
     "onboarding_intro": {
         "message": "Encripte a Web! Utilize automaticamente a seguran\u00e7a HTTPS em v\u00e1rios sites."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Configura\u00e7\u00f5es Gerais"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Este host n\u00e3o pode ser adicionado porque n\u00e3o est\u00e1 formatado corretamente. Por favor, reveja-o e tente de novo."
+    },
     "options_settings": {
         "message": "Defini\u00e7\u00f5es"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Isto ir\u00e1 repor cada conjunto de regras para o seu estado original. Continuar?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Servidor Proxy a correr em"
+    },
+    "standalone_transparent_false": {
+        "message": "Deve configurar as suas aplica\u00e7\u00f5es a usar um proxy HTTP para o host e port especificados."
+    },
+    "standalone_transparent_true": {
+        "message": "Deve configurar as regras da sua firewall para retransmitir packets para o host e port especificados."
     }
 }

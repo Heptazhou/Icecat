@@ -24,15 +24,15 @@
   Singleton to handle external licenses, e.g. WebLabels
 */
 
-"use strict";
+'use strict';
 
 let licensesByLabel = new Map();
 let licensesByUrl = new Map();
 {
-  let {licenses} = require("../license_definitions");
+  let { licenses } = require('../license_definitions');
   let mapByLabel = (label, license) => licensesByLabel.set(label.toUpperCase(), license);
   for (let [id, l] of Object.entries(licenses)) {
-    let {identifier, canonicalUrl, licenseName} = l;
+    let { identifier, canonicalUrl, licenseName } = l;
     if (identifier) {
       mapByLabel(identifier, l);
     } else {
@@ -60,25 +60,25 @@ var ExternalLicenses = {
   },
 
   async check(script) {
-    let {url, tabId, frameId, documentUrl} = script;
+    let { url, tabId, frameId, documentUrl } = script;
     let tabCache = cachedHrefs.get(tabId);
     let frameCache = tabCache && tabCache.get(frameId);
     let cache = frameCache && frameCache.get(documentUrl);
     let scriptInfo = await browser.tabs.sendMessage(tabId, {
-      action: "checkLicensedScript",
+      action: 'checkLicensedScript',
       url,
       cache,
-    }, {frameId});
+    }, { frameId });
 
     if (!(scriptInfo && scriptInfo.licenseLinks.length)) {
       return null;
     }
     scriptInfo.licenses = new Set();
     scriptInfo.toString = function() {
-      let licenseIds = [...this.licenses].map(l => l.identifier).sort().join(", ");
+      let licenseIds = [...this.licenses].map(l => l.identifier).sort().join(', ');
       return licenseIds
-         ? `Free license${this.licenses.size > 1 ? "s" : ""} (${licenseIds})`
-         : "Unknown license(s)";
+        ? `Free license${this.licenses.size > 1 ? 's' : ''} (${licenseIds})`
+        : 'Unknown license(s)';
     }
     let match = (map, key) => {
       if (map.has(key)) {
@@ -88,7 +88,7 @@ var ExternalLicenses = {
       return false;
     };
 
-    for (let {label, url} of scriptInfo.licenseLinks) {
+    for (let { label, url } of scriptInfo.licenseLinks) {
       match(licensesByLabel, label = label.trim().toUpperCase()) ||
         match(licensesByUrl, url) ||
         match(licensesByLabel, label.replace(/^GNU-|-(?:OR-LATER|ONLY)$/, ''));
@@ -104,31 +104,32 @@ var ExternalLicenses = {
   * modify the rendered HTML but rather feed the content script on demand.
   * Returns true if the document has been actually modified, false otherwise.
   */
-  optimizeDocument(document, cachePointer) {
+  optimizeDocument(doc, cachePointer) {
     let cache = {};
-    let {tabId, frameId, documentUrl} = cachePointer;
+    let { tabId, frameId, documentUrl } = cachePointer;
     let frameCache = cachedHrefs.get(tabId);
     if (!frameCache) {
       cachedHrefs.set(tabId, frameCache = new Map());
     }
     frameCache.set(frameId, new Map([[documentUrl, cache]]));
 
-    let link = document.querySelector(`link[rel="jslicense"], link[data-jslicense="1"], a[rel="jslicense"], a[data-jslicense="1"]`);
+    let link = doc.querySelector('link[rel="jslicense"], link[data-jslicense="1"], a[rel="jslicense"], a[data-jslicense="1"]');
     if (link) {
-      let href = link.getAttribute("href");
-      cache.webLabels = {href};
-      let move = () => !!document.head.insertBefore(link, document.head.firstChild);
-      if (link.parentNode === document.head) {
-        for (let node; node = link.previousElementSibling;) {
-          if (node.tagName.toUpperCase() === "SCRIPT") {
+      let href = link.getAttribute('href');
+      cache.webLabels = { href };
+      let move = () => !!doc.head.insertBefore(link, doc.head.firstChild);
+      if (link.parentNode === doc.head) {
+        let node = link.previousElementSibling;
+        for (; node; node = node.previousElementSibling) {
+          if (node.tagName.toUpperCase() === 'SCRIPT') {
             return move();
           }
         }
       } else { // the reference is only in the body
-        if (link.tagName.toUpperCase() === "A") {
-          let newLink = document.createElement("link");
-          newLink.rel = "jslicense";
-          newLink.setAttribute("href", href);
+        if (link.tagName.toUpperCase() === 'A') {
+          let newLink = doc.createElement('link');
+          newLink.rel = 'jslicense';
+          newLink.setAttribute('href', href);
           link = newLink;
         }
         return move();
@@ -168,11 +169,11 @@ module.exports = { ExternalLicenses };
   A class to manage whitelist/blacklist operations
 */
 
-let {ListStore} = require("../common/Storage");
+let { ListStore } = require('../common/Storage');
 
 class ListManager {
   constructor(whitelist, blacklist, builtInHashes) {
-    this.lists = {whitelist, blacklist};
+    this.lists = { whitelist, blacklist };
     this.builtInHashes = new Set(builtInHashes);
   }
 
@@ -193,14 +194,14 @@ class ListManager {
     with a trailing (hash).
     Returns "blacklisted", "whitelisted" or defValue
   */
-  getStatus(key, defValue = "unknown") {
-    let {blacklist, whitelist} = this.lists;
+  getStatus(key, defValue = 'unknown') {
+    let { blacklist, whitelist } = this.lists;
     let inline = ListStore.inlineItem(key);
     if (inline) {
       return blacklist.contains(inline)
-        ? "blacklisted"
-        : whitelist.contains(inline) ? "whitelisted"
-        : defValue;
+        ? 'blacklisted'
+        : whitelist.contains(inline) ? 'whitelisted'
+          : defValue;
     }
 
     let match = key.match(/\(([^)]+)\)(?=[^()]*$)/);
@@ -208,40 +209,40 @@ class ListManager {
       let url = ListStore.urlItem(key);
       let site = ListStore.siteItem(key);
       return (blacklist.contains(url) || ListManager.siteMatch(site, blacklist)
-        ? "blacklisted"
+        ? 'blacklisted'
         : whitelist.contains(url) || ListManager.siteMatch(site, whitelist)
-        ? "whitelisted" : defValue
+          ? 'whitelisted' : defValue
       );
     }
 
-  	let [hashItem, srcHash] = match; // (hash), hash
-  	return blacklist.contains(hashItem) ? "blacklisted"
-  			: this.builtInHashes.has(srcHash) || whitelist.contains(hashItem)
-        ? "whitelisted"
-  			: defValue;
-  	}
+    let [hashItem, srcHash] = match; // (hash), hash
+    return blacklist.contains(hashItem) ? 'blacklisted'
+      : this.builtInHashes.has(srcHash) || whitelist.contains(hashItem)
+        ? 'whitelisted'
+        : defValue;
+  }
 
-    /*
-      Matches by whole site ("http://some.domain.com/*") supporting also
-      wildcarded subdomains ("https://*.domain.com/*").
-    */
-    static siteMatch(url, list) {
-      let site = ListStore.siteItem(url);
+  /*
+    Matches by whole site ("http://some.domain.com/*") supporting also
+    wildcarded subdomains ("https://*.domain.com/*").
+  */
+  static siteMatch(url, list) {
+    let site = ListStore.siteItem(url);
+    if (list.contains(site)) {
+      return site;
+    }
+    site = site.replace(/^([\w-]+:\/\/)?(\w)/, '$1*.$2');
+    for (; ;) {
       if (list.contains(site)) {
         return site;
       }
-      site = site.replace(/^([\w-]+:\/\/)?(\w)/, "$1*.$2");
-      for (;;) {
-        if (list.contains(site)) {
-          return site;
-        }
-        let oldKey = site;
-        site = site.replace(/(?:\*\.)*\w+(?=\.)/, "*");
-        if (site === oldKey) {
-          return null;
-        }
+      let oldKey = site;
+      site = site.replace(/(?:\*\.)*\w+(?=\.)/, '*');
+      if (site === oldKey) {
+        return null;
       }
     }
+  }
 }
 
 module.exports = { ListManager };
@@ -275,32 +276,32 @@ module.exports = { ListManager };
 */
 
 const BOM = [0xEF, 0xBB, 0xBF];
-const DECODER_PARAMS = {stream: true};
+const DECODER_PARAMS = { stream: true };
 
 class ResponseMetaData {
   constructor(request) {
-    let {responseHeaders} = request;
+    let { responseHeaders } = request;
     this.headers = {};
     for (let h of responseHeaders) {
       if (/^\s*Content-(Type|Disposition)\s*$/i.test(h.name)) {
-        let propertyName =  h.name.split("-")[1].trim();
+        let propertyName = h.name.split('-')[1].trim();
         propertyName = `content${propertyName.charAt(0).toUpperCase()}${propertyName.substring(1).toLowerCase()}`;
         this[propertyName] = h.value;
         this.headers[propertyName] = h;
       }
     }
-    this.computedCharset = "";
+    this.computedCharset = '';
   }
 
   get charset() {
-    let charset = "";
+    let charset = '';
     if (this.contentType) {
       let m = this.contentType.match(/;\s*charset\s*=\s*(\S+)/);
       if (m) {
         charset = m[1];
       }
     }
-    Object.defineProperty(this, "charset", { value: charset, writable: false, configurable: true });
+    Object.defineProperty(this, 'charset', { value: charset, writable: false, configurable: true });
     return this.computedCharset = charset;
   }
 
@@ -318,12 +319,12 @@ class ResponseMetaData {
 
       // let's try figuring out the charset from <meta> tags
       let parser = new DOMParser();
-      let doc = parser.parseFromString(text, "text/html");
+      let doc = parser.parseFromString(text, 'text/html');
       let meta = doc.querySelectorAll('meta[charset], meta[http-equiv="content-type"], meta[content*="charset"]');
       for (let m of meta) {
-        charset = m.getAttribute("charset");
+        charset = m.getAttribute('charset');
         if (!charset) {
-          let match = m.getAttribute("content").match(/;\s*charset\s*=\s*([\w-]+)/i)
+          let match = m.getAttribute('content').match(/;\s*charset\s*=\s*([\w-]+)/i)
           if (match) charset = match[1];
         }
         if (charset) {
@@ -338,7 +339,7 @@ class ResponseMetaData {
     return text;
   }
 
-  createDecoder(charset = this.charset, def = "latin1") {
+  createDecoder(charset = this.charset, def = 'latin1') {
     if (charset) {
       try {
         return new TextDecoder(charset);
@@ -348,7 +349,7 @@ class ResponseMetaData {
     }
     return def ? new TextDecoder(def) : null;
   }
-};
+}
 ResponseMetaData.UTF8BOM = new Uint8Array(BOM);
 
 module.exports = { ResponseMetaData };
@@ -380,23 +381,23 @@ module.exports = { ResponseMetaData };
   only the "interesting" HTML and script requests and leaving the other alone
 */
 
-let {ResponseMetaData} = require("./ResponseMetaData");
+let { ResponseMetaData } = require('./ResponseMetaData');
 
 let listeners = new WeakMap();
 let webRequestEvent = browser.webRequest.onHeadersReceived;
 
 class ResponseProcessor {
 
-  static install(handler, types = ["main_frame", "sub_frame", "script"]) {
+  static install(handler, types = ['main_frame', 'sub_frame', 'script']) {
     if (listeners.has(handler)) return false;
     let listener =
-      async request =>  await new ResponseTextFilter(request).process(handler);
+      async request => await new ResponseTextFilter(request).process(handler);
     listeners.set(handler, listener);
     webRequestEvent.addListener(
-  		listener,
-  		{urls: ["<all_urls>"], types},
-  		["blocking", "responseHeaders"]
-  	);
+      listener,
+      { urls: ['<all_urls>'], types },
+      ['blocking', 'responseHeaders']
+    );
     return true;
   }
 
@@ -410,34 +411,34 @@ class ResponseProcessor {
 
 Object.assign(ResponseProcessor, {
   // control flow values to be returned by handler.pre() callbacks
-	ACCEPT: {},
-	REJECT: {cancel: true},
-	CONTINUE: null
+  ACCEPT: {},
+  REJECT: { cancel: true },
+  CONTINUE: null
 });
 
 class ResponseTextFilter {
   constructor(request) {
     this.request = request;
-    let {type, statusCode} = request;
+    let { type, statusCode } = request;
     let md = this.metaData = new ResponseMetaData(request);
     this.canProcess = // we want to process html documents and scripts only
       (statusCode < 300 || statusCode >= 400) && // skip redirections
       !md.disposition && // skip forced downloads
-      (type === "script" || /\bhtml\b/i.test(md.contentType));
+      (type === 'script' || /\bhtml\b/i.test(md.contentType));
   }
 
   async process(handler) {
     if (!this.canProcess) return ResponseProcessor.ACCEPT;
-    let {metaData, request} = this;
-    let response = {request, metaData}; // we keep it around allowing callbacks to store state
-    if (typeof handler.pre === "function") {
+    let { metaData, request } = this;
+    let response = { request, metaData }; // we keep it around allowing callbacks to store state
+    if (typeof handler.pre === 'function') {
       let res = await handler.pre(response);
       if (res) return res;
       if (handler.post) handler = handler.post;
-      if (typeof handler !== "function") return ResponseProcessor.ACCEPT;
+      if (typeof handler !== 'function') return ResponseProcessor.ACCEPT;
     }
 
-    let {requestId, responseHeaders} = request;
+    let { requestId } = request;
     let filter = browser.webRequest.filterResponseData(requestId);
     let buffer = [];
 
@@ -445,9 +446,9 @@ class ResponseTextFilter {
       buffer.push(event.data);
     };
 
-    filter.onstop = async event => {
+    filter.onstop = async unused => {
       // concatenate chunks
-      let size = buffer.reduce((sum, chunk, n) => sum + chunk.byteLength, 0)
+      let size = buffer.reduce((sum, chunk) => sum + chunk.byteLength, 0)
       let allBytes = new Uint8Array(size);
       let pos = 0;
       for (let chunk of buffer) {
@@ -456,13 +457,13 @@ class ResponseTextFilter {
       }
       buffer = null; // allow garbage collection
       if (allBytes.indexOf(0) !== -1) {
-        console.debug("Warning: zeroes in bytestream, probable cached encoding mismatch.", request);
-        if (request.type === "script") {
-          console.debug("It's a script, trying to refetch it.");
-          response.text = await (await fetch(request.url, {cache: "reload", credentials: "include"})).text();
+        console.debug('Warning: zeroes in bytestream, probable cached encoding mismatch.', request);
+        if (request.type === 'script') {
+          console.debug('It\'s a script, trying to refetch it.');
+          response.text = await (await fetch(request.url, { cache: 'reload', credentials: 'include' })).text();
         } else {
-          console.debug("It's a %s, trying to decode it as UTF-16.", request.type);
-          response.text = new TextDecoder("utf-16be").decode(allBytes, {stream: true});
+          console.debug('It\'s a %s, trying to decode it as UTF-16.', request.type);
+          response.text = new TextDecoder('utf-16be').decode(allBytes, { stream: true });
         }
       } else {
         response.text = metaData.decode(allBytes);
@@ -470,10 +471,10 @@ class ResponseTextFilter {
       let editedText = null;
       try {
         editedText = await handler(response);
-      } catch(e) {
+      } catch (e) {
         console.error(e);
       }
-      if (editedText !== null) {
+      if (editedText !== null && editedText.indexOf('/* LibreJS: script accepted') !== 0) {
         // we changed the content, let's re-encode
         let encoded = new TextEncoder().encode(editedText);
         // pre-pending the UTF-8 BOM will force the charset per HTML 5 specs
@@ -517,7 +518,7 @@ module.exports = { ResponseProcessor };
  A tiny wrapper around extensions storage API, supporting CSV serialization for
  retro-compatibility
 */
-"use strict";
+'use strict';
 
 var Storage = {
   ARRAY: {
@@ -528,7 +529,7 @@ var Storage = {
       return array ? new Set(array) : new Set();
     },
     async save(key, list) {
-      return await browser.storage.local.set({[key]: [...list]});
+      return await browser.storage.local.set({ [key]: [...list] });
     },
   },
 
@@ -539,7 +540,7 @@ var Storage = {
     },
 
     async save(key, list) {
-      return await browser.storage.local.set({[key]: [...list].join(",")});
+      return await browser.storage.local.set({ [key]: [...list].join(',') });
     }
   }
 };
@@ -562,20 +563,20 @@ class ListStore {
 
   static inlineItem(url) {
     // here we simplify and hash inline script references
-    return url.startsWith("inline:") ? url
-      : url.startsWith("view-source:")
-        && url.replace(/^view-source:[\w-+]+:\/+([^/]+).*#line\d+/,"inline://$1#")
-              .replace(/\n[^]*/, s => s.replace(/\s+/g, ' ').substring(0, 16) + "…" + hash(s.trim()));
+    return url.startsWith('inline:') ? url
+      : url.startsWith('view-source:')
+      && url.replace(/^view-source:[\w-+]+:\/+([^/]+).*#line\d+/, 'inline://$1#')
+        .replace(/\n[^]*/, s => s.replace(/\s+/g, ' ').substring(0, 16) + '…' + hash(s.trim()));
   }
   static hashItem(hash) {
-    return hash.startsWith("(") ? hash : `(${hash})`;
+    return hash.startsWith('(') ? hash : `(${hash})`;
   }
   static urlItem(url) {
-    let queryPos = url.indexOf("?");
+    let queryPos = url.indexOf('?');
     return queryPos === -1 ? url : url.substring(0, queryPos);
   }
   static siteItem(url) {
-    if (url.endsWith("/*")) return url;
+    if (url.endsWith('/*')) return url;
     try {
       return `${new URL(url).origin}/*`;
     } catch (e) {
@@ -627,18 +628,18 @@ class ListStore {
   }
 }
 
-function hash(source){
-	var shaObj = new jssha("SHA-256","TEXT")
-	shaObj.update(source);
-	return shaObj.getHash("HEX");
+function hash(source) {
+  var shaObj = new jssha('SHA-256', 'TEXT')
+  shaObj.update(source);
+  return shaObj.getHash('HEX');
 }
 
-if (typeof module === "object") {
+if (typeof module === 'object') {
   module.exports = { ListStore, Storage, hash };
   var jssha = require('jssha');
 }
 
-},{"jssha":15}],6:[function(require,module,exports){
+},{"jssha":13}],6:[function(require,module,exports){
 /**
 * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
 *
@@ -660,9 +661,9 @@ if (typeof module === "object") {
 * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-"use strict";
+'use strict';
 var Test = (() => {
-  const RUNNER_URL = browser.extension.getURL("/test/SpecRunner.html");
+  const RUNNER_URL = browser.extension.getURL('/test/SpecRunner.html');
   return {
     /*
       returns RUNNER_URL if it's a test-enabled build or an about:debugging
@@ -681,23 +682,23 @@ var Test = (() => {
 
     async getTab(activate = false) {
       let url = await this.getURL();
-      let tab = url ? (await browser.tabs.query({url}))[0] ||
-                    (await browser.tabs.create({url}))
+      let tab = url ? (await browser.tabs.query({ url }))[0] ||
+        (await browser.tabs.create({ url }))
         : null;
       if (tab && activate) {
-        await browser.tabs.update(tab.id, {active: true});
+        await browser.tabs.update(tab.id, { active: true });
       }
       return tab;
     }
   };
 })();
-if (typeof module === "object") {
+if (typeof module === 'object') {
   module.exports = Test;
 }
 
 },{}],7:[function(require,module,exports){
-module.exports=module.exports = {
-	fname_data : {
+module.exports={
+	"fname_data": {
 		"WebGLShader": true,
 		"WebGLShaderPrecisionFormat": true,
 		"WebGLQuery": true,
@@ -1527,7 +1528,7 @@ module.exports=module.exports = {
 		"NodeList": true,
 		"StopIteration": true
 	}
-};
+}
 
 },{}],8:[function(require,module,exports){
 module.exports = {
@@ -1556,10 +1557,10 @@ module.exports = {
 * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var data = require("./license_definitions.js");
-var match_utils = require("./pattern_utils.js").patternUtils;
+const { licenses } = require('./license_definitions.js');
+const { patternUtils } = require('./pattern_utils.js');
 
-var licStartLicEndRe = /@licstartThefollowingistheentirelicensenoticefortheJavaScriptcodeinthis(?:page|file)(.*)?@licendTheaboveistheentirelicensenoticefortheJavaScriptcodeinthis(?:page|file)/mi;
+const licStartLicEndRe = /@licstartThefollowingistheentirelicensenoticefortheJavaScriptcodeinthis(?:page|file)(.*)?@licendTheaboveistheentirelicensenoticefortheJavaScriptcodeinthis(?:page|file)/mi;
 
 
 /**
@@ -1570,26 +1571,19 @@ var licStartLicEndRe = /@licstartThefollowingistheentirelicensenoticefortheJavaS
  * hardcoded in license_definitions.js
  *
  */
-var stripLicenseToRegexp = function (license) {
-	var max = license.licenseFragments.length;
-	var item;
-	for (var i = 0; i < max; i++) {
-		item = license.licenseFragments[i];
-		item.regex = match_utils.removeNonalpha(item.text);
-		item.regex = new RegExp(
-			match_utils.replaceTokens(item.regex), '');
-	}
-	return license;
+const stripLicenseToRegexp = function(license) {
+  for (const frag of license.licenseFragments) {
+    frag.regex = patternUtils.removeNonalpha(frag.text);
+    frag.regex = new RegExp(
+      patternUtils.replaceTokens(frag.regex), '');
+  }
 };
 
-var	license_regexes = [];
-
-var init = function(){
-	console.log("initializing regexes");
-	for (var item in data.licenses) {
-		license_regexes.push(stripLicenseToRegexp(data.licenses[item]));
-	}
-	//console.log(license_regexes);
+const init = function() {
+  console.log('initializing regexes');
+  for (const key in licenses) {
+    stripLicenseToRegexp(licenses[key]);
+  }
 }
 
 module.exports.init = init;
@@ -1599,25 +1593,19 @@ module.exports.init = init;
 *	Takes in the declaration that has been preprocessed and 
 *	tests it against regexes in our table.
 */
-var search_table = function(stripped_comment){
-	var stripped = match_utils.removeNonalpha(stripped_comment); 
-	//stripped = stripped.replaceTokens(stripped_comment); 
-
-	//console.log("Looking up license");
-	//console.log(stripped);
-
-    for (license in data.licenses) {	    
-		frag = data.licenses[license].licenseFragments;
-		max_i = data.licenses[license].licenseFragments.length;
-		for (i = 0; i < max_i; i++) {
-		    if (frag[i].regex.test(stripped)) {
-			//console.log(data.licenses[license].licenseName);
-			return data.licenses[license].licenseName;
-		    }
-		}
-	}	
-	console.log("No global license found.");
-	return false;
+const searchTable = function(strippedComment) {
+  const stripped = patternUtils.removeNonalpha(strippedComment);
+  // looking up license
+  for (const key in licenses) {
+    const license = licenses[key];
+    for (const frag of license.licenseFragments) {
+      if (frag.regex.test(stripped)) {
+        return license.licenseName;
+      }
+    }
+  }
+  console.log('No global license found.');
+  return false;
 
 }
 
@@ -1625,31 +1613,25 @@ var search_table = function(stripped_comment){
 *	Takes the "first comment available on the page"
 *	returns true for "free" and false for anything else	
 */
-var check = function(license_text){
-	//console.log("checking...");
-	//console.log(license_text);
-
-	if(license_text === undefined || license_text === null || license_text == ""){
-		//console.log("Was not an inline script");
-		return false;
-	}
-	// remove whitespace
-	var stripped = match_utils.removeWhitespace(license_text);
-	// Search for @licstart/@licend
-	// This assumes that there isn't anything before the comment
-	var matches = stripped.match(licStartLicEndRe);
-	if(matches == null){
-		return false;
-	}
-	var declaration = matches[0];
-
-	return search_table(declaration);
-
+const check = function(licenseText) {
+  if (licenseText === undefined || licenseText === null || licenseText == '') {
+    // not an inline script
+    return false;
+  }
+  // remove whitespace
+  const stripped = patternUtils.removeWhitespace(licenseText);
+  // Search for @licstart/@licend
+  // This assumes that there isn't anything before the comment
+  const matches = stripped.match(licStartLicEndRe);
+  if (matches == null) {
+    return false;
+  }
+  return searchTable(matches[0]);
 };
 
 module.exports.check = check;
 
-},{"./license_definitions.js":10,"./pattern_utils.js":16}],10:[function(require,module,exports){
+},{"./license_definitions.js":10,"./pattern_utils.js":14}],10:[function(require,module,exports){
 /**
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
@@ -1672,12 +1654,12 @@ module.exports.check = check;
  * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
  */
 exports.types = {
-    SHORT: 'short',
-    LAZY: 'lazy',
-    FULL: 'full'
+  SHORT: 'short',
+  LAZY: 'lazy',
+  FULL: 'full'
 };
 
-var type = exports.types;
+const type = exports.types;
 
 /**
  * List of all the licenses.
@@ -1688,501 +1670,383 @@ var type = exports.types;
  *   https://spdx.org/licenses/
  */
 exports.licenses = {
-    'CC0-1.0': {
-        licenseName: 'Creative Commons CC0 1.0 Universal',
-        identifier: 'CC0-1.0',
-        canonicalUrl: [
-            'http://creativecommons.org/publicdomain/zero/1.0/legalcode',
-            'magnet:?xt=urn:btih:90dc5c0be029de84e523b9b3922520e79e0e6f08&dn=cc0.txt'
-        ],
-        licenseFragments: []
-    },
+  'AGPL-3.0': {
+    licenseName: 'GNU AFFERO GENERAL PUBLIC LICENSE version 3',
+    identifier: 'AGPL-3.0',
+    canonicalUrl: [
+      'http://www.gnu.org/licenses/agpl-3.0.html',
+      'magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt'
+    ],
+
+    licenseFragments: [{ text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", type: type.SHORT }]
+  },
+
+  'Apache-2.0': {
+    licenseName: 'Apache License, Version 2.0',
+    identifier: 'Apache-2.0',
+    canonicalUrl: [
+      'http://www.apache.org/licenses/LICENSE-2.0',
+      'magnet:?xt=urn:btih:8e4f440f4c65981c5bf93c76d35135ba5064d8b7&dn=apache-2.0.txt'
+    ],
+    licenseFragments: [{ text: "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0", type: type.SHORT }]
+  },
+
+  'Artistic-2.0': {
+    licenseName: "Artistic License 2.0",
+    identifier: 'Artistic-2.0',
+    canonicalUrl: [
+      "http://www.perlfoundation.org/artistic_license_2_0",
+      "magnet:?xt=urn:btih:54fd2283f9dbdf29466d2df1a98bf8f65cafe314&dn=artistic-2.0.txt"
+    ],
+    licenseFragments: []
+  },
+
+  'BSD-2-Clause': {
+    licenseName: "BSD 2-Clause License",
+    identifier: 'BSD-2-Clause',
+    canonicalUrl: [
+      'http://www.freebsd.org/copyright/freebsd-license.html',
+      'magnet:?xt=urn:btih:87f119ba0b429ba17a44b4bffcab33165ebdacc0&dn=freebsd.txt'
+    ],
+    licenseFragments: [{ text: "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.", type: type.SHORT }]
+  },
+
+  'BSD-3-Clause': {
+    licenseName: "BSD 3-Clause License",
+    identifier: 'BSD-3-Clause',
+    canonicalUrl: [
+      'http://opensource.org/licenses/BSD-3-Clause',
+      'magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt'
+    ],
+    licenseFragments: [{ text: "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. Neither the name of <ORGANIZATION> nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.", type: type.SHORT }]
+  },
+
+  'BSL-1.0': {
+    licenseName: 'Boost Software License 1.0',
+    identifier: 'BSL-1.0',
+    canonicalUrl: [
+      'http://www.boost.org/LICENSE_1_0.txt',
+      'magnet:?xt=urn:btih:89a97c535628232f2f3888c2b7b8ffd4c078cec0&dn=Boost-1.0.txt'
+    ],
+    licenseFragments: [{ text: "Boost Software License <VERSION> <DATE> Permission is hereby granted, free of charge, to any person or organization obtaining a copy of the software and accompanying documentation covered by this license (the \"Software\") to use, reproduce, display, distribute, execute, and transmit the Software, and to prepare derivative works of the Software, and to permit third-parties to whom the Software is furnished to do so, all subject to the following", type: type.SHORT }]
+  },
+
+  'CC-BY-1.0': {
+    licenseName: 'Creative Commons Attribution 1.0 Generic',
+    identifier: 'CC-BY-1.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by/1.0/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-2.0': {
+    licenseName: 'Creative Commons Attribution 2.0 Generic',
+    identifier: 'CC-BY-2.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by/2.0/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-2.5': {
+    licenseName: 'Creative Commons Attribution 2.5 Generic',
+    identifier: 'CC-BY-2.5',
+    canonicalUrl: ['https://creativecommons.org/licenses/by/2.5/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-3.0': {
+    licenseName: 'Creative Commons Attribution 3.0 Unported',
+    identifier: 'CC-BY-3.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by/3.0/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-4.0': {
+    licenseName: 'Creative Commons Attribution 4.0 International',
+    identifier: 'CC-BY-4.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by/4.0/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-SA-1.0': {
+    licenseName: 'Creative Commons Attribution-ShareAlike 1.0 Generic',
+    identifier: 'CC-BY-SA-1.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by-sa/1.0/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-SA-2.0': {
+    licenseName: 'Creative Commons Attribution-ShareAlike 2.0 Generic',
+    identifier: 'CC-BY-SA-2.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by-sa/2.0/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-SA-2.5': {
+    licenseName: 'Creative Commons Attribution-ShareAlike 2.5 Generic',
+    identifier: 'CC-BY-SA-2.5',
+    canonicalUrl: ['https://creativecommons.org/licenses/by-sa/2.5/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-SA-3.0': {
+    licenseName: 'Creative Commons Attribution-ShareAlike 3.0 Unported',
+    identifier: 'CC-BY-SA-3.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by-sa/3.0/'],
+    licenseFragments: []
+  },
+
+  'CC-BY-SA-4.0': {
+    licenseName: 'Creative Commons Attribution-ShareAlike 4.0 International',
+    identifier: 'CC-BY-SA-4.0',
+    canonicalUrl: ['https://creativecommons.org/licenses/by-sa/4.0/'],
+    licenseFragments: []
+  },
+
+  'CC0-1.0': {
+    licenseName: 'Creative Commons CC0 1.0 Universal',
+    identifier: 'CC0-1.0',
+    canonicalUrl: [
+      'http://creativecommons.org/publicdomain/zero/1.0/legalcode',
+      'magnet:?xt=urn:btih:90dc5c0be029de84e523b9b3922520e79e0e6f08&dn=cc0.txt'
+    ],
+    licenseFragments: []
+  },
+
+  'CECILL-2.0': {
+    licenseName: 'CeCILL Free Software License Agreement v2.0',
+    identifier: 'CECILL-2.0',
+    canonicalUrl: [
+      'https://www.cecill.info/licences/Licence_CeCILL_V2-en.txt',
+      'magnet:?xt=urn:btih:dda0473d240d7febeac8fa265da27286ead0b1ce&dn=cecill-2.0.txt'
+    ],
+    licenseFragments: []
+  },
+
+  'CPAL-1.0': {
+    licenseName: 'Common Public Attribution License Version 1.0 (CPAL)',
+    identifier: 'CPAL-1.0',
+    canonicalUrl: [
+      'http://opensource.org/licenses/cpal_1.0',
+      'magnet:?xt=urn:btih:84143bc45939fc8fa42921d619a95462c2031c5c&dn=cpal-1.0.txt'
+    ],
+    licenseFragments: [
+      {
+        text: 'The contents of this file are subject to the Common Public Attribution License Version 1.0',
+        type: type.SHORT
+      },
+      {
+        text: 'The term "External Deployment" means the use, distribution, or communication of the Original Code or Modifications in any way such that the Original Code or Modifications may be used by anyone other than You, whether those works are distributed or communicated to those persons or made available as an application intended for use over a network. As an express condition for the grants of license hereunder, You must treat any External Deployment by You of the Original Code or Modifications as a distribution under section 3.1 and make Source Code available under Section 3.2.',
+        type: type.SHORT
+      }
+    ]
+  },
+
+  'EPL-1.0': {
+    licenseName: "Eclipse Public License Version 1.0",
+    identifier: "EPL-1.0",
+    canonicalUrl: [
+      "http://www.eclipse.org/legal/epl-v10.html",
+      "magnet:?xt=urn:btih:4c6a2ad0018cd461e9b0fc44e1b340d2c1828b22&dn=epl-1.0.txt"
+    ],
+    licenseFragments: [
+      {
+        text: "THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC LICENSE (\"AGREEMENT\"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.",
+        type: type.SHORT
+      }
+    ]
+  },
+
+  'Expat': {
+    licenseName: 'Expat License (sometimes called MIT Licensed)',
+    identifier: 'Expat',
+    canonicalUrl: [
+      'http://www.jclark.com/xml/copying.txt',
+      'magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt'
+    ],
+    licenseFragments: [{ text: "Copyright <YEAR> <NAME> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.", type: type.SHORT }]
+  },
+
+  'FreeBSD': {
+    licenseName: "FreeBSD License",
+    identifier: 'FreeBSD',
+    canonicalUrl: [
+      'http://www.freebsd.org/copyright/freebsd-license.html',
+      'magnet:?xt=urn:btih:87f119ba0b429ba17a44b4bffcab33165ebdacc0&dn=freebsd.txt'
+    ],
+    licenseFragments: [{ text: "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.", type: type.SHORT }]
+  },
+
+  'GNU-All-Permissive': {
+    licenseName: 'GNU All-Permissive License',
+    identifier: 'GNU-All-Permissive',
+    canonicalUrl: [],
+    licenseFragments: [{ text: "Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved. This file is offered as-is, without any warranty.", type: type.SHORT }]
+  },
+
+  'GPL-2.0': {
+    licenseName: 'GNU General Public License (GPL) version 2',
+    identifier: 'GPL-2.0',
+    canonicalUrl: [
+      'http://www.gnu.org/licenses/gpl-2.0.html',
+      'magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&dn=gpl-2.0.txt'
+    ],
+    licenseFragments: [{ text: "<THISPROGRAM> is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.", type: type.SHORT },
+    { text: "Alternatively, the contents of this file may be used under the terms of either the GNU General Public License Version 2 or later (the \"GPL\"), or the GNU Lesser General Public License Version 2.1 or later (the \"LGPL\"), in which case the provisions of the GPL or the LGPL are applicable instead of those above. If you wish to allow use of your version of this file only under the terms of either the GPL or the LGPL, and not to allow others to use your version of this file under the terms of the MPL, indicate your decision by deleting the provisions above and replace them with the notice and other provisions required by the GPL or the LGPL. If you do not delete the provisions above, a recipient may use your version of this file under the terms of any one of the MPL, the GPL or the LGPL.", type: type.SHORT }]
+  },
+
+  'GPL-3.0': {
+    licenseName: 'GNU General Public License (GPL) version 3',
+    identifier: 'GPL-3.0',
+    canonicalUrl: [
+      'http://www.gnu.org/licenses/gpl-3.0.html',
+      'magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt'
+    ],
+    licenseFragments: [
+      { text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU  General Public License (GNU GPL) as published by the Free Software  Foundation, either version 3 of the License, or (at your option)  any later version. The code is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU GPL for more details. As additional permission under GNU GPL version 3 section 7, you may distribute non-source (e.g., minimized or compacted) forms of that code without the copy of the GNU GPL normally required by section 4, provided you include this license notice and a URL through which recipients can access the Corresponding Source.", type: type.SHORT },
+      { text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", type: type.SHORT }]
+  },
+
+  'ISC': {
+    licenseName: "The ISC License",
+    identifier: 'ISC',
+    canonicalUrl: [
+      'https://www.isc.org/downloads/software-support-policy/isc-license/',
+      'magnet:?xt=urn:btih:b8999bbaf509c08d127678643c515b9ab0836bae&dn=ISC.txt'
+    ],
+    licenseFragments: [{ text: "Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.", type: type.SHORT },
+    { text: "Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.THE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.", type: type.SHORT }]
+  },
+
+  'jQueryTools': {
+    licenseName: "jQuery Tools",
+    identifier: 'jQueryTools',
+    canonicalUrl: [],
+    licenseFragments: [{
+      text: 'NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.',
+      type: type.SHORT
+    }]
+  },
+
+  'LGPL-2.1': {
+    licenseName: 'GNU Lesser General Public License, version 2.1',
+    identifier: 'LGPL-2.1',
+    canonicalUrl: [
+      'http://www.gnu.org/licenses/lgpl-2.1.html',
+      'magnet:?xt=urn:btih:5de60da917303dbfad4f93fb1b985ced5a89eac2&dn=lgpl-2.1.txt'
+    ],
+    licenseFragments: [{ text: "<THISLIBRARY> is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.", type: type.SHORT }]
+  },
+
+  'LGPL-3.0': {
+    licenseName: 'GNU Lesser General Public License, version 3',
+    identifier: 'LGPL-3.0',
+    canonicalUrl: [
+      'http://www.gnu.org/licenses/lgpl-3.0.html',
+      'magnet:?xt=urn:btih:0ef1b8170b3b615170ff270def6427c317705f85&dn=lgpl-3.0.txt'
+    ],
+    licenseFragments: [{ text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", type: type.SHORT }]
+  },
+
+  'MPL-2.0': {
+    licenseName: 'Mozilla Public License Version 2.0',
+    identifier: 'MPL-2.0',
+    canonicalUrl: [
+      'http://www.mozilla.org/MPL/2.0',
+      'magnet:?xt=urn:btih:3877d6d54b3accd4bc32f8a48bf32ebc0901502a&dn=mpl-2.0.txt'
+    ],
+    licenseFragments: [{ text: "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.", type: type.SHORT }]
+  },
+
+  'PublicDomain': {
+    licenseName: 'Public Domain',
+    identifier: 'PublicDomain',
+    canonicalUrl: [
+      'magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt'
+    ],
+    licenseFragments: []
+  },
 
 
-    'GPL-2.0': {
-        licenseName: 'GNU General Public License (GPL) version 2',
-        identifier: 'GPL-2.0',
-        canonicalUrl: [
-            'http://www.gnu.org/licenses/gpl-2.0.html',
-            'magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&dn=gpl-2.0.txt'
-        ],
-        licenseFragments: [{text: "<THISPROGRAM> is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.", type: type.SHORT},
-        {text:"Alternatively, the contents of this file may be used under the terms of either the GNU General Public License Version 2 or later (the \"GPL\"), or the GNU Lesser General Public License Version 2.1 or later (the \"LGPL\"), in which case the provisions of the GPL or the LGPL are applicable instead of those above. If you wish to allow use of your version of this file only under the terms of either the GPL or the LGPL, and not to allow others to use your version of this file under the terms of the MPL, indicate your decision by deleting the provisions above and replace them with the notice and other provisions required by the GPL or the LGPL. If you do not delete the provisions above, a recipient may use your version of this file under the terms of any one of the MPL, the GPL or the LGPL.", type: type.SHORT}]
-    },
+  'Unlicense': {
+    licenseName: 'Unlicense',
+    identifier: 'Unlicense',
+    canonicalUrl: [
+      'http://unlicense.org/UNLICENSE',
+      'magnet:?xt=urn:btih:5ac446d35272cc2e4e85e4325b146d0b7ca8f50c&dn=unlicense.txt'
+    ],
+    licenseFragments: [
+      {
+        text: 'This is free and unencumbered software released into the public domain.',
+        type: type.SHORT
+      },
+    ]
+  },
 
-    'GPL-3.0': {
-        licenseName: 'GNU General Public License (GPL) version 3',
-        identifier: 'GPL-3.0',
-        canonicalUrl: [
-            'http://www.gnu.org/licenses/gpl-3.0.html',
-            'magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt'
-        ],
-        licenseFragments: [
-        {text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU  General Public License (GNU GPL) as published by the Free Software  Foundation, either version 3 of the License, or (at your option)  any later version. The code is distributed WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU GPL for more details. As additional permission under GNU GPL version 3 section 7, you may distribute non-source (e.g., minimized or compacted) forms of that code without the copy of the GNU GPL normally required by section 4, provided you include this license notice and a URL through which recipients can access the Corresponding Source.", type: type.SHORT},
-        {text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", type: type.SHORT}]
-    },
+  'UPL': {
+    licenseName: 'Universal Permissive License',
+    identifier: 'UPL-1.0',
+    canonicalUrl: [
+      'https://oss.oracle.com/licenses/upl/',
+      'magnet:?xt=urn:btih:478974f4d41c3fa84c4befba25f283527fad107d&dn=upl-1.0.txt'
+    ],
+    licenseFragments: [{
+      text: "The Universal Permissive License (UPL), Version 1.0",
+      type: type.SHORT
+    }]
+  },
 
-    'GNU-All-Permissive': {
-        licenseName: 'GNU All-Permissive License',
-        licenseFragments: [{text: "Copying and distribution of this file, with or without modification, are permitted in any medium without royalty provided the copyright notice and this notice are preserved. This file is offered as-is, without any warranty.", type: type.SHORT}]
-    },
+  'WTFPL': {
+    licenseName: 'Do What The F*ck You Want To Public License (WTFPL)',
+    identifier: 'WTFPL',
+    canonicalUrl: [
+      'http://www.wtfpl.net/txt/copying/',
+      'magnet:?xt=urn:btih:723febf9f6185544f57f0660a41489c7d6b4931b&dn=wtfpl.txt'
+    ],
+    licenseFragments: [
+      {
+        text: 'DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE',
+        type: type.SHORT
+      },
+      {
+        text: '0. You just DO WHAT THE FUCK YOU WANT TO.',
+        type: type.SHORT
+      }
+    ]
+  },
 
-    'Apache-2.0': {
-        licenseName: 'Apache License, Version 2.0',
-        identifier: 'Apache-2.0',
-        canonicalUrl: [
-            'http://www.apache.org/licenses/LICENSE-2.0',
-            'magnet:?xt=urn:btih:8e4f440f4c65981c5bf93c76d35135ba5064d8b7&dn=apache-2.0.txt'
-        ],
-        licenseFragments: [{text: "Licensed under the Apache License, Version 2.0 (the \"License\"); you may not use this file except in compliance with the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0", type: type.SHORT}]
-    },
+  'X11': {
+    licenseName: 'X11 License',
+    identifier: 'X11',
+    canonicalUrl: [
+      'magnet:?xt=urn:btih:5305d91886084f776adcf57509a648432709a7c7&dn=x11.txt'
+    ],
+    licenseFragments: [{ text: "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.", type: type.SHORT }]
+  },
 
-    'LGPL-2.1': {
-        licenseName: 'GNU Lesser General Public License, version 2.1',
-        identifier: 'LGPL-2.1',
-        canonicalUrl: [
-            'http://www.gnu.org/licenses/lgpl-2.1.html',
-            'magnet:?xt=urn:btih:5de60da917303dbfad4f93fb1b985ced5a89eac2&dn=lgpl-2.1.txt'
-        ],
-        licenseFragments: [{text: "<THISLIBRARY> is free software; you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation; either version 2.1 of the License, or (at your option) any later version.", type: type.SHORT}]
-    },
+  'XFree86-1.1': {
+    licenseName: "XFree86 1.1 License",
+    identifier: 'XFree86-1.1',
+    canonicalUrl: [
+      'http://www.xfree86.org/3.3.6/COPYRIGHT2.html#3',
+      'http://www.xfree86.org/current/LICENSE4.html',
+      'magnet:?xt=urn:btih:12f2ec9e8de2a3b0002a33d518d6010cc8ab2ae9&dn=xfree86.txt'
+    ],
+    licenseFragments: [{ text: "All rights reserved.\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.\n2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution, and in the same place and form as other copyright, license and disclaimer information.\n3. The end-user documentation included with the redistribution, if any, must include the following acknowledgment: \"This product includes software developed by The XFree86 Project, Inc (http://www.xfree86.org/) and its contributors\", in the same place and form as other third-party acknowledgments. Alternately, this acknowledgment may appear in the software itself, in the same form and location as other such third-party acknowledgments.4. Except as contained in this notice, the name of The XFree86 Project, Inc shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization from The XFree86 Project, Inc.", type: type.SHORT }
+    ]
+  },
 
-    'LGPL-3.0': {
-        licenseName: 'GNU Lesser General Public License, version 3',
-        identifier: 'LGPL-3.0',
-        canonicalUrl: [
-            'http://www.gnu.org/licenses/lgpl-3.0.html',
-            'magnet:?xt=urn:btih:0ef1b8170b3b615170ff270def6427c317705f85&dn=lgpl-3.0.txt'
-        ],
-        licenseFragments: [{text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", type: type.SHORT}]
-    },
-
-    'AGPL-3.0': {
-        licenseName: 'GNU AFFERO GENERAL PUBLIC LICENSE version 3',
-        identifier: 'AGPL-3.0',
-        canonicalUrl: [
-            'http://www.gnu.org/licenses/agpl-3.0.html',
-            'magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt'
-        ],
-
-        licenseFragments: [{text: "<THISPROGRAM> is free software: you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.", type: type.SHORT}]
-    },
-
-    'BSL-1.0': {
-        licenseName: 'Boost Software License 1.0',
-        identifier: 'BSL-1.0',
-        canonicalUrl: [
-            'http://www.boost.org/LICENSE_1_0.txt',
-            'magnet:?xt=urn:btih:89a97c535628232f2f3888c2b7b8ffd4c078cec0&dn=Boost-1.0.txt'
-        ],
-        licenseFragments: [{text: "Boost Software License <VERSION> <DATE> Permission is hereby granted, free of charge, to any person or organization obtaining a copy of the software and accompanying documentation covered by this license (the \"Software\") to use, reproduce, display, distribute, execute, and transmit the Software, and to prepare derivative works of the Software, and to permit third-parties to whom the Software is furnished to do so, all subject to the following", type: type.SHORT}]
-    },
-
-    'BSD-3-Clause': {
-        licenseName: "BSD 3-Clause License",
-        identifier: 'BSD-3-Clause',
-        canonicalUrl: [
-            'http://opensource.org/licenses/BSD-3-Clause',
-            'magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt'
-        ],
-        licenseFragments: [{text: "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution. Neither the name of <ORGANIZATION> nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.", type: type.SHORT}]
-    },
-
-    'BSD-2-Clause': {
-        licenseName: "BSD 2-Clause License",
-        identifier: 'BSD-2-Clause',
-        licenseFragments: [{text: "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met: Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.", type: type.SHORT}]
-    },
-
-    'EPL-1.0': {
-	    licenseName: "Eclipse Public License Version 1.0",
-	    identifier: "EPL-1.0",
-	    canonicalUrl: [
-	        "http://www.eclipse.org/legal/epl-v10.html",
-	        "magnet:?xt=urn:btih:4c6a2ad0018cd461e9b0fc44e1b340d2c1828b22&dn=epl-1.0.txt"
-	    ],
-	    licenseFragments: [
-	        {
-		        text: "THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS ECLIPSE PUBLIC LICENSE (\"AGREEMENT\"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.",
-		        type: type.SHORT
-	        }
-	    ]
-    },
-
-    'MPL-2.0': {
-        licenseName: 'Mozilla Public License Version 2.0',
-        identifier: 'MPL-2.0',
-        canonicalUrl: [
-            'http://www.mozilla.org/MPL/2.0',
-            'magnet:?xt=urn:btih:3877d6d54b3accd4bc32f8a48bf32ebc0901502a&dn=mpl-2.0.txt'
-        ],
-        licenseFragments: [{text: "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not distributed with this file, You can obtain one at http://mozilla.org/MPL/2.0/.", type: type.SHORT }]
-    },
-
-    'Expat': {
-        licenseName: 'Expat License (sometimes called MIT Licensed)',
-        identifier: 'Expat',
-        canonicalUrl: [
-            'http://www.jclark.com/xml/copying.txt',
-            'magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt'
-        ],
-        licenseFragments: [{text: "Copyright <YEAR> <NAME> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.", type: type.SHORT}]
-    },
-
-    'UPL': {
-        licenseName: 'Universal Permissive License',
-        identifier: 'UPL-1.0',
-        canonicalUrl: [
-            'magnet:?xt=urn:btih:5305d91886084f776adcf57509a648432709a7c7&dn=x11.txt'
-        ],
-        licenseFragments: [{
-            text: "The Universal Permissive License (UPL), Version 1.0",
-            type: type.SHORT
-        }]
-    },
-
-    'X11': {
-        licenseName: 'X11 License',
-        identifier: 'X11',
-        canonicalUrl: [
-            'magnet:?xt=urn:btih:5305d91886084f776adcf57509a648432709a7c7&dn=x11.txt'
-        ],
-        licenseFragments: [{text: "Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.", type: type.SHORT}]
-    },
-
-    'XFree86-1.1': {
-        licenseName: "XFree86 1.1 License",
-        identifier: 'XFree86-1.1',
-        canonicalUrl: [
-            'http://www.xfree86.org/3.3.6/COPYRIGHT2.html#3',
-            'http://www.xfree86.org/current/LICENSE4.html',
-            'magnet:?xt=urn:btih:12f2ec9e8de2a3b0002a33d518d6010cc8ab2ae9&dn=xfree86.txt'
-        ],
-        licenseFragments: [{text: "All rights reserved.\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n1. Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.\n2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution, and in the same place and form as other copyright, license and disclaimer information.\n3. The end-user documentation included with the redistribution, if any, must include the following acknowledgment: \"This product includes software developed by The XFree86 Project, Inc (http://www.xfree86.org/) and its contributors\", in the same place and form as other third-party acknowledgments. Alternately, this acknowledgment may appear in the software itself, in the same form and location as other such third-party acknowledgments.4. Except as contained in this notice, the name of The XFree86 Project, Inc shall not be used in advertising or otherwise to promote the sale, use or other dealings in this Software without prior written authorization from The XFree86 Project, Inc.", type: type.SHORT}
-        ]
-    },
-
-    'FreeBSD': {
-        licenseName: "FreeBSD License",
-        identifier: 'FreeBSD',
-        canonicalUrl: [
-            'http://www.freebsd.org/copyright/freebsd-license.html',
-            'magnet:?xt=urn:btih:87f119ba0b429ba17a44b4bffcab33165ebdacc0&dn=freebsd.txt'
-        ],
-        licenseFragments: [{text: "Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:\n\nRedistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.\n\nRedistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.", type: type.SHORT}]
-    },
-
-    'ISC': {
-        licenseName: "The ISC License",
-        identifier: 'ISC',
-        canonicalUrl: [
-            'https://www.isc.org/downloads/software-support-policy/isc-license/',
-            'magnet:?xt=urn:btih:b8999bbaf509c08d127678643c515b9ab0836bae&dn=ISC.txt'
-        ],
-        licenseFragments: [{text: "Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND ISC DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL ISC BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.", type: type.SHORT},
-        {text: "Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.THE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.", type: type.SHORT}]
-    },
-
-    'jQueryTools': {
-        licenseName: "jQuery Tools",
-        licenseFragments: [{
-            text: 'NO COPYRIGHTS OR LICENSES. DO WHAT YOU LIKE.',
-            type: type.SHORT
-        }]
-    },
-
-    'Artistic-2.0': {
-        licenseName: "Artistic License 2.0",
-        identifier: 'Artistic-2.0',
-        canonicalUrl: [
-            "http://www.perlfoundation.org/artistic_license_2_0",
-            "magnet:?xt=urn:btih:54fd2283f9dbdf29466d2df1a98bf8f65cafe314&dn=artistic-2.0.txt"
-        ],
-        licenseFragments: []
-    },
-
-    'PublicDomain': {
-        licenseName: "Public Domain",
-        canonicalUrl: [
-            'magnet:?xt=urn:btih:e95b018ef3580986a04669f1b5879592219e2a7a&dn=public-domain.txt'
-        ],
-        licenseFragments: []
-    },
-
-    'CPAL-1.0': {
-        licenseName: 'Common Public Attribution License Version 1.0 (CPAL)',
-        identifier: 'CPAL-1.0',
-        canonicalUrl: [
-            'http://opensource.org/licenses/cpal_1.0',
-            'magnet:?xt=urn:btih:84143bc45939fc8fa42921d619a95462c2031c5c&dn=cpal-1.0.txt'
-        ],
-        licenseFragments: [
-            {
-                text: 'The contents of this file are subject to the Common Public Attribution License Version 1.0',
-                type: type.SHORT
-            },
-            {
-                text: 'The term "External Deployment" means the use, distribution, or communication of the Original Code or Modifications in any way such that the Original Code or Modifications may be used by anyone other than You, whether those works are distributed or communicated to those persons or made available as an application intended for use over a network. As an express condition for the grants of license hereunder, You must treat any External Deployment by You of the Original Code or Modifications as a distribution under section 3.1 and make Source Code available under Section 3.2.',
-                type: type.SHORT
-            }
-        ]
-    },
-    'WTFPL': {
-        licenseName: 'Do What The F*ck You Want To Public License (WTFPL)',
-        identifier: 'WTFPL',
-        canonicalUrl: [
-            'http://www.wtfpl.net/txt/copying/',
-            'magnet:?xt=urn:btih:723febf9f6185544f57f0660a41489c7d6b4931b&dn=wtfpl.txt'
-        ],
-        licenseFragments: [
-            {
-                text: 'DO WHAT THE FUCK YOU WANT TO PUBLIC LICENSE',
-                type: type.SHORT
-            },
-            {
-                text: '0. You just DO WHAT THE FUCK YOU WANT TO.',
-                type: type.SHORT
-            }
-        ]
-    },
-    'Unlicense': {
-        licenseName: 'Unlicense',
-        identifier: 'Unlicense',
-        canonicalUrl: [
-            'http://unlicense.org/UNLICENSE',
-            'magnet:?xt=urn:btih:5ac446d35272cc2e4e85e4325b146d0b7ca8f50c&dn=unlicense.txt'
-        ],
-        licenseFragments: [
-            {
-                text: 'This is free and unencumbered software released into the public domain.',
-                type: type.SHORT
-            },
-        ]
-    }
+  'Zlib': {
+    licenseName: 'zlib License',
+    canonicalUrl: [
+      'https://www.zlib.net/zlib_license.html',
+      'https://spdx.org/licenses/Zlib.txt',
+      'magnet:?xt=urn:btih:922bd98043fa3daf4f9417e3e8fec8406b1961a3&dn=zlib.txt'
+    ],
+    identifier: 'Zlib',
+    licenseFragments: []
+  },
 };
 
 },{}],11:[function(require,module,exports){
-module.exports=module.exports = {	
-	licenses: {
-		'Apache-2.0':{
-			'Name': 'Apache 2.0',
-			'URL': 'http://www.apache.org/licenses/LICENSE-2.0',
-			'Magnet link': 'magnet:?xt=urn:btih:8e4f440f4c65981c5bf93c76d35135ba5064d8b7&dn=apache-2.0.txt'
-		},
-		'Artistic-2.0':{
-			'Name': 'Artistic 2.0',
-			'URL': 'http://www.perlfoundation.org/artistic_license_2_0',
-			'Magnet link': 'magnet:?xt=urn:btih:54fd2283f9dbdf29466d2df1a98bf8f65cafe314&dn=artistic-2.0.txt'
-		},
-		'Boost':{
-			'Name': 'Boost',
-			'URL': 'http://www.boost.org/LICENSE_1_0.txt',
-			'Magnet link': 'magnet:?xt=urn:btih:89a97c535628232f2f3888c2b7b8ffd4c078cec0&dn=Boost-1.0.txt'
-		},
-		'CPAL-1.0':{
-			'Name': 'CPAL 1.0',
-			'URL': 'http://opensource.org/licenses/cpal_1.0',
-			'Magnet link': 'magnet:?xt=urn:btih:84143bc45939fc8fa42921d619a95462c2031c5c&dn=cpal-1.0.txt'
-		},
-		'CC0-1.0':{
-			'Name': 'CC0 1.0',
-			'URL': 'http://creativecommons.org/publicdomain/zero/1.0/legalcode',
-			'Magnet link': 'magnet:?xt=urn:btih:90dc5c0be029de84e523b9b3922520e79e0e6f08&dn=cc0.txt'
-		},
-		'CC-BY-SA-1.0':{
-			'Name': 'CC-BY-SA 1.0',
-			'URL': 'https://creativecommons.org/licenses/by-sa/1.0/',
-			'Magnet link': ''
-		},
-		'CC-BY-SA-2.0':{
-			'Name': 'CC-BY-SA 2.0',
-			'URL': 'https://creativecommons.org/licenses/by-sa/2.0/',
-			'Magnet link': ''
-		},
-		'CC-BY-SA-2.5':{
-			'Name': 'CC-BY-SA 2.5',
-			'URL': 'https://creativecommons.org/licenses/by-sa/2.5/',
-			'Magnet link': ''
-		},
-		'CC-BY-SA-3.0':{
-			'Name': 'CC-BY-SA 3.0',
-			'URL': 'https://creativecommons.org/licenses/by-sa/3.0/',
-			'Magnet link': ''
-		},
-		'CC-BY-SA-4.0':{
-			'Name': 'CC-BY-SA 4.0',
-			'URL': 'https://creativecommons.org/licenses/by-sa/4.0/',
-			'Magnet link': ''
-		},
-		'CC-BY-1.0':{
-			'Name': 'CC-BY 1.0',
-			'URL': 'https://creativecommons.org/licenses/by/1.0/',
-			'Magnet link': ''
-		},
-		'CC-BY-2.0':{
-			'Name': 'CC-BY 2.0',
-			'URL': 'https://creativecommons.org/licenses/by/2.0/',
-			'Magnet link': ''
-		},
-		'CC-BY-2.5':{
-			'Name': 'CC-BY 2.5',
-			'URL': 'https://creativecommons.org/licenses/by/2.5/',
-			'Magnet link': ''
-		},
-		'CC-BY-3.0':{
-			'Name': 'CC-BY 3.0',
-			'URL': 'https://creativecommons.org/licenses/by/3.0/',
-			'Magnet link': ''
-		},
-		'CC-BY-4.0':{
-			'Name': 'CC-BY 4.0',
-			'URL': 'https://creativecommons.org/licenses/by/4.0/',
-			'Magnet link': ''
-		},
-		'EPL-1.0':{
-			'Name': 'EPL 1.0',
-			'URL': 'http://www.eclipse.org/legal/epl-v10.html',
-			'Magnet link': 'magnet:?xt=urn:btih:4c6a2ad0018cd461e9b0fc44e1b340d2c1828b22&dn=epl-1.0.txt'
-		},
-		'Expat':{
-			'Name': 'Expat',
-			'URL': 'http://www.jclark.com/xml/copying.txt',
-			'Magnet link': 'magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt'
-		},
-		'MIT':{
-			'Name': 'Expat',
-			'URL': 'http://www.jclark.com/xml/copying.txt',
-			'Magnet link': 'magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&dn=expat.txt'
-		},
-		'X11':{
-			'Name': 'X11',
-			'URL': 'http://www.xfree86.org/3.3.6/COPYRIGHT2.html#3',
-			'Magnet link': 'magnet:?xt=urn:btih:5305d91886084f776adcf57509a648432709a7c7&dn=x11.txt'	
-		},
-		'GPL-2.0':{
-			'Name': 'GPL 2.0',
-			'URL': 'http://www.gnu.org/licenses/gpl-2.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&dn=gpl-2.0.txt'
-		},
-		'GPL-3.0':{
-			'Name': 'GPL 3.0',
-			'URL': 'http://www.gnu.org/licenses/gpl-3.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt'
-		},
-		'LGPL-2.1':{
-			'Name': 'LGPL 2.1',
-			'URL': 'http://www.gnu.org/licenses/lgpl-2.1.html',
-			'Magnet link': 'magnet:?xt=urn:btih:5de60da917303dbfad4f93fb1b985ced5a89eac2&dn=lgpl-2.1.txt'
-		},
-		'LGPL-3.0':{
-			'Name': 'LGPL 3.0',
-			'URL': 'http://www.gnu.org/licenses/lgpl-3.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:0ef1b8170b3b615170ff270def6427c317705f85&dn=lgpl-3.0.txt'
-		},
-		'AGPL-3.0':{
-			'Name': 'AGPL 3.0',
-			'URL': 'http://www.gnu.org/licenses/agpl-3.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt'
-		},
-		'GPL-2.0-only':{
-			'Name': 'GPL 2.0',
-			'URL': 'http://www.gnu.org/licenses/gpl-2.0.html',
-			'Magnet link': ''
-		},
-		'GPL-3.0-only':{
-			'Name': 'GPL 3.0',
-			'URL': 'http://www.gnu.org/licenses/gpl-3.0.html',
-			'Magnet link': ''
-		},
-		'LGPL-2.1-only':{
-			'Name': 'LGPL 2.1',
-			'URL': 'http://www.gnu.org/licenses/lgpl-2.1.html',
-			'Magnet link': ''
-		},
-		'LGPL-3.0-only':{
-			'Name': 'LGPL 3.0',
-			'URL': 'http://www.gnu.org/licenses/lgpl-3.0.html',
-			'Magnet link': ''
-		},
-		'AGPL-3.0-only':{
-			'Name': 'AGPL 3.0',
-			'URL': 'http://www.gnu.org/licenses/agpl-3.0.html',
-			'Magnet link': ''
-		},
-		'GPL-2.0-or-later':{
-			'Name': 'GPL 2.0 or later',
-			'URL': 'http://www.gnu.org/licenses/gpl-2.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&dn=gpl-2.0.txt'
-		},
-		'GPL-3.0-or-later':{
-			'Name': 'GPL 3.0 or later',
-			'URL': 'http://www.gnu.org/licenses/gpl-3.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:1f739d935676111cfff4b4693e3816e664797050&dn=gpl-3.0.txt'
-		},
-		'LGPL-2.1-or-later':{
-			'Name': 'LGPL 2.1 or later',
-			'URL': 'http://www.gnu.org/licenses/lgpl-2.1.html',
-			'Magnet link': 'magnet:?xt=urn:btih:5de60da917303dbfad4f93fb1b985ced5a89eac2&dn=lgpl-2.1.txt'
-		},
-		'LGPL-3.0-or-later':{
-			'Name': 'LGPL 3.0 or later',
-			'URL': 'http://www.gnu.org/licenses/lgpl-3.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:0ef1b8170b3b615170ff270def6427c317705f85&dn=lgpl-3.0.txt'
-		},
-		'AGPL-3.0-or-later':{
-			'Name': 'AGPL 3.0 or later',
-			'URL': 'http://www.gnu.org/licenses/agpl-3.0.html',
-			'Magnet link': 'magnet:?xt=urn:btih:0b31508aeb0634b347b8270c7bee4d411b5d4109&dn=agpl-3.0.txt'
-		},
-		'ISC':{
-			'Name': 'ISC',
-			'URL': 'https://www.isc.org/downloads/software-support-policy/isc-license/',
-			'Magnet link': 'magnet:?xt=urn:btih:b8999bbaf509c08d127678643c515b9ab0836bae&dn=ISC.txt'
-		},
-		'MPL-2.0':{
-			'Name': 'MPL 2.0',
-			'URL': 'http://www.mozilla.org/MPL/2.0',
-			'Magnet link': 'magnet:?xt=urn:btih:3877d6d54b3accd4bc32f8a48bf32ebc0901502a&dn=mpl-2.0.txt'
-		},
-		'UPL-1.0': {
-			'Name': 'UPL 1.0',
-			'URL': 'https://oss.oracle.com/licenses/upl/',
-			'Magnet link': 'magnet:?xt=urn:btih:478974f4d41c3fa84c4befba25f283527fad107d&dn=upl-1.0.txt'
-		},
-		'WTFPL': {
-			'Name': 'WTFPL',
-			'URL': 'http://www.wtfpl.net/txt/copying/',
-			'Magnet link': 'magnet:?xt=urn:btih:723febf9f6185544f57f0660a41489c7d6b4931b&dn=wtfpl.txt'
-		},
-		'Unlicense':{
-			'Name': 'Unlicense',
-			'URL': 'http://unlicense.org/UNLICENSE',
-			'Magnet link': 'magnet:?xt=urn:btih:5ac446d35272cc2e4e85e4325b146d0b7ca8f50c&dn=unlicense.txt'
-		},
-		'FreeBSD':{
-			'Name': 'FreeBSD',
-			'URL': 'http://www.freebsd.org/copyright/freebsd-license.html',
-			'Magnet link': 'magnet:?xt=urn:btih:87f119ba0b429ba17a44b4bffcab33165ebdacc0&dn=freebsd.txt'
-		},
-		'BSD-2-Clause':{
-			'Name': 'FreeBSD (BSD-2-Clause)',
-			'URL': 'http://www.freebsd.org/copyright/freebsd-license.html',
-			'Magnet link': ''
-		},
-		'BSD-3-Clause':{
-			'Name': 'Modified BSD (BSD-3-Clause)',
-			'URL': 'http://opensource.org/licenses/BSD-3-Clause',
-			'Magnet link': 'magnet:?xt=urn:btih:c80d50af7d3db9be66a4d0a86db0286e4fd33292&dn=bsd-3-clause.txt'
-		},
-		'XFree86-1.1':{
-			'Name': 'XFree86 1.1',
-			'URL': 'http://www.xfree86.org/current/LICENSE4.html',
-			'Magnet link': 'magnet:?xt=urn:btih:12f2ec9e8de2a3b0002a33d518d6010cc8ab2ae9&dn=xfree86.txt'
-		}
-	}
-};
-
-},{}],12:[function(require,module,exports){
 /**
 * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
 * *
@@ -2205,15 +2069,16 @@ module.exports=module.exports = {
 * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-var acorn = require('acorn');
-var acornLoose = require('acorn-loose');
-var legacy_license_lib = require("./legacy_license_check.js");
-var {ResponseProcessor} = require("./bg/ResponseProcessor");
-var {Storage, ListStore, hash} = require("./common/Storage");
-var {ListManager} = require("./bg/ListManager");
-var {ExternalLicenses} = require("./bg/ExternalLicenses");
+const acorn = require('acorn');
+const legacy_license_lib = require('./legacy_license_check.js');
+const { ResponseProcessor } = require('./bg/ResponseProcessor');
+const { Storage, ListStore, hash } = require('./common/Storage');
+const { ListManager } = require('./bg/ListManager');
+const { ExternalLicenses } = require('./bg/ExternalLicenses');
+const { licenses } = require('./license_definitions');
+const { patternUtils } = require('./pattern_utils');
 
-console.log("main_background.js");
+console.log('main_background.js');
 /**
 *	If this is true, it evaluates entire scripts instead of returning as soon as it encounters a violation.
 *
@@ -2224,48 +2089,42 @@ var DEBUG = false; // debug the JS evaluation
 var PRINT_DEBUG = false; // Everything else
 var time = Date.now();
 
-function dbg_print(a,b){
-	if(PRINT_DEBUG == true){
-		console.log("Time spent so far: " + (Date.now() - time)/1000 + " seconds");
-		if(b === undefined){
-			console.log(a);
-		} else{
-			console.log(a,b);
-		}
-	}
+function dbg_print(a, b) {
+  if (PRINT_DEBUG == true) {
+    console.log('Time spent so far: ' + (Date.now() - time) / 1000 + ' seconds');
+    if (b === undefined) {
+      console.log(a);
+    } else {
+      console.log(a, b);
+    }
+  }
 }
 
 /*
-	NONTRIVIAL THINGS:
-	- Fetch
-	- XMLhttpRequest
-	- eval()
-	- ?
-	JAVASCRIPT CAN BE FOUND IN:
-	- Event handlers (onclick, onload, onsubmit, etc.)
-	- <script>JS</script>
-	- <script src="/JS.js"></script>
-	WAYS TO DETERMINE PASS/FAIL:
-	- "// @license [magnet link] [identifier]" then "// @license-end" (may also use /* comments)
-	- Automatic whitelist: (http://bzr.savannah.gnu.org/lh/librejs/dev/annotate/head:/data/script_libraries/script-libraries.json_
+  NONTRIVIAL THINGS:
+  - Fetch
+  - XMLhttpRequest
+  - eval()
+  - ?
+  JAVASCRIPT CAN BE FOUND IN:
+  - Event handlers (onclick, onload, onsubmit, etc.)
+  - <script>JS</script>
+  - <script src="/JS.js"></script>
+  WAYS TO DETERMINE PASS/FAIL:
+  - "// @license [magnet link] [identifier]" then "// @license-end" (may also use /* comments)
+  - Automatic whitelist: (http://bzr.savannah.gnu.org/lh/librejs/dev/annotate/head:/data/script_libraries/script-libraries.json_
 */
-var licenses = require("./licenses.json").licenses;
 
 // These are objects that it will search for in an initial regex pass over non-free scripts.
 var reserved_objects = [
-	//"document",
-	//"window",
-	"fetch",
-	"XMLHttpRequest",
-	"chrome", // only on chrome
-	"browser", // only on firefox
-	"eval"
+  //"document",
+  //"window",
+  'fetch',
+  'XMLHttpRequest',
+  'chrome', // only on chrome
+  'browser', // only on firefox
+  'eval'
 ];
-
-// Generates JSON key for local storage
-function get_storage_key(script_name,src_hash){
-	return script_name;
-}
 
 /*
 *
@@ -2279,24 +2138,16 @@ function get_storage_key(script_name,src_hash){
 *	with its code to update accordingly
 *
 */
-function options_listener(changes, area){
-	// The cache must be flushed when settings are changed
-	// TODO: See if this can be minimized
-	function flushed(){
-		dbg_print("cache flushed");
-	}
-	//var flushingCache = browser.webRequest.handlerBehaviorChanged(flushed);
+function options_listener(changes, area) {
+  dbg_print('Items updated in area' + area + ': ');
 
-
-	dbg_print("Items updated in area" + area +": ");
-
-	var changedItems = Object.keys(changes);
-	var changed_items = "";
-	for (var i = 0; i < changedItems.length; i++){
-		var item = changedItems[i];
-		changed_items += item + ",";
-	}
-	dbg_print(changed_items);
+  var changedItems = Object.keys(changes);
+  var changed_items = '';
+  for (var i = 0; i < changedItems.length; i++) {
+    var item = changedItems[i];
+    changed_items += item + ',';
+  }
+  dbg_print(changed_items);
 
 }
 
@@ -2304,26 +2155,26 @@ function options_listener(changes, area){
 var activeMessagePorts = {};
 var activityReports = {};
 async function createReport(initializer) {
-	if (!(initializer && (initializer.url || initializer.tabId)))  {
-		throw new Error("createReport() needs an URL or a tabId at least");
-	}
-	let template =  {
-		"accepted": [],
-		"blocked": [],
-		"blacklisted": [],
-		"whitelisted": [],
-		"unknown": [],
-	};
-	template = Object.assign(template, initializer);
-	let [url] = (template.url || (await browser.tabs.get(initializer.tabId)).url).split("#");
-	template.url = url;
-	template.site = ListStore.siteItem(url);
-	template.siteStatus = listManager.getStatus(template.site);
-	let list = {"whitelisted": whitelist, "blacklisted": blacklist}[template.siteStatus];
-	if (list) {
-		template.listedSite = ListManager.siteMatch(template.site, list);
-	}
-	return template;
+  if (!(initializer && (initializer.url || initializer.tabId))) {
+    throw new Error('createReport() needs an URL or a tabId at least');
+  }
+  let template = {
+    'accepted': [],
+    'blocked': [],
+    'blacklisted': [],
+    'whitelisted': [],
+    'unknown': [],
+  };
+  template = Object.assign(template, initializer);
+  let [url] = (template.url || (await browser.tabs.get(initializer.tabId)).url).split('#');
+  template.url = url;
+  template.site = ListStore.siteItem(url);
+  template.siteStatus = listManager.getStatus(template.site);
+  let list = { 'whitelisted': whitelist, 'blacklisted': blacklist }[template.siteStatus];
+  if (list) {
+    template.listedSite = ListManager.siteMatch(template.site, list);
+  }
+  return template;
 }
 
 /**
@@ -2332,9 +2183,9 @@ async function createReport(initializer) {
 *	at the moment.
 */
 async function openReportInTab(data) {
-	let popupURL = await browser.browserAction.getPopup({});
-	let tab = await browser.tabs.create({url: `${popupURL}#fromTab=${data.tabId}`});
-	activityReports[tab.id] = await createReport(data);
+  let popupURL = await browser.browserAction.getPopup({});
+  let tab = await browser.tabs.create({ url: `${popupURL}#fromTab=${data.tabId}` });
+  activityReports[tab.id] = await createReport(data);
 }
 
 /**
@@ -2342,9 +2193,9 @@ async function openReportInTab(data) {
 *	Clears local storage (the persistent data)
 *
 */
-function debug_delete_local(){
-	browser.storage.local.clear();
-	dbg_print("Local storage cleared");
+function debug_delete_local() {
+  browser.storage.local.clear();
+  dbg_print('Local storage cleared');
 }
 
 /**
@@ -2352,16 +2203,16 @@ function debug_delete_local(){
 *	Prints local storage (the persistent data) as well as the temporary popup object
 *
 */
-function debug_print_local(){
-	function storage_got(items){
-		console.log("%c Local storage: ", 'color: red;');
-		for(var i in items){
-			console.log("%c "+i+" = "+items[i], 'color: blue;');
-		}
-	}
-	console.log("%c Variable 'activityReports': ", 'color: red;');
-	console.log(activityReports);
-	browser.storage.local.get(storage_got);
+function debug_print_local() {
+  function storage_got(items) {
+    console.log('%c Local storage: ', 'color: red;');
+    for (var i in items) {
+      console.log('%c ' + i + ' = ' + items[i], 'color: blue;');
+    }
+  }
+  console.log('%c Variable \'activityReports\': ', 'color: red;');
+  console.log(activityReports);
+  browser.storage.local.get(storage_got);
 }
 
 /**
@@ -2379,25 +2230,25 @@ function debug_print_local(){
 *	Make sure it will use the right URL when refering to a certain script.
 *
 */
-async function updateReport(tabId, oldReport, updateUI = false){
-	let {url} = oldReport;
-	let newReport = await createReport({url, tabId});
-	for (let property of Object.keys(oldReport)) {
-		let entries = oldReport[property];
-		if (!Array.isArray(entries)) continue;
-		let defValue = property === "accepted" || property === "blocked" ? property : "unknown";
-		for (let script of entries) {
-			let status = listManager.getStatus(script[0],  defValue);
-			if (Array.isArray(newReport[status])) newReport[status].push(script);
-		}
-	}
-	activityReports[tabId] = newReport;
-	if (browser.sessions) browser.sessions.setTabValue(tabId, url, newReport);
-	dbg_print(newReport);
-	if (updateUI && activeMessagePorts[tabId]) {
-		dbg_print(`[TABID: ${tabId}] Sending script blocking report directly to browser action.`);
-		activeMessagePorts[tabId].postMessage({show_info: newReport});
-	}
+async function updateReport(tabId, oldReport, updateUI = false) {
+  let { url } = oldReport;
+  let newReport = await createReport({ url, tabId });
+  for (let property of Object.keys(oldReport)) {
+    let entries = oldReport[property];
+    if (!Array.isArray(entries)) continue;
+    let defValue = property === 'accepted' || property === 'blocked' ? property : 'unknown';
+    for (let script of entries) {
+      let status = listManager.getStatus(script[0], defValue);
+      if (Array.isArray(newReport[status])) newReport[status].push(script);
+    }
+  }
+  activityReports[tabId] = newReport;
+  if (browser.sessions) browser.sessions.setTabValue(tabId, url, newReport);
+  dbg_print(newReport);
+  if (updateUI && activeMessagePorts[tabId]) {
+    dbg_print(`[TABID: ${tabId}] Sending script blocking report directly to browser action.`);
+    activeMessagePorts[tabId].postMessage({ show_info: newReport });
+  }
 }
 
 /**
@@ -2420,70 +2271,67 @@ async function updateReport(tabId, oldReport, updateUI = false){
 *	Make sure it will use the right URL when refering to a certain script.
 *
 */
-async function addReportEntry(tabId, scriptHashOrUrl, action) {
-	let report = activityReports[tabId];
-	if (!report) report = activityReports[tabId] =
-			await createReport({tabId});
-	let type, actionValue;
-	for (type of ["accepted", "blocked", "whitelisted", "blacklisted"]) {
-		if (type in action) {
-			actionValue = action[type];
-			break;
-		}
-	}
-	if (!actionValue) {
-		console.debug("Something wrong with action", action);
-		return "";
-	}
+async function addReportEntry(tabId, action) {
+  let report = activityReports[tabId];
+  if (!report) report = activityReports[tabId] =
+    await createReport({ tabId });
+  let type, actionValue;
+  for (type of ['accepted', 'blocked', 'whitelisted', 'blacklisted']) {
+    if (type in action) {
+      actionValue = action[type];
+      break;
+    }
+  }
+  if (!actionValue) {
+    console.debug('Something wrong with action', action);
+    return '';
+  }
 
-	// Search unused data for the given entry
-	function isNew(entries, item) {
-		for (let e of entries) {
-			if (e[0] === item) return false;
-		}
-		return true;
-	}
+  // Search unused data for the given entry
+  function isNew(entries, item) {
+    for (let e of entries) {
+      if (e[0] === item) return false;
+    }
+    return true;
+  }
 
-	let entryType;
-	let scriptName = actionValue[0];
-	try {
-		entryType = listManager.getStatus(scriptName, type);
-		let entries = report[entryType];
-		if(isNew(entries, scriptName)){
-			dbg_print(activityReports);
-			dbg_print(activityReports[tabId]);
-			dbg_print(entryType);
-			entries.push(actionValue);
-		}
-	} catch (e) {
-		console.error("action %o, type %s, entryType %s", action, type, entryType, e);
-		entryType = "unknown";
-	}
+  let entryType;
+  let scriptName = actionValue[0];
+  try {
+    entryType = listManager.getStatus(scriptName, type);
+    let entries = report[entryType];
+    if (isNew(entries, scriptName)) {
+      dbg_print(activityReports);
+      dbg_print(activityReports[tabId]);
+      dbg_print(entryType);
+      entries.push(actionValue);
+    }
+  } catch (e) {
+    console.error('action %o, type %s, entryType %s', action, type, entryType, e);
+    entryType = 'unknown';
+  }
 
-	if (activeMessagePorts[tabId]) {
-		try {
-			activeMessagePorts[tabId].postMessage({show_info: report});
-		} catch(e) {
-		}
-	}
+  if (activeMessagePorts[tabId]) {
+    activeMessagePorts[tabId].postMessage({ show_info: report });
+  }
 
-	if (browser.sessions) browser.sessions.setTabValue(tabId, report.url, report);
-	updateBadge(tabId, report);
-	return entryType;
+  if (browser.sessions) browser.sessions.setTabValue(tabId, report.url, report);
+  updateBadge(tabId, report);
+  return entryType;
 }
 
 
-function get_domain(url){
-	var domain = url.replace('http://','').replace('https://','').split(/[/?#]/)[0];
-	if(url.indexOf("http://") == 0){
-		domain = "http://" + domain;
-	}
-	else if(url.indexOf("https://") == 0){
-		domain = "https://" + domain;
-	}
-	domain = domain + "/";
-	domain = domain.replace(/ /g,"");
-	return domain;
+function get_domain(url) {
+  var domain = url.replace('http://', '').replace('https://', '').split(/[/?#]/)[0];
+  if (url.indexOf('http://') == 0) {
+    domain = 'http://' + domain;
+  }
+  else if (url.indexOf('https://') == 0) {
+    domain = 'https://' + domain;
+  }
+  domain = domain + '/';
+  domain = domain.replace(/ /g, '');
+  return domain;
 }
 
 /**
@@ -2491,84 +2339,83 @@ function get_domain(url){
 *	This is the callback where the content scripts of the browser action will contact the background script.
 *
 */
-var portFromCS;
 async function connected(p) {
-	if(p.name === "contact_finder"){
-		// style the contact finder panel
-		await browser.tabs.insertCSS(p.sender.tab.id, {
-			file: "/content/dialog.css",
-			cssOrigin: "user",
-			matchAboutBlank: true,
-			allFrames: true
-		});
+  if (p.name === 'contact_finder') {
+    // style the contact finder panel
+    await browser.tabs.insertCSS(p.sender.tab.id, {
+      file: '/content/dialog.css',
+      cssOrigin: 'user',
+      matchAboutBlank: true,
+      allFrames: true
+    });
 
-		// Send a message back with the relevant settings
-		p.postMessage(await browser.storage.local.get(["prefs_subject", "prefs_body"]));
-		return;
-	}
-	p.onMessage.addListener(async function(m) {
-		var update = false;
-		var contact_finder = false;
+    // Send a message back with the relevant settings
+    p.postMessage(await browser.storage.local.get(['prefs_subject', 'prefs_body']));
+    return;
+  }
+  p.onMessage.addListener(async function(m) {
+    var update = false;
+    var contact_finder = false;
 
-		for (let action of ["whitelist", "blacklist", "forget"]) {
-			if (m[action]) {
-				let [key] = m[action];
-				if (m.site) {
-					key = ListStore.siteItem(m.site);
-				} else {
-					key = ListStore.inlineItem(key) || key;
-				}
-				await listManager[action](key);
-				update = true;
-			}
-		}
+    for (let action of ['whitelist', 'blacklist', 'forget']) {
+      if (m[action]) {
+        let [key] = m[action];
+        if (m.site) {
+          key = ListStore.siteItem(m.site);
+        } else {
+          key = ListStore.inlineItem(key) || key;
+        }
+        await listManager[action](key);
+        update = true;
+      }
+    }
 
-		if(m.report_tab){
-			openReportInTab(m.report_tab);
-		}
-		// a debug feature
-		if(m["printlocalstorage"] !== undefined){
-			console.log("Print local storage");
-			debug_print_local();
-		}
-		// invoke_contact_finder
-		if(m["invoke_contact_finder"] !== undefined){
-			contact_finder = true;
-			await injectContactFinder();
-		}
-		// a debug feature (maybe give the user an option to do this?)
-		if(m["deletelocalstorage"] !== undefined){
-			console.log("Delete local storage");
-			debug_delete_local();
-		}
+    if (m.report_tab) {
+      openReportInTab(m.report_tab);
+    }
+    // a debug feature
+    if (m['printlocalstorage'] !== undefined) {
+      console.log('Print local storage');
+      debug_print_local();
+    }
+    // invoke_contact_finder
+    if (m['invoke_contact_finder'] !== undefined) {
+      contact_finder = true;
+      await injectContactFinder();
+    }
+    // a debug feature (maybe give the user an option to do this?)
+    if (m['deletelocalstorage'] !== undefined) {
+      console.log('Delete local storage');
+      debug_delete_local();
+    }
 
-		let tabs = await browser.tabs.query({active: true, currentWindow: true});
+    let tabs = await browser.tabs.query({ active: true, currentWindow: true });
 
-		if(contact_finder){
-			let tab = tabs.pop();
-			dbg_print(`[TABID:${tab.id}] Injecting contact finder`);
-			//inject_contact_finder(tabs[0]["id"]);
-		}
-		if (update || m.update && activityReports[m.tabId]) {
-			let tabId = "tabId" in m ?  m.tabId : tabs.pop().id;
-			dbg_print(`%c updating tab ${tabId}`, "color: red;");
-			activeMessagePorts[tabId] = p;
-			await updateReport(tabId, activityReports[tabId], true);
-		} else {
-			for(let tab of tabs) {
-				if(activityReports[tab.id]){
-					// If we have some data stored here for this tabID, send it
-					dbg_print(`[TABID: ${tab.id}] Sending stored data associated with browser action'`);
-					p.postMessage({"show_info": activityReports[tab.id]});
-				} else{
-					// create a new entry
-					let report = activityReports[tab.id] = await createReport({"url": tab.url, tabId: tab.id});
-					p.postMessage({show_info: report});
-					dbg_print(`[TABID: ${tab.id}] No data found, creating a new entry for this window.`);
-				}
-			}
-		}
-	});
+    if (contact_finder) {
+      let tab = tabs.pop();
+      dbg_print(`[TABID:${tab.id}] Injecting contact finder`);
+      //inject_contact_finder(tabs[0]["id"]);
+    }
+    if (update || m.update && activityReports[m.tabId]) {
+      let tabId = 'tabId' in m ? m.tabId : tabs.pop().id;
+      dbg_print(`%c updating tab ${tabId}`, 'color: red;');
+      activeMessagePorts[tabId] = p;
+      await updateReport(tabId, activityReports[tabId], true);
+    } else {
+      for (let tab of tabs) {
+        if (activityReports[tab.id]) {
+          // If we have some data stored here for this tabID, send it
+          dbg_print(`[TABID: ${tab.id}] Sending stored data associated with browser action'`);
+          p.postMessage({ 'show_info': activityReports[tab.id] });
+        } else {
+          // create a new entry
+          let report = activityReports[tab.id] = await createReport({ 'url': tab.url, tabId: tab.id });
+          p.postMessage({ show_info: report });
+          dbg_print(`[TABID: ${tab.id}] No data found, creating a new entry for this window.`);
+        }
+      }
+    }
+  });
 }
 
 /**
@@ -2577,15 +2424,15 @@ async function connected(p) {
 *	Delete the info we are storing about this tab if there is any.
 *
 */
-function delete_removed_tab_info(tab_id, remove_info){
-	dbg_print("[TABID:"+tab_id+"]"+"Deleting stored info about closed tab");
-	if(activityReports[tab_id] !== undefined){
-		delete activityReports[tab_id];
-	}
-	if(activeMessagePorts[tab_id] !== undefined){
-		delete activeMessagePorts[tab_id];
-	}
-	ExternalLicenses.purgeCache(tab_id);
+function delete_removed_tab_info(tab_id, _) {
+  dbg_print('[TABID:' + tab_id + ']' + 'Deleting stored info about closed tab');
+  if (activityReports[tab_id] !== undefined) {
+    delete activityReports[tab_id];
+  }
+  if (activeMessagePorts[tab_id] !== undefined) {
+    delete activeMessagePorts[tab_id];
+  }
+  ExternalLicenses.purgeCache(tab_id);
 }
 
 /**
@@ -2596,150 +2443,131 @@ function delete_removed_tab_info(tab_id, remove_info){
 *
 */
 
-async function onTabUpdated(tabId, changedInfo, tab) {
-	let [url] = tab.url.split("#");
-	let report = activityReports[tabId];
-	if (!(report && report.url === url)) {
-		let cache = browser.sessions &&
-			await browser.sessions.getTabValue(tabId, url) || null;
-		// on session restore tabIds may change
-		if (cache && cache.tabId !== tabId) cache.tabId = tabId;
-		updateBadge(tabId, activityReports[tabId] = cache);
-	}
+async function onTabUpdated(tabId, _, tab) {
+  let [url] = tab.url.split('#');
+  let report = activityReports[tabId];
+  if (!(report && report.url === url)) {
+    let cache = browser.sessions &&
+      await browser.sessions.getTabValue(tabId, url) || null;
+    // on session restore tabIds may change
+    if (cache && cache.tabId !== tabId) cache.tabId = tabId;
+    updateBadge(tabId, activityReports[tabId] = cache);
+  }
 }
 
-async function onTabActivated({tabId}) {
-	await onTabUpdated(tabId, {}, await browser.tabs.get(tabId));
+async function onTabActivated({ tabId }) {
+  await onTabUpdated(tabId, {}, await browser.tabs.get(tabId));
 }
 
 /* *********************************************************************************************** */
 
-var fname_data = require("./fname_data.json").fname_data;
+var fname_data = require('./fname_data.json').fname_data;
 
 //************************this part can be tested in the HTML file index.html's script test.js****************************
 
-function full_evaluate(script){
-		var res = true;
-		if(script === undefined || script == ""){
-			return [true,"Harmless null script"];
-		}
+function full_evaluate(script) {
+  if (script === undefined || script == '') {
+    return [true, 'Harmless null script'];
+  }
 
-		var ast = acornLoose.parse(script).body[0];
+  var amtloops = 0;
 
-		var flag = false;
-		var amtloops = 0;
+  var loopkeys = { 'for': true, 'if': true, 'while': true, 'switch': true };
+  var operators = { '||': true, '&&': true, '=': true, '==': true, '++': true, '--': true, '+=': true, '-=': true, '*': true };
+  try {
+    var tokens = acorn.tokenizer(script);
+  } catch (e) {
+    console.warn('Tokenizer could not be initiated (probably invalid code)');
+    return [false, 'Tokenizer could not be initiated (probably invalid code)'];
+  }
+  try {
+    var toke = tokens.getToken();
+  } catch (e) {
+    console.log(script);
+    console.log(e);
+    console.warn('couldn\'t get first token (probably invalid code)');
+    console.warn('Continuing evaluation');
+  }
 
-		var loopkeys = {"for":true,"if":true,"while":true,"switch":true};
-		var operators = {"||":true,"&&":true,"=":true,"==":true,"++":true,"--":true,"+=":true,"-=":true,"*":true};
-		try{
-			var tokens = acorn.tokenizer(script);
-		}catch(e){
-			console.warn("Tokenizer could not be initiated (probably invalid code)");
-			return [false,"Tokenizer could not be initiated (probably invalid code)"];
-		}
-		try{
-			var toke = tokens.getToken();
-		}catch(e){
-			console.log(script);
-			console.log(e);
-			console.warn("couldn't get first token (probably invalid code)");
-			console.warn("Continuing evaluation");
-		}
+  /**
+  * Given the end of an identifer token, it tests for parentheses
+  */
+  function is_bsn(end) {
+    var i = 0;
+    while (script.charAt(end + i).match(/\s/g) !== null) {
+      i++;
+      if (i >= script.length - 1) {
+        return false;
+      }
+    }
+    return script.charAt(end + i) == '[';
+  }
+  var defines_functions = false;
+  while (toke !== undefined && toke.type != acorn.tokTypes.eof) {
+    if (toke.type.keyword !== undefined) {
+      //dbg_print("Keyword:");
+      //dbg_print(toke);
 
-		/**
-		* Given the end of an identifer token, it tests for bracket suffix notation
-		*/
-		function being_called(end){
-			var i = 0;
-			while(script.charAt(end+i).match(/\s/g) !== null){
-				i++;
-				if(i >= script.length-1){
-					return false;
-				}
-			}
+      // This type of loop detection ignores functional loop alternatives and ternary operators
 
-			return script.charAt(end+i) == "(";
-		}
-		/**
-		* Given the end of an identifer token, it tests for parentheses
-		*/
-		function is_bsn(end){
-			var i = 0;
-			while(script.charAt(end+i).match(/\s/g) !== null){
-				i++;
-				if(i >= script.length-1){
-					return false;
-				}
-			}
-			return script.charAt(end+i) == "[";
-		}
-		var error_count = 0;
-		var defines_functions = false;
-		while(toke !== undefined && toke.type != acorn.tokTypes.eof){
-			if(toke.type.keyword !== undefined){
-				//dbg_print("Keyword:");
-				//dbg_print(toke);
+      if (toke.type.keyword == 'function') {
+        dbg_print('%c NOTICE: Function declaration.', 'color:green');
+        defines_functions = true;
+      }
 
-				// This type of loop detection ignores functional loop alternatives and ternary operators
+      if (loopkeys[toke.type.keyword] !== undefined) {
+        amtloops++;
+        if (amtloops > 3) {
+          dbg_print('%c NONTRIVIAL: Too many loops/conditionals.', 'color:red');
+          if (DEBUG == false) {
+            return [false, 'NONTRIVIAL: Too many loops/conditionals.'];
+          }
+        }
+      }
+    } else if (toke.value !== undefined && operators[toke.value] !== undefined) {
+      // It's just an operator. Javascript doesn't have operator overloading so it must be some
+      // kind of primitive (I.e. a number)
+    } else if (toke.value !== undefined) {
+      var status = fname_data[toke.value];
+      if (status === true) { // is the identifier banned?
+        dbg_print('%c NONTRIVIAL: nontrivial token: \'' + toke.value + '\'', 'color:red');
+        if (DEBUG == false) {
+          return [false, 'NONTRIVIAL: nontrivial token: \'' + toke.value + '\''];
+        }
+      } else if (status === false) {// is the identifier not banned?
+        // Is there bracket suffix notation?
+        if (is_bsn(toke.end)) {
+          dbg_print('%c NONTRIVIAL: Bracket suffix notation on variable \'' + toke.value + '\'', 'color:red');
+          if (DEBUG == false) {
+            return [false, '%c NONTRIVIAL: Bracket suffix notation on variable \'' + toke.value + '\''];
+          }
+        }
+      } else if (status === undefined) {// is the identifier user defined?
+        // Is there bracket suffix notation?
+        if (is_bsn(toke.end)) {
+          dbg_print('%c NONTRIVIAL: Bracket suffix notation on variable \'' + toke.value + '\'', 'color:red');
+          if (DEBUG == false) {
+            return [false, 'NONTRIVIAL: Bracket suffix notation on variable \'' + toke.value + '\''];
+          }
+        }
+      } else {
+        dbg_print('trivial token:' + toke.value);
+      }
+    }
+    // If not a keyword or an identifier it's some kind of operator, field parenthesis, brackets
+    try {
+      toke = tokens.getToken();
+    } catch (e) {
+      dbg_print('Denied script because it cannot be parsed.');
+      return [false, 'NONTRIVIAL: Cannot be parsed. This could mean it is a 404 error.'];
+    }
+  }
 
-				if(toke.type.keyword == "function"){
-					dbg_print("%c NOTICE: Function declaration.","color:green");
-					defines_functions = true;
-				}
-
-				if(loopkeys[toke.type.keyword] !== undefined){
-					amtloops++;
-					if(amtloops > 3){
-						dbg_print("%c NONTRIVIAL: Too many loops/conditionals.","color:red");
-						if(DEBUG == false){
-							return [false,"NONTRIVIAL: Too many loops/conditionals."];
-						}
-					}
-				}
-			}else if(toke.value !== undefined && operators[toke.value] !== undefined){
-				// It's just an operator. Javascript doesn't have operator overloading so it must be some
-				// kind of primitive (I.e. a number)
-			}else if(toke.value !== undefined){
-				var status = fname_data[toke.value];
-				if(status === true){ // is the identifier banned?
-					dbg_print("%c NONTRIVIAL: nontrivial token: '"+toke.value+"'","color:red");
-					if(DEBUG == false){
-						return [false,"NONTRIVIAL: nontrivial token: '"+toke.value+"'"];
-					}
-				}else if(status === false){// is the identifier not banned?
-					// Is there bracket suffix notation?
-					if(is_bsn(toke.end)){
-						dbg_print("%c NONTRIVIAL: Bracket suffix notation on variable '"+toke.value+"'","color:red");
-						if(DEBUG == false){
-							return [false,"%c NONTRIVIAL: Bracket suffix notation on variable '"+toke.value+"'"];
-						}
-					}
-				}else if(status === undefined){// is the identifier user defined?
-					// Is there bracket suffix notation?
-					if(is_bsn(toke.end)){
-						dbg_print("%c NONTRIVIAL: Bracket suffix notation on variable '"+toke.value+"'","color:red");
-						if(DEBUG == false){
-							return [false,"NONTRIVIAL: Bracket suffix notation on variable '"+toke.value+"'"];
-						}
-					}
-				}else{
-					dbg_print("trivial token:"+toke.value);
-				}
-			}
-			// If not a keyword or an identifier it's some kind of operator, field parenthesis, brackets
-			try{
-				toke = tokens.getToken();
-			}catch(e){
-				dbg_print("Denied script because it cannot be parsed.");
-				return [false,"NONTRIVIAL: Cannot be parsed. This could mean it is a 404 error."];
-			}
-		}
-
-		dbg_print("%cAppears to be trivial.","color:green;");
-		if (defines_functions === true)
-			return [true,"Script appears to be trivial but defines functions."];
-		else
-			return [true,"Script appears to be trivial."];
+  dbg_print('%cAppears to be trivial.', 'color:green;');
+  if (defines_functions === true)
+    return [true, 'Script appears to be trivial but defines functions.'];
+  else
+    return [true, 'Script appears to be trivial.'];
 }
 
 
@@ -2756,65 +2584,57 @@ function full_evaluate(script){
 *	It returns an array of [flag (boolean, false if "bad"), reason (string, human readable report)]
 *
 */
-function evaluate(script,name){
-	function reserved_object_regex(object){
-		var arith_operators = "\\+\\-\\*\\/\\%\\=";
-		var scope_chars = "\{\}\]\[\(\)\,";
-		var trailing_chars = "\s*"+"\(\.\[";
-		return new RegExp("(?:[^\\w\\d]|^|(?:"+arith_operators+"))"+object+'(?:\\s*?(?:[\\;\\,\\.\\(\\[])\\s*?)',"g");
-	}
-	reserved_object_regex("window");
-	var all_strings = new RegExp('".*?"'+"|'.*?'","gm");
-	var ml_comment = /\/\*([\s\S]+?)\*\//g;
-	var il_comment = /\/\/.+/gm;
-	var bracket_pairs = /\[.+?\]/g;
-	var temp = script.replace(/'.+?'+/gm,"'string'");
-	temp = temp.replace(/".+?"+/gm,'"string"');
-	temp = temp.replace(ml_comment,"");
-	temp = temp.replace(il_comment,"");
-	dbg_print("%c ------evaluation results for "+ name +"------","color:white");
-	dbg_print("Script accesses reserved objects?");
-	var flag = true;
-	var reason = ""
-	// 	This is where individual "passes" are made over the code
-	for(var i = 0; i < reserved_objects.length; i++){
-		var res = reserved_object_regex(reserved_objects[i]).exec(temp);
-		if(res != null){
-			dbg_print("%c fail","color:red;");
-			flag = false;
-			reason = "Script uses a reserved object (" + reserved_objects[i] + ")";
-		}
-	}
-	if(flag){
-		dbg_print("%c pass","color:green;");
-	} else{
-		return [flag,reason];
-	}
+function evaluate(script, name) {
+  function reserved_object_regex(object) {
+    var arith_operators = '\\+\\-\\*\\/\\%\\=';
+    return new RegExp('(?:[^\\w\\d]|^|(?:' + arith_operators + '))' + object + '(?:\\s*?(?:[\\;\\,\\.\\(\\[])\\s*?)', 'g');
+  }
+  reserved_object_regex('window');
+  const ml_comment = /\/\*([\s\S]+?)\*\//g;
+  const il_comment = /\/\/.+/gm;
+  var temp = script.replace(/'.+?'+/gm, '\'string\'');
+  temp = temp.replace(/".+?"+/gm, '"string"');
+  temp = temp.replace(ml_comment, '');
+  temp = temp.replace(il_comment, '');
+  dbg_print('%c ------evaluation results for ' + name + '------', 'color:white');
+  dbg_print('Script accesses reserved objects?');
+  var flag = true;
+  var reason = ''
+  // 	This is where individual "passes" are made over the code
+  for (var i = 0; i < reserved_objects.length; i++) {
+    var res = reserved_object_regex(reserved_objects[i]).exec(temp);
+    if (res != null) {
+      dbg_print('%c fail', 'color:red;');
+      flag = false;
+      reason = 'Script uses a reserved object (' + reserved_objects[i] + ')';
+    }
+  }
+  if (flag) {
+    dbg_print('%c pass', 'color:green;');
+  } else {
+    return [flag, reason];
+  }
 
-	return full_evaluate(script);
+  return full_evaluate(script);
 }
 
 
 function validateLicense(matches) {
-	if (!(Array.isArray(matches) && matches.length >= 4)){
-		return [false, "Malformed or unrecognized license tag."];
-	}
+  if (!(Array.isArray(matches) && matches.length >= 4)) {
+    return [false, 'Malformed or unrecognized license tag.'];
+  }
 
-	let [all, tag, first, second] = matches;
+  const [all, first] = [matches[0], matches[2].replace('&amp;', '&')];
 
-	for (let key in licenses){
-		// Match by id on first or second parameter, ignoring case
-		if (key.toLowerCase() === first.toLowerCase() ||
-			key.toLowerCase() === second.toLowerCase()) {
-			return [true, `Recognized license: "${licenses[key]['Name']}" `];
-		}
-		// Match by link on first parameter (legacy)
-		if (licenses[key]["Magnet link"] === first.replace("&amp;","&") ||
-		    licenses[key]["URL"] === first.replace("&amp;","&")) {
-			return [true, `Recognized license: "${licenses[key]['Name']}".`];
-		}
-	}
-	return [false, `Unrecognized license tag: "${all}"`];
+  for (const key in licenses) {
+    // Match by link on first parameter (legacy)
+    for (const url of licenses[key].canonicalUrl) {
+      if (first === url || first === url.replace('^http://', 'https://')) {
+        return [true, `Recognized license: "${licenses[key].licenseName}".`];
+      }
+    }
+  }
+  return [false, `Unrecognized license tag: "${all}"`];
 }
 
 
@@ -2829,92 +2649,93 @@ function validateLicense(matches) {
 *		reason text
 *	]
 */
-function license_read(scriptSrc, name, external = false){
+function license_read(scriptSrc, name, external = false) {
 
-	let license = legacy_license_lib.check(scriptSrc);
-	if (license){
-		return [true, scriptSrc, `Licensed under: ${license}`];
-	}
-	if (listManager.builtInHashes.has(hash(scriptSrc))){
-		return [true, scriptSrc, "Common script known to be free software."];
-	}
+  const license = legacy_license_lib.check(scriptSrc);
+  if (license) {
+    return [true, scriptSrc, `Licensed under: ${license}`];
+  }
+  if (listManager.builtInHashes.has(hash(scriptSrc))) {
+    return [true, scriptSrc, 'Common script known to be free software.'];
+  }
 
-	let editedSrc = "";
-	let uneditedSrc = scriptSrc.trim();
-	let reason = uneditedSrc ? "" : "Empty source.";
-	let partsDenied = false;
-	let partsAccepted = false;
+  let editedSrc = '';
+  let uneditedSrc = scriptSrc.trim();
+  let reason = uneditedSrc ? '' : 'Empty source.';
+  let partsDenied = false;
+  let partsAccepted = false;
 
-	function checkTriviality(s) {
-		if (!s.trim()) {
-			return true; // empty, ignore it
-		}
-		let [trivial, message] = external ?
-			[false, "External script with no known license"]
-			: evaluate(s, name);
-		if (trivial) {
-			partsAccepted = true;
-			editedSrc += s;
-		} else {
-			partsDenied = true;
-			if (s.startsWith("javascript:"))
-				editedSrc += `# LIBREJS BLOCKED: ${message}`;
-			else
-				editedSrc += `/*\nLIBREJS BLOCKED: ${message}\n*/`;
-		}
-		reason += `\n${message}`;
-		return trivial;
-	}
+  function checkTriviality(s) {
+    if (!patternUtils.removeJsComments(s).trim()) {
+      return true; // empty, ignore it
+    }
+    const [trivial, message] = external ?
+      [false, 'External script with no known license']
+      : evaluate(s, name);
+    if (trivial) {
+      partsAccepted = true;
+      editedSrc += s;
+    } else {
+      partsDenied = true;
+      if (s.startsWith('javascript:'))
+        editedSrc += `# LIBREJS BLOCKED: ${message}`;
+      else
+        editedSrc += `/*\nLIBREJS BLOCKED: ${message}\n*/`;
+    }
+    reason += `\n${message}`;
+    return trivial;
+  }
 
-	while (uneditedSrc) {
-		let openingMatch = /\/[\/\*]\s*?(@license)\s+(\S+)\s+(\S+)\s*$/mi.exec(uneditedSrc);
-		if (!openingMatch) { // no license found, check for triviality
-			checkTriviality(uneditedSrc);
-			break;
-		}
+  while (uneditedSrc) {
+    const openingMatch = /\/[/*]\s*?(@license)\s+(\S+)\s+(\S+).*$/mi.exec(uneditedSrc);
+    if (!openingMatch) { // no license found, check for triviality
+      checkTriviality(uneditedSrc);
+      break;
+    }
 
-		let openingIndex = openingMatch.index;
-		if (openingIndex) {
-			// let's check the triviality of the code before the license tag, if any
-			checkTriviality(uneditedSrc.substring(0, openingIndex));
-		}
-		// let's check the actual license
-		uneditedSrc = uneditedSrc.substring(openingIndex);
+    const openingIndex = openingMatch.index;
+    if (openingIndex) {
+      // let's check the triviality of the code before the license tag, if any
+      checkTriviality(uneditedSrc.substring(0, openingIndex));
+    }
+    // let's check the actual license
+    uneditedSrc = uneditedSrc.substring(openingIndex);
 
-		let closureMatch = /\/([*/])\s*@license-end\b[^*/\n]*/i.exec(uneditedSrc);
-		if (!closureMatch) {
-			let msg = "ERROR: @license with no @license-end";
-			return [false, `\n/*\n ${msg} \n*/\n`, msg];
-		}
+    const closureMatch =
+      /\/([*/])\s*@license-end\s*(\*\/)?/mi.exec(uneditedSrc);
+    if (!closureMatch) {
+      const msg = 'ERROR: @license with no @license-end';
+      return [false, `\n/*\n ${msg} \n*/\n`, msg];
+    }
 
-		let closureEndIndex = closureMatch.index + closureMatch[0].length;
-		let commentEndOffset = uneditedSrc.substring(closureEndIndex).indexOf(closureMatch[1] === "*" ? "*/" : "\n");
-		if (commentEndOffset !== -1) {
-			closureEndIndex += commentEndOffset;
-		}
+    let closureEndIndex = closureMatch.index + closureMatch[0].length;
+    const commentEndOffset = uneditedSrc.substring(closureEndIndex).indexOf(closureMatch[1] === '*' ? '*/' : '\n');
+    if (commentEndOffset !== -1) {
+      closureEndIndex += commentEndOffset;
+    }
 
-		let [licenseOK, message] = validateLicense(openingMatch);
-		if(licenseOK) {
-			editedSrc += uneditedSrc.substr(0, closureEndIndex);
-			partsAccepted = true;
-		} else {
-			editedSrc += `\n/*\n${message}\n*/\n`;
-			partsDenied = true;
-		}
-		reason += `\n${message}`;
+    const [licenseOK, message] = validateLicense(openingMatch);
+    if (licenseOK) {
+      editedSrc += uneditedSrc.substr(0, closureEndIndex);
+      partsAccepted = true;
+    } else {
+      editedSrc += `\n/*\n${message}\n*/\n`;
+      partsDenied = true;
+    }
+    reason += `\n${message}`;
 
-		// trim off everything we just evaluated
-		uneditedSrc = uneditedSrc.substring(closureEndIndex).trim();
-	}
+    // trim off everything we just evaluated
+    uneditedSrc = uneditedSrc.substring(closureEndIndex).trim();
+  }
 
-	if(partsDenied) {
-		if (partsAccepted) {
-			reason = `Some parts of the script have been disabled (check the source for details).\n^--- ${reason}`;
-		}
-		return [false, editedSrc, reason];
-	}
+  if (partsDenied) {
+    if (partsAccepted) {
+      reason = `Some parts of the script have been disabled (check the source for details).\n^--- ${reason}`;
+    }
+    return [false, editedSrc, reason];
+  }
 
-	return [true, scriptSrc, reason];
+  return [true, scriptSrc, reason];
 }
 
 /* *********************************************************************************************** */
@@ -2925,90 +2746,94 @@ function license_read(scriptSrc, name, external = false){
 * or an array containing it and the index, if the latter !== -1
 */
 async function get_script(response, url, tabId = -1, whitelisted = false, index = -1) {
-	function result(scriptSource) {
-		return index === -1 ? scriptSource : [scriptSource, index];
-	}
+  function result(scriptSource) {
+    return index === -1 ? scriptSource : [scriptSource, index];
+  }
 
 
-	let scriptName = url.split("/").pop();
-	if (whitelisted) {
-		if (tabId !== -1) {
-			let site = ListManager.siteMatch(url, whitelist);
-			// Accept without reading script, it was explicitly whitelisted
-			let reason = site
-				? `All ${site} whitelisted by user`
-				: "Address whitelisted by user";
-			addReportEntry(tabId, url, {"whitelisted": [site || url, reason], url});
-		}
-		if (response.startsWith("javascript:"))
-			return result(response);
-		else
-			return result(`/* LibreJS: script whitelisted by user preference. */\n${response}`);
-	}
+  let scriptName = url.split('/').pop();
+  if (whitelisted) {
+    if (tabId !== -1) {
+      let site = ListManager.siteMatch(url, whitelist);
+      // Accept without reading script, it was explicitly whitelisted
+      let reason = site
+        ? `All ${site} whitelisted by user`
+        : 'Address whitelisted by user';
+      addReportEntry(tabId, { 'whitelisted': [site || url, reason], url });
+    }
+    if (response.startsWith('javascript:'))
+      return result(response);
+    else
+      return result(`/* LibreJS: script whitelisted by user preference. */\n${response}`);
+  }
 
-	let [verdict, editedSource, reason] = license_read(response, scriptName, index === -2);
+  let [verdict, editedSource, reason] = license_read(response, scriptName, index === -2);
 
-	if (tabId < 0) {
-		return result(verdict ? response : editedSource);
-	}
+  if (tabId < 0) {
+    return result(verdict ? response : editedSource);
+  }
 
-	let sourceHash = hash(response);
- 	let domain = get_domain(url);
-	let report = activityReports[tabId] || (activityReports[tabId] = await createReport({tabId}));
-	updateBadge(tabId, report, !verdict);
-	let category = await addReportEntry(tabId, sourceHash, {"url": domain, [verdict ? "accepted" : "blocked"]: [url, reason]});
-	switch(category) {
-		case "blacklisted":
-			editedSource = `/* LibreJS: script ${category} by user. */`;
-			return result(response.startsWith("javascript:")
-				? `javascript:void(${encodeURIComponent(editedSource)})` : editedSource);
-		case "whitelisted":
-			return result(response.startsWith("javascript:")
-				? response : `/* LibreJS: script ${category} by user. */\n${response}`);
-		default:
-			let scriptSource = verdict ? response : editedSource;
-      return result(response.startsWith("javascript:")
-				? (verdict ? scriptSource : `javascript:void(/* ${scriptSource} */)`)
-				: `/* LibreJS: script ${category}. */\n${scriptSource}`
-			);
-	}
+  let domain = get_domain(url);
+  let report = activityReports[tabId] || (activityReports[tabId] = await createReport({ tabId }));
+  updateBadge(tabId, report, !verdict);
+  let category = await addReportEntry(tabId, { 'url': domain, [verdict ? 'accepted' : 'blocked']: [url, reason] });
+  switch (category) {
+    case 'blacklisted': {
+      editedSource = `/* LibreJS: script ${category} by user. */`;
+      return result(response.startsWith('javascript:')
+        ? `javascript:void(${encodeURIComponent(editedSource)})` : editedSource);
+    }
+    case 'whitelisted': {
+      return result(response.startsWith('javascript:')
+        ? response : `/* LibreJS: script ${category} by user. */\n${response}`);
+    }
+    default: {
+      let scriptSource = verdict ? response : editedSource;
+      return result(response.startsWith('javascript:')
+        ? (verdict ? scriptSource : `javascript:void(/* ${scriptSource} */)`)
+        : `/* LibreJS: script ${category}. */\n${scriptSource}`
+      );
+    }
+  }
 }
 
 
 function updateBadge(tabId, report = null, forceRed = false) {
-	let blockedCount = report ? report.blocked.length + report.blacklisted.length : 0;
-	let [text, color] = blockedCount > 0 || forceRed
-		? [blockedCount && blockedCount.toString() || "!" , "red"] : ["✓", "green"]
-	let {browserAction} = browser;
-	if ("setBadgeText" in browserAction) {
-		browserAction.setBadgeText({text, tabId});
-		browserAction.setBadgeBackgroundColor({color, tabId});
-	} else {
-		// Mobile
-		browserAction.setTitle({title: `LibreJS (${text})`, tabId});
-	}
+  let blockedCount = report ? report.blocked.length + report.blacklisted.length : 0;
+  let [text, color] = blockedCount > 0 || forceRed
+    ? [blockedCount && blockedCount.toString() || '!', 'red'] : ['✓', 'green']
+  let { browserAction } = browser;
+  if ('setBadgeText' in browserAction) {
+    browserAction.setBadgeText({ text, tabId });
+    browserAction.setBadgeBackgroundColor({ color, tabId });
+  } else {
+    // Mobile
+    browserAction.setTitle({ title: `LibreJS (${text})`, tabId });
+  }
 }
 
 function blockGoogleAnalytics(request) {
-	let {url} = request;
-	let res = {};
-	if (url === 'https://www.google-analytics.com/analytics.js' ||
-		/^https:\/\/www\.google\.com\/analytics\/[^#]/.test(url)
-	) {
-		res.cancel = true;
-	}
-	return res;
+  let { url } = request;
+  let res = {};
+  if (url === 'https://www.google-analytics.com/analytics.js' ||
+    /^https:\/\/www\.google\.com\/analytics\/[^#]/.test(url)
+  ) {
+    res.cancel = true;
+  }
+  return res;
 }
 
-async function blockBlacklistedScripts(request)  {
-	let {url, tabId, documentUrl} = request;
-	url = ListStore.urlItem(url);
-	let status = listManager.getStatus(url);
-	if (status !== "blacklisted") return {};
-	let blacklistedSite = ListManager.siteMatch(url, blacklist);
-	await addReportEntry(tabId, url, {url: documentUrl,
-		"blacklisted": [url, /\*/.test(blacklistedSite) ? `User blacklisted ${blacklistedSite}` : "Blacklisted by user"]});
-	return {cancel: true};
+async function blockBlacklistedScripts(request) {
+  let { url, tabId, documentUrl } = request;
+  url = ListStore.urlItem(url);
+  let status = listManager.getStatus(url);
+  if (status !== 'blacklisted') return {};
+  let blacklistedSite = ListManager.siteMatch(url, blacklist);
+  await addReportEntry(tabId, {
+    url: documentUrl,
+    'blacklisted': [url, /\*/.test(blacklistedSite) ? `User blacklisted ${blacklistedSite}` : 'Blacklisted by user']
+  });
+  return { cancel: true };
 }
 
 /**
@@ -3018,91 +2843,93 @@ async function blockBlacklistedScripts(request)  {
 */
 
 var ResponseHandler = {
-	/**
-	*	Enforce white/black lists for url/site early (hashes will be handled later)
-	*/
-	async pre(response) {
-		let {request} = response;
-		let {url, type, tabId, frameId, documentUrl} = request;
+  /**
+  *	Enforce white/black lists for url/site early (hashes will be handled later)
+  */
+  async pre(response) {
+    let { request } = response;
+    let { url, type, tabId, frameId, documentUrl } = request;
 
-		let fullUrl = url;
-		url = ListStore.urlItem(url);
-		let site = ListStore.siteItem(url);
+    let fullUrl = url;
+    url = ListStore.urlItem(url);
+    let site = ListStore.siteItem(url);
 
-		let blacklistedSite = ListManager.siteMatch(site, blacklist);
-		let blacklisted = blacklistedSite || blacklist.contains(url);
-		let topUrl = type === "sub_frame" && request.frameAncestors && request.frameAncestors.pop() || documentUrl;
+    let blacklistedSite = ListManager.siteMatch(site, blacklist);
+    let blacklisted = blacklistedSite || blacklist.contains(url);
+    let topUrl = type === 'sub_frame' && request.frameAncestors && request.frameAncestors.pop() || documentUrl;
 
-		if (blacklisted) {
-			if (type === "script") {
-				// this shouldn't happen, because we intercept earlier in blockBlacklistedScripts()
-				return ResponseProcessor.REJECT;
-			}
-			if (type === "main_frame") { // we handle the page change here too, since we won't call edit_html()
-				activityReports[tabId] = await createReport({url: fullUrl, tabId});
-				// Go on without parsing the page: it was explicitly blacklisted
-				let reason = blacklistedSite
-					? `All ${blacklistedSite} blacklisted by user`
-					: "Address blacklisted by user";
-				await addReportEntry(tabId, url, {"blacklisted": [blacklistedSite || url, reason], url: fullUrl});
-			}
-			// use CSP to restrict JavaScript execution in the page
-			request.responseHeaders.unshift({
-				name: `Content-security-policy`,
-				value: `script-src 'none';`
-			});
-			return {responseHeaders: request.responseHeaders}; // let's skip the inline script parsing, since we block by CSP
-		} else {
-			let whitelistedSite = ListManager.siteMatch(site, whitelist);
-			let whitelisted = response.whitelisted = whitelistedSite || whitelist.contains(url);
-			if (type === "script") {
-				if (whitelisted) {
-					// accept the script and stop processing
-					addReportEntry(tabId, url, {url: topUrl,
-						"whitelisted": [url, whitelistedSite ? `User whitelisted ${whitelistedSite}` : "Whitelisted by user"]});
-					return ResponseProcessor.ACCEPT;
-				} else {
-					let scriptInfo = await ExternalLicenses.check({url: fullUrl, tabId, frameId, documentUrl});
-					if (scriptInfo) {
-						let verdict, ret;
-						let msg = scriptInfo.toString();
-						if (scriptInfo.free) {
-							verdict = "accepted";
-							ret = ResponseProcessor.ACCEPT;
-						} else {
-							verdict = "blocked";
-							ret = ResponseProcessor.REJECT;
-						}
-						addReportEntry(tabId, url, {url, [verdict]: [url, msg]});
-						return ret;
-					}
-				}
-			}
-		}
-		// it's a page (it's too early to report) or an unknown script:
-		//  let's keep processing
-		return ResponseProcessor.CONTINUE;
-	},
+    if (blacklisted) {
+      if (type === 'script') {
+        // this shouldn't happen, because we intercept earlier in blockBlacklistedScripts()
+        return ResponseProcessor.REJECT;
+      }
+      if (type === 'main_frame') { // we handle the page change here too, since we won't call edit_html()
+        activityReports[tabId] = await createReport({ url: fullUrl, tabId });
+        // Go on without parsing the page: it was explicitly blacklisted
+        let reason = blacklistedSite
+          ? `All ${blacklistedSite} blacklisted by user`
+          : 'Address blacklisted by user';
+        await addReportEntry(tabId, { 'blacklisted': [blacklistedSite || url, reason], url: fullUrl });
+      }
+      // use CSP to restrict JavaScript execution in the page
+      request.responseHeaders.unshift({
+        name: 'Content-security-policy',
+        value: 'script-src \'none\';'
+      });
+      return { responseHeaders: request.responseHeaders }; // let's skip the inline script parsing, since we block by CSP
+    } else {
+      let whitelistedSite = ListManager.siteMatch(site, whitelist);
+      let whitelisted = response.whitelisted = whitelistedSite || whitelist.contains(url);
+      if (type === 'script') {
+        if (whitelisted) {
+          // accept the script and stop processing
+          addReportEntry(tabId, {
+            url: topUrl,
+            'whitelisted': [url, whitelistedSite ? `User whitelisted ${whitelistedSite}` : 'Whitelisted by user']
+          });
+          return ResponseProcessor.ACCEPT;
+        } else {
+          let scriptInfo = await ExternalLicenses.check({ url: fullUrl, tabId, frameId, documentUrl });
+          if (scriptInfo) {
+            let verdict, ret;
+            let msg = scriptInfo.toString();
+            if (scriptInfo.free) {
+              verdict = 'accepted';
+              ret = ResponseProcessor.ACCEPT;
+            } else {
+              verdict = 'blocked';
+              ret = ResponseProcessor.REJECT;
+            }
+            addReportEntry(tabId, { url, [verdict]: [url, msg] });
+            return ret;
+          }
+        }
+      }
+    }
+    // it's a page (it's too early to report) or an unknown script:
+    //  let's keep processing
+    return ResponseProcessor.CONTINUE;
+  },
 
-	/**
-	*	Here we do the heavylifting, analyzing unknown scripts
-	*/
-	async post(response) {
-		let {type} = response.request;
-		let handle_it = type === "script" ? handle_script : handle_html;
-		return await handle_it(response, response.whitelisted);
-	}
+  /**
+  *	Here we do the heavylifting, analyzing unknown scripts
+  */
+  async post(response) {
+    let { type } = response.request;
+    let handle_it = type === 'script' ? handle_script : handle_html;
+    return await handle_it(response, response.whitelisted);
+  }
 }
 
 /**
 * Here we handle external script requests
 */
-async function handle_script(response, whitelisted){
-	let {text, request} = response;
-	let {url, tabId, frameId} = request;
-	url = ListStore.urlItem(url);
+async function handle_script(response, whitelisted) {
+  let { text, request } = response;
+  let { url, tabId } = request;
+  url = ListStore.urlItem(url);
   let edited = await get_script(text, url, tabId, whitelisted, -2);
-	return Array.isArray(edited) ? edited[0] : edited;
+  return Array.isArray(edited) ? edited[0] : edited;
 }
 
 /**
@@ -3110,22 +2937,22 @@ async function handle_script(response, whitelisted){
 *	the DOCTYPE declaration
 */
 function doc2HTML(doc) {
-	let s = doc.documentElement.outerHTML;
-	if (doc.doctype) {
-		let dt = doc.doctype;
-		let sDoctype = `<!DOCTYPE ${dt.name || "html"}`;
-		if (dt.publicId) sDoctype += ` PUBLIC "${dt.publicId}"`;
-		if (dt.systemId) sDoctype += ` "${dt.systemId}"`;
-		s = `${sDoctype}>\n${s}`;
-	}
-	return s;
+  let s = doc.documentElement.outerHTML;
+  if (doc.doctype) {
+    let dt = doc.doctype;
+    let sDoctype = `<!DOCTYPE ${dt.name || 'html'}`;
+    if (dt.publicId) sDoctype += ` PUBLIC "${dt.publicId}"`;
+    if (dt.systemId) sDoctype += ` "${dt.systemId}"`;
+    s = `${sDoctype}>\n${s}`;
+  }
+  return s;
 }
 
 /**
 * Shortcut to create a correctly namespaced DOM HTML elements
 */
 function createHTMLElement(doc, name) {
-  return doc.createElementNS("http://www.w3.org/1999/xhtml", name);
+  return doc.createElementNS('http://www.w3.org/1999/xhtml', name);
 }
 
 /**
@@ -3133,10 +2960,10 @@ function createHTMLElement(doc, name) {
 * NOSCRIPT elements to visible the same way as NoScript and uBlock do)
 */
 function forceElement(doc, element) {
-	let replacement = createHTMLElement(doc, "span");
-	replacement.innerHTML = element.innerHTML;
-	element.replaceWith(replacement);
-	return replacement;
+  let replacement = createHTMLElement(doc, 'span');
+  replacement.innerHTML = element.innerHTML;
+  element.replaceWith(replacement);
+  return replacement;
 }
 
 /**
@@ -3145,19 +2972,18 @@ function forceElement(doc, element) {
 * they have the "data-librejs-nodisplay" attribute).
 */
 function forceNoscriptElements(doc) {
-	let shown = 0;
-	// inspired by NoScript's onScriptDisabled.js
-	for (let noscript of doc.querySelectorAll("noscript:not([data-librejs-nodisplay])")) {
+  let shown = 0;
+  // inspired by NoScript's onScriptDisabled.js
+  for (let noscript of doc.querySelectorAll('noscript:not([data-librejs-nodisplay])')) {
     let replacement = forceElement(doc, noscript);
     // emulate meta-refresh
     let meta = replacement.querySelector('meta[http-equiv="refresh"]');
     if (meta) {
-      refresh = true;
       doc.head.appendChild(meta);
     }
-		shown++;
+    shown++;
   }
-	return shown;
+  return shown;
 }
 /**
 *	Forces displaying any element having the "data-librejs-display" attribute and
@@ -3165,232 +2991,231 @@ function forceNoscriptElements(doc) {
 * they have the "data-librejs-nodisplay" attribute).
 */
 function showConditionalElements(doc) {
-	let shown = 0;
-	for (let element of document.querySelectorAll("[data-librejs-display]")) {
-		forceElement(doc, element);
-		shown++;
-	}
-	return shown;
+  let shown = 0;
+  for (let element of document.querySelectorAll('[data-librejs-display]')) {
+    forceElement(doc, element);
+    shown++;
+  }
+  return shown;
 }
 
 /**
 *	Tests to see if the intrinsic events on the page are free or not.
 *	returns true if they are, false if they're not
 */
-function read_metadata(meta_element){
+function read_metadata(meta_element) {
 
-		if(meta_element === undefined || meta_element === null){
-			return;
-		}
+  if (meta_element === undefined || meta_element === null) {
+    return;
+  }
 
-		console.log("metadata found");
+  console.log('metadata found');
 
-		var metadata = {};
+  var metadata = {};
 
-		try{
-			metadata = JSON.parse(meta_element.innerHTML);
-		}catch(error){
-			console.log("Could not parse metadata on page.")
-			return false;
-		}
+  try {
+    metadata = JSON.parse(meta_element.innerHTML);
+  } catch (error) {
+    console.log('Could not parse metadata on page.')
+    return false;
+  }
 
-		var license_str = metadata["intrinsic-events"];
-		if(license_str === undefined){
-			console.log("No intrinsic events license");
-			return false;
-		}
-		console.log(license_str);
+  var license_str = metadata['intrinsic-events'];
+  if (license_str === undefined) {
+    console.log('No intrinsic events license');
+    return false;
+  }
+  console.log(license_str);
 
-		var parts = license_str.split(" ");
-		if(parts.length != 2){
-			console.log("invalid (>2 tokens)");
-			return false;
-		}
+  var parts = license_str.split(' ');
+  if (parts.length != 2) {
+    console.log('invalid (>2 tokens)');
+    return false;
+  }
 
-		// this should be adequete to escape the HTML escaping
-		parts[0] = parts[0].replace(/&amp;/g, '&');
+  // this should be adequete to escape the HTML escaping
+  parts[0] = parts[0].replace(/&amp;/g, '&');
 
-		try{
-			if(licenses[parts[1]]["Magnet link"] == parts[0]){
-				return true;
-			}else{
-				console.log("invalid (doesn't match licenses)");
-				return false;
-			}
-		} catch(error){
-			console.log("invalid (threw error, key didn't exist)");
-			return false;
-		}
+  try {
+    for (const url of licenses[parts[1]].canonicalUrl) {
+      if (url.startsWith('magnet:') && url == parts[0]) {
+        return true;
+      }
+    }
+    console.log('invalid (doesn\'t match licenses)');
+    return false;
+  } catch (error) {
+    console.log('invalid (threw error, key didn\'t exist)');
+    return false;
+  }
 }
 /**
 
 * 	Reads/changes the HTML of a page and the scripts within it.
 */
-async function editHtml(html, documentUrl, tabId, frameId, whitelisted){
+async function editHtml(html, documentUrl, tabId, frameId, whitelisted) {
 
-	var parser = new DOMParser();
-	var html_doc = parser.parseFromString(html, "text/html");
+  var parser = new DOMParser();
+  var html_doc = parser.parseFromString(html, 'text/html');
 
-	// moves external licenses reference, if any, before any <SCRIPT> element
-	ExternalLicenses.optimizeDocument(html_doc, {tabId, frameId, documentUrl});
+  // moves external licenses reference, if any, before any <SCRIPT> element
+  ExternalLicenses.optimizeDocument(html_doc, { tabId, frameId, documentUrl });
 
-	let url = ListStore.urlItem(documentUrl);
+  let url = ListStore.urlItem(documentUrl);
 
-	if (whitelisted) { // don't bother rewriting
-		await get_script(html, url, tabId, whitelisted); // generates whitelisted report
-		return null;
-	}
+  if (whitelisted) { // don't bother rewriting
+    await get_script(html, url, tabId, whitelisted); // generates whitelisted report
+    return null;
+  }
 
-	var scripts = html_doc.scripts;
+  var scripts = html_doc.scripts;
 
-	var meta_element = html_doc.getElementById("LibreJS-info");
-	var first_script_src = "";
+  var meta_element = html_doc.getElementById('LibreJS-info');
+  var first_script_src = '';
 
-	// get the potential inline source that can contain a license
-	for (let script of scripts) {
-		// The script must be in-line and exist
-		if(script && !script.src) {
-			first_script_src = script.textContent;
-			break;
-		}
-	}
+  // get the potential inline source that can contain a license
+  for (let script of scripts) {
+    // The script must be in-line and exist
+    if (script && !script.src) {
+      first_script_src = script.textContent;
+      break;
+    }
+  }
 
-	let license = false;
-	if (first_script_src != "") {
-		license = legacy_license_lib.check(first_script_src);
-	}
+  let license = false;
+  if (first_script_src != '') {
+    license = legacy_license_lib.check(first_script_src);
+  }
 
-	let findLine = finder => finder.test(html) && html.substring(0, finder.lastIndex).split(/\n/).length || 0;
-	if (read_metadata(meta_element) || license) {
-		console.log("Valid license for intrinsic events found");
-		let line, extras;
-		if (meta_element) {
-		  line = findLine(/id\s*=\s*['"]?LibreJS-info\b/gi);
-			extras = "(0)";
-		} else if (license) {
-			line = html.substring(0, html.indexOf(first_script_src)).split(/\n/).length;
-			extras = "\n" + first_script_src;
-		}
-		let viewUrl = line ? `view-source:${documentUrl}#line${line}(<${meta_element ? meta_element.tagName : "SCRIPT"}>)${extras}` : url;
-		addReportEntry(tabId, url, {url, "accepted":[viewUrl, `Global license for the page: ${license}`]});
-		// Do not process inline scripts
-		scripts = [];
-	} else {
-		let dejaVu = new Map(); // deduplication map & edited script cache
-		let modified = false;
-		// Deal with intrinsic events
-		let intrinsecindex = 0;
-		let intrinsicFinder = /<[a-z][^>]*\b(on\w+|href\s*=\s*['"]?javascript:)/gi;
-		for (let element of html_doc.all) {
-			let line = -1;
-			for (let attr of element.attributes) {
-				let {name, value} = attr;
-				value = value.trim();
-				if (name.startsWith("on") || (name === "href" && value.toLowerCase().startsWith("javascript:"))){
-					intrinsecindex++;
-					if (line === -1) {
-						line = findLine(intrinsicFinder);
-					}
-					try {
-						let key = `<${element.tagName} ${name}="${value}">`;
-						let edited;
-						if (dejaVu.has(key)) {
-							edited = dejaVu.get(key);
-						} else {
-							let url = `view-source:${documentUrl}#line${line}(<${element.tagName} ${name}>)\n${value.trim()}`;
-							if (name === "href") value = decodeURIComponent(value);
-							edited = await get_script(value, url, tabId, whitelist.contains(url));						dejaVu.set(key, edited);
-						}
-						if (edited && edited !== value) {
-							modified = true;
-							attr.value = edited;
-						}
-					} catch (e) {
-						console.error(e);
-					}
-				}
-			}
-		}
+  let findLine = finder => finder.test(html) && html.substring(0, finder.lastIndex).split(/\n/).length || 0;
+  if (read_metadata(meta_element) || license) {
+    console.log('Valid license for intrinsic events found');
+    let line, extras;
+    if (meta_element) {
+      line = findLine(/id\s*=\s*['"]?LibreJS-info\b/gi);
+      extras = '(0)';
+    } else if (license) {
+      line = html.substring(0, html.indexOf(first_script_src)).split(/\n/).length;
+      extras = '\n' + first_script_src;
+    }
+    let viewUrl = line ? `view-source:${documentUrl}#line${line}(<${meta_element ? meta_element.tagName : 'SCRIPT'}>)${extras}` : url;
+    addReportEntry(tabId, { url, 'accepted': [viewUrl, `Global license for the page: ${license}`] });
+    // Do not process inline scripts
+    scripts = [];
+  } else {
+    let dejaVu = new Map(); // deduplication map & edited script cache
+    let modified = false;
+    // Deal with intrinsic events
+    let intrinsicFinder = /<[a-z][^>]*\b(on\w+|href\s*=\s*['"]?javascript:)/gi;
+    for (let element of html_doc.querySelectorAll('*')) {
+      let line = -1;
+      for (let attr of element.attributes) {
+        let { name, value } = attr;
+        value = value.trim();
+        if (name.startsWith('on') || (name === 'href' && value.toLowerCase().startsWith('javascript:'))) {
+          if (line === -1) {
+            line = findLine(intrinsicFinder);
+          }
+          try {
+            let key = `<${element.tagName} ${name}="${value}">`;
+            let edited;
+            if (dejaVu.has(key)) {
+              edited = dejaVu.get(key);
+            } else {
+              let url = `view-source:${documentUrl}#line${line}(<${element.tagName} ${name}>)\n${value.trim()}`;
+              if (name === 'href') value = decodeURIComponent(value);
+              edited = await get_script(value, url, tabId, whitelist.contains(url)); dejaVu.set(key, edited);
+            }
+            if (edited && edited !== value) {
+              modified = true;
+              attr.value = edited;
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+    }
 
-		let modifiedInline = false;
-		let scriptFinder = /<script\b/ig;
-		for(let i = 0, len = scripts.length; i < len; i++) {
-			let script = scripts[i];
-			let line = findLine(scriptFinder);
-			if (!script.src && !(script.type && script.type !== "text/javascript")) {
-				let source = script.textContent.trim();
-				let editedSource;
-				if (dejaVu.has(source)) {
-					editedSource = dejaVu.get(source);
-				} else {
-					let url = `view-source:${documentUrl}#line${line}(<SCRIPT>)\n${source}`;
-					let edited = await get_script(source, url, tabId, whitelisted, i);
-					editedSource = edited && edited[0].trim();
-					dejaVu.set(url, editedSource);
-				}
-				if (editedSource) {
-					if (source !== editedSource) {
-						script.textContent = editedSource;
-						modified = modifiedInline = true;
-					}
-				}
-			}
-		}
+    let modifiedInline = false;
+    let scriptFinder = /<script\b/ig;
+    for (let i = 0, len = scripts.length; i < len; i++) {
+      let script = scripts[i];
+      let line = findLine(scriptFinder);
+      if (!script.src && !(script.type && script.type !== 'text/javascript')) {
+        let source = script.textContent.trim();
+        let editedSource;
+        if (dejaVu.has(source)) {
+          editedSource = dejaVu.get(source);
+        } else {
+          let url = `view-source:${documentUrl}#line${line}(<SCRIPT>)\n${source}`;
+          let edited = await get_script(source, url, tabId, whitelisted, i);
+          editedSource = edited && edited[0].trim();
+          dejaVu.set(url, editedSource);
+        }
+        if (editedSource) {
+          if (source !== editedSource) {
+            script.textContent = editedSource;
+            modified = modifiedInline = true;
+          }
+        }
+      }
+    }
 
-		modified = showConditionalElements(html_doc) > 0 || modified;
-		if (modified) {
-			if (modifiedInline) {
-				forceNoscriptElements(html_doc);
-			}
-			return doc2HTML(html_doc);
-		}
-	}
-	return null;
+    modified = showConditionalElements(html_doc) > 0 || modified;
+    if (modified) {
+      if (modifiedInline) {
+        forceNoscriptElements(html_doc);
+      }
+      return doc2HTML(html_doc);
+    }
+  }
+  return null;
 }
 
 /**
 * Here we handle html document responses
 */
 async function handle_html(response, whitelisted) {
-	let {text, request} = response;
-	let {url, tabId, frameId, type} = request;
-	if (type === "main_frame") {
-		activityReports[tabId] = await createReport({url, tabId});
-		updateBadge(tabId);
-	}
-	return await editHtml(text, url, tabId, frameId, whitelisted);
+  let { text, request } = response;
+  let { url, tabId, frameId, type } = request;
+  if (type === 'main_frame') {
+    activityReports[tabId] = await createReport({ url, tabId });
+    updateBadge(tabId);
+  }
+  return await editHtml(text, url, tabId, frameId, whitelisted);
 }
 
-var whitelist = new ListStore("pref_whitelist", Storage.CSV);
-var blacklist = new ListStore("pref_blacklist", Storage.CSV);
+var whitelist = new ListStore('pref_whitelist', Storage.CSV);
+var blacklist = new ListStore('pref_blacklist', Storage.CSV);
 var listManager = new ListManager(whitelist, blacklist,
-		// built-in whitelist of script hashes, e.g. jQuery
-		Object.values(require("./hash_script/whitelist").whitelist)
-			.reduce((a, b) => a.concat(b)) // as a flat array
-			.map(script => script.hash)
-	);
+  // built-in whitelist of script hashes, e.g. jQuery
+  Object.values(require('./hash_script/whitelist').whitelist)
+    .reduce((a, b) => a.concat(b)) // as a flat array
+    .map(script => script.hash)
+);
 
 
 async function initDefaults() {
-	let defaults = {
-		pref_subject: "Issues with Javascript on your website",
-		pref_body: `Please consider using a free license for the Javascript on your website.
+  let defaults = {
+    pref_subject: 'Issues with Javascript on your website',
+    pref_body: `Please consider using a free license for the Javascript on your website.
 
 [Message generated by LibreJS. See https://www.gnu.org/software/librejs/ for more information]
 `
-	};
-	let keys = Object.keys(defaults);
-	let prefs = await browser.storage.local.get(keys);
-	let changed = false;
-	for (let k of keys) {
-		if (!(k in prefs)) {
-			prefs[k] = defaults[k];
-			changed = true;
-		}
-	}
-	if (changed) {
-		await browser.storage.local.set(prefs);
-	}
+  };
+  let keys = Object.keys(defaults);
+  let prefs = await browser.storage.local.get(keys);
+  let changed = false;
+  for (let k of keys) {
+    if (!(k in prefs)) {
+      prefs[k] = defaults[k];
+      changed = true;
+    }
+  }
+  if (changed) {
+    await browser.storage.local.set(prefs);
+  }
 }
 
 /**
@@ -3398,1462 +3223,90 @@ async function initDefaults() {
 *	only meant to be called once when the script starts
 */
 async function init_addon() {
-	await initDefaults();
-	await whitelist.load();
-	browser.runtime.onConnect.addListener(connected);
-	browser.storage.onChanged.addListener(options_listener);
-	browser.tabs.onRemoved.addListener(delete_removed_tab_info);
-	browser.tabs.onUpdated.addListener(onTabUpdated);
-	browser.tabs.onActivated.addListener(onTabActivated);
-	// Prevents Google Analytics from being loaded from Google servers
-	let all_types = [
-		"beacon", "csp_report", "font", "image", "imageset", "main_frame", "media",
-		"object", "object_subrequest", "ping", "script", "stylesheet", "sub_frame",
-		"web_manifest", "websocket", "xbl", "xml_dtd", "xmlhttprequest", "xslt",
-		"other"
-	];
-	browser.webRequest.onBeforeRequest.addListener(blockGoogleAnalytics,
-		{urls: ["<all_urls>"], types: all_types},
-		["blocking"]
-	);
-	browser.webRequest.onBeforeRequest.addListener(blockBlacklistedScripts,
-		{urls: ["<all_urls>"], types: ["script"]},
-		["blocking"]
-	);
-	browser.webRequest.onResponseStarted.addListener(request => {
-		let {tabId} = request;
-		let report = activityReports[tabId];
-		if (report) {
-			updateBadge(tabId, activityReports[tabId]);
-		}
-	}, {urls: ["<all_urls>"], types: ["main_frame"]});
+  await initDefaults();
+  await whitelist.load();
+  browser.runtime.onConnect.addListener(connected);
+  browser.storage.onChanged.addListener(options_listener);
+  browser.tabs.onRemoved.addListener(delete_removed_tab_info);
+  browser.tabs.onUpdated.addListener(onTabUpdated);
+  browser.tabs.onActivated.addListener(onTabActivated);
+  // Prevents Google Analytics from being loaded from Google servers
+  let all_types = [
+    'beacon', 'csp_report', 'font', 'image', 'imageset', 'main_frame', 'media',
+    'object', 'object_subrequest', 'ping', 'script', 'stylesheet', 'sub_frame',
+    'web_manifest', 'websocket', 'xbl', 'xml_dtd', 'xmlhttprequest', 'xslt',
+    'other'
+  ];
+  browser.webRequest.onBeforeRequest.addListener(blockGoogleAnalytics,
+    { urls: ['<all_urls>'], types: all_types },
+    ['blocking']
+  );
+  browser.webRequest.onBeforeRequest.addListener(blockBlacklistedScripts,
+    { urls: ['<all_urls>'], types: ['script'] },
+    ['blocking']
+  );
+  browser.webRequest.onResponseStarted.addListener(request => {
+    let { tabId } = request;
+    let report = activityReports[tabId];
+    if (report) {
+      updateBadge(tabId, activityReports[tabId]);
+    }
+  }, { urls: ['<all_urls>'], types: ['main_frame'] });
 
-	// Analyzes all the html documents and external scripts as they're loaded
-	ResponseProcessor.install(ResponseHandler);
+  // Analyzes all the html documents and external scripts as they're loaded
+  ResponseProcessor.install(ResponseHandler);
 
-	legacy_license_lib.init();
+  legacy_license_lib.init();
 
-
-	let Test = require("./common/Test");
-	if (Test.getURL()) {
-		// export testable functions to the global scope
-		this.LibreJS = {
-			editHtml,
-			handle_script,
-			ExternalLicenses,
-			ListManager, ListStore, Storage,
-		};
-		// create or focus the autotest tab if it's a debugging session
-		if ((await browser.management.getSelf()).installType === "development") {
-			Test.getTab(true);
-		}
-	}
+  const Test = require('./common/Test');
+  if (Test.getURL()) {
+    // export testable functions to the global scope
+    this.LibreJS = {
+      editHtml,
+      handle_script,
+      ExternalLicenses,
+      ListManager, ListStore, Storage,
+    };
+    // create or focus the autotest tab if it's a debugging session
+    if ((await browser.management.getSelf()).installType === 'development') {
+      Test.getTab(true);
+    }
+  }
 }
 
 
 /**
 *	Loads the contact finder on the given tab ID.
 */
-async function injectContactFinder(tabId){
-	await Promise.all([
-		browser.tabs.insertCSS(tabId, {file: "/content/overlay.css", cssOrigin: "user"}),
-		browser.tabs.executeScript(tabId, {file: "/content/contactFinder.js"}),
- ]);
+async function injectContactFinder(tabId) {
+  await Promise.all([
+    browser.tabs.insertCSS(tabId, { file: '/content/overlay.css', cssOrigin: 'user' }),
+    browser.tabs.executeScript(tabId, { file: '/content/contactFinder.js' }),
+  ]);
 }
 
 init_addon();
 
-},{"./bg/ExternalLicenses":1,"./bg/ListManager":2,"./bg/ResponseProcessor":4,"./common/Storage":5,"./common/Test":6,"./fname_data.json":7,"./hash_script/whitelist":8,"./legacy_license_check.js":9,"./licenses.json":11,"acorn":14,"acorn-loose":13}],13:[function(require,module,exports){
-(function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('acorn')) :
-  typeof define === 'function' && define.amd ? define(['exports', 'acorn'], factory) :
-  (global = global || self, factory((global.acorn = global.acorn || {}, global.acorn.loose = {}), global.acorn));
-}(this, function (exports, acorn) { 'use strict';
-
-  function noop() {}
-
-  var LooseParser = function LooseParser(input, options) {
-    if ( options === void 0 ) options = {};
-
-    this.toks = this.constructor.BaseParser.tokenizer(input, options);
-    this.options = this.toks.options;
-    this.input = this.toks.input;
-    this.tok = this.last = {type: acorn.tokTypes.eof, start: 0, end: 0};
-    this.tok.validateRegExpFlags = noop;
-    this.tok.validateRegExpPattern = noop;
-    if (this.options.locations) {
-      var here = this.toks.curPosition();
-      this.tok.loc = new acorn.SourceLocation(this.toks, here, here);
-    }
-    this.ahead = []; // Tokens ahead
-    this.context = []; // Indentation contexted
-    this.curIndent = 0;
-    this.curLineStart = 0;
-    this.nextLineStart = this.lineEnd(this.curLineStart) + 1;
-    this.inAsync = false;
-    this.inFunction = false;
-  };
-
-  LooseParser.prototype.startNode = function startNode () {
-    return new acorn.Node(this.toks, this.tok.start, this.options.locations ? this.tok.loc.start : null)
-  };
-
-  LooseParser.prototype.storeCurrentPos = function storeCurrentPos () {
-    return this.options.locations ? [this.tok.start, this.tok.loc.start] : this.tok.start
-  };
-
-  LooseParser.prototype.startNodeAt = function startNodeAt (pos) {
-    if (this.options.locations) {
-      return new acorn.Node(this.toks, pos[0], pos[1])
-    } else {
-      return new acorn.Node(this.toks, pos)
-    }
-  };
-
-  LooseParser.prototype.finishNode = function finishNode (node, type) {
-    node.type = type;
-    node.end = this.last.end;
-    if (this.options.locations)
-      { node.loc.end = this.last.loc.end; }
-    if (this.options.ranges)
-      { node.range[1] = this.last.end; }
-    return node
-  };
-
-  LooseParser.prototype.dummyNode = function dummyNode (type) {
-    var dummy = this.startNode();
-    dummy.type = type;
-    dummy.end = dummy.start;
-    if (this.options.locations)
-      { dummy.loc.end = dummy.loc.start; }
-    if (this.options.ranges)
-      { dummy.range[1] = dummy.start; }
-    this.last = {type: acorn.tokTypes.name, start: dummy.start, end: dummy.start, loc: dummy.loc};
-    return dummy
-  };
-
-  LooseParser.prototype.dummyIdent = function dummyIdent () {
-    var dummy = this.dummyNode("Identifier");
-    dummy.name = "✖";
-    return dummy
-  };
-
-  LooseParser.prototype.dummyString = function dummyString () {
-    var dummy = this.dummyNode("Literal");
-    dummy.value = dummy.raw = "✖";
-    return dummy
-  };
-
-  LooseParser.prototype.eat = function eat (type) {
-    if (this.tok.type === type) {
-      this.next();
-      return true
-    } else {
-      return false
-    }
-  };
-
-  LooseParser.prototype.isContextual = function isContextual (name) {
-    return this.tok.type === acorn.tokTypes.name && this.tok.value === name
-  };
-
-  LooseParser.prototype.eatContextual = function eatContextual (name) {
-    return this.tok.value === name && this.eat(acorn.tokTypes.name)
-  };
-
-  LooseParser.prototype.canInsertSemicolon = function canInsertSemicolon () {
-    return this.tok.type === acorn.tokTypes.eof || this.tok.type === acorn.tokTypes.braceR ||
-      acorn.lineBreak.test(this.input.slice(this.last.end, this.tok.start))
-  };
-
-  LooseParser.prototype.semicolon = function semicolon () {
-    return this.eat(acorn.tokTypes.semi)
-  };
-
-  LooseParser.prototype.expect = function expect (type) {
-    if (this.eat(type)) { return true }
-    for (var i = 1; i <= 2; i++) {
-      if (this.lookAhead(i).type === type) {
-        for (var j = 0; j < i; j++) { this.next(); }
-        return true
-      }
-    }
-  };
-
-  LooseParser.prototype.pushCx = function pushCx () {
-    this.context.push(this.curIndent);
-  };
-
-  LooseParser.prototype.popCx = function popCx () {
-    this.curIndent = this.context.pop();
-  };
-
-  LooseParser.prototype.lineEnd = function lineEnd (pos) {
-    while (pos < this.input.length && !acorn.isNewLine(this.input.charCodeAt(pos))) { ++pos; }
-    return pos
-  };
-
-  LooseParser.prototype.indentationAfter = function indentationAfter (pos) {
-    for (var count = 0;; ++pos) {
-      var ch = this.input.charCodeAt(pos);
-      if (ch === 32) { ++count; }
-      else if (ch === 9) { count += this.options.tabSize; }
-      else { return count }
-    }
-  };
-
-  LooseParser.prototype.closes = function closes (closeTok, indent, line, blockHeuristic) {
-    if (this.tok.type === closeTok || this.tok.type === acorn.tokTypes.eof) { return true }
-    return line !== this.curLineStart && this.curIndent < indent && this.tokenStartsLine() &&
-      (!blockHeuristic || this.nextLineStart >= this.input.length ||
-       this.indentationAfter(this.nextLineStart) < indent)
-  };
-
-  LooseParser.prototype.tokenStartsLine = function tokenStartsLine () {
-    for (var p = this.tok.start - 1; p >= this.curLineStart; --p) {
-      var ch = this.input.charCodeAt(p);
-      if (ch !== 9 && ch !== 32) { return false }
-    }
-    return true
-  };
-
-  LooseParser.prototype.extend = function extend (name, f) {
-    this[name] = f(this[name]);
-  };
-
-  LooseParser.prototype.parse = function parse () {
-    this.next();
-    return this.parseTopLevel()
-  };
-
-  LooseParser.extend = function extend () {
-      var plugins = [], len = arguments.length;
-      while ( len-- ) plugins[ len ] = arguments[ len ];
-
-    var cls = this;
-    for (var i = 0; i < plugins.length; i++) { cls = plugins[i](cls); }
-    return cls
-  };
-
-  LooseParser.parse = function parse (input, options) {
-    return new this(input, options).parse()
-  };
-
-  // Allows plugins to extend the base parser / tokenizer used
-  LooseParser.BaseParser = acorn.Parser;
-
-  var lp = LooseParser.prototype;
-
-  function isSpace(ch) {
-    return (ch < 14 && ch > 8) || ch === 32 || ch === 160 || acorn.isNewLine(ch)
-  }
-
-  lp.next = function() {
-    this.last = this.tok;
-    if (this.ahead.length)
-      { this.tok = this.ahead.shift(); }
-    else
-      { this.tok = this.readToken(); }
-
-    if (this.tok.start >= this.nextLineStart) {
-      while (this.tok.start >= this.nextLineStart) {
-        this.curLineStart = this.nextLineStart;
-        this.nextLineStart = this.lineEnd(this.curLineStart) + 1;
-      }
-      this.curIndent = this.indentationAfter(this.curLineStart);
-    }
-  };
-
-  lp.readToken = function() {
-    for (;;) {
-      try {
-        this.toks.next();
-        if (this.toks.type === acorn.tokTypes.dot &&
-            this.input.substr(this.toks.end, 1) === "." &&
-            this.options.ecmaVersion >= 6) {
-          this.toks.end++;
-          this.toks.type = acorn.tokTypes.ellipsis;
-        }
-        return new acorn.Token(this.toks)
-      } catch (e) {
-        if (!(e instanceof SyntaxError)) { throw e }
-
-        // Try to skip some text, based on the error message, and then continue
-        var msg = e.message, pos = e.raisedAt, replace = true;
-        if (/unterminated/i.test(msg)) {
-          pos = this.lineEnd(e.pos + 1);
-          if (/string/.test(msg)) {
-            replace = {start: e.pos, end: pos, type: acorn.tokTypes.string, value: this.input.slice(e.pos + 1, pos)};
-          } else if (/regular expr/i.test(msg)) {
-            var re = this.input.slice(e.pos, pos);
-            try { re = new RegExp(re); } catch (e) { /* ignore compilation error due to new syntax */ }
-            replace = {start: e.pos, end: pos, type: acorn.tokTypes.regexp, value: re};
-          } else if (/template/.test(msg)) {
-            replace = {
-              start: e.pos,
-              end: pos,
-              type: acorn.tokTypes.template,
-              value: this.input.slice(e.pos, pos)
-            };
-          } else {
-            replace = false;
-          }
-        } else if (/invalid (unicode|regexp|number)|expecting unicode|octal literal|is reserved|directly after number|expected number in radix/i.test(msg)) {
-          while (pos < this.input.length && !isSpace(this.input.charCodeAt(pos))) { ++pos; }
-        } else if (/character escape|expected hexadecimal/i.test(msg)) {
-          while (pos < this.input.length) {
-            var ch = this.input.charCodeAt(pos++);
-            if (ch === 34 || ch === 39 || acorn.isNewLine(ch)) { break }
-          }
-        } else if (/unexpected character/i.test(msg)) {
-          pos++;
-          replace = false;
-        } else if (/regular expression/i.test(msg)) {
-          replace = true;
-        } else {
-          throw e
-        }
-        this.resetTo(pos);
-        if (replace === true) { replace = {start: pos, end: pos, type: acorn.tokTypes.name, value: "✖"}; }
-        if (replace) {
-          if (this.options.locations)
-            { replace.loc = new acorn.SourceLocation(
-              this.toks,
-              acorn.getLineInfo(this.input, replace.start),
-              acorn.getLineInfo(this.input, replace.end)); }
-          return replace
-        }
-      }
-    }
-  };
-
-  lp.resetTo = function(pos) {
-    this.toks.pos = pos;
-    var ch = this.input.charAt(pos - 1);
-    this.toks.exprAllowed = !ch || /[[{(,;:?/*=+\-~!|&%^<>]/.test(ch) ||
-      /[enwfd]/.test(ch) &&
-      /\b(case|else|return|throw|new|in|(instance|type)?of|delete|void)$/.test(this.input.slice(pos - 10, pos));
-
-    if (this.options.locations) {
-      this.toks.curLine = 1;
-      this.toks.lineStart = acorn.lineBreakG.lastIndex = 0;
-      var match;
-      while ((match = acorn.lineBreakG.exec(this.input)) && match.index < pos) {
-        ++this.toks.curLine;
-        this.toks.lineStart = match.index + match[0].length;
-      }
-    }
-  };
-
-  lp.lookAhead = function(n) {
-    while (n > this.ahead.length)
-      { this.ahead.push(this.readToken()); }
-    return this.ahead[n - 1]
-  };
-
-  function isDummy(node) { return node.name === "✖" }
-
-  var lp$1 = LooseParser.prototype;
-
-  lp$1.parseTopLevel = function() {
-    var node = this.startNodeAt(this.options.locations ? [0, acorn.getLineInfo(this.input, 0)] : 0);
-    node.body = [];
-    while (this.tok.type !== acorn.tokTypes.eof) { node.body.push(this.parseStatement()); }
-    this.toks.adaptDirectivePrologue(node.body);
-    this.last = this.tok;
-    node.sourceType = this.options.sourceType;
-    return this.finishNode(node, "Program")
-  };
-
-  lp$1.parseStatement = function() {
-    var starttype = this.tok.type, node = this.startNode(), kind;
-
-    if (this.toks.isLet()) {
-      starttype = acorn.tokTypes._var;
-      kind = "let";
-    }
-
-    switch (starttype) {
-    case acorn.tokTypes._break: case acorn.tokTypes._continue:
-      this.next();
-      var isBreak = starttype === acorn.tokTypes._break;
-      if (this.semicolon() || this.canInsertSemicolon()) {
-        node.label = null;
-      } else {
-        node.label = this.tok.type === acorn.tokTypes.name ? this.parseIdent() : null;
-        this.semicolon();
-      }
-      return this.finishNode(node, isBreak ? "BreakStatement" : "ContinueStatement")
-
-    case acorn.tokTypes._debugger:
-      this.next();
-      this.semicolon();
-      return this.finishNode(node, "DebuggerStatement")
-
-    case acorn.tokTypes._do:
-      this.next();
-      node.body = this.parseStatement();
-      node.test = this.eat(acorn.tokTypes._while) ? this.parseParenExpression() : this.dummyIdent();
-      this.semicolon();
-      return this.finishNode(node, "DoWhileStatement")
-
-    case acorn.tokTypes._for:
-      this.next(); // `for` keyword
-      var isAwait = this.options.ecmaVersion >= 9 && this.inAsync && this.eatContextual("await");
-
-      this.pushCx();
-      this.expect(acorn.tokTypes.parenL);
-      if (this.tok.type === acorn.tokTypes.semi) { return this.parseFor(node, null) }
-      var isLet = this.toks.isLet();
-      if (isLet || this.tok.type === acorn.tokTypes._var || this.tok.type === acorn.tokTypes._const) {
-        var init$1 = this.parseVar(this.startNode(), true, isLet ? "let" : this.tok.value);
-        if (init$1.declarations.length === 1 && (this.tok.type === acorn.tokTypes._in || this.isContextual("of"))) {
-          if (this.options.ecmaVersion >= 9 && this.tok.type !== acorn.tokTypes._in) {
-            node.await = isAwait;
-          }
-          return this.parseForIn(node, init$1)
-        }
-        return this.parseFor(node, init$1)
-      }
-      var init = this.parseExpression(true);
-      if (this.tok.type === acorn.tokTypes._in || this.isContextual("of")) {
-        if (this.options.ecmaVersion >= 9 && this.tok.type !== acorn.tokTypes._in) {
-          node.await = isAwait;
-        }
-        return this.parseForIn(node, this.toAssignable(init))
-      }
-      return this.parseFor(node, init)
-
-    case acorn.tokTypes._function:
-      this.next();
-      return this.parseFunction(node, true)
-
-    case acorn.tokTypes._if:
-      this.next();
-      node.test = this.parseParenExpression();
-      node.consequent = this.parseStatement();
-      node.alternate = this.eat(acorn.tokTypes._else) ? this.parseStatement() : null;
-      return this.finishNode(node, "IfStatement")
-
-    case acorn.tokTypes._return:
-      this.next();
-      if (this.eat(acorn.tokTypes.semi) || this.canInsertSemicolon()) { node.argument = null; }
-      else { node.argument = this.parseExpression(); this.semicolon(); }
-      return this.finishNode(node, "ReturnStatement")
-
-    case acorn.tokTypes._switch:
-      var blockIndent = this.curIndent, line = this.curLineStart;
-      this.next();
-      node.discriminant = this.parseParenExpression();
-      node.cases = [];
-      this.pushCx();
-      this.expect(acorn.tokTypes.braceL);
-
-      var cur;
-      while (!this.closes(acorn.tokTypes.braceR, blockIndent, line, true)) {
-        if (this.tok.type === acorn.tokTypes._case || this.tok.type === acorn.tokTypes._default) {
-          var isCase = this.tok.type === acorn.tokTypes._case;
-          if (cur) { this.finishNode(cur, "SwitchCase"); }
-          node.cases.push(cur = this.startNode());
-          cur.consequent = [];
-          this.next();
-          if (isCase) { cur.test = this.parseExpression(); }
-          else { cur.test = null; }
-          this.expect(acorn.tokTypes.colon);
-        } else {
-          if (!cur) {
-            node.cases.push(cur = this.startNode());
-            cur.consequent = [];
-            cur.test = null;
-          }
-          cur.consequent.push(this.parseStatement());
-        }
-      }
-      if (cur) { this.finishNode(cur, "SwitchCase"); }
-      this.popCx();
-      this.eat(acorn.tokTypes.braceR);
-      return this.finishNode(node, "SwitchStatement")
-
-    case acorn.tokTypes._throw:
-      this.next();
-      node.argument = this.parseExpression();
-      this.semicolon();
-      return this.finishNode(node, "ThrowStatement")
-
-    case acorn.tokTypes._try:
-      this.next();
-      node.block = this.parseBlock();
-      node.handler = null;
-      if (this.tok.type === acorn.tokTypes._catch) {
-        var clause = this.startNode();
-        this.next();
-        if (this.eat(acorn.tokTypes.parenL)) {
-          clause.param = this.toAssignable(this.parseExprAtom(), true);
-          this.expect(acorn.tokTypes.parenR);
-        } else {
-          clause.param = null;
-        }
-        clause.body = this.parseBlock();
-        node.handler = this.finishNode(clause, "CatchClause");
-      }
-      node.finalizer = this.eat(acorn.tokTypes._finally) ? this.parseBlock() : null;
-      if (!node.handler && !node.finalizer) { return node.block }
-      return this.finishNode(node, "TryStatement")
-
-    case acorn.tokTypes._var:
-    case acorn.tokTypes._const:
-      return this.parseVar(node, false, kind || this.tok.value)
-
-    case acorn.tokTypes._while:
-      this.next();
-      node.test = this.parseParenExpression();
-      node.body = this.parseStatement();
-      return this.finishNode(node, "WhileStatement")
-
-    case acorn.tokTypes._with:
-      this.next();
-      node.object = this.parseParenExpression();
-      node.body = this.parseStatement();
-      return this.finishNode(node, "WithStatement")
-
-    case acorn.tokTypes.braceL:
-      return this.parseBlock()
-
-    case acorn.tokTypes.semi:
-      this.next();
-      return this.finishNode(node, "EmptyStatement")
-
-    case acorn.tokTypes._class:
-      return this.parseClass(true)
-
-    case acorn.tokTypes._import:
-      if (this.options.ecmaVersion > 10 && this.lookAhead(1).type === acorn.tokTypes.parenL) {
-        node.expression = this.parseExpression();
-        this.semicolon();
-        return this.finishNode(node, "ExpressionStatement")
-      }
-
-      return this.parseImport()
-
-    case acorn.tokTypes._export:
-      return this.parseExport()
-
-    default:
-      if (this.toks.isAsyncFunction()) {
-        this.next();
-        this.next();
-        return this.parseFunction(node, true, true)
-      }
-      var expr = this.parseExpression();
-      if (isDummy(expr)) {
-        this.next();
-        if (this.tok.type === acorn.tokTypes.eof) { return this.finishNode(node, "EmptyStatement") }
-        return this.parseStatement()
-      } else if (starttype === acorn.tokTypes.name && expr.type === "Identifier" && this.eat(acorn.tokTypes.colon)) {
-        node.body = this.parseStatement();
-        node.label = expr;
-        return this.finishNode(node, "LabeledStatement")
-      } else {
-        node.expression = expr;
-        this.semicolon();
-        return this.finishNode(node, "ExpressionStatement")
-      }
-    }
-  };
-
-  lp$1.parseBlock = function() {
-    var node = this.startNode();
-    this.pushCx();
-    this.expect(acorn.tokTypes.braceL);
-    var blockIndent = this.curIndent, line = this.curLineStart;
-    node.body = [];
-    while (!this.closes(acorn.tokTypes.braceR, blockIndent, line, true))
-      { node.body.push(this.parseStatement()); }
-    this.popCx();
-    this.eat(acorn.tokTypes.braceR);
-    return this.finishNode(node, "BlockStatement")
-  };
-
-  lp$1.parseFor = function(node, init) {
-    node.init = init;
-    node.test = node.update = null;
-    if (this.eat(acorn.tokTypes.semi) && this.tok.type !== acorn.tokTypes.semi) { node.test = this.parseExpression(); }
-    if (this.eat(acorn.tokTypes.semi) && this.tok.type !== acorn.tokTypes.parenR) { node.update = this.parseExpression(); }
-    this.popCx();
-    this.expect(acorn.tokTypes.parenR);
-    node.body = this.parseStatement();
-    return this.finishNode(node, "ForStatement")
-  };
-
-  lp$1.parseForIn = function(node, init) {
-    var type = this.tok.type === acorn.tokTypes._in ? "ForInStatement" : "ForOfStatement";
-    this.next();
-    node.left = init;
-    node.right = this.parseExpression();
-    this.popCx();
-    this.expect(acorn.tokTypes.parenR);
-    node.body = this.parseStatement();
-    return this.finishNode(node, type)
-  };
-
-  lp$1.parseVar = function(node, noIn, kind) {
-    node.kind = kind;
-    this.next();
-    node.declarations = [];
-    do {
-      var decl = this.startNode();
-      decl.id = this.options.ecmaVersion >= 6 ? this.toAssignable(this.parseExprAtom(), true) : this.parseIdent();
-      decl.init = this.eat(acorn.tokTypes.eq) ? this.parseMaybeAssign(noIn) : null;
-      node.declarations.push(this.finishNode(decl, "VariableDeclarator"));
-    } while (this.eat(acorn.tokTypes.comma))
-    if (!node.declarations.length) {
-      var decl$1 = this.startNode();
-      decl$1.id = this.dummyIdent();
-      node.declarations.push(this.finishNode(decl$1, "VariableDeclarator"));
-    }
-    if (!noIn) { this.semicolon(); }
-    return this.finishNode(node, "VariableDeclaration")
-  };
-
-  lp$1.parseClass = function(isStatement) {
-    var node = this.startNode();
-    this.next();
-    if (this.tok.type === acorn.tokTypes.name) { node.id = this.parseIdent(); }
-    else if (isStatement === true) { node.id = this.dummyIdent(); }
-    else { node.id = null; }
-    node.superClass = this.eat(acorn.tokTypes._extends) ? this.parseExpression() : null;
-    node.body = this.startNode();
-    node.body.body = [];
-    this.pushCx();
-    var indent = this.curIndent + 1, line = this.curLineStart;
-    this.eat(acorn.tokTypes.braceL);
-    if (this.curIndent + 1 < indent) { indent = this.curIndent; line = this.curLineStart; }
-    while (!this.closes(acorn.tokTypes.braceR, indent, line)) {
-      if (this.semicolon()) { continue }
-      var method = this.startNode(), isGenerator = (void 0), isAsync = (void 0);
-      if (this.options.ecmaVersion >= 6) {
-        method.static = false;
-        isGenerator = this.eat(acorn.tokTypes.star);
-      }
-      this.parsePropertyName(method);
-      if (isDummy(method.key)) { if (isDummy(this.parseMaybeAssign())) { this.next(); } this.eat(acorn.tokTypes.comma); continue }
-      if (method.key.type === "Identifier" && !method.computed && method.key.name === "static" &&
-          (this.tok.type !== acorn.tokTypes.parenL && this.tok.type !== acorn.tokTypes.braceL)) {
-        method.static = true;
-        isGenerator = this.eat(acorn.tokTypes.star);
-        this.parsePropertyName(method);
-      } else {
-        method.static = false;
-      }
-      if (!method.computed &&
-          method.key.type === "Identifier" && method.key.name === "async" && this.tok.type !== acorn.tokTypes.parenL &&
-          !this.canInsertSemicolon()) {
-        isAsync = true;
-        isGenerator = this.options.ecmaVersion >= 9 && this.eat(acorn.tokTypes.star);
-        this.parsePropertyName(method);
-      } else {
-        isAsync = false;
-      }
-      if (this.options.ecmaVersion >= 5 && method.key.type === "Identifier" &&
-          !method.computed && (method.key.name === "get" || method.key.name === "set") &&
-          this.tok.type !== acorn.tokTypes.parenL && this.tok.type !== acorn.tokTypes.braceL) {
-        method.kind = method.key.name;
-        this.parsePropertyName(method);
-        method.value = this.parseMethod(false);
-      } else {
-        if (!method.computed && !method.static && !isGenerator && !isAsync && (
-          method.key.type === "Identifier" && method.key.name === "constructor" ||
-            method.key.type === "Literal" && method.key.value === "constructor")) {
-          method.kind = "constructor";
-        } else {
-          method.kind = "method";
-        }
-        method.value = this.parseMethod(isGenerator, isAsync);
-      }
-      node.body.body.push(this.finishNode(method, "MethodDefinition"));
-    }
-    this.popCx();
-    if (!this.eat(acorn.tokTypes.braceR)) {
-      // If there is no closing brace, make the node span to the start
-      // of the next token (this is useful for Tern)
-      this.last.end = this.tok.start;
-      if (this.options.locations) { this.last.loc.end = this.tok.loc.start; }
-    }
-    this.semicolon();
-    this.finishNode(node.body, "ClassBody");
-    return this.finishNode(node, isStatement ? "ClassDeclaration" : "ClassExpression")
-  };
-
-  lp$1.parseFunction = function(node, isStatement, isAsync) {
-    var oldInAsync = this.inAsync, oldInFunction = this.inFunction;
-    this.initFunction(node);
-    if (this.options.ecmaVersion >= 6) {
-      node.generator = this.eat(acorn.tokTypes.star);
-    }
-    if (this.options.ecmaVersion >= 8) {
-      node.async = !!isAsync;
-    }
-    if (this.tok.type === acorn.tokTypes.name) { node.id = this.parseIdent(); }
-    else if (isStatement === true) { node.id = this.dummyIdent(); }
-    this.inAsync = node.async;
-    this.inFunction = true;
-    node.params = this.parseFunctionParams();
-    node.body = this.parseBlock();
-    this.toks.adaptDirectivePrologue(node.body.body);
-    this.inAsync = oldInAsync;
-    this.inFunction = oldInFunction;
-    return this.finishNode(node, isStatement ? "FunctionDeclaration" : "FunctionExpression")
-  };
-
-  lp$1.parseExport = function() {
-    var node = this.startNode();
-    this.next();
-    if (this.eat(acorn.tokTypes.star)) {
-      node.source = this.eatContextual("from") ? this.parseExprAtom() : this.dummyString();
-      return this.finishNode(node, "ExportAllDeclaration")
-    }
-    if (this.eat(acorn.tokTypes._default)) {
-      // export default (function foo() {}) // This is FunctionExpression.
-      var isAsync;
-      if (this.tok.type === acorn.tokTypes._function || (isAsync = this.toks.isAsyncFunction())) {
-        var fNode = this.startNode();
-        this.next();
-        if (isAsync) { this.next(); }
-        node.declaration = this.parseFunction(fNode, "nullableID", isAsync);
-      } else if (this.tok.type === acorn.tokTypes._class) {
-        node.declaration = this.parseClass("nullableID");
-      } else {
-        node.declaration = this.parseMaybeAssign();
-        this.semicolon();
-      }
-      return this.finishNode(node, "ExportDefaultDeclaration")
-    }
-    if (this.tok.type.keyword || this.toks.isLet() || this.toks.isAsyncFunction()) {
-      node.declaration = this.parseStatement();
-      node.specifiers = [];
-      node.source = null;
-    } else {
-      node.declaration = null;
-      node.specifiers = this.parseExportSpecifierList();
-      node.source = this.eatContextual("from") ? this.parseExprAtom() : null;
-      this.semicolon();
-    }
-    return this.finishNode(node, "ExportNamedDeclaration")
-  };
-
-  lp$1.parseImport = function() {
-    var node = this.startNode();
-    this.next();
-    if (this.tok.type === acorn.tokTypes.string) {
-      node.specifiers = [];
-      node.source = this.parseExprAtom();
-    } else {
-      var elt;
-      if (this.tok.type === acorn.tokTypes.name && this.tok.value !== "from") {
-        elt = this.startNode();
-        elt.local = this.parseIdent();
-        this.finishNode(elt, "ImportDefaultSpecifier");
-        this.eat(acorn.tokTypes.comma);
-      }
-      node.specifiers = this.parseImportSpecifiers();
-      node.source = this.eatContextual("from") && this.tok.type === acorn.tokTypes.string ? this.parseExprAtom() : this.dummyString();
-      if (elt) { node.specifiers.unshift(elt); }
-    }
-    this.semicolon();
-    return this.finishNode(node, "ImportDeclaration")
-  };
-
-  lp$1.parseImportSpecifiers = function() {
-    var elts = [];
-    if (this.tok.type === acorn.tokTypes.star) {
-      var elt = this.startNode();
-      this.next();
-      elt.local = this.eatContextual("as") ? this.parseIdent() : this.dummyIdent();
-      elts.push(this.finishNode(elt, "ImportNamespaceSpecifier"));
-    } else {
-      var indent = this.curIndent, line = this.curLineStart, continuedLine = this.nextLineStart;
-      this.pushCx();
-      this.eat(acorn.tokTypes.braceL);
-      if (this.curLineStart > continuedLine) { continuedLine = this.curLineStart; }
-      while (!this.closes(acorn.tokTypes.braceR, indent + (this.curLineStart <= continuedLine ? 1 : 0), line)) {
-        var elt$1 = this.startNode();
-        if (this.eat(acorn.tokTypes.star)) {
-          elt$1.local = this.eatContextual("as") ? this.parseIdent() : this.dummyIdent();
-          this.finishNode(elt$1, "ImportNamespaceSpecifier");
-        } else {
-          if (this.isContextual("from")) { break }
-          elt$1.imported = this.parseIdent();
-          if (isDummy(elt$1.imported)) { break }
-          elt$1.local = this.eatContextual("as") ? this.parseIdent() : elt$1.imported;
-          this.finishNode(elt$1, "ImportSpecifier");
-        }
-        elts.push(elt$1);
-        this.eat(acorn.tokTypes.comma);
-      }
-      this.eat(acorn.tokTypes.braceR);
-      this.popCx();
-    }
-    return elts
-  };
-
-  lp$1.parseExportSpecifierList = function() {
-    var elts = [];
-    var indent = this.curIndent, line = this.curLineStart, continuedLine = this.nextLineStart;
-    this.pushCx();
-    this.eat(acorn.tokTypes.braceL);
-    if (this.curLineStart > continuedLine) { continuedLine = this.curLineStart; }
-    while (!this.closes(acorn.tokTypes.braceR, indent + (this.curLineStart <= continuedLine ? 1 : 0), line)) {
-      if (this.isContextual("from")) { break }
-      var elt = this.startNode();
-      elt.local = this.parseIdent();
-      if (isDummy(elt.local)) { break }
-      elt.exported = this.eatContextual("as") ? this.parseIdent() : elt.local;
-      this.finishNode(elt, "ExportSpecifier");
-      elts.push(elt);
-      this.eat(acorn.tokTypes.comma);
-    }
-    this.eat(acorn.tokTypes.braceR);
-    this.popCx();
-    return elts
-  };
-
-  var lp$2 = LooseParser.prototype;
-
-  lp$2.checkLVal = function(expr) {
-    if (!expr) { return expr }
-    switch (expr.type) {
-    case "Identifier":
-    case "MemberExpression":
-      return expr
-
-    case "ParenthesizedExpression":
-      expr.expression = this.checkLVal(expr.expression);
-      return expr
-
-    default:
-      return this.dummyIdent()
-    }
-  };
-
-  lp$2.parseExpression = function(noIn) {
-    var start = this.storeCurrentPos();
-    var expr = this.parseMaybeAssign(noIn);
-    if (this.tok.type === acorn.tokTypes.comma) {
-      var node = this.startNodeAt(start);
-      node.expressions = [expr];
-      while (this.eat(acorn.tokTypes.comma)) { node.expressions.push(this.parseMaybeAssign(noIn)); }
-      return this.finishNode(node, "SequenceExpression")
-    }
-    return expr
-  };
-
-  lp$2.parseParenExpression = function() {
-    this.pushCx();
-    this.expect(acorn.tokTypes.parenL);
-    var val = this.parseExpression();
-    this.popCx();
-    this.expect(acorn.tokTypes.parenR);
-    return val
-  };
-
-  lp$2.parseMaybeAssign = function(noIn) {
-    if (this.toks.isContextual("yield")) {
-      var node = this.startNode();
-      this.next();
-      if (this.semicolon() || this.canInsertSemicolon() || (this.tok.type !== acorn.tokTypes.star && !this.tok.type.startsExpr)) {
-        node.delegate = false;
-        node.argument = null;
-      } else {
-        node.delegate = this.eat(acorn.tokTypes.star);
-        node.argument = this.parseMaybeAssign();
-      }
-      return this.finishNode(node, "YieldExpression")
-    }
-
-    var start = this.storeCurrentPos();
-    var left = this.parseMaybeConditional(noIn);
-    if (this.tok.type.isAssign) {
-      var node$1 = this.startNodeAt(start);
-      node$1.operator = this.tok.value;
-      node$1.left = this.tok.type === acorn.tokTypes.eq ? this.toAssignable(left) : this.checkLVal(left);
-      this.next();
-      node$1.right = this.parseMaybeAssign(noIn);
-      return this.finishNode(node$1, "AssignmentExpression")
-    }
-    return left
-  };
-
-  lp$2.parseMaybeConditional = function(noIn) {
-    var start = this.storeCurrentPos();
-    var expr = this.parseExprOps(noIn);
-    if (this.eat(acorn.tokTypes.question)) {
-      var node = this.startNodeAt(start);
-      node.test = expr;
-      node.consequent = this.parseMaybeAssign();
-      node.alternate = this.expect(acorn.tokTypes.colon) ? this.parseMaybeAssign(noIn) : this.dummyIdent();
-      return this.finishNode(node, "ConditionalExpression")
-    }
-    return expr
-  };
-
-  lp$2.parseExprOps = function(noIn) {
-    var start = this.storeCurrentPos();
-    var indent = this.curIndent, line = this.curLineStart;
-    return this.parseExprOp(this.parseMaybeUnary(false), start, -1, noIn, indent, line)
-  };
-
-  lp$2.parseExprOp = function(left, start, minPrec, noIn, indent, line) {
-    if (this.curLineStart !== line && this.curIndent < indent && this.tokenStartsLine()) { return left }
-    var prec = this.tok.type.binop;
-    if (prec != null && (!noIn || this.tok.type !== acorn.tokTypes._in)) {
-      if (prec > minPrec) {
-        var node = this.startNodeAt(start);
-        node.left = left;
-        node.operator = this.tok.value;
-        this.next();
-        if (this.curLineStart !== line && this.curIndent < indent && this.tokenStartsLine()) {
-          node.right = this.dummyIdent();
-        } else {
-          var rightStart = this.storeCurrentPos();
-          node.right = this.parseExprOp(this.parseMaybeUnary(false), rightStart, prec, noIn, indent, line);
-        }
-        this.finishNode(node, /&&|\|\|/.test(node.operator) ? "LogicalExpression" : "BinaryExpression");
-        return this.parseExprOp(node, start, minPrec, noIn, indent, line)
-      }
-    }
-    return left
-  };
-
-  lp$2.parseMaybeUnary = function(sawUnary) {
-    var start = this.storeCurrentPos(), expr;
-    if (this.options.ecmaVersion >= 8 && this.toks.isContextual("await") &&
-      (this.inAsync || (!this.inFunction && this.options.allowAwaitOutsideFunction))
-    ) {
-      expr = this.parseAwait();
-      sawUnary = true;
-    } else if (this.tok.type.prefix) {
-      var node = this.startNode(), update = this.tok.type === acorn.tokTypes.incDec;
-      if (!update) { sawUnary = true; }
-      node.operator = this.tok.value;
-      node.prefix = true;
-      this.next();
-      node.argument = this.parseMaybeUnary(true);
-      if (update) { node.argument = this.checkLVal(node.argument); }
-      expr = this.finishNode(node, update ? "UpdateExpression" : "UnaryExpression");
-    } else if (this.tok.type === acorn.tokTypes.ellipsis) {
-      var node$1 = this.startNode();
-      this.next();
-      node$1.argument = this.parseMaybeUnary(sawUnary);
-      expr = this.finishNode(node$1, "SpreadElement");
-    } else {
-      expr = this.parseExprSubscripts();
-      while (this.tok.type.postfix && !this.canInsertSemicolon()) {
-        var node$2 = this.startNodeAt(start);
-        node$2.operator = this.tok.value;
-        node$2.prefix = false;
-        node$2.argument = this.checkLVal(expr);
-        this.next();
-        expr = this.finishNode(node$2, "UpdateExpression");
-      }
-    }
-
-    if (!sawUnary && this.eat(acorn.tokTypes.starstar)) {
-      var node$3 = this.startNodeAt(start);
-      node$3.operator = "**";
-      node$3.left = expr;
-      node$3.right = this.parseMaybeUnary(false);
-      return this.finishNode(node$3, "BinaryExpression")
-    }
-
-    return expr
-  };
-
-  lp$2.parseExprSubscripts = function() {
-    var start = this.storeCurrentPos();
-    return this.parseSubscripts(this.parseExprAtom(), start, false, this.curIndent, this.curLineStart)
-  };
-
-  lp$2.parseSubscripts = function(base, start, noCalls, startIndent, line) {
-    for (;;) {
-      if (this.curLineStart !== line && this.curIndent <= startIndent && this.tokenStartsLine()) {
-        if (this.tok.type === acorn.tokTypes.dot && this.curIndent === startIndent)
-          { --startIndent; }
-        else
-          { return base }
-      }
-
-      var maybeAsyncArrow = base.type === "Identifier" && base.name === "async" && !this.canInsertSemicolon();
-
-      if (this.eat(acorn.tokTypes.dot)) {
-        var node = this.startNodeAt(start);
-        node.object = base;
-        if (this.curLineStart !== line && this.curIndent <= startIndent && this.tokenStartsLine())
-          { node.property = this.dummyIdent(); }
-        else
-          { node.property = this.parsePropertyAccessor() || this.dummyIdent(); }
-        node.computed = false;
-        base = this.finishNode(node, "MemberExpression");
-      } else if (this.tok.type === acorn.tokTypes.bracketL) {
-        this.pushCx();
-        this.next();
-        var node$1 = this.startNodeAt(start);
-        node$1.object = base;
-        node$1.property = this.parseExpression();
-        node$1.computed = true;
-        this.popCx();
-        this.expect(acorn.tokTypes.bracketR);
-        base = this.finishNode(node$1, "MemberExpression");
-      } else if (!noCalls && this.tok.type === acorn.tokTypes.parenL) {
-        var exprList = this.parseExprList(acorn.tokTypes.parenR);
-        if (maybeAsyncArrow && this.eat(acorn.tokTypes.arrow))
-          { return this.parseArrowExpression(this.startNodeAt(start), exprList, true) }
-        var node$2 = this.startNodeAt(start);
-        node$2.callee = base;
-        node$2.arguments = exprList;
-        base = this.finishNode(node$2, "CallExpression");
-      } else if (this.tok.type === acorn.tokTypes.backQuote) {
-        var node$3 = this.startNodeAt(start);
-        node$3.tag = base;
-        node$3.quasi = this.parseTemplate();
-        base = this.finishNode(node$3, "TaggedTemplateExpression");
-      } else {
-        return base
-      }
-    }
-  };
-
-  lp$2.parseExprAtom = function() {
-    var node;
-    switch (this.tok.type) {
-    case acorn.tokTypes._this:
-    case acorn.tokTypes._super:
-      var type = this.tok.type === acorn.tokTypes._this ? "ThisExpression" : "Super";
-      node = this.startNode();
-      this.next();
-      return this.finishNode(node, type)
-
-    case acorn.tokTypes.name:
-      var start = this.storeCurrentPos();
-      var id = this.parseIdent();
-      var isAsync = false;
-      if (id.name === "async" && !this.canInsertSemicolon()) {
-        if (this.eat(acorn.tokTypes._function))
-          { return this.parseFunction(this.startNodeAt(start), false, true) }
-        if (this.tok.type === acorn.tokTypes.name) {
-          id = this.parseIdent();
-          isAsync = true;
-        }
-      }
-      return this.eat(acorn.tokTypes.arrow) ? this.parseArrowExpression(this.startNodeAt(start), [id], isAsync) : id
-
-    case acorn.tokTypes.regexp:
-      node = this.startNode();
-      var val = this.tok.value;
-      node.regex = {pattern: val.pattern, flags: val.flags};
-      node.value = val.value;
-      node.raw = this.input.slice(this.tok.start, this.tok.end);
-      this.next();
-      return this.finishNode(node, "Literal")
-
-    case acorn.tokTypes.num: case acorn.tokTypes.string:
-      node = this.startNode();
-      node.value = this.tok.value;
-      node.raw = this.input.slice(this.tok.start, this.tok.end);
-      if (this.tok.type === acorn.tokTypes.num && node.raw.charCodeAt(node.raw.length - 1) === 110) { node.bigint = node.raw.slice(0, -1); }
-      this.next();
-      return this.finishNode(node, "Literal")
-
-    case acorn.tokTypes._null: case acorn.tokTypes._true: case acorn.tokTypes._false:
-      node = this.startNode();
-      node.value = this.tok.type === acorn.tokTypes._null ? null : this.tok.type === acorn.tokTypes._true;
-      node.raw = this.tok.type.keyword;
-      this.next();
-      return this.finishNode(node, "Literal")
-
-    case acorn.tokTypes.parenL:
-      var parenStart = this.storeCurrentPos();
-      this.next();
-      var inner = this.parseExpression();
-      this.expect(acorn.tokTypes.parenR);
-      if (this.eat(acorn.tokTypes.arrow)) {
-        // (a,)=>a // SequenceExpression makes dummy in the last hole. Drop the dummy.
-        var params = inner.expressions || [inner];
-        if (params.length && isDummy(params[params.length - 1]))
-          { params.pop(); }
-        return this.parseArrowExpression(this.startNodeAt(parenStart), params)
-      }
-      if (this.options.preserveParens) {
-        var par = this.startNodeAt(parenStart);
-        par.expression = inner;
-        inner = this.finishNode(par, "ParenthesizedExpression");
-      }
-      return inner
-
-    case acorn.tokTypes.bracketL:
-      node = this.startNode();
-      node.elements = this.parseExprList(acorn.tokTypes.bracketR, true);
-      return this.finishNode(node, "ArrayExpression")
-
-    case acorn.tokTypes.braceL:
-      return this.parseObj()
-
-    case acorn.tokTypes._class:
-      return this.parseClass(false)
-
-    case acorn.tokTypes._function:
-      node = this.startNode();
-      this.next();
-      return this.parseFunction(node, false)
-
-    case acorn.tokTypes._new:
-      return this.parseNew()
-
-    case acorn.tokTypes.backQuote:
-      return this.parseTemplate()
-
-    case acorn.tokTypes._import:
-      if (this.options.ecmaVersion >= 11) {
-        return this.parseExprImport()
-      } else {
-        return this.dummyIdent()
-      }
-
-    default:
-      return this.dummyIdent()
-    }
-  };
-
-  lp$2.parseExprImport = function() {
-    var node = this.startNode();
-    this.next(); // skip `import`
-    switch (this.tok.type) {
-    case acorn.tokTypes.parenL:
-      return this.parseDynamicImport(node)
-    default:
-      node.name = "import";
-      return this.finishNode(node, "Identifier")
-    }
-  };
-
-  lp$2.parseDynamicImport = function(node) {
-    node.source = this.parseExprList(acorn.tokTypes.parenR)[0] || this.dummyString();
-    return this.finishNode(node, "ImportExpression")
-  };
-
-  lp$2.parseNew = function() {
-    var node = this.startNode(), startIndent = this.curIndent, line = this.curLineStart;
-    var meta = this.parseIdent(true);
-    if (this.options.ecmaVersion >= 6 && this.eat(acorn.tokTypes.dot)) {
-      node.meta = meta;
-      node.property = this.parseIdent(true);
-      return this.finishNode(node, "MetaProperty")
-    }
-    var start = this.storeCurrentPos();
-    node.callee = this.parseSubscripts(this.parseExprAtom(), start, true, startIndent, line);
-    if (this.tok.type === acorn.tokTypes.parenL) {
-      node.arguments = this.parseExprList(acorn.tokTypes.parenR);
-    } else {
-      node.arguments = [];
-    }
-    return this.finishNode(node, "NewExpression")
-  };
-
-  lp$2.parseTemplateElement = function() {
-    var elem = this.startNode();
-
-    // The loose parser accepts invalid unicode escapes even in untagged templates.
-    if (this.tok.type === acorn.tokTypes.invalidTemplate) {
-      elem.value = {
-        raw: this.tok.value,
-        cooked: null
-      };
-    } else {
-      elem.value = {
-        raw: this.input.slice(this.tok.start, this.tok.end).replace(/\r\n?/g, "\n"),
-        cooked: this.tok.value
-      };
-    }
-    this.next();
-    elem.tail = this.tok.type === acorn.tokTypes.backQuote;
-    return this.finishNode(elem, "TemplateElement")
-  };
-
-  lp$2.parseTemplate = function() {
-    var node = this.startNode();
-    this.next();
-    node.expressions = [];
-    var curElt = this.parseTemplateElement();
-    node.quasis = [curElt];
-    while (!curElt.tail) {
-      this.next();
-      node.expressions.push(this.parseExpression());
-      if (this.expect(acorn.tokTypes.braceR)) {
-        curElt = this.parseTemplateElement();
-      } else {
-        curElt = this.startNode();
-        curElt.value = {cooked: "", raw: ""};
-        curElt.tail = true;
-        this.finishNode(curElt, "TemplateElement");
-      }
-      node.quasis.push(curElt);
-    }
-    this.expect(acorn.tokTypes.backQuote);
-    return this.finishNode(node, "TemplateLiteral")
-  };
-
-  lp$2.parseObj = function() {
-    var node = this.startNode();
-    node.properties = [];
-    this.pushCx();
-    var indent = this.curIndent + 1, line = this.curLineStart;
-    this.eat(acorn.tokTypes.braceL);
-    if (this.curIndent + 1 < indent) { indent = this.curIndent; line = this.curLineStart; }
-    while (!this.closes(acorn.tokTypes.braceR, indent, line)) {
-      var prop = this.startNode(), isGenerator = (void 0), isAsync = (void 0), start = (void 0);
-      if (this.options.ecmaVersion >= 9 && this.eat(acorn.tokTypes.ellipsis)) {
-        prop.argument = this.parseMaybeAssign();
-        node.properties.push(this.finishNode(prop, "SpreadElement"));
-        this.eat(acorn.tokTypes.comma);
-        continue
-      }
-      if (this.options.ecmaVersion >= 6) {
-        start = this.storeCurrentPos();
-        prop.method = false;
-        prop.shorthand = false;
-        isGenerator = this.eat(acorn.tokTypes.star);
-      }
-      this.parsePropertyName(prop);
-      if (this.toks.isAsyncProp(prop)) {
-        isAsync = true;
-        isGenerator = this.options.ecmaVersion >= 9 && this.eat(acorn.tokTypes.star);
-        this.parsePropertyName(prop);
-      } else {
-        isAsync = false;
-      }
-      if (isDummy(prop.key)) { if (isDummy(this.parseMaybeAssign())) { this.next(); } this.eat(acorn.tokTypes.comma); continue }
-      if (this.eat(acorn.tokTypes.colon)) {
-        prop.kind = "init";
-        prop.value = this.parseMaybeAssign();
-      } else if (this.options.ecmaVersion >= 6 && (this.tok.type === acorn.tokTypes.parenL || this.tok.type === acorn.tokTypes.braceL)) {
-        prop.kind = "init";
-        prop.method = true;
-        prop.value = this.parseMethod(isGenerator, isAsync);
-      } else if (this.options.ecmaVersion >= 5 && prop.key.type === "Identifier" &&
-                 !prop.computed && (prop.key.name === "get" || prop.key.name === "set") &&
-                 (this.tok.type !== acorn.tokTypes.comma && this.tok.type !== acorn.tokTypes.braceR && this.tok.type !== acorn.tokTypes.eq)) {
-        prop.kind = prop.key.name;
-        this.parsePropertyName(prop);
-        prop.value = this.parseMethod(false);
-      } else {
-        prop.kind = "init";
-        if (this.options.ecmaVersion >= 6) {
-          if (this.eat(acorn.tokTypes.eq)) {
-            var assign = this.startNodeAt(start);
-            assign.operator = "=";
-            assign.left = prop.key;
-            assign.right = this.parseMaybeAssign();
-            prop.value = this.finishNode(assign, "AssignmentExpression");
-          } else {
-            prop.value = prop.key;
-          }
-        } else {
-          prop.value = this.dummyIdent();
-        }
-        prop.shorthand = true;
-      }
-      node.properties.push(this.finishNode(prop, "Property"));
-      this.eat(acorn.tokTypes.comma);
-    }
-    this.popCx();
-    if (!this.eat(acorn.tokTypes.braceR)) {
-      // If there is no closing brace, make the node span to the start
-      // of the next token (this is useful for Tern)
-      this.last.end = this.tok.start;
-      if (this.options.locations) { this.last.loc.end = this.tok.loc.start; }
-    }
-    return this.finishNode(node, "ObjectExpression")
-  };
-
-  lp$2.parsePropertyName = function(prop) {
-    if (this.options.ecmaVersion >= 6) {
-      if (this.eat(acorn.tokTypes.bracketL)) {
-        prop.computed = true;
-        prop.key = this.parseExpression();
-        this.expect(acorn.tokTypes.bracketR);
-        return
-      } else {
-        prop.computed = false;
-      }
-    }
-    var key = (this.tok.type === acorn.tokTypes.num || this.tok.type === acorn.tokTypes.string) ? this.parseExprAtom() : this.parseIdent();
-    prop.key = key || this.dummyIdent();
-  };
-
-  lp$2.parsePropertyAccessor = function() {
-    if (this.tok.type === acorn.tokTypes.name || this.tok.type.keyword) { return this.parseIdent() }
-  };
-
-  lp$2.parseIdent = function() {
-    var name = this.tok.type === acorn.tokTypes.name ? this.tok.value : this.tok.type.keyword;
-    if (!name) { return this.dummyIdent() }
-    var node = this.startNode();
-    this.next();
-    node.name = name;
-    return this.finishNode(node, "Identifier")
-  };
-
-  lp$2.initFunction = function(node) {
-    node.id = null;
-    node.params = [];
-    if (this.options.ecmaVersion >= 6) {
-      node.generator = false;
-      node.expression = false;
-    }
-    if (this.options.ecmaVersion >= 8)
-      { node.async = false; }
-  };
-
-  // Convert existing expression atom to assignable pattern
-  // if possible.
-
-  lp$2.toAssignable = function(node, binding) {
-    if (!node || node.type === "Identifier" || (node.type === "MemberExpression" && !binding)) ; else if (node.type === "ParenthesizedExpression") {
-      this.toAssignable(node.expression, binding);
-    } else if (this.options.ecmaVersion < 6) {
-      return this.dummyIdent()
-    } else if (node.type === "ObjectExpression") {
-      node.type = "ObjectPattern";
-      for (var i = 0, list = node.properties; i < list.length; i += 1)
-        {
-        var prop = list[i];
-
-        this.toAssignable(prop, binding);
-      }
-    } else if (node.type === "ArrayExpression") {
-      node.type = "ArrayPattern";
-      this.toAssignableList(node.elements, binding);
-    } else if (node.type === "Property") {
-      this.toAssignable(node.value, binding);
-    } else if (node.type === "SpreadElement") {
-      node.type = "RestElement";
-      this.toAssignable(node.argument, binding);
-    } else if (node.type === "AssignmentExpression") {
-      node.type = "AssignmentPattern";
-      delete node.operator;
-    } else {
-      return this.dummyIdent()
-    }
-    return node
-  };
-
-  lp$2.toAssignableList = function(exprList, binding) {
-    for (var i = 0, list = exprList; i < list.length; i += 1)
-      {
-      var expr = list[i];
-
-      this.toAssignable(expr, binding);
-    }
-    return exprList
-  };
-
-  lp$2.parseFunctionParams = function(params) {
-    params = this.parseExprList(acorn.tokTypes.parenR);
-    return this.toAssignableList(params, true)
-  };
-
-  lp$2.parseMethod = function(isGenerator, isAsync) {
-    var node = this.startNode(), oldInAsync = this.inAsync, oldInFunction = this.inFunction;
-    this.initFunction(node);
-    if (this.options.ecmaVersion >= 6)
-      { node.generator = !!isGenerator; }
-    if (this.options.ecmaVersion >= 8)
-      { node.async = !!isAsync; }
-    this.inAsync = node.async;
-    this.inFunction = true;
-    node.params = this.parseFunctionParams();
-    node.body = this.parseBlock();
-    this.toks.adaptDirectivePrologue(node.body.body);
-    this.inAsync = oldInAsync;
-    this.inFunction = oldInFunction;
-    return this.finishNode(node, "FunctionExpression")
-  };
-
-  lp$2.parseArrowExpression = function(node, params, isAsync) {
-    var oldInAsync = this.inAsync, oldInFunction = this.inFunction;
-    this.initFunction(node);
-    if (this.options.ecmaVersion >= 8)
-      { node.async = !!isAsync; }
-    this.inAsync = node.async;
-    this.inFunction = true;
-    node.params = this.toAssignableList(params, true);
-    node.expression = this.tok.type !== acorn.tokTypes.braceL;
-    if (node.expression) {
-      node.body = this.parseMaybeAssign();
-    } else {
-      node.body = this.parseBlock();
-      this.toks.adaptDirectivePrologue(node.body.body);
-    }
-    this.inAsync = oldInAsync;
-    this.inFunction = oldInFunction;
-    return this.finishNode(node, "ArrowFunctionExpression")
-  };
-
-  lp$2.parseExprList = function(close, allowEmpty) {
-    this.pushCx();
-    var indent = this.curIndent, line = this.curLineStart, elts = [];
-    this.next(); // Opening bracket
-    while (!this.closes(close, indent + 1, line)) {
-      if (this.eat(acorn.tokTypes.comma)) {
-        elts.push(allowEmpty ? null : this.dummyIdent());
-        continue
-      }
-      var elt = this.parseMaybeAssign();
-      if (isDummy(elt)) {
-        if (this.closes(close, indent, line)) { break }
-        this.next();
-      } else {
-        elts.push(elt);
-      }
-      this.eat(acorn.tokTypes.comma);
-    }
-    this.popCx();
-    if (!this.eat(close)) {
-      // If there is no closing brace, make the node span to the start
-      // of the next token (this is useful for Tern)
-      this.last.end = this.tok.start;
-      if (this.options.locations) { this.last.loc.end = this.tok.loc.start; }
-    }
-    return elts
-  };
-
-  lp$2.parseAwait = function() {
-    var node = this.startNode();
-    this.next();
-    node.argument = this.parseMaybeUnary();
-    return this.finishNode(node, "AwaitExpression")
-  };
-
-  // Acorn: Loose parser
-
-  acorn.defaultOptions.tabSize = 4;
-
-  function parse(input, options) {
-    return LooseParser.parse(input, options)
-  }
-
-  exports.LooseParser = LooseParser;
-  exports.parse = parse;
-
-  Object.defineProperty(exports, '__esModule', { value: true });
-
-}));
-
-},{"acorn":14}],14:[function(require,module,exports){
+},{"./bg/ExternalLicenses":1,"./bg/ListManager":2,"./bg/ResponseProcessor":4,"./common/Storage":5,"./common/Test":6,"./fname_data.json":7,"./hash_script/whitelist":8,"./legacy_license_check.js":9,"./license_definitions":10,"./pattern_utils":14,"acorn":12}],12:[function(require,module,exports){
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
   typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (global = global || self, factory(global.acorn = {}));
-}(this, function (exports) { 'use strict';
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.acorn = {}));
+})(this, (function (exports) { 'use strict';
+
+  // This file was generated. Do not modify manually!
+  var astralIdentifierCodes = [509, 0, 227, 0, 150, 4, 294, 9, 1368, 2, 2, 1, 6, 3, 41, 2, 5, 0, 166, 1, 574, 3, 9, 9, 370, 1, 154, 10, 50, 3, 123, 2, 54, 14, 32, 10, 3, 1, 11, 3, 46, 10, 8, 0, 46, 9, 7, 2, 37, 13, 2, 9, 6, 1, 45, 0, 13, 2, 49, 13, 9, 3, 2, 11, 83, 11, 7, 0, 161, 11, 6, 9, 7, 3, 56, 1, 2, 6, 3, 1, 3, 2, 10, 0, 11, 1, 3, 6, 4, 4, 193, 17, 10, 9, 5, 0, 82, 19, 13, 9, 214, 6, 3, 8, 28, 1, 83, 16, 16, 9, 82, 12, 9, 9, 84, 14, 5, 9, 243, 14, 166, 9, 71, 5, 2, 1, 3, 3, 2, 0, 2, 1, 13, 9, 120, 6, 3, 6, 4, 0, 29, 9, 41, 6, 2, 3, 9, 0, 10, 10, 47, 15, 406, 7, 2, 7, 17, 9, 57, 21, 2, 13, 123, 5, 4, 0, 2, 1, 2, 6, 2, 0, 9, 9, 49, 4, 2, 1, 2, 4, 9, 9, 330, 3, 19306, 9, 87, 9, 39, 4, 60, 6, 26, 9, 1014, 0, 2, 54, 8, 3, 82, 0, 12, 1, 19628, 1, 4706, 45, 3, 22, 543, 4, 4, 5, 9, 7, 3, 6, 31, 3, 149, 2, 1418, 49, 513, 54, 5, 49, 9, 0, 15, 0, 23, 4, 2, 14, 1361, 6, 2, 16, 3, 6, 2, 1, 2, 4, 262, 6, 10, 9, 357, 0, 62, 13, 1495, 6, 110, 6, 6, 9, 4759, 9, 787719, 239];
+
+  // This file was generated. Do not modify manually!
+  var astralIdentifierStartCodes = [0, 11, 2, 25, 2, 18, 2, 1, 2, 14, 3, 13, 35, 122, 70, 52, 268, 28, 4, 48, 48, 31, 14, 29, 6, 37, 11, 29, 3, 35, 5, 7, 2, 4, 43, 157, 19, 35, 5, 35, 5, 39, 9, 51, 13, 10, 2, 14, 2, 6, 2, 1, 2, 10, 2, 14, 2, 6, 2, 1, 68, 310, 10, 21, 11, 7, 25, 5, 2, 41, 2, 8, 70, 5, 3, 0, 2, 43, 2, 1, 4, 0, 3, 22, 11, 22, 10, 30, 66, 18, 2, 1, 11, 21, 11, 25, 71, 55, 7, 1, 65, 0, 16, 3, 2, 2, 2, 28, 43, 28, 4, 28, 36, 7, 2, 27, 28, 53, 11, 21, 11, 18, 14, 17, 111, 72, 56, 50, 14, 50, 14, 35, 349, 41, 7, 1, 79, 28, 11, 0, 9, 21, 43, 17, 47, 20, 28, 22, 13, 52, 58, 1, 3, 0, 14, 44, 33, 24, 27, 35, 30, 0, 3, 0, 9, 34, 4, 0, 13, 47, 15, 3, 22, 0, 2, 0, 36, 17, 2, 24, 85, 6, 2, 0, 2, 3, 2, 14, 2, 9, 8, 46, 39, 7, 3, 1, 3, 21, 2, 6, 2, 1, 2, 4, 4, 0, 19, 0, 13, 4, 159, 52, 19, 3, 21, 2, 31, 47, 21, 1, 2, 0, 185, 46, 42, 3, 37, 47, 21, 0, 60, 42, 14, 0, 72, 26, 38, 6, 186, 43, 117, 63, 32, 7, 3, 0, 3, 7, 2, 1, 2, 23, 16, 0, 2, 0, 95, 7, 3, 38, 17, 0, 2, 0, 29, 0, 11, 39, 8, 0, 22, 0, 12, 45, 20, 0, 19, 72, 264, 8, 2, 36, 18, 0, 50, 29, 113, 6, 2, 1, 2, 37, 22, 0, 26, 5, 2, 1, 2, 31, 15, 0, 328, 18, 190, 0, 80, 921, 103, 110, 18, 195, 2637, 96, 16, 1070, 4050, 582, 8634, 568, 8, 30, 18, 78, 18, 29, 19, 47, 17, 3, 32, 20, 6, 18, 689, 63, 129, 74, 6, 0, 67, 12, 65, 1, 2, 0, 29, 6135, 9, 1237, 43, 8, 8936, 3, 2, 6, 2, 1, 2, 290, 46, 2, 18, 3, 9, 395, 2309, 106, 6, 12, 4, 8, 8, 9, 5991, 84, 2, 70, 2, 1, 3, 0, 3, 1, 3, 3, 2, 11, 2, 0, 2, 6, 2, 64, 2, 3, 3, 7, 2, 6, 2, 27, 2, 3, 2, 4, 2, 0, 4, 6, 2, 339, 3, 24, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 30, 2, 24, 2, 7, 1845, 30, 482, 44, 11, 6, 17, 0, 322, 29, 19, 43, 1269, 6, 2, 3, 2, 1, 2, 14, 2, 196, 60, 67, 8, 0, 1205, 3, 2, 26, 2, 1, 2, 0, 3, 0, 2, 9, 2, 3, 2, 0, 2, 0, 7, 0, 5, 0, 2, 0, 2, 0, 2, 2, 2, 1, 2, 0, 3, 0, 2, 0, 2, 0, 2, 0, 2, 0, 2, 1, 2, 0, 3, 3, 2, 6, 2, 3, 2, 3, 2, 0, 2, 9, 2, 16, 6, 2, 2, 4, 2, 16, 4421, 42719, 33, 4152, 8, 221, 3, 5761, 15, 7472, 3104, 541, 1507, 4938];
+
+  // This file was generated. Do not modify manually!
+  var nonASCIIidentifierChars = "\u200c\u200d\xb7\u0300-\u036f\u0387\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u07fd\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u0898-\u089f\u08ca-\u08e1\u08e3-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u09fe\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0afa-\u0aff\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b55-\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c00-\u0c04\u0c3c\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c81-\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0d00-\u0d03\u0d3b\u0d3c\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d81-\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0ebc\u0ec8-\u0ecd\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1369-\u1371\u1712-\u1715\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u180f-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19d0-\u19da\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1ab0-\u1abd\u1abf-\u1ace\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf4\u1cf7-\u1cf9\u1dc0-\u1dff\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua620-\ua629\ua66f\ua674-\ua67d\ua69e\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua82c\ua880\ua881\ua8b4-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f1\ua8ff-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\ua9e5\ua9f0-\ua9f9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b-\uaa7d\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe2f\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f";
+
+  // This file was generated. Do not modify manually!
+  var nonASCIIidentifierStartChars = "\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u0870-\u0887\u0889-\u088e\u08a0-\u08c9\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u09fc\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0af9\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c5d\u0c60\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cdd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d04-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u1711\u171f-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4c\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31bf\u31f0-\u31ff\u3400-\u4dbf\u4e00-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7ca\ua7d0\ua7d1\ua7d3\ua7d5-\ua7d9\ua7f2-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab69\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc";
+
+  // These are a run-length and offset encoded representation of the
 
   // Reserved word lists for various dialects of the language
 
@@ -4869,7 +3322,7 @@ init_addon();
 
   var ecma5AndLessKeywords = "break case catch continue debugger default do else finally for function if return switch throw try var while with null true false instanceof typeof void delete new in this";
 
-  var keywords = {
+  var keywords$1 = {
     5: ecma5AndLessKeywords,
     "5module": ecma5AndLessKeywords + " export import",
     6: ecma5AndLessKeywords + " const class extends export import super"
@@ -4879,30 +3332,8 @@ init_addon();
 
   // ## Character categories
 
-  // Big ugly regular expressions that match characters in the
-  // whitespace, identifier, and identifier-start categories. These
-  // are only applied when a character is found to actually have a
-  // code point above 128.
-  // Generated by `bin/generate-identifier-regex.js`.
-  var nonASCIIidentifierStartChars = "\xaa\xb5\xba\xc0-\xd6\xd8-\xf6\xf8-\u02c1\u02c6-\u02d1\u02e0-\u02e4\u02ec\u02ee\u0370-\u0374\u0376\u0377\u037a-\u037d\u037f\u0386\u0388-\u038a\u038c\u038e-\u03a1\u03a3-\u03f5\u03f7-\u0481\u048a-\u052f\u0531-\u0556\u0559\u0560-\u0588\u05d0-\u05ea\u05ef-\u05f2\u0620-\u064a\u066e\u066f\u0671-\u06d3\u06d5\u06e5\u06e6\u06ee\u06ef\u06fa-\u06fc\u06ff\u0710\u0712-\u072f\u074d-\u07a5\u07b1\u07ca-\u07ea\u07f4\u07f5\u07fa\u0800-\u0815\u081a\u0824\u0828\u0840-\u0858\u0860-\u086a\u08a0-\u08b4\u08b6-\u08bd\u0904-\u0939\u093d\u0950\u0958-\u0961\u0971-\u0980\u0985-\u098c\u098f\u0990\u0993-\u09a8\u09aa-\u09b0\u09b2\u09b6-\u09b9\u09bd\u09ce\u09dc\u09dd\u09df-\u09e1\u09f0\u09f1\u09fc\u0a05-\u0a0a\u0a0f\u0a10\u0a13-\u0a28\u0a2a-\u0a30\u0a32\u0a33\u0a35\u0a36\u0a38\u0a39\u0a59-\u0a5c\u0a5e\u0a72-\u0a74\u0a85-\u0a8d\u0a8f-\u0a91\u0a93-\u0aa8\u0aaa-\u0ab0\u0ab2\u0ab3\u0ab5-\u0ab9\u0abd\u0ad0\u0ae0\u0ae1\u0af9\u0b05-\u0b0c\u0b0f\u0b10\u0b13-\u0b28\u0b2a-\u0b30\u0b32\u0b33\u0b35-\u0b39\u0b3d\u0b5c\u0b5d\u0b5f-\u0b61\u0b71\u0b83\u0b85-\u0b8a\u0b8e-\u0b90\u0b92-\u0b95\u0b99\u0b9a\u0b9c\u0b9e\u0b9f\u0ba3\u0ba4\u0ba8-\u0baa\u0bae-\u0bb9\u0bd0\u0c05-\u0c0c\u0c0e-\u0c10\u0c12-\u0c28\u0c2a-\u0c39\u0c3d\u0c58-\u0c5a\u0c60\u0c61\u0c80\u0c85-\u0c8c\u0c8e-\u0c90\u0c92-\u0ca8\u0caa-\u0cb3\u0cb5-\u0cb9\u0cbd\u0cde\u0ce0\u0ce1\u0cf1\u0cf2\u0d05-\u0d0c\u0d0e-\u0d10\u0d12-\u0d3a\u0d3d\u0d4e\u0d54-\u0d56\u0d5f-\u0d61\u0d7a-\u0d7f\u0d85-\u0d96\u0d9a-\u0db1\u0db3-\u0dbb\u0dbd\u0dc0-\u0dc6\u0e01-\u0e30\u0e32\u0e33\u0e40-\u0e46\u0e81\u0e82\u0e84\u0e86-\u0e8a\u0e8c-\u0ea3\u0ea5\u0ea7-\u0eb0\u0eb2\u0eb3\u0ebd\u0ec0-\u0ec4\u0ec6\u0edc-\u0edf\u0f00\u0f40-\u0f47\u0f49-\u0f6c\u0f88-\u0f8c\u1000-\u102a\u103f\u1050-\u1055\u105a-\u105d\u1061\u1065\u1066\u106e-\u1070\u1075-\u1081\u108e\u10a0-\u10c5\u10c7\u10cd\u10d0-\u10fa\u10fc-\u1248\u124a-\u124d\u1250-\u1256\u1258\u125a-\u125d\u1260-\u1288\u128a-\u128d\u1290-\u12b0\u12b2-\u12b5\u12b8-\u12be\u12c0\u12c2-\u12c5\u12c8-\u12d6\u12d8-\u1310\u1312-\u1315\u1318-\u135a\u1380-\u138f\u13a0-\u13f5\u13f8-\u13fd\u1401-\u166c\u166f-\u167f\u1681-\u169a\u16a0-\u16ea\u16ee-\u16f8\u1700-\u170c\u170e-\u1711\u1720-\u1731\u1740-\u1751\u1760-\u176c\u176e-\u1770\u1780-\u17b3\u17d7\u17dc\u1820-\u1878\u1880-\u18a8\u18aa\u18b0-\u18f5\u1900-\u191e\u1950-\u196d\u1970-\u1974\u1980-\u19ab\u19b0-\u19c9\u1a00-\u1a16\u1a20-\u1a54\u1aa7\u1b05-\u1b33\u1b45-\u1b4b\u1b83-\u1ba0\u1bae\u1baf\u1bba-\u1be5\u1c00-\u1c23\u1c4d-\u1c4f\u1c5a-\u1c7d\u1c80-\u1c88\u1c90-\u1cba\u1cbd-\u1cbf\u1ce9-\u1cec\u1cee-\u1cf3\u1cf5\u1cf6\u1cfa\u1d00-\u1dbf\u1e00-\u1f15\u1f18-\u1f1d\u1f20-\u1f45\u1f48-\u1f4d\u1f50-\u1f57\u1f59\u1f5b\u1f5d\u1f5f-\u1f7d\u1f80-\u1fb4\u1fb6-\u1fbc\u1fbe\u1fc2-\u1fc4\u1fc6-\u1fcc\u1fd0-\u1fd3\u1fd6-\u1fdb\u1fe0-\u1fec\u1ff2-\u1ff4\u1ff6-\u1ffc\u2071\u207f\u2090-\u209c\u2102\u2107\u210a-\u2113\u2115\u2118-\u211d\u2124\u2126\u2128\u212a-\u2139\u213c-\u213f\u2145-\u2149\u214e\u2160-\u2188\u2c00-\u2c2e\u2c30-\u2c5e\u2c60-\u2ce4\u2ceb-\u2cee\u2cf2\u2cf3\u2d00-\u2d25\u2d27\u2d2d\u2d30-\u2d67\u2d6f\u2d80-\u2d96\u2da0-\u2da6\u2da8-\u2dae\u2db0-\u2db6\u2db8-\u2dbe\u2dc0-\u2dc6\u2dc8-\u2dce\u2dd0-\u2dd6\u2dd8-\u2dde\u3005-\u3007\u3021-\u3029\u3031-\u3035\u3038-\u303c\u3041-\u3096\u309b-\u309f\u30a1-\u30fa\u30fc-\u30ff\u3105-\u312f\u3131-\u318e\u31a0-\u31ba\u31f0-\u31ff\u3400-\u4db5\u4e00-\u9fef\ua000-\ua48c\ua4d0-\ua4fd\ua500-\ua60c\ua610-\ua61f\ua62a\ua62b\ua640-\ua66e\ua67f-\ua69d\ua6a0-\ua6ef\ua717-\ua71f\ua722-\ua788\ua78b-\ua7bf\ua7c2-\ua7c6\ua7f7-\ua801\ua803-\ua805\ua807-\ua80a\ua80c-\ua822\ua840-\ua873\ua882-\ua8b3\ua8f2-\ua8f7\ua8fb\ua8fd\ua8fe\ua90a-\ua925\ua930-\ua946\ua960-\ua97c\ua984-\ua9b2\ua9cf\ua9e0-\ua9e4\ua9e6-\ua9ef\ua9fa-\ua9fe\uaa00-\uaa28\uaa40-\uaa42\uaa44-\uaa4b\uaa60-\uaa76\uaa7a\uaa7e-\uaaaf\uaab1\uaab5\uaab6\uaab9-\uaabd\uaac0\uaac2\uaadb-\uaadd\uaae0-\uaaea\uaaf2-\uaaf4\uab01-\uab06\uab09-\uab0e\uab11-\uab16\uab20-\uab26\uab28-\uab2e\uab30-\uab5a\uab5c-\uab67\uab70-\uabe2\uac00-\ud7a3\ud7b0-\ud7c6\ud7cb-\ud7fb\uf900-\ufa6d\ufa70-\ufad9\ufb00-\ufb06\ufb13-\ufb17\ufb1d\ufb1f-\ufb28\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40\ufb41\ufb43\ufb44\ufb46-\ufbb1\ufbd3-\ufd3d\ufd50-\ufd8f\ufd92-\ufdc7\ufdf0-\ufdfb\ufe70-\ufe74\ufe76-\ufefc\uff21-\uff3a\uff41-\uff5a\uff66-\uffbe\uffc2-\uffc7\uffca-\uffcf\uffd2-\uffd7\uffda-\uffdc";
-  var nonASCIIidentifierChars = "\u200c\u200d\xb7\u0300-\u036f\u0387\u0483-\u0487\u0591-\u05bd\u05bf\u05c1\u05c2\u05c4\u05c5\u05c7\u0610-\u061a\u064b-\u0669\u0670\u06d6-\u06dc\u06df-\u06e4\u06e7\u06e8\u06ea-\u06ed\u06f0-\u06f9\u0711\u0730-\u074a\u07a6-\u07b0\u07c0-\u07c9\u07eb-\u07f3\u07fd\u0816-\u0819\u081b-\u0823\u0825-\u0827\u0829-\u082d\u0859-\u085b\u08d3-\u08e1\u08e3-\u0903\u093a-\u093c\u093e-\u094f\u0951-\u0957\u0962\u0963\u0966-\u096f\u0981-\u0983\u09bc\u09be-\u09c4\u09c7\u09c8\u09cb-\u09cd\u09d7\u09e2\u09e3\u09e6-\u09ef\u09fe\u0a01-\u0a03\u0a3c\u0a3e-\u0a42\u0a47\u0a48\u0a4b-\u0a4d\u0a51\u0a66-\u0a71\u0a75\u0a81-\u0a83\u0abc\u0abe-\u0ac5\u0ac7-\u0ac9\u0acb-\u0acd\u0ae2\u0ae3\u0ae6-\u0aef\u0afa-\u0aff\u0b01-\u0b03\u0b3c\u0b3e-\u0b44\u0b47\u0b48\u0b4b-\u0b4d\u0b56\u0b57\u0b62\u0b63\u0b66-\u0b6f\u0b82\u0bbe-\u0bc2\u0bc6-\u0bc8\u0bca-\u0bcd\u0bd7\u0be6-\u0bef\u0c00-\u0c04\u0c3e-\u0c44\u0c46-\u0c48\u0c4a-\u0c4d\u0c55\u0c56\u0c62\u0c63\u0c66-\u0c6f\u0c81-\u0c83\u0cbc\u0cbe-\u0cc4\u0cc6-\u0cc8\u0cca-\u0ccd\u0cd5\u0cd6\u0ce2\u0ce3\u0ce6-\u0cef\u0d00-\u0d03\u0d3b\u0d3c\u0d3e-\u0d44\u0d46-\u0d48\u0d4a-\u0d4d\u0d57\u0d62\u0d63\u0d66-\u0d6f\u0d82\u0d83\u0dca\u0dcf-\u0dd4\u0dd6\u0dd8-\u0ddf\u0de6-\u0def\u0df2\u0df3\u0e31\u0e34-\u0e3a\u0e47-\u0e4e\u0e50-\u0e59\u0eb1\u0eb4-\u0ebc\u0ec8-\u0ecd\u0ed0-\u0ed9\u0f18\u0f19\u0f20-\u0f29\u0f35\u0f37\u0f39\u0f3e\u0f3f\u0f71-\u0f84\u0f86\u0f87\u0f8d-\u0f97\u0f99-\u0fbc\u0fc6\u102b-\u103e\u1040-\u1049\u1056-\u1059\u105e-\u1060\u1062-\u1064\u1067-\u106d\u1071-\u1074\u1082-\u108d\u108f-\u109d\u135d-\u135f\u1369-\u1371\u1712-\u1714\u1732-\u1734\u1752\u1753\u1772\u1773\u17b4-\u17d3\u17dd\u17e0-\u17e9\u180b-\u180d\u1810-\u1819\u18a9\u1920-\u192b\u1930-\u193b\u1946-\u194f\u19d0-\u19da\u1a17-\u1a1b\u1a55-\u1a5e\u1a60-\u1a7c\u1a7f-\u1a89\u1a90-\u1a99\u1ab0-\u1abd\u1b00-\u1b04\u1b34-\u1b44\u1b50-\u1b59\u1b6b-\u1b73\u1b80-\u1b82\u1ba1-\u1bad\u1bb0-\u1bb9\u1be6-\u1bf3\u1c24-\u1c37\u1c40-\u1c49\u1c50-\u1c59\u1cd0-\u1cd2\u1cd4-\u1ce8\u1ced\u1cf4\u1cf7-\u1cf9\u1dc0-\u1df9\u1dfb-\u1dff\u203f\u2040\u2054\u20d0-\u20dc\u20e1\u20e5-\u20f0\u2cef-\u2cf1\u2d7f\u2de0-\u2dff\u302a-\u302f\u3099\u309a\ua620-\ua629\ua66f\ua674-\ua67d\ua69e\ua69f\ua6f0\ua6f1\ua802\ua806\ua80b\ua823-\ua827\ua880\ua881\ua8b4-\ua8c5\ua8d0-\ua8d9\ua8e0-\ua8f1\ua8ff-\ua909\ua926-\ua92d\ua947-\ua953\ua980-\ua983\ua9b3-\ua9c0\ua9d0-\ua9d9\ua9e5\ua9f0-\ua9f9\uaa29-\uaa36\uaa43\uaa4c\uaa4d\uaa50-\uaa59\uaa7b-\uaa7d\uaab0\uaab2-\uaab4\uaab7\uaab8\uaabe\uaabf\uaac1\uaaeb-\uaaef\uaaf5\uaaf6\uabe3-\uabea\uabec\uabed\uabf0-\uabf9\ufb1e\ufe00-\ufe0f\ufe20-\ufe2f\ufe33\ufe34\ufe4d-\ufe4f\uff10-\uff19\uff3f";
-
   var nonASCIIidentifierStart = new RegExp("[" + nonASCIIidentifierStartChars + "]");
   var nonASCIIidentifier = new RegExp("[" + nonASCIIidentifierStartChars + nonASCIIidentifierChars + "]");
-
-  nonASCIIidentifierStartChars = nonASCIIidentifierChars = null;
-
-  // These are a run-length and offset encoded representation of the
-  // >0xffff code points that are a valid part of identifiers. The
-  // offset starts at 0x10000, and each pair of numbers represents an
-  // offset to the next range, and then a size of the range. They were
-  // generated by bin/generate-identifier-regex.js
-
-  // eslint-disable-next-line comma-spacing
-  var astralIdentifierStartCodes = [0,11,2,25,2,18,2,1,2,14,3,13,35,122,70,52,268,28,4,48,48,31,14,29,6,37,11,29,3,35,5,7,2,4,43,157,19,35,5,35,5,39,9,51,157,310,10,21,11,7,153,5,3,0,2,43,2,1,4,0,3,22,11,22,10,30,66,18,2,1,11,21,11,25,71,55,7,1,65,0,16,3,2,2,2,28,43,28,4,28,36,7,2,27,28,53,11,21,11,18,14,17,111,72,56,50,14,50,14,35,477,28,11,0,9,21,155,22,13,52,76,44,33,24,27,35,30,0,12,34,4,0,13,47,15,3,22,0,2,0,36,17,2,24,85,6,2,0,2,3,2,14,2,9,8,46,39,7,3,1,3,21,2,6,2,1,2,4,4,0,19,0,13,4,159,52,19,3,21,0,33,47,21,1,2,0,185,46,42,3,37,47,21,0,60,42,14,0,72,26,230,43,117,63,32,0,161,7,3,38,17,0,2,0,29,0,11,39,8,0,22,0,12,45,20,0,35,56,264,8,2,36,18,0,50,29,113,6,2,1,2,37,22,0,26,5,2,1,2,31,15,0,328,18,270,921,103,110,18,195,2749,1070,4050,582,8634,568,8,30,114,29,19,47,17,3,32,20,6,18,689,63,129,74,6,0,67,12,65,1,2,0,29,6135,9,754,9486,286,50,2,18,3,9,395,2309,106,6,12,4,8,8,9,5991,84,2,70,2,1,3,0,3,1,3,3,2,11,2,0,2,6,2,64,2,3,3,7,2,6,2,27,2,3,2,4,2,0,4,6,2,339,3,24,2,24,2,30,2,24,2,30,2,24,2,30,2,24,2,30,2,24,2,7,2357,44,11,6,17,0,370,43,1301,196,60,67,8,0,1205,3,2,26,2,1,2,0,3,0,2,9,2,3,2,0,2,0,7,0,5,0,2,0,2,0,2,2,2,1,2,0,3,0,2,0,2,0,2,0,2,0,2,1,2,0,3,3,2,6,2,3,2,3,2,0,2,9,2,16,6,2,2,4,2,16,4421,42710,42,4148,12,221,3,5761,15,7472,3104,541];
-
-  // eslint-disable-next-line comma-spacing
-  var astralIdentifierCodes = [509,0,227,0,150,4,294,9,1368,2,2,1,6,3,41,2,5,0,166,1,574,3,9,9,525,10,176,2,54,14,32,9,16,3,46,10,54,9,7,2,37,13,2,9,6,1,45,0,13,2,49,13,9,3,4,9,83,11,7,0,161,11,6,9,7,3,56,1,2,6,3,1,3,2,10,0,11,1,3,6,4,4,193,17,10,9,5,0,82,19,13,9,214,6,3,8,28,1,83,16,16,9,82,12,9,9,84,14,5,9,243,14,166,9,232,6,3,6,4,0,29,9,41,6,2,3,9,0,10,10,47,15,406,7,2,7,17,9,57,21,2,13,123,5,4,0,2,1,2,6,2,0,9,9,49,4,2,1,2,4,9,9,330,3,19306,9,135,4,60,6,26,9,1014,0,2,54,8,3,19723,1,5319,4,4,5,9,7,3,6,31,3,149,2,1418,49,513,54,5,49,9,0,15,0,23,4,2,14,1361,6,2,16,3,6,2,1,2,4,262,6,10,9,419,13,1495,6,110,6,6,9,792487,239];
 
   // This has a complexity linear to the value of the code. The
   // assumption is that looking up astral identifier characters is
@@ -4988,21 +3419,22 @@ init_addon();
 
   // Map keyword names to token types.
 
-  var keywords$1 = {};
+  var keywords = {};
 
   // Succinct definitions of keyword token types
   function kw(name, options) {
     if ( options === void 0 ) options = {};
 
     options.keyword = name;
-    return keywords$1[name] = new TokenType(name, options)
+    return keywords[name] = new TokenType(name, options)
   }
 
-  var types = {
+  var types$1 = {
     num: new TokenType("num", startsExpr),
     regexp: new TokenType("regexp", startsExpr),
     string: new TokenType("string", startsExpr),
     name: new TokenType("name", startsExpr),
+    privateId: new TokenType("privateId", startsExpr),
     eof: new TokenType("eof"),
 
     // Punctuation token types.
@@ -5017,6 +3449,7 @@ init_addon();
     colon: new TokenType(":", beforeExpr),
     dot: new TokenType("."),
     question: new TokenType("?", beforeExpr),
+    questionDot: new TokenType("?."),
     arrow: new TokenType("=>", beforeExpr),
     template: new TokenType("template"),
     invalidTemplate: new TokenType("invalidTemplate"),
@@ -5055,6 +3488,7 @@ init_addon();
     star: binop("*", 10),
     slash: binop("/", 10),
     starstar: new TokenType("**", {beforeExpr: true}),
+    coalesce: binop("??", 1),
 
     // Keyword token types.
     _break: kw("break"),
@@ -5100,8 +3534,19 @@ init_addon();
   var lineBreak = /\r\n?|\n|\u2028|\u2029/;
   var lineBreakG = new RegExp(lineBreak.source, "g");
 
-  function isNewLine(code, ecma2019String) {
-    return code === 10 || code === 13 || (!ecma2019String && (code === 0x2028 || code === 0x2029))
+  function isNewLine(code) {
+    return code === 10 || code === 13 || code === 0x2028 || code === 0x2029
+  }
+
+  function nextLineBreak(code, from, end) {
+    if ( end === void 0 ) end = code.length;
+
+    for (var i = from; i < end; i++) {
+      var next = code.charCodeAt(i);
+      if (isNewLine(next))
+        { return i < end - 1 && next === 13 && code.charCodeAt(i + 1) === 10 ? i + 2 : i + 1 }
+    }
+    return -1
   }
 
   var nonASCIIwhitespace = /[\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]/;
@@ -5112,11 +3557,9 @@ init_addon();
   var hasOwnProperty = ref.hasOwnProperty;
   var toString = ref.toString;
 
-  // Checks if an object has a property.
-
-  function has(obj, propName) {
-    return hasOwnProperty.call(obj, propName)
-  }
+  var hasOwn = Object.hasOwn || (function (obj, propName) { return (
+    hasOwnProperty.call(obj, propName)
+  ); });
 
   var isArray = Array.isArray || (function (obj) { return (
     toString.call(obj) === "[object Array]"
@@ -5125,6 +3568,15 @@ init_addon();
   function wordsRegexp(words) {
     return new RegExp("^(?:" + words.replace(/ /g, "|") + ")$")
   }
+
+  function codePointToString(code) {
+    // UTF-16 Decoding
+    if (code <= 0xFFFF) { return String.fromCharCode(code) }
+    code -= 0x10000;
+    return String.fromCharCode((code >> 10) + 0xD800, (code & 1023) + 0xDC00)
+  }
+
+  var loneSurrogate = /(?:[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])/;
 
   // These are used when `options.locations` is on, for the
   // `startLoc` and `endLoc` properties.
@@ -5152,27 +3604,24 @@ init_addon();
 
   function getLineInfo(input, offset) {
     for (var line = 1, cur = 0;;) {
-      lineBreakG.lastIndex = cur;
-      var match = lineBreakG.exec(input);
-      if (match && match.index < offset) {
-        ++line;
-        cur = match.index + match[0].length;
-      } else {
-        return new Position(line, offset - cur)
-      }
+      var nextBreak = nextLineBreak(input, cur, offset);
+      if (nextBreak < 0) { return new Position(line, offset - cur) }
+      ++line;
+      cur = nextBreak;
     }
   }
 
-  // A second optional argument can be given to further configure
-  // the parser process. These options are recognized:
+  // A second argument must be given to configure the parser process.
+  // These options are recognized (only `ecmaVersion` is required):
 
   var defaultOptions = {
     // `ecmaVersion` indicates the ECMAScript version to parse. Must be
-    // either 3, 5, 6 (2015), 7 (2016), 8 (2017), 9 (2018), or 10
-    // (2019). This influences support for strict mode, the set of
-    // reserved words, and support for new syntax features. The default
-    // is 10.
-    ecmaVersion: 10,
+    // either 3, 5, 6 (or 2015), 7 (2016), 8 (2017), 9 (2018), 10
+    // (2019), 11 (2020), 12 (2021), 13 (2022), or `"latest"` (the
+    // latest version the library supports). This influences support
+    // for strict mode, the set of reserved words, and support for
+    // new syntax features.
+    ecmaVersion: null,
     // `sourceType` indicates the mode the code should be parsed in.
     // Can be either `"script"` or `"module"`. This influences global
     // strict mode and parsing of `import` and `export` declarations.
@@ -5195,11 +3644,16 @@ init_addon();
     // error.
     allowReturnOutsideFunction: false,
     // When enabled, import/export statements are not constrained to
-    // appearing at the top of the program.
+    // appearing at the top of the program, and an import.meta expression
+    // in a script isn't considered an error.
     allowImportExportEverywhere: false,
+    // By default, await identifiers are allowed to appear at the top-level scope only if ecmaVersion >= 2022.
     // When enabled, await identifiers are allowed to appear at the top-level scope,
     // but they are still not allowed in non-async functions.
-    allowAwaitOutsideFunction: false,
+    allowAwaitOutsideFunction: null,
+    // When enabled, super identifiers are not constrained to
+    // appearing in methods and do not raise an error when they appear elsewhere.
+    allowSuperOutsideMethod: null,
     // When enabled, hashbang directive in the beginning of file
     // is allowed and treated as a line comment.
     allowHashBang: false,
@@ -5253,14 +3707,25 @@ init_addon();
 
   // Interpret and default an options object
 
+  var warnedAboutEcmaVersion = false;
+
   function getOptions(opts) {
     var options = {};
 
     for (var opt in defaultOptions)
-      { options[opt] = opts && has(opts, opt) ? opts[opt] : defaultOptions[opt]; }
+      { options[opt] = opts && hasOwn(opts, opt) ? opts[opt] : defaultOptions[opt]; }
 
-    if (options.ecmaVersion >= 2015)
-      { options.ecmaVersion -= 2009; }
+    if (options.ecmaVersion === "latest") {
+      options.ecmaVersion = 1e8;
+    } else if (options.ecmaVersion == null) {
+      if (!warnedAboutEcmaVersion && typeof console === "object" && console.warn) {
+        warnedAboutEcmaVersion = true;
+        console.warn("Since Acorn 8.0.0, options.ecmaVersion is required.\nDefaulting to 2020, but this will stop working in the future.");
+      }
+      options.ecmaVersion = 11;
+    } else if (options.ecmaVersion >= 2015) {
+      options.ecmaVersion -= 2009;
+    }
 
     if (options.allowReserved == null)
       { options.allowReserved = options.ecmaVersion < 5; }
@@ -5295,19 +3760,20 @@ init_addon();
   var
       SCOPE_TOP = 1,
       SCOPE_FUNCTION = 2,
-      SCOPE_VAR = SCOPE_TOP | SCOPE_FUNCTION,
       SCOPE_ASYNC = 4,
       SCOPE_GENERATOR = 8,
       SCOPE_ARROW = 16,
       SCOPE_SIMPLE_CATCH = 32,
       SCOPE_SUPER = 64,
-      SCOPE_DIRECT_SUPER = 128;
+      SCOPE_DIRECT_SUPER = 128,
+      SCOPE_CLASS_STATIC_BLOCK = 256,
+      SCOPE_VAR = SCOPE_TOP | SCOPE_FUNCTION | SCOPE_CLASS_STATIC_BLOCK;
 
   function functionFlags(async, generator) {
     return SCOPE_FUNCTION | (async ? SCOPE_ASYNC : 0) | (generator ? SCOPE_GENERATOR : 0)
   }
 
-  // Used in checkLVal and declareName to determine the type of a binding
+  // Used in checkLVal* and declareName to determine the type of a binding
   var
       BIND_NONE = 0, // Not a binding
       BIND_VAR = 1, // Var-style binding
@@ -5319,11 +3785,10 @@ init_addon();
   var Parser = function Parser(options, input, startPos) {
     this.options = options = getOptions(options);
     this.sourceFile = options.sourceFile;
-    this.keywords = wordsRegexp(keywords[options.ecmaVersion >= 6 ? 6 : options.sourceType === "module" ? "5module" : 5]);
+    this.keywords = wordsRegexp(keywords$1[options.ecmaVersion >= 6 ? 6 : options.sourceType === "module" ? "5module" : 5]);
     var reserved = "";
     if (options.allowReserved !== true) {
-      for (var v = options.ecmaVersion;; v--)
-        { if (reserved = reservedWords[v]) { break } }
+      reserved = reservedWords[options.ecmaVersion >= 6 ? 6 : options.ecmaVersion === 5 ? 5 : 3];
       if (options.sourceType === "module") { reserved += " await"; }
     }
     this.reservedWords = wordsRegexp(reserved);
@@ -5351,7 +3816,7 @@ init_addon();
 
     // Properties of the current token:
     // Its type
-    this.type = types.eof;
+    this.type = types$1.eof;
     // For tokens that include more information than their type, the value
     this.value = null;
     // Its start and end offset
@@ -5376,13 +3841,14 @@ init_addon();
 
     // Used to signify the start of a potential arrow function
     this.potentialArrowAt = -1;
+    this.potentialArrowInForAwait = false;
 
     // Positions to delayed-check that yield/await does not exist in default parameters.
     this.yieldPos = this.awaitPos = this.awaitIdentPos = 0;
     // Labels in scope.
     this.labels = [];
     // Thus-far undefined exports.
-    this.undefinedExports = {};
+    this.undefinedExports = Object.create(null);
 
     // If enabled, skip leading hashbang line.
     if (this.pos === 0 && options.allowHashBang && this.input.slice(0, 2) === "#!")
@@ -5394,9 +3860,14 @@ init_addon();
 
     // For RegExp validation
     this.regexpState = null;
+
+    // The stack of private names.
+    // Each element has two properties: 'declared' and 'used'.
+    // When it exited from the outermost class definition, all used private names must be declared.
+    this.privateNameStack = [];
   };
 
-  var prototypeAccessors = { inFunction: { configurable: true },inGenerator: { configurable: true },inAsync: { configurable: true },allowSuper: { configurable: true },allowDirectSuper: { configurable: true },treatFunctionsAsVar: { configurable: true } };
+  var prototypeAccessors = { inFunction: { configurable: true },inGenerator: { configurable: true },inAsync: { configurable: true },canAwait: { configurable: true },allowSuper: { configurable: true },allowDirectSuper: { configurable: true },treatFunctionsAsVar: { configurable: true },allowNewDotTarget: { configurable: true },inClassStaticBlock: { configurable: true } };
 
   Parser.prototype.parse = function parse () {
     var node = this.options.program || this.startNode();
@@ -5405,14 +3876,41 @@ init_addon();
   };
 
   prototypeAccessors.inFunction.get = function () { return (this.currentVarScope().flags & SCOPE_FUNCTION) > 0 };
-  prototypeAccessors.inGenerator.get = function () { return (this.currentVarScope().flags & SCOPE_GENERATOR) > 0 };
-  prototypeAccessors.inAsync.get = function () { return (this.currentVarScope().flags & SCOPE_ASYNC) > 0 };
-  prototypeAccessors.allowSuper.get = function () { return (this.currentThisScope().flags & SCOPE_SUPER) > 0 };
+
+  prototypeAccessors.inGenerator.get = function () { return (this.currentVarScope().flags & SCOPE_GENERATOR) > 0 && !this.currentVarScope().inClassFieldInit };
+
+  prototypeAccessors.inAsync.get = function () { return (this.currentVarScope().flags & SCOPE_ASYNC) > 0 && !this.currentVarScope().inClassFieldInit };
+
+  prototypeAccessors.canAwait.get = function () {
+    for (var i = this.scopeStack.length - 1; i >= 0; i--) {
+      var scope = this.scopeStack[i];
+      if (scope.inClassFieldInit || scope.flags & SCOPE_CLASS_STATIC_BLOCK) { return false }
+      if (scope.flags & SCOPE_FUNCTION) { return (scope.flags & SCOPE_ASYNC) > 0 }
+    }
+    return (this.inModule && this.options.ecmaVersion >= 13) || this.options.allowAwaitOutsideFunction
+  };
+
+  prototypeAccessors.allowSuper.get = function () {
+    var ref = this.currentThisScope();
+      var flags = ref.flags;
+      var inClassFieldInit = ref.inClassFieldInit;
+    return (flags & SCOPE_SUPER) > 0 || inClassFieldInit || this.options.allowSuperOutsideMethod
+  };
+
   prototypeAccessors.allowDirectSuper.get = function () { return (this.currentThisScope().flags & SCOPE_DIRECT_SUPER) > 0 };
+
   prototypeAccessors.treatFunctionsAsVar.get = function () { return this.treatFunctionsAsVarInScope(this.currentScope()) };
 
-  // Switch to a getter for 7.0.0.
-  Parser.prototype.inNonArrowFunction = function inNonArrowFunction () { return (this.currentThisScope().flags & SCOPE_FUNCTION) > 0 };
+  prototypeAccessors.allowNewDotTarget.get = function () {
+    var ref = this.currentThisScope();
+      var flags = ref.flags;
+      var inClassFieldInit = ref.inClassFieldInit;
+    return (flags & (SCOPE_FUNCTION | SCOPE_CLASS_STATIC_BLOCK)) > 0 || inClassFieldInit
+  };
+
+  prototypeAccessors.inClassStaticBlock.get = function () {
+    return (this.currentVarScope().flags & SCOPE_CLASS_STATIC_BLOCK) > 0
+  };
 
   Parser.extend = function extend () {
       var plugins = [], len = arguments.length;
@@ -5439,19 +3937,27 @@ init_addon();
 
   Object.defineProperties( Parser.prototype, prototypeAccessors );
 
-  var pp = Parser.prototype;
+  var pp$9 = Parser.prototype;
 
   // ## Parser utilities
 
-  var literal = /^(?:'((?:\\.|[^'])*?)'|"((?:\\.|[^"])*?)")/;
-  pp.strictDirective = function(start) {
+  var literal = /^(?:'((?:\\.|[^'\\])*?)'|"((?:\\.|[^"\\])*?)")/;
+  pp$9.strictDirective = function(start) {
+    if (this.options.ecmaVersion < 5) { return false }
     for (;;) {
       // Try to find string literal.
       skipWhiteSpace.lastIndex = start;
       start += skipWhiteSpace.exec(this.input)[0].length;
       var match = literal.exec(this.input.slice(start));
       if (!match) { return false }
-      if ((match[1] || match[2]) === "use strict") { return true }
+      if ((match[1] || match[2]) === "use strict") {
+        skipWhiteSpace.lastIndex = start + match[0].length;
+        var spaceAfter = skipWhiteSpace.exec(this.input), end = spaceAfter.index + spaceAfter[0].length;
+        var next = this.input.charAt(end);
+        return next === ";" || next === "}" ||
+          (lineBreak.test(spaceAfter[0]) &&
+           !(/[(`.[+\-/*%<>=,?^&]/.test(next) || next === "!" && this.input.charAt(end + 1) === "="))
+      }
       start += match[0].length;
 
       // Skip semicolon, if any.
@@ -5465,7 +3971,7 @@ init_addon();
   // Predicate that tests whether the next token is of the given
   // type, and if yes, consumes it as a side effect.
 
-  pp.eat = function(type) {
+  pp$9.eat = function(type) {
     if (this.type === type) {
       this.next();
       return true
@@ -5476,13 +3982,13 @@ init_addon();
 
   // Tests whether parsed token is a contextual keyword.
 
-  pp.isContextual = function(name) {
-    return this.type === types.name && this.value === name && !this.containsEsc
+  pp$9.isContextual = function(name) {
+    return this.type === types$1.name && this.value === name && !this.containsEsc
   };
 
   // Consumes contextual keyword if possible.
 
-  pp.eatContextual = function(name) {
+  pp$9.eatContextual = function(name) {
     if (!this.isContextual(name)) { return false }
     this.next();
     return true
@@ -5490,19 +3996,19 @@ init_addon();
 
   // Asserts that following token is given contextual keyword.
 
-  pp.expectContextual = function(name) {
+  pp$9.expectContextual = function(name) {
     if (!this.eatContextual(name)) { this.unexpected(); }
   };
 
   // Test whether a semicolon can be inserted at the current position.
 
-  pp.canInsertSemicolon = function() {
-    return this.type === types.eof ||
-      this.type === types.braceR ||
+  pp$9.canInsertSemicolon = function() {
+    return this.type === types$1.eof ||
+      this.type === types$1.braceR ||
       lineBreak.test(this.input.slice(this.lastTokEnd, this.start))
   };
 
-  pp.insertSemicolon = function() {
+  pp$9.insertSemicolon = function() {
     if (this.canInsertSemicolon()) {
       if (this.options.onInsertedSemicolon)
         { this.options.onInsertedSemicolon(this.lastTokEnd, this.lastTokEndLoc); }
@@ -5513,11 +4019,11 @@ init_addon();
   // Consume a semicolon, or, failing that, see if we are allowed to
   // pretend that there is a semicolon at this position.
 
-  pp.semicolon = function() {
-    if (!this.eat(types.semi) && !this.insertSemicolon()) { this.unexpected(); }
+  pp$9.semicolon = function() {
+    if (!this.eat(types$1.semi) && !this.insertSemicolon()) { this.unexpected(); }
   };
 
-  pp.afterTrailingComma = function(tokType, notNext) {
+  pp$9.afterTrailingComma = function(tokType, notNext) {
     if (this.type === tokType) {
       if (this.options.onTrailingComma)
         { this.options.onTrailingComma(this.lastTokStart, this.lastTokStartLoc); }
@@ -5530,26 +4036,26 @@ init_addon();
   // Expect a token of a given type. If found, consume it, otherwise,
   // raise an unexpected token error.
 
-  pp.expect = function(type) {
+  pp$9.expect = function(type) {
     this.eat(type) || this.unexpected();
   };
 
   // Raise an unexpected token error.
 
-  pp.unexpected = function(pos) {
+  pp$9.unexpected = function(pos) {
     this.raise(pos != null ? pos : this.start, "Unexpected token");
   };
 
-  function DestructuringErrors() {
+  var DestructuringErrors = function DestructuringErrors() {
     this.shorthandAssign =
     this.trailingComma =
     this.parenthesizedAssign =
     this.parenthesizedBind =
     this.doubleProto =
       -1;
-  }
+  };
 
-  pp.checkPatternErrors = function(refDestructuringErrors, isAssign) {
+  pp$9.checkPatternErrors = function(refDestructuringErrors, isAssign) {
     if (!refDestructuringErrors) { return }
     if (refDestructuringErrors.trailingComma > -1)
       { this.raiseRecoverable(refDestructuringErrors.trailingComma, "Comma is not permitted after the rest element"); }
@@ -5557,7 +4063,7 @@ init_addon();
     if (parens > -1) { this.raiseRecoverable(parens, "Parenthesized pattern"); }
   };
 
-  pp.checkExpressionErrors = function(refDestructuringErrors, andThrow) {
+  pp$9.checkExpressionErrors = function(refDestructuringErrors, andThrow) {
     if (!refDestructuringErrors) { return false }
     var shorthandAssign = refDestructuringErrors.shorthandAssign;
     var doubleProto = refDestructuringErrors.doubleProto;
@@ -5568,20 +4074,20 @@ init_addon();
       { this.raiseRecoverable(doubleProto, "Redefinition of __proto__ property"); }
   };
 
-  pp.checkYieldAwaitInDefaultParams = function() {
+  pp$9.checkYieldAwaitInDefaultParams = function() {
     if (this.yieldPos && (!this.awaitPos || this.yieldPos < this.awaitPos))
       { this.raise(this.yieldPos, "Yield expression cannot be a default value"); }
     if (this.awaitPos)
       { this.raise(this.awaitPos, "Await expression cannot be a default value"); }
   };
 
-  pp.isSimpleAssignTarget = function(expr) {
+  pp$9.isSimpleAssignTarget = function(expr) {
     if (expr.type === "ParenthesizedExpression")
       { return this.isSimpleAssignTarget(expr.expression) }
     return expr.type === "Identifier" || expr.type === "MemberExpression"
   };
 
-  var pp$1 = Parser.prototype;
+  var pp$8 = Parser.prototype;
 
   // ### Statement parsing
 
@@ -5590,10 +4096,10 @@ init_addon();
   // `program` argument.  If present, the statements will be appended
   // to its body instead of creating a new node.
 
-  pp$1.parseTopLevel = function(node) {
-    var exports = {};
+  pp$8.parseTopLevel = function(node) {
+    var exports = Object.create(null);
     if (!node.body) { node.body = []; }
-    while (this.type !== types.eof) {
+    while (this.type !== types$1.eof) {
       var stmt = this.parseStatement(null, true, exports);
       node.body.push(stmt);
     }
@@ -5612,7 +4118,7 @@ init_addon();
 
   var loopLabel = {kind: "loop"}, switchLabel = {kind: "switch"};
 
-  pp$1.isLet = function(context) {
+  pp$8.isLet = function(context) {
     if (this.options.ecmaVersion < 6 || !this.isContextual("let")) { return false }
     skipWhiteSpace.lastIndex = this.pos;
     var skip = skipWhiteSpace.exec(this.input);
@@ -5621,13 +4127,14 @@ init_addon();
     // Statement) is allowed here. If context is not empty then only a Statement
     // is allowed. However, `let [` is an explicit negative lookahead for
     // ExpressionStatement, so special-case it first.
-    if (nextCh === 91) { return true } // '['
+    if (nextCh === 91 || nextCh === 92 || nextCh > 0xd7ff && nextCh < 0xdc00) { return true } // '[', '/', astral
     if (context) { return false }
 
     if (nextCh === 123) { return true } // '{'
     if (isIdentifierStart(nextCh, true)) {
       var pos = next + 1;
-      while (isIdentifierChar(this.input.charCodeAt(pos), true)) { ++pos; }
+      while (isIdentifierChar(nextCh = this.input.charCodeAt(pos), true)) { ++pos; }
+      if (nextCh === 92 || nextCh > 0xd7ff && nextCh < 0xdc00) { return true }
       var ident = this.input.slice(next, pos);
       if (!keywordRelationalOperator.test(ident)) { return true }
     }
@@ -5637,16 +4144,17 @@ init_addon();
   // check 'async [no LineTerminator here] function'
   // - 'async /*foo*/ function' is OK.
   // - 'async /*\n*/ function' is invalid.
-  pp$1.isAsyncFunction = function() {
+  pp$8.isAsyncFunction = function() {
     if (this.options.ecmaVersion < 8 || !this.isContextual("async"))
       { return false }
 
     skipWhiteSpace.lastIndex = this.pos;
     var skip = skipWhiteSpace.exec(this.input);
-    var next = this.pos + skip[0].length;
+    var next = this.pos + skip[0].length, after;
     return !lineBreak.test(this.input.slice(this.pos, next)) &&
       this.input.slice(next, next + 8) === "function" &&
-      (next + 8 === this.input.length || !isIdentifierChar(this.input.charAt(next + 8)))
+      (next + 8 === this.input.length ||
+       !(isIdentifierChar(after = this.input.charCodeAt(next + 8)) || after > 0xd7ff && after < 0xdc00))
   };
 
   // Parse a single statement.
@@ -5656,11 +4164,11 @@ init_addon();
   // `if (foo) /blah/.exec(foo)`, where looking at the previous token
   // does not help.
 
-  pp$1.parseStatement = function(context, topLevel, exports) {
+  pp$8.parseStatement = function(context, topLevel, exports) {
     var starttype = this.type, node = this.startNode(), kind;
 
     if (this.isLet(context)) {
-      starttype = types._var;
+      starttype = types$1._var;
       kind = "let";
     }
 
@@ -5669,39 +4177,39 @@ init_addon();
     // complexity.
 
     switch (starttype) {
-    case types._break: case types._continue: return this.parseBreakContinueStatement(node, starttype.keyword)
-    case types._debugger: return this.parseDebuggerStatement(node)
-    case types._do: return this.parseDoStatement(node)
-    case types._for: return this.parseForStatement(node)
-    case types._function:
+    case types$1._break: case types$1._continue: return this.parseBreakContinueStatement(node, starttype.keyword)
+    case types$1._debugger: return this.parseDebuggerStatement(node)
+    case types$1._do: return this.parseDoStatement(node)
+    case types$1._for: return this.parseForStatement(node)
+    case types$1._function:
       // Function as sole body of either an if statement or a labeled statement
       // works, but not when it is part of a labeled statement that is the sole
       // body of an if statement.
       if ((context && (this.strict || context !== "if" && context !== "label")) && this.options.ecmaVersion >= 6) { this.unexpected(); }
       return this.parseFunctionStatement(node, false, !context)
-    case types._class:
+    case types$1._class:
       if (context) { this.unexpected(); }
       return this.parseClass(node, true)
-    case types._if: return this.parseIfStatement(node)
-    case types._return: return this.parseReturnStatement(node)
-    case types._switch: return this.parseSwitchStatement(node)
-    case types._throw: return this.parseThrowStatement(node)
-    case types._try: return this.parseTryStatement(node)
-    case types._const: case types._var:
+    case types$1._if: return this.parseIfStatement(node)
+    case types$1._return: return this.parseReturnStatement(node)
+    case types$1._switch: return this.parseSwitchStatement(node)
+    case types$1._throw: return this.parseThrowStatement(node)
+    case types$1._try: return this.parseTryStatement(node)
+    case types$1._const: case types$1._var:
       kind = kind || this.value;
       if (context && kind !== "var") { this.unexpected(); }
       return this.parseVarStatement(node, kind)
-    case types._while: return this.parseWhileStatement(node)
-    case types._with: return this.parseWithStatement(node)
-    case types.braceL: return this.parseBlock(true, node)
-    case types.semi: return this.parseEmptyStatement(node)
-    case types._export:
-    case types._import:
-      if (this.options.ecmaVersion > 10 && starttype === types._import) {
+    case types$1._while: return this.parseWhileStatement(node)
+    case types$1._with: return this.parseWithStatement(node)
+    case types$1.braceL: return this.parseBlock(true, node)
+    case types$1.semi: return this.parseEmptyStatement(node)
+    case types$1._export:
+    case types$1._import:
+      if (this.options.ecmaVersion > 10 && starttype === types$1._import) {
         skipWhiteSpace.lastIndex = this.pos;
         var skip = skipWhiteSpace.exec(this.input);
         var next = this.pos + skip[0].length, nextCh = this.input.charCodeAt(next);
-        if (nextCh === 40) // '('
+        if (nextCh === 40 || nextCh === 46) // '(' or '.'
           { return this.parseExpressionStatement(node, this.parseExpression()) }
       }
 
@@ -5711,7 +4219,7 @@ init_addon();
         if (!this.inModule)
           { this.raise(this.start, "'import' and 'export' may appear only with 'sourceType: module'"); }
       }
-      return starttype === types._import ? this.parseImport(node) : this.parseExport(node, exports)
+      return starttype === types$1._import ? this.parseImport(node) : this.parseExport(node, exports)
 
       // If the statement does not start with a statement keyword or a
       // brace, it's an ExpressionStatement or LabeledStatement. We
@@ -5726,17 +4234,17 @@ init_addon();
       }
 
       var maybeName = this.value, expr = this.parseExpression();
-      if (starttype === types.name && expr.type === "Identifier" && this.eat(types.colon))
+      if (starttype === types$1.name && expr.type === "Identifier" && this.eat(types$1.colon))
         { return this.parseLabeledStatement(node, maybeName, expr, context) }
       else { return this.parseExpressionStatement(node, expr) }
     }
   };
 
-  pp$1.parseBreakContinueStatement = function(node, keyword) {
+  pp$8.parseBreakContinueStatement = function(node, keyword) {
     var isBreak = keyword === "break";
     this.next();
-    if (this.eat(types.semi) || this.insertSemicolon()) { node.label = null; }
-    else if (this.type !== types.name) { this.unexpected(); }
+    if (this.eat(types$1.semi) || this.insertSemicolon()) { node.label = null; }
+    else if (this.type !== types$1.name) { this.unexpected(); }
     else {
       node.label = this.parseIdent();
       this.semicolon();
@@ -5756,21 +4264,21 @@ init_addon();
     return this.finishNode(node, isBreak ? "BreakStatement" : "ContinueStatement")
   };
 
-  pp$1.parseDebuggerStatement = function(node) {
+  pp$8.parseDebuggerStatement = function(node) {
     this.next();
     this.semicolon();
     return this.finishNode(node, "DebuggerStatement")
   };
 
-  pp$1.parseDoStatement = function(node) {
+  pp$8.parseDoStatement = function(node) {
     this.next();
     this.labels.push(loopLabel);
     node.body = this.parseStatement("do");
     this.labels.pop();
-    this.expect(types._while);
+    this.expect(types$1._while);
     node.test = this.parseParenExpression();
     if (this.options.ecmaVersion >= 6)
-      { this.eat(types.semi); }
+      { this.eat(types$1.semi); }
     else
       { this.semicolon(); }
     return this.finishNode(node, "DoWhileStatement")
@@ -5784,25 +4292,25 @@ init_addon();
   // part (semicolon immediately after the opening parenthesis), it
   // is a regular `for` loop.
 
-  pp$1.parseForStatement = function(node) {
+  pp$8.parseForStatement = function(node) {
     this.next();
-    var awaitAt = (this.options.ecmaVersion >= 9 && (this.inAsync || (!this.inFunction && this.options.allowAwaitOutsideFunction)) && this.eatContextual("await")) ? this.lastTokStart : -1;
+    var awaitAt = (this.options.ecmaVersion >= 9 && this.canAwait && this.eatContextual("await")) ? this.lastTokStart : -1;
     this.labels.push(loopLabel);
     this.enterScope(0);
-    this.expect(types.parenL);
-    if (this.type === types.semi) {
+    this.expect(types$1.parenL);
+    if (this.type === types$1.semi) {
       if (awaitAt > -1) { this.unexpected(awaitAt); }
       return this.parseFor(node, null)
     }
     var isLet = this.isLet();
-    if (this.type === types._var || this.type === types._const || isLet) {
+    if (this.type === types$1._var || this.type === types$1._const || isLet) {
       var init$1 = this.startNode(), kind = isLet ? "let" : this.value;
       this.next();
       this.parseVar(init$1, true, kind);
       this.finishNode(init$1, "VariableDeclaration");
-      if ((this.type === types._in || (this.options.ecmaVersion >= 6 && this.isContextual("of"))) && init$1.declarations.length === 1) {
+      if ((this.type === types$1._in || (this.options.ecmaVersion >= 6 && this.isContextual("of"))) && init$1.declarations.length === 1) {
         if (this.options.ecmaVersion >= 9) {
-          if (this.type === types._in) {
+          if (this.type === types$1._in) {
             if (awaitAt > -1) { this.unexpected(awaitAt); }
           } else { node.await = awaitAt > -1; }
         }
@@ -5811,16 +4319,18 @@ init_addon();
       if (awaitAt > -1) { this.unexpected(awaitAt); }
       return this.parseFor(node, init$1)
     }
+    var startsWithLet = this.isContextual("let"), isForOf = false;
     var refDestructuringErrors = new DestructuringErrors;
-    var init = this.parseExpression(true, refDestructuringErrors);
-    if (this.type === types._in || (this.options.ecmaVersion >= 6 && this.isContextual("of"))) {
+    var init = this.parseExpression(awaitAt > -1 ? "await" : true, refDestructuringErrors);
+    if (this.type === types$1._in || (isForOf = this.options.ecmaVersion >= 6 && this.isContextual("of"))) {
       if (this.options.ecmaVersion >= 9) {
-        if (this.type === types._in) {
+        if (this.type === types$1._in) {
           if (awaitAt > -1) { this.unexpected(awaitAt); }
         } else { node.await = awaitAt > -1; }
       }
+      if (startsWithLet && isForOf) { this.raise(init.start, "The left-hand side of a for-of loop may not start with 'let'."); }
       this.toAssignable(init, false, refDestructuringErrors);
-      this.checkLVal(init);
+      this.checkLValPattern(init);
       return this.parseForIn(node, init)
     } else {
       this.checkExpressionErrors(refDestructuringErrors, true);
@@ -5829,21 +4339,21 @@ init_addon();
     return this.parseFor(node, init)
   };
 
-  pp$1.parseFunctionStatement = function(node, isAsync, declarationPosition) {
+  pp$8.parseFunctionStatement = function(node, isAsync, declarationPosition) {
     this.next();
     return this.parseFunction(node, FUNC_STATEMENT | (declarationPosition ? 0 : FUNC_HANGING_STATEMENT), false, isAsync)
   };
 
-  pp$1.parseIfStatement = function(node) {
+  pp$8.parseIfStatement = function(node) {
     this.next();
     node.test = this.parseParenExpression();
     // allow function declarations in branches, but only in non-strict mode
     node.consequent = this.parseStatement("if");
-    node.alternate = this.eat(types._else) ? this.parseStatement("if") : null;
+    node.alternate = this.eat(types$1._else) ? this.parseStatement("if") : null;
     return this.finishNode(node, "IfStatement")
   };
 
-  pp$1.parseReturnStatement = function(node) {
+  pp$8.parseReturnStatement = function(node) {
     if (!this.inFunction && !this.options.allowReturnOutsideFunction)
       { this.raise(this.start, "'return' outside of function"); }
     this.next();
@@ -5852,16 +4362,16 @@ init_addon();
     // optional arguments, we eagerly look for a semicolon or the
     // possibility to insert one.
 
-    if (this.eat(types.semi) || this.insertSemicolon()) { node.argument = null; }
+    if (this.eat(types$1.semi) || this.insertSemicolon()) { node.argument = null; }
     else { node.argument = this.parseExpression(); this.semicolon(); }
     return this.finishNode(node, "ReturnStatement")
   };
 
-  pp$1.parseSwitchStatement = function(node) {
+  pp$8.parseSwitchStatement = function(node) {
     this.next();
     node.discriminant = this.parseParenExpression();
     node.cases = [];
-    this.expect(types.braceL);
+    this.expect(types$1.braceL);
     this.labels.push(switchLabel);
     this.enterScope(0);
 
@@ -5870,9 +4380,9 @@ init_addon();
     // adding statements to.
 
     var cur;
-    for (var sawDefault = false; this.type !== types.braceR;) {
-      if (this.type === types._case || this.type === types._default) {
-        var isCase = this.type === types._case;
+    for (var sawDefault = false; this.type !== types$1.braceR;) {
+      if (this.type === types$1._case || this.type === types$1._default) {
+        var isCase = this.type === types$1._case;
         if (cur) { this.finishNode(cur, "SwitchCase"); }
         node.cases.push(cur = this.startNode());
         cur.consequent = [];
@@ -5884,7 +4394,7 @@ init_addon();
           sawDefault = true;
           cur.test = null;
         }
-        this.expect(types.colon);
+        this.expect(types$1.colon);
       } else {
         if (!cur) { this.unexpected(); }
         cur.consequent.push(this.parseStatement(null));
@@ -5897,7 +4407,7 @@ init_addon();
     return this.finishNode(node, "SwitchStatement")
   };
 
-  pp$1.parseThrowStatement = function(node) {
+  pp$8.parseThrowStatement = function(node) {
     this.next();
     if (lineBreak.test(this.input.slice(this.lastTokEnd, this.start)))
       { this.raise(this.lastTokEnd, "Illegal newline after throw"); }
@@ -5908,21 +4418,21 @@ init_addon();
 
   // Reused empty array added for node fields that are always empty.
 
-  var empty = [];
+  var empty$1 = [];
 
-  pp$1.parseTryStatement = function(node) {
+  pp$8.parseTryStatement = function(node) {
     this.next();
     node.block = this.parseBlock();
     node.handler = null;
-    if (this.type === types._catch) {
+    if (this.type === types$1._catch) {
       var clause = this.startNode();
       this.next();
-      if (this.eat(types.parenL)) {
+      if (this.eat(types$1.parenL)) {
         clause.param = this.parseBindingAtom();
         var simple = clause.param.type === "Identifier";
         this.enterScope(simple ? SCOPE_SIMPLE_CATCH : 0);
-        this.checkLVal(clause.param, simple ? BIND_SIMPLE_CATCH : BIND_LEXICAL);
-        this.expect(types.parenR);
+        this.checkLValPattern(clause.param, simple ? BIND_SIMPLE_CATCH : BIND_LEXICAL);
+        this.expect(types$1.parenR);
       } else {
         if (this.options.ecmaVersion < 10) { this.unexpected(); }
         clause.param = null;
@@ -5932,20 +4442,20 @@ init_addon();
       this.exitScope();
       node.handler = this.finishNode(clause, "CatchClause");
     }
-    node.finalizer = this.eat(types._finally) ? this.parseBlock() : null;
+    node.finalizer = this.eat(types$1._finally) ? this.parseBlock() : null;
     if (!node.handler && !node.finalizer)
       { this.raise(node.start, "Missing catch or finally clause"); }
     return this.finishNode(node, "TryStatement")
   };
 
-  pp$1.parseVarStatement = function(node, kind) {
+  pp$8.parseVarStatement = function(node, kind) {
     this.next();
     this.parseVar(node, false, kind);
     this.semicolon();
     return this.finishNode(node, "VariableDeclaration")
   };
 
-  pp$1.parseWhileStatement = function(node) {
+  pp$8.parseWhileStatement = function(node) {
     this.next();
     node.test = this.parseParenExpression();
     this.labels.push(loopLabel);
@@ -5954,7 +4464,7 @@ init_addon();
     return this.finishNode(node, "WhileStatement")
   };
 
-  pp$1.parseWithStatement = function(node) {
+  pp$8.parseWithStatement = function(node) {
     if (this.strict) { this.raise(this.start, "'with' in strict mode"); }
     this.next();
     node.object = this.parseParenExpression();
@@ -5962,12 +4472,12 @@ init_addon();
     return this.finishNode(node, "WithStatement")
   };
 
-  pp$1.parseEmptyStatement = function(node) {
+  pp$8.parseEmptyStatement = function(node) {
     this.next();
     return this.finishNode(node, "EmptyStatement")
   };
 
-  pp$1.parseLabeledStatement = function(node, maybeName, expr, context) {
+  pp$8.parseLabeledStatement = function(node, maybeName, expr, context) {
     for (var i$1 = 0, list = this.labels; i$1 < list.length; i$1 += 1)
       {
       var label = list[i$1];
@@ -5975,7 +4485,7 @@ init_addon();
       if (label.name === maybeName)
         { this.raise(expr.start, "Label '" + maybeName + "' is already declared");
     } }
-    var kind = this.type.isLoop ? "loop" : this.type === types._switch ? "switch" : null;
+    var kind = this.type.isLoop ? "loop" : this.type === types$1._switch ? "switch" : null;
     for (var i = this.labels.length - 1; i >= 0; i--) {
       var label$1 = this.labels[i];
       if (label$1.statementStart === node.start) {
@@ -5991,7 +4501,7 @@ init_addon();
     return this.finishNode(node, "LabeledStatement")
   };
 
-  pp$1.parseExpressionStatement = function(node, expr) {
+  pp$8.parseExpressionStatement = function(node, expr) {
     node.expression = expr;
     this.semicolon();
     return this.finishNode(node, "ExpressionStatement")
@@ -6001,17 +4511,19 @@ init_addon();
   // strict"` declarations when `allowStrict` is true (used for
   // function bodies).
 
-  pp$1.parseBlock = function(createNewLexicalScope, node) {
+  pp$8.parseBlock = function(createNewLexicalScope, node, exitStrict) {
     if ( createNewLexicalScope === void 0 ) createNewLexicalScope = true;
     if ( node === void 0 ) node = this.startNode();
 
     node.body = [];
-    this.expect(types.braceL);
+    this.expect(types$1.braceL);
     if (createNewLexicalScope) { this.enterScope(0); }
-    while (!this.eat(types.braceR)) {
+    while (this.type !== types$1.braceR) {
       var stmt = this.parseStatement(null);
       node.body.push(stmt);
     }
+    if (exitStrict) { this.strict = false; }
+    this.next();
     if (createNewLexicalScope) { this.exitScope(); }
     return this.finishNode(node, "BlockStatement")
   };
@@ -6020,13 +4532,13 @@ init_addon();
   // `parseStatement` will already have parsed the init statement or
   // expression.
 
-  pp$1.parseFor = function(node, init) {
+  pp$8.parseFor = function(node, init) {
     node.init = init;
-    this.expect(types.semi);
-    node.test = this.type === types.semi ? null : this.parseExpression();
-    this.expect(types.semi);
-    node.update = this.type === types.parenR ? null : this.parseExpression();
-    this.expect(types.parenR);
+    this.expect(types$1.semi);
+    node.test = this.type === types$1.semi ? null : this.parseExpression();
+    this.expect(types$1.semi);
+    node.update = this.type === types$1.parenR ? null : this.parseExpression();
+    this.expect(types$1.parenR);
     node.body = this.parseStatement("for");
     this.exitScope();
     this.labels.pop();
@@ -6036,8 +4548,8 @@ init_addon();
   // Parse a `for`/`in` and `for`/`of` loop, which are almost
   // same from parser's perspective.
 
-  pp$1.parseForIn = function(node, init) {
-    var isForIn = this.type === types._in;
+  pp$8.parseForIn = function(node, init) {
+    var isForIn = this.type === types$1._in;
     this.next();
 
     if (
@@ -6055,12 +4567,10 @@ init_addon();
         init.start,
         ((isForIn ? "for-in" : "for-of") + " loop variable declaration may not have an initializer")
       );
-    } else if (init.type === "AssignmentPattern") {
-      this.raise(init.start, "Invalid left-hand side in for-loop");
     }
     node.left = init;
     node.right = isForIn ? this.parseExpression() : this.parseMaybeAssign();
-    this.expect(types.parenR);
+    this.expect(types$1.parenR);
     node.body = this.parseStatement("for");
     this.exitScope();
     this.labels.pop();
@@ -6069,30 +4579,30 @@ init_addon();
 
   // Parse a list of variable declarations.
 
-  pp$1.parseVar = function(node, isFor, kind) {
+  pp$8.parseVar = function(node, isFor, kind) {
     node.declarations = [];
     node.kind = kind;
     for (;;) {
       var decl = this.startNode();
       this.parseVarId(decl, kind);
-      if (this.eat(types.eq)) {
+      if (this.eat(types$1.eq)) {
         decl.init = this.parseMaybeAssign(isFor);
-      } else if (kind === "const" && !(this.type === types._in || (this.options.ecmaVersion >= 6 && this.isContextual("of")))) {
+      } else if (kind === "const" && !(this.type === types$1._in || (this.options.ecmaVersion >= 6 && this.isContextual("of")))) {
         this.unexpected();
-      } else if (decl.id.type !== "Identifier" && !(isFor && (this.type === types._in || this.isContextual("of")))) {
+      } else if (decl.id.type !== "Identifier" && !(isFor && (this.type === types$1._in || this.isContextual("of")))) {
         this.raise(this.lastTokEnd, "Complex binding patterns require an initialization value");
       } else {
         decl.init = null;
       }
       node.declarations.push(this.finishNode(decl, "VariableDeclarator"));
-      if (!this.eat(types.comma)) { break }
+      if (!this.eat(types$1.comma)) { break }
     }
     return node
   };
 
-  pp$1.parseVarId = function(decl, kind) {
+  pp$8.parseVarId = function(decl, kind) {
     decl.id = this.parseBindingAtom();
-    this.checkLVal(decl.id, kind === "var" ? BIND_VAR : BIND_LEXICAL, false);
+    this.checkLValPattern(decl.id, kind === "var" ? BIND_VAR : BIND_LEXICAL, false);
   };
 
   var FUNC_STATEMENT = 1, FUNC_HANGING_STATEMENT = 2, FUNC_NULLABLE_ID = 4;
@@ -6101,24 +4611,24 @@ init_addon();
   // `statement & FUNC_STATEMENT`).
 
   // Remove `allowExpressionBody` for 7.0.0, as it is only called with false
-  pp$1.parseFunction = function(node, statement, allowExpressionBody, isAsync) {
+  pp$8.parseFunction = function(node, statement, allowExpressionBody, isAsync, forInit) {
     this.initFunction(node);
     if (this.options.ecmaVersion >= 9 || this.options.ecmaVersion >= 6 && !isAsync) {
-      if (this.type === types.star && (statement & FUNC_HANGING_STATEMENT))
+      if (this.type === types$1.star && (statement & FUNC_HANGING_STATEMENT))
         { this.unexpected(); }
-      node.generator = this.eat(types.star);
+      node.generator = this.eat(types$1.star);
     }
     if (this.options.ecmaVersion >= 8)
       { node.async = !!isAsync; }
 
     if (statement & FUNC_STATEMENT) {
-      node.id = (statement & FUNC_NULLABLE_ID) && this.type !== types.name ? null : this.parseIdent();
+      node.id = (statement & FUNC_NULLABLE_ID) && this.type !== types$1.name ? null : this.parseIdent();
       if (node.id && !(statement & FUNC_HANGING_STATEMENT))
         // If it is a regular function declaration in sloppy mode, then it is
         // subject to Annex B semantics (BIND_FUNCTION). Otherwise, the binding
         // mode depends on properties of the current scope (see
         // treatFunctionsAsVar).
-        { this.checkLVal(node.id, (this.strict || node.generator || node.async) ? this.treatFunctionsAsVar ? BIND_VAR : BIND_LEXICAL : BIND_FUNCTION); }
+        { this.checkLValSimple(node.id, (this.strict || node.generator || node.async) ? this.treatFunctionsAsVar ? BIND_VAR : BIND_LEXICAL : BIND_FUNCTION); }
     }
 
     var oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
@@ -6128,10 +4638,10 @@ init_addon();
     this.enterScope(functionFlags(node.async, node.generator));
 
     if (!(statement & FUNC_STATEMENT))
-      { node.id = this.type === types.name ? this.parseIdent() : null; }
+      { node.id = this.type === types$1.name ? this.parseIdent() : null; }
 
     this.parseFunctionParams(node);
-    this.parseFunctionBody(node, allowExpressionBody, false);
+    this.parseFunctionBody(node, allowExpressionBody, false, forInit);
 
     this.yieldPos = oldYieldPos;
     this.awaitPos = oldAwaitPos;
@@ -6139,16 +4649,16 @@ init_addon();
     return this.finishNode(node, (statement & FUNC_STATEMENT) ? "FunctionDeclaration" : "FunctionExpression")
   };
 
-  pp$1.parseFunctionParams = function(node) {
-    this.expect(types.parenL);
-    node.params = this.parseBindingList(types.parenR, false, this.options.ecmaVersion >= 8);
+  pp$8.parseFunctionParams = function(node) {
+    this.expect(types$1.parenL);
+    node.params = this.parseBindingList(types$1.parenR, false, this.options.ecmaVersion >= 8);
     this.checkYieldAwaitInDefaultParams();
   };
 
   // Parse a class declaration or literal (depending on the
   // `isStatement` parameter).
 
-  pp$1.parseClass = function(node, isStatement) {
+  pp$8.parseClass = function(node, isStatement) {
     this.next();
 
     // ecma-262 14.6 Class Definitions
@@ -6158,92 +4668,193 @@ init_addon();
 
     this.parseClassId(node, isStatement);
     this.parseClassSuper(node);
+    var privateNameMap = this.enterClassBody();
     var classBody = this.startNode();
     var hadConstructor = false;
     classBody.body = [];
-    this.expect(types.braceL);
-    while (!this.eat(types.braceR)) {
+    this.expect(types$1.braceL);
+    while (this.type !== types$1.braceR) {
       var element = this.parseClassElement(node.superClass !== null);
       if (element) {
         classBody.body.push(element);
         if (element.type === "MethodDefinition" && element.kind === "constructor") {
           if (hadConstructor) { this.raise(element.start, "Duplicate constructor in the same class"); }
           hadConstructor = true;
+        } else if (element.key && element.key.type === "PrivateIdentifier" && isPrivateNameConflicted(privateNameMap, element)) {
+          this.raiseRecoverable(element.key.start, ("Identifier '#" + (element.key.name) + "' has already been declared"));
         }
       }
     }
-    node.body = this.finishNode(classBody, "ClassBody");
     this.strict = oldStrict;
+    this.next();
+    node.body = this.finishNode(classBody, "ClassBody");
+    this.exitClassBody();
     return this.finishNode(node, isStatement ? "ClassDeclaration" : "ClassExpression")
   };
 
-  pp$1.parseClassElement = function(constructorAllowsSuper) {
-    var this$1 = this;
+  pp$8.parseClassElement = function(constructorAllowsSuper) {
+    if (this.eat(types$1.semi)) { return null }
 
-    if (this.eat(types.semi)) { return null }
-
-    var method = this.startNode();
-    var tryContextual = function (k, noLineBreak) {
-      if ( noLineBreak === void 0 ) noLineBreak = false;
-
-      var start = this$1.start, startLoc = this$1.startLoc;
-      if (!this$1.eatContextual(k)) { return false }
-      if (this$1.type !== types.parenL && (!noLineBreak || !this$1.canInsertSemicolon())) { return true }
-      if (method.key) { this$1.unexpected(); }
-      method.computed = false;
-      method.key = this$1.startNodeAt(start, startLoc);
-      method.key.name = k;
-      this$1.finishNode(method.key, "Identifier");
-      return false
-    };
-
-    method.kind = "method";
-    method.static = tryContextual("static");
-    var isGenerator = this.eat(types.star);
+    var ecmaVersion = this.options.ecmaVersion;
+    var node = this.startNode();
+    var keyName = "";
+    var isGenerator = false;
     var isAsync = false;
-    if (!isGenerator) {
-      if (this.options.ecmaVersion >= 8 && tryContextual("async", true)) {
-        isAsync = true;
-        isGenerator = this.options.ecmaVersion >= 9 && this.eat(types.star);
-      } else if (tryContextual("get")) {
-        method.kind = "get";
-      } else if (tryContextual("set")) {
-        method.kind = "set";
+    var kind = "method";
+    var isStatic = false;
+
+    if (this.eatContextual("static")) {
+      // Parse static init block
+      if (ecmaVersion >= 13 && this.eat(types$1.braceL)) {
+        this.parseClassStaticBlock(node);
+        return node
+      }
+      if (this.isClassElementNameStart() || this.type === types$1.star) {
+        isStatic = true;
+      } else {
+        keyName = "static";
       }
     }
-    if (!method.key) { this.parsePropertyName(method); }
-    var key = method.key;
-    var allowsDirectSuper = false;
-    if (!method.computed && !method.static && (key.type === "Identifier" && key.name === "constructor" ||
-        key.type === "Literal" && key.value === "constructor")) {
-      if (method.kind !== "method") { this.raise(key.start, "Constructor can't have get/set modifier"); }
-      if (isGenerator) { this.raise(key.start, "Constructor can't be a generator"); }
-      if (isAsync) { this.raise(key.start, "Constructor can't be an async method"); }
-      method.kind = "constructor";
-      allowsDirectSuper = constructorAllowsSuper;
-    } else if (method.static && key.type === "Identifier" && key.name === "prototype") {
-      this.raise(key.start, "Classes may not have a static property named prototype");
+    node.static = isStatic;
+    if (!keyName && ecmaVersion >= 8 && this.eatContextual("async")) {
+      if ((this.isClassElementNameStart() || this.type === types$1.star) && !this.canInsertSemicolon()) {
+        isAsync = true;
+      } else {
+        keyName = "async";
+      }
     }
-    this.parseClassMethod(method, isGenerator, isAsync, allowsDirectSuper);
-    if (method.kind === "get" && method.value.params.length !== 0)
-      { this.raiseRecoverable(method.value.start, "getter should have no params"); }
-    if (method.kind === "set" && method.value.params.length !== 1)
-      { this.raiseRecoverable(method.value.start, "setter should have exactly one param"); }
-    if (method.kind === "set" && method.value.params[0].type === "RestElement")
-      { this.raiseRecoverable(method.value.params[0].start, "Setter cannot use rest params"); }
-    return method
+    if (!keyName && (ecmaVersion >= 9 || !isAsync) && this.eat(types$1.star)) {
+      isGenerator = true;
+    }
+    if (!keyName && !isAsync && !isGenerator) {
+      var lastValue = this.value;
+      if (this.eatContextual("get") || this.eatContextual("set")) {
+        if (this.isClassElementNameStart()) {
+          kind = lastValue;
+        } else {
+          keyName = lastValue;
+        }
+      }
+    }
+
+    // Parse element name
+    if (keyName) {
+      // 'async', 'get', 'set', or 'static' were not a keyword contextually.
+      // The last token is any of those. Make it the element name.
+      node.computed = false;
+      node.key = this.startNodeAt(this.lastTokStart, this.lastTokStartLoc);
+      node.key.name = keyName;
+      this.finishNode(node.key, "Identifier");
+    } else {
+      this.parseClassElementName(node);
+    }
+
+    // Parse element value
+    if (ecmaVersion < 13 || this.type === types$1.parenL || kind !== "method" || isGenerator || isAsync) {
+      var isConstructor = !node.static && checkKeyName(node, "constructor");
+      var allowsDirectSuper = isConstructor && constructorAllowsSuper;
+      // Couldn't move this check into the 'parseClassMethod' method for backward compatibility.
+      if (isConstructor && kind !== "method") { this.raise(node.key.start, "Constructor can't have get/set modifier"); }
+      node.kind = isConstructor ? "constructor" : kind;
+      this.parseClassMethod(node, isGenerator, isAsync, allowsDirectSuper);
+    } else {
+      this.parseClassField(node);
+    }
+
+    return node
   };
 
-  pp$1.parseClassMethod = function(method, isGenerator, isAsync, allowsDirectSuper) {
-    method.value = this.parseMethod(isGenerator, isAsync, allowsDirectSuper);
+  pp$8.isClassElementNameStart = function() {
+    return (
+      this.type === types$1.name ||
+      this.type === types$1.privateId ||
+      this.type === types$1.num ||
+      this.type === types$1.string ||
+      this.type === types$1.bracketL ||
+      this.type.keyword
+    )
+  };
+
+  pp$8.parseClassElementName = function(element) {
+    if (this.type === types$1.privateId) {
+      if (this.value === "constructor") {
+        this.raise(this.start, "Classes can't have an element named '#constructor'");
+      }
+      element.computed = false;
+      element.key = this.parsePrivateIdent();
+    } else {
+      this.parsePropertyName(element);
+    }
+  };
+
+  pp$8.parseClassMethod = function(method, isGenerator, isAsync, allowsDirectSuper) {
+    // Check key and flags
+    var key = method.key;
+    if (method.kind === "constructor") {
+      if (isGenerator) { this.raise(key.start, "Constructor can't be a generator"); }
+      if (isAsync) { this.raise(key.start, "Constructor can't be an async method"); }
+    } else if (method.static && checkKeyName(method, "prototype")) {
+      this.raise(key.start, "Classes may not have a static property named prototype");
+    }
+
+    // Parse value
+    var value = method.value = this.parseMethod(isGenerator, isAsync, allowsDirectSuper);
+
+    // Check value
+    if (method.kind === "get" && value.params.length !== 0)
+      { this.raiseRecoverable(value.start, "getter should have no params"); }
+    if (method.kind === "set" && value.params.length !== 1)
+      { this.raiseRecoverable(value.start, "setter should have exactly one param"); }
+    if (method.kind === "set" && value.params[0].type === "RestElement")
+      { this.raiseRecoverable(value.params[0].start, "Setter cannot use rest params"); }
+
     return this.finishNode(method, "MethodDefinition")
   };
 
-  pp$1.parseClassId = function(node, isStatement) {
-    if (this.type === types.name) {
+  pp$8.parseClassField = function(field) {
+    if (checkKeyName(field, "constructor")) {
+      this.raise(field.key.start, "Classes can't have a field named 'constructor'");
+    } else if (field.static && checkKeyName(field, "prototype")) {
+      this.raise(field.key.start, "Classes can't have a static field named 'prototype'");
+    }
+
+    if (this.eat(types$1.eq)) {
+      // To raise SyntaxError if 'arguments' exists in the initializer.
+      var scope = this.currentThisScope();
+      var inClassFieldInit = scope.inClassFieldInit;
+      scope.inClassFieldInit = true;
+      field.value = this.parseMaybeAssign();
+      scope.inClassFieldInit = inClassFieldInit;
+    } else {
+      field.value = null;
+    }
+    this.semicolon();
+
+    return this.finishNode(field, "PropertyDefinition")
+  };
+
+  pp$8.parseClassStaticBlock = function(node) {
+    node.body = [];
+
+    var oldLabels = this.labels;
+    this.labels = [];
+    this.enterScope(SCOPE_CLASS_STATIC_BLOCK | SCOPE_SUPER);
+    while (this.type !== types$1.braceR) {
+      var stmt = this.parseStatement(null);
+      node.body.push(stmt);
+    }
+    this.next();
+    this.exitScope();
+    this.labels = oldLabels;
+
+    return this.finishNode(node, "StaticBlock")
+  };
+
+  pp$8.parseClassId = function(node, isStatement) {
+    if (this.type === types$1.name) {
       node.id = this.parseIdent();
       if (isStatement)
-        { this.checkLVal(node.id, BIND_LEXICAL, false); }
+        { this.checkLValSimple(node.id, BIND_LEXICAL, false); }
     } else {
       if (isStatement === true)
         { this.unexpected(); }
@@ -6251,31 +4862,98 @@ init_addon();
     }
   };
 
-  pp$1.parseClassSuper = function(node) {
-    node.superClass = this.eat(types._extends) ? this.parseExprSubscripts() : null;
+  pp$8.parseClassSuper = function(node) {
+    node.superClass = this.eat(types$1._extends) ? this.parseExprSubscripts(false) : null;
   };
+
+  pp$8.enterClassBody = function() {
+    var element = {declared: Object.create(null), used: []};
+    this.privateNameStack.push(element);
+    return element.declared
+  };
+
+  pp$8.exitClassBody = function() {
+    var ref = this.privateNameStack.pop();
+    var declared = ref.declared;
+    var used = ref.used;
+    var len = this.privateNameStack.length;
+    var parent = len === 0 ? null : this.privateNameStack[len - 1];
+    for (var i = 0; i < used.length; ++i) {
+      var id = used[i];
+      if (!hasOwn(declared, id.name)) {
+        if (parent) {
+          parent.used.push(id);
+        } else {
+          this.raiseRecoverable(id.start, ("Private field '#" + (id.name) + "' must be declared in an enclosing class"));
+        }
+      }
+    }
+  };
+
+  function isPrivateNameConflicted(privateNameMap, element) {
+    var name = element.key.name;
+    var curr = privateNameMap[name];
+
+    var next = "true";
+    if (element.type === "MethodDefinition" && (element.kind === "get" || element.kind === "set")) {
+      next = (element.static ? "s" : "i") + element.kind;
+    }
+
+    // `class { get #a(){}; static set #a(_){} }` is also conflict.
+    if (
+      curr === "iget" && next === "iset" ||
+      curr === "iset" && next === "iget" ||
+      curr === "sget" && next === "sset" ||
+      curr === "sset" && next === "sget"
+    ) {
+      privateNameMap[name] = "true";
+      return false
+    } else if (!curr) {
+      privateNameMap[name] = next;
+      return false
+    } else {
+      return true
+    }
+  }
+
+  function checkKeyName(node, name) {
+    var computed = node.computed;
+    var key = node.key;
+    return !computed && (
+      key.type === "Identifier" && key.name === name ||
+      key.type === "Literal" && key.value === name
+    )
+  }
 
   // Parses module export declaration.
 
-  pp$1.parseExport = function(node, exports) {
+  pp$8.parseExport = function(node, exports) {
     this.next();
     // export * from '...'
-    if (this.eat(types.star)) {
+    if (this.eat(types$1.star)) {
+      if (this.options.ecmaVersion >= 11) {
+        if (this.eatContextual("as")) {
+          node.exported = this.parseModuleExportName();
+          this.checkExport(exports, node.exported, this.lastTokStart);
+        } else {
+          node.exported = null;
+        }
+      }
       this.expectContextual("from");
-      if (this.type !== types.string) { this.unexpected(); }
+      if (this.type !== types$1.string) { this.unexpected(); }
       node.source = this.parseExprAtom();
       this.semicolon();
       return this.finishNode(node, "ExportAllDeclaration")
     }
-    if (this.eat(types._default)) { // export default ...
+    if (this.eat(types$1._default)) { // export default ...
       this.checkExport(exports, "default", this.lastTokStart);
       var isAsync;
-      if (this.type === types._function || (isAsync = this.isAsyncFunction())) {
+      if (this.type === types$1._function || (isAsync = this.isAsyncFunction())) {
         var fNode = this.startNode();
         this.next();
         if (isAsync) { this.next(); }
         node.declaration = this.parseFunction(fNode, FUNC_STATEMENT | FUNC_NULLABLE_ID, false, isAsync);
-      } else if (this.type === types._class) {
+      } else if (this.type === types$1._class) {
         var cNode = this.startNode();
         node.declaration = this.parseClass(cNode, "nullableID");
       } else {
@@ -6290,14 +4968,14 @@ init_addon();
       if (node.declaration.type === "VariableDeclaration")
         { this.checkVariableExport(exports, node.declaration.declarations); }
       else
-        { this.checkExport(exports, node.declaration.id.name, node.declaration.id.start); }
+        { this.checkExport(exports, node.declaration.id, node.declaration.id.start); }
       node.specifiers = [];
       node.source = null;
     } else { // export { x, y as z } [from '...']
       node.declaration = null;
       node.specifiers = this.parseExportSpecifiers(exports);
       if (this.eatContextual("from")) {
-        if (this.type !== types.string) { this.unexpected(); }
+        if (this.type !== types$1.string) { this.unexpected(); }
         node.source = this.parseExprAtom();
       } else {
         for (var i = 0, list = node.specifiers; i < list.length; i += 1) {
@@ -6307,6 +4985,10 @@ init_addon();
           this.checkUnreserved(spec.local);
           // check if export is defined
           this.checkLocalExport(spec.local);
+
+          if (spec.local.type === "Literal") {
+            this.raise(spec.local.start, "A string literal cannot be used as an exported binding without `from`.");
+          }
         }
 
         node.source = null;
@@ -6316,17 +4998,19 @@ init_addon();
     return this.finishNode(node, "ExportNamedDeclaration")
   };
 
-  pp$1.checkExport = function(exports, name, pos) {
+  pp$8.checkExport = function(exports, name, pos) {
     if (!exports) { return }
-    if (has(exports, name))
+    if (typeof name !== "string")
+      { name = name.type === "Identifier" ? name.name : name.value; }
+    if (hasOwn(exports, name))
       { this.raiseRecoverable(pos, "Duplicate export '" + name + "'"); }
     exports[name] = true;
   };
 
-  pp$1.checkPatternExport = function(exports, pat) {
+  pp$8.checkPatternExport = function(exports, pat) {
     var type = pat.type;
     if (type === "Identifier")
-      { this.checkExport(exports, pat.name, pat.start); }
+      { this.checkExport(exports, pat, pat.start); }
     else if (type === "ObjectPattern")
       { for (var i = 0, list = pat.properties; i < list.length; i += 1)
         {
@@ -6350,7 +5034,7 @@ init_addon();
       { this.checkPatternExport(exports, pat.expression); }
   };
 
-  pp$1.checkVariableExport = function(exports, decls) {
+  pp$8.checkVariableExport = function(exports, decls) {
     if (!exports) { return }
     for (var i = 0, list = decls; i < list.length; i += 1)
       {
@@ -6360,7 +5044,7 @@ init_addon();
     }
   };
 
-  pp$1.shouldParseExportStatement = function() {
+  pp$8.shouldParseExportStatement = function() {
     return this.type.keyword === "var" ||
       this.type.keyword === "const" ||
       this.type.keyword === "class" ||
@@ -6371,20 +5055,24 @@ init_addon();
 
   // Parses a comma-separated list of module exports.
 
-  pp$1.parseExportSpecifiers = function(exports) {
+  pp$8.parseExportSpecifiers = function(exports) {
     var nodes = [], first = true;
     // export { x, y as z } [from '...']
-    this.expect(types.braceL);
-    while (!this.eat(types.braceR)) {
+    this.expect(types$1.braceL);
+    while (!this.eat(types$1.braceR)) {
       if (!first) {
-        this.expect(types.comma);
-        if (this.afterTrailingComma(types.braceR)) { break }
+        this.expect(types$1.comma);
+        if (this.afterTrailingComma(types$1.braceR)) { break }
       } else { first = false; }
 
       var node = this.startNode();
-      node.local = this.parseIdent(true);
-      node.exported = this.eatContextual("as") ? this.parseIdent(true) : node.local;
-      this.checkExport(exports, node.exported.name, node.exported.start);
+      node.local = this.parseModuleExportName();
+      node.exported = this.eatContextual("as") ? this.parseModuleExportName() : node.local;
+      this.checkExport(
+        exports,
+        node.exported,
+        node.exported.start
+      );
       nodes.push(this.finishNode(node, "ExportSpecifier"));
     }
     return nodes
@@ -6392,16 +5080,16 @@ init_addon();
 
   // Parses import declaration.
 
-  pp$1.parseImport = function(node) {
+  pp$8.parseImport = function(node) {
     this.next();
     // import '...'
-    if (this.type === types.string) {
-      node.specifiers = empty;
+    if (this.type === types$1.string) {
+      node.specifiers = empty$1;
       node.source = this.parseExprAtom();
     } else {
       node.specifiers = this.parseImportSpecifiers();
       this.expectContextual("from");
-      node.source = this.type === types.string ? this.parseExprAtom() : this.unexpected();
+      node.source = this.type === types$1.string ? this.parseExprAtom() : this.unexpected();
     }
     this.semicolon();
     return this.finishNode(node, "ImportDeclaration")
@@ -6409,53 +5097,64 @@ init_addon();
 
   // Parses a comma-separated list of module imports.
 
-  pp$1.parseImportSpecifiers = function() {
+  pp$8.parseImportSpecifiers = function() {
     var nodes = [], first = true;
-    if (this.type === types.name) {
+    if (this.type === types$1.name) {
       // import defaultObj, { x, y as z } from '...'
       var node = this.startNode();
       node.local = this.parseIdent();
-      this.checkLVal(node.local, BIND_LEXICAL);
+      this.checkLValSimple(node.local, BIND_LEXICAL);
       nodes.push(this.finishNode(node, "ImportDefaultSpecifier"));
-      if (!this.eat(types.comma)) { return nodes }
+      if (!this.eat(types$1.comma)) { return nodes }
     }
-    if (this.type === types.star) {
+    if (this.type === types$1.star) {
       var node$1 = this.startNode();
       this.next();
       this.expectContextual("as");
       node$1.local = this.parseIdent();
-      this.checkLVal(node$1.local, BIND_LEXICAL);
+      this.checkLValSimple(node$1.local, BIND_LEXICAL);
       nodes.push(this.finishNode(node$1, "ImportNamespaceSpecifier"));
       return nodes
     }
-    this.expect(types.braceL);
-    while (!this.eat(types.braceR)) {
+    this.expect(types$1.braceL);
+    while (!this.eat(types$1.braceR)) {
       if (!first) {
-        this.expect(types.comma);
-        if (this.afterTrailingComma(types.braceR)) { break }
+        this.expect(types$1.comma);
+        if (this.afterTrailingComma(types$1.braceR)) { break }
       } else { first = false; }
 
       var node$2 = this.startNode();
-      node$2.imported = this.parseIdent(true);
+      node$2.imported = this.parseModuleExportName();
       if (this.eatContextual("as")) {
         node$2.local = this.parseIdent();
       } else {
         this.checkUnreserved(node$2.imported);
         node$2.local = node$2.imported;
       }
-      this.checkLVal(node$2.local, BIND_LEXICAL);
+      this.checkLValSimple(node$2.local, BIND_LEXICAL);
       nodes.push(this.finishNode(node$2, "ImportSpecifier"));
     }
     return nodes
   };
 
+  pp$8.parseModuleExportName = function() {
+    if (this.options.ecmaVersion >= 13 && this.type === types$1.string) {
+      var stringLiteral = this.parseLiteral(this.value);
+      if (loneSurrogate.test(stringLiteral.value)) {
+        this.raise(stringLiteral.start, "An export name cannot include a lone surrogate.");
+      }
+      return stringLiteral
+    }
+    return this.parseIdent(true)
+  };
+
   // Set `ExpressionStatement#directive` property for directive prologues.
-  pp$1.adaptDirectivePrologue = function(statements) {
+  pp$8.adaptDirectivePrologue = function(statements) {
     for (var i = 0; i < statements.length && this.isDirectiveCandidate(statements[i]); ++i) {
       statements[i].directive = statements[i].expression.raw.slice(1, -1);
     }
   };
-  pp$1.isDirectiveCandidate = function(statement) {
+  pp$8.isDirectiveCandidate = function(statement) {
     return (
       statement.type === "ExpressionStatement" &&
       statement.expression.type === "Literal" &&
@@ -6465,12 +5164,12 @@ init_addon();
     )
   };
 
-  var pp$2 = Parser.prototype;
+  var pp$7 = Parser.prototype;
 
   // Convert existing expression atom to assignable pattern
   // if possible.
 
-  pp$2.toAssignable = function(node, isBinding, refDestructuringErrors) {
+  pp$7.toAssignable = function(node, isBinding, refDestructuringErrors) {
     if (this.options.ecmaVersion >= 6 && node) {
       switch (node.type) {
       case "Identifier":
@@ -6480,6 +5179,7 @@ init_addon();
 
       case "ObjectPattern":
       case "ArrayPattern":
+      case "AssignmentPattern":
       case "RestElement":
         break
 
@@ -6528,13 +5228,14 @@ init_addon();
         node.type = "AssignmentPattern";
         delete node.operator;
         this.toAssignable(node.left, isBinding);
-        // falls through to AssignmentPattern
-
-      case "AssignmentPattern":
         break
 
       case "ParenthesizedExpression":
         this.toAssignable(node.expression, isBinding, refDestructuringErrors);
+        break
+
+      case "ChainExpression":
+        this.raiseRecoverable(node.start, "Optional chaining cannot appear in left-hand side");
         break
 
       case "MemberExpression":
@@ -6549,7 +5250,7 @@ init_addon();
 
   // Convert list of expression atoms to binding list.
 
-  pp$2.toAssignableList = function(exprList, isBinding) {
+  pp$7.toAssignableList = function(exprList, isBinding) {
     var end = exprList.length;
     for (var i = 0; i < end; i++) {
       var elt = exprList[i];
@@ -6565,19 +5266,19 @@ init_addon();
 
   // Parses spread element.
 
-  pp$2.parseSpread = function(refDestructuringErrors) {
+  pp$7.parseSpread = function(refDestructuringErrors) {
     var node = this.startNode();
     this.next();
     node.argument = this.parseMaybeAssign(false, refDestructuringErrors);
     return this.finishNode(node, "SpreadElement")
   };
 
-  pp$2.parseRestBinding = function() {
+  pp$7.parseRestBinding = function() {
     var node = this.startNode();
     this.next();
 
     // RestElement inside of a function parameter must be an identifier
-    if (this.options.ecmaVersion === 6 && this.type !== types.name)
+    if (this.options.ecmaVersion === 6 && this.type !== types$1.name)
       { this.unexpected(); }
 
     node.argument = this.parseBindingAtom();
@@ -6587,36 +5288,36 @@ init_addon();
 
   // Parses lvalue (assignable) atom.
 
-  pp$2.parseBindingAtom = function() {
+  pp$7.parseBindingAtom = function() {
     if (this.options.ecmaVersion >= 6) {
       switch (this.type) {
-      case types.bracketL:
+      case types$1.bracketL:
         var node = this.startNode();
         this.next();
-        node.elements = this.parseBindingList(types.bracketR, true, true);
+        node.elements = this.parseBindingList(types$1.bracketR, true, true);
         return this.finishNode(node, "ArrayPattern")
 
-      case types.braceL:
+      case types$1.braceL:
         return this.parseObj(true)
       }
     }
     return this.parseIdent()
   };
 
-  pp$2.parseBindingList = function(close, allowEmpty, allowTrailingComma) {
+  pp$7.parseBindingList = function(close, allowEmpty, allowTrailingComma) {
     var elts = [], first = true;
     while (!this.eat(close)) {
       if (first) { first = false; }
-      else { this.expect(types.comma); }
-      if (allowEmpty && this.type === types.comma) {
+      else { this.expect(types$1.comma); }
+      if (allowEmpty && this.type === types$1.comma) {
         elts.push(null);
       } else if (allowTrailingComma && this.afterTrailingComma(close)) {
         break
-      } else if (this.type === types.ellipsis) {
+      } else if (this.type === types$1.ellipsis) {
         var rest = this.parseRestBinding();
         this.parseBindingListItem(rest);
         elts.push(rest);
-        if (this.type === types.comma) { this.raise(this.start, "Comma is not permitted after the rest element"); }
+        if (this.type === types$1.comma) { this.raise(this.start, "Comma is not permitted after the rest element"); }
         this.expect(close);
         break
       } else {
@@ -6628,98 +5329,334 @@ init_addon();
     return elts
   };
 
-  pp$2.parseBindingListItem = function(param) {
+  pp$7.parseBindingListItem = function(param) {
     return param
   };
 
   // Parses assignment pattern around given atom if possible.
 
-  pp$2.parseMaybeDefault = function(startPos, startLoc, left) {
+  pp$7.parseMaybeDefault = function(startPos, startLoc, left) {
     left = left || this.parseBindingAtom();
-    if (this.options.ecmaVersion < 6 || !this.eat(types.eq)) { return left }
+    if (this.options.ecmaVersion < 6 || !this.eat(types$1.eq)) { return left }
     var node = this.startNodeAt(startPos, startLoc);
     node.left = left;
     node.right = this.parseMaybeAssign();
     return this.finishNode(node, "AssignmentPattern")
   };
 
-  // Verify that a node is an lval — something that can be assigned
-  // to.
-  // bindingType can be either:
-  // 'var' indicating that the lval creates a 'var' binding
-  // 'let' indicating that the lval creates a lexical ('let' or 'const') binding
-  // 'none' indicating that the binding should be checked for illegal identifiers, but not for duplicate references
+  // The following three functions all verify that a node is an lvalue —
+  // something that can be bound, or assigned to. In order to do so, they perform
+  // a variety of checks:
+  //
+  // - Check that none of the bound/assigned-to identifiers are reserved words.
+  // - Record name declarations for bindings in the appropriate scope.
+  // - Check duplicate argument names, if checkClashes is set.
+  //
+  // If a complex binding pattern is encountered (e.g., object and array
+  // destructuring), the entire pattern is recursively checked.
+  //
+  // There are three versions of checkLVal*() appropriate for different
+  // circumstances:
+  //
+  // - checkLValSimple() shall be used if the syntactic construct supports
+  //   nothing other than identifiers and member expressions. Parenthesized
+  //   expressions are also correctly handled. This is generally appropriate for
+  //   constructs for which the spec says
+  //
+  //   > It is a Syntax Error if AssignmentTargetType of [the production] is not
+  //   > simple.
+  //
+  //   It is also appropriate for checking if an identifier is valid and not
+  //   defined elsewhere, like import declarations or function/class identifiers.
+  //
+  //   Examples where this is used include:
+  //     a += …;
+  //     import a from '…';
+  //   where a is the node to be checked.
+  //
+  // - checkLValPattern() shall be used if the syntactic construct supports
+  //   anything checkLValSimple() supports, as well as object and array
+  //   destructuring patterns. This is generally appropriate for constructs for
+  //   which the spec says
+  //
+  //   > It is a Syntax Error if [the production] is neither an ObjectLiteral nor
+  //   > an ArrayLiteral and AssignmentTargetType of [the production] is not
+  //   > simple.
+  //
+  //   Examples where this is used include:
+  //     (a = …);
+  //     const a = …;
+  //     try { … } catch (a) { … }
+  //   where a is the node to be checked.
+  //
+  // - checkLValInnerPattern() shall be used if the syntactic construct supports
+  //   anything checkLValPattern() supports, as well as default assignment
+  //   patterns, rest elements, and other constructs that may appear within an
+  //   object or array destructuring pattern.
+  //
+  //   As a special case, function parameters also use checkLValInnerPattern(),
+  //   as they also support defaults and rest constructs.
+  //
+  // These functions deliberately support both assignment and binding constructs,
+  // as the logic for both is exceedingly similar. If the node is the target of
+  // an assignment, then bindingType should be set to BIND_NONE. Otherwise, it
+  // should be set to the appropriate BIND_* constant, like BIND_VAR or
+  // BIND_LEXICAL.
+  //
+  // If the function is called with a non-BIND_NONE bindingType, then
+  // additionally a checkClashes object may be specified to allow checking for
+  // duplicate argument names. checkClashes is ignored if the provided construct
+  // is an assignment (i.e., bindingType is BIND_NONE).
 
-  pp$2.checkLVal = function(expr, bindingType, checkClashes) {
+  pp$7.checkLValSimple = function(expr, bindingType, checkClashes) {
     if ( bindingType === void 0 ) bindingType = BIND_NONE;
+
+    var isBind = bindingType !== BIND_NONE;
 
     switch (expr.type) {
     case "Identifier":
-      if (bindingType === BIND_LEXICAL && expr.name === "let")
-        { this.raiseRecoverable(expr.start, "let is disallowed as a lexically bound name"); }
       if (this.strict && this.reservedWordsStrictBind.test(expr.name))
-        { this.raiseRecoverable(expr.start, (bindingType ? "Binding " : "Assigning to ") + expr.name + " in strict mode"); }
-      if (checkClashes) {
-        if (has(checkClashes, expr.name))
-          { this.raiseRecoverable(expr.start, "Argument name clash"); }
-        checkClashes[expr.name] = true;
+        { this.raiseRecoverable(expr.start, (isBind ? "Binding " : "Assigning to ") + expr.name + " in strict mode"); }
+      if (isBind) {
+        if (bindingType === BIND_LEXICAL && expr.name === "let")
+          { this.raiseRecoverable(expr.start, "let is disallowed as a lexically bound name"); }
+        if (checkClashes) {
+          if (hasOwn(checkClashes, expr.name))
+            { this.raiseRecoverable(expr.start, "Argument name clash"); }
+          checkClashes[expr.name] = true;
+        }
+        if (bindingType !== BIND_OUTSIDE) { this.declareName(expr.name, bindingType, expr.start); }
       }
-      if (bindingType !== BIND_NONE && bindingType !== BIND_OUTSIDE) { this.declareName(expr.name, bindingType, expr.start); }
+      break
+
+    case "ChainExpression":
+      this.raiseRecoverable(expr.start, "Optional chaining cannot appear in left-hand side");
       break
 
     case "MemberExpression":
-      if (bindingType) { this.raiseRecoverable(expr.start, "Binding member expression"); }
+      if (isBind) { this.raiseRecoverable(expr.start, "Binding member expression"); }
       break
 
-    case "ObjectPattern":
-      for (var i = 0, list = expr.properties; i < list.length; i += 1)
-        {
-      var prop = list[i];
+    case "ParenthesizedExpression":
+      if (isBind) { this.raiseRecoverable(expr.start, "Binding parenthesized expression"); }
+      return this.checkLValSimple(expr.expression, bindingType, checkClashes)
 
-      this.checkLVal(prop, bindingType, checkClashes);
+    default:
+      this.raise(expr.start, (isBind ? "Binding" : "Assigning to") + " rvalue");
     }
-      break
+  };
 
-    case "Property":
-      // AssignmentProperty has type === "Property"
-      this.checkLVal(expr.value, bindingType, checkClashes);
+  pp$7.checkLValPattern = function(expr, bindingType, checkClashes) {
+    if ( bindingType === void 0 ) bindingType = BIND_NONE;
+
+    switch (expr.type) {
+    case "ObjectPattern":
+      for (var i = 0, list = expr.properties; i < list.length; i += 1) {
+        var prop = list[i];
+
+      this.checkLValInnerPattern(prop, bindingType, checkClashes);
+      }
       break
 
     case "ArrayPattern":
       for (var i$1 = 0, list$1 = expr.elements; i$1 < list$1.length; i$1 += 1) {
         var elem = list$1[i$1];
 
-      if (elem) { this.checkLVal(elem, bindingType, checkClashes); }
+      if (elem) { this.checkLValInnerPattern(elem, bindingType, checkClashes); }
       }
       break
 
+    default:
+      this.checkLValSimple(expr, bindingType, checkClashes);
+    }
+  };
+
+  pp$7.checkLValInnerPattern = function(expr, bindingType, checkClashes) {
+    if ( bindingType === void 0 ) bindingType = BIND_NONE;
+
+    switch (expr.type) {
+    case "Property":
+      // AssignmentProperty has type === "Property"
+      this.checkLValInnerPattern(expr.value, bindingType, checkClashes);
+      break
+
     case "AssignmentPattern":
-      this.checkLVal(expr.left, bindingType, checkClashes);
+      this.checkLValPattern(expr.left, bindingType, checkClashes);
       break
 
     case "RestElement":
-      this.checkLVal(expr.argument, bindingType, checkClashes);
-      break
-
-    case "ParenthesizedExpression":
-      this.checkLVal(expr.expression, bindingType, checkClashes);
+      this.checkLValPattern(expr.argument, bindingType, checkClashes);
       break
 
     default:
-      this.raise(expr.start, (bindingType ? "Binding" : "Assigning to") + " rvalue");
+      this.checkLValPattern(expr, bindingType, checkClashes);
     }
+  };
+
+  // The algorithm used to determine whether a regexp can appear at a
+
+  var TokContext = function TokContext(token, isExpr, preserveSpace, override, generator) {
+    this.token = token;
+    this.isExpr = !!isExpr;
+    this.preserveSpace = !!preserveSpace;
+    this.override = override;
+    this.generator = !!generator;
+  };
+
+  var types = {
+    b_stat: new TokContext("{", false),
+    b_expr: new TokContext("{", true),
+    b_tmpl: new TokContext("${", false),
+    p_stat: new TokContext("(", false),
+    p_expr: new TokContext("(", true),
+    q_tmpl: new TokContext("`", true, true, function (p) { return p.tryReadTemplateToken(); }),
+    f_stat: new TokContext("function", false),
+    f_expr: new TokContext("function", true),
+    f_expr_gen: new TokContext("function", true, false, null, true),
+    f_gen: new TokContext("function", false, false, null, true)
+  };
+
+  var pp$6 = Parser.prototype;
+
+  pp$6.initialContext = function() {
+    return [types.b_stat]
+  };
+
+  pp$6.curContext = function() {
+    return this.context[this.context.length - 1]
+  };
+
+  pp$6.braceIsBlock = function(prevType) {
+    var parent = this.curContext();
+    if (parent === types.f_expr || parent === types.f_stat)
+      { return true }
+    if (prevType === types$1.colon && (parent === types.b_stat || parent === types.b_expr))
+      { return !parent.isExpr }
+
+    // The check for `tt.name && exprAllowed` detects whether we are
+    // after a `yield` or `of` construct. See the `updateContext` for
+    // `tt.name`.
+    if (prevType === types$1._return || prevType === types$1.name && this.exprAllowed)
+      { return lineBreak.test(this.input.slice(this.lastTokEnd, this.start)) }
+    if (prevType === types$1._else || prevType === types$1.semi || prevType === types$1.eof || prevType === types$1.parenR || prevType === types$1.arrow)
+      { return true }
+    if (prevType === types$1.braceL)
+      { return parent === types.b_stat }
+    if (prevType === types$1._var || prevType === types$1._const || prevType === types$1.name)
+      { return false }
+    return !this.exprAllowed
+  };
+
+  pp$6.inGeneratorContext = function() {
+    for (var i = this.context.length - 1; i >= 1; i--) {
+      var context = this.context[i];
+      if (context.token === "function")
+        { return context.generator }
+    }
+    return false
+  };
+
+  pp$6.updateContext = function(prevType) {
+    var update, type = this.type;
+    if (type.keyword && prevType === types$1.dot)
+      { this.exprAllowed = false; }
+    else if (update = type.updateContext)
+      { update.call(this, prevType); }
+    else
+      { this.exprAllowed = type.beforeExpr; }
+  };
+
+  // Used to handle egde case when token context could not be inferred correctly in tokenize phase
+  pp$6.overrideContext = function(tokenCtx) {
+    if (this.curContext() !== tokenCtx) {
+      this.context[this.context.length - 1] = tokenCtx;
+    }
+  };
+
+  // Token-specific context update code
+
+  types$1.parenR.updateContext = types$1.braceR.updateContext = function() {
+    if (this.context.length === 1) {
+      this.exprAllowed = true;
+      return
+    }
+    var out = this.context.pop();
+    if (out === types.b_stat && this.curContext().token === "function") {
+      out = this.context.pop();
+    }
+    this.exprAllowed = !out.isExpr;
+  };
+
+  types$1.braceL.updateContext = function(prevType) {
+    this.context.push(this.braceIsBlock(prevType) ? types.b_stat : types.b_expr);
+    this.exprAllowed = true;
+  };
+
+  types$1.dollarBraceL.updateContext = function() {
+    this.context.push(types.b_tmpl);
+    this.exprAllowed = true;
+  };
+
+  types$1.parenL.updateContext = function(prevType) {
+    var statementParens = prevType === types$1._if || prevType === types$1._for || prevType === types$1._with || prevType === types$1._while;
+    this.context.push(statementParens ? types.p_stat : types.p_expr);
+    this.exprAllowed = true;
+  };
+
+  types$1.incDec.updateContext = function() {
+    // tokExprAllowed stays unchanged
+  };
+
+  types$1._function.updateContext = types$1._class.updateContext = function(prevType) {
+    if (prevType.beforeExpr && prevType !== types$1._else &&
+        !(prevType === types$1.semi && this.curContext() !== types.p_stat) &&
+        !(prevType === types$1._return && lineBreak.test(this.input.slice(this.lastTokEnd, this.start))) &&
+        !((prevType === types$1.colon || prevType === types$1.braceL) && this.curContext() === types.b_stat))
+      { this.context.push(types.f_expr); }
+    else
+      { this.context.push(types.f_stat); }
+    this.exprAllowed = false;
+  };
+
+  types$1.backQuote.updateContext = function() {
+    if (this.curContext() === types.q_tmpl)
+      { this.context.pop(); }
+    else
+      { this.context.push(types.q_tmpl); }
+    this.exprAllowed = false;
+  };
+
+  types$1.star.updateContext = function(prevType) {
+    if (prevType === types$1._function) {
+      var index = this.context.length - 1;
+      if (this.context[index] === types.f_expr)
+        { this.context[index] = types.f_expr_gen; }
+      else
+        { this.context[index] = types.f_gen; }
+    }
+    this.exprAllowed = true;
+  };
+
+  types$1.name.updateContext = function(prevType) {
+    var allowed = false;
+    if (this.options.ecmaVersion >= 6 && prevType !== types$1.dot) {
+      if (this.value === "of" && !this.exprAllowed ||
+          this.value === "yield" && this.inGeneratorContext())
+        { allowed = true; }
+    }
+    this.exprAllowed = allowed;
   };
 
   // A recursive descent parser operates by defining functions for all
 
-  var pp$3 = Parser.prototype;
+  var pp$5 = Parser.prototype;
 
   // Check if property name clashes with already added.
   // Object/class getters and setters are not allowed to clash —
   // either with each other or with an init property — and in
   // strict mode, init properties are also not allowed to be repeated.
 
-  pp$3.checkPropClash = function(prop, propHash, refDestructuringErrors) {
+  pp$5.checkPropClash = function(prop, propHash, refDestructuringErrors) {
     if (this.options.ecmaVersion >= 9 && prop.type === "SpreadElement")
       { return }
     if (this.options.ecmaVersion >= 6 && (prop.computed || prop.method || prop.shorthand))
@@ -6736,10 +5673,12 @@ init_addon();
       if (name === "__proto__" && kind === "init") {
         if (propHash.proto) {
           if (refDestructuringErrors) {
-            if (refDestructuringErrors.doubleProto < 0)
-              { refDestructuringErrors.doubleProto = key.start; }
-            // Backwards-compat kludge. Can be removed in version 6.0
-          } else { this.raiseRecoverable(key.start, "Redefinition of __proto__ property"); }
+            if (refDestructuringErrors.doubleProto < 0) {
+              refDestructuringErrors.doubleProto = key.start;
+            }
+          } else {
+            this.raiseRecoverable(key.start, "Redefinition of __proto__ property");
+          }
         }
         propHash.proto = true;
       }
@@ -6781,13 +5720,13 @@ init_addon();
   // and object pattern might appear (so it's possible to raise
   // delayed syntax error at correct position).
 
-  pp$3.parseExpression = function(noIn, refDestructuringErrors) {
+  pp$5.parseExpression = function(forInit, refDestructuringErrors) {
     var startPos = this.start, startLoc = this.startLoc;
-    var expr = this.parseMaybeAssign(noIn, refDestructuringErrors);
-    if (this.type === types.comma) {
+    var expr = this.parseMaybeAssign(forInit, refDestructuringErrors);
+    if (this.type === types$1.comma) {
       var node = this.startNodeAt(startPos, startLoc);
       node.expressions = [expr];
-      while (this.eat(types.comma)) { node.expressions.push(this.parseMaybeAssign(noIn, refDestructuringErrors)); }
+      while (this.eat(types$1.comma)) { node.expressions.push(this.parseMaybeAssign(forInit, refDestructuringErrors)); }
       return this.finishNode(node, "SequenceExpression")
     }
     return expr
@@ -6796,18 +5735,19 @@ init_addon();
   // Parse an assignment expression. This includes applications of
   // operators like `+=`.
 
-  pp$3.parseMaybeAssign = function(noIn, refDestructuringErrors, afterLeftParse) {
+  pp$5.parseMaybeAssign = function(forInit, refDestructuringErrors, afterLeftParse) {
     if (this.isContextual("yield")) {
-      if (this.inGenerator) { return this.parseYield(noIn) }
+      if (this.inGenerator) { return this.parseYield(forInit) }
       // The tokenizer will assume an expression is allowed after
       // `yield`, but this isn't that kind of yield
       else { this.exprAllowed = false; }
     }
 
-    var ownDestructuringErrors = false, oldParenAssign = -1, oldTrailingComma = -1;
+    var ownDestructuringErrors = false, oldParenAssign = -1, oldTrailingComma = -1, oldDoubleProto = -1;
     if (refDestructuringErrors) {
       oldParenAssign = refDestructuringErrors.parenthesizedAssign;
       oldTrailingComma = refDestructuringErrors.trailingComma;
+      oldDoubleProto = refDestructuringErrors.doubleProto;
       refDestructuringErrors.parenthesizedAssign = refDestructuringErrors.trailingComma = -1;
     } else {
       refDestructuringErrors = new DestructuringErrors;
@@ -6815,22 +5755,30 @@ init_addon();
     }
 
     var startPos = this.start, startLoc = this.startLoc;
-    if (this.type === types.parenL || this.type === types.name)
-      { this.potentialArrowAt = this.start; }
-    var left = this.parseMaybeConditional(noIn, refDestructuringErrors);
+    if (this.type === types$1.parenL || this.type === types$1.name) {
+      this.potentialArrowAt = this.start;
+      this.potentialArrowInForAwait = forInit === "await";
+    }
+    var left = this.parseMaybeConditional(forInit, refDestructuringErrors);
     if (afterLeftParse) { left = afterLeftParse.call(this, left, startPos, startLoc); }
     if (this.type.isAssign) {
       var node = this.startNodeAt(startPos, startLoc);
       node.operator = this.value;
-      node.left = this.type === types.eq ? this.toAssignable(left, false, refDestructuringErrors) : left;
+      if (this.type === types$1.eq)
+        { left = this.toAssignable(left, false, refDestructuringErrors); }
       if (!ownDestructuringErrors) {
         refDestructuringErrors.parenthesizedAssign = refDestructuringErrors.trailingComma = refDestructuringErrors.doubleProto = -1;
       }
-      if (refDestructuringErrors.shorthandAssign >= node.left.start)
+      if (refDestructuringErrors.shorthandAssign >= left.start)
         { refDestructuringErrors.shorthandAssign = -1; } // reset because shorthand default was used correctly
-      this.checkLVal(left);
+      if (this.type === types$1.eq)
+        { this.checkLValPattern(left); }
+      else
+        { this.checkLValSimple(left); }
+      node.left = left;
       this.next();
-      node.right = this.parseMaybeAssign(noIn);
+      node.right = this.parseMaybeAssign(forInit);
+      if (oldDoubleProto > -1) { refDestructuringErrors.doubleProto = oldDoubleProto; }
       return this.finishNode(node, "AssignmentExpression")
     } else {
       if (ownDestructuringErrors) { this.checkExpressionErrors(refDestructuringErrors, true); }
@@ -6842,16 +5790,16 @@ init_addon();
 
   // Parse a ternary conditional (`?:`) operator.
 
-  pp$3.parseMaybeConditional = function(noIn, refDestructuringErrors) {
+  pp$5.parseMaybeConditional = function(forInit, refDestructuringErrors) {
     var startPos = this.start, startLoc = this.startLoc;
-    var expr = this.parseExprOps(noIn, refDestructuringErrors);
+    var expr = this.parseExprOps(forInit, refDestructuringErrors);
     if (this.checkExpressionErrors(refDestructuringErrors)) { return expr }
-    if (this.eat(types.question)) {
+    if (this.eat(types$1.question)) {
       var node = this.startNodeAt(startPos, startLoc);
       node.test = expr;
       node.consequent = this.parseMaybeAssign();
-      this.expect(types.colon);
-      node.alternate = this.parseMaybeAssign(noIn);
+      this.expect(types$1.colon);
+      node.alternate = this.parseMaybeAssign(forInit);
       return this.finishNode(node, "ConditionalExpression")
     }
     return expr
@@ -6859,11 +5807,11 @@ init_addon();
 
   // Start the precedence parser.
 
-  pp$3.parseExprOps = function(noIn, refDestructuringErrors) {
+  pp$5.parseExprOps = function(forInit, refDestructuringErrors) {
     var startPos = this.start, startLoc = this.startLoc;
-    var expr = this.parseMaybeUnary(refDestructuringErrors, false);
+    var expr = this.parseMaybeUnary(refDestructuringErrors, false, false, forInit);
     if (this.checkExpressionErrors(refDestructuringErrors)) { return expr }
-    return expr.start === startPos && expr.type === "ArrowFunctionExpression" ? expr : this.parseExprOp(expr, startPos, startLoc, -1, noIn)
+    return expr.start === startPos && expr.type === "ArrowFunctionExpression" ? expr : this.parseExprOp(expr, startPos, startLoc, -1, forInit)
   };
 
   // Parse binary operators with the operator precedence parsing
@@ -6872,23 +5820,33 @@ init_addon();
   // defer further parser to one of its callers when it encounters an
   // operator that has a lower precedence than the set it is parsing.
 
-  pp$3.parseExprOp = function(left, leftStartPos, leftStartLoc, minPrec, noIn) {
+  pp$5.parseExprOp = function(left, leftStartPos, leftStartLoc, minPrec, forInit) {
     var prec = this.type.binop;
-    if (prec != null && (!noIn || this.type !== types._in)) {
+    if (prec != null && (!forInit || this.type !== types$1._in)) {
       if (prec > minPrec) {
-        var logical = this.type === types.logicalOR || this.type === types.logicalAND;
+        var logical = this.type === types$1.logicalOR || this.type === types$1.logicalAND;
+        var coalesce = this.type === types$1.coalesce;
+        if (coalesce) {
+          // Handle the precedence of `tt.coalesce` as equal to the range of logical expressions.
+          // In other words, `node.right` shouldn't contain logical expressions in order to check the mixed error.
+          prec = types$1.logicalAND.binop;
+        }
         var op = this.value;
         this.next();
         var startPos = this.start, startLoc = this.startLoc;
-        var right = this.parseExprOp(this.parseMaybeUnary(null, false), startPos, startLoc, prec, noIn);
-        var node = this.buildBinary(leftStartPos, leftStartLoc, left, right, op, logical);
-        return this.parseExprOp(node, leftStartPos, leftStartLoc, minPrec, noIn)
+        var right = this.parseExprOp(this.parseMaybeUnary(null, false, false, forInit), startPos, startLoc, prec, forInit);
+        var node = this.buildBinary(leftStartPos, leftStartLoc, left, right, op, logical || coalesce);
+        if ((logical && this.type === types$1.coalesce) || (coalesce && (this.type === types$1.logicalOR || this.type === types$1.logicalAND))) {
+          this.raiseRecoverable(this.start, "Logical expressions and coalesce expressions cannot be mixed. Wrap either by parentheses");
+        }
+        return this.parseExprOp(node, leftStartPos, leftStartLoc, minPrec, forInit)
       }
     }
     return left
   };
 
-  pp$3.buildBinary = function(startPos, startLoc, left, right, op, logical) {
+  pp$5.buildBinary = function(startPos, startLoc, left, right, op, logical) {
+    if (right.type === "PrivateIdentifier") { this.raise(right.start, "Private identifier can only be left side of binary expression"); }
     var node = this.startNodeAt(startPos, startLoc);
     node.left = left;
     node.operator = op;
@@ -6898,85 +5856,130 @@ init_addon();
 
   // Parse unary operators, both prefix and postfix.
 
-  pp$3.parseMaybeUnary = function(refDestructuringErrors, sawUnary) {
+  pp$5.parseMaybeUnary = function(refDestructuringErrors, sawUnary, incDec, forInit) {
     var startPos = this.start, startLoc = this.startLoc, expr;
-    if (this.isContextual("await") && (this.inAsync || (!this.inFunction && this.options.allowAwaitOutsideFunction))) {
-      expr = this.parseAwait();
+    if (this.isContextual("await") && this.canAwait) {
+      expr = this.parseAwait(forInit);
       sawUnary = true;
     } else if (this.type.prefix) {
-      var node = this.startNode(), update = this.type === types.incDec;
+      var node = this.startNode(), update = this.type === types$1.incDec;
       node.operator = this.value;
       node.prefix = true;
       this.next();
-      node.argument = this.parseMaybeUnary(null, true);
+      node.argument = this.parseMaybeUnary(null, true, update, forInit);
       this.checkExpressionErrors(refDestructuringErrors, true);
-      if (update) { this.checkLVal(node.argument); }
+      if (update) { this.checkLValSimple(node.argument); }
       else if (this.strict && node.operator === "delete" &&
                node.argument.type === "Identifier")
         { this.raiseRecoverable(node.start, "Deleting local variable in strict mode"); }
+      else if (node.operator === "delete" && isPrivateFieldAccess(node.argument))
+        { this.raiseRecoverable(node.start, "Private fields can not be deleted"); }
       else { sawUnary = true; }
       expr = this.finishNode(node, update ? "UpdateExpression" : "UnaryExpression");
+    } else if (!sawUnary && this.type === types$1.privateId) {
+      if (forInit || this.privateNameStack.length === 0) { this.unexpected(); }
+      expr = this.parsePrivateIdent();
+      // only could be private fields in 'in', such as #x in obj
+      if (this.type !== types$1._in) { this.unexpected(); }
     } else {
-      expr = this.parseExprSubscripts(refDestructuringErrors);
+      expr = this.parseExprSubscripts(refDestructuringErrors, forInit);
       if (this.checkExpressionErrors(refDestructuringErrors)) { return expr }
       while (this.type.postfix && !this.canInsertSemicolon()) {
         var node$1 = this.startNodeAt(startPos, startLoc);
         node$1.operator = this.value;
         node$1.prefix = false;
         node$1.argument = expr;
-        this.checkLVal(expr);
+        this.checkLValSimple(expr);
         this.next();
         expr = this.finishNode(node$1, "UpdateExpression");
       }
     }
 
-    if (!sawUnary && this.eat(types.starstar))
-      { return this.buildBinary(startPos, startLoc, expr, this.parseMaybeUnary(null, false), "**", false) }
-    else
-      { return expr }
+    if (!incDec && this.eat(types$1.starstar)) {
+      if (sawUnary)
+        { this.unexpected(this.lastTokStart); }
+      else
+        { return this.buildBinary(startPos, startLoc, expr, this.parseMaybeUnary(null, false, false, forInit), "**", false) }
+    } else {
+      return expr
+    }
   };
+
+  function isPrivateFieldAccess(node) {
+    return (
+      node.type === "MemberExpression" && node.property.type === "PrivateIdentifier" ||
+      node.type === "ChainExpression" && isPrivateFieldAccess(node.expression)
+    )
+  }
 
   // Parse call, dot, and `[]`-subscript expressions.
 
-  pp$3.parseExprSubscripts = function(refDestructuringErrors) {
+  pp$5.parseExprSubscripts = function(refDestructuringErrors, forInit) {
     var startPos = this.start, startLoc = this.startLoc;
-    var expr = this.parseExprAtom(refDestructuringErrors);
+    var expr = this.parseExprAtom(refDestructuringErrors, forInit);
     if (expr.type === "ArrowFunctionExpression" && this.input.slice(this.lastTokStart, this.lastTokEnd) !== ")")
       { return expr }
-    var result = this.parseSubscripts(expr, startPos, startLoc);
+    var result = this.parseSubscripts(expr, startPos, startLoc, false, forInit);
     if (refDestructuringErrors && result.type === "MemberExpression") {
       if (refDestructuringErrors.parenthesizedAssign >= result.start) { refDestructuringErrors.parenthesizedAssign = -1; }
       if (refDestructuringErrors.parenthesizedBind >= result.start) { refDestructuringErrors.parenthesizedBind = -1; }
+      if (refDestructuringErrors.trailingComma >= result.start) { refDestructuringErrors.trailingComma = -1; }
     }
     return result
   };
 
-  pp$3.parseSubscripts = function(base, startPos, startLoc, noCalls) {
+  pp$5.parseSubscripts = function(base, startPos, startLoc, noCalls, forInit) {
     var maybeAsyncArrow = this.options.ecmaVersion >= 8 && base.type === "Identifier" && base.name === "async" &&
-        this.lastTokEnd === base.end && !this.canInsertSemicolon() && this.input.slice(base.start, base.end) === "async";
+        this.lastTokEnd === base.end && !this.canInsertSemicolon() && base.end - base.start === 5 &&
+        this.potentialArrowAt === base.start;
+    var optionalChained = false;
+
     while (true) {
-      var element = this.parseSubscript(base, startPos, startLoc, noCalls, maybeAsyncArrow);
-      if (element === base || element.type === "ArrowFunctionExpression") { return element }
+      var element = this.parseSubscript(base, startPos, startLoc, noCalls, maybeAsyncArrow, optionalChained, forInit);
+
+      if (element.optional) { optionalChained = true; }
+      if (element === base || element.type === "ArrowFunctionExpression") {
+        if (optionalChained) {
+          var chainNode = this.startNodeAt(startPos, startLoc);
+          chainNode.expression = element;
+          element = this.finishNode(chainNode, "ChainExpression");
+        }
+        return element
+      }
+
       base = element;
     }
   };
 
-  pp$3.parseSubscript = function(base, startPos, startLoc, noCalls, maybeAsyncArrow) {
-    var computed = this.eat(types.bracketL);
-    if (computed || this.eat(types.dot)) {
+  pp$5.parseSubscript = function(base, startPos, startLoc, noCalls, maybeAsyncArrow, optionalChained, forInit) {
+    var optionalSupported = this.options.ecmaVersion >= 11;
+    var optional = optionalSupported && this.eat(types$1.questionDot);
+    if (noCalls && optional) { this.raise(this.lastTokStart, "Optional chaining cannot appear in the callee of new expressions"); }
+
+    var computed = this.eat(types$1.bracketL);
+    if (computed || (optional && this.type !== types$1.parenL && this.type !== types$1.backQuote) || this.eat(types$1.dot)) {
       var node = this.startNodeAt(startPos, startLoc);
       node.object = base;
-      node.property = computed ? this.parseExpression() : this.parseIdent(this.options.allowReserved !== "never");
+      if (computed) {
+        node.property = this.parseExpression();
+        this.expect(types$1.bracketR);
+      } else if (this.type === types$1.privateId && base.type !== "Super") {
+        node.property = this.parsePrivateIdent();
+      } else {
+        node.property = this.parseIdent(this.options.allowReserved !== "never");
+      }
       node.computed = !!computed;
-      if (computed) { this.expect(types.bracketR); }
+      if (optionalSupported) {
+        node.optional = optional;
+      }
       base = this.finishNode(node, "MemberExpression");
-    } else if (!noCalls && this.eat(types.parenL)) {
+    } else if (!noCalls && this.eat(types$1.parenL)) {
       var refDestructuringErrors = new DestructuringErrors, oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
       this.yieldPos = 0;
       this.awaitPos = 0;
       this.awaitIdentPos = 0;
-      var exprList = this.parseExprList(types.parenR, this.options.ecmaVersion >= 8, false, refDestructuringErrors);
-      if (maybeAsyncArrow && !this.canInsertSemicolon() && this.eat(types.arrow)) {
+      var exprList = this.parseExprList(types$1.parenR, this.options.ecmaVersion >= 8, false, refDestructuringErrors);
+      if (maybeAsyncArrow && !optional && !this.canInsertSemicolon() && this.eat(types$1.arrow)) {
         this.checkPatternErrors(refDestructuringErrors, false);
         this.checkYieldAwaitInDefaultParams();
         if (this.awaitIdentPos > 0)
@@ -6984,7 +5987,7 @@ init_addon();
         this.yieldPos = oldYieldPos;
         this.awaitPos = oldAwaitPos;
         this.awaitIdentPos = oldAwaitIdentPos;
-        return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), exprList, true)
+        return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), exprList, true, forInit)
       }
       this.checkExpressionErrors(refDestructuringErrors, true);
       this.yieldPos = oldYieldPos || this.yieldPos;
@@ -6993,8 +5996,14 @@ init_addon();
       var node$1 = this.startNodeAt(startPos, startLoc);
       node$1.callee = base;
       node$1.arguments = exprList;
+      if (optionalSupported) {
+        node$1.optional = optional;
+      }
       base = this.finishNode(node$1, "CallExpression");
-    } else if (this.type === types.backQuote) {
+    } else if (this.type === types$1.backQuote) {
+      if (optional || optionalChained) {
+        this.raise(this.start, "Optional chaining cannot appear in the tag of tagged template expressions");
+      }
       var node$2 = this.startNodeAt(startPos, startLoc);
       node$2.tag = base;
       node$2.quasi = this.parseTemplate({isTagged: true});
@@ -7008,19 +6017,19 @@ init_addon();
   // `new`, or an expression wrapped in punctuation like `()`, `[]`,
   // or `{}`.
 
-  pp$3.parseExprAtom = function(refDestructuringErrors) {
+  pp$5.parseExprAtom = function(refDestructuringErrors, forInit) {
     // If a division operator appears in an expression position, the
     // tokenizer got confused, and we force it to read a regexp instead.
-    if (this.type === types.slash) { this.readRegexp(); }
+    if (this.type === types$1.slash) { this.readRegexp(); }
 
     var node, canBeArrow = this.potentialArrowAt === this.start;
     switch (this.type) {
-    case types._super:
+    case types$1._super:
       if (!this.allowSuper)
         { this.raise(this.start, "'super' keyword outside a method"); }
       node = this.startNode();
       this.next();
-      if (this.type === types.parenL && !this.allowDirectSuper)
+      if (this.type === types$1.parenL && !this.allowDirectSuper)
         { this.raise(node.start, "super() call outside constructor of a subclass"); }
       // The `super` keyword can appear at below:
       // SuperProperty:
@@ -7028,50 +6037,53 @@ init_addon();
       //     super . IdentifierName
       // SuperCall:
       //     super ( Arguments )
-      if (this.type !== types.dot && this.type !== types.bracketL && this.type !== types.parenL)
+      if (this.type !== types$1.dot && this.type !== types$1.bracketL && this.type !== types$1.parenL)
         { this.unexpected(); }
       return this.finishNode(node, "Super")
 
-    case types._this:
+    case types$1._this:
       node = this.startNode();
       this.next();
       return this.finishNode(node, "ThisExpression")
 
-    case types.name:
+    case types$1.name:
       var startPos = this.start, startLoc = this.startLoc, containsEsc = this.containsEsc;
       var id = this.parseIdent(false);
-      if (this.options.ecmaVersion >= 8 && !containsEsc && id.name === "async" && !this.canInsertSemicolon() && this.eat(types._function))
-        { return this.parseFunction(this.startNodeAt(startPos, startLoc), 0, false, true) }
+      if (this.options.ecmaVersion >= 8 && !containsEsc && id.name === "async" && !this.canInsertSemicolon() && this.eat(types$1._function)) {
+        this.overrideContext(types.f_expr);
+        return this.parseFunction(this.startNodeAt(startPos, startLoc), 0, false, true, forInit)
+      }
       if (canBeArrow && !this.canInsertSemicolon()) {
-        if (this.eat(types.arrow))
-          { return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), [id], false) }
-        if (this.options.ecmaVersion >= 8 && id.name === "async" && this.type === types.name && !containsEsc) {
+        if (this.eat(types$1.arrow))
+          { return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), [id], false, forInit) }
+        if (this.options.ecmaVersion >= 8 && id.name === "async" && this.type === types$1.name && !containsEsc &&
+            (!this.potentialArrowInForAwait || this.value !== "of" || this.containsEsc)) {
           id = this.parseIdent(false);
-          if (this.canInsertSemicolon() || !this.eat(types.arrow))
+          if (this.canInsertSemicolon() || !this.eat(types$1.arrow))
             { this.unexpected(); }
-          return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), [id], true)
+          return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), [id], true, forInit)
         }
       }
       return id
 
-    case types.regexp:
+    case types$1.regexp:
       var value = this.value;
       node = this.parseLiteral(value.value);
       node.regex = {pattern: value.pattern, flags: value.flags};
       return node
 
-    case types.num: case types.string:
+    case types$1.num: case types$1.string:
       return this.parseLiteral(this.value)
 
-    case types._null: case types._true: case types._false:
+    case types$1._null: case types$1._true: case types$1._false:
       node = this.startNode();
-      node.value = this.type === types._null ? null : this.type === types._true;
+      node.value = this.type === types$1._null ? null : this.type === types$1._true;
       node.raw = this.type.keyword;
       this.next();
       return this.finishNode(node, "Literal")
 
-    case types.parenL:
-      var start = this.start, expr = this.parseParenAndDistinguishExpression(canBeArrow);
+    case types$1.parenL:
+      var start = this.start, expr = this.parseParenAndDistinguishExpression(canBeArrow, forInit);
       if (refDestructuringErrors) {
         if (refDestructuringErrors.parenthesizedAssign < 0 && !this.isSimpleAssignTarget(expr))
           { refDestructuringErrors.parenthesizedAssign = start; }
@@ -7080,30 +6092,31 @@ init_addon();
       }
       return expr
 
-    case types.bracketL:
+    case types$1.bracketL:
       node = this.startNode();
       this.next();
-      node.elements = this.parseExprList(types.bracketR, true, true, refDestructuringErrors);
+      node.elements = this.parseExprList(types$1.bracketR, true, true, refDestructuringErrors);
       return this.finishNode(node, "ArrayExpression")
 
-    case types.braceL:
+    case types$1.braceL:
+      this.overrideContext(types.b_expr);
       return this.parseObj(false, refDestructuringErrors)
 
-    case types._function:
+    case types$1._function:
       node = this.startNode();
       this.next();
       return this.parseFunction(node, 0)
 
-    case types._class:
+    case types$1._class:
       return this.parseClass(this.startNode(), false)
 
-    case types._new:
+    case types$1._new:
       return this.parseNew()
 
-    case types.backQuote:
+    case types$1.backQuote:
       return this.parseTemplate()
 
-    case types._import:
+    case types$1._import:
       if (this.options.ecmaVersion >= 11) {
         return this.parseExprImport()
       } else {
@@ -7115,27 +6128,35 @@ init_addon();
     }
   };
 
-  pp$3.parseExprImport = function() {
+  pp$5.parseExprImport = function() {
     var node = this.startNode();
-    this.next(); // skip `import`
+
+    // Consume `import` as an identifier for `import.meta`.
+    // Because `this.parseIdent(true)` doesn't check escape sequences, it needs the check of `this.containsEsc`.
+    if (this.containsEsc) { this.raiseRecoverable(this.start, "Escape sequence in keyword import"); }
+    var meta = this.parseIdent(true);
+
     switch (this.type) {
-    case types.parenL:
+    case types$1.parenL:
       return this.parseDynamicImport(node)
+    case types$1.dot:
+      node.meta = meta;
+      return this.parseImportMeta(node)
     default:
       this.unexpected();
     }
   };
 
-  pp$3.parseDynamicImport = function(node) {
+  pp$5.parseDynamicImport = function(node) {
     this.next(); // skip `(`
 
     // Parse node.source.
     node.source = this.parseMaybeAssign();
 
     // Verify ending.
-    if (!this.eat(types.parenR)) {
+    if (!this.eat(types$1.parenR)) {
       var errorPos = this.start;
-      if (this.eat(types.comma) && this.eat(types.parenR)) {
+      if (this.eat(types$1.comma) && this.eat(types$1.parenR)) {
         this.raiseRecoverable(errorPos, "Trailing comma is not allowed in import()");
       } else {
         this.unexpected(errorPos);
@@ -7145,23 +6166,39 @@ init_addon();
     return this.finishNode(node, "ImportExpression")
   };
 
-  pp$3.parseLiteral = function(value) {
+  pp$5.parseImportMeta = function(node) {
+    this.next(); // skip `.`
+
+    var containsEsc = this.containsEsc;
+    node.property = this.parseIdent(true);
+
+    if (node.property.name !== "meta")
+      { this.raiseRecoverable(node.property.start, "The only valid meta property for import is 'import.meta'"); }
+    if (containsEsc)
+      { this.raiseRecoverable(node.start, "'import.meta' must not contain escaped characters"); }
+    if (this.options.sourceType !== "module" && !this.options.allowImportExportEverywhere)
+      { this.raiseRecoverable(node.start, "Cannot use 'import.meta' outside a module"); }
+
+    return this.finishNode(node, "MetaProperty")
+  };
+
+  pp$5.parseLiteral = function(value) {
     var node = this.startNode();
     node.value = value;
     node.raw = this.input.slice(this.start, this.end);
-    if (node.raw.charCodeAt(node.raw.length - 1) === 110) { node.bigint = node.raw.slice(0, -1); }
+    if (node.raw.charCodeAt(node.raw.length - 1) === 110) { node.bigint = node.raw.slice(0, -1).replace(/_/g, ""); }
     this.next();
     return this.finishNode(node, "Literal")
   };
 
-  pp$3.parseParenExpression = function() {
-    this.expect(types.parenL);
+  pp$5.parseParenExpression = function() {
+    this.expect(types$1.parenL);
     var val = this.parseExpression();
-    this.expect(types.parenR);
+    this.expect(types$1.parenR);
     return val
   };
 
-  pp$3.parseParenAndDistinguishExpression = function(canBeArrow) {
+  pp$5.parseParenAndDistinguishExpression = function(canBeArrow, forInit) {
     var startPos = this.start, startLoc = this.startLoc, val, allowTrailingComma = this.options.ecmaVersion >= 8;
     if (this.options.ecmaVersion >= 6) {
       this.next();
@@ -7172,29 +6209,29 @@ init_addon();
       this.yieldPos = 0;
       this.awaitPos = 0;
       // Do not save awaitIdentPos to allow checking awaits nested in parameters
-      while (this.type !== types.parenR) {
-        first ? first = false : this.expect(types.comma);
-        if (allowTrailingComma && this.afterTrailingComma(types.parenR, true)) {
+      while (this.type !== types$1.parenR) {
+        first ? first = false : this.expect(types$1.comma);
+        if (allowTrailingComma && this.afterTrailingComma(types$1.parenR, true)) {
           lastIsComma = true;
           break
-        } else if (this.type === types.ellipsis) {
+        } else if (this.type === types$1.ellipsis) {
           spreadStart = this.start;
           exprList.push(this.parseParenItem(this.parseRestBinding()));
-          if (this.type === types.comma) { this.raise(this.start, "Comma is not permitted after the rest element"); }
+          if (this.type === types$1.comma) { this.raise(this.start, "Comma is not permitted after the rest element"); }
           break
         } else {
           exprList.push(this.parseMaybeAssign(false, refDestructuringErrors, this.parseParenItem));
         }
       }
-      var innerEndPos = this.start, innerEndLoc = this.startLoc;
-      this.expect(types.parenR);
+      var innerEndPos = this.lastTokEnd, innerEndLoc = this.lastTokEndLoc;
+      this.expect(types$1.parenR);
 
-      if (canBeArrow && !this.canInsertSemicolon() && this.eat(types.arrow)) {
+      if (canBeArrow && !this.canInsertSemicolon() && this.eat(types$1.arrow)) {
         this.checkPatternErrors(refDestructuringErrors, false);
         this.checkYieldAwaitInDefaultParams();
         this.yieldPos = oldYieldPos;
         this.awaitPos = oldAwaitPos;
-        return this.parseParenArrowList(startPos, startLoc, exprList)
+        return this.parseParenArrowList(startPos, startLoc, exprList, forInit)
       }
 
       if (!exprList.length || lastIsComma) { this.unexpected(this.lastTokStart); }
@@ -7223,12 +6260,12 @@ init_addon();
     }
   };
 
-  pp$3.parseParenItem = function(item) {
+  pp$5.parseParenItem = function(item) {
     return item
   };
 
-  pp$3.parseParenArrowList = function(startPos, startLoc, exprList) {
-    return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), exprList)
+  pp$5.parseParenArrowList = function(startPos, startLoc, exprList, forInit) {
+    return this.parseArrowExpression(this.startNodeAt(startPos, startLoc), exprList, false, forInit)
   };
 
   // New's precedence is slightly tricky. It must allow its argument to
@@ -7237,39 +6274,41 @@ init_addon();
   // argument to parseSubscripts to prevent it from consuming the
   // argument list.
 
-  var empty$1 = [];
+  var empty = [];
 
-  pp$3.parseNew = function() {
+  pp$5.parseNew = function() {
     if (this.containsEsc) { this.raiseRecoverable(this.start, "Escape sequence in keyword new"); }
     var node = this.startNode();
     var meta = this.parseIdent(true);
-    if (this.options.ecmaVersion >= 6 && this.eat(types.dot)) {
+    if (this.options.ecmaVersion >= 6 && this.eat(types$1.dot)) {
       node.meta = meta;
       var containsEsc = this.containsEsc;
       node.property = this.parseIdent(true);
-      if (node.property.name !== "target" || containsEsc)
-        { this.raiseRecoverable(node.property.start, "The only valid meta property for new is new.target"); }
-      if (!this.inNonArrowFunction())
-        { this.raiseRecoverable(node.start, "new.target can only be used in functions"); }
+      if (node.property.name !== "target")
+        { this.raiseRecoverable(node.property.start, "The only valid meta property for new is 'new.target'"); }
+      if (containsEsc)
+        { this.raiseRecoverable(node.start, "'new.target' must not contain escaped characters"); }
+      if (!this.allowNewDotTarget)
+        { this.raiseRecoverable(node.start, "'new.target' can only be used in functions and class static block"); }
       return this.finishNode(node, "MetaProperty")
     }
-    var startPos = this.start, startLoc = this.startLoc, isImport = this.type === types._import;
-    node.callee = this.parseSubscripts(this.parseExprAtom(), startPos, startLoc, true);
+    var startPos = this.start, startLoc = this.startLoc, isImport = this.type === types$1._import;
+    node.callee = this.parseSubscripts(this.parseExprAtom(), startPos, startLoc, true, false);
     if (isImport && node.callee.type === "ImportExpression") {
       this.raise(startPos, "Cannot use new with import()");
     }
-    if (this.eat(types.parenL)) { node.arguments = this.parseExprList(types.parenR, this.options.ecmaVersion >= 8, false); }
-    else { node.arguments = empty$1; }
+    if (this.eat(types$1.parenL)) { node.arguments = this.parseExprList(types$1.parenR, this.options.ecmaVersion >= 8, false); }
+    else { node.arguments = empty; }
     return this.finishNode(node, "NewExpression")
   };
 
   // Parse template expression.
 
-  pp$3.parseTemplateElement = function(ref) {
+  pp$5.parseTemplateElement = function(ref) {
     var isTagged = ref.isTagged;
 
     var elem = this.startNode();
-    if (this.type === types.invalidTemplate) {
+    if (this.type === types$1.invalidTemplate) {
       if (!isTagged) {
         this.raiseRecoverable(this.start, "Bad escape sequence in untagged template literal");
       }
@@ -7284,11 +6323,11 @@ init_addon();
       };
     }
     this.next();
-    elem.tail = this.type === types.backQuote;
+    elem.tail = this.type === types$1.backQuote;
     return this.finishNode(elem, "TemplateElement")
   };
 
-  pp$3.parseTemplate = function(ref) {
+  pp$5.parseTemplate = function(ref) {
     if ( ref === void 0 ) ref = {};
     var isTagged = ref.isTagged; if ( isTagged === void 0 ) isTagged = false;
 
@@ -7298,32 +6337,32 @@ init_addon();
     var curElt = this.parseTemplateElement({isTagged: isTagged});
     node.quasis = [curElt];
     while (!curElt.tail) {
-      if (this.type === types.eof) { this.raise(this.pos, "Unterminated template literal"); }
-      this.expect(types.dollarBraceL);
+      if (this.type === types$1.eof) { this.raise(this.pos, "Unterminated template literal"); }
+      this.expect(types$1.dollarBraceL);
       node.expressions.push(this.parseExpression());
-      this.expect(types.braceR);
+      this.expect(types$1.braceR);
       node.quasis.push(curElt = this.parseTemplateElement({isTagged: isTagged}));
     }
     this.next();
     return this.finishNode(node, "TemplateLiteral")
   };
 
-  pp$3.isAsyncProp = function(prop) {
+  pp$5.isAsyncProp = function(prop) {
     return !prop.computed && prop.key.type === "Identifier" && prop.key.name === "async" &&
-      (this.type === types.name || this.type === types.num || this.type === types.string || this.type === types.bracketL || this.type.keyword || (this.options.ecmaVersion >= 9 && this.type === types.star)) &&
+      (this.type === types$1.name || this.type === types$1.num || this.type === types$1.string || this.type === types$1.bracketL || this.type.keyword || (this.options.ecmaVersion >= 9 && this.type === types$1.star)) &&
       !lineBreak.test(this.input.slice(this.lastTokEnd, this.start))
   };
 
   // Parse an object literal or binding pattern.
 
-  pp$3.parseObj = function(isPattern, refDestructuringErrors) {
+  pp$5.parseObj = function(isPattern, refDestructuringErrors) {
     var node = this.startNode(), first = true, propHash = {};
     node.properties = [];
     this.next();
-    while (!this.eat(types.braceR)) {
+    while (!this.eat(types$1.braceR)) {
       if (!first) {
-        this.expect(types.comma);
-        if (this.options.ecmaVersion >= 5 && this.afterTrailingComma(types.braceR)) { break }
+        this.expect(types$1.comma);
+        if (this.options.ecmaVersion >= 5 && this.afterTrailingComma(types$1.braceR)) { break }
       } else { first = false; }
 
       var prop = this.parseProperty(isPattern, refDestructuringErrors);
@@ -7333,18 +6372,18 @@ init_addon();
     return this.finishNode(node, isPattern ? "ObjectPattern" : "ObjectExpression")
   };
 
-  pp$3.parseProperty = function(isPattern, refDestructuringErrors) {
+  pp$5.parseProperty = function(isPattern, refDestructuringErrors) {
     var prop = this.startNode(), isGenerator, isAsync, startPos, startLoc;
-    if (this.options.ecmaVersion >= 9 && this.eat(types.ellipsis)) {
+    if (this.options.ecmaVersion >= 9 && this.eat(types$1.ellipsis)) {
       if (isPattern) {
         prop.argument = this.parseIdent(false);
-        if (this.type === types.comma) {
+        if (this.type === types$1.comma) {
           this.raise(this.start, "Comma is not permitted after the rest element");
         }
         return this.finishNode(prop, "RestElement")
       }
       // To disallow parenthesized identifier via `this.toAssignable()`.
-      if (this.type === types.parenL && refDestructuringErrors) {
+      if (this.type === types$1.parenL && refDestructuringErrors) {
         if (refDestructuringErrors.parenthesizedAssign < 0) {
           refDestructuringErrors.parenthesizedAssign = this.start;
         }
@@ -7355,7 +6394,7 @@ init_addon();
       // Parse argument.
       prop.argument = this.parseMaybeAssign(false, refDestructuringErrors);
       // To disallow trailing comma via `this.toAssignable()`.
-      if (this.type === types.comma && refDestructuringErrors && refDestructuringErrors.trailingComma < 0) {
+      if (this.type === types$1.comma && refDestructuringErrors && refDestructuringErrors.trailingComma < 0) {
         refDestructuringErrors.trailingComma = this.start;
       }
       // Finish
@@ -7369,13 +6408,13 @@ init_addon();
         startLoc = this.startLoc;
       }
       if (!isPattern)
-        { isGenerator = this.eat(types.star); }
+        { isGenerator = this.eat(types$1.star); }
     }
     var containsEsc = this.containsEsc;
     this.parsePropertyName(prop);
     if (!isPattern && !containsEsc && this.options.ecmaVersion >= 8 && !isGenerator && this.isAsyncProp(prop)) {
       isAsync = true;
-      isGenerator = this.options.ecmaVersion >= 9 && this.eat(types.star);
+      isGenerator = this.options.ecmaVersion >= 9 && this.eat(types$1.star);
       this.parsePropertyName(prop, refDestructuringErrors);
     } else {
       isAsync = false;
@@ -7384,14 +6423,14 @@ init_addon();
     return this.finishNode(prop, "Property")
   };
 
-  pp$3.parsePropertyValue = function(prop, isPattern, isGenerator, isAsync, startPos, startLoc, refDestructuringErrors, containsEsc) {
-    if ((isGenerator || isAsync) && this.type === types.colon)
+  pp$5.parsePropertyValue = function(prop, isPattern, isGenerator, isAsync, startPos, startLoc, refDestructuringErrors, containsEsc) {
+    if ((isGenerator || isAsync) && this.type === types$1.colon)
       { this.unexpected(); }
 
-    if (this.eat(types.colon)) {
+    if (this.eat(types$1.colon)) {
       prop.value = isPattern ? this.parseMaybeDefault(this.start, this.startLoc) : this.parseMaybeAssign(false, refDestructuringErrors);
       prop.kind = "init";
-    } else if (this.options.ecmaVersion >= 6 && this.type === types.parenL) {
+    } else if (this.options.ecmaVersion >= 6 && this.type === types$1.parenL) {
       if (isPattern) { this.unexpected(); }
       prop.kind = "init";
       prop.method = true;
@@ -7399,7 +6438,7 @@ init_addon();
     } else if (!isPattern && !containsEsc &&
                this.options.ecmaVersion >= 5 && !prop.computed && prop.key.type === "Identifier" &&
                (prop.key.name === "get" || prop.key.name === "set") &&
-               (this.type !== types.comma && this.type !== types.braceR)) {
+               (this.type !== types$1.comma && this.type !== types$1.braceR && this.type !== types$1.eq)) {
       if (isGenerator || isAsync) { this.unexpected(); }
       prop.kind = prop.key.name;
       this.parsePropertyName(prop);
@@ -7422,35 +6461,35 @@ init_addon();
         { this.awaitIdentPos = startPos; }
       prop.kind = "init";
       if (isPattern) {
-        prop.value = this.parseMaybeDefault(startPos, startLoc, prop.key);
-      } else if (this.type === types.eq && refDestructuringErrors) {
+        prop.value = this.parseMaybeDefault(startPos, startLoc, this.copyNode(prop.key));
+      } else if (this.type === types$1.eq && refDestructuringErrors) {
         if (refDestructuringErrors.shorthandAssign < 0)
           { refDestructuringErrors.shorthandAssign = this.start; }
-        prop.value = this.parseMaybeDefault(startPos, startLoc, prop.key);
+        prop.value = this.parseMaybeDefault(startPos, startLoc, this.copyNode(prop.key));
       } else {
-        prop.value = prop.key;
+        prop.value = this.copyNode(prop.key);
       }
       prop.shorthand = true;
     } else { this.unexpected(); }
   };
 
-  pp$3.parsePropertyName = function(prop) {
+  pp$5.parsePropertyName = function(prop) {
     if (this.options.ecmaVersion >= 6) {
-      if (this.eat(types.bracketL)) {
+      if (this.eat(types$1.bracketL)) {
         prop.computed = true;
         prop.key = this.parseMaybeAssign();
-        this.expect(types.bracketR);
+        this.expect(types$1.bracketR);
         return prop.key
       } else {
         prop.computed = false;
       }
     }
-    return prop.key = this.type === types.num || this.type === types.string ? this.parseExprAtom() : this.parseIdent(this.options.allowReserved !== "never")
+    return prop.key = this.type === types$1.num || this.type === types$1.string ? this.parseExprAtom() : this.parseIdent(this.options.allowReserved !== "never")
   };
 
   // Initialize empty function node.
 
-  pp$3.initFunction = function(node) {
+  pp$5.initFunction = function(node) {
     node.id = null;
     if (this.options.ecmaVersion >= 6) { node.generator = node.expression = false; }
     if (this.options.ecmaVersion >= 8) { node.async = false; }
@@ -7458,7 +6497,7 @@ init_addon();
 
   // Parse object or class method.
 
-  pp$3.parseMethod = function(isGenerator, isAsync, allowDirectSuper) {
+  pp$5.parseMethod = function(isGenerator, isAsync, allowDirectSuper) {
     var node = this.startNode(), oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
 
     this.initFunction(node);
@@ -7472,10 +6511,10 @@ init_addon();
     this.awaitIdentPos = 0;
     this.enterScope(functionFlags(isAsync, node.generator) | SCOPE_SUPER | (allowDirectSuper ? SCOPE_DIRECT_SUPER : 0));
 
-    this.expect(types.parenL);
-    node.params = this.parseBindingList(types.parenR, false, this.options.ecmaVersion >= 8);
+    this.expect(types$1.parenL);
+    node.params = this.parseBindingList(types$1.parenR, false, this.options.ecmaVersion >= 8);
     this.checkYieldAwaitInDefaultParams();
-    this.parseFunctionBody(node, false, true);
+    this.parseFunctionBody(node, false, true, false);
 
     this.yieldPos = oldYieldPos;
     this.awaitPos = oldAwaitPos;
@@ -7485,7 +6524,7 @@ init_addon();
 
   // Parse arrow function expression with given parameters.
 
-  pp$3.parseArrowExpression = function(node, params, isAsync) {
+  pp$5.parseArrowExpression = function(node, params, isAsync, forInit) {
     var oldYieldPos = this.yieldPos, oldAwaitPos = this.awaitPos, oldAwaitIdentPos = this.awaitIdentPos;
 
     this.enterScope(functionFlags(isAsync, false) | SCOPE_ARROW);
@@ -7497,7 +6536,7 @@ init_addon();
     this.awaitIdentPos = 0;
 
     node.params = this.toAssignableList(params, true);
-    this.parseFunctionBody(node, true, false);
+    this.parseFunctionBody(node, true, false, forInit);
 
     this.yieldPos = oldYieldPos;
     this.awaitPos = oldAwaitPos;
@@ -7507,12 +6546,12 @@ init_addon();
 
   // Parse function body and check parameters.
 
-  pp$3.parseFunctionBody = function(node, isArrowFunction, isMethod) {
-    var isExpression = isArrowFunction && this.type !== types.braceL;
+  pp$5.parseFunctionBody = function(node, isArrowFunction, isMethod, forInit) {
+    var isExpression = isArrowFunction && this.type !== types$1.braceL;
     var oldStrict = this.strict, useStrict = false;
 
     if (isExpression) {
-      node.body = this.parseMaybeAssign();
+      node.body = this.parseMaybeAssign(forInit);
       node.expression = true;
       this.checkParams(node, false);
     } else {
@@ -7534,19 +6573,17 @@ init_addon();
       // Add the params to varDeclaredNames to ensure that an error is thrown
       // if a let/const declaration in the function clashes with one of the params.
       this.checkParams(node, !oldStrict && !useStrict && !isArrowFunction && !isMethod && this.isSimpleParamList(node.params));
-      node.body = this.parseBlock(false);
+      // Ensure the function name isn't a forbidden identifier in strict mode, e.g. 'eval'
+      if (this.strict && node.id) { this.checkLValSimple(node.id, BIND_OUTSIDE); }
+      node.body = this.parseBlock(false, undefined, useStrict && !oldStrict);
       node.expression = false;
       this.adaptDirectivePrologue(node.body.body);
       this.labels = oldLabels;
     }
     this.exitScope();
-
-    // Ensure the function name isn't a forbidden identifier in strict mode, e.g. 'eval'
-    if (this.strict && node.id) { this.checkLVal(node.id, BIND_OUTSIDE); }
-    this.strict = oldStrict;
   };
 
-  pp$3.isSimpleParamList = function(params) {
+  pp$5.isSimpleParamList = function(params) {
     for (var i = 0, list = params; i < list.length; i += 1)
       {
       var param = list[i];
@@ -7559,13 +6596,13 @@ init_addon();
   // Checks function params for various disallowed patterns such as using "eval"
   // or "arguments" and duplicate parameters.
 
-  pp$3.checkParams = function(node, allowDuplicates) {
-    var nameHash = {};
+  pp$5.checkParams = function(node, allowDuplicates) {
+    var nameHash = Object.create(null);
     for (var i = 0, list = node.params; i < list.length; i += 1)
       {
       var param = list[i];
 
-      this.checkLVal(param, BIND_VAR, allowDuplicates ? null : nameHash);
+      this.checkLValInnerPattern(param, BIND_VAR, allowDuplicates ? null : nameHash);
     }
   };
 
@@ -7575,20 +6612,20 @@ init_addon();
   // nothing in between them to be parsed as `null` (which is needed
   // for array literals).
 
-  pp$3.parseExprList = function(close, allowTrailingComma, allowEmpty, refDestructuringErrors) {
+  pp$5.parseExprList = function(close, allowTrailingComma, allowEmpty, refDestructuringErrors) {
     var elts = [], first = true;
     while (!this.eat(close)) {
       if (!first) {
-        this.expect(types.comma);
+        this.expect(types$1.comma);
         if (allowTrailingComma && this.afterTrailingComma(close)) { break }
       } else { first = false; }
 
       var elt = (void 0);
-      if (allowEmpty && this.type === types.comma)
+      if (allowEmpty && this.type === types$1.comma)
         { elt = null; }
-      else if (this.type === types.ellipsis) {
+      else if (this.type === types$1.ellipsis) {
         elt = this.parseSpread(refDestructuringErrors);
-        if (refDestructuringErrors && this.type === types.comma && refDestructuringErrors.trailingComma < 0)
+        if (refDestructuringErrors && this.type === types$1.comma && refDestructuringErrors.trailingComma < 0)
           { refDestructuringErrors.trailingComma = this.start; }
       } else {
         elt = this.parseMaybeAssign(false, refDestructuringErrors);
@@ -7598,7 +6635,7 @@ init_addon();
     return elts
   };
 
-  pp$3.checkUnreserved = function(ref) {
+  pp$5.checkUnreserved = function(ref) {
     var start = ref.start;
     var end = ref.end;
     var name = ref.name;
@@ -7607,6 +6644,10 @@ init_addon();
       { this.raiseRecoverable(start, "Cannot use 'yield' as identifier inside a generator"); }
     if (this.inAsync && name === "await")
       { this.raiseRecoverable(start, "Cannot use 'await' as identifier inside an async function"); }
+    if (this.currentThisScope().inClassFieldInit && name === "arguments")
+      { this.raiseRecoverable(start, "Cannot use 'arguments' in class field initializer"); }
+    if (this.inClassStaticBlock && (name === "arguments" || name === "await"))
+      { this.raise(start, ("Cannot use " + name + " in class static initialization block")); }
     if (this.keywords.test(name))
       { this.raise(start, ("Unexpected keyword '" + name + "'")); }
     if (this.options.ecmaVersion < 6 &&
@@ -7623,9 +6664,9 @@ init_addon();
   // when parsing properties), it will also convert keywords into
   // identifiers.
 
-  pp$3.parseIdent = function(liberal, isBinding) {
+  pp$5.parseIdent = function(liberal, isBinding) {
     var node = this.startNode();
-    if (this.type === types.name) {
+    if (this.type === types$1.name) {
       node.name = this.value;
     } else if (this.type.keyword) {
       node.name = this.type.keyword;
@@ -7651,29 +6692,49 @@ init_addon();
     return node
   };
 
+  pp$5.parsePrivateIdent = function() {
+    var node = this.startNode();
+    if (this.type === types$1.privateId) {
+      node.name = this.value;
+    } else {
+      this.unexpected();
+    }
+    this.next();
+    this.finishNode(node, "PrivateIdentifier");
+
+    // For validating existence
+    if (this.privateNameStack.length === 0) {
+      this.raise(node.start, ("Private field '#" + (node.name) + "' must be declared in an enclosing class"));
+    } else {
+      this.privateNameStack[this.privateNameStack.length - 1].used.push(node);
+    }
+
+    return node
+  };
+
   // Parses yield expression inside generator.
 
-  pp$3.parseYield = function(noIn) {
+  pp$5.parseYield = function(forInit) {
     if (!this.yieldPos) { this.yieldPos = this.start; }
 
     var node = this.startNode();
     this.next();
-    if (this.type === types.semi || this.canInsertSemicolon() || (this.type !== types.star && !this.type.startsExpr)) {
+    if (this.type === types$1.semi || this.canInsertSemicolon() || (this.type !== types$1.star && !this.type.startsExpr)) {
       node.delegate = false;
       node.argument = null;
     } else {
-      node.delegate = this.eat(types.star);
-      node.argument = this.parseMaybeAssign(noIn);
+      node.delegate = this.eat(types$1.star);
+      node.argument = this.parseMaybeAssign(forInit);
     }
     return this.finishNode(node, "YieldExpression")
   };
 
-  pp$3.parseAwait = function() {
+  pp$5.parseAwait = function(forInit) {
     if (!this.awaitPos) { this.awaitPos = this.start; }
 
     var node = this.startNode();
     this.next();
-    node.argument = this.parseMaybeUnary(null, false);
+    node.argument = this.parseMaybeUnary(null, true, false, forInit);
     return this.finishNode(node, "AwaitExpression")
   };
 
@@ -7701,7 +6762,7 @@ init_addon();
     }
   };
 
-  var pp$5 = Parser.prototype;
+  var pp$3 = Parser.prototype;
 
   var Scope = function Scope(flags) {
     this.flags = flags;
@@ -7711,26 +6772,28 @@ init_addon();
     this.lexical = [];
     // A list of lexically-declared FunctionDeclaration names in the current lexical scope
     this.functions = [];
+    // A switch to disallow the identifier reference 'arguments'
+    this.inClassFieldInit = false;
   };
 
   // The functions in this module keep track of declared variables in the current scope in order to detect duplicate variable names.
 
-  pp$5.enterScope = function(flags) {
+  pp$3.enterScope = function(flags) {
     this.scopeStack.push(new Scope(flags));
   };
 
-  pp$5.exitScope = function() {
+  pp$3.exitScope = function() {
     this.scopeStack.pop();
   };
 
   // The spec says:
   // > At the top level of a function, or script, function declarations are
   // > treated like var declarations rather than like lexical declarations.
-  pp$5.treatFunctionsAsVarInScope = function(scope) {
+  pp$3.treatFunctionsAsVarInScope = function(scope) {
     return (scope.flags & SCOPE_FUNCTION) || !this.inModule && (scope.flags & SCOPE_TOP)
   };
 
-  pp$5.declareName = function(name, bindingType, pos) {
+  pp$3.declareName = function(name, bindingType, pos) {
     var redeclared = false;
     if (bindingType === BIND_LEXICAL) {
       var scope = this.currentScope();
@@ -7765,7 +6828,7 @@ init_addon();
     if (redeclared) { this.raiseRecoverable(pos, ("Identifier '" + name + "' has already been declared")); }
   };
 
-  pp$5.checkLocalExport = function(id) {
+  pp$3.checkLocalExport = function(id) {
     // scope.functions must be empty as Module code is always strict.
     if (this.scopeStack[0].lexical.indexOf(id.name) === -1 &&
         this.scopeStack[0].var.indexOf(id.name) === -1) {
@@ -7773,11 +6836,11 @@ init_addon();
     }
   };
 
-  pp$5.currentScope = function() {
+  pp$3.currentScope = function() {
     return this.scopeStack[this.scopeStack.length - 1]
   };
 
-  pp$5.currentVarScope = function() {
+  pp$3.currentVarScope = function() {
     for (var i = this.scopeStack.length - 1;; i--) {
       var scope = this.scopeStack[i];
       if (scope.flags & SCOPE_VAR) { return scope }
@@ -7785,7 +6848,7 @@ init_addon();
   };
 
   // Could be useful for `this`, `new.target`, `super()`, `super.property`, and `super[property]`.
-  pp$5.currentThisScope = function() {
+  pp$3.currentThisScope = function() {
     for (var i = this.scopeStack.length - 1;; i--) {
       var scope = this.scopeStack[i];
       if (scope.flags & SCOPE_VAR && !(scope.flags & SCOPE_ARROW)) { return scope }
@@ -7806,13 +6869,13 @@ init_addon();
 
   // Start an AST node, attaching a start offset.
 
-  var pp$6 = Parser.prototype;
+  var pp$2 = Parser.prototype;
 
-  pp$6.startNode = function() {
+  pp$2.startNode = function() {
     return new Node(this, this.start, this.startLoc)
   };
 
-  pp$6.startNodeAt = function(pos, loc) {
+  pp$2.startNodeAt = function(pos, loc) {
     return new Node(this, pos, loc)
   };
 
@@ -7828,156 +6891,20 @@ init_addon();
     return node
   }
 
-  pp$6.finishNode = function(node, type) {
+  pp$2.finishNode = function(node, type) {
     return finishNodeAt.call(this, node, type, this.lastTokEnd, this.lastTokEndLoc)
   };
 
   // Finish node at given position
 
-  pp$6.finishNodeAt = function(node, type, pos, loc) {
+  pp$2.finishNodeAt = function(node, type, pos, loc) {
     return finishNodeAt.call(this, node, type, pos, loc)
   };
 
-  // The algorithm used to determine whether a regexp can appear at a
-
-  var TokContext = function TokContext(token, isExpr, preserveSpace, override, generator) {
-    this.token = token;
-    this.isExpr = !!isExpr;
-    this.preserveSpace = !!preserveSpace;
-    this.override = override;
-    this.generator = !!generator;
-  };
-
-  var types$1 = {
-    b_stat: new TokContext("{", false),
-    b_expr: new TokContext("{", true),
-    b_tmpl: new TokContext("${", false),
-    p_stat: new TokContext("(", false),
-    p_expr: new TokContext("(", true),
-    q_tmpl: new TokContext("`", true, true, function (p) { return p.tryReadTemplateToken(); }),
-    f_stat: new TokContext("function", false),
-    f_expr: new TokContext("function", true),
-    f_expr_gen: new TokContext("function", true, false, null, true),
-    f_gen: new TokContext("function", false, false, null, true)
-  };
-
-  var pp$7 = Parser.prototype;
-
-  pp$7.initialContext = function() {
-    return [types$1.b_stat]
-  };
-
-  pp$7.braceIsBlock = function(prevType) {
-    var parent = this.curContext();
-    if (parent === types$1.f_expr || parent === types$1.f_stat)
-      { return true }
-    if (prevType === types.colon && (parent === types$1.b_stat || parent === types$1.b_expr))
-      { return !parent.isExpr }
-
-    // The check for `tt.name && exprAllowed` detects whether we are
-    // after a `yield` or `of` construct. See the `updateContext` for
-    // `tt.name`.
-    if (prevType === types._return || prevType === types.name && this.exprAllowed)
-      { return lineBreak.test(this.input.slice(this.lastTokEnd, this.start)) }
-    if (prevType === types._else || prevType === types.semi || prevType === types.eof || prevType === types.parenR || prevType === types.arrow)
-      { return true }
-    if (prevType === types.braceL)
-      { return parent === types$1.b_stat }
-    if (prevType === types._var || prevType === types._const || prevType === types.name)
-      { return false }
-    return !this.exprAllowed
-  };
-
-  pp$7.inGeneratorContext = function() {
-    for (var i = this.context.length - 1; i >= 1; i--) {
-      var context = this.context[i];
-      if (context.token === "function")
-        { return context.generator }
-    }
-    return false
-  };
-
-  pp$7.updateContext = function(prevType) {
-    var update, type = this.type;
-    if (type.keyword && prevType === types.dot)
-      { this.exprAllowed = false; }
-    else if (update = type.updateContext)
-      { update.call(this, prevType); }
-    else
-      { this.exprAllowed = type.beforeExpr; }
-  };
-
-  // Token-specific context update code
-
-  types.parenR.updateContext = types.braceR.updateContext = function() {
-    if (this.context.length === 1) {
-      this.exprAllowed = true;
-      return
-    }
-    var out = this.context.pop();
-    if (out === types$1.b_stat && this.curContext().token === "function") {
-      out = this.context.pop();
-    }
-    this.exprAllowed = !out.isExpr;
-  };
-
-  types.braceL.updateContext = function(prevType) {
-    this.context.push(this.braceIsBlock(prevType) ? types$1.b_stat : types$1.b_expr);
-    this.exprAllowed = true;
-  };
-
-  types.dollarBraceL.updateContext = function() {
-    this.context.push(types$1.b_tmpl);
-    this.exprAllowed = true;
-  };
-
-  types.parenL.updateContext = function(prevType) {
-    var statementParens = prevType === types._if || prevType === types._for || prevType === types._with || prevType === types._while;
-    this.context.push(statementParens ? types$1.p_stat : types$1.p_expr);
-    this.exprAllowed = true;
-  };
-
-  types.incDec.updateContext = function() {
-    // tokExprAllowed stays unchanged
-  };
-
-  types._function.updateContext = types._class.updateContext = function(prevType) {
-    if (prevType.beforeExpr && prevType !== types.semi && prevType !== types._else &&
-        !(prevType === types._return && lineBreak.test(this.input.slice(this.lastTokEnd, this.start))) &&
-        !((prevType === types.colon || prevType === types.braceL) && this.curContext() === types$1.b_stat))
-      { this.context.push(types$1.f_expr); }
-    else
-      { this.context.push(types$1.f_stat); }
-    this.exprAllowed = false;
-  };
-
-  types.backQuote.updateContext = function() {
-    if (this.curContext() === types$1.q_tmpl)
-      { this.context.pop(); }
-    else
-      { this.context.push(types$1.q_tmpl); }
-    this.exprAllowed = false;
-  };
-
-  types.star.updateContext = function(prevType) {
-    if (prevType === types._function) {
-      var index = this.context.length - 1;
-      if (this.context[index] === types$1.f_expr)
-        { this.context[index] = types$1.f_expr_gen; }
-      else
-        { this.context[index] = types$1.f_gen; }
-    }
-    this.exprAllowed = true;
-  };
-
-  types.name.updateContext = function(prevType) {
-    var allowed = false;
-    if (this.options.ecmaVersion >= 6 && prevType !== types.dot) {
-      if (this.value === "of" && !this.exprAllowed ||
-          this.value === "yield" && this.inGeneratorContext())
-        { allowed = true; }
-    }
-    this.exprAllowed = allowed;
+  pp$2.copyNode = function(node) {
+    var newNode = new Node(this, node.start, this.startLoc);
+    for (var prop in node) { newNode[prop] = node[prop]; }
+    return newNode
   };
 
   // This file contains Unicode properties extracted from the ECMAScript
@@ -7988,23 +6915,31 @@ init_addon();
   var ecma9BinaryProperties = "ASCII ASCII_Hex_Digit AHex Alphabetic Alpha Any Assigned Bidi_Control Bidi_C Bidi_Mirrored Bidi_M Case_Ignorable CI Cased Changes_When_Casefolded CWCF Changes_When_Casemapped CWCM Changes_When_Lowercased CWL Changes_When_NFKC_Casefolded CWKCF Changes_When_Titlecased CWT Changes_When_Uppercased CWU Dash Default_Ignorable_Code_Point DI Deprecated Dep Diacritic Dia Emoji Emoji_Component Emoji_Modifier Emoji_Modifier_Base Emoji_Presentation Extender Ext Grapheme_Base Gr_Base Grapheme_Extend Gr_Ext Hex_Digit Hex IDS_Binary_Operator IDSB IDS_Trinary_Operator IDST ID_Continue IDC ID_Start IDS Ideographic Ideo Join_Control Join_C Logical_Order_Exception LOE Lowercase Lower Math Noncharacter_Code_Point NChar Pattern_Syntax Pat_Syn Pattern_White_Space Pat_WS Quotation_Mark QMark Radical Regional_Indicator RI Sentence_Terminal STerm Soft_Dotted SD Terminal_Punctuation Term Unified_Ideograph UIdeo Uppercase Upper Variation_Selector VS White_Space space XID_Continue XIDC XID_Start XIDS";
   var ecma10BinaryProperties = ecma9BinaryProperties + " Extended_Pictographic";
   var ecma11BinaryProperties = ecma10BinaryProperties;
+  var ecma12BinaryProperties = ecma11BinaryProperties + " EBase EComp EMod EPres ExtPict";
+  var ecma13BinaryProperties = ecma12BinaryProperties;
   var unicodeBinaryProperties = {
     9: ecma9BinaryProperties,
     10: ecma10BinaryProperties,
-    11: ecma11BinaryProperties
+    11: ecma11BinaryProperties,
+    12: ecma12BinaryProperties,
+    13: ecma13BinaryProperties
   };
 
   // #table-unicode-general-category-values
   var unicodeGeneralCategoryValues = "Cased_Letter LC Close_Punctuation Pe Connector_Punctuation Pc Control Cc cntrl Currency_Symbol Sc Dash_Punctuation Pd Decimal_Number Nd digit Enclosing_Mark Me Final_Punctuation Pf Format Cf Initial_Punctuation Pi Letter L Letter_Number Nl Line_Separator Zl Lowercase_Letter Ll Mark M Combining_Mark Math_Symbol Sm Modifier_Letter Lm Modifier_Symbol Sk Nonspacing_Mark Mn Number N Open_Punctuation Ps Other C Other_Letter Lo Other_Number No Other_Punctuation Po Other_Symbol So Paragraph_Separator Zp Private_Use Co Punctuation P punct Separator Z Space_Separator Zs Spacing_Mark Mc Surrogate Cs Symbol S Titlecase_Letter Lt Unassigned Cn Uppercase_Letter Lu";
 
   // #table-unicode-script-values
-  var ecma9ScriptValues = "Adlam Adlm Ahom Ahom Anatolian_Hieroglyphs Hluw Arabic Arab Armenian Armn Avestan Avst Balinese Bali Bamum Bamu Bassa_Vah Bass Batak Batk Bengali Beng Bhaiksuki Bhks Bopomofo Bopo Brahmi Brah Braille Brai Buginese Bugi Buhid Buhd Canadian_Aboriginal Cans Carian Cari Caucasian_Albanian Aghb Chakma Cakm Cham Cham Cherokee Cher Common Zyyy Coptic Copt Qaac Cuneiform Xsux Cypriot Cprt Cyrillic Cyrl Deseret Dsrt Devanagari Deva Duployan Dupl Egyptian_Hieroglyphs Egyp Elbasan Elba Ethiopic Ethi Georgian Geor Glagolitic Glag Gothic Goth Grantha Gran Greek Grek Gujarati Gujr Gurmukhi Guru Han Hani Hangul Hang Hanunoo Hano Hatran Hatr Hebrew Hebr Hiragana Hira Imperial_Aramaic Armi Inherited Zinh Qaai Inscriptional_Pahlavi Phli Inscriptional_Parthian Prti Javanese Java Kaithi Kthi Kannada Knda Katakana Kana Kayah_Li Kali Kharoshthi Khar Khmer Khmr Khojki Khoj Khudawadi Sind Lao Laoo Latin Latn Lepcha Lepc Limbu Limb Linear_A Lina Linear_B Linb Lisu Lisu Lycian Lyci Lydian Lydi Mahajani Mahj Malayalam Mlym Mandaic Mand Manichaean Mani Marchen Marc Masaram_Gondi Gonm Meetei_Mayek Mtei Mende_Kikakui Mend Meroitic_Cursive Merc Meroitic_Hieroglyphs Mero Miao Plrd Modi Modi Mongolian Mong Mro Mroo Multani Mult Myanmar Mymr Nabataean Nbat New_Tai_Lue Talu Newa Newa Nko Nkoo Nushu Nshu Ogham Ogam Ol_Chiki Olck Old_Hungarian Hung Old_Italic Ital Old_North_Arabian Narb Old_Permic Perm Old_Persian Xpeo Old_South_Arabian Sarb Old_Turkic Orkh Oriya Orya Osage Osge Osmanya Osma Pahawh_Hmong Hmng Palmyrene Palm Pau_Cin_Hau Pauc Phags_Pa Phag Phoenician Phnx Psalter_Pahlavi Phlp Rejang Rjng Runic Runr Samaritan Samr Saurashtra Saur Sharada Shrd Shavian Shaw Siddham Sidd SignWriting Sgnw Sinhala Sinh Sora_Sompeng Sora Soyombo Soyo Sundanese Sund Syloti_Nagri Sylo Syriac Syrc Tagalog Tglg Tagbanwa Tagb Tai_Le Tale Tai_Tham Lana Tai_Viet Tavt Takri Takr Tamil Taml Tangut Tang Telugu Telu Thaana Thaa Thai Thai Tibetan Tibt Tifinagh Tfng Tirhuta Tirh Ugaritic Ugar Vai Vaii Warang_Citi Wara Yi Yiii Zanabazar_Square Zanb";
+  var ecma9ScriptValues = "Adlam Adlm Ahom Anatolian_Hieroglyphs Hluw Arabic Arab Armenian Armn Avestan Avst Balinese Bali Bamum Bamu Bassa_Vah Bass Batak Batk Bengali Beng Bhaiksuki Bhks Bopomofo Bopo Brahmi Brah Braille Brai Buginese Bugi Buhid Buhd Canadian_Aboriginal Cans Carian Cari Caucasian_Albanian Aghb Chakma Cakm Cham Cham Cherokee Cher Common Zyyy Coptic Copt Qaac Cuneiform Xsux Cypriot Cprt Cyrillic Cyrl Deseret Dsrt Devanagari Deva Duployan Dupl Egyptian_Hieroglyphs Egyp Elbasan Elba Ethiopic Ethi Georgian Geor Glagolitic Glag Gothic Goth Grantha Gran Greek Grek Gujarati Gujr Gurmukhi Guru Han Hani Hangul Hang Hanunoo Hano Hatran Hatr Hebrew Hebr Hiragana Hira Imperial_Aramaic Armi Inherited Zinh Qaai Inscriptional_Pahlavi Phli Inscriptional_Parthian Prti Javanese Java Kaithi Kthi Kannada Knda Katakana Kana Kayah_Li Kali Kharoshthi Khar Khmer Khmr Khojki Khoj Khudawadi Sind Lao Laoo Latin Latn Lepcha Lepc Limbu Limb Linear_A Lina Linear_B Linb Lisu Lisu Lycian Lyci Lydian Lydi Mahajani Mahj Malayalam Mlym Mandaic Mand Manichaean Mani Marchen Marc Masaram_Gondi Gonm Meetei_Mayek Mtei Mende_Kikakui Mend Meroitic_Cursive Merc Meroitic_Hieroglyphs Mero Miao Plrd Modi Mongolian Mong Mro Mroo Multani Mult Myanmar Mymr Nabataean Nbat New_Tai_Lue Talu Newa Newa Nko Nkoo Nushu Nshu Ogham Ogam Ol_Chiki Olck Old_Hungarian Hung Old_Italic Ital Old_North_Arabian Narb Old_Permic Perm Old_Persian Xpeo Old_South_Arabian Sarb Old_Turkic Orkh Oriya Orya Osage Osge Osmanya Osma Pahawh_Hmong Hmng Palmyrene Palm Pau_Cin_Hau Pauc Phags_Pa Phag Phoenician Phnx Psalter_Pahlavi Phlp Rejang Rjng Runic Runr Samaritan Samr Saurashtra Saur Sharada Shrd Shavian Shaw Siddham Sidd SignWriting Sgnw Sinhala Sinh Sora_Sompeng Sora Soyombo Soyo Sundanese Sund Syloti_Nagri Sylo Syriac Syrc Tagalog Tglg Tagbanwa Tagb Tai_Le Tale Tai_Tham Lana Tai_Viet Tavt Takri Takr Tamil Taml Tangut Tang Telugu Telu Thaana Thaa Thai Thai Tibetan Tibt Tifinagh Tfng Tirhuta Tirh Ugaritic Ugar Vai Vaii Warang_Citi Wara Yi Yiii Zanabazar_Square Zanb";
   var ecma10ScriptValues = ecma9ScriptValues + " Dogra Dogr Gunjala_Gondi Gong Hanifi_Rohingya Rohg Makasar Maka Medefaidrin Medf Old_Sogdian Sogo Sogdian Sogd";
   var ecma11ScriptValues = ecma10ScriptValues + " Elymaic Elym Nandinagari Nand Nyiakeng_Puachue_Hmong Hmnp Wancho Wcho";
+  var ecma12ScriptValues = ecma11ScriptValues + " Chorasmian Chrs Diak Dives_Akuru Khitan_Small_Script Kits Yezi Yezidi";
+  var ecma13ScriptValues = ecma12ScriptValues + " Cypro_Minoan Cpmn Old_Uyghur Ougr Tangsa Tnsa Toto Vithkuqi Vith";
   var unicodeScriptValues = {
     9: ecma9ScriptValues,
     10: ecma10ScriptValues,
-    11: ecma11ScriptValues
+    11: ecma11ScriptValues,
+    12: ecma12ScriptValues,
+    13: ecma13ScriptValues
   };
 
   var data = {};
@@ -8022,16 +6957,19 @@ init_addon();
     d.nonBinary.sc = d.nonBinary.Script;
     d.nonBinary.scx = d.nonBinary.Script_Extensions;
   }
-  buildUnicodeData(9);
-  buildUnicodeData(10);
-  buildUnicodeData(11);
 
-  var pp$8 = Parser.prototype;
+  for (var i = 0, list = [9, 10, 11, 12, 13]; i < list.length; i += 1) {
+    var ecmaVersion = list[i];
+
+    buildUnicodeData(ecmaVersion);
+  }
+
+  var pp$1 = Parser.prototype;
 
   var RegExpValidationState = function RegExpValidationState(parser) {
     this.parser = parser;
-    this.validFlags = "gim" + (parser.options.ecmaVersion >= 6 ? "uy" : "") + (parser.options.ecmaVersion >= 9 ? "s" : "");
-    this.unicodeProperties = data[parser.options.ecmaVersion >= 11 ? 11 : parser.options.ecmaVersion];
+    this.validFlags = "gim" + (parser.options.ecmaVersion >= 6 ? "uy" : "") + (parser.options.ecmaVersion >= 9 ? "s" : "") + (parser.options.ecmaVersion >= 13 ? "d" : "");
+    this.unicodeProperties = data[parser.options.ecmaVersion >= 13 ? 13 : parser.options.ecmaVersion];
     this.source = "";
     this.flags = "";
     this.start = 0;
@@ -8062,59 +7000,65 @@ init_addon();
 
   // If u flag is given, this returns the code point at the index (it combines a surrogate pair).
   // Otherwise, this returns the code unit of the index (can be a part of a surrogate pair).
-  RegExpValidationState.prototype.at = function at (i) {
+  RegExpValidationState.prototype.at = function at (i, forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
     var s = this.source;
     var l = s.length;
     if (i >= l) {
       return -1
     }
     var c = s.charCodeAt(i);
-    if (!this.switchU || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l) {
+    if (!(forceU || this.switchU) || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l) {
       return c
     }
     var next = s.charCodeAt(i + 1);
     return next >= 0xDC00 && next <= 0xDFFF ? (c << 10) + next - 0x35FDC00 : c
   };
 
-  RegExpValidationState.prototype.nextIndex = function nextIndex (i) {
+  RegExpValidationState.prototype.nextIndex = function nextIndex (i, forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
     var s = this.source;
     var l = s.length;
     if (i >= l) {
       return l
     }
     var c = s.charCodeAt(i), next;
-    if (!this.switchU || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l ||
+    if (!(forceU || this.switchU) || c <= 0xD7FF || c >= 0xE000 || i + 1 >= l ||
         (next = s.charCodeAt(i + 1)) < 0xDC00 || next > 0xDFFF) {
       return i + 1
     }
     return i + 2
   };
 
-  RegExpValidationState.prototype.current = function current () {
-    return this.at(this.pos)
+  RegExpValidationState.prototype.current = function current (forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    return this.at(this.pos, forceU)
   };
 
-  RegExpValidationState.prototype.lookahead = function lookahead () {
-    return this.at(this.nextIndex(this.pos))
+  RegExpValidationState.prototype.lookahead = function lookahead (forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    return this.at(this.nextIndex(this.pos, forceU), forceU)
   };
 
-  RegExpValidationState.prototype.advance = function advance () {
-    this.pos = this.nextIndex(this.pos);
+  RegExpValidationState.prototype.advance = function advance (forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    this.pos = this.nextIndex(this.pos, forceU);
   };
 
-  RegExpValidationState.prototype.eat = function eat (ch) {
-    if (this.current() === ch) {
-      this.advance();
+  RegExpValidationState.prototype.eat = function eat (ch, forceU) {
+      if ( forceU === void 0 ) forceU = false;
+
+    if (this.current(forceU) === ch) {
+      this.advance(forceU);
       return true
     }
     return false
   };
-
-  function codePointToString(ch) {
-    if (ch <= 0xFFFF) { return String.fromCharCode(ch) }
-    ch -= 0x10000;
-    return String.fromCharCode((ch >> 10) + 0xD800, (ch & 0x03FF) + 0xDC00)
-  }
 
   /**
    * Validate the flags part of a given RegExpLiteral.
@@ -8122,7 +7066,7 @@ init_addon();
    * @param {RegExpValidationState} state The state to validate RegExp.
    * @returns {void}
    */
-  pp$8.validateRegExpFlags = function(state) {
+  pp$1.validateRegExpFlags = function(state) {
     var validFlags = state.validFlags;
     var flags = state.flags;
 
@@ -8143,7 +7087,7 @@ init_addon();
    * @param {RegExpValidationState} state The state to validate RegExp.
    * @returns {void}
    */
-  pp$8.validateRegExpPattern = function(state) {
+  pp$1.validateRegExpPattern = function(state) {
     this.regexp_pattern(state);
 
     // The goal symbol for the parse is |Pattern[~U, ~N]|. If the result of
@@ -8158,7 +7102,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-Pattern
-  pp$8.regexp_pattern = function(state) {
+  pp$1.regexp_pattern = function(state) {
     state.pos = 0;
     state.lastIntValue = 0;
     state.lastStringValue = "";
@@ -8192,7 +7136,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-Disjunction
-  pp$8.regexp_disjunction = function(state) {
+  pp$1.regexp_disjunction = function(state) {
     this.regexp_alternative(state);
     while (state.eat(0x7C /* | */)) {
       this.regexp_alternative(state);
@@ -8208,13 +7152,13 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-Alternative
-  pp$8.regexp_alternative = function(state) {
+  pp$1.regexp_alternative = function(state) {
     while (state.pos < state.source.length && this.regexp_eatTerm(state))
       { }
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-Term
-  pp$8.regexp_eatTerm = function(state) {
+  pp$1.regexp_eatTerm = function(state) {
     if (this.regexp_eatAssertion(state)) {
       // Handle `QuantifiableAssertion Quantifier` alternative.
       // `state.lastAssertionIsQuantifiable` is true if the last eaten Assertion
@@ -8237,7 +7181,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-Assertion
-  pp$8.regexp_eatAssertion = function(state) {
+  pp$1.regexp_eatAssertion = function(state) {
     var start = state.pos;
     state.lastAssertionIsQuantifiable = false;
 
@@ -8275,7 +7219,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-Quantifier
-  pp$8.regexp_eatQuantifier = function(state, noError) {
+  pp$1.regexp_eatQuantifier = function(state, noError) {
     if ( noError === void 0 ) noError = false;
 
     if (this.regexp_eatQuantifierPrefix(state, noError)) {
@@ -8286,7 +7230,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-QuantifierPrefix
-  pp$8.regexp_eatQuantifierPrefix = function(state, noError) {
+  pp$1.regexp_eatQuantifierPrefix = function(state, noError) {
     return (
       state.eat(0x2A /* * */) ||
       state.eat(0x2B /* + */) ||
@@ -8294,7 +7238,7 @@ init_addon();
       this.regexp_eatBracedQuantifier(state, noError)
     )
   };
-  pp$8.regexp_eatBracedQuantifier = function(state, noError) {
+  pp$1.regexp_eatBracedQuantifier = function(state, noError) {
     var start = state.pos;
     if (state.eat(0x7B /* { */)) {
       var min = 0, max = -1;
@@ -8320,7 +7264,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-Atom
-  pp$8.regexp_eatAtom = function(state) {
+  pp$1.regexp_eatAtom = function(state) {
     return (
       this.regexp_eatPatternCharacters(state) ||
       state.eat(0x2E /* . */) ||
@@ -8330,7 +7274,7 @@ init_addon();
       this.regexp_eatCapturingGroup(state)
     )
   };
-  pp$8.regexp_eatReverseSolidusAtomEscape = function(state) {
+  pp$1.regexp_eatReverseSolidusAtomEscape = function(state) {
     var start = state.pos;
     if (state.eat(0x5C /* \ */)) {
       if (this.regexp_eatAtomEscape(state)) {
@@ -8340,7 +7284,7 @@ init_addon();
     }
     return false
   };
-  pp$8.regexp_eatUncapturingGroup = function(state) {
+  pp$1.regexp_eatUncapturingGroup = function(state) {
     var start = state.pos;
     if (state.eat(0x28 /* ( */)) {
       if (state.eat(0x3F /* ? */) && state.eat(0x3A /* : */)) {
@@ -8354,7 +7298,7 @@ init_addon();
     }
     return false
   };
-  pp$8.regexp_eatCapturingGroup = function(state) {
+  pp$1.regexp_eatCapturingGroup = function(state) {
     if (state.eat(0x28 /* ( */)) {
       if (this.options.ecmaVersion >= 9) {
         this.regexp_groupSpecifier(state);
@@ -8372,7 +7316,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ExtendedAtom
-  pp$8.regexp_eatExtendedAtom = function(state) {
+  pp$1.regexp_eatExtendedAtom = function(state) {
     return (
       state.eat(0x2E /* . */) ||
       this.regexp_eatReverseSolidusAtomEscape(state) ||
@@ -8385,7 +7329,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-InvalidBracedQuantifier
-  pp$8.regexp_eatInvalidBracedQuantifier = function(state) {
+  pp$1.regexp_eatInvalidBracedQuantifier = function(state) {
     if (this.regexp_eatBracedQuantifier(state, true)) {
       state.raise("Nothing to repeat");
     }
@@ -8393,7 +7337,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-SyntaxCharacter
-  pp$8.regexp_eatSyntaxCharacter = function(state) {
+  pp$1.regexp_eatSyntaxCharacter = function(state) {
     var ch = state.current();
     if (isSyntaxCharacter(ch)) {
       state.lastIntValue = ch;
@@ -8415,7 +7359,7 @@ init_addon();
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-PatternCharacter
   // But eat eager.
-  pp$8.regexp_eatPatternCharacters = function(state) {
+  pp$1.regexp_eatPatternCharacters = function(state) {
     var start = state.pos;
     var ch = 0;
     while ((ch = state.current()) !== -1 && !isSyntaxCharacter(ch)) {
@@ -8425,7 +7369,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ExtendedPatternCharacter
-  pp$8.regexp_eatExtendedPatternCharacter = function(state) {
+  pp$1.regexp_eatExtendedPatternCharacter = function(state) {
     var ch = state.current();
     if (
       ch !== -1 &&
@@ -8443,10 +7387,10 @@ init_addon();
     return false
   };
 
-  // GroupSpecifier[U] ::
+  // GroupSpecifier ::
   //   [empty]
-  //   `?` GroupName[?U]
-  pp$8.regexp_groupSpecifier = function(state) {
+  //   `?` GroupName
+  pp$1.regexp_groupSpecifier = function(state) {
     if (state.eat(0x3F /* ? */)) {
       if (this.regexp_eatGroupName(state)) {
         if (state.groupNames.indexOf(state.lastStringValue) !== -1) {
@@ -8459,10 +7403,10 @@ init_addon();
     }
   };
 
-  // GroupName[U] ::
-  //   `<` RegExpIdentifierName[?U] `>`
+  // GroupName ::
+  //   `<` RegExpIdentifierName `>`
   // Note: this updates `state.lastStringValue` property with the eaten name.
-  pp$8.regexp_eatGroupName = function(state) {
+  pp$1.regexp_eatGroupName = function(state) {
     state.lastStringValue = "";
     if (state.eat(0x3C /* < */)) {
       if (this.regexp_eatRegExpIdentifierName(state) && state.eat(0x3E /* > */)) {
@@ -8473,11 +7417,11 @@ init_addon();
     return false
   };
 
-  // RegExpIdentifierName[U] ::
-  //   RegExpIdentifierStart[?U]
-  //   RegExpIdentifierName[?U] RegExpIdentifierPart[?U]
+  // RegExpIdentifierName ::
+  //   RegExpIdentifierStart
+  //   RegExpIdentifierName RegExpIdentifierPart
   // Note: this updates `state.lastStringValue` property with the eaten name.
-  pp$8.regexp_eatRegExpIdentifierName = function(state) {
+  pp$1.regexp_eatRegExpIdentifierName = function(state) {
     state.lastStringValue = "";
     if (this.regexp_eatRegExpIdentifierStart(state)) {
       state.lastStringValue += codePointToString(state.lastIntValue);
@@ -8489,17 +7433,18 @@ init_addon();
     return false
   };
 
-  // RegExpIdentifierStart[U] ::
+  // RegExpIdentifierStart ::
   //   UnicodeIDStart
   //   `$`
   //   `_`
-  //   `\` RegExpUnicodeEscapeSequence[?U]
-  pp$8.regexp_eatRegExpIdentifierStart = function(state) {
+  //   `\` RegExpUnicodeEscapeSequence[+U]
+  pp$1.regexp_eatRegExpIdentifierStart = function(state) {
     var start = state.pos;
-    var ch = state.current();
-    state.advance();
+    var forceU = this.options.ecmaVersion >= 11;
+    var ch = state.current(forceU);
+    state.advance(forceU);
 
-    if (ch === 0x5C /* \ */ && this.regexp_eatRegExpUnicodeEscapeSequence(state)) {
+    if (ch === 0x5C /* \ */ && this.regexp_eatRegExpUnicodeEscapeSequence(state, forceU)) {
       ch = state.lastIntValue;
     }
     if (isRegExpIdentifierStart(ch)) {
@@ -8514,19 +7459,20 @@ init_addon();
     return isIdentifierStart(ch, true) || ch === 0x24 /* $ */ || ch === 0x5F /* _ */
   }
 
-  // RegExpIdentifierPart[U] ::
+  // RegExpIdentifierPart ::
   //   UnicodeIDContinue
   //   `$`
   //   `_`
-  //   `\` RegExpUnicodeEscapeSequence[?U]
+  //   `\` RegExpUnicodeEscapeSequence[+U]
   //   <ZWNJ>
   //   <ZWJ>
-  pp$8.regexp_eatRegExpIdentifierPart = function(state) {
+  pp$1.regexp_eatRegExpIdentifierPart = function(state) {
     var start = state.pos;
-    var ch = state.current();
-    state.advance();
+    var forceU = this.options.ecmaVersion >= 11;
+    var ch = state.current(forceU);
+    state.advance(forceU);
 
-    if (ch === 0x5C /* \ */ && this.regexp_eatRegExpUnicodeEscapeSequence(state)) {
+    if (ch === 0x5C /* \ */ && this.regexp_eatRegExpUnicodeEscapeSequence(state, forceU)) {
       ch = state.lastIntValue;
     }
     if (isRegExpIdentifierPart(ch)) {
@@ -8542,7 +7488,7 @@ init_addon();
   }
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-AtomEscape
-  pp$8.regexp_eatAtomEscape = function(state) {
+  pp$1.regexp_eatAtomEscape = function(state) {
     if (
       this.regexp_eatBackReference(state) ||
       this.regexp_eatCharacterClassEscape(state) ||
@@ -8560,7 +7506,7 @@ init_addon();
     }
     return false
   };
-  pp$8.regexp_eatBackReference = function(state) {
+  pp$1.regexp_eatBackReference = function(state) {
     var start = state.pos;
     if (this.regexp_eatDecimalEscape(state)) {
       var n = state.lastIntValue;
@@ -8578,7 +7524,7 @@ init_addon();
     }
     return false
   };
-  pp$8.regexp_eatKGroupName = function(state) {
+  pp$1.regexp_eatKGroupName = function(state) {
     if (state.eat(0x6B /* k */)) {
       if (this.regexp_eatGroupName(state)) {
         state.backReferenceNames.push(state.lastStringValue);
@@ -8590,18 +7536,18 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-CharacterEscape
-  pp$8.regexp_eatCharacterEscape = function(state) {
+  pp$1.regexp_eatCharacterEscape = function(state) {
     return (
       this.regexp_eatControlEscape(state) ||
       this.regexp_eatCControlLetter(state) ||
       this.regexp_eatZero(state) ||
       this.regexp_eatHexEscapeSequence(state) ||
-      this.regexp_eatRegExpUnicodeEscapeSequence(state) ||
+      this.regexp_eatRegExpUnicodeEscapeSequence(state, false) ||
       (!state.switchU && this.regexp_eatLegacyOctalEscapeSequence(state)) ||
       this.regexp_eatIdentityEscape(state)
     )
   };
-  pp$8.regexp_eatCControlLetter = function(state) {
+  pp$1.regexp_eatCControlLetter = function(state) {
     var start = state.pos;
     if (state.eat(0x63 /* c */)) {
       if (this.regexp_eatControlLetter(state)) {
@@ -8611,7 +7557,7 @@ init_addon();
     }
     return false
   };
-  pp$8.regexp_eatZero = function(state) {
+  pp$1.regexp_eatZero = function(state) {
     if (state.current() === 0x30 /* 0 */ && !isDecimalDigit(state.lookahead())) {
       state.lastIntValue = 0;
       state.advance();
@@ -8621,7 +7567,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-ControlEscape
-  pp$8.regexp_eatControlEscape = function(state) {
+  pp$1.regexp_eatControlEscape = function(state) {
     var ch = state.current();
     if (ch === 0x74 /* t */) {
       state.lastIntValue = 0x09; /* \t */
@@ -8652,7 +7598,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-ControlLetter
-  pp$8.regexp_eatControlLetter = function(state) {
+  pp$1.regexp_eatControlLetter = function(state) {
     var ch = state.current();
     if (isControlLetter(ch)) {
       state.lastIntValue = ch % 0x20;
@@ -8669,13 +7615,16 @@ init_addon();
   }
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-RegExpUnicodeEscapeSequence
-  pp$8.regexp_eatRegExpUnicodeEscapeSequence = function(state) {
+  pp$1.regexp_eatRegExpUnicodeEscapeSequence = function(state, forceU) {
+    if ( forceU === void 0 ) forceU = false;
+
     var start = state.pos;
+    var switchU = forceU || state.switchU;
 
     if (state.eat(0x75 /* u */)) {
       if (this.regexp_eatFixedHexDigits(state, 4)) {
         var lead = state.lastIntValue;
-        if (state.switchU && lead >= 0xD800 && lead <= 0xDBFF) {
+        if (switchU && lead >= 0xD800 && lead <= 0xDBFF) {
           var leadSurrogateEnd = state.pos;
           if (state.eat(0x5C /* \ */) && state.eat(0x75 /* u */) && this.regexp_eatFixedHexDigits(state, 4)) {
             var trail = state.lastIntValue;
@@ -8690,7 +7639,7 @@ init_addon();
         return true
       }
       if (
-        state.switchU &&
+        switchU &&
         state.eat(0x7B /* { */) &&
         this.regexp_eatHexDigits(state) &&
         state.eat(0x7D /* } */) &&
@@ -8698,7 +7647,7 @@ init_addon();
       ) {
         return true
       }
-      if (state.switchU) {
+      if (switchU) {
         state.raise("Invalid unicode escape");
       }
       state.pos = start;
@@ -8711,7 +7660,7 @@ init_addon();
   }
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-IdentityEscape
-  pp$8.regexp_eatIdentityEscape = function(state) {
+  pp$1.regexp_eatIdentityEscape = function(state) {
     if (state.switchU) {
       if (this.regexp_eatSyntaxCharacter(state)) {
         return true
@@ -8734,7 +7683,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-DecimalEscape
-  pp$8.regexp_eatDecimalEscape = function(state) {
+  pp$1.regexp_eatDecimalEscape = function(state) {
     state.lastIntValue = 0;
     var ch = state.current();
     if (ch >= 0x31 /* 1 */ && ch <= 0x39 /* 9 */) {
@@ -8748,7 +7697,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-CharacterClassEscape
-  pp$8.regexp_eatCharacterClassEscape = function(state) {
+  pp$1.regexp_eatCharacterClassEscape = function(state) {
     var ch = state.current();
 
     if (isCharacterClassEscape(ch)) {
@@ -8790,7 +7739,7 @@ init_addon();
   // UnicodePropertyValueExpression ::
   //   UnicodePropertyName `=` UnicodePropertyValue
   //   LoneUnicodePropertyNameOrValue
-  pp$8.regexp_eatUnicodePropertyValueExpression = function(state) {
+  pp$1.regexp_eatUnicodePropertyValueExpression = function(state) {
     var start = state.pos;
 
     // UnicodePropertyName `=` UnicodePropertyValue
@@ -8812,20 +7761,20 @@ init_addon();
     }
     return false
   };
-  pp$8.regexp_validateUnicodePropertyNameAndValue = function(state, name, value) {
-    if (!has(state.unicodeProperties.nonBinary, name))
+  pp$1.regexp_validateUnicodePropertyNameAndValue = function(state, name, value) {
+    if (!hasOwn(state.unicodeProperties.nonBinary, name))
       { state.raise("Invalid property name"); }
     if (!state.unicodeProperties.nonBinary[name].test(value))
       { state.raise("Invalid property value"); }
   };
-  pp$8.regexp_validateUnicodePropertyNameOrValue = function(state, nameOrValue) {
+  pp$1.regexp_validateUnicodePropertyNameOrValue = function(state, nameOrValue) {
     if (!state.unicodeProperties.binary.test(nameOrValue))
       { state.raise("Invalid property name"); }
   };
 
   // UnicodePropertyName ::
   //   UnicodePropertyNameCharacters
-  pp$8.regexp_eatUnicodePropertyName = function(state) {
+  pp$1.regexp_eatUnicodePropertyName = function(state) {
     var ch = 0;
     state.lastStringValue = "";
     while (isUnicodePropertyNameCharacter(ch = state.current())) {
@@ -8840,7 +7789,7 @@ init_addon();
 
   // UnicodePropertyValue ::
   //   UnicodePropertyValueCharacters
-  pp$8.regexp_eatUnicodePropertyValue = function(state) {
+  pp$1.regexp_eatUnicodePropertyValue = function(state) {
     var ch = 0;
     state.lastStringValue = "";
     while (isUnicodePropertyValueCharacter(ch = state.current())) {
@@ -8855,12 +7804,12 @@ init_addon();
 
   // LoneUnicodePropertyNameOrValue ::
   //   UnicodePropertyValueCharacters
-  pp$8.regexp_eatLoneUnicodePropertyNameOrValue = function(state) {
+  pp$1.regexp_eatLoneUnicodePropertyNameOrValue = function(state) {
     return this.regexp_eatUnicodePropertyValue(state)
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-CharacterClass
-  pp$8.regexp_eatCharacterClass = function(state) {
+  pp$1.regexp_eatCharacterClass = function(state) {
     if (state.eat(0x5B /* [ */)) {
       state.eat(0x5E /* ^ */);
       this.regexp_classRanges(state);
@@ -8876,7 +7825,7 @@ init_addon();
   // https://www.ecma-international.org/ecma-262/8.0/#prod-ClassRanges
   // https://www.ecma-international.org/ecma-262/8.0/#prod-NonemptyClassRanges
   // https://www.ecma-international.org/ecma-262/8.0/#prod-NonemptyClassRangesNoDash
-  pp$8.regexp_classRanges = function(state) {
+  pp$1.regexp_classRanges = function(state) {
     while (this.regexp_eatClassAtom(state)) {
       var left = state.lastIntValue;
       if (state.eat(0x2D /* - */) && this.regexp_eatClassAtom(state)) {
@@ -8893,7 +7842,7 @@ init_addon();
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-ClassAtom
   // https://www.ecma-international.org/ecma-262/8.0/#prod-ClassAtomNoDash
-  pp$8.regexp_eatClassAtom = function(state) {
+  pp$1.regexp_eatClassAtom = function(state) {
     var start = state.pos;
 
     if (state.eat(0x5C /* \ */)) {
@@ -8922,7 +7871,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ClassEscape
-  pp$8.regexp_eatClassEscape = function(state) {
+  pp$1.regexp_eatClassEscape = function(state) {
     var start = state.pos;
 
     if (state.eat(0x62 /* b */)) {
@@ -8949,7 +7898,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-ClassControlLetter
-  pp$8.regexp_eatClassControlLetter = function(state) {
+  pp$1.regexp_eatClassControlLetter = function(state) {
     var ch = state.current();
     if (isDecimalDigit(ch) || ch === 0x5F /* _ */) {
       state.lastIntValue = ch % 0x20;
@@ -8960,7 +7909,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-HexEscapeSequence
-  pp$8.regexp_eatHexEscapeSequence = function(state) {
+  pp$1.regexp_eatHexEscapeSequence = function(state) {
     var start = state.pos;
     if (state.eat(0x78 /* x */)) {
       if (this.regexp_eatFixedHexDigits(state, 2)) {
@@ -8975,7 +7924,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-DecimalDigits
-  pp$8.regexp_eatDecimalDigits = function(state) {
+  pp$1.regexp_eatDecimalDigits = function(state) {
     var start = state.pos;
     var ch = 0;
     state.lastIntValue = 0;
@@ -8990,7 +7939,7 @@ init_addon();
   }
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-HexDigits
-  pp$8.regexp_eatHexDigits = function(state) {
+  pp$1.regexp_eatHexDigits = function(state) {
     var start = state.pos;
     var ch = 0;
     state.lastIntValue = 0;
@@ -9019,7 +7968,7 @@ init_addon();
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-annexB-LegacyOctalEscapeSequence
   // Allows only 0-377(octal) i.e. 0-255(decimal).
-  pp$8.regexp_eatLegacyOctalEscapeSequence = function(state) {
+  pp$1.regexp_eatLegacyOctalEscapeSequence = function(state) {
     if (this.regexp_eatOctalDigit(state)) {
       var n1 = state.lastIntValue;
       if (this.regexp_eatOctalDigit(state)) {
@@ -9038,7 +7987,7 @@ init_addon();
   };
 
   // https://www.ecma-international.org/ecma-262/8.0/#prod-OctalDigit
-  pp$8.regexp_eatOctalDigit = function(state) {
+  pp$1.regexp_eatOctalDigit = function(state) {
     var ch = state.current();
     if (isOctalDigit(ch)) {
       state.lastIntValue = ch - 0x30; /* 0 */
@@ -9055,7 +8004,7 @@ init_addon();
   // https://www.ecma-international.org/ecma-262/8.0/#prod-Hex4Digits
   // https://www.ecma-international.org/ecma-262/8.0/#prod-HexDigit
   // And HexDigit HexDigit in https://www.ecma-international.org/ecma-262/8.0/#prod-HexEscapeSequence
-  pp$8.regexp_eatFixedHexDigits = function(state, length) {
+  pp$1.regexp_eatFixedHexDigits = function(state, length) {
     var start = state.pos;
     state.lastIntValue = 0;
     for (var i = 0; i < length; ++i) {
@@ -9087,11 +8036,11 @@ init_addon();
 
   // ## Tokenizer
 
-  var pp$9 = Parser.prototype;
+  var pp = Parser.prototype;
 
   // Move to the next token
 
-  pp$9.next = function(ignoreEscapeSequenceInKeyword) {
+  pp.next = function(ignoreEscapeSequenceInKeyword) {
     if (!ignoreEscapeSequenceInKeyword && this.type.keyword && this.containsEsc)
       { this.raiseRecoverable(this.start, "Escape sequence in keyword " + this.type.keyword); }
     if (this.options.onToken)
@@ -9104,21 +8053,21 @@ init_addon();
     this.nextToken();
   };
 
-  pp$9.getToken = function() {
+  pp.getToken = function() {
     this.next();
     return new Token(this)
   };
 
   // If we're in an ES6 environment, make parsers iterable
   if (typeof Symbol !== "undefined")
-    { pp$9[Symbol.iterator] = function() {
-      var this$1 = this;
+    { pp[Symbol.iterator] = function() {
+      var this$1$1 = this;
 
       return {
         next: function () {
-          var token = this$1.getToken();
+          var token = this$1$1.getToken();
           return {
-            done: token.type === types.eof,
+            done: token.type === types$1.eof,
             value: token
           }
         }
@@ -9128,26 +8077,22 @@ init_addon();
   // Toggle strict mode. Re-reads the next number or string to please
   // pedantic tests (`"use strict"; 010;` should fail).
 
-  pp$9.curContext = function() {
-    return this.context[this.context.length - 1]
-  };
-
   // Read a single token, updating the parser object's token-related
   // properties.
 
-  pp$9.nextToken = function() {
+  pp.nextToken = function() {
     var curContext = this.curContext();
     if (!curContext || !curContext.preserveSpace) { this.skipSpace(); }
 
     this.start = this.pos;
     if (this.options.locations) { this.startLoc = this.curPosition(); }
-    if (this.pos >= this.input.length) { return this.finishToken(types.eof) }
+    if (this.pos >= this.input.length) { return this.finishToken(types$1.eof) }
 
     if (curContext.override) { return curContext.override(this) }
     else { this.readToken(this.fullCharCodeAtPos()); }
   };
 
-  pp$9.readToken = function(code) {
+  pp.readToken = function(code) {
     // Identifier or keyword. '\uXXXX' sequences are allowed in
     // identifiers, so '\' also dispatches to that.
     if (isIdentifierStart(code, this.options.ecmaVersion >= 6) || code === 92 /* '\' */)
@@ -9156,24 +8101,22 @@ init_addon();
     return this.getTokenFromCode(code)
   };
 
-  pp$9.fullCharCodeAtPos = function() {
+  pp.fullCharCodeAtPos = function() {
     var code = this.input.charCodeAt(this.pos);
-    if (code <= 0xd7ff || code >= 0xe000) { return code }
+    if (code <= 0xd7ff || code >= 0xdc00) { return code }
     var next = this.input.charCodeAt(this.pos + 1);
-    return (code << 10) + next - 0x35fdc00
+    return next <= 0xdbff || next >= 0xe000 ? code : (code << 10) + next - 0x35fdc00
   };
 
-  pp$9.skipBlockComment = function() {
+  pp.skipBlockComment = function() {
     var startLoc = this.options.onComment && this.curPosition();
     var start = this.pos, end = this.input.indexOf("*/", this.pos += 2);
     if (end === -1) { this.raise(this.pos - 2, "Unterminated comment"); }
     this.pos = end + 2;
     if (this.options.locations) {
-      lineBreakG.lastIndex = start;
-      var match;
-      while ((match = lineBreakG.exec(this.input)) && match.index < this.pos) {
+      for (var nextBreak = (void 0), pos = start; (nextBreak = nextLineBreak(this.input, pos, this.pos)) > -1;) {
         ++this.curLine;
-        this.lineStart = match.index + match[0].length;
+        pos = this.lineStart = nextBreak;
       }
     }
     if (this.options.onComment)
@@ -9181,7 +8124,7 @@ init_addon();
                              startLoc, this.curPosition()); }
   };
 
-  pp$9.skipLineComment = function(startSkip) {
+  pp.skipLineComment = function(startSkip) {
     var start = this.pos;
     var startLoc = this.options.onComment && this.curPosition();
     var ch = this.input.charCodeAt(this.pos += startSkip);
@@ -9196,7 +8139,7 @@ init_addon();
   // Called at the start of the parse and after every token. Skips
   // whitespace and comments, and.
 
-  pp$9.skipSpace = function() {
+  pp.skipSpace = function() {
     loop: while (this.pos < this.input.length) {
       var ch = this.input.charCodeAt(this.pos);
       switch (ch) {
@@ -9241,7 +8184,7 @@ init_addon();
   // the token, so that the next one's `start` will point at the
   // right position.
 
-  pp$9.finishToken = function(type, val) {
+  pp.finishToken = function(type, val) {
     this.end = this.pos;
     if (this.options.locations) { this.endLoc = this.curPosition(); }
     var prevType = this.type;
@@ -9260,56 +8203,62 @@ init_addon();
   //
   // All in the name of speed.
   //
-  pp$9.readToken_dot = function() {
+  pp.readToken_dot = function() {
     var next = this.input.charCodeAt(this.pos + 1);
     if (next >= 48 && next <= 57) { return this.readNumber(true) }
     var next2 = this.input.charCodeAt(this.pos + 2);
     if (this.options.ecmaVersion >= 6 && next === 46 && next2 === 46) { // 46 = dot '.'
       this.pos += 3;
-      return this.finishToken(types.ellipsis)
+      return this.finishToken(types$1.ellipsis)
     } else {
       ++this.pos;
-      return this.finishToken(types.dot)
+      return this.finishToken(types$1.dot)
     }
   };
 
-  pp$9.readToken_slash = function() { // '/'
+  pp.readToken_slash = function() { // '/'
     var next = this.input.charCodeAt(this.pos + 1);
     if (this.exprAllowed) { ++this.pos; return this.readRegexp() }
-    if (next === 61) { return this.finishOp(types.assign, 2) }
-    return this.finishOp(types.slash, 1)
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(types$1.slash, 1)
   };
 
-  pp$9.readToken_mult_modulo_exp = function(code) { // '%*'
+  pp.readToken_mult_modulo_exp = function(code) { // '%*'
     var next = this.input.charCodeAt(this.pos + 1);
     var size = 1;
-    var tokentype = code === 42 ? types.star : types.modulo;
+    var tokentype = code === 42 ? types$1.star : types$1.modulo;
 
     // exponentiation operator ** and **=
     if (this.options.ecmaVersion >= 7 && code === 42 && next === 42) {
       ++size;
-      tokentype = types.starstar;
+      tokentype = types$1.starstar;
       next = this.input.charCodeAt(this.pos + 2);
     }
 
-    if (next === 61) { return this.finishOp(types.assign, size + 1) }
+    if (next === 61) { return this.finishOp(types$1.assign, size + 1) }
     return this.finishOp(tokentype, size)
   };
 
-  pp$9.readToken_pipe_amp = function(code) { // '|&'
+  pp.readToken_pipe_amp = function(code) { // '|&'
     var next = this.input.charCodeAt(this.pos + 1);
-    if (next === code) { return this.finishOp(code === 124 ? types.logicalOR : types.logicalAND, 2) }
-    if (next === 61) { return this.finishOp(types.assign, 2) }
-    return this.finishOp(code === 124 ? types.bitwiseOR : types.bitwiseAND, 1)
+    if (next === code) {
+      if (this.options.ecmaVersion >= 12) {
+        var next2 = this.input.charCodeAt(this.pos + 2);
+        if (next2 === 61) { return this.finishOp(types$1.assign, 3) }
+      }
+      return this.finishOp(code === 124 ? types$1.logicalOR : types$1.logicalAND, 2)
+    }
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(code === 124 ? types$1.bitwiseOR : types$1.bitwiseAND, 1)
   };
 
-  pp$9.readToken_caret = function() { // '^'
+  pp.readToken_caret = function() { // '^'
     var next = this.input.charCodeAt(this.pos + 1);
-    if (next === 61) { return this.finishOp(types.assign, 2) }
-    return this.finishOp(types.bitwiseXOR, 1)
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(types$1.bitwiseXOR, 1)
   };
 
-  pp$9.readToken_plus_min = function(code) { // '+-'
+  pp.readToken_plus_min = function(code) { // '+-'
     var next = this.input.charCodeAt(this.pos + 1);
     if (next === code) {
       if (next === 45 && !this.inModule && this.input.charCodeAt(this.pos + 2) === 62 &&
@@ -9319,19 +8268,19 @@ init_addon();
         this.skipSpace();
         return this.nextToken()
       }
-      return this.finishOp(types.incDec, 2)
+      return this.finishOp(types$1.incDec, 2)
     }
-    if (next === 61) { return this.finishOp(types.assign, 2) }
-    return this.finishOp(types.plusMin, 1)
+    if (next === 61) { return this.finishOp(types$1.assign, 2) }
+    return this.finishOp(types$1.plusMin, 1)
   };
 
-  pp$9.readToken_lt_gt = function(code) { // '<>'
+  pp.readToken_lt_gt = function(code) { // '<>'
     var next = this.input.charCodeAt(this.pos + 1);
     var size = 1;
     if (next === code) {
       size = code === 62 && this.input.charCodeAt(this.pos + 2) === 62 ? 3 : 2;
-      if (this.input.charCodeAt(this.pos + size) === 61) { return this.finishOp(types.assign, size + 1) }
-      return this.finishOp(types.bitShift, size)
+      if (this.input.charCodeAt(this.pos + size) === 61) { return this.finishOp(types$1.assign, size + 1) }
+      return this.finishOp(types$1.bitShift, size)
     }
     if (next === 33 && code === 60 && !this.inModule && this.input.charCodeAt(this.pos + 2) === 45 &&
         this.input.charCodeAt(this.pos + 3) === 45) {
@@ -9341,20 +8290,53 @@ init_addon();
       return this.nextToken()
     }
     if (next === 61) { size = 2; }
-    return this.finishOp(types.relational, size)
+    return this.finishOp(types$1.relational, size)
   };
 
-  pp$9.readToken_eq_excl = function(code) { // '=!'
+  pp.readToken_eq_excl = function(code) { // '=!'
     var next = this.input.charCodeAt(this.pos + 1);
-    if (next === 61) { return this.finishOp(types.equality, this.input.charCodeAt(this.pos + 2) === 61 ? 3 : 2) }
+    if (next === 61) { return this.finishOp(types$1.equality, this.input.charCodeAt(this.pos + 2) === 61 ? 3 : 2) }
     if (code === 61 && next === 62 && this.options.ecmaVersion >= 6) { // '=>'
       this.pos += 2;
-      return this.finishToken(types.arrow)
+      return this.finishToken(types$1.arrow)
     }
-    return this.finishOp(code === 61 ? types.eq : types.prefix, 1)
+    return this.finishOp(code === 61 ? types$1.eq : types$1.prefix, 1)
   };
 
-  pp$9.getTokenFromCode = function(code) {
+  pp.readToken_question = function() { // '?'
+    var ecmaVersion = this.options.ecmaVersion;
+    if (ecmaVersion >= 11) {
+      var next = this.input.charCodeAt(this.pos + 1);
+      if (next === 46) {
+        var next2 = this.input.charCodeAt(this.pos + 2);
+        if (next2 < 48 || next2 > 57) { return this.finishOp(types$1.questionDot, 2) }
+      }
+      if (next === 63) {
+        if (ecmaVersion >= 12) {
+          var next2$1 = this.input.charCodeAt(this.pos + 2);
+          if (next2$1 === 61) { return this.finishOp(types$1.assign, 3) }
+        }
+        return this.finishOp(types$1.coalesce, 2)
+      }
+    }
+    return this.finishOp(types$1.question, 1)
+  };
+
+  pp.readToken_numberSign = function() { // '#'
+    var ecmaVersion = this.options.ecmaVersion;
+    var code = 35; // '#'
+    if (ecmaVersion >= 13) {
+      ++this.pos;
+      code = this.fullCharCodeAtPos();
+      if (isIdentifierStart(code, true) || code === 92 /* '\' */) {
+        return this.finishToken(types$1.privateId, this.readWord1())
+      }
+    }
+
+    this.raise(this.pos, "Unexpected character '" + codePointToString(code) + "'");
+  };
+
+  pp.getTokenFromCode = function(code) {
     switch (code) {
     // The interpretation of a dot depends on whether it is followed
     // by a digit or another two dots.
@@ -9362,21 +8344,20 @@ init_addon();
       return this.readToken_dot()
 
     // Punctuation tokens.
-    case 40: ++this.pos; return this.finishToken(types.parenL)
-    case 41: ++this.pos; return this.finishToken(types.parenR)
-    case 59: ++this.pos; return this.finishToken(types.semi)
-    case 44: ++this.pos; return this.finishToken(types.comma)
-    case 91: ++this.pos; return this.finishToken(types.bracketL)
-    case 93: ++this.pos; return this.finishToken(types.bracketR)
-    case 123: ++this.pos; return this.finishToken(types.braceL)
-    case 125: ++this.pos; return this.finishToken(types.braceR)
-    case 58: ++this.pos; return this.finishToken(types.colon)
-    case 63: ++this.pos; return this.finishToken(types.question)
+    case 40: ++this.pos; return this.finishToken(types$1.parenL)
+    case 41: ++this.pos; return this.finishToken(types$1.parenR)
+    case 59: ++this.pos; return this.finishToken(types$1.semi)
+    case 44: ++this.pos; return this.finishToken(types$1.comma)
+    case 91: ++this.pos; return this.finishToken(types$1.bracketL)
+    case 93: ++this.pos; return this.finishToken(types$1.bracketR)
+    case 123: ++this.pos; return this.finishToken(types$1.braceL)
+    case 125: ++this.pos; return this.finishToken(types$1.braceR)
+    case 58: ++this.pos; return this.finishToken(types$1.colon)
 
     case 96: // '`'
       if (this.options.ecmaVersion < 6) { break }
       ++this.pos;
-      return this.finishToken(types.backQuote)
+      return this.finishToken(types$1.backQuote)
 
     case 48: // '0'
       var next = this.input.charCodeAt(this.pos + 1);
@@ -9399,7 +8380,6 @@ init_addon();
     // often referred to. `finishOp` simply skips the amount of
     // characters it is given as second argument, and returns a token
     // of the type given by its first argument.
-
     case 47: // '/'
       return this.readToken_slash()
 
@@ -9421,20 +8401,26 @@ init_addon();
     case 61: case 33: // '=!'
       return this.readToken_eq_excl(code)
 
+    case 63: // '?'
+      return this.readToken_question()
+
     case 126: // '~'
-      return this.finishOp(types.prefix, 1)
+      return this.finishOp(types$1.prefix, 1)
+
+    case 35: // '#'
+      return this.readToken_numberSign()
     }
 
-    this.raise(this.pos, "Unexpected character '" + codePointToString$1(code) + "'");
+    this.raise(this.pos, "Unexpected character '" + codePointToString(code) + "'");
   };
 
-  pp$9.finishOp = function(type, size) {
+  pp.finishOp = function(type, size) {
     var str = this.input.slice(this.pos, this.pos + size);
     this.pos += size;
     return this.finishToken(type, str)
   };
 
-  pp$9.readRegexp = function() {
+  pp.readRegexp = function() {
     var escaped, inClass, start = this.pos;
     for (;;) {
       if (this.pos >= this.input.length) { this.raise(start, "Unterminated regular expression"); }
@@ -9469,56 +8455,92 @@ init_addon();
       // https://github.com/estree/estree/blob/a27003adf4fd7bfad44de9cef372a2eacd527b1c/es5.md#regexpliteral
     }
 
-    return this.finishToken(types.regexp, {pattern: pattern, flags: flags, value: value})
+    return this.finishToken(types$1.regexp, {pattern: pattern, flags: flags, value: value})
   };
 
   // Read an integer in the given radix. Return null if zero digits
   // were read, the integer value otherwise. When `len` is given, this
   // will return `null` unless the integer has exactly `len` digits.
 
-  pp$9.readInt = function(radix, len) {
-    var start = this.pos, total = 0;
-    for (var i = 0, e = len == null ? Infinity : len; i < e; ++i) {
+  pp.readInt = function(radix, len, maybeLegacyOctalNumericLiteral) {
+    // `len` is used for character escape sequences. In that case, disallow separators.
+    var allowSeparators = this.options.ecmaVersion >= 12 && len === undefined;
+
+    // `maybeLegacyOctalNumericLiteral` is true if it doesn't have prefix (0x,0o,0b)
+    // and isn't fraction part nor exponent part. In that case, if the first digit
+    // is zero then disallow separators.
+    var isLegacyOctalNumericLiteral = maybeLegacyOctalNumericLiteral && this.input.charCodeAt(this.pos) === 48;
+
+    var start = this.pos, total = 0, lastCode = 0;
+    for (var i = 0, e = len == null ? Infinity : len; i < e; ++i, ++this.pos) {
       var code = this.input.charCodeAt(this.pos), val = (void 0);
+
+      if (allowSeparators && code === 95) {
+        if (isLegacyOctalNumericLiteral) { this.raiseRecoverable(this.pos, "Numeric separator is not allowed in legacy octal numeric literals"); }
+        if (lastCode === 95) { this.raiseRecoverable(this.pos, "Numeric separator must be exactly one underscore"); }
+        if (i === 0) { this.raiseRecoverable(this.pos, "Numeric separator is not allowed at the first of digits"); }
+        lastCode = code;
+        continue
+      }
+
       if (code >= 97) { val = code - 97 + 10; } // a
       else if (code >= 65) { val = code - 65 + 10; } // A
       else if (code >= 48 && code <= 57) { val = code - 48; } // 0-9
       else { val = Infinity; }
       if (val >= radix) { break }
-      ++this.pos;
+      lastCode = code;
       total = total * radix + val;
     }
+
+    if (allowSeparators && lastCode === 95) { this.raiseRecoverable(this.pos - 1, "Numeric separator is not allowed at the last of digits"); }
     if (this.pos === start || len != null && this.pos - start !== len) { return null }
 
     return total
   };
 
-  pp$9.readRadixNumber = function(radix) {
+  function stringToNumber(str, isLegacyOctalNumericLiteral) {
+    if (isLegacyOctalNumericLiteral) {
+      return parseInt(str, 8)
+    }
+
+    // `parseFloat(value)` stops parsing at the first numeric separator then returns a wrong value.
+    return parseFloat(str.replace(/_/g, ""))
+  }
+
+  function stringToBigInt(str) {
+    if (typeof BigInt !== "function") {
+      return null
+    }
+
+    // `BigInt(value)` throws syntax error if the string contains numeric separators.
+    return BigInt(str.replace(/_/g, ""))
+  }
+
+  pp.readRadixNumber = function(radix) {
     var start = this.pos;
     this.pos += 2; // 0x
     var val = this.readInt(radix);
     if (val == null) { this.raise(this.start + 2, "Expected number in radix " + radix); }
     if (this.options.ecmaVersion >= 11 && this.input.charCodeAt(this.pos) === 110) {
-      val = typeof BigInt !== "undefined" ? BigInt(this.input.slice(start, this.pos)) : null;
+      val = stringToBigInt(this.input.slice(start, this.pos));
       ++this.pos;
     } else if (isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
-    return this.finishToken(types.num, val)
+    return this.finishToken(types$1.num, val)
   };
 
   // Read an integer, octal integer, or floating-point number.
 
-  pp$9.readNumber = function(startsWithDot) {
+  pp.readNumber = function(startsWithDot) {
     var start = this.pos;
-    if (!startsWithDot && this.readInt(10) === null) { this.raise(start, "Invalid number"); }
+    if (!startsWithDot && this.readInt(10, undefined, true) === null) { this.raise(start, "Invalid number"); }
     var octal = this.pos - start >= 2 && this.input.charCodeAt(start) === 48;
     if (octal && this.strict) { this.raise(start, "Invalid number"); }
     var next = this.input.charCodeAt(this.pos);
     if (!octal && !startsWithDot && this.options.ecmaVersion >= 11 && next === 110) {
-      var str$1 = this.input.slice(start, this.pos);
-      var val$1 = typeof BigInt !== "undefined" ? BigInt(str$1) : null;
+      var val$1 = stringToBigInt(this.input.slice(start, this.pos));
       ++this.pos;
       if (isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
-      return this.finishToken(types.num, val$1)
+      return this.finishToken(types$1.num, val$1)
     }
     if (octal && /[89]/.test(this.input.slice(start, this.pos))) { octal = false; }
     if (next === 46 && !octal) { // '.'
@@ -9533,14 +8555,13 @@ init_addon();
     }
     if (isIdentifierStart(this.fullCharCodeAtPos())) { this.raise(this.pos, "Identifier directly after number"); }
 
-    var str = this.input.slice(start, this.pos);
-    var val = octal ? parseInt(str, 8) : parseFloat(str);
-    return this.finishToken(types.num, val)
+    var val = stringToNumber(this.input.slice(start, this.pos), octal);
+    return this.finishToken(types$1.num, val)
   };
 
   // Read a string value, interpreting backslash-escapes.
 
-  pp$9.readCodePoint = function() {
+  pp.readCodePoint = function() {
     var ch = this.input.charCodeAt(this.pos), code;
 
     if (ch === 123) { // '{'
@@ -9555,14 +8576,7 @@ init_addon();
     return code
   };
 
-  function codePointToString$1(code) {
-    // UTF-16 Decoding
-    if (code <= 0xFFFF) { return String.fromCharCode(code) }
-    code -= 0x10000;
-    return String.fromCharCode((code >> 10) + 0xD800, (code & 1023) + 0xDC00)
-  }
-
-  pp$9.readString = function(quote) {
+  pp.readString = function(quote) {
     var out = "", chunkStart = ++this.pos;
     for (;;) {
       if (this.pos >= this.input.length) { this.raise(this.start, "Unterminated string constant"); }
@@ -9572,20 +8586,27 @@ init_addon();
         out += this.input.slice(chunkStart, this.pos);
         out += this.readEscapedChar(false);
         chunkStart = this.pos;
+      } else if (ch === 0x2028 || ch === 0x2029) {
+        if (this.options.ecmaVersion < 10) { this.raise(this.start, "Unterminated string constant"); }
+        ++this.pos;
+        if (this.options.locations) {
+          this.curLine++;
+          this.lineStart = this.pos;
+        }
       } else {
-        if (isNewLine(ch, this.options.ecmaVersion >= 10)) { this.raise(this.start, "Unterminated string constant"); }
+        if (isNewLine(ch)) { this.raise(this.start, "Unterminated string constant"); }
         ++this.pos;
       }
     }
     out += this.input.slice(chunkStart, this.pos++);
-    return this.finishToken(types.string, out)
+    return this.finishToken(types$1.string, out)
   };
 
   // Reads template string tokens.
 
   var INVALID_TEMPLATE_ESCAPE_ERROR = {};
 
-  pp$9.tryReadTemplateToken = function() {
+  pp.tryReadTemplateToken = function() {
     this.inTemplateElement = true;
     try {
       this.readTmplToken();
@@ -9600,7 +8621,7 @@ init_addon();
     this.inTemplateElement = false;
   };
 
-  pp$9.invalidStringToken = function(position, message) {
+  pp.invalidStringToken = function(position, message) {
     if (this.inTemplateElement && this.options.ecmaVersion >= 9) {
       throw INVALID_TEMPLATE_ESCAPE_ERROR
     } else {
@@ -9608,23 +8629,23 @@ init_addon();
     }
   };
 
-  pp$9.readTmplToken = function() {
+  pp.readTmplToken = function() {
     var out = "", chunkStart = this.pos;
     for (;;) {
       if (this.pos >= this.input.length) { this.raise(this.start, "Unterminated template"); }
       var ch = this.input.charCodeAt(this.pos);
       if (ch === 96 || ch === 36 && this.input.charCodeAt(this.pos + 1) === 123) { // '`', '${'
-        if (this.pos === this.start && (this.type === types.template || this.type === types.invalidTemplate)) {
+        if (this.pos === this.start && (this.type === types$1.template || this.type === types$1.invalidTemplate)) {
           if (ch === 36) {
             this.pos += 2;
-            return this.finishToken(types.dollarBraceL)
+            return this.finishToken(types$1.dollarBraceL)
           } else {
             ++this.pos;
-            return this.finishToken(types.backQuote)
+            return this.finishToken(types$1.backQuote)
           }
         }
         out += this.input.slice(chunkStart, this.pos);
-        return this.finishToken(types.template, out)
+        return this.finishToken(types$1.template, out)
       }
       if (ch === 92) { // '\'
         out += this.input.slice(chunkStart, this.pos);
@@ -9655,7 +8676,7 @@ init_addon();
   };
 
   // Reads a template token to search for the end, without validating any escape sequences
-  pp$9.readInvalidTemplateToken = function() {
+  pp.readInvalidTemplateToken = function() {
     for (; this.pos < this.input.length; this.pos++) {
       switch (this.input[this.pos]) {
       case "\\":
@@ -9666,10 +8687,10 @@ init_addon();
         if (this.input[this.pos + 1] !== "{") {
           break
         }
-      // falls through
 
+      // falls through
       case "`":
-        return this.finishToken(types.invalidTemplate, this.input.slice(this.start, this.pos))
+        return this.finishToken(types$1.invalidTemplate, this.input.slice(this.start, this.pos))
 
       // no default
       }
@@ -9679,14 +8700,14 @@ init_addon();
 
   // Used to read escaped characters
 
-  pp$9.readEscapedChar = function(inTemplate) {
+  pp.readEscapedChar = function(inTemplate) {
     var ch = this.input.charCodeAt(++this.pos);
     ++this.pos;
     switch (ch) {
     case 110: return "\n" // 'n' -> '\n'
     case 114: return "\r" // 'r' -> '\r'
     case 120: return String.fromCharCode(this.readHexChar(2)) // 'x'
-    case 117: return codePointToString$1(this.readCodePoint()) // 'u'
+    case 117: return codePointToString(this.readCodePoint()) // 'u'
     case 116: return "\t" // 't' -> '\t'
     case 98: return "\b" // 'b' -> '\b'
     case 118: return "\u000b" // 'v' -> '\u000b'
@@ -9697,6 +8718,12 @@ init_addon();
       return ""
     case 56:
     case 57:
+      if (this.strict) {
+        this.invalidStringToken(
+          this.pos - 1,
+          "Invalid escape sequence"
+        );
+      }
       if (inTemplate) {
         var codePos = this.pos - 1;
 
@@ -9738,7 +8765,7 @@ init_addon();
 
   // Used to read character escape sequences ('\x', '\u', '\U').
 
-  pp$9.readHexChar = function(len) {
+  pp.readHexChar = function(len) {
     var codePos = this.pos;
     var n = this.readInt(16, len);
     if (n === null) { this.invalidStringToken(codePos, "Bad character escape sequence"); }
@@ -9751,7 +8778,7 @@ init_addon();
   // Incrementally adds only escaped chars, adding other chunks as-is
   // as a micro-optimization.
 
-  pp$9.readWord1 = function() {
+  pp.readWord1 = function() {
     this.containsEsc = false;
     var word = "", first = true, chunkStart = this.pos;
     var astral = this.options.ecmaVersion >= 6;
@@ -9769,7 +8796,7 @@ init_addon();
         var esc = this.readCodePoint();
         if (!(first ? isIdentifierStart : isIdentifierChar)(esc, astral))
           { this.invalidStringToken(escStart, "Invalid Unicode escape"); }
-        word += codePointToString$1(esc);
+        word += codePointToString(esc);
         chunkStart = this.pos;
       } else {
         break
@@ -9782,18 +8809,18 @@ init_addon();
   // Read an identifier or keyword token. Will check for reserved
   // words when necessary.
 
-  pp$9.readWord = function() {
+  pp.readWord = function() {
     var word = this.readWord1();
-    var type = types.name;
+    var type = types$1.name;
     if (this.keywords.test(word)) {
-      type = keywords$1[word];
+      type = keywords[word];
     }
     return this.finishToken(type, word)
   };
 
   // Acorn is a tiny, fast JavaScript parser written in JavaScript.
 
-  var version = "7.1.0";
+  var version = "8.7.1";
 
   Parser.acorn = {
     Parser: Parser,
@@ -9804,10 +8831,10 @@ init_addon();
     getLineInfo: getLineInfo,
     Node: Node,
     TokenType: TokenType,
-    tokTypes: types,
-    keywordTypes: keywords$1,
+    tokTypes: types$1,
+    keywordTypes: keywords,
     TokContext: TokContext,
-    tokContexts: types$1,
+    tokContexts: types,
     isIdentifierChar: isIdentifierChar,
     isIdentifierStart: isIdentifierStart,
     Token: Token,
@@ -9855,14 +8882,14 @@ init_addon();
   exports.isIdentifierChar = isIdentifierChar;
   exports.isIdentifierStart = isIdentifierStart;
   exports.isNewLine = isNewLine;
-  exports.keywordTypes = keywords$1;
+  exports.keywordTypes = keywords;
   exports.lineBreak = lineBreak;
   exports.lineBreakG = lineBreakG;
   exports.nonASCIIwhitespace = nonASCIIwhitespace;
   exports.parse = parse;
   exports.parseExpressionAt = parseExpressionAt;
-  exports.tokContexts = types$1;
-  exports.tokTypes = types;
+  exports.tokContexts = types;
+  exports.tokTypes = types$1;
   exports.tokenizer = tokenizer;
   exports.version = version;
 
@@ -9870,53 +8897,31 @@ init_addon();
 
 }));
 
-},{}],15:[function(require,module,exports){
-/*
- A JavaScript implementation of the SHA family of hashes, as
- defined in FIPS PUB 180-4 and FIPS PUB 202, as well as the corresponding
- HMAC implementation as defined in FIPS PUB 198a
+},{}],13:[function(require,module,exports){
+/**
+ * A JavaScript implementation of the SHA family of hashes - defined in FIPS PUB 180-4, FIPS PUB 202,
+ * and SP 800-185 - as well as the corresponding HMAC implementation as defined in FIPS PUB 198-1.
+ *
+ * Copyright 2008-2020 Brian Turek, 1998-2009 Paul Johnston & Contributors
+ * Distributed under the BSD License
+ * See http://caligatio.github.com/jsSHA/ for more information
+ *
+ * Two ECMAScript polyfill functions carry the following license:
+ *
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED,
+ * INCLUDING WITHOUT LIMITATION ANY IMPLIED WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+ * MERCHANTABLITY OR NON-INFRINGEMENT.
+ *
+ * See the Apache Version 2.0 License for specific language governing permissions and limitations under the License.
+ */
+!function(n,r){"object"==typeof exports&&"undefined"!=typeof module?module.exports=r():"function"==typeof define&&define.amd?define(r):(n="undefined"!=typeof globalThis?globalThis:n||self).jsSHA=r()}(this,(function(){"use strict";var n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";function r(n,r,t,e){var i,o,u,f=r||[0],w=(t=t||0)>>>3,s=-1===e?3:0;for(i=0;i<n.length;i+=1)o=(u=i+w)>>>2,f.length<=o&&f.push(0),f[o]|=n[i]<<8*(s+e*(u%4));return{value:f,binLen:8*n.length+t}}function t(t,e,i){switch(e){case"UTF8":case"UTF16BE":case"UTF16LE":break;default:throw new Error("encoding must be UTF8, UTF16BE, or UTF16LE")}switch(t){case"HEX":return function(n,r,t){return function(n,r,t,e){var i,o,u,f;if(0!=n.length%2)throw new Error("String of HEX type must be in byte increments");var w=r||[0],s=(t=t||0)>>>3,a=-1===e?3:0;for(i=0;i<n.length;i+=2){if(o=parseInt(n.substr(i,2),16),isNaN(o))throw new Error("String of HEX type contains invalid characters");for(u=(f=(i>>>1)+s)>>>2;w.length<=u;)w.push(0);w[u]|=o<<8*(a+e*(f%4))}return{value:w,binLen:4*n.length+t}}(n,r,t,i)};case"TEXT":return function(n,r,t){return function(n,r,t,e,i){var o,u,f,w,s,a,h,c,v=0,A=t||[0],E=(e=e||0)>>>3;if("UTF8"===r)for(h=-1===i?3:0,f=0;f<n.length;f+=1)for(u=[],128>(o=n.charCodeAt(f))?u.push(o):2048>o?(u.push(192|o>>>6),u.push(128|63&o)):55296>o||57344<=o?u.push(224|o>>>12,128|o>>>6&63,128|63&o):(f+=1,o=65536+((1023&o)<<10|1023&n.charCodeAt(f)),u.push(240|o>>>18,128|o>>>12&63,128|o>>>6&63,128|63&o)),w=0;w<u.length;w+=1){for(s=(a=v+E)>>>2;A.length<=s;)A.push(0);A[s]|=u[w]<<8*(h+i*(a%4)),v+=1}else for(h=-1===i?2:0,c="UTF16LE"===r&&1!==i||"UTF16LE"!==r&&1===i,f=0;f<n.length;f+=1){for(o=n.charCodeAt(f),!0===c&&(o=(w=255&o)<<8|o>>>8),s=(a=v+E)>>>2;A.length<=s;)A.push(0);A[s]|=o<<8*(h+i*(a%4)),v+=2}return{value:A,binLen:8*v+e}}(n,e,r,t,i)};case"B64":return function(r,t,e){return function(r,t,e,i){var o,u,f,w,s,a,h=0,c=t||[0],v=(e=e||0)>>>3,A=-1===i?3:0,E=r.indexOf("=");if(-1===r.search(/^[a-zA-Z0-9=+/]+$/))throw new Error("Invalid character in base-64 string");if(r=r.replace(/=/g,""),-1!==E&&E<r.length)throw new Error("Invalid '=' found in base-64 string");for(o=0;o<r.length;o+=4){for(w=r.substr(o,4),f=0,u=0;u<w.length;u+=1)f|=n.indexOf(w.charAt(u))<<18-6*u;for(u=0;u<w.length-1;u+=1){for(s=(a=h+v)>>>2;c.length<=s;)c.push(0);c[s]|=(f>>>16-8*u&255)<<8*(A+i*(a%4)),h+=1}}return{value:c,binLen:8*h+e}}(r,t,e,i)};case"BYTES":return function(n,r,t){return function(n,r,t,e){var i,o,u,f,w=r||[0],s=(t=t||0)>>>3,a=-1===e?3:0;for(o=0;o<n.length;o+=1)i=n.charCodeAt(o),u=(f=o+s)>>>2,w.length<=u&&w.push(0),w[u]|=i<<8*(a+e*(f%4));return{value:w,binLen:8*n.length+t}}(n,r,t,i)};case"ARRAYBUFFER":try{new ArrayBuffer(0)}catch(n){throw new Error("ARRAYBUFFER not supported by this environment")}return function(n,t,e){return function(n,t,e,i){return r(new Uint8Array(n),t,e,i)}(n,t,e,i)};case"UINT8ARRAY":try{new Uint8Array(0)}catch(n){throw new Error("UINT8ARRAY not supported by this environment")}return function(n,t,e){return r(n,t,e,i)};default:throw new Error("format must be HEX, TEXT, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY")}}function e(r,t,e,i){switch(r){case"HEX":return function(n){return function(n,r,t,e){var i,o,u="",f=r/8,w=-1===t?3:0;for(i=0;i<f;i+=1)o=n[i>>>2]>>>8*(w+t*(i%4)),u+="0123456789abcdef".charAt(o>>>4&15)+"0123456789abcdef".charAt(15&o);return e.outputUpper?u.toUpperCase():u}(n,t,e,i)};case"B64":return function(r){return function(r,t,e,i){var o,u,f,w,s,a="",h=t/8,c=-1===e?3:0;for(o=0;o<h;o+=3)for(w=o+1<h?r[o+1>>>2]:0,s=o+2<h?r[o+2>>>2]:0,f=(r[o>>>2]>>>8*(c+e*(o%4))&255)<<16|(w>>>8*(c+e*((o+1)%4))&255)<<8|s>>>8*(c+e*((o+2)%4))&255,u=0;u<4;u+=1)a+=8*o+6*u<=t?n.charAt(f>>>6*(3-u)&63):i.b64Pad;return a}(r,t,e,i)};case"BYTES":return function(n){return function(n,r,t){var e,i,o="",u=r/8,f=-1===t?3:0;for(e=0;e<u;e+=1)i=n[e>>>2]>>>8*(f+t*(e%4))&255,o+=String.fromCharCode(i);return o}(n,t,e)};case"ARRAYBUFFER":try{new ArrayBuffer(0)}catch(n){throw new Error("ARRAYBUFFER not supported by this environment")}return function(n){return function(n,r,t){var e,i=r/8,o=new ArrayBuffer(i),u=new Uint8Array(o),f=-1===t?3:0;for(e=0;e<i;e+=1)u[e]=n[e>>>2]>>>8*(f+t*(e%4))&255;return o}(n,t,e)};case"UINT8ARRAY":try{new Uint8Array(0)}catch(n){throw new Error("UINT8ARRAY not supported by this environment")}return function(n){return function(n,r,t){var e,i=r/8,o=-1===t?3:0,u=new Uint8Array(i);for(e=0;e<i;e+=1)u[e]=n[e>>>2]>>>8*(o+t*(e%4))&255;return u}(n,t,e)};default:throw new Error("format must be HEX, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY")}}var i=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298],o=[3238371032,914150663,812702999,4144912697,4290775857,1750603025,1694076839,3204075428],u=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],f="Chosen SHA variant is not supported";function w(n,r){var t,e,i=n.binLen>>>3,o=r.binLen>>>3,u=i<<3,f=4-i<<3;if(i%4!=0){for(t=0;t<o;t+=4)e=i+t>>>2,n.value[e]|=r.value[t>>>2]<<u,n.value.push(0),n.value[e+1]|=r.value[t>>>2]>>>f;return(n.value.length<<2)-4>=o+i&&n.value.pop(),{value:n.value,binLen:n.binLen+r.binLen}}return{value:n.value.concat(r.value),binLen:n.binLen+r.binLen}}function s(n){var r={outputUpper:!1,b64Pad:"=",outputLen:-1},t=n||{},e="Output length must be a multiple of 8";if(r.outputUpper=t.outputUpper||!1,t.b64Pad&&(r.b64Pad=t.b64Pad),t.outputLen){if(t.outputLen%8!=0)throw new Error(e);r.outputLen=t.outputLen}else if(t.shakeLen){if(t.shakeLen%8!=0)throw new Error(e);r.outputLen=t.shakeLen}if("boolean"!=typeof r.outputUpper)throw new Error("Invalid outputUpper formatting option");if("string"!=typeof r.b64Pad)throw new Error("Invalid b64Pad formatting option");return r}function a(n,r,e,i){var o=n+" must include a value and format";if(!r){if(!i)throw new Error(o);return i}if(void 0===r.value||!r.format)throw new Error(o);return t(r.format,r.encoding||"UTF8",e)(r.value)}var h=function(){function n(n,r,t){var e=t||{};if(this.t=r,this.i=e.encoding||"UTF8",this.numRounds=e.numRounds||1,isNaN(this.numRounds)||this.numRounds!==parseInt(this.numRounds,10)||1>this.numRounds)throw new Error("numRounds must a integer >= 1");this.o=n,this.u=[],this.s=0,this.h=!1,this.v=0,this.A=!1,this.l=[],this.H=[]}return n.prototype.update=function(n){var r,t=0,e=this.S>>>5,i=this.p(n,this.u,this.s),o=i.binLen,u=i.value,f=o>>>5;for(r=0;r<f;r+=e)t+this.S<=o&&(this.m=this.R(u.slice(r,r+e),this.m),t+=this.S);this.v+=t,this.u=u.slice(t>>>5),this.s=o%this.S,this.h=!0},n.prototype.getHash=function(n,r){var t,i,o=this.U,u=s(r);if(this.T){if(-1===u.outputLen)throw new Error("Output length must be specified in options");o=u.outputLen}var f=e(n,o,this.C,u);if(this.A&&this.F)return f(this.F(u));for(i=this.K(this.u.slice(),this.s,this.v,this.B(this.m),o),t=1;t<this.numRounds;t+=1)this.T&&o%32!=0&&(i[i.length-1]&=16777215>>>24-o%32),i=this.K(i,o,0,this.L(this.o),o);return f(i)},n.prototype.setHMACKey=function(n,r,e){if(!this.g)throw new Error("Variant does not support HMAC");if(this.h)throw new Error("Cannot set MAC key after calling update");var i=t(r,(e||{}).encoding||"UTF8",this.C);this.k(i(n))},n.prototype.k=function(n){var r,t=this.S>>>3,e=t/4-1;if(1!==this.numRounds)throw new Error("Cannot set numRounds with MAC");if(this.A)throw new Error("MAC key already set");for(t<n.binLen/8&&(n.value=this.K(n.value,n.binLen,0,this.L(this.o),this.U));n.value.length<=e;)n.value.push(0);for(r=0;r<=e;r+=1)this.l[r]=909522486^n.value[r],this.H[r]=1549556828^n.value[r];this.m=this.R(this.l,this.m),this.v=this.S,this.A=!0},n.prototype.getHMAC=function(n,r){var t=s(r);return e(n,this.U,this.C,t)(this.Y())},n.prototype.Y=function(){var n;if(!this.A)throw new Error("Cannot call getHMAC without first setting MAC key");var r=this.K(this.u.slice(),this.s,this.v,this.B(this.m),this.U);return n=this.R(this.H,this.L(this.o)),n=this.K(r,this.U,this.S,n,this.U)},n}(),c=function(n,r){return(c=Object.setPrototypeOf||{__proto__:[]}instanceof Array&&function(n,r){n.__proto__=r}||function(n,r){for(var t in r)Object.prototype.hasOwnProperty.call(r,t)&&(n[t]=r[t])})(n,r)};function v(n,r){function t(){this.constructor=n}c(n,r),n.prototype=null===r?Object.create(r):(t.prototype=r.prototype,new t)}function A(n,r){return n<<r|n>>>32-r}function E(n,r){return n>>>r|n<<32-r}function l(n,r){return n>>>r}function b(n,r,t){return n^r^t}function H(n,r,t){return n&r^~n&t}function d(n,r,t){return n&r^n&t^r&t}function S(n){return E(n,2)^E(n,13)^E(n,22)}function p(n,r){var t=(65535&n)+(65535&r);return(65535&(n>>>16)+(r>>>16)+(t>>>16))<<16|65535&t}function m(n,r,t,e){var i=(65535&n)+(65535&r)+(65535&t)+(65535&e);return(65535&(n>>>16)+(r>>>16)+(t>>>16)+(e>>>16)+(i>>>16))<<16|65535&i}function y(n,r,t,e,i){var o=(65535&n)+(65535&r)+(65535&t)+(65535&e)+(65535&i);return(65535&(n>>>16)+(r>>>16)+(t>>>16)+(e>>>16)+(i>>>16)+(o>>>16))<<16|65535&o}function R(n){return E(n,7)^E(n,18)^l(n,3)}function U(n){return E(n,6)^E(n,11)^E(n,25)}function T(n){return[1732584193,4023233417,2562383102,271733878,3285377520]}function C(n,r){var t,e,i,o,u,f,w,s=[];for(t=r[0],e=r[1],i=r[2],o=r[3],u=r[4],w=0;w<80;w+=1)s[w]=w<16?n[w]:A(s[w-3]^s[w-8]^s[w-14]^s[w-16],1),f=w<20?y(A(t,5),H(e,i,o),u,1518500249,s[w]):w<40?y(A(t,5),b(e,i,o),u,1859775393,s[w]):w<60?y(A(t,5),d(e,i,o),u,2400959708,s[w]):y(A(t,5),b(e,i,o),u,3395469782,s[w]),u=o,o=i,i=A(e,30),e=t,t=f;return r[0]=p(t,r[0]),r[1]=p(e,r[1]),r[2]=p(i,r[2]),r[3]=p(o,r[3]),r[4]=p(u,r[4]),r}function F(n,r,t,e){for(var i,o=15+(r+65>>>9<<4),u=r+t;n.length<=o;)n.push(0);for(n[r>>>5]|=128<<24-r%32,n[o]=4294967295&u,n[o-1]=u/4294967296|0,i=0;i<n.length;i+=16)e=C(n.slice(i,i+16),e);return e}var K=function(n){function r(r,e,i){var o=this;if("SHA-1"!==r)throw new Error(f);var u=i||{};return(o=n.call(this,r,e,i)||this).g=!0,o.F=o.Y,o.C=-1,o.p=t(o.t,o.i,o.C),o.R=C,o.B=function(n){return n.slice()},o.L=T,o.K=F,o.m=[1732584193,4023233417,2562383102,271733878,3285377520],o.S=512,o.U=160,o.T=!1,u.hmacKey&&o.k(a("hmacKey",u.hmacKey,o.C)),o}return v(r,n),r}(h);function B(n){return"SHA-224"==n?o.slice():u.slice()}function L(n,r){var t,e,o,u,f,w,s,a,h,c,v,A,b=[];for(t=r[0],e=r[1],o=r[2],u=r[3],f=r[4],w=r[5],s=r[6],a=r[7],v=0;v<64;v+=1)b[v]=v<16?n[v]:m(E(A=b[v-2],17)^E(A,19)^l(A,10),b[v-7],R(b[v-15]),b[v-16]),h=y(a,U(f),H(f,w,s),i[v],b[v]),c=p(S(t),d(t,e,o)),a=s,s=w,w=f,f=p(u,h),u=o,o=e,e=t,t=p(h,c);return r[0]=p(t,r[0]),r[1]=p(e,r[1]),r[2]=p(o,r[2]),r[3]=p(u,r[3]),r[4]=p(f,r[4]),r[5]=p(w,r[5]),r[6]=p(s,r[6]),r[7]=p(a,r[7]),r}var g=function(n){function r(r,e,i){var o=this;if("SHA-224"!==r&&"SHA-256"!==r)throw new Error(f);var u=i||{};return(o=n.call(this,r,e,i)||this).F=o.Y,o.g=!0,o.C=-1,o.p=t(o.t,o.i,o.C),o.R=L,o.B=function(n){return n.slice()},o.L=B,o.K=function(n,t,e,i){return function(n,r,t,e,i){for(var o,u=15+(r+65>>>9<<4),f=r+t;n.length<=u;)n.push(0);for(n[r>>>5]|=128<<24-r%32,n[u]=4294967295&f,n[u-1]=f/4294967296|0,o=0;o<n.length;o+=16)e=L(n.slice(o,o+16),e);return"SHA-224"===i?[e[0],e[1],e[2],e[3],e[4],e[5],e[6]]:e}(n,t,e,i,r)},o.m=B(r),o.S=512,o.U="SHA-224"===r?224:256,o.T=!1,u.hmacKey&&o.k(a("hmacKey",u.hmacKey,o.C)),o}return v(r,n),r}(h),k=function(n,r){this.N=n,this.I=r};function Y(n,r){var t;return r>32?(t=64-r,new k(n.I<<r|n.N>>>t,n.N<<r|n.I>>>t)):0!==r?(t=32-r,new k(n.N<<r|n.I>>>t,n.I<<r|n.N>>>t)):n}function N(n,r){var t;return r<32?(t=32-r,new k(n.N>>>r|n.I<<t,n.I>>>r|n.N<<t)):(t=64-r,new k(n.I>>>r|n.N<<t,n.N>>>r|n.I<<t))}function I(n,r){return new k(n.N>>>r,n.I>>>r|n.N<<32-r)}function M(n,r,t){return new k(n.N&r.N^~n.N&t.N,n.I&r.I^~n.I&t.I)}function X(n,r,t){return new k(n.N&r.N^n.N&t.N^r.N&t.N,n.I&r.I^n.I&t.I^r.I&t.I)}function z(n){var r=N(n,28),t=N(n,34),e=N(n,39);return new k(r.N^t.N^e.N,r.I^t.I^e.I)}function O(n,r){var t,e;t=(65535&n.I)+(65535&r.I);var i=(65535&(e=(n.I>>>16)+(r.I>>>16)+(t>>>16)))<<16|65535&t;return t=(65535&n.N)+(65535&r.N)+(e>>>16),e=(n.N>>>16)+(r.N>>>16)+(t>>>16),new k((65535&e)<<16|65535&t,i)}function j(n,r,t,e){var i,o;i=(65535&n.I)+(65535&r.I)+(65535&t.I)+(65535&e.I);var u=(65535&(o=(n.I>>>16)+(r.I>>>16)+(t.I>>>16)+(e.I>>>16)+(i>>>16)))<<16|65535&i;return i=(65535&n.N)+(65535&r.N)+(65535&t.N)+(65535&e.N)+(o>>>16),o=(n.N>>>16)+(r.N>>>16)+(t.N>>>16)+(e.N>>>16)+(i>>>16),new k((65535&o)<<16|65535&i,u)}function _(n,r,t,e,i){var o,u;o=(65535&n.I)+(65535&r.I)+(65535&t.I)+(65535&e.I)+(65535&i.I);var f=(65535&(u=(n.I>>>16)+(r.I>>>16)+(t.I>>>16)+(e.I>>>16)+(i.I>>>16)+(o>>>16)))<<16|65535&o;return o=(65535&n.N)+(65535&r.N)+(65535&t.N)+(65535&e.N)+(65535&i.N)+(u>>>16),u=(n.N>>>16)+(r.N>>>16)+(t.N>>>16)+(e.N>>>16)+(i.N>>>16)+(o>>>16),new k((65535&u)<<16|65535&o,f)}function P(n,r){return new k(n.N^r.N,n.I^r.I)}function x(n){var r=N(n,1),t=N(n,8),e=I(n,7);return new k(r.N^t.N^e.N,r.I^t.I^e.I)}function V(n){var r=N(n,14),t=N(n,18),e=N(n,41);return new k(r.N^t.N^e.N,r.I^t.I^e.I)}var Z=[new k(i[0],3609767458),new k(i[1],602891725),new k(i[2],3964484399),new k(i[3],2173295548),new k(i[4],4081628472),new k(i[5],3053834265),new k(i[6],2937671579),new k(i[7],3664609560),new k(i[8],2734883394),new k(i[9],1164996542),new k(i[10],1323610764),new k(i[11],3590304994),new k(i[12],4068182383),new k(i[13],991336113),new k(i[14],633803317),new k(i[15],3479774868),new k(i[16],2666613458),new k(i[17],944711139),new k(i[18],2341262773),new k(i[19],2007800933),new k(i[20],1495990901),new k(i[21],1856431235),new k(i[22],3175218132),new k(i[23],2198950837),new k(i[24],3999719339),new k(i[25],766784016),new k(i[26],2566594879),new k(i[27],3203337956),new k(i[28],1034457026),new k(i[29],2466948901),new k(i[30],3758326383),new k(i[31],168717936),new k(i[32],1188179964),new k(i[33],1546045734),new k(i[34],1522805485),new k(i[35],2643833823),new k(i[36],2343527390),new k(i[37],1014477480),new k(i[38],1206759142),new k(i[39],344077627),new k(i[40],1290863460),new k(i[41],3158454273),new k(i[42],3505952657),new k(i[43],106217008),new k(i[44],3606008344),new k(i[45],1432725776),new k(i[46],1467031594),new k(i[47],851169720),new k(i[48],3100823752),new k(i[49],1363258195),new k(i[50],3750685593),new k(i[51],3785050280),new k(i[52],3318307427),new k(i[53],3812723403),new k(i[54],2003034995),new k(i[55],3602036899),new k(i[56],1575990012),new k(i[57],1125592928),new k(i[58],2716904306),new k(i[59],442776044),new k(i[60],593698344),new k(i[61],3733110249),new k(i[62],2999351573),new k(i[63],3815920427),new k(3391569614,3928383900),new k(3515267271,566280711),new k(3940187606,3454069534),new k(4118630271,4000239992),new k(116418474,1914138554),new k(174292421,2731055270),new k(289380356,3203993006),new k(460393269,320620315),new k(685471733,587496836),new k(852142971,1086792851),new k(1017036298,365543100),new k(1126000580,2618297676),new k(1288033470,3409855158),new k(1501505948,4234509866),new k(1607167915,987167468),new k(1816402316,1246189591)];function q(n){return"SHA-384"===n?[new k(3418070365,o[0]),new k(1654270250,o[1]),new k(2438529370,o[2]),new k(355462360,o[3]),new k(1731405415,o[4]),new k(41048885895,o[5]),new k(3675008525,o[6]),new k(1203062813,o[7])]:[new k(u[0],4089235720),new k(u[1],2227873595),new k(u[2],4271175723),new k(u[3],1595750129),new k(u[4],2917565137),new k(u[5],725511199),new k(u[6],4215389547),new k(u[7],327033209)]}function D(n,r){var t,e,i,o,u,f,w,s,a,h,c,v,A,E,l,b,H=[];for(t=r[0],e=r[1],i=r[2],o=r[3],u=r[4],f=r[5],w=r[6],s=r[7],c=0;c<80;c+=1)c<16?(v=2*c,H[c]=new k(n[v],n[v+1])):H[c]=j((A=H[c-2],E=void 0,l=void 0,b=void 0,E=N(A,19),l=N(A,61),b=I(A,6),new k(E.N^l.N^b.N,E.I^l.I^b.I)),H[c-7],x(H[c-15]),H[c-16]),a=_(s,V(u),M(u,f,w),Z[c],H[c]),h=O(z(t),X(t,e,i)),s=w,w=f,f=u,u=O(o,a),o=i,i=e,e=t,t=O(a,h);return r[0]=O(t,r[0]),r[1]=O(e,r[1]),r[2]=O(i,r[2]),r[3]=O(o,r[3]),r[4]=O(u,r[4]),r[5]=O(f,r[5]),r[6]=O(w,r[6]),r[7]=O(s,r[7]),r}var G=function(n){function r(r,e,i){var o=this;if("SHA-384"!==r&&"SHA-512"!==r)throw new Error(f);var u=i||{};return(o=n.call(this,r,e,i)||this).F=o.Y,o.g=!0,o.C=-1,o.p=t(o.t,o.i,o.C),o.R=D,o.B=function(n){return n.slice()},o.L=q,o.K=function(n,t,e,i){return function(n,r,t,e,i){for(var o,u=31+(r+129>>>10<<5),f=r+t;n.length<=u;)n.push(0);for(n[r>>>5]|=128<<24-r%32,n[u]=4294967295&f,n[u-1]=f/4294967296|0,o=0;o<n.length;o+=32)e=D(n.slice(o,o+32),e);return"SHA-384"===i?[(e=e)[0].N,e[0].I,e[1].N,e[1].I,e[2].N,e[2].I,e[3].N,e[3].I,e[4].N,e[4].I,e[5].N,e[5].I]:[e[0].N,e[0].I,e[1].N,e[1].I,e[2].N,e[2].I,e[3].N,e[3].I,e[4].N,e[4].I,e[5].N,e[5].I,e[6].N,e[6].I,e[7].N,e[7].I]}(n,t,e,i,r)},o.m=q(r),o.S=1024,o.U="SHA-384"===r?384:512,o.T=!1,u.hmacKey&&o.k(a("hmacKey",u.hmacKey,o.C)),o}return v(r,n),r}(h),J=[new k(0,1),new k(0,32898),new k(2147483648,32906),new k(2147483648,2147516416),new k(0,32907),new k(0,2147483649),new k(2147483648,2147516545),new k(2147483648,32777),new k(0,138),new k(0,136),new k(0,2147516425),new k(0,2147483658),new k(0,2147516555),new k(2147483648,139),new k(2147483648,32905),new k(2147483648,32771),new k(2147483648,32770),new k(2147483648,128),new k(0,32778),new k(2147483648,2147483658),new k(2147483648,2147516545),new k(2147483648,32896),new k(0,2147483649),new k(2147483648,2147516424)],Q=[[0,36,3,41,18],[1,44,10,45,2],[62,6,43,15,61],[28,55,25,21,56],[27,20,39,8,14]];function W(n){var r,t=[];for(r=0;r<5;r+=1)t[r]=[new k(0,0),new k(0,0),new k(0,0),new k(0,0),new k(0,0)];return t}function $(n){var r,t=[];for(r=0;r<5;r+=1)t[r]=n[r].slice();return t}function nn(n,r){var t,e,i,o,u,f,w,s,a,h=[],c=[];if(null!==n)for(e=0;e<n.length;e+=2)r[(e>>>1)%5][(e>>>1)/5|0]=P(r[(e>>>1)%5][(e>>>1)/5|0],new k(n[e+1],n[e]));for(t=0;t<24;t+=1){for(o=W(),e=0;e<5;e+=1)h[e]=(u=r[e][0],f=r[e][1],w=r[e][2],s=r[e][3],a=r[e][4],new k(u.N^f.N^w.N^s.N^a.N,u.I^f.I^w.I^s.I^a.I));for(e=0;e<5;e+=1)c[e]=P(h[(e+4)%5],Y(h[(e+1)%5],1));for(e=0;e<5;e+=1)for(i=0;i<5;i+=1)r[e][i]=P(r[e][i],c[e]);for(e=0;e<5;e+=1)for(i=0;i<5;i+=1)o[i][(2*e+3*i)%5]=Y(r[e][i],Q[e][i]);for(e=0;e<5;e+=1)for(i=0;i<5;i+=1)r[e][i]=P(o[e][i],new k(~o[(e+1)%5][i].N&o[(e+2)%5][i].N,~o[(e+1)%5][i].I&o[(e+2)%5][i].I));r[0][0]=P(r[0][0],J[t])}return r}function rn(n){var r,t,e=0,i=[0,0],o=[4294967295&n,n/4294967296&2097151];for(r=6;r>=0;r--)0===(t=o[r>>2]>>>8*r&255)&&0===e||(i[e+1>>2]|=t<<8*(e+1),e+=1);return e=0!==e?e:1,i[0]|=e,{value:e+1>4?i:[i[0]],binLen:8+8*e}}function tn(n){return w(rn(n.binLen),n)}function en(n,r){var t,e=rn(r),i=r>>>2,o=(i-(e=w(e,n)).value.length%i)%i;for(t=0;t<o;t++)e.value.push(0);return e.value}var on=function(n){function r(r,e,i){var o=this,u=6,w=0,s=i||{};if(1!==(o=n.call(this,r,e,i)||this).numRounds){if(s.kmacKey||s.hmacKey)throw new Error("Cannot set numRounds with MAC");if("CSHAKE128"===o.o||"CSHAKE256"===o.o)throw new Error("Cannot set numRounds for CSHAKE variants")}switch(o.C=1,o.p=t(o.t,o.i,o.C),o.R=nn,o.B=$,o.L=W,o.m=W(),o.T=!1,r){case"SHA3-224":o.S=w=1152,o.U=224,o.g=!0,o.F=o.Y;break;case"SHA3-256":o.S=w=1088,o.U=256,o.g=!0,o.F=o.Y;break;case"SHA3-384":o.S=w=832,o.U=384,o.g=!0,o.F=o.Y;break;case"SHA3-512":o.S=w=576,o.U=512,o.g=!0,o.F=o.Y;break;case"SHAKE128":u=31,o.S=w=1344,o.U=-1,o.T=!0,o.g=!1,o.F=null;break;case"SHAKE256":u=31,o.S=w=1088,o.U=-1,o.T=!0,o.g=!1,o.F=null;break;case"KMAC128":u=4,o.S=w=1344,o.M(i),o.U=-1,o.T=!0,o.g=!1,o.F=o.X;break;case"KMAC256":u=4,o.S=w=1088,o.M(i),o.U=-1,o.T=!0,o.g=!1,o.F=o.X;break;case"CSHAKE128":o.S=w=1344,u=o.O(i),o.U=-1,o.T=!0,o.g=!1,o.F=null;break;case"CSHAKE256":o.S=w=1088,u=o.O(i),o.U=-1,o.T=!0,o.g=!1,o.F=null;break;default:throw new Error(f)}return o.K=function(n,r,t,e,i){return function(n,r,t,e,i,o,u){var f,w,s=0,a=[],h=i>>>5,c=r>>>5;for(f=0;f<c&&r>=i;f+=h)e=nn(n.slice(f,f+h),e),r-=i;for(n=n.slice(f),r%=i;n.length<h;)n.push(0);for(n[(f=r>>>3)>>2]^=o<<f%4*8,n[h-1]^=2147483648,e=nn(n,e);32*a.length<u&&(w=e[s%5][s/5|0],a.push(w.I),!(32*a.length>=u));)a.push(w.N),0==64*(s+=1)%i&&(nn(null,e),s=0);return a}(n,r,0,e,w,u,i)},s.hmacKey&&o.k(a("hmacKey",s.hmacKey,o.C)),o}return v(r,n),r.prototype.O=function(n,r){var t=function(n){var r=n||{};return{funcName:a("funcName",r.funcName,1,{value:[],binLen:0}),customization:a("Customization",r.customization,1,{value:[],binLen:0})}}(n||{});r&&(t.funcName=r);var e=w(tn(t.funcName),tn(t.customization));if(0!==t.customization.binLen||0!==t.funcName.binLen){for(var i=en(e,this.S>>>3),o=0;o<i.length;o+=this.S>>>5)this.m=this.R(i.slice(o,o+(this.S>>>5)),this.m),this.v+=this.S;return 4}return 31},r.prototype.M=function(n){var r=function(n){var r=n||{};return{kmacKey:a("kmacKey",r.kmacKey,1),funcName:{value:[1128353099],binLen:32},customization:a("Customization",r.customization,1,{value:[],binLen:0})}}(n||{});this.O(n,r.funcName);for(var t=en(tn(r.kmacKey),this.S>>>3),e=0;e<t.length;e+=this.S>>>5)this.m=this.R(t.slice(e,e+(this.S>>>5)),this.m),this.v+=this.S;this.A=!0},r.prototype.X=function(n){var r=w({value:this.u.slice(),binLen:this.s},function(n){var r,t,e=0,i=[0,0],o=[4294967295&n,n/4294967296&2097151];for(r=6;r>=0;r--)0==(t=o[r>>2]>>>8*r&255)&&0===e||(i[e>>2]|=t<<8*e,e+=1);return i[(e=0!==e?e:1)>>2]|=e<<8*e,{value:e+1>4?i:[i[0]],binLen:8+8*e}}(n.outputLen));return this.K(r.value,r.binLen,this.v,this.B(this.m),n.outputLen)},r}(h);return function(){function n(n,r,t){if("SHA-1"==n)this.j=new K(n,r,t);else if("SHA-224"==n||"SHA-256"==n)this.j=new g(n,r,t);else if("SHA-384"==n||"SHA-512"==n)this.j=new G(n,r,t);else{if("SHA3-224"!=n&&"SHA3-256"!=n&&"SHA3-384"!=n&&"SHA3-512"!=n&&"SHAKE128"!=n&&"SHAKE256"!=n&&"CSHAKE128"!=n&&"CSHAKE256"!=n&&"KMAC128"!=n&&"KMAC256"!=n)throw new Error(f);this.j=new on(n,r,t)}}return n.prototype.update=function(n){this.j.update(n)},n.prototype.getHash=function(n,r){return this.j.getHash(n,r)},n.prototype.setHMACKey=function(n,r,t){this.j.setHMACKey(n,r,t)},n.prototype.getHMAC=function(n,r){return this.j.getHMAC(n,r)},n}()}));
 
- Copyright 2008-2020 Brian Turek, 1998-2009 Paul Johnston & Contributors
- Distributed under the BSD License
- See http://caligatio.github.com/jsSHA/ for more information
-*/
-'use strict';(function(aa){function C(e,b,a){var k=0,h=[],l=0,g,m,c,f,n,q,u,r,I=!1,v=[],x=[],t,y=!1,z=!1,w=-1;a=a||{};g=a.encoding||"UTF8";t=a.numRounds||1;if(t!==parseInt(t,10)||1>t)throw Error("numRounds must a integer >= 1");if("SHA-1"===e)n=512,q=K,u=ba,f=160,r=function(b){return b.slice()};else if(0===e.lastIndexOf("SHA-",0))if(q=function(b,k){return L(b,k,e)},u=function(b,k,h,a){var d,f;if("SHA-224"===e||"SHA-256"===e)d=(k+65>>>9<<4)+15,f=16;else if("SHA-384"===e||"SHA-512"===e)d=(k+129>>>10<<
-5)+31,f=32;else throw Error("Unexpected error in SHA-2 implementation");for(;b.length<=d;)b.push(0);b[k>>>5]|=128<<24-k%32;k=k+h;b[d]=k&4294967295;b[d-1]=k/4294967296|0;h=b.length;for(k=0;k<h;k+=f)a=L(b.slice(k,k+f),a,e);if("SHA-224"===e)b=[a[0],a[1],a[2],a[3],a[4],a[5],a[6]];else if("SHA-256"===e)b=a;else if("SHA-384"===e)b=[a[0].a,a[0].b,a[1].a,a[1].b,a[2].a,a[2].b,a[3].a,a[3].b,a[4].a,a[4].b,a[5].a,a[5].b];else if("SHA-512"===e)b=[a[0].a,a[0].b,a[1].a,a[1].b,a[2].a,a[2].b,a[3].a,a[3].b,a[4].a,
-a[4].b,a[5].a,a[5].b,a[6].a,a[6].b,a[7].a,a[7].b];else throw Error("Unexpected error in SHA-2 implementation");return b},r=function(b){return b.slice()},"SHA-224"===e)n=512,f=224;else if("SHA-256"===e)n=512,f=256;else if("SHA-384"===e)n=1024,f=384;else if("SHA-512"===e)n=1024,f=512;else throw Error("Chosen SHA variant is not supported");else if(0===e.lastIndexOf("SHA3-",0)||0===e.lastIndexOf("SHAKE",0)){var F=6;q=D;r=function(b){var e=[],a;for(a=0;5>a;a+=1)e[a]=b[a].slice();return e};w=1;if("SHA3-224"===
-e)n=1152,f=224;else if("SHA3-256"===e)n=1088,f=256;else if("SHA3-384"===e)n=832,f=384;else if("SHA3-512"===e)n=576,f=512;else if("SHAKE128"===e)n=1344,f=-1,F=31,z=!0;else if("SHAKE256"===e)n=1088,f=-1,F=31,z=!0;else throw Error("Chosen SHA variant is not supported");u=function(b,e,a,k,h){a=n;var d=F,f,g=[],l=a>>>5,m=0,c=e>>>5;for(f=0;f<c&&e>=a;f+=l)k=D(b.slice(f,f+l),k),e-=a;b=b.slice(f);for(e%=a;b.length<l;)b.push(0);f=e>>>3;b[f>>2]^=d<<f%4*8;b[l-1]^=2147483648;for(k=D(b,k);32*g.length<h;){b=k[m%
-5][m/5|0];g.push(b.b);if(32*g.length>=h)break;g.push(b.a);m+=1;0===64*m%a&&D(null,k)}return g}}else throw Error("Chosen SHA variant is not supported");c=M(b,g,w);m=A(e);this.setHMACKey=function(b,a,h){var d;if(!0===I)throw Error("HMAC key already set");if(!0===y)throw Error("Cannot set HMAC key after calling update");if(!0===z)throw Error("SHAKE is not supported for HMAC");g=(h||{}).encoding||"UTF8";a=M(a,g,w)(b);b=a.binLen;a=a.value;d=n>>>3;h=d/4-1;if(d<b/8){for(a=u(a,b,0,A(e),f);a.length<=h;)a.push(0);
-a[h]&=4294967040}else if(d>b/8){for(;a.length<=h;)a.push(0);a[h]&=4294967040}for(b=0;b<=h;b+=1)v[b]=a[b]^909522486,x[b]=a[b]^1549556828;m=q(v,m);k=n;I=!0};this.update=function(b){var a,e,d,f=0,g=n>>>5;a=c(b,h,l);b=a.binLen;e=a.value;a=b>>>5;for(d=0;d<a;d+=g)f+n<=b&&(m=q(e.slice(d,d+g),m),f+=n);k+=f;h=e.slice(f>>>5);l=b%n;y=!0};this.getHash=function(b,a){var d,g,c,n;if(!0===I)throw Error("Cannot call getHash after setting HMAC key");c=N(a);if(!0===z){if(-1===c.shakeLen)throw Error("shakeLen must be specified in options");
-f=c.shakeLen}switch(b){case "HEX":d=function(b){return O(b,f,w,c)};break;case "B64":d=function(b){return P(b,f,w,c)};break;case "BYTES":d=function(b){return Q(b,f,w)};break;case "ARRAYBUFFER":try{g=new ArrayBuffer(0)}catch(p){throw Error("ARRAYBUFFER not supported by this environment");}d=function(b){return R(b,f,w)};break;case "UINT8ARRAY":try{g=new Uint8Array(0)}catch(p){throw Error("UINT8ARRAY not supported by this environment");}d=function(b){return S(b,f,w)};break;default:throw Error("format must be HEX, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");
-}n=u(h.slice(),l,k,r(m),f);for(g=1;g<t;g+=1)!0===z&&0!==f%32&&(n[n.length-1]&=16777215>>>24-f%32),n=u(n,f,0,A(e),f);return d(n)};this.getHMAC=function(b,a){var d,g,c,p;if(!1===I)throw Error("Cannot call getHMAC without first setting HMAC key");c=N(a);switch(b){case "HEX":d=function(b){return O(b,f,w,c)};break;case "B64":d=function(b){return P(b,f,w,c)};break;case "BYTES":d=function(b){return Q(b,f,w)};break;case "ARRAYBUFFER":try{d=new ArrayBuffer(0)}catch(v){throw Error("ARRAYBUFFER not supported by this environment");
-}d=function(b){return R(b,f,w)};break;case "UINT8ARRAY":try{d=new Uint8Array(0)}catch(v){throw Error("UINT8ARRAY not supported by this environment");}d=function(b){return S(b,f,w)};break;default:throw Error("outputFormat must be HEX, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}g=u(h.slice(),l,k,r(m),f);p=q(x,A(e));p=u(g,f,n,p,f);return d(p)}}function a(a,b){this.a=a;this.b=b}function T(a,b,d,k){var h,l,g,c,p;b=b||[0];d=d||0;l=d>>>3;p=-1===k?3:0;for(h=0;h<a.length;h+=1)c=h+l,g=c>>>2,b.length<=g&&b.push(0),
-b[g]|=a[h]<<8*(p+c%4*k);return{value:b,binLen:8*a.length+d}}function O(a,b,d,k){var h="";b/=8;var l,g,c;c=-1===d?3:0;for(l=0;l<b;l+=1)g=a[l>>>2]>>>8*(c+l%4*d),h+="0123456789abcdef".charAt(g>>>4&15)+"0123456789abcdef".charAt(g&15);return k.outputUpper?h.toUpperCase():h}function P(a,b,d,k){var h="",l=b/8,g,c,p,f;f=-1===d?3:0;for(g=0;g<l;g+=3)for(c=g+1<l?a[g+1>>>2]:0,p=g+2<l?a[g+2>>>2]:0,p=(a[g>>>2]>>>8*(f+g%4*d)&255)<<16|(c>>>8*(f+(g+1)%4*d)&255)<<8|p>>>8*(f+(g+2)%4*d)&255,c=0;4>c;c+=1)8*g+6*c<=b?h+=
-"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".charAt(p>>>6*(3-c)&63):h+=k.b64Pad;return h}function Q(a,b,d){var k="";b/=8;var h,c,g;g=-1===d?3:0;for(h=0;h<b;h+=1)c=a[h>>>2]>>>8*(g+h%4*d)&255,k+=String.fromCharCode(c);return k}function R(a,b,d){b/=8;var k,h=new ArrayBuffer(b),c,g;g=new Uint8Array(h);c=-1===d?3:0;for(k=0;k<b;k+=1)g[k]=a[k>>>2]>>>8*(c+k%4*d)&255;return h}function S(a,b,d){b/=8;var k,h=new Uint8Array(b),c;c=-1===d?3:0;for(k=0;k<b;k+=1)h[k]=a[k>>>2]>>>8*(c+k%4*d)&
-255;return h}function N(a){var b={outputUpper:!1,b64Pad:"=",shakeLen:-1};a=a||{};b.outputUpper=a.outputUpper||!1;!0===a.hasOwnProperty("b64Pad")&&(b.b64Pad=a.b64Pad);if(!0===a.hasOwnProperty("shakeLen")){if(0!==a.shakeLen%8)throw Error("shakeLen must be a multiple of 8");b.shakeLen=a.shakeLen}if("boolean"!==typeof b.outputUpper)throw Error("Invalid outputUpper formatting option");if("string"!==typeof b.b64Pad)throw Error("Invalid b64Pad formatting option");return b}function M(a,b,d){switch(b){case "UTF8":case "UTF16BE":case "UTF16LE":break;
-default:throw Error("encoding must be UTF8, UTF16BE, or UTF16LE");}switch(a){case "HEX":a=function(b,a,e){var g=b.length,c,p,f,n,q,u;if(0!==g%2)throw Error("String of HEX type must be in byte increments");a=a||[0];e=e||0;q=e>>>3;u=-1===d?3:0;for(c=0;c<g;c+=2){p=parseInt(b.substr(c,2),16);if(isNaN(p))throw Error("String of HEX type contains invalid characters");n=(c>>>1)+q;for(f=n>>>2;a.length<=f;)a.push(0);a[f]|=p<<8*(u+n%4*d)}return{value:a,binLen:4*g+e}};break;case "TEXT":a=function(a,e,c){var g,
-m,p=0,f,n,q,u,r,t;e=e||[0];c=c||0;q=c>>>3;if("UTF8"===b)for(t=-1===d?3:0,f=0;f<a.length;f+=1)for(g=a.charCodeAt(f),m=[],128>g?m.push(g):2048>g?(m.push(192|g>>>6),m.push(128|g&63)):55296>g||57344<=g?m.push(224|g>>>12,128|g>>>6&63,128|g&63):(f+=1,g=65536+((g&1023)<<10|a.charCodeAt(f)&1023),m.push(240|g>>>18,128|g>>>12&63,128|g>>>6&63,128|g&63)),n=0;n<m.length;n+=1){r=p+q;for(u=r>>>2;e.length<=u;)e.push(0);e[u]|=m[n]<<8*(t+r%4*d);p+=1}else if("UTF16BE"===b||"UTF16LE"===b)for(t=-1===d?2:0,m="UTF16LE"===
-b&&1!==d||"UTF16LE"!==b&&1===d,f=0;f<a.length;f+=1){g=a.charCodeAt(f);!0===m&&(n=g&255,g=n<<8|g>>>8);r=p+q;for(u=r>>>2;e.length<=u;)e.push(0);e[u]|=g<<8*(t+r%4*d);p+=2}return{value:e,binLen:8*p+c}};break;case "B64":a=function(b,a,e){var c=0,m,p,f,n,q,u,r,t;if(-1===b.search(/^[a-zA-Z0-9=+\/]+$/))throw Error("Invalid character in base-64 string");p=b.indexOf("=");b=b.replace(/\=/g,"");if(-1!==p&&p<b.length)throw Error("Invalid '=' found in base-64 string");a=a||[0];e=e||0;u=e>>>3;t=-1===d?3:0;for(p=
-0;p<b.length;p+=4){q=b.substr(p,4);for(f=n=0;f<q.length;f+=1)m="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/".indexOf(q.charAt(f)),n|=m<<18-6*f;for(f=0;f<q.length-1;f+=1){r=c+u;for(m=r>>>2;a.length<=m;)a.push(0);a[m]|=(n>>>16-8*f&255)<<8*(t+r%4*d);c+=1}}return{value:a,binLen:8*c+e}};break;case "BYTES":a=function(b,a,e){var c,m,p,f,n,q;a=a||[0];e=e||0;p=e>>>3;q=-1===d?3:0;for(m=0;m<b.length;m+=1)c=b.charCodeAt(m),n=m+p,f=n>>>2,a.length<=f&&a.push(0),a[f]|=c<<8*(q+n%4*d);return{value:a,
-binLen:8*b.length+e}};break;case "ARRAYBUFFER":try{a=new ArrayBuffer(0)}catch(k){throw Error("ARRAYBUFFER not supported by this environment");}a=function(b,a,e){return T(new Uint8Array(b),a,e,d)};break;case "UINT8ARRAY":try{a=new Uint8Array(0)}catch(k){throw Error("UINT8ARRAY not supported by this environment");}a=function(b,a,e){return T(b,a,e,d)};break;default:throw Error("format must be HEX, TEXT, B64, BYTES, ARRAYBUFFER, or UINT8ARRAY");}return a}function y(a,b){return a<<b|a>>>32-b}function U(e,
-b){return 32<b?(b-=32,new a(e.b<<b|e.a>>>32-b,e.a<<b|e.b>>>32-b)):0!==b?new a(e.a<<b|e.b>>>32-b,e.b<<b|e.a>>>32-b):e}function x(a,b){return a>>>b|a<<32-b}function t(e,b){var d=null,d=new a(e.a,e.b);return d=32>=b?new a(d.a>>>b|d.b<<32-b&4294967295,d.b>>>b|d.a<<32-b&4294967295):new a(d.b>>>b-32|d.a<<64-b&4294967295,d.a>>>b-32|d.b<<64-b&4294967295)}function V(e,b){var d=null;return d=32>=b?new a(e.a>>>b,e.b>>>b|e.a<<32-b&4294967295):new a(0,e.a>>>b-32)}function ca(a,b,d){return a&b^~a&d}function da(e,
-b,d){return new a(e.a&b.a^~e.a&d.a,e.b&b.b^~e.b&d.b)}function W(a,b,d){return a&b^a&d^b&d}function ea(e,b,d){return new a(e.a&b.a^e.a&d.a^b.a&d.a,e.b&b.b^e.b&d.b^b.b&d.b)}function fa(a){return x(a,2)^x(a,13)^x(a,22)}function ga(e){var b=t(e,28),d=t(e,34);e=t(e,39);return new a(b.a^d.a^e.a,b.b^d.b^e.b)}function ha(a){return x(a,6)^x(a,11)^x(a,25)}function ia(e){var b=t(e,14),d=t(e,18);e=t(e,41);return new a(b.a^d.a^e.a,b.b^d.b^e.b)}function ja(a){return x(a,7)^x(a,18)^a>>>3}function ka(e){var b=t(e,
-1),d=t(e,8);e=V(e,7);return new a(b.a^d.a^e.a,b.b^d.b^e.b)}function la(a){return x(a,17)^x(a,19)^a>>>10}function ma(e){var b=t(e,19),d=t(e,61);e=V(e,6);return new a(b.a^d.a^e.a,b.b^d.b^e.b)}function G(a,b){var d=(a&65535)+(b&65535);return((a>>>16)+(b>>>16)+(d>>>16)&65535)<<16|d&65535}function na(a,b,d,k){var h=(a&65535)+(b&65535)+(d&65535)+(k&65535);return((a>>>16)+(b>>>16)+(d>>>16)+(k>>>16)+(h>>>16)&65535)<<16|h&65535}function H(a,b,d,k,h){var c=(a&65535)+(b&65535)+(d&65535)+(k&65535)+(h&65535);
-return((a>>>16)+(b>>>16)+(d>>>16)+(k>>>16)+(h>>>16)+(c>>>16)&65535)<<16|c&65535}function oa(e,b){var d,k,c;d=(e.b&65535)+(b.b&65535);k=(e.b>>>16)+(b.b>>>16)+(d>>>16);c=(k&65535)<<16|d&65535;d=(e.a&65535)+(b.a&65535)+(k>>>16);k=(e.a>>>16)+(b.a>>>16)+(d>>>16);return new a((k&65535)<<16|d&65535,c)}function pa(e,b,d,k){var c,l,g;c=(e.b&65535)+(b.b&65535)+(d.b&65535)+(k.b&65535);l=(e.b>>>16)+(b.b>>>16)+(d.b>>>16)+(k.b>>>16)+(c>>>16);g=(l&65535)<<16|c&65535;c=(e.a&65535)+(b.a&65535)+(d.a&65535)+(k.a&65535)+
-(l>>>16);l=(e.a>>>16)+(b.a>>>16)+(d.a>>>16)+(k.a>>>16)+(c>>>16);return new a((l&65535)<<16|c&65535,g)}function qa(e,b,d,k,c){var l,g,m;l=(e.b&65535)+(b.b&65535)+(d.b&65535)+(k.b&65535)+(c.b&65535);g=(e.b>>>16)+(b.b>>>16)+(d.b>>>16)+(k.b>>>16)+(c.b>>>16)+(l>>>16);m=(g&65535)<<16|l&65535;l=(e.a&65535)+(b.a&65535)+(d.a&65535)+(k.a&65535)+(c.a&65535)+(g>>>16);g=(e.a>>>16)+(b.a>>>16)+(d.a>>>16)+(k.a>>>16)+(c.a>>>16)+(l>>>16);return new a((g&65535)<<16|l&65535,m)}function B(e,b){return new a(e.a^b.a,e.b^
-b.b)}function A(e){var b=[],d;if("SHA-1"===e)b=[1732584193,4023233417,2562383102,271733878,3285377520];else if(0===e.lastIndexOf("SHA-",0))switch(b=[3238371032,914150663,812702999,4144912697,4290775857,1750603025,1694076839,3204075428],d=[1779033703,3144134277,1013904242,2773480762,1359893119,2600822924,528734635,1541459225],e){case "SHA-224":break;case "SHA-256":b=d;break;case "SHA-384":b=[new a(3418070365,b[0]),new a(1654270250,b[1]),new a(2438529370,b[2]),new a(355462360,b[3]),new a(1731405415,
-b[4]),new a(41048885895,b[5]),new a(3675008525,b[6]),new a(1203062813,b[7])];break;case "SHA-512":b=[new a(d[0],4089235720),new a(d[1],2227873595),new a(d[2],4271175723),new a(d[3],1595750129),new a(d[4],2917565137),new a(d[5],725511199),new a(d[6],4215389547),new a(d[7],327033209)];break;default:throw Error("Unknown SHA variant");}else if(0===e.lastIndexOf("SHA3-",0)||0===e.lastIndexOf("SHAKE",0))for(e=0;5>e;e+=1)b[e]=[new a(0,0),new a(0,0),new a(0,0),new a(0,0),new a(0,0)];else throw Error("No SHA variants supported");
-return b}function K(a,b){var d=[],k,c,l,g,m,p,f;k=b[0];c=b[1];l=b[2];g=b[3];m=b[4];for(f=0;80>f;f+=1)d[f]=16>f?a[f]:y(d[f-3]^d[f-8]^d[f-14]^d[f-16],1),p=20>f?H(y(k,5),c&l^~c&g,m,1518500249,d[f]):40>f?H(y(k,5),c^l^g,m,1859775393,d[f]):60>f?H(y(k,5),W(c,l,g),m,2400959708,d[f]):H(y(k,5),c^l^g,m,3395469782,d[f]),m=g,g=l,l=y(c,30),c=k,k=p;b[0]=G(k,b[0]);b[1]=G(c,b[1]);b[2]=G(l,b[2]);b[3]=G(g,b[3]);b[4]=G(m,b[4]);return b}function ba(a,b,d,c){var h;for(h=(b+65>>>9<<4)+15;a.length<=h;)a.push(0);a[b>>>5]|=
-128<<24-b%32;b+=d;a[h]=b&4294967295;a[h-1]=b/4294967296|0;b=a.length;for(h=0;h<b;h+=16)c=K(a.slice(h,h+16),c);return c}function L(e,b,d){var k,h,l,g,m,p,f,n,q,u,r,t,v,x,y,A,z,w,F,B,C,D,E=[],J;if("SHA-224"===d||"SHA-256"===d)u=64,t=1,D=Number,v=G,x=na,y=H,A=ja,z=la,w=fa,F=ha,C=W,B=ca,J=c;else if("SHA-384"===d||"SHA-512"===d)u=80,t=2,D=a,v=oa,x=pa,y=qa,A=ka,z=ma,w=ga,F=ia,C=ea,B=da,J=X;else throw Error("Unexpected error in SHA-2 implementation");d=b[0];k=b[1];h=b[2];l=b[3];g=b[4];m=b[5];p=b[6];f=b[7];
-for(r=0;r<u;r+=1)16>r?(q=r*t,n=e.length<=q?0:e[q],q=e.length<=q+1?0:e[q+1],E[r]=new D(n,q)):E[r]=x(z(E[r-2]),E[r-7],A(E[r-15]),E[r-16]),n=y(f,F(g),B(g,m,p),J[r],E[r]),q=v(w(d),C(d,k,h)),f=p,p=m,m=g,g=v(l,n),l=h,h=k,k=d,d=v(n,q);b[0]=v(d,b[0]);b[1]=v(k,b[1]);b[2]=v(h,b[2]);b[3]=v(l,b[3]);b[4]=v(g,b[4]);b[5]=v(m,b[5]);b[6]=v(p,b[6]);b[7]=v(f,b[7]);return b}function D(e,b){var d,c,h,l,g=[],m=[];if(null!==e)for(c=0;c<e.length;c+=2)b[(c>>>1)%5][(c>>>1)/5|0]=B(b[(c>>>1)%5][(c>>>1)/5|0],new a(e[c+1],e[c]));
-for(d=0;24>d;d+=1){l=A("SHA3-");for(c=0;5>c;c+=1){h=b[c][0];var p=b[c][1],f=b[c][2],n=b[c][3],q=b[c][4];g[c]=new a(h.a^p.a^f.a^n.a^q.a,h.b^p.b^f.b^n.b^q.b)}for(c=0;5>c;c+=1)m[c]=B(g[(c+4)%5],U(g[(c+1)%5],1));for(c=0;5>c;c+=1)for(h=0;5>h;h+=1)b[c][h]=B(b[c][h],m[c]);for(c=0;5>c;c+=1)for(h=0;5>h;h+=1)l[h][(2*c+3*h)%5]=U(b[c][h],Y[c][h]);for(c=0;5>c;c+=1)for(h=0;5>h;h+=1)b[c][h]=B(l[c][h],new a(~l[(c+1)%5][h].a&l[(c+2)%5][h].a,~l[(c+1)%5][h].b&l[(c+2)%5][h].b));b[0][0]=B(b[0][0],Z[d])}return b}var c,
-X,Y,Z;c=[1116352408,1899447441,3049323471,3921009573,961987163,1508970993,2453635748,2870763221,3624381080,310598401,607225278,1426881987,1925078388,2162078206,2614888103,3248222580,3835390401,4022224774,264347078,604807628,770255983,1249150122,1555081692,1996064986,2554220882,2821834349,2952996808,3210313671,3336571891,3584528711,113926993,338241895,666307205,773529912,1294757372,1396182291,1695183700,1986661051,2177026350,2456956037,2730485921,2820302411,3259730800,3345764771,3516065817,3600352804,
-4094571909,275423344,430227734,506948616,659060556,883997877,958139571,1322822218,1537002063,1747873779,1955562222,2024104815,2227730452,2361852424,2428436474,2756734187,3204031479,3329325298];X=[new a(c[0],3609767458),new a(c[1],602891725),new a(c[2],3964484399),new a(c[3],2173295548),new a(c[4],4081628472),new a(c[5],3053834265),new a(c[6],2937671579),new a(c[7],3664609560),new a(c[8],2734883394),new a(c[9],1164996542),new a(c[10],1323610764),new a(c[11],3590304994),new a(c[12],4068182383),new a(c[13],
-991336113),new a(c[14],633803317),new a(c[15],3479774868),new a(c[16],2666613458),new a(c[17],944711139),new a(c[18],2341262773),new a(c[19],2007800933),new a(c[20],1495990901),new a(c[21],1856431235),new a(c[22],3175218132),new a(c[23],2198950837),new a(c[24],3999719339),new a(c[25],766784016),new a(c[26],2566594879),new a(c[27],3203337956),new a(c[28],1034457026),new a(c[29],2466948901),new a(c[30],3758326383),new a(c[31],168717936),new a(c[32],1188179964),new a(c[33],1546045734),new a(c[34],1522805485),
-new a(c[35],2643833823),new a(c[36],2343527390),new a(c[37],1014477480),new a(c[38],1206759142),new a(c[39],344077627),new a(c[40],1290863460),new a(c[41],3158454273),new a(c[42],3505952657),new a(c[43],106217008),new a(c[44],3606008344),new a(c[45],1432725776),new a(c[46],1467031594),new a(c[47],851169720),new a(c[48],3100823752),new a(c[49],1363258195),new a(c[50],3750685593),new a(c[51],3785050280),new a(c[52],3318307427),new a(c[53],3812723403),new a(c[54],2003034995),new a(c[55],3602036899),
-new a(c[56],1575990012),new a(c[57],1125592928),new a(c[58],2716904306),new a(c[59],442776044),new a(c[60],593698344),new a(c[61],3733110249),new a(c[62],2999351573),new a(c[63],3815920427),new a(3391569614,3928383900),new a(3515267271,566280711),new a(3940187606,3454069534),new a(4118630271,4000239992),new a(116418474,1914138554),new a(174292421,2731055270),new a(289380356,3203993006),new a(460393269,320620315),new a(685471733,587496836),new a(852142971,1086792851),new a(1017036298,365543100),new a(1126000580,
-2618297676),new a(1288033470,3409855158),new a(1501505948,4234509866),new a(1607167915,987167468),new a(1816402316,1246189591)];Z=[new a(0,1),new a(0,32898),new a(2147483648,32906),new a(2147483648,2147516416),new a(0,32907),new a(0,2147483649),new a(2147483648,2147516545),new a(2147483648,32777),new a(0,138),new a(0,136),new a(0,2147516425),new a(0,2147483658),new a(0,2147516555),new a(2147483648,139),new a(2147483648,32905),new a(2147483648,32771),new a(2147483648,32770),new a(2147483648,128),new a(0,
-32778),new a(2147483648,2147483658),new a(2147483648,2147516545),new a(2147483648,32896),new a(0,2147483649),new a(2147483648,2147516424)];Y=[[0,36,3,41,18],[1,44,10,45,2],[62,6,43,15,61],[28,55,25,21,56],[27,20,39,8,14]];"function"===typeof define&&define.amd?define(function(){return C}):"undefined"!==typeof exports?("undefined"!==typeof module&&module.exports&&(module.exports=C),exports=C):aa.jsSHA=C})(this);
 
-},{}],16:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 /**
  * GNU LibreJS - A browser add-on to block nonfree nontrivial JavaScript.
  * *
@@ -9940,24 +8945,30 @@ new a(c[56],1575990012),new a(c[57],1125592928),new a(c[58],2716904306),new a(c[
  */
 
 exports.patternUtils = {
-    /**
-     * removeNonalpha
-     *
-     * Remove all nonalphanumeric values, except for
-     * < and >, since they are what we use for tokens.
-     *
-     */
-    removeNonalpha: function (str) {
-	    var regex = /[^a-z0-9<>@]+/gi;
-	    return str.replace(regex, '');
-    },
-    removeWhitespace: function (str) {
-	    return str.replace(/\/\//gmi, '').replace(/\*/gmi, '').replace(/\s+/gmi, '');
-    },
-    replaceTokens: function (str) {
-	    var regex = /<.*?>/gi;
-	    return str.replace(regex, '.*?');
-    }
+  /**
+   * removeNonalpha
+   *
+   * Remove all nonalphanumeric values, except for
+   * < and >, since they are what we use for tokens.
+   *
+   */
+  removeNonalpha: function(str) {
+    return str.replace(/[^a-z0-9<>@]+/gi, '');
+  },
+
+  removeWhitespace: function(str) {
+    return str.replace(/\/\//gmi, '').replace(/\*/gmi, '').replace(/\s+/gmi, '');
+  },
+
+  replaceTokens: function(str) {
+    return str.replace(/<.*?>/gi, '.*?');
+  },
+
+  removeJsComments: function(str) {
+    const ml_comments = /\/\*.*?(\*\/)/g;
+    const il_comments = /\/\/.*/gm;
+    return str.replace(ml_comments, '').replace(il_comments, '');
+  }
 };
 
-},{}]},{},[12]);
+},{}]},{},[11]);

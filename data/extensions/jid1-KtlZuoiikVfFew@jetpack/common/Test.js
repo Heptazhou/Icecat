@@ -19,9 +19,9 @@
 * along with GNU LibreJS.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-"use strict";
+'use strict';
 var Test = (() => {
-  const RUNNER_URL = browser.extension.getURL("/test/SpecRunner.html");
+  const RUNNER_URL = browser.extension.getURL('/test/SpecRunner.html');
   return {
     /*
       returns RUNNER_URL if it's a test-enabled build or an about:debugging
@@ -40,16 +40,16 @@ var Test = (() => {
 
     async getTab(activate = false) {
       let url = await this.getURL();
-      let tab = url ? (await browser.tabs.query({url}))[0] ||
-                    (await browser.tabs.create({url}))
+      let tab = url ? (await browser.tabs.query({ url }))[0] ||
+        (await browser.tabs.create({ url }))
         : null;
       if (tab && activate) {
-        await browser.tabs.update(tab.id, {active: true});
+        await browser.tabs.update(tab.id, { active: true });
       }
       return tab;
     }
   };
 })();
-if (typeof module === "object") {
+if (typeof module === 'object') {
   module.exports = Test;
 }

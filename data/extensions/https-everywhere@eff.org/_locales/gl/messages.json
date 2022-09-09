@@ -9,7 +9,7 @@
         "message": "HTTPS Everywhere"
     },
     "about_rulesets_version": {
-        "message": "Rulesets version for"
+        "message": "Versi\u00f3n de conxunto de regras para"
     },
     "about_title": {
         "message": "Acerca de HTTPS Everywhere"
@@ -17,107 +17,113 @@
     "about_version": {
         "message": "Versi\u00f3n"
     },
+    "cancel_copied_url": {
+        "message": "Copiado \u00f3 portapapeis"
+    },
+    "cancel_copy_url": {
+        "message": "Copiar URL"
+    },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "HTTPS Everywhere av\u00edsado de que estivo a navegar nunha p\u00e1xina non HTTPS e tentou redirixilo \u00e1 versi\u00f3n HTTPS. A versi\u00f3n HTTPS non est\u00e1 dispo\u00f1\u00edbel. Probablemente este sitio non \u00e9 compat\u00edbel con HTTPS pero tam\u00e9n \u00e9 pos\u00edbel que un atacante estea a bloquear a versi\u00f3n HTTPS. Se desexa ver a versi\u00f3n descifrada desta p\u00e1xinna, a\u00ednda pode facelo desactivando a opci\u00f3n \u00abCifrar todos os sitios elix\u00edbeis\u00bb (EASE) na s\u00faa extensi\u00f3n HTTPS Everywhere. Queda advertido de que desactivar esta opci\u00f3n poder\u00eda facer vulner\u00e1bel o seu navegador a ataques de regresi\u00f3n baseados na rede nos sitios que visite."
     },
     "cancel_he_blocking_network": {
-        "message": "network-based downgrade attacks"
+        "message": "ataques de regresi\u00f3n baseados na rede"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "Proceder de calquera maneira (inseguro)"
     },
     "cancel_open_page": {
-        "message": "Open insecure page"
+        "message": "Desactivar neste sitio"
     },
     "chrome_add_new_rule": {
-        "message": "Add a new rule for this site"
+        "message": "Engadir unha nova regra para este sitio"
     },
     "chrome_add_rule": {
-        "message": "Add a rule for this site"
+        "message": "Engadir unha regra para este sitio"
     },
     "chrome_always_https_for_host": {
-        "message": "Always use https for this host"
+        "message": "Utilizar sempre https neste servidor"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Desactivar neste sitio"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Activar neste sitio"
     },
     "chrome_experimental_rules": {
         "message": "Regras Experimentais"
     },
     "chrome_experimental_rules_description": {
-        "message": "May cause warnings or breakage. Disabled by default."
+        "message": "Isto pode ser causa de ruptura. Desactivado de modo predeterminado."
     },
     "chrome_hide_advanced": {
-        "message": "Hide advanced"
+        "message": "Agochar avanzadas"
     },
     "chrome_host": {
-        "message": "Host:"
+        "message": "Servidor:"
     },
     "chrome_redirect_to": {
         "message": "Redirixir a"
     },
     "chrome_regex": {
-        "message": "Matching regex"
+        "message": "Coincidencia con expresi\u00f3ns regulares"
     },
     "chrome_rule_name": {
-        "message": "Rule name"
+        "message": "Nome da regra"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change your preferences for each website"
+        "message": "As\u00ed como navega por diferentes sitios web, pode cambiar as s\u00faas preferencias para cada sitio"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Configuraci\u00f3n para este sitio"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Cambiar as preferencias para conexi\u00f3ns cifradas"
     },
     "chrome_show_advanced": {
-        "message": "Show advanced"
+        "message": "Amosar avanzado"
     },
     "chrome_stable_rules": {
-        "message": "Stable rules"
+        "message": "Regras est\u00e1beis"
     },
     "chrome_stable_rules_description": {
-        "message": "Force encrypted connections to these websites:"
+        "message": "Forzar conexi\u00f3ns cifradas nestes sitios web:"
     },
     "chrome_status_cancel_button": {
         "message": "Cancelar"
     },
     "menu_donate_eff_imperative": {
-        "message": "Donate to EFF"
+        "message": "Doar a EFF"
     },
     "menu_encryptAllSitesEligibleOff": {
-        "message": "Encrypt All Sites Eligible is OFF"
+        "message": "Cifrar todos os sitios elix\u00edbeis est\u00e1 APAGADO"
     },
     "menu_encryptAllSitesEligibleOn": {
-        "message": "Encrypt All Sites Eligible is ON"
+        "message": "Cifrar todos os sitios elix\u00edbeis est\u00e1 ACESO"
     },
     "menu_globalDisable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS Everywhere est\u00e1 APAGADO"
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is ON"
+        "message": "HTTPS Everywhere est\u00e1 ACESO"
     },
     "menu_httpNoWhereExplainedAllowed": {
-        "message": "Unencrypted requests are currently allowed"
+        "message": "As petici\u00f3ns sen encriptar est\u00e1n permitidas actualmente"
     },
     "menu_httpNoWhereExplainedBlocked": {
-        "message": "Unencrypted requests are currently blocked"
+        "message": "As petici\u00f3ns sen encriptar est\u00e1n bloqueadas actualmente"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Este modo bloquea petici\u00f3ns e contido sen encriptar"
     },
     "menu_observatory": {
         "message": "Preferencias do Observatorio SSL"
     },
     "menu_seeLess": {
-        "message": "See less"
+        "message": "Ver menos"
     },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Ver m\u00e1is"
     },
     "menu_showCounter": {
         "message": "Amosar Contador"
@@ -125,62 +131,59 @@
     "menu_viewAllRules": {
         "message": "Ver T\u00f3dalas Regras"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere \u00e9 un proxecto da EFF"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "Actualizouse HTTPS Everywhere!"
     },
     "onboarding_intro": {
         "message": "Cifrar a Web! Usar autom\u00e1ticamente seguridade HTTPS en moitos sitios."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Engadir Sitio Deshabilitado"
     },
     "options_addUpdateChannel": {
-        "message": "Add Update Channel"
+        "message": "Engadir Canle de Actualizaci\u00f3n"
     },
     "options_advancedSettings": {
         "message": "Configuraci\u00f3n Avanzada"
     },
     "options_autoUpdateRulesets": {
-        "message": "Auto-update rulesets"
+        "message": "Actualizar automaticamente os conxuntos de regras"
     },
     "options_debuggingRulesets": {
-        "message": "Debugging Rulesets (advanced)"
+        "message": "Depuraci\u00f3n de conxuntos de regras (avanzado)"
     },
     "options_delete": {
         "message": "Eliminar"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Sites Disabled"
+        "message": "Desactiv\u00e1ronse os sitos HTTPS Everywhere"
     },
     "options_enableMixedRulesets": {
-        "message": "Enable mixed content rulesets"
+        "message": "Activar o conxuntos de regras mesturados"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Introduza o sitio desactivado"
     },
     "options_enterUpdateChannelName": {
-        "message": "Enter update channel name"
+        "message": "Introduza o nome da canle de actualizaci\u00f3n"
     },
     "options_generalSettings": {
         "message": "Configuraci\u00f3n Xeral"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Este host non se puido engadir porque non se formatara correctamente. Porfavor rev\u00edsao e volve intentalo."
     },
     "options_settings": {
         "message": "Axustes"
     },
     "options_showDevtoolsTab": {
-        "message": "Show Devtools tab"
+        "message": "Amosar a lapela Ferramentas de desenvolvemento"
     },
     "options_storedRulesetsVersion": {
-        "message": "Stored rulesets version: "
+        "message": "Versi\u00f3n dos conxuntos de regas gardados:"
     },
     "options_update": {
         "message": "Actualizar"
@@ -189,16 +192,16 @@
         "message": "Actualizar Canles"
     },
     "options_updateChannelsWarning": {
-        "message": "Warning: Adding update channels can cause attackers to hijack your browser. Only edit this section if you know what you're doing!"
+        "message": "Coidado: A adici\u00f3n de canles de actualizaci\u00f3n pode ser causa de que atacantes secuestren o seu navegador. Edite esta secci\u00f3n soamente se sabe o que est\u00e1 a facer! "
     },
     "options_updatesLastChecked": {
-        "message": "Updates last checked: "
+        "message": "\u00daltima comprobaci\u00f3n de actualizaci\u00f3ns:"
     },
     "options_updatesLastCheckedNever": {
         "message": "Nunca"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere User Rules"
+        "message": "Regras de usuario de HTTPS Everywhere"
     },
     "prefs_export_settings": {
         "message": "Exportar Axustes"
@@ -207,6 +210,15 @@
         "message": "Restablecer a Valores por Defecto"
     },
     "prefs_reset_defaults_message": {
-        "message": "This will reset each ruleset to its default state. Continue?"
+        "message": "Isto reiniciar\u00e1 cada conxunto de regras ao seu estado predeterminado. Continuar?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Servidor intermedio en execuci\u00f3n"
+    },
+    "standalone_transparent_false": {
+        "message": "Debe configurar as s\u00faas aplicaci\u00f3ns para utilizar un servidor intermedio HTTP no servidor e porto espec\u00edficos."
+    },
+    "standalone_transparent_true": {
+        "message": "Debe configurar as regras da s\u00faa devasa para dirixir os paquetes ao servidor e porto espec\u00edficos."
     }
 }

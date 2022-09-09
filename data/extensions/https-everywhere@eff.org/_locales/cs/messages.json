@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Verze"
     },
+    "cancel_copied_url": {
+        "message": "Zkop\u00edrov\u00e1no do schr\u00e1nky"
+    },
+    "cancel_copy_url": {
+        "message": "Zkop\u00edrovat URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere si v\u0161imlo p\u0159echodu na str\u00e1nku bez HTTPS a pokusilo se zaslat nam\u00edsto toho HTTPS verzi. Verze s HTTPS je nedostupn\u00e1. Tato str\u00e1nka pravd\u011bpodobn\u011b HTTPS nepodporuje nebo verzi HTTPS blokuje \u00fato\u010dn\u00edk. Pokud chcete zobrazit ne\u0161ifrovanou verzi t\u00e9to str\u00e1nky, vypn\u011bte v nastaven\u00ed roz\u0161\u00ed\u0159en\u00ed HTTPS Everywhere volbu \u201e\u0160ifrovan\u00e9 p\u0159ipojen\u00ed ke v\u0161em server\u016fm, kde je dostupn\u00e9\u201c. M\u011bjte pros\u00edm na pam\u011bti, \u017ee vypnut\u00edm bude v\u00e1\u0161 prohl\u00ed\u017ee\u010d zraniteln\u00fd v\u016f\u010di s\u00ed\u0165ov\u00fdm degrada\u010dn\u00edm \u00fatok\u016fm na str\u00e1nk\u00e1ch, kter\u00e9 nav\u0161t\u00edv\u00edte."
     },
@@ -24,10 +30,10 @@
         "message": "s\u00ed\u0165ov\u00fd degrada\u010dn\u00ed \u00fatok"
     },
     "cancel_http_once": {
-        "message": "Otev\u0159\u00edt nezabezpe\u010denou str\u00e1nku (jen v t\u00e9to relaci)"
+        "message": "P\u0159esto pokra\u010dovat (nebezpe\u010dn\u00e9)"
     },
     "cancel_open_page": {
-        "message": "Otev\u00edrat nezabezpe\u010den\u00e9 str\u00e1nky"
+        "message": "Vypnout na t\u00e9to str\u00e1nce"
     },
     "chrome_add_new_rule": {
         "message": "P\u0159idat nov\u00e9 pravidlo pro tuto str\u00e1nku"
@@ -39,10 +45,10 @@
         "message": "Pro tento server v\u017edy pou\u017e\u00edvat https"
     },
     "chrome_disable_on_this_site": {
-        "message": "Vypnout HTTPS Everywhere pro tento server"
+        "message": "Vypnout na t\u00e9to str\u00e1nce"
     },
     "chrome_enable_on_this_site": {
-        "message": "Zapnout HTTPS Everywhere pro tento server"
+        "message": "Zapnout na t\u00e9to str\u00e1nce"
     },
     "chrome_experimental_rules": {
         "message": "Experiment\u00e1ln\u00ed pravidla"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "Zobrazit v\u0161echna pravidla"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere je EFF projekt"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere byl aktualizov\u00e1n!"
     },
     "onboarding_intro": {
         "message": "\u0160ifrujte! Pou\u017e\u00edvejte automaticky zabezpe\u010den\u00e9 HTTPS na mnoha str\u00e1nk\u00e1ch."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "P\u0159idat blokovanou str\u00e1nku"
     },
     "options_addUpdateChannel": {
         "message": "P\u0159idat aktualiza\u010dn\u00ed kan\u00e1l"
@@ -165,13 +165,16 @@
         "message": "Povolit sady pravidel pro sm\u00ed\u0161en\u00fd obsah"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Vstoupit na blokovanou str\u00e1nku"
     },
     "options_enterUpdateChannelName": {
         "message": "Zadejte n\u00e1zev aktualiza\u010dn\u00edho kan\u00e1lu"
     },
     "options_generalSettings": {
         "message": "Hlavn\u00ed nastaven\u00ed"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Tento server nemohl b\u00fdt p\u0159id\u00e1n proto\u017ee nebyl korektn\u011b form\u00e1tov\u00e1n. Pros\u00edm zkontrolujte jej a zkuste to znovu."
     },
     "options_settings": {
         "message": "Nastaven\u00ed"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Toto obnov\u00ed ka\u017edou sadu pravidel do jej\u00edho v\u00fdchoz\u00edho stavu. Pokra\u010dovat?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy server b\u011b\u017e\u00ed na"
+    },
+    "standalone_transparent_false": {
+        "message": "Mus\u00edte nastavit svou aplikaci tak, aby pou\u017e\u00edvala HTTP proxy na specifikovan\u00e9m hostiteli a portu."
+    },
+    "standalone_transparent_true": {
+        "message": "Mus\u00edte nastavit sv\u016fj firewall tak, aby forwardoval pakety na specifikovan\u00e9ho hostitele a port."
     }
 }

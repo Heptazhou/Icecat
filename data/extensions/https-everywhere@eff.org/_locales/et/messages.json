@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versioon"
     },
+    "cancel_copied_url": {
+        "message": "Kopeeritud l\u00f5ikelauale"
+    },
+    "cancel_copy_url": {
+        "message": "Kopeeri URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS K\u00f5ikjal avastas sind navigeerimast HTTPSita lehele ning proovis sind saata selle HTTPSiga versioonile. HTTPS-versioon pole saadaval. T\u00f5en\u00e4oliselt see sait ei toeta HTTPSi, aga on ka v\u00f5imalus et r\u00fcndaja blokeerib HTTPSi versiooni. Kui soovid vaadata selle lehe kr\u00fcpteerimata versiooni, saad seda siiski teha, keelates valiku &quot;Kr\u00fcpteeri k\u00f5ik sobivad saidid (EASE)&quot; oma HTTPS K\u00f5ikjal laienduses. Pane t\u00e4hele, et selle valiku keelamine v\u00f5ib muuta sinu brauseri v\u00f5rgup\u00f5histele madaldusr\u00fcnnetele haavatavaks."
     },
@@ -24,10 +30,10 @@
         "message": "v\u00f5rgup\u00f5hised madaldusr\u00fcnded"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "J\u00e4tka siiski (ebaturvaline)"
     },
     "cancel_open_page": {
-        "message": "Ava ebaturvaline leht"
+        "message": "Keela sellel saidil"
     },
     "chrome_add_new_rule": {
         "message": "Lisa uus reegel sellele saidile"
@@ -39,10 +45,10 @@
         "message": "Kasuta selle majutajaga(host) alati HTTPSi"
     },
     "chrome_disable_on_this_site": {
-        "message": "Keela HTTPS K\u00f5ikjal sellel veebilehel"
+        "message": "Keela sellel saidil"
     },
     "chrome_enable_on_this_site": {
-        "message": "Luba HTTPS K\u00f5ikjal sellel veebilehel"
+        "message": "Luba sellel saidi"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentaalsed reeglid"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "Vaata k\u00f5iki reegleid"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS K\u00f5ikjal on EFF'i projekt"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS K\u00f5ikjal on uuendatud!"
     },
     "onboarding_intro": {
         "message": "Kr\u00fcpteeri veeb! Kasuta HTTPS turvalaiendust automaatselt paljudel lehtedel."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Lisa keelatud sait"
     },
     "options_addUpdateChannel": {
         "message": "Lisa uuenduskanal"
@@ -165,13 +165,16 @@
         "message": "Luba segatud sisuga reeglistikud"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Sisene keelatud saiti"
     },
     "options_enterUpdateChannelName": {
         "message": "Sisesta uuenduskanali nimi"
     },
     "options_generalSettings": {
         "message": "\u00dcldised seaded"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Seda hosti ei saanud lisada, kuna see ei olnud korralikult vormistatud. Palun kontrolli \u00fcle ja proovi uuesti."
     },
     "options_settings": {
         "message": "Seaded"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "See taastab iga reeglistiku algseaded. J\u00e4tkate?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proksiserver k\u00e4imas aadressil"
+    },
+    "standalone_transparent_false": {
+        "message": "Sa pead seadistama oma rakendused m\u00e4\u00e4ratud hostil ning pordil HTTP proksit kasutama."
+    },
+    "standalone_transparent_true": {
+        "message": "Sa pead seadistama oma tulem\u00fc\u00fcrireeglid, suunamaks paketid m\u00e4\u00e4ratud hosti ja porti."
     }
 }

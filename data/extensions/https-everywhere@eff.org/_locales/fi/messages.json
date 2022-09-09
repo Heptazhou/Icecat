@@ -17,17 +17,23 @@
     "about_version": {
         "message": "Versio"
     },
+    "cancel_copied_url": {
+        "message": "Kopioitu leikep\u00f6yd\u00e4lle"
+    },
+    "cancel_copy_url": {
+        "message": "Kopioi osoite"
+    },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere huomasi sinun siirtyv\u00e4n ei-HTTPS-sivulle ja yritti l\u00e4hett\u00e4\u00e4 sinut sen sijaan HTTPS-versioon. HTTPS-versio ei ole saatavilla. Todenn\u00e4k\u00f6isesti t\u00e4m\u00e4 sivusto ei tue HTTPS:\u00e4\u00e4, mutta hy\u00f6kk\u00e4\u00e4j\u00e4 saattaa my\u00f6s est\u00e4\u00e4 p\u00e4\u00e4sy\u00e4 HTTPS-versioon. Jos haluat n\u00e4hd\u00e4 t\u00e4m\u00e4n sivun salaamattoman version, voit silti n\u00e4hd\u00e4 sen kytkem\u00e4ll\u00e4 valitsimen &quot;Salaa kaikki kelvolliset sivustot&quot; (EASE) pois p\u00e4\u00e4lt\u00e4 HTTPS Everywhere-laajennuksessasi. Huomioi, ett\u00e4 t\u00e4m\u00e4n valitsimen pois p\u00e4\u00e4lt\u00e4 kytkeminen voi altistaa selaimesi verkkopohjaisille laadunalennushy\u00f6kk\u00e4yksille k\u00e4ytt\u00e4mill\u00e4si verkkosivuilla."
+        "message": "HTTPS Everywhere huomasi sinun siirtyv\u00e4n ei-HTTPS-sivulle ja yritti l\u00e4hett\u00e4\u00e4 sinut sen sijaan HTTPS-versioon. HTTPS-versio ei ole saatavilla. Todenn\u00e4k\u00f6isesti t\u00e4m\u00e4 sivusto ei tue HTTPS:\u00e4\u00e4, mutta hy\u00f6kk\u00e4\u00e4j\u00e4 saattaa my\u00f6s est\u00e4\u00e4 p\u00e4\u00e4sy\u00e4 HTTPS-versioon. Jos haluat n\u00e4hd\u00e4 t\u00e4m\u00e4n sivun salaamattoman version, voit silti n\u00e4hd\u00e4 sen ottamalla valitsimen &quot;Salaa kaikki kelvolliset sivustot&quot; (EASE) pois p\u00e4\u00e4lt\u00e4 HTTPS Everywhere -laajennuksessasi. Huomioi, ett\u00e4 t\u00e4m\u00e4n valitsimen pois p\u00e4\u00e4lt\u00e4 kytkeminen voi altistaa selaimesi verkkopohjaisille laadunalennushy\u00f6kk\u00e4yksille k\u00e4ytt\u00e4mill\u00e4si verkkosivuilla."
     },
     "cancel_he_blocking_network": {
         "message": "verkkopohjaisia laadunalennushy\u00f6kk\u00e4yksi\u00e4"
     },
     "cancel_http_once": {
-        "message": "Avaa turvaton sivu vain t\u00e4ss\u00e4 istunnossa"
+        "message": "jatka kuitenkin (vaarallinen)"
     },
     "cancel_open_page": {
-        "message": "Avaa turvaton sivu"
+        "message": "Poista k\u00e4yt\u00f6st\u00e4 t\u00e4ll\u00e4 sivulla"
     },
     "chrome_add_new_rule": {
         "message": "Lis\u00e4\u00e4 uusi s\u00e4\u00e4nt\u00f6 sivulle"
@@ -39,10 +45,10 @@
         "message": "K\u00e4yt\u00e4 aina https t\u00e4lle is\u00e4nn\u00e4lle"
     },
     "chrome_disable_on_this_site": {
-        "message": "Poista HTTPS Everywhere k\u00e4yt\u00f6st\u00e4 t\u00e4ll\u00e4 sivulla"
+        "message": "Poista k\u00e4yt\u00f6st\u00e4 t\u00e4ll\u00e4 sivulla"
     },
     "chrome_enable_on_this_site": {
-        "message": "Ota HTTPS Everywhere k\u00e4ytt\u00f6\u00f6n t\u00e4ll\u00e4 sivulla"
+        "message": "k\u00e4yt\u00e4 t\u00e4ll\u00e4 sivulla"
     },
     "chrome_experimental_rules": {
         "message": "Kokeelliset k\u00e4yt\u00e4nn\u00f6t"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "N\u00e4yt\u00e4 kaikki s\u00e4\u00e4nn\u00f6t"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere on EFF-projekti"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere on p\u00e4ivitetty!"
     },
     "onboarding_intro": {
         "message": "Salaa verkko automaattisesti k\u00e4ytt\u00e4en HTTPS-suojausta monilla sivuilla!"
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Lis\u00e4\u00e4 k\u00e4yt\u00f6st\u00e4 poistettu sivu"
     },
     "options_addUpdateChannel": {
         "message": "Lis\u00e4\u00e4 p\u00e4ivityskanava"
@@ -165,10 +165,13 @@
         "message": "Salli sekalaisen sis\u00e4ll\u00f6n s\u00e4\u00e4nt\u00f6joukot"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Sy\u00f6t\u00e4 k\u00e4yt\u00f6st\u00e4 poistettu sivu"
     },
     "options_generalSettings": {
         "message": "Yleiset asetukset"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "T\u00e4t\u00e4 verkkoasemaa ei voitu lis\u00e4t\u00e4, koska sit\u00e4 ei alustettu oikein. Tarkista se ja yrit\u00e4 uudelleen."
     },
     "options_settings": {
         "message": "Asetukset"
@@ -205,5 +208,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "T\u00e4m\u00e4 palauttaa kaikki s\u00e4\u00e4nt\u00f6joukot niiden oletusarvoihin. Jatketaanko?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "V\u00e4lityspalvelin k\u00e4ynniss\u00e4 kohteella"
+    },
+    "standalone_transparent_false": {
+        "message": "Sinun t\u00e4ytyy m\u00e4\u00e4ritell\u00e4 sovelluksesi k\u00e4ytt\u00e4\u00e4ksesi HTTP-v\u00e4lityspalvelinta kyseisen verkkoaseman ja portin kanssa."
+    },
+    "standalone_transparent_true": {
+        "message": "Sinun t\u00e4ytyy asettaa palomuurin s\u00e4\u00e4nn\u00f6t l\u00e4hett\u00e4\u00e4ksesi paketteja kyseiseen verkkoasemaan ja porttiin."
     }
 }

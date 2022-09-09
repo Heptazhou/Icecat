@@ -17,17 +17,23 @@
     "about_version": {
         "message": "Vers\u00e3o"
     },
+    "cancel_copied_url": {
+        "message": "Copiado para o Clipboard"
+    },
+    "cancel_copy_url": {
+        "message": "Copiar URL"
+    },
     "cancel_he_blocking_explainer": {
-        "message": "O HTTPS Everywhere percebeu que voc\u00ea estava navegando para uma p\u00e1gina n\u00e3o HTTPS e tentou enviar voc\u00ea para a vers\u00e3o HTTPS. A vers\u00e3o HTTPS n\u00e3o est\u00e1 dispon\u00edvel. O mais prov\u00e1vel \u00e9 que este site n\u00e3o suporte HTTPS, mas tamb\u00e9m \u00e9 poss\u00edvel que um invasor esteja bloqueando a vers\u00e3o HTTPS. Se voc\u00ea desejar visualizar a vers\u00e3o n\u00e3o criptografada desta p\u00e1gina, ainda poder\u00e1 desativ\u00e1-la desativando a op\u00e7\u00e3o &quot;Criptografar todos os sites qualificados&quot; (EASE) na sua extens\u00e3o HTTPS Everywhere. Esteja ciente de que desabilitar essa op\u00e7\u00e3o pode deixar seu navegador vulner\u00e1vel a ataques de downgrade com base na rede nos sites que voc\u00ea visita."
+        "message": "HTTPS Everywhere percebeu que voc\u00ea estava navegando para uma p\u00e1gina n\u00e3o HTTPS e tentou envi\u00e1-lo para a vers\u00e3o HTTPS. A vers\u00e3o HTTPS, no momento, n\u00e3o est\u00e1 dispon\u00edvel. Provavelmente, este site n\u00e3o oferece suporte para a vers\u00e3o HTTPS, mas tamb\u00e9m \u00e9 poss\u00edvel que um invasor esteja bloqueando a vers\u00e3o HTTPS. Se desejar visualizar a vers\u00e3o n\u00e3o criptografada desta p\u00e1gina, voc\u00ea ainda pode fazer isso desativando a op\u00e7\u00e3o, 'Criptografar todos os sites qualificados' (EASE), em sua extens\u00e3o HTTPS Everywhere. Esteja ciente que ao desabilitar essa op\u00e7\u00e3o voc\u00ea pode tornar o seu navegador vulner\u00e1vel a outros ataques de rede em sites que voc\u00ea visita."
     },
     "cancel_he_blocking_network": {
-        "message": "Ataques inferiores e b\u00e1sico de rede"
+        "message": "Outros ataques de rede"
     },
     "cancel_http_once": {
-        "message": "Abrir p\u00e1gina insegura apenas para esta sess\u00e3o"
+        "message": "Continuar mesmo assim (inseguro)"
     },
     "cancel_open_page": {
-        "message": "Abrir p\u00e1gina insegura"
+        "message": "Desativar neste site"
     },
     "chrome_add_new_rule": {
         "message": "Adicione uma nova regra para esse site"
@@ -39,16 +45,16 @@
         "message": "Sempre usar https para este hospedeiro"
     },
     "chrome_disable_on_this_site": {
-        "message": "Desabilitar o HTTPS Everywhere neste site."
+        "message": "Desativar neste site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Habilitar o HTTPS Everywhere neste site."
+        "message": "Habilitar neste site"
     },
     "chrome_experimental_rules": {
         "message": "Regras experimentais"
     },
     "chrome_experimental_rules_description": {
-        "message": "Pode causar avisos ou ruptura. Desabilitado por padr\u00e3o."
+        "message": "Pode causar avisos ou quebras na rede. Desativado por padr\u00e3o."
     },
     "chrome_hide_advanced": {
         "message": "Ocultar op\u00e7\u00f5es avan\u00e7adas"
@@ -60,13 +66,13 @@
         "message": "Redirecionar para"
     },
     "chrome_regex": {
-        "message": "Express\u00e3o regular correspondente"
+        "message": "Express\u00e3o regular equivalente"
     },
     "chrome_rule_name": {
         "message": "Nome da regra"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "\u00c0 medida que navega em websites diferentes, pode alterar as suas prefer\u00eancias para cada website"
+        "message": "Conforme voc\u00ea navega em diferentes websites, voc\u00ea pode alterar as suas prefer\u00eancias para cada site"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Configura\u00e7\u00f5es para este site"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "Ver Todas as Regras"
     },
-    "onboarding_details_one": {
-        "message": "Modo EASE Otimizado"
-    },
-    "onboarding_details_two": {
-        "message": "Agora voc\u00ea pode desativar os sites da lista branca no HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere \u00e9 um projeto da EFF"
     },
     "onboarding_header": {
-        "message": "Altera\u00e7\u00f5es com a vers\u00e3o 3.9.2020"
+        "message": "O HTTPS Everywhere foi atualizado!"
     },
     "onboarding_intro": {
         "message": "Criptografar a Web! Use automaticamente a seguran\u00e7a HTTPS em diversos sites."
     },
     "options_addDisabledSite": {
-        "message": "Adicionar site desativado"
+        "message": "Adicionar Um Site Desativado"
     },
     "options_addUpdateChannel": {
         "message": "Adicione canal de atualiza\u00e7\u00e3o"
@@ -165,13 +165,16 @@
         "message": "Habilitar conjuntos de regras de conte\u00fado misto"
     },
     "options_enterDisabledSite": {
-        "message": "Entrar no site desativado"
+        "message": "Entrar em um site desativado"
     },
     "options_enterUpdateChannelName": {
         "message": "Entre com o nome do canal de atualiza\u00e7\u00e3o"
     },
     "options_generalSettings": {
         "message": "Configura\u00e7\u00f5es Gerais"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Este hospedeiro n\u00e3o p\u00f4de ser adicionado porque n\u00e3o foi formatado corretamente. Por favor, tente novamente."
     },
     "options_settings": {
         "message": "Configura\u00e7\u00f5es"
@@ -189,7 +192,7 @@
         "message": "Atualizar Canais"
     },
     "options_updateChannelsWarning": {
-        "message": "Alerta: Adicionando atualiza\u00e7\u00e3o de canais pode motivar atacantes a sequestrar seu navegador. Somente edite essa se\u00e7\u00e3o se voc\u00ea souber o que voc\u00ea est\u00e1 fazendo!"
+        "message": "Aviso: Adicionar canais de atualiza\u00e7\u00e3o pode fazer com que atacantes sequestrem o seu navegador. Edite esta se\u00e7\u00e3o apenas se voc\u00ea souber o que est\u00e1 fazendo!"
     },
     "options_updatesLastChecked": {
         "message": "Atualiza\u00e7\u00f5es verificadas pela \u00faltima vez:"
@@ -207,6 +210,15 @@
         "message": "Restaurar as configura\u00e7\u00f5es padr\u00e3o"
     },
     "prefs_reset_defaults_message": {
-        "message": "Isso redefinir\u00e1 cada conjunto de regras de volta ao seu estado inicial. Deseja continuar?"
+        "message": "Isso redefinir\u00e1 cada conjunto de regras para seu estado padr\u00e3o. Continuar?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Servidor proxy rodando em"
+    },
+    "standalone_transparent_false": {
+        "message": "Voc\u00ea deve configurar suas aplica\u00e7\u00f5es para usarem um proxy HTTP no hospedeiro e porta especificados."
+    },
+    "standalone_transparent_true": {
+        "message": "Voc\u00ea deve configurar suas regras de firewall para encaminhar pacotes para o hospedeiro e a porta especificados."
     }
 }

@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versija"
     },
+    "cancel_copied_url": {
+        "message": "Copied to Clipboard"
+    },
+    "cancel_copy_url": {
+        "message": "Copy URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
     },
@@ -24,10 +30,10 @@
         "message": "network-based downgrade attacks"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "Open insecure page"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "\u0160ai vietnei pievienot jaunu k\u0101rtulu"
@@ -39,10 +45,10 @@
         "message": "\u0160im resursdatoram vienm\u0113r lietot https"
     },
     "chrome_disable_on_this_site": {
-        "message": "Disable HTTPS Everywhere on this site"
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Enable HTTPS Everywhere on this site"
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "Eksperiment\u0101las k\u0101rtulas"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Skat\u012bt visas k\u0101rtulas"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere is an EFF project"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere has been updated!"
     },
     "onboarding_intro": {
         "message": "\u0160ifr\u0113t t\u012bmekli! Autom\u0101tiski lietot HTTPS dro\u0161\u012bbu daudz\u0101s vietn\u0113s."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Visp\u0101r\u012bgi iestat\u012bjumi"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "This host could not be added because it was not formatted correctly. Please check it and try again."
+    },
     "options_settings": {
         "message": "Iestat\u012bjumi"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "This will reset each ruleset to its default state. Continue?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy server running on"
+    },
+    "standalone_transparent_false": {
+        "message": "You must configure your applications to use an HTTP proxy on the specified host and port."
+    },
+    "standalone_transparent_true": {
+        "message": "You must set up your firewall rules to forward packets to the specified host and port."
     }
 }

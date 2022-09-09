@@ -9,10 +9,11 @@ const rules = require('./rules'),
   update = require('./update'),
   { update_channels } = require('./update_channels'),
   wasm = require('./wasm'),
-  ipUtils = require('./ip_utils');
-
+  ipUtils = require('./ip_utils'),
+  ssl_codes = require('./ssl_codes');
 
 let all_rules = new rules.RuleSets();
+let blooms = [];
 
 async function initialize() {
   await wasm.initialize();
@@ -22,6 +23,7 @@ async function initialize() {
   await getUpgradeToSecureAvailable();
   await update.initialize(store, initializeAllRules);
   await all_rules.loadFromBrowserStorage(store, update.applyStoredRulesets);
+  await update.applyStoredBlooms(blooms);
   await incognito.onIncognitoDestruction(destroy_caches);
 }
 initialize();
@@ -30,6 +32,8 @@ async function initializeAllRules() {
   const r = new rules.RuleSets();
   await r.loadFromBrowserStorage(store, update.applyStoredRulesets);
   Object.assign(all_rules, r);
+  blooms.length = 0;
+  await update.applyStoredBlooms(blooms);
 }
 
 /**
@@ -92,7 +96,8 @@ function initializeStoredGlobals() {
   });
 }
 
-let upgradeToSecureAvailable;
+/** @type {boolean} */
+let upgradeToSecureAvailable = false;
 
 function getUpgradeToSecureAvailable() {
   if (typeof browser !== 'undefined') {
@@ -181,14 +186,18 @@ function updateState () {
     title: 'HTTPS Everywhere' + ((iconState === 'active') ? '' : ' (' + iconState + ')')
   });
 
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    if (!tabs || tabs.length === 0) {
+  const chromeUrl = 'chrome://';
+
+  chrome.tabs.query({ active: true, currentWindow: true, status: 'complete' }, function(tabs) {
+    if (!tabs || tabs.length === 0 || tabs[0].url.startsWith(chromeUrl) ) {
       return;
     }
-    const tabUrl = new URL(tabs[0].url);
-    const hostname = util.getNormalisedHostname(tabUrl.hostname);
 
-    if (isExtensionDisabledOnSite(hostname) || iconState == "disabled") {
+    // tabUrl.host instead of hostname should be used to show the "disabled" status properly (#19293)
+    const tabUrl = new URL(tabs[0].url);
+    const host = util.getNormalisedHostname(tabUrl.host);
+
+    if (isExtensionDisabledOnSite(host) || iconState == "disabled") {
       if ('setIcon' in chrome.browserAction) {
         chrome.browserAction.setIcon({
           path: {
@@ -268,7 +277,7 @@ BrowserSession.prototype = {
 
     // sort by ruleset names alphabetically, case-insensitive
     if (this.getTab(tabId, "applied_rulesets", null)) {
-      let rulesets = this.getTab(tabId, "applied_rulesets");
+      let rulesets = this.getTab(tabId, "applied_rulesets", null);
       let insertIndex = 0;
 
       const ruleset_name = ruleset.name.toLowerCase();
@@ -313,7 +322,7 @@ BrowserSession.prototype = {
       this.requests.delete(requestId);
     }
   }
-}
+};
 
 let browserSession = new BrowserSession();
 
@@ -360,7 +369,7 @@ function onBeforeRequest(details) {
 
     // Check if an user has disabled HTTPS Everywhere on this site.  We should
     // ensure that all subresources are not run through HTTPS Everywhere as well.
-    browserSession.putTab(details.tabId, 'first_party_host', uri.hostname, true);
+    browserSession.putTab(details.tabId, 'first_party_host', uri.host, true);
   }
 
   if (isExtensionDisabledOnSite(browserSession.getTab(details.tabId, 'first_party_host', null))) {
@@ -374,6 +383,7 @@ function onBeforeRequest(details) {
     (uri.protocol === 'http:' || uri.protocol === 'ftp:') &&
     uri.hostname.slice(-6) !== '.onion' &&
     uri.hostname !== 'localhost' &&
+    !uri.hostname.endsWith('.localhost') &&
     uri.hostname !== '[::1]' &&
     !isLocalIp;
 
@@ -398,7 +408,7 @@ function onBeforeRequest(details) {
     return redirectOnCancel(shouldCancel, details.url);
   }
 
-  if (browserSession.getRequest(details.requestId, "redirect_count") >= 8) {
+  if (browserSession.getRequest(details.requestId, "redirect_count", 0) >= 8) {
     util.log(util.NOTE, "Redirect counter hit for " + uri.href);
     urlBlacklist.add(uri.href);
     rules.settings.domainBlacklist.add(uri.hostname);
@@ -417,6 +427,15 @@ function onBeforeRequest(details) {
       browserSession.putTabAppliedRulesets(details.tabId, details.type, ruleset);
       if (ruleset.active && !newuristr) {
         newuristr = ruleset.apply(uri.href);
+      }
+    }
+  }
+
+  if (newuristr == null && blooms.length > 0 && uri.protocol === 'http:') {
+    for(let bloom of blooms) {
+      if(bloom.check(uri.hostname)) {
+        newuristr = uri.href.replace(/^http:/, "https:");
+        break;
       }
     }
   }
@@ -560,28 +579,9 @@ function onErrorOccurred(details) {
   if (httpNowhereOn &&
     details.type == "main_frame" &&
     browserSession.getRequest(details.requestId, "simple_http_nowhere_redirect", false) &&
-    ( // Enumerate a class of errors that are likely due to HTTPS misconfigurations
-      details.error.indexOf("net::ERR_SSL_") == 0 ||
-      details.error.indexOf("net::ERR_CERT_") == 0 ||
-      details.error.indexOf("net::ERR_CONNECTION_") == 0 ||
-      details.error.indexOf("net::ERR_ABORTED") == 0 ||
-      details.error.indexOf("net::ERR_SSL_PROTOCOL_ERROR") == 0 ||
-      details.error.indexOf("NS_ERROR_CONNECTION_REFUSED") == 0 ||
-      details.error.indexOf("NS_ERROR_NET_TIMEOUT") == 0 ||
-      details.error.indexOf("NS_ERROR_NET_ON_TLS_HANDSHAKE_ENDED") == 0 ||
-      details.error.indexOf("SSL received a record that exceeded the maximum permissible length.") == 0 ||
-      details.error.indexOf("Peer’s Certificate has expired.") == 0 ||
-      details.error.indexOf("Unable to communicate securely with peer: requested domain name does not match the server’s certificate.") == 0 ||
-      details.error.indexOf("Peer’s Certificate issuer is not recognized.") == 0 ||
-      details.error.indexOf("Peer’s Certificate has been revoked.") == 0 ||
-      details.error.indexOf("Peer reports it experienced an internal error.") == 0 ||
-      details.error.indexOf("The server uses key pinning (HPKP) but no trusted certificate chain could be constructed that matches the pinset. Key pinning violations cannot be overridden.") == 0 ||
-      details.error.indexOf("SSL received a weak ephemeral Diffie-Hellman key in Server Key Exchange handshake message.") == 0 ||
-      details.error.indexOf("The certificate was signed using a signature algorithm that is disabled because it is not secure.") == 0 ||
-      details.error.indexOf("Unable to communicate securely with peer: requested domain name does not match the server’s certificate.") == 0 ||
-      details.error.indexOf("Cannot communicate securely with peer: no common encryption algorithm(s).") == 0 ||
-      details.error.indexOf("SSL peer has no certificate for the requested DNS name.") == 0
-    )) {
+    // Enumerate errors that are likely due to HTTPS misconfigurations
+    ssl_codes.error_list.some(message => details.error.includes(message))
+  ) {
     let url = new URL(details.url);
     if (url.protocol == "https:") {
       url.protocol = "http:";
@@ -646,7 +646,7 @@ function onHeadersReceived(details) {
       const upgradeInsecureRequests = {
         name: 'Content-Security-Policy',
         value: 'upgrade-insecure-requests'
-      }
+      };
       details.responseHeaders.push(upgradeInsecureRequests);
       responseHeadersChanged = true;
     }
@@ -669,7 +669,7 @@ chrome.webRequest.onBeforeRedirect.addListener(onBeforeRedirect, {urls: ["https:
 chrome.webRequest.onCompleted.addListener(onCompleted, {urls: ["*://*/*"]});
 
 // Cleanup redirectCounter if necessary
-chrome.webRequest.onErrorOccurred.addListener(onErrorOccurred, {urls: ["*://*/*"]})
+chrome.webRequest.onErrorOccurred.addListener(onErrorOccurred, {urls: ["*://*/*"]});
 
 // Insert upgrade-insecure-requests directive in httpNowhere mode
 chrome.webRequest.onHeadersReceived.addListener(onHeadersReceived, {urls: ["https://*/*"]}, ["blocking", "responseHeaders"]);
@@ -685,8 +685,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     let last_updated_promises = [];
     for(let update_channel of update_channels) {
       last_updated_promises.push(new Promise(resolve => {
-        store.local.get({['rulesets-timestamp: ' + update_channel.name]: 0}, item => {
-          resolve([update_channel.name, item['rulesets-timestamp: ' + update_channel.name]]);
+        store.local.get({['uc-timestamp: ' + update_channel.name]: 0}, item => {
+          resolve([update_channel.name, item['uc-timestamp: ' + update_channel.name]]);
         });
       }));
     }
@@ -792,11 +792,11 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
           if (sendResponse !== null) {
             sendResponse(true);
           }
-        })
+        });
       return true;
     },
-    get_ruleset_timestamps: () => {
-      update.getRulesetTimestamps().then(timestamps => sendResponse(timestamps));
+    get_update_channel_timestamps: () => {
+      update.getUpdateChannelTimestamps().then(timestamps => sendResponse(timestamps));
       return true;
     },
     get_pinned_update_channels: () => {
@@ -842,9 +842,16 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
           return (update_channel.name != message.object);
         })}, () => {
           store.local.remove([
-            'rulesets-timestamp: ' + message.object,
-            'rulesets-stored-timestamp: ' + message.object,
-            'rulesets: ' + message.object
+            'uc-timestamp: ' + message.object,
+            'uc-stored-timestamp: ' + message.object,
+            'rulesets: ' + message.object,
+            'bloom: ' + message.object,
+            'bloom_bitmap_bits: ' + message.object,
+            'bloom_k_num: ' + message.object,
+            'bloom_sip_keys_0_0: ' + message.object,
+            'bloom_sip_keys_0_1: ' + message.object,
+            'bloom_sip_keys_1_0: ' + message.object,
+            'bloom_sip_keys_1_1: ' + message.object,
           ], () => {
             initializeAllRules();
             sendResponse(true);
@@ -868,10 +875,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
         // Ensure that we check for new rulesets from the update channel immediately.
         // If the scope has changed, make sure that the rulesets are re-initialized.
+        update.removeStorageListener();
         store.set({update_channels: item.update_channels}, () => {
-          // Since loadUpdateChannesKeys is already contained in chrome.storage.onChanged
-          // within update.js, the below call will make it run twice. This is
-          // necesssary to avoid a race condition, see #16673
           update.loadUpdateChannelsKeys().then(() => {
             update.resetTimer();
             if(scope_changed) {
@@ -879,8 +884,8 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
             }
             sendResponse(true);
           });
+          update.addStorageListener();
         });
-
       });
       return true;
     },
@@ -934,21 +939,6 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 });
 
 /**
- * @description Upboarding event for visual changelog
- */
-chrome.runtime.onInstalled.addListener(async ({reason, temporary}) => {
-  if (temporary) return;
-  switch (reason) {
-  case "update":
-    {
-      const url = chrome.runtime.getURL("pages/onboarding/updated.html");
-      await chrome.tabs.create({ url });
-    }
-    break;
-  }
-});
-
-/**
  * Clear any cache/ blacklist we have.
  */
 function destroy_caches() {
@@ -962,6 +952,7 @@ function destroy_caches() {
 
 Object.assign(exports, {
   all_rules,
+  blooms,
   urlBlacklist
 });
 

@@ -41,7 +41,7 @@ function reveal_css(){
 
 		}
 	}
-	if(bad.length > 0 && window.confirm("Hidden HTML detected, would you like to reveal it?")){
+	if(bad.length > 0){
 		for(var i = 0; i < bad.length; i++){
 			bad[i].remove();
 		}

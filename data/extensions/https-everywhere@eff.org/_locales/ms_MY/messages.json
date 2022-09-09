@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versi"
     },
+    "cancel_copied_url": {
+        "message": "Disalin ke dalam Papan Keratan"
+    },
+    "cancel_copy_url": {
+        "message": "Salin URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere mendapati anda telah melayari masuk ke halaman bukan-HTTPS, dan cuba mengalih anda ke versi HTTPS sebagai ganti. Malangnya versi HTTPS tidak tersedia. Berkemungkinan laman ini tidak menyokong HTTPS, tetapi ia mungkin ada penyerang yang menyekat versi HTTPS. Jika anda masih ingin melihat versi tidak sulit halaman ini, anda boleh membuatnya dengan melumpuhkan pilihan 'Sulitkan Semua Laman Yang Layak' (EASE) di dalam sambungan HTTPS Everywhere anda. Perlu ingat, dengan melumpuhkan pilihan ini akan menyebabkan pelayar anda terdedah dengan serangan nyahtatar berasaskan-rangkaian pada laman sesawng yang anda dilawati."
     },
@@ -24,10 +30,10 @@
         "message": "serangan nyahtatar berasaskan-rangkaian"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "Buka halaman tidak selamat"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "Tambah satu peraturan baharu untuk laman ini"
@@ -39,10 +45,10 @@
         "message": "Sentiasa guna https untuk hos ini"
     },
     "chrome_disable_on_this_site": {
-        "message": "Lumpuhkan HTTPS Everywhere pada laman ini"
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Benarkan HTTPS Everywhere pada laman ini"
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "Peraturan ujikaji"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "Lihat Semua Peraturan"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere merupakan sebuah projek EFF"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere telah dikemaskinikan!"
     },
     "onboarding_intro": {
         "message": "Sulitkan Sesawang! Guna HTTPS secara automatik di kebanyakan laman."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Tambah Tapak Dilumpuhkan"
     },
     "options_addUpdateChannel": {
         "message": "Tambah Saluran Kemaskini"
@@ -153,7 +153,7 @@
         "message": "Auto-kemaskini set peraturan"
     },
     "options_debuggingRulesets": {
-        "message": "Debugging Rulesets (advanced)"
+        "message": "Set Peraturan Penyahpepijatan (lanjutan)"
     },
     "options_delete": {
         "message": "Padam"
@@ -165,13 +165,16 @@
         "message": "Benarkan set peraturan kandungan bercampur"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Masukkan tapak dilumpuhkan"
     },
     "options_enterUpdateChannelName": {
         "message": "Masukkan nama saluran kemaskini"
     },
     "options_generalSettings": {
         "message": "Tetapan Umum"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Hos ini tidak dapat ditambah masuk kerana ia tidak diformat dengan baik. Sila periksa ia dan cuba sekali lagi."
     },
     "options_settings": {
         "message": "Tetapan"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Tindakan ini akan menetap semula setiap set peraturan ke keadaan lalainya. Mahu teruskan?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy server running on"
+    },
+    "standalone_transparent_false": {
+        "message": "Anda mesti mengkonfigur aplikasi-aplikasi anda supaya dapat menggunakan satu proksi HTTP pada hos dan port yang ditentukan."
+    },
+    "standalone_transparent_true": {
+        "message": "Anda mesti menetap semula peraturan dinding api anda supaya dapat memajukan paket-paket kepada hos dan port yang ditentukan."
     }
 }

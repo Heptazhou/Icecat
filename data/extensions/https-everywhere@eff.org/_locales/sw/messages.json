@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Toleo"
     },
+    "cancel_copied_url": {
+        "message": "Imekopiwa kwenye Klipubodi."
+    },
+    "cancel_copy_url": {
+        "message": "Nakili  KISARA"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Kilamahali iliona unapitia katika kurasa ambazo sio za HTTPS, na ilijaribu kukupeleka kwenye toleo la HTTPS.  Toleo la HTTPS halipatikani.  Mara nyingi tovuti hii haisaidii toleo la HTTPS, lakini pia inawezekana mvamizi amezuia toleo la HTTPS.  Kama ungependa kuona toleo la unencrypted kwa kurasa hii, unaweza kufanya hivyo kwa 'Encrypt  tovuti zote zilizowezeshwa'  (EASE) chaguo kwenye HTTPS Kilamahali yako ugani.  Kuwa makini kuwa kuzuia chaguo hili kuna weza fanya kivinjari chako hatari kwa kuwa kwenye mtandao wa hali ya chini  kwa wavamizi katika tovuti utakayotembelea."
     },
@@ -24,10 +30,10 @@
         "message": "Mtandao unaonyesha umevamiwa daraja la chini"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "Fungua page isiyosalama"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "ongeza sheria mpya kwenye  tovuti hii"
@@ -39,10 +45,10 @@
         "message": "Sikuzote tumia https kwa msimamizi huyu"
     },
     "chrome_disable_on_this_site": {
-        "message": "Zuia HTTPS Kilamahali katika tovuti hii"
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Wezesha HTTPS kilamahali katika tovuti hii"
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "sheria za majaribio"
@@ -66,13 +72,13 @@
         "message": "jina sheria"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change your preferences for each website"
+        "message": "Unapo vinjari tovuti tofauti, unaweza ukabadilisha mapendekezo yako kwa kila tovuti"
     },
     "chrome_settings_for_this_site_header": {
-        "message": "Settings for this site"
+        "message": "Mpangilio wa tovuti hii"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Badilisha mapendekezo yako kwa muunganiko wa ficho"
     },
     "chrome_show_advanced": {
         "message": "Onysha ya juu"
@@ -90,34 +96,34 @@
         "message": "chagia EFF"
     },
     "menu_encryptAllSitesEligibleOff": {
-        "message": "Encrypt All Sites Eligible is OFF"
+        "message": "Encrypt za tovuti zote zilizopo zimezimwa."
     },
     "menu_encryptAllSitesEligibleOn": {
-        "message": "Encrypt All Sites Eligible is ON"
+        "message": "Tovuti zote za ficho zimewashwa."
     },
     "menu_globalDisable": {
-        "message": "HTTPS Everywhere is OFF"
+        "message": "HTTPS imezimwa kila mahali."
     },
     "menu_globalEnable": {
-        "message": "HTTPS Everywhere is ON"
+        "message": "HTTPS imewashwa kila mahali."
     },
     "menu_httpNoWhereExplainedAllowed": {
-        "message": "Unencrypted requests are currently allowed"
+        "message": "Maombi ya ficho zote kwa sasa yameruhusiwa."
     },
     "menu_httpNoWhereExplainedBlocked": {
-        "message": "Unencrypted requests are currently blocked"
+        "message": "Maombi ya ficho zote kwa sasa yamezuiliwa."
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Hii modi imezuia ujumbe na maombi ya ficho."
     },
     "menu_observatory": {
         "message": "SSL Mwangalizi ya ufuatiliaji"
     },
     "menu_seeLess": {
-        "message": "See less"
+        "message": "Ona kidogo"
     },
     "menu_seeMore": {
-        "message": "See more"
+        "message": "Ona zaidi"
     },
     "menu_showCounter": {
         "message": "onyesha counter"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "Onyesha sheria kali"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS kila mahali ni mradi wa EFF"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS imeboreshwa kila mahali!"
     },
     "onboarding_intro": {
         "message": "Encrypt mtandao!  Moja kwa moja tumia HTTPS usalama kwenye tovuti nyingi."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Ongeza tovuti iliyozuiliwa"
     },
     "options_addUpdateChannel": {
         "message": "Ongeza chanzo kilichosasishwa"
@@ -153,7 +153,7 @@
         "message": "mojakwakoja sasisha seti za sheria"
     },
     "options_debuggingRulesets": {
-        "message": "Debugging Rulesets (advanced)"
+        "message": "Mfumo wa sheria za utatuzi ( imeendelea)"
     },
     "options_delete": {
         "message": "Futa"
@@ -165,13 +165,16 @@
         "message": "Wezesha mchanganyiko wa yaliyomo katika  seti za sheria"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Ingiza tovuti iliyo zuiliwa"
     },
     "options_enterUpdateChannelName": {
         "message": "Ingiza sasisha jina la kituo"
     },
     "options_generalSettings": {
         "message": "Mpangilio wa jumla"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Mwenyeji huyu hakuweza kuongezwa kwasababu muundo wake hauko sahihi. Tafadhali tazama na jaribu tena."
     },
     "options_settings": {
         "message": "vipimo"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Hii itapangilia tena kila seti ya sheria katika hali ya default.  Endelea?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Wakala seva anafanya kazi"
+    },
+    "standalone_transparent_false": {
+        "message": "Lazima usanidishe program yako ili kutumia wakala HTTP kwa mwenyeji na poti husika."
+    },
+    "standalone_transparent_true": {
+        "message": "Lazima uanzishe sheria za firewall yako kupeleka mbele pakiti kwa mwenyeji husika na poti"
     }
 }

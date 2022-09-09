@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Verzia"
     },
+    "cancel_copied_url": {
+        "message": "Copied to Clipboard"
+    },
+    "cancel_copy_url": {
+        "message": "Copy URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "Roz\u0161\u00edrenie HTTPS Everywhere zaznamenalo, \u017ee ste sa pok\u00fasili dosta\u0165 na nezabezpe\u010den\u00fa verziu str\u00e1nky a pok\u00fasilo sa v\u00e1m poskytn\u00fa\u0165 jej zabezpe\u010den\u00fa verziu. T\u00e1to v\u0161ak nie je dostupn\u00e1. S najv\u00e4\u010d\u0161ou pravdepodobnos\u0165ou str\u00e1nka nepodporuje HTTPS, no je taktie\u017e mo\u017en\u00e9, \u017ee \u00fato\u010dn\u00edk blokuje jej zabezpe\u010den\u00fa verziu. Ak si chcete pozrie\u0165 nezabezpe\u010den\u00fa verziu str\u00e1nky, zru\u0161te za\u0161krtnutie mo\u017enosti \u201e\u0160ifrova\u0165 v\u0161etky vhodn\u00e9 str\u00e1nky (EASE)\u201c v mo\u017enostiach tohto roz\u0161\u00edrenia. Berte v\u0161ak na vedomie, \u017ee tak m\u00f4\u017eete svoj prehliada\u010d vystavi\u0165 riziku \u00fatoku typu network-based downgrade."
     },
@@ -24,10 +30,10 @@
         "message": "\u00fatok typu network-based downgrade"
     },
     "cancel_http_once": {
-        "message": "Otvori\u0165 nezabezpe\u010den\u00fa str\u00e1nku len pre t\u00fato rel\u00e1ciu"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "Otvori\u0165 nezabezpe\u010den\u00fa str\u00e1nku"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "Prida\u0165 nov\u00e9 pravidlo pre t\u00fato str\u00e1nku."
@@ -39,10 +45,10 @@
         "message": "V\u017edy pou\u017e\u00edva\u0165 https pre tohto hostite\u013ea."
     },
     "chrome_disable_on_this_site": {
-        "message": "Vypn\u00fa\u0165 HTTPS Everywhere pre t\u00fato str\u00e1nku"
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Zapn\u00fa\u0165 HTTPS Everywhere pre t\u00fato str\u00e1nku"
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "Experiment\u00e1lne pravidl\u00e1"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Zobrazi\u0165 v\u0161etky pravidl\u00e1"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere is an EFF project"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere has been updated!"
     },
     "onboarding_intro": {
         "message": "Za\u0161ifrujte web! Tento doplnok automatizuje pou\u017eitie HTTPS na mnoh\u00fdch str\u00e1nkach."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "V\u0161eobecn\u00e9 nastavenia"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "This host could not be added because it was not formatted correctly. Please check it and try again."
+    },
     "options_settings": {
         "message": "Nastavenia"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "T\u00fdmto obnov\u00edte v\u0161etky pravidl\u00e1 do ich p\u00f4vodn\u00e9ho stavu. Chcete pokra\u010dova\u0165?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy server running on"
+    },
+    "standalone_transparent_false": {
+        "message": "You must configure your applications to use an HTTP proxy on the specified host and port."
+    },
+    "standalone_transparent_true": {
+        "message": "You must set up your firewall rules to forward packets to the specified host and port."
     }
 }

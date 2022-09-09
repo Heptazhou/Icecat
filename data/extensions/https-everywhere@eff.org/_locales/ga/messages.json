@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Leagan"
     },
+    "cancel_copied_url": {
+        "message": "C\u00f3ipe\u00e1ilte go dt\u00ed an Ghearrthaisce"
+    },
+    "cancel_copy_url": {
+        "message": "C\u00f3ipe\u00e1il an URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "Thug HTTPS Everywhere faoi deara go raibh t\u00fa ag iarraidh cuairt a thabhairt ar leathanach gan HTTPS, agus rinne s\u00e9 iarracht an leagan HTTPS a sheoladh chugat ina \u00e1it, ach theip air toisc nach bhfuil an leagan HTTPS ar f\u00e1il. Is d\u00f3cha nach dtaca\u00edonn an su\u00edomh seo le HTTPS, ach d'fh\u00e9adfadh s\u00e9 gur chuir ionsaitheoir cosc ar an leagan HTTPS. M\u00e1s mian leat an leagan neamhchriptithe den leathanach seo a fh\u00e1il, is f\u00e9idir leat \u00e9 sin a dh\u00e9anamh tr\u00ed 'Cripti\u00fa Nuair is F\u00e9idir (EASE)' a mh\u00fachadh sa mbreise\u00e1n HTTPS Everywhere. M\u00e1 mh\u00fachann t\u00fa an rogha seo, b'fhurasta ionsa\u00ed \u00edosghr\u00e1daithe a dh\u00e9anamh ort ar na su\u00edmh Ghr\u00e9as\u00e1in a dtugann t\u00fa cuairt orthu."
     },
@@ -24,10 +30,10 @@
         "message": "ionsaithe \u00edosghr\u00e1daithe ar an l\u00edonra"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "Oscail leathanach neamhshl\u00e1n"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "Cuir riail nua i bhfeidhm ar an su\u00edomh seo"
@@ -39,10 +45,10 @@
         "message": "Bain \u00fas\u00e1id as https i gc\u00f3na\u00ed leis an \u00f3str\u00edomhaire seo"
     },
     "chrome_disable_on_this_site": {
-        "message": "D\u00edchumasaigh HTTPS Everywhere ar an su\u00edomh seo"
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "Cumasaigh HTTPS Everywhere ar an su\u00edomh seo"
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "Rialacha turgnamhacha"
@@ -66,13 +72,13 @@
         "message": "Ainm na rialach"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change your preferences for each website"
+        "message": "Is f\u00e9idir leat sainroghanna difri\u00fala a shocr\u00fa ar shu\u00edmh dhifri\u00fala"
     },
     "chrome_settings_for_this_site_header": {
         "message": "Socruithe don su\u00edomh seo"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Athraigh na roghanna a bhaineann le ceangail chriptithe"
     },
     "chrome_show_advanced": {
         "message": "Taispe\u00e1in na hardroghanna"
@@ -90,10 +96,10 @@
         "message": "Tabhair s\u00ednti\u00fas airgid don EFF"
     },
     "menu_encryptAllSitesEligibleOff": {
-        "message": "Encrypt All Sites Eligible is OFF"
+        "message": "Cripti\u00fa Nuair is F\u00e9idir (EASE): M\u00daCHTA"
     },
     "menu_encryptAllSitesEligibleOn": {
-        "message": "Encrypt All Sites Eligible is ON"
+        "message": "Cripti\u00fa Nuair is F\u00e9idir (EASE): AR SI\u00daL"
     },
     "menu_globalDisable": {
         "message": "HTTPS Everywhere M\u00daCHTA"
@@ -102,19 +108,19 @@
         "message": "HTTPS Everywhere AR SI\u00daL"
     },
     "menu_httpNoWhereExplainedAllowed": {
-        "message": "Unencrypted requests are currently allowed"
+        "message": "T\u00e1 iarratais neamhchriptithe ceadaithe faoi l\u00e1thair"
     },
     "menu_httpNoWhereExplainedBlocked": {
-        "message": "Unencrypted requests are currently blocked"
+        "message": "T\u00e1 cosc ar iarratais neamhchriptithe faoi l\u00e1thair"
     },
     "menu_httpNoWhereMore": {
-        "message": "This mode blocks unencrypted content and requests"
+        "message": "Cuireann an m\u00f3d seo cosc ar \u00e1bhar agus ar iarratais neamhchriptithe"
     },
     "menu_observatory": {
         "message": "Sainroghanna SSL Observatory"
     },
     "menu_seeLess": {
-        "message": "See less"
+        "message": "N\u00edos l\u00fa"
     },
     "menu_seeMore": {
         "message": "Tuilleadh"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "Taispe\u00e1in Gach Riail"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "Is tionscadal de chuid an EFF \u00e9 HTTPS Everywhere"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "Nuashonra\u00edodh HTTPS Everywhere!"
     },
     "onboarding_intro": {
         "message": "Criptigh an Gr\u00e9as\u00e1n! Bain \u00fas\u00e1id as sl\u00e1nd\u00e1il HTTPS go huathoibr\u00edoch ar go leor su\u00edomh."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Cuir Su\u00edomh D\u00edchumasaithe Leis"
     },
     "options_addUpdateChannel": {
         "message": "Cain\u00e9al Nuashonraithe Nua"
@@ -153,7 +153,7 @@
         "message": "Nuashonraigh rialacha go huathoibr\u00edoch"
     },
     "options_debuggingRulesets": {
-        "message": "Debugging Rulesets (advanced)"
+        "message": "Tacair Rialacha a Dh\u00edfhabht\u00fa (casta)"
     },
     "options_delete": {
         "message": "Scrios"
@@ -165,13 +165,16 @@
         "message": "Cumasaigh rialacha d'\u00e1bhar measctha"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Cuir isteach su\u00edomh d\u00edchumasaithe"
     },
     "options_enterUpdateChannelName": {
         "message": "Cuir isteach ainm an chain\u00e9il nuashonraithe"
     },
     "options_generalSettings": {
         "message": "Socruithe Ginear\u00e1lta"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "N\u00edorbh fh\u00e9idir an t-\u00f3stach a chur leis toisc go raibh an fhorm\u00e1id m\u00edcheart. Deimhnigh \u00e9 agus bain triail eile as."
     },
     "options_settings": {
         "message": "Socruithe"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Fillfidh gach tacar rialacha ar a r\u00e9amhshocr\u00fa. An bhfuil t\u00fa cinnte?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "T\u00e1 an seachfhreastala\u00ed ag rith ar"
+    },
+    "standalone_transparent_false": {
+        "message": "Caithfidh t\u00fa do chuid feidhmchl\u00e1r a chumr\u00fa chun seachfhreastala\u00ed HTTP a \u00fas\u00e1id ar an \u00f3stach agus ar an bport sonraithe."
+    },
+    "standalone_transparent_true": {
+        "message": "Caithfidh t\u00fa do chuid rialacha balla d\u00f3ite\u00e1in a shocr\u00fa sa chaoi go gcuirfear paic\u00e9id ar aghaidh go dt\u00ed an t-\u00f3stach agus an port sonraithe."
     }
 }

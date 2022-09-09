@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Versjon"
     },
+    "cancel_copied_url": {
+        "message": "Kopiert til utklippstavlen"
+    },
+    "cancel_copy_url": {
+        "message": "Kopier URL"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere har merket at du navigerte til en ikke-HTTPS-side, og pr\u00f8vde \u00e5 sende deg til HTTPS-versjonen i stedet. HTTPS-versjonen er utilgjengelig. Mest sannsynlig st\u00f8tter dette nettstedet ikke HTTPS, men det er ogs\u00e5 mulig at en angriper blokkerer HTTPS-versjonen. Hvis du \u00f8nsker \u00e5 se den ukrypterte versjonen av denne siden, kan du fortsatt gj\u00f8re det ved \u00e5 deaktivere alternativet &quot;Krypter alle sider som er kvalifisert&quot; (EASE) i HTTPS Everywhere-utvidelsen. V\u00e6r oppmerksom p\u00e5 at deaktivering av dette alternativet kan gj\u00f8re nettleseren din s\u00e5rbar for nettverksbaserte nedgraderingsangrep p\u00e5 nettsteder du bes\u00f8ker."
     },
@@ -24,10 +30,10 @@
         "message": "nettverksbaserte nedgraderingsangrep"
     },
     "cancel_http_once": {
-        "message": "\u00c5pne usikker side bare for denne \u00f8kten"
+        "message": "Fortsett uansett (usikkert)"
     },
     "cancel_open_page": {
-        "message": "\u00c5pne usikker side"
+        "message": "Deaktiver p\u00e5 dette nettstedet"
     },
     "chrome_add_new_rule": {
         "message": "Legg til en ny regel for dette nettstedet"
@@ -39,10 +45,10 @@
         "message": "Bruk alltid https for denne verten"
     },
     "chrome_disable_on_this_site": {
-        "message": "Deaktiver HTTPS Everywhere p\u00e5 dette nettstedet"
+        "message": "Deaktiver p\u00e5 dette nettstedet"
     },
     "chrome_enable_on_this_site": {
-        "message": "Aktiver HTTPS Everywhere p\u00e5 dette nettstedet"
+        "message": "Aktiver p\u00e5 dette nettstedet"
     },
     "chrome_experimental_rules": {
         "message": "Eksperimentelle regler"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Vis alle regler"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere er et EFF prosjekt"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere har blitt oppdatert!"
     },
     "onboarding_intro": {
         "message": "Krypter nettet! Bruk HTTPS-sikkerhet automatisk p\u00e5 mange nettsteder."
@@ -159,7 +159,7 @@
         "message": "Slett"
     },
     "options_disabledUrlsListed": {
-        "message": "HTTPS Everywhere Nettsteder deaktivert"
+        "message": "HTTPS Everywhere nettsteder deaktivert"
     },
     "options_enableMixedRulesets": {
         "message": "Aktiver blandet innhold regelsett"
@@ -172,6 +172,9 @@
     },
     "options_generalSettings": {
         "message": "Generelle innstillinger"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Denne verten kunne ikke legges til fordi den ikke var formatert riktig. Vennligst kontroller den og fors\u00f8k igjen."
     },
     "options_settings": {
         "message": "Innstillinger"
@@ -186,7 +189,7 @@
         "message": "Oppdater"
     },
     "options_updateChannels": {
-        "message": "Oppdater Kanaler"
+        "message": "Oppdater kanaler"
     },
     "options_updateChannelsWarning": {
         "message": "Advarsel: \u00c5 legge til oppdateringskanaler kan f\u00f8re til at angriperne kaprer nettleseren din. Bare rediger denne delen hvis du vet hva du gj\u00f8r!"
@@ -198,7 +201,7 @@
         "message": "aldri"
     },
     "options_userRulesListed": {
-        "message": "HTTPS Everywhere Brukerregler"
+        "message": "HTTPS Everywhere brukerregler"
     },
     "prefs_export_settings": {
         "message": "Eksporter innstillinger"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Dette vil tilbakestille hver regelsett til standardstatus. Fortsette?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Mellomtjener kj\u00f8rer p\u00e5"
+    },
+    "standalone_transparent_false": {
+        "message": "Du m\u00e5 konfigurere programmene dine til \u00e5 benytte en HTTP-mellomtjener p\u00e5 den angitte verten og porten."
+    },
+    "standalone_transparent_true": {
+        "message": "Du m\u00e5 sette opp brannmur reglene for \u00e5 videresende pakker til den angitte verten og porten."
     }
 }

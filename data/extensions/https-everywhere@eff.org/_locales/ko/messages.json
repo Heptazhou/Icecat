@@ -17,6 +17,12 @@
     "about_version": {
         "message": "\ubc84\uc804"
     },
+    "cancel_copied_url": {
+        "message": "\ud074\ub9bd\ubcf4\ub4dc\uc5d0 \ubcf5\uc0ac\ub428"
+    },
+    "cancel_copy_url": {
+        "message": "URL \ubcf5\uc0ac"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere\ub294 \uc0ac\uc6a9\uc790\uac00 HTTPS \uc5c6\ub294 \ud398\uc774\uc9c0\ub97c \uc774\ub3d9\ud558\ub294 \uac83\uc744 \uae68\ub2eb\uc558\uace0 \ub300\uc2e0\uc5d0 HTTPS \ubc84\uc804\uc744 \uc804\uc1a1\ud574 \ubd24\uc2b5\ub2c8\ub2e4. HTTPS \ubc84\uc804\uc774 \uc774\uc6a9\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \uc544\ub9c8 \uc774 \uc0ac\uc774\ud2b8\ub294 HTTPS\uac00 \uc9c0\uc6d0\ud558\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4. \uadf8\ub798\ub3c4 \uac00\ud574\uc790\ub294 HTTPS \ubc84\uc804\uc744 \ucc28\ub2e8\ud558\uace0 \uc788\ub294 \uac83\ub3c4 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uc774 \ud398\uc774\uc9c0\uc758 \uc554\ud638\ud654\ub418\uc9c0 \uc54a\uc740 \ubc84\uc804\uc744 \ubcf4\ub824\uba74 HTTPS Everywhere \ud655\uc7a5 \uae30\ub2a5\uc5d0\uc11c '\uc801\ud569\ud55c \ubaa8\ub4e0 \uc0ac\uc774\ud2b8\ub97c \uc554\ud638\ud654'(EASE)\uc774\ub77c\ub294 \uc635\uc158\uc744 \ube44\ud65c\uc131\ud654\ub3c4 \uac00\ub2a5\ud569\ub2c8\ub2e4. \uadf8 \uc635\uc158\uc744 \ube44\ud65c\uc131\ud654\ud558\uba74 \uc774\ub3d9\ud558\ub294 \uc6f9\uc0ac\uc774\ud2b8\uc5d0 \ube0c\ub77c\uc6b0\uc800\uac00 \ub124\ud2b8\uc6cc\ud06c \uae30\ubc18 \ub2e4\uc6b4\uadf8\ub808\uc774\ub4dc\ub85c \uacf5\uaca9\uc774 \ucde8\uc57d\ud560 \uc218\ub3c4 \uc788\ub294 \uac83\uc744 \uc758\uc2dd\ud558\uc2ed\uc2dc\uc624."
     },
@@ -24,10 +30,10 @@
         "message": "\ub124\ud2b8\uc6cc\ud06c \uae30\ubc18 \ub2e4\uc6b4\uadf8\ub808\uc774\ub4dc \uacf5\uaca9"
     },
     "cancel_http_once": {
-        "message": "Open insecure page for this session only"
+        "message": "\uacc4\uc18d \uc9c4\ud589 (\uc548\uc804\ud558\uc9c0 \uc54a\uc74c)"
     },
     "cancel_open_page": {
-        "message": "\uc548\uc804\ud558\uc9c0 \uc54a\uc740 \ud398\uc774\uc9c0\ub97c \uc5fd\ub2c8\ub2e4."
+        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c \uc0ac\uc6a9 \uc548\ud558\uae30"
     },
     "chrome_add_new_rule": {
         "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0 \uc0c8 \uaddc\uce59 \ucd94\uac00"
@@ -39,10 +45,10 @@
         "message": "\uc774 \ud638\uc2a4\ud2b8\uc5d0 \ud56d\uc0c1 https \uc0ac\uc6a9"
     },
     "chrome_disable_on_this_site": {
-        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c HTTPS Everywhere \uc0ac\uc6a9 \uc548 \ud558\uae30"
+        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c \uc0ac\uc6a9 \uc548\ud558\uae30"
     },
     "chrome_enable_on_this_site": {
-        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c HTTPS Everywhere \uc0ac\uc6a9\ud558\uae30"
+        "message": "\uc774 \uc0ac\uc774\ud2b8\uc5d0\uc11c \uc0ac\uc6a9\ud558\uae30"
     },
     "chrome_experimental_rules": {
         "message": "\uc2e4\ud5d8\uc6a9 \uaddc\uce59"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "\ubaa8\ub4e0 \uaddc\uce59 \ud45c\uc2dc"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere\ub294 EFF \ud504\ub85c\uc81d\ud2b8\uc784"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere\uac00 \uc5c5\ub370\uc774\ud2b8\ub428!"
     },
     "onboarding_intro": {
         "message": "\uc6f9\uc744 \uc554\ud638\ud654 \ud558\uc138\uc694! \uc790\ub3d9\uc73c\ub85c \uc5ec\ub7ec \uc0ac\uc774\ud2b8\uc5d0 HTTPS \ubcf4\uc548\uc744 \uc0ac\uc6a9\ud569\ub2c8\ub2e4."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "\uc0ac\uc6a9\ud560 \uc218 \uc5c6\ub294 \uc0ac\uc774\ud2b8 \ucd94\uac00"
     },
     "options_addUpdateChannel": {
         "message": "\uc5c5\ub370\uc774\ud2b8 \ucc44\ub110 \ucd94\uac00"
@@ -153,7 +153,7 @@
         "message": "\uaddc\uce59 \uc790\ub3d9 \uc5c5\ub370\uc774\ud2b8"
     },
     "options_debuggingRulesets": {
-        "message": "Debugging Rulesets (advanced)"
+        "message": "\ub514\ubc84\uae45 \uaddc\uce59 \uc9d1\ud569 (\uace0\uae09)"
     },
     "options_delete": {
         "message": "\uc0ad\uc81c"
@@ -165,13 +165,16 @@
         "message": "\ucee8\ud150\uce20 \ud63c\uc6a9 \uaddc\uce59 \ud65c\uc131\ud654"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "\uc0ac\uc6a9\ud560 \uc218 \uc5c6\ub294 \uc0ac\uc774\ud2b8 \uc785\ub825"
     },
     "options_enterUpdateChannelName": {
         "message": "\uc5c5\ub370\uc774\ud2b8 \ucc44\ub110 \uc774\ub984\uc744 \uc785\ub825\ud558\uc138\uc694"
     },
     "options_generalSettings": {
         "message": "\uc77c\ubc18 \uc124\uc815"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "\uc774 \ud638\uc2a4\ud2b8\ub294 \ud615\uc2dd\uc774 \uc798\ubabb\ub418\uc5c8\uae30 \ub54c\ubb38\uc5d0 \ucd94\uac00\ud560 \uc218 \uc5c6\uc2b5\ub2c8\ub2e4. \ud655\uc778 \ud6c4 \ub2e4\uc2dc \uc2dc\ub3c4\ud574 \uc8fc\uc138\uc694."
     },
     "options_settings": {
         "message": "\uc124\uc815"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "\ubaa8\ub4e0 \uaddc\uce59\uc774 \uae30\ubcf8\uac12\uc73c\ub85c \ucd08\uae30\ud654\ub429\ub2c8\ub2e4. \uacc4\uc18d\ud558\uc2dc\uaca0\uc2b5\ub2c8\uae4c?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "\ud504\ub85d\uc2dc \uc11c\ubc84\uac00 \uc2e4\ud589 \uc911\uc784"
+    },
+    "standalone_transparent_false": {
+        "message": "\uc9c0\uc815\ub41c \ud638\uc2a4\ud2b8 \ubc0f \ud3ec\ud2b8\uc5d0\uc11c HTTP \ud504\ub85d\uc2dc\ub97c \uc0ac\uc6a9\ud558\ub3c4\ub85d \uc751\uc6a9 \ud504\ub85c\uadf8\ub7a8\uc744 \uad6c\uc131\ud574\uc57c \ud569\ub2c8\ub2e4."
+    },
+    "standalone_transparent_true": {
+        "message": "\uc9c0\uc815\ub41c \ud638\uc2a4\ud2b8 \ubc0f \ud3ec\ud2b8\uc5d0 \ud328\ud0b7\uc744 \uc804\ub2ec\ud558\ub3c4\ub85d \ubc29\ud654\ubcbd \uaddc\uce59\uc744 \uc124\uc815\ud574\uc57c \ud569\ub2c8\ub2e4."
     }
 }

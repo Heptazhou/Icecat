@@ -17,17 +17,23 @@
     "about_version": {
         "message": "Verzi\u00f3"
     },
+    "cancel_copied_url": {
+        "message": "M\u00e1solva a v\u00e1g\u00f3lapra"
+    },
+    "cancel_copy_url": {
+        "message": "URL m\u00e1sol\u00e1sa"
+    },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere noticed you were navigating to a non-HTTPS page, and tried to send you to the HTTPS version instead. The HTTPS version is unavailable. Most likely this site does not support HTTPS, but it is also possible that an attacker is blocking the HTTPS version. If you wish to view the unencrypted version of this page, you can still do so by disabling the 'Encrypt All Sites Eligible' (EASE) option in your HTTPS Everywhere extension. Be aware that disabling this option could make your browser vulnerable to network-based downgrade attacks on websites you visit."
+        "message": "A HTTPS Everywhere azt \u00e9szlelte, hogy egy nem-HTTPS oldalra navig\u00e1l, \u00e9s megpr\u00f3b\u00e1lta ink\u00e1bb a HTTPS verzi\u00f3t k\u00fcldeni helyette. A HTTPS verzi\u00f3 nem el\u00e9rhet\u0151. Val\u00f3sz\u00edn\u00fcleg ez az oldal nem t\u00e1mogatja a HTTPS-t, de az is lehet, hogy egy t\u00e1mad\u00f3 blokkolta a HTTPS verzi\u00f3t. Ha szeretn\u00e9 megtekinteni a titkos\u00edtatlan verzi\u00f3j\u00e1t ennek az oldalnak, m\u00e9g mindig meg tudja tenni az 'Encrypt All Sites Eligible' (EASE) opci\u00f3 kikapcsol\u00e1s\u00e1val a HTTPS Everywhere b\u0151v\u00edtm\u00e9nyben. Tartsa \u00e9szben, hogy ennek az opci\u00f3nak a kikapcsol\u00e1sa t\u00e1madhat\u00f3v\u00e1 teszi a b\u00f6ng\u00e9sz\u0151j\u00e9t h\u00e1l\u00f3zati alap\u00fa lefokoz\u00e1sos t\u00e1mad\u00e1ssal szemben azon oldalakon, amiket megl\u00e1togat."
     },
     "cancel_he_blocking_network": {
         "message": "h\u00e1l\u00f3zati b\u00e1zis\u00fa lefokoz\u00f3 t\u00e1mad\u00e1s"
     },
     "cancel_http_once": {
-        "message": "Nem biztons\u00e1gos oldal megnyit\u00e1sa csak ezen munkafoly. k\u00f6zben"
+        "message": "Futtassa akkor is (nem biztons\u00e1gos)"
     },
     "cancel_open_page": {
-        "message": "Nem biztons\u00e1gos oldalak megnyit\u00e1sa"
+        "message": "Letilt\u00e1s ezen a webhelyen"
     },
     "chrome_add_new_rule": {
         "message": "\u00daj szab\u00e1ly az oldalhoz"
@@ -39,10 +45,10 @@
         "message": "Mindig https-t haszn\u00e1ljon ehhez a kiszolg\u00e1l\u00f3hoz"
     },
     "chrome_disable_on_this_site": {
-        "message": "HTTPS Everywhere kikapcsol\u00e1sa ezen oldaln\u00e1l"
+        "message": "Letilt\u00e1s ezen a webhelyen"
     },
     "chrome_enable_on_this_site": {
-        "message": "HTTPS Everywhere bekapcsol\u00e1sa ezen oldaln\u00e1l"
+        "message": "Enged\u00e9lyez\u00e9s ezen a webhelyen"
     },
     "chrome_experimental_rules": {
         "message": "K\u00eds\u00e9rleti szab\u00e1lyok"
@@ -66,13 +72,13 @@
         "message": "Szab\u00e1ly neve"
     },
     "chrome_settings_for_this_site_explained": {
-        "message": "As you browse different websites, you can change your preferences for each website"
+        "message": "Ahogy k\u00fcl\u00f6nb\u00f6z\u0151 oldalakra navig\u00e1l, megv\u00e1ltoztathatja be\u00e1ll\u00edt\u00e1sait minden egyes oldalhoz."
     },
     "chrome_settings_for_this_site_header": {
         "message": "Ezen oldal be\u00e1ll\u00edt\u00e1sai"
     },
     "chrome_settings_for_this_site_subheader": {
-        "message": "Change your preferences for encrypted connections"
+        "message": "Titkos\u00edtott kapcsolatokra vonatkoz\u00f3 be\u00e1ll\u00edt\u00e1sok megv\u00e1ltoztat\u00e1sa"
     },
     "chrome_show_advanced": {
         "message": "Speci\u00e1lis be\u00e1ll\u00edt\u00e1sok megjelen\u00edt\u00e9se"
@@ -102,10 +108,10 @@
         "message": "HTTP Everywhere BEKAPCSOLVA"
     },
     "menu_httpNoWhereExplainedAllowed": {
-        "message": "Unencrypted requests are currently allowed"
+        "message": "A titkos\u00edtatlan lek\u00e9rdez\u00e9sek jelenleg enged\u00e9lyezve vannak"
     },
     "menu_httpNoWhereExplainedBlocked": {
-        "message": "Unencrypted requests are currently blocked"
+        "message": "A titkos\u00edtatlan lek\u00e9rdez\u00e9sek jelenleg tiltva vannak"
     },
     "menu_httpNoWhereMore": {
         "message": "Ez a m\u00f3d blokkolja a titkos\u00edtatlan tartalmakat \u00e9s k\u00e9relmeket"
@@ -114,10 +120,10 @@
         "message": "SSL Observatory Preferenci\u00e1k"
     },
     "menu_seeLess": {
-        "message": "Kevesebb info"
+        "message": "Kevesebb inf\u00f3"
     },
     "menu_seeMore": {
-        "message": "T\u00f6bb info"
+        "message": "T\u00f6bb inf\u00f3"
     },
     "menu_showCounter": {
         "message": "Mutassa a sz\u00e1ml\u00e1l\u00f3t"
@@ -125,23 +131,17 @@
     "menu_viewAllRules": {
         "message": "\u00d6sszes szab\u00e1ly megtekint\u00e9se"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "A HTTPS Everywhere az EFF egyik projektje"
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "A HTTPS Everywhere friss\u00fclt!"
     },
     "onboarding_intro": {
         "message": "Titkos\u00edtsa a Web-et! Automatikusan haszn\u00e1lja a HTTPS titkos\u00edt\u00e1st a legt\u00f6bb oldalon."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Letiltott oldal hozz\u00e1ad\u00e1sa"
     },
     "options_addUpdateChannel": {
         "message": "Friss\u00edt\u0151 csatorna hozz\u00e1ad\u00e1sa"
@@ -153,7 +153,7 @@
         "message": "Automata friss\u00edt\u00e9s szab\u00e1lyok"
     },
     "options_debuggingRulesets": {
-        "message": "Debugging Rulesets (advanced)"
+        "message": "Hibakeres\u0151 szab\u00e1lyk\u00e9szlet (speci\u00e1lis)"
     },
     "options_delete": {
         "message": "T\u00f6rl\u00e9s"
@@ -165,13 +165,16 @@
         "message": "Kevert tartalom be\u00e1ll\u00edt\u00e1sszab\u00e1lyok enged\u00e9lyez\u00e9se"
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Letiltott oldal megad\u00e1sa"
     },
     "options_enterUpdateChannelName": {
         "message": "Adja meg a Friss\u00edt\u0151 csatorna nev\u00e9t"
     },
     "options_generalSettings": {
         "message": "\u00c1ltal\u00e1nos be\u00e1ll\u00edt\u00e1sok"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Ez a kiszolg\u00e1l\u00f3 nem adhat\u00f3 hozz\u00e1, mert nem megfelel\u0151en form\u00e1zott. K\u00e9rj\u00fck ellen\u0151rizze, majd pr\u00f3b\u00e1lja \u00fajra."
     },
     "options_settings": {
         "message": "Be\u00e1ll\u00edt\u00e1sok"
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Ez minden szab\u00e1lybe\u00e1ll\u00edt\u00e1st vissza\u00e1ll\u00edt az alap\u00e9rtelmezett \u00e9rt\u00e9kre. Folytatja?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy szerver fut itt:"
+    },
+    "standalone_transparent_false": {
+        "message": "Be kell \u00e1ll\u00edtania az alkalmaz\u00e1sokat, hogy HTTP proxy-t haszn\u00e1ljanak a megadott kiszolg\u00e1l\u00f3ra \u00e9s portra."
+    },
+    "standalone_transparent_true": {
+        "message": "Be kell \u00e1ll\u00edtania a t\u0171zfal szab\u00e1lyokat, hogy tov\u00e1bb\u00edtsa a csomagokat a megadott kiszolg\u00e1l\u00f3ra \u00e9s portra."
     }
 }

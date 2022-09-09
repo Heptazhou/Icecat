@@ -17,6 +17,12 @@
     "about_version": {
         "message": "Phi\u00ean b\u1ea3n"
     },
+    "cancel_copied_url": {
+        "message": "Copied to Clipboard"
+    },
+    "cancel_copy_url": {
+        "message": "Sao ch\u00e9p li\u00ean k\u1ebft"
+    },
     "cancel_he_blocking_explainer": {
         "message": "HTTPS Everywhere nh\u1eadn th\u1ea5y b\u1ea1n \u0111ang truy c\u1eadp trang web kh\u00f4ng HTTPS, v\u00e0 \u0111\u00e3 c\u1ed1 chuy\u1ec3n h\u01b0\u1edbng b\u1ea1n \u0111\u1ebfn phi\u00ean b\u1ea3n HTTPS. Nh\u01b0ng phi\u00ean b\u1ea3n HTTPS kh\u00f4ng kh\u1ea3 d\u1ee5ng. C\u00f3 th\u1ec3 l\u00e0 do trang web n\u00e0y kh\u00f4ng h\u1ed7 tr\u1ee3 HTTPS ho\u1eb7c k\u1ebb x\u1ea5u \u0111ang ch\u1eb7n b\u1ea1n truy c\u1eadp phi\u00ean b\u1ea3n HTTPS. N\u1ebfu b\u1ea1n mu\u1ed1n truy c\u1eadp phi\u00ean b\u1ea3n kh\u00f4ng m\u00e3 h\u00f3a c\u1ee7a trang n\u00e0y, h\u00e3y t\u1eaft 'M\u00e3 h\u00f3a t\u1ea5t c\u1ea3 trang web n\u1ebfu c\u00f3 th\u1ec3' trong c\u00e0i \u0111\u1eb7t HTTPS Everywhere. L\u01b0u \u00fd r\u1eb1ng t\u1eaft t\u00f9y ch\u1ecdn n\u00e0y c\u00f3 th\u1ec3 khi\u1ebfn tr\u00ecnh duy\u1ec7t c\u1ee7a b\u1ea1n d\u1ec5 b\u1ecb t\u1ea5n c\u00f4ng h\u1ea1 c\u1ea5p tr\u00ean c\u00e1c trang b\u1ea1n truy c\u1eadp."
     },
@@ -24,10 +30,10 @@
         "message": "T\u1ea5n c\u00f4ng m\u1ea1ng h\u1ea1 c\u1ea5p"
     },
     "cancel_http_once": {
-        "message": "Ch\u1ec9 m\u1edf trang kh\u00f4ng b\u1ea3o m\u1eadt cho phi\u00ean n\u00e0y"
+        "message": "Proceed anyway (unsafe)"
     },
     "cancel_open_page": {
-        "message": "M\u1edf trang kh\u00f4ng b\u1ea3o m\u1eadt"
+        "message": "Disable on this site"
     },
     "chrome_add_new_rule": {
         "message": "Th\u00eam m\u00f4\u0323t quy t\u0103\u0301c m\u01a1\u0301i cho trang na\u0300y"
@@ -39,10 +45,10 @@
         "message": "Lu\u00f4n s\u01b0\u0309 du\u0323ng https cho host na\u0300y"
     },
     "chrome_disable_on_this_site": {
-        "message": "T\u1eaft tu\u1ef3 ch\u1ecdn HTTPS Everywhere tr\u00ean trang n\u00e0y."
+        "message": "Disable on this site"
     },
     "chrome_enable_on_this_site": {
-        "message": "B\u1eadt tu\u1ef3 ch\u1ecdn HTTPS Everywhere tr\u00ean trang n\u00e0y."
+        "message": "Enable on this site"
     },
     "chrome_experimental_rules": {
         "message": "Ca\u0301c quy t\u0103\u0301c tra\u0309i nghi\u00ea\u0323m"
@@ -125,17 +131,11 @@
     "menu_viewAllRules": {
         "message": "Xem T\u00e2\u0301t ca\u0309 Quy t\u0103\u0301c"
     },
-    "onboarding_details_one": {
-        "message": "\u0110\u00e3 t\u1ed1i \u01b0u Ch\u1ebf \u0111\u1ed9 EASE"
-    },
-    "onboarding_details_two": {
-        "message": "Gi\u1edd b\u1ea1n c\u00f3 th\u1ec3 th\u00eam trang web v\u00e0o danh s\u00e1ch m\u00e0 HTTPS Everywhere s\u1ebd b\u1ecb v\u00f4 hi\u1ec7u h\u00f3a."
-    },
     "onboarding_footer": {
         "message": "HTTPS Everywhere l\u00e0 m\u1ed9t d\u1ef1 \u00e1n c\u1ee7a EFF"
     },
     "onboarding_header": {
-        "message": "Thay \u0111\u1ed5i trong phi\u00ean b\u1ea3n 3.9.2020"
+        "message": "HTTPS Everywhere \u0111\u00e3 \u0111\u01b0\u1ee3c c\u1eadp nh\u1eadt!"
     },
     "onboarding_intro": {
         "message": "M\u00e3 h\u00f3a Web! T\u1ef1 \u0111\u1ed9ng s\u1eed d\u1ee5ng b\u1ea3o m\u1eadt HTTPS \u1edf nhi\u1ec1u trang web."
@@ -173,6 +173,9 @@
     "options_generalSettings": {
         "message": "Nh\u1eefng c\u00e0i \u0111\u1eb7t chung"
     },
+    "options_hostNotFormattedCorrectly": {
+        "message": "This host could not be added because it was not formatted correctly. Please check it and try again."
+    },
     "options_settings": {
         "message": "C\u00e0i \u0111\u1eb7t"
     },
@@ -208,5 +211,14 @@
     },
     "prefs_reset_defaults_message": {
         "message": "Vi\u1ec7c n\u00e0y s\u1ebd \u0111\u1eb7t l\u1ea1i to\u00e0n b\u1ed9 lu\u1eadt v\u1ec1 tr\u1ea1ng th\u00e1i m\u1eb7c \u0111\u1ecbnh c\u1ee7a n\u00f3. Ti\u1ebfp t\u1ee5c ch\u1ee9?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Proxy server running on"
+    },
+    "standalone_transparent_false": {
+        "message": "You must configure your applications to use an HTTP proxy on the specified host and port."
+    },
+    "standalone_transparent_true": {
+        "message": "You must set up your firewall rules to forward packets to the specified host and port."
     }
 }

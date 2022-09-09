@@ -17,17 +17,23 @@
     "about_version": {
         "message": "Versi"
     },
+    "cancel_copied_url": {
+        "message": "Tersalin ke papan klip."
+    },
+    "cancel_copy_url": {
+        "message": "Salin URL"
+    },
     "cancel_he_blocking_explainer": {
-        "message": "HTTPS Everywhere memperhatikan bahwa Anda menavigasi ke halaman non-HTTPS, dan mencoba mengirim Anda ke versi HTTPS. Versi HTTPS tidak tersedia. Kemungkinan besar situs ini tidak mendukung HTTPS, tetapi ada kemungkinan penyerang memblokir versi HTTPS. Jika Anda ingin melihat versi halaman ini yang tidak dienkripsi, Anda masih dapat melakukannya dengan menonaktifkan opsi 'Mengenkripsi Semua Situs yang Memenuhi Syarat' (EASE) di ekstensi tambahan HTTPS Everywhere Anda. Ketahuilah bahwa menonaktifkan opsi ini dapat membuat browser Anda rentan terhadap serangan downgrade berbasis jaringan di situs web yang Anda kunjungi."
+        "message": "HTTPS Everywhere memperhatikan bahwa Anda membuka halaman non-HTTPS, dan mencoba mengirim Anda ke versi HTTPS. Versi HTTPS tidak tersedia. Kemungkinan besar situs ini tidak mendukung HTTPS, tetapi ada kemungkinan penyerang memblokir versi HTTPS. Jika Anda ingin melihat versi halaman ini yang tidak dienkripsi, Anda masih dapat melakukannya dengan menonaktifkan opsi 'Mengenkripsi Semua Situs yang Memenuhi Syarat' (EASE) di ekstensi tambahan HTTPS Everywhere Anda. Ketahuilah bahwa menonaktifkan opsi ini dapat membuat browser Anda rentan terhadap serangan downgrade berbasis jaringan di situs web yang Anda kunjungi."
     },
     "cancel_he_blocking_network": {
         "message": "serangan downgrade berdasarkan-jaringan"
     },
     "cancel_http_once": {
-        "message": "Buka halaman tidak aman hanya untuk sesi ini"
+        "message": "Tetap lanjutkan (tidak aman)"
     },
     "cancel_open_page": {
-        "message": "Buka halaman tidak aman"
+        "message": "Nonaktifkan pada situs ini"
     },
     "chrome_add_new_rule": {
         "message": "Tambahkan aturan baru untuk situs ini"
@@ -39,16 +45,16 @@
         "message": "Selalu gunakan https untuk host ini"
     },
     "chrome_disable_on_this_site": {
-        "message": "Nonaktifkan HTTPS Everywhere di situs ini"
+        "message": "Nonaktifkan pada situs ini"
     },
     "chrome_enable_on_this_site": {
-        "message": "Aktifkan HTTPS Everywhere di situs ini"
+        "message": "Aktifkan pada situs ini"
     },
     "chrome_experimental_rules": {
         "message": "Aturan eksperimental"
     },
     "chrome_experimental_rules_description": {
-        "message": "Dapat menyebabkan peringatan atau kerusakan. Dinonaktifkan secara default."
+        "message": "Dapat menyebabkan peringatan atau kerusakan. Dinonaktifkan secara bawaan."
     },
     "chrome_hide_advanced": {
         "message": "Sembunyikan lanjutan"
@@ -125,32 +131,26 @@
     "menu_viewAllRules": {
         "message": "Lihat Semua Aturan"
     },
-    "onboarding_details_one": {
-        "message": "EASE Mode Optimized"
-    },
-    "onboarding_details_two": {
-        "message": "You can now whitelist sites to disable in HTTPS Everywhere"
-    },
     "onboarding_footer": {
-        "message": "HTTPS Everywhere is an EFF project"
+        "message": "HTTPS Everywhere adalah sebuah proyek EFF."
     },
     "onboarding_header": {
-        "message": "Changes with version 3.9.2020"
+        "message": "HTTPS Everywhere telah diperbarui!"
     },
     "onboarding_intro": {
         "message": "Enkripsi web-nya! Gunakan keamanan HTTPS secara otomatis di banyak situs."
     },
     "options_addDisabledSite": {
-        "message": "Add Disabled Site"
+        "message": "Tambah situs yang akan dinonaktifkan"
     },
     "options_addUpdateChannel": {
-        "message": "Tambahkan Pembaruan Saluran"
+        "message": "Tambahkan Saluran Pembaruan"
     },
     "options_advancedSettings": {
         "message": "Pengaturan Lanjutan"
     },
     "options_autoUpdateRulesets": {
-        "message": "Set aturan untuk pembaruan otomatis"
+        "message": "Perbarui set aturan secara otomatis"
     },
     "options_debuggingRulesets": {
         "message": "Aturan Debugging (lanjutan)"
@@ -159,19 +159,22 @@
         "message": "Hapus"
     },
     "options_disabledUrlsListed": {
-        "message": "Situs HTTPS Everywhere Dinonaktifkan"
+        "message": "Situs dimana HTTPS Everywhere dinonaktifkan"
     },
     "options_enableMixedRulesets": {
-        "message": "Aktifkan mixed content ruleset "
+        "message": "Aktifkan set aturan untuk konten campuran "
     },
     "options_enterDisabledSite": {
-        "message": "Enter disabled site"
+        "message": "Masukkan situs yang akan dinonaktifkan"
     },
     "options_enterUpdateChannelName": {
         "message": "Masukkan nama saluran pembaruan"
     },
     "options_generalSettings": {
         "message": "Pengaturan Umum"
+    },
+    "options_hostNotFormattedCorrectly": {
+        "message": "Host ini tidak dapat ditambahkan karena tidak diformat secara benar. Mohon cek dan coba lagi."
     },
     "options_settings": {
         "message": "Pengaturan"
@@ -180,16 +183,16 @@
         "message": "Tampilkan tab Devtools"
     },
     "options_storedRulesetsVersion": {
-        "message": "Versi ruleset tersimpan:"
+        "message": "Versi set aturan tersimpan:"
     },
     "options_update": {
-        "message": "Memperbarui"
+        "message": "Perbarui"
     },
     "options_updateChannels": {
-        "message": "Memperbarui Saluran"
+        "message": "Saluran Pembaruan"
     },
     "options_updateChannelsWarning": {
-        "message": "Peringatan: Menambahkan pembaruan saluran dapat menyebabkan penyerang membajak browser Anda. Hanya edit bagian ini jika Anda tahu apa yang Anda lakukan!"
+        "message": "Peringatan: Menambahkan saluran pembaruan dapat menyebabkan penyerang membajak browser Anda. Hanya edit bagian ini jika Anda tahu apa yang Anda lakukan!"
     },
     "options_updatesLastChecked": {
         "message": "Pembaruan terakhir diperiksa:"
@@ -201,12 +204,21 @@
         "message": "Aturan Pengguna HTTPS Everywhere"
     },
     "prefs_export_settings": {
-        "message": "Pengaturan Ekspor"
+        "message": "Ekspor Pengaturan"
     },
     "prefs_reset_defaults": {
         "message": "Kembalikan ke Bawaan"
     },
     "prefs_reset_defaults_message": {
-        "message": "Ini akan meng atur ulang setiap pengaturan ke keadaan default. Lanjutkan?"
+        "message": "Setiap set aturan akan diatur ulang ke setelan bawaan. Lanjutkan?"
+    },
+    "standalone_proxy_server_info_prefix": {
+        "message": "Server proksi beroperasi pada"
+    },
+    "standalone_transparent_false": {
+        "message": "Anda harus mengatur aplikasi Anda untuk menggunakan sebuah proksi HTTP pada host dan port yang telah ditentukan."
+    },
+    "standalone_transparent_true": {
+        "message": "Anda harus mengatur aturan firewall Anda untuk meneruskan paket ke host dan port yang telah ditentukan."
     }
 }
