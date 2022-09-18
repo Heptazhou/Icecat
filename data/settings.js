@@ -402,7 +402,3 @@ pref("browser.contentblocking.report.vpn-promo.url", "");
 pref("browser.contentblocking.report.vpn-android.url", "");
 pref("browser.contentblocking.report.vpn-ios.url", "");
 pref("browser.privatebrowsing.promoEnabled", false);
-
-// Enable onion dns resolving
-pref("network.dns.blockDotOnion", false);
-pref("network.http.referer.hideOnionSource", true);
