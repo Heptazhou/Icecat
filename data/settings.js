@@ -314,6 +314,10 @@ pref("browser.newtabpage.activity-stream.showSponsoredTopSites", false);
 // Disable home snippets
 pref("browser.aboutHomeSnippets.updateUrl", "data:text/html");
 
+// In <about:preferences>, hide "More from Mozilla"
+// (renamed to "More from GNU" by the global renaming)
+pref("browser.preferences.moreFromMozilla", false);
+
 // Disable hardware acceleration
 //pref("layers.acceleration.disabled", false);
 pref("gfx.direct2d.disabled", true);
