@@ -32,6 +32,8 @@ pref("privacy.firstparty.isolate", true);
 pref("extensions.update.enabled", false);
 // Use LANG environment variable to choose locale
 pref("intl.locale.matchOS", true);
+// Allow unsigned langpacks
+pref("extensions.langpacks.signatures.required", false);
 // Disable default browser checking.
 pref("browser.shell.checkDefaultBrowser", false);
 // Prevent EULA dialog to popup on first run
