@@ -13,33 +13,27 @@ fi
 SRCDIR=$(readlink -f $1)
 VERSION=$(echo $1|sed 's|.*icecat-||')
 ROOTDIR=$(readlink -f $SRCDIR/../../)
-BUILDDIR=/var/lib/sbuild/build/
+OUTPUT=$ROOTDIR/output
+BUILDROOT=/var/lib/sbuild/build
+BUILDDIR=$BUILDROOT/gnuzilla/output/icecat-$VERSION
 BUILDDIST=nabia
 
-sudo rm -rf /var/lib/sbuild/build/gnuzilla
-cp -a $ROOTDIR $BUILDDIR/gnuzilla
+sudo rm -rf $BUILDROOT/gnuzilla
+cp -a $ROOTDIR $BUILDROOT/gnuzilla
 
 
 function buildpackage(){
-cat << EOF > $BUILDDIR/run.sh
+cat << EOF > $BUILDROOT/run.sh
 set -e
 set -x
 
 apt update
 apt-get build-dep -y --force-yes firefox 
 
-apt-get install -y --force-yes mercurial python-setuptools
-cd /usr/local/src
-hg clone http://hg.mozilla.org/l10n/compare-locales/
-cd compare-locales/
-hg checkout RELEASE_3_3_0
-python2 setup.py install
-cp /usr/local/bin/compare* /usr/bin
-
 cd /build/gnuzilla/output/icecat-$VERSION
 
 bash ../../data/buildscripts/build-${1}.sh
-bash
+
 rm /build/run.sh
 
 EOF
@@ -52,14 +46,17 @@ env -i sudo schroot --directory / -c $BUILDDIST-$3 -- bash  /build/run.sh
 #buildpackage gnulinux $BUILDDIST i386 |tee gnulinux-i386.log 2>&1
 #sudo mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-i386
 buildpackage gnulinux $BUILDDIST amd64 |tee gnulinux-amd64.log 2>&1
-sudo mv $SRCDIR/obj-gnulinux $SRCDIR/obj-gnulinux-amd64
+sudo mv $BUILDDIR/obj-gnulinux $BUILDDIR/obj-gnulinux-amd64
 #buildpackage android $BUILDDIST amd64  |tee android.log 2>&1
 
-rm binaries -rf
-mkdir binaries/langpacks -p
-#cp $1/obj-windows/dist/icecat*.zip binaries
-#cp $1/obj-mac/dist/icecat/icecat*.dmg binaries
-cp $1/obj-gnulinux*/dist/icecat*.bz2 binaries
-#cp $1/obj-android/dist/icecat*.apk binaries
-cp $1/obj-gnulinux-amd64/dist/linux-x86_64/xpi/* binaries/langpacks
-rename 's/linux/gnulinux/' binaries/*
+rm $OUTPUT/binaries -rf
+mkdir $OUTPUT/binaries
+
+#cp $1/obj-windows/dist/icecat*.zip $OUTPUT/binaries
+#cp $1/obj-mac/dist/icecat/icecat*.dmg $OUTPUT/binaries
+cp $BUILDDIR/obj-gnulinux*/dist/icecat*.bz2 $OUTPUT/binaries
+#cp $1/obj-android/dist/icecat*.apk $OUTPUT/binaries
+cp -a $BUILDDIR/obj-gnulinux-amd64/dist/linux-x86_64/xpi/ $OUTPUT/binaries/langpacks
+rename 's/linux/gnulinux/' $OUTPUT/binaries/*
+
+sudo rm -rf $BUILDROOT/gnuzilla

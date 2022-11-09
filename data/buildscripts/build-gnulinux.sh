@@ -22,12 +22,7 @@ rm -rf obj-gnulinux
 ./mach build
 ./mach package
 
-[ $(arch) = "x86_64" ] || exit 0
-cd obj-gnulinux/browser/locales
-for locale in $(ls ../../../l10n/ -1); do
-    rm $PWD/mergedir -rf
-    make merge-$locale LOCALE_MERGEDIR=$PWD/mergedir
-    make langpack-$locale LOCALE_MERGEDIR=$PWD/mergedir
+for locale in $(ls l10n -1|grep -v compare-locales); do
+    ./mach build langpack-$locale
 done
-
 
