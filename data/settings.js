@@ -408,3 +408,6 @@ pref("browser.privatebrowsing.promoEnabled", false);
 // Enable onion dns resolving
 pref("network.dns.blockDotOnion", false);
 pref("network.http.referer.hideOnionSource", true);
+
+// Disable "More from Mozilla" tab in settings
+pref("browser.preferences.moreFromMozilla", false);
