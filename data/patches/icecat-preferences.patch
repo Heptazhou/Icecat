@@ -1,6 +1,6 @@
 --- a/browser/components/preferences/privacy.inc.xhtml.orig	2021-08-17 15:38:19.838881866 -0400
 +++ b/browser/components/preferences/privacy.inc.xhtml	2021-08-17 15:39:01.382760058 -0400
-@@ -632,6 +632,76 @@
+@@ -632,6 +632,83 @@
           data-l10n-id="addressbar-suggestions-settings"/>
  </groupbox>
  
@@ -45,6 +45,13 @@
 +    </vbox>
 +  </vbox>
 +  <vbox>
++    <checkbox id="resistFingerprinting" data-l10n-id="resist-fingerprinting-option"
++              preference="privacy.resistFingerprinting"/>
++    <vbox class="indent">
++      <label data-l10n-id="resist-fingerprinting-description"/>
++    </vbox>
++  </vbox>
++  <vbox>
 +    <checkbox id="detectCaptivePortal" data-l10n-id="detect-captive-portal-option"
 +              preference="network.captive-portal-service.enabled"/>
 +    <vbox class="indent">
@@ -79,7 +86,7 @@
        hidden="true"
 --- a/browser/components/preferences/privacy.js.orig	2021-08-17 15:39:19.662709308 -0400
 +++ b/browser/components/preferences/privacy.js	2021-08-17 16:10:17.129079115 -0400
-@@ -138,6 +138,16 @@
+@@ -138,6 +138,17 @@
    { id: "browser.urlbar.suggest.topsites", type: "bool" },
    { id: "browser.urlbar.suggest.engines", type: "bool" },
  
@@ -88,6 +95,7 @@
 +  { id: "browser.display.use_document_fonts", type: "int" },
 +  { id: "extensions.update.enabled", type: "bool" },
 +  { id: "network.http.referer.spoofSource", type: "bool" },
++  { id: "privacy.resistFingerprinting", type: "bool" },
 +  { id: "webgl.disabled", type: "bool" },
 +  { id: "network.captive-portal-service.enabled", type: "bool" },
 +  { id: "network.connectivity-service.enabled", type: "bool" },
