@@ -646,6 +646,7 @@ s/OpenSource/Free Software/g;
 
     # Leave user agent as Firefox
     sed "/mCompatIceCat.AssignLiteral/ s:IceCat/:Firefox/:" -i netwerk/protocol/http/nsHttpHandler.cpp
+    sed "s/IceCat/Firefox/g" -i toolkit/components/resistfingerprinting/nsRFPService.cpp
 
     find . -name region.properties | xargs -i /bin/sed 's_https://www\.mibbit.*__' -i {}
 
@@ -656,24 +657,10 @@ s/OpenSource/Free Software/g;
     # Copy js settings
     cat "${DATADIR}"/settings.js >> browser/app/profile/icecat.js
 
-    # Set spoofed useragent on the desktop version
-    cat << EOF >> browser/app/profile/icecat.js
-// Set useragent to Firefox compatible
-// pref("general.useragent.compatMode.firefox",true);
-// Spoof the useragent to a generic one
-// pref("general.useragent.compatMode.icecat",true);
-// Spoof the useragent to a generic one
-// pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:${FFMAJOR}.0) Gecko/20100101 Firefox/${FFMAJOR}.0");
-pref("general.appname.override", "Netscape");
-pref("general.appversion.override", "${FFMAJOR}.0");
-pref("general.buildID.override", "Gecko/20100101");
-pref("general.oscpu.override", "Windows NT 6.1");
-pref("general.platform.override", "Win32");
-EOF
-
     cat << EOF >> browser/confvars.sh
 # IceCat settings
-MOZ_APP_UA_NAME=IceCat
+MOZ_APP_BASENAME=IceCat
+MOZ_APP_UA_NAME=Firefox
 MOZ_APP_VENDOR=GNU
 MOZ_APP_VERSION=${FFVERSION}
 MOZ_APP_PROFILE=mozilla/icecat

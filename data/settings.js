@@ -51,12 +51,6 @@ pref("extensions.blocklist.enabled", false);
 // disable app updater url
 pref("app.update.url", "http://127.0.0.1/");
 
-// Startup page
-// Set useragent to Firefox compatible
-pref("general.useragent.compatMode.icecat",true);
-// Spoof the useragent to a generic one
-//pref("general.useragent.override", "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:24.0) Gecko/20100101 Firefox/60.0");
-
 //pref ("browser.startup.page" , 3);
 //pref ("browser.startup.homepage" , "https://www.gnu.org/software/gnuzilla/");
 //pref ("startup.homepage_welcome_url", "https://www.gnu.org/software/gnuzilla/");
@@ -184,7 +178,10 @@ pref("network.captive-portal-service.enabled", false);
 // Disable shield/heartbeat
 pref("extensions.shield-recipe-client.enabled", false);
 // Canvas fingerprint protection
+// This also enables useragent spoofing
 pref("privacy.resistFingerprinting", true);
+// Set useragent to Firefox compatible (not needed, the UA is already Firefox)
+// pref("general.useragent.compatMode.icecat",true);
 // Webgl can be used for fingerprinting
 pref("webgl.disabled", true);
 pref("privacy.trackingprotection.cryptomining.enabled", true);
