@@ -92,18 +92,6 @@ pref("network.cookie.cookieBehavior", 1);
 // Disable app updater URL
 pref("app.update.url", "http://127.0.0.1/");"
 
-// Set useragent to Firefox compatible
-//pref("general.useragent.compatMode.firefox", true);
-// Spoof the useragent to a generic one
-//pref("general.useragent.compatMode.firefox", true);
-// Spoof the useragent to a generic one
-//pref("general.useragent.override", "Mozilla/5.0 (Windows NT 6.1; rv:38.0) Gecko/20100101 Firefox/38.0");
-pref("general.appname.override", "Netscape");
-pref("general.appversion.override", "38.0");
-pref("general.buildID.override", "Gecko/20100101");
-pref("general.oscpu.override", "Windows NT 6.1");
-pref("general.platform.override", "Win32");
-
 // Privacy & Freedom Issues
 // https://webdevelopmentaid.wordpress.com/2013/10/21/customize-privacy-settings-in-mozilla-firefox-part-1-aboutconfig/
 // https://panopticlick.eff.org
