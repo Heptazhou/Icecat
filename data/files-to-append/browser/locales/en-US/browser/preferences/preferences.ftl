@@ -23,6 +23,10 @@ spoof-referers-option =
     .label = Spoof Referers
 spoof-referers-description = <a href=\"https://en.wikipedia.org/wiki/HTTP_referer\">Referers</a> tell sites what link brought you there. This feature greatly improves your privacy, but it may break functionality on some sites.
 
+resist-fingerprinting-option =
+    .label = Resist Fingerprinting
+resist-fingerprinting-description = Enable several measures to prevent fingerprinting.
+
 detect-captive-portal-option =
     .label = Detect captive portal
 detect-captive-portal-description = <a href=\"https://en.wikipedia.org/wiki/Captive_portal\">Captive portals</a> are the sites that control access to public wireless networks in hotels, airports, cafes, etc. The detection service is useful if you connect to such netwoks, but it will start connections automatically.

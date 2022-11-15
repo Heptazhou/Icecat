@@ -91,6 +91,15 @@ this._bundle = Services.strings.createBundle("chrome://onboarding/locale/onboard
     onvalue: true,
     offvalue: false,
     },
+  "privacy.resistFingerprinting": {
+    type: "boolean",
+    name: "privacy.resistFingerprinting",
+    label: this._bundle.GetStringFromName("onboarding.resist-fingerprinting.title"),
+    description: this._bundle.GetStringFromName("onboarding.resist-fingerprinting.description"),
+    defaultvalue: true,
+    onvalue: true,
+    offvalue: false,
+    },
   "captivedetect.canonicalURL": {
     type: "string",
     name: "captivedetect.canonicalURL",

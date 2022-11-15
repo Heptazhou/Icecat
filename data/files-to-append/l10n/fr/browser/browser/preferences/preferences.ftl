@@ -23,6 +23,10 @@ spoof-referers-option =
     .label = Usurper l'identité des Referers
 spoof-referers-description = <a href=\"https://fr.wikipedia.org/wiki/R%C3%A9f%C3%A9rent_(informatique)\">Les Referers</a> indiquent aux sites web quel lien vous y a amené. Cette fonctionnalité améliore grandement le respect de la vie privée, mais peut entraîner la perte de fonctionnalités sur certains sites.
 
+resist-fingerprinting-option =
+    .label = Anonymiser l'empreinte digitale
+resist-fingerprinting-description = Activer diverses mesures pour masquer notre empreinte digitale (fingerprinting).
+
 detect-captive-portal-option =
     .label = Détecter les portails captifs
 detect-captive-portal-description = <a href=\"https://fr.wikipedia.org/wiki/Portail_captif\">Les portails captifs</a> sont les sites qui contrôlent l'accès aux réseaux sans fils publics dans les hôtels, les aéroports, les bars, etc. Ce service de détection est utile si vous vous connectez à ce type de réseaux, mais cela entraîne l'ouverture automatique de connexions.

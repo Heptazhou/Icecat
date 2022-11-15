@@ -23,6 +23,10 @@ spoof-referers-option =
     .label = Modificar los referers HTTP
 spoof-referers-description = Los <a href=\"https://es.wikipedia.org/wiki/Referer_(Cabecera_HTTP)\">referers</a> son cabeceras HTTP que informan a una página acerca de nuestro enlace de origen. Activar esta característica mejora enormemente su privacidad, pero puede afectar a la funcionalidad de algunas páginas.
 
+resist-fingerprinting-option =
+    .label = Anonimizar huella digital
+resist-fingerprinting-description = Habilitar varias medidas para esconder nuestra huella digital (fingerprinting).
+
 detect-captive-portal-option =
     .label = Detectar los portales cautivos
 detect-captive-portal-description = Los <a href=\"https://es.wikipedia.org/wiki/Portal_cautivo\">portales cautivos</a> son las webs que registran y controlan el acceso a redes inalámbricas públicas en hoteles, aeropuertos, cafés y similares. El servicio que los detecta es práctico si se ve a menudo en la necesidad de usarlos, pero implica el establecimiento de conexiones en segundo plano.
