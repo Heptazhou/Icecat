@@ -2,7 +2,7 @@
 
 set -e
 
-for extension in librejs https-everywhere librejs-usps-compatibility submit-me disable-polymer-youtube privacy-redirect javascript-restrictor librifyjs-libgen-me-repack; do
+for extension in librejs https-everywhere librejs-usps-compatibility submit-me privacy-redirect javascript-restrictor librifyjs-libgen-me-repack; do
 
   rm -rf /tmp/update-extension
   mkdir /tmp/update-extension
@@ -29,7 +29,7 @@ done
 
 sed '/autoUpdateRulesets/s/true/false/' -i extensions/https-everywhere@eff.org/pages/options/ux.js extensions/https-everywhere@eff.org/background-scripts/update.js
 
-for ID in viewtube@extension disable-polymer-youtube@extension; do
+for ID in viewtube@extension; do
   sed 's/^{/{\n  "applications": { "gecko": { "id": "'$ID'" } },/' -i extensions/$ID/manifest.json
 done
 
